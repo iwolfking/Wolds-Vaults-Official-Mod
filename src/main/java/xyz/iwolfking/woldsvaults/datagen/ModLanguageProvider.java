@@ -229,7 +229,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEffects.HEALING_BLOCK, "Heal Reduction");
         add(ModEffects.MAGIC_BURST_COMBO, "Combo: Magic Burst");
         add(ModEffects.DAMAGE_BURST_COMBO, "Combo: Physical Burst");
-        add(ModEffects.MANA_BURST_COMBO, "Combo: Mana Burst");
+        add(ModEffects.GRAVITY_COMBO, "Combo: Gravity");
         add(ModEffects.CHILLING_COMBO, "Combo: Chill");
         add(iskallia.vault.init.ModEffects.TREASURE_SEEKER, "Treasure Seeker");
         add(iskallia.vault.init.ModEffects.BOUNTIFUL_HARVEST, "Bountiful Harvest");

@@ -149,15 +149,10 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.36F, 0.5F, 0.01F);
                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.51F, 0.75F, 0.01F);
               });
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.25F, 0.5F, 0.01F);
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.51F, 1.0F, 0.01F);
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.0F, 1.5F, 0.01F);
-              });
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.05F, 0.07F, 0.01F);
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.08F, 0.1F, 0.01F);
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.11F, 0.15F, 0.01F);
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                  addGravityCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
               });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.03F, 0.05F, 0.01F);
@@ -210,11 +205,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                     addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.76F, 1.0F, 0.01F);
                 });
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.51F, 2.0F, 0.01F);
-                });
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.13F, 0.18F, 0.01F);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 6.0F, 6.0F, 0.5F);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                     addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.09F, 0.1F, 0.01F);

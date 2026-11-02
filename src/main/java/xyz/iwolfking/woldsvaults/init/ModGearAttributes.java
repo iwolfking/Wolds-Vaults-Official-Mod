@@ -159,6 +159,7 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<InvokeAbilityComboAttribute> INVOKE_ABILITY_COMBO = woldsAttr("ability_invoke_combo", InvokeAbilityComboAttribute.type(), InvokeAbilityComboAttribute.generator(), InvokeAbilityComboAttribute.reader(), InvokeAbilityComboAttribute.comparator());
     public static final VaultGearAttribute<EffectComboAttribute> EFFECT_COMBO = woldsAttr("effect_combo", EffectComboAttribute.type(), EffectComboAttribute.generator(), EffectComboAttribute.reader(), EffectComboAttribute.comparator());
     public static final VaultGearAttribute<HealthScalingComboAttribute> HEALTH_SCALING_COMBO = woldsAttr("health_scaling_combo", HealthScalingComboAttribute.type(), HealthScalingComboAttribute.generator(), HealthScalingComboAttribute.reader(), HealthScalingComboAttribute.comparator());
+    public static final VaultGearAttribute<GravityComboAttribute> GRAVITY_COMBO = woldsAttr("gravity_combo", GravityComboAttribute.type(), GravityComboAttribute.generator(), GravityComboAttribute.reader(), GravityComboAttribute.comparator());
 
     //Scepter Modifiers
     public static final VaultGearAttribute<Boolean> SCEPTER_SPARKLES = woldsAttr("scepter_sparkles", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), new MythicTierFlagReader("Sparkles", 8247956), VaultGearAttributeComparator.booleanComparator());
@@ -298,6 +299,7 @@ public class ModGearAttributes {
                       registry.register(INVOKE_ABILITY_COMBO);
                       registry.register(EFFECT_COMBO);
                       registry.register(HEALTH_SCALING_COMBO);
+                      registry.register(GRAVITY_COMBO);
        }
   
     public static void registerVanillaAssociations() {
