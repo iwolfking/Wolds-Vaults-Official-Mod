@@ -15,8 +15,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
-import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.MinorTransferSlots;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundSetMinorTransferMessage;
@@ -40,10 +38,12 @@ final class TransferSlotPopup {
     private static final int NUMERAL_GUTTER = 16;
     private static final int PAD = 4;
 
+    private final GodTreeView view;
     private final VaultGod god;
     private final GodNode anchor;
 
-    TransferSlotPopup(VaultGod god, GodNode anchor) {
+    TransferSlotPopup(GodTreeView view, VaultGod god, GodNode anchor) {
+        this.view = view;
         this.god = god;
         this.anchor = anchor;
     }
@@ -53,7 +53,7 @@ final class TransferSlotPopup {
     }
 
     private int slotCount() {
-        return ClientGodAlignmentData.getMinorTransferSlots(this.god);
+        return this.view.getMinorTransferSlots(this.god);
     }
 
     /** Circle centres in tree space, top slot first. */
@@ -100,13 +100,13 @@ final class TransferSlotPopup {
         int bottom = Math.round(centres.get(count - 1)[1] + radius + PAD);
         GuiComponent.fill(poseStack, left, top, right, bottom, GodTreeTheme.POPUP_FILL);
         GodDrawing.outline(poseStack, left, top, right - left, bottom - top, GodTreeTheme.accentDim(this.god));
-        boolean dormant = minecraft.player != null && ActiveGodResolver.isActive(minecraft.player, this.god);
-        Map<String, Integer> ledger = ClientGodAlignmentData.getSpentLedger(this.god);
+        boolean dormant = this.view.isCharmActive(this.god);
+        Map<String, Integer> ledger = this.view.getSpentLedger(this.god);
         String anchorEffect = this.anchor.ledgerKey();
         for (int i = 0; i < count; i++) {
             float cx = centres.get(i)[0];
             float cy = centres.get(i)[1];
-            String content = ClientGodAlignmentData.getMinorTransferSlot(this.god, i).orElse(null);
+            String content = this.view.getMinorTransferSlot(this.god, i).orElse(null);
             boolean live = content != null && MinorTransferSlots.isTransferable(this.god, content, ledger);
             boolean holdsAnchor = live && content.equals(anchorEffect);
             font.draw(poseStack, GreedTheme.roman(i + 1), left + 3, cy - 4, GodTreeTheme.TEXT_DIM);
@@ -193,7 +193,7 @@ final class TransferSlotPopup {
     }
 
     void click(int slot) {
-        String content = ClientGodAlignmentData.getMinorTransferSlot(this.god, slot).orElse("");
+        String content = this.view.getMinorTransferSlot(this.god, slot).orElse("");
         String target = content.equals(this.anchor.ledgerKey()) ? "" : this.anchor.ledgerKey();
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {

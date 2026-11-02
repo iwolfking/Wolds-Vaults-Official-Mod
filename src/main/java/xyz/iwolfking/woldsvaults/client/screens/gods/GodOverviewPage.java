@@ -14,8 +14,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
-import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundSetMinorTransferMessage;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
@@ -43,9 +41,11 @@ public final class GodOverviewPage {
     private static final String CAPTION = "Transfer slots - right-click a learned minor star to assign it";
 
     private final GodTreeScreen screen;
+    private final GodTreeView view;
 
-    public GodOverviewPage(GodTreeScreen screen) {
+    public GodOverviewPage(GodTreeScreen screen, GodTreeView view) {
         this.screen = screen;
+        this.view = view;
     }
 
     /** Where everything sits inside a frame; recomputed per call. */
@@ -103,8 +103,7 @@ public final class GodOverviewPage {
     private void renderPanel(PoseStack poseStack, Font font, Layout layout, int column, VaultGod god, int mouseX, int mouseY,
                              List<Runnable> postRender) {
         Rectangle panel = layout.panel(column);
-        Minecraft minecraft = Minecraft.getInstance();
-        boolean active = minecraft.player != null && ActiveGodResolver.isActive(minecraft.player, god);
+        boolean active = this.view.isCharmActive(god);
         boolean hovered = panel.contains(mouseX, mouseY);
         int accent = GodTreeTheme.accent(god);
         if (active) {
@@ -119,12 +118,12 @@ public final class GodOverviewPage {
         }
         GodTreeTheme.godIcon(god).blit(poseStack, panel.x + 4, panel.y + 4, 0, 16, 16);
         font.drawShadow(poseStack, god.getName(), panel.x + 24, panel.y + 5, accent);
-        int level = ClientGodAlignmentData.getLevel(god);
+        int level = this.view.getLevel(god);
         font.drawShadow(poseStack, "Level " + level, panel.x + 24, panel.y + 15, GodTreeTheme.TEXT_MUTED);
 
         boolean[] tooltipShown = {false};
         Rectangle bar = new Rectangle(panel.x + 4, panel.y + 27, panel.width - 8, GodXpBarRenderer.BAR_HEIGHT);
-        GodXpBarRenderer.render(poseStack, font, god, bar, false, mouseX, mouseY, lines -> {
+        GodXpBarRenderer.render(this.view, poseStack, font, god, bar, false, mouseX, mouseY, lines -> {
             tooltipShown[0] = true;
             deferTooltip(postRender, poseStack, lines, mouseX, mouseY);
         });
@@ -133,7 +132,7 @@ public final class GodOverviewPage {
         String label = "Sacrifice";
         font.drawShadow(poseStack, label, panel.x + 4, rowY, GodTreeTheme.TEXT_MUTED);
         int glyphX = panel.x + 4 + font.width(label) + 4;
-        if (GodXpBarRenderer.sacrificePerformed(god)) {
+        if (GodXpBarRenderer.sacrificePerformed(this.view, god)) {
             GodDrawing.check(poseStack, glyphX, rowY + 1, 7.0F, GodTreeTheme.STATUS_GOOD);
         } else {
             GodDrawing.cross(poseStack, glyphX, rowY + 1, 7.0F, GodTreeTheme.STATUS_BAD);
@@ -141,18 +140,18 @@ public final class GodOverviewPage {
         Rectangle sacrificeRow = new Rectangle(panel.x + 4, rowY - 1, font.width(label) + 16, 10);
         if (!tooltipShown[0] && sacrificeRow.contains(mouseX, mouseY)) {
             tooltipShown[0] = true;
-            deferTooltip(postRender, poseStack, List.of(GodXpBarRenderer.sacrificeLine(god)), mouseX, mouseY);
+            deferTooltip(postRender, poseStack, List.of(GodXpBarRenderer.sacrificeLine(this.view, god)), mouseX, mouseY);
         }
         if (!tooltipShown[0] && hovered) {
-            deferTooltip(postRender, poseStack, panelTooltip(god, level, active), mouseX, mouseY);
+            deferTooltip(postRender, poseStack, panelTooltip(this.view, god, level, active), mouseX, mouseY);
         }
     }
 
-    private static List<Component> panelTooltip(VaultGod god, int level, boolean active) {
+    private static List<Component> panelTooltip(GodTreeView view, VaultGod god, int level, boolean active) {
         List<Component> lines = new ArrayList<>();
         int accent = GodTreeTheme.accent(god) & 0xFFFFFF;
         lines.add(new TextComponent(god.getName() + " - Level " + level).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(accent))));
-        int unspent = ClientGodAlignmentData.getUnspentPoints(god);
+        int unspent = view.getUnspentPoints(god);
         if (unspent > 0) {
             lines.add(new TextComponent(unspent + " unspent god " + (unspent == 1 ? "point" : "points"))
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.pointsColor(god) & 0xFFFFFF))));
@@ -173,10 +172,9 @@ public final class GodOverviewPage {
         float cx = layout.cellX(column);
         float cy = layout.cellY(row);
         float radius = layout.cellRadius();
-        boolean locked = row >= ClientGodAlignmentData.getMinorTransferSlots(god);
-        boolean live = !locked && ClientGodAlignmentData.isMinorTransferLive(god, row);
-        Minecraft minecraft = Minecraft.getInstance();
-        boolean dormant = minecraft.player != null && ActiveGodResolver.isActive(minecraft.player, god);
+        boolean locked = row >= this.view.getMinorTransferSlots(god);
+        boolean live = !locked && this.view.isMinorTransferLive(god, row);
+        boolean dormant = this.view.isCharmActive(god);
         String slotLabel = "Slot " + GreedTheme.roman(row + 1);
         List<Component> tooltip = new ArrayList<>();
         if (locked) {
@@ -195,7 +193,7 @@ public final class GodOverviewPage {
             tooltip.add(new TextComponent("Right-click a learned minor star in " + god.getName()
                     + "'s constellation to assign it").withStyle(ChatFormatting.GRAY));
         } else {
-            String content = ClientGodAlignmentData.getMinorTransferSlot(god, row).orElse("");
+            String content = this.view.getMinorTransferSlot(god, row).orElse("");
             GodTreeModel tree = GodNodeRegistry.tree(god).orElse(null);
             GodNode placement = tree == null ? null : tree.placementOf(content);
             int size = Math.round(radius * 2.0F + 4.0F);
@@ -217,7 +215,9 @@ public final class GodOverviewPage {
                 tooltip.add(new TextComponent("Transferring - applies while " + god.getName()
                         + " is not your active god").withStyle(ChatFormatting.GREEN));
             }
-            tooltip.add(new TextComponent("Right-click to clear").withStyle(ChatFormatting.GRAY));
+            if (this.view.isLive()) {
+                tooltip.add(new TextComponent("Right-click to clear").withStyle(ChatFormatting.GRAY));
+            }
         }
         double dx = mouseX - cx;
         double dy = mouseY - cy;
@@ -254,14 +254,14 @@ public final class GodOverviewPage {
                 this.screen.selectTab(GodScreenTab.of(god));
                 return true;
             }
-            if (button != 1) {
+            if (button != 1 || !this.view.isLive()) {
                 continue;
             }
             for (int row = 0; row < layout.rows; row++) {
                 double dx = mouseX - layout.cellX(column);
                 double dy = mouseY - layout.cellY(row);
                 float radius = layout.cellRadius();
-                if (dx * dx + dy * dy > radius * radius || !ClientGodAlignmentData.isMinorTransferLive(god, row)) {
+                if (dx * dx + dy * dy > radius * radius || !this.view.isMinorTransferLive(god, row)) {
                     continue;
                 }
                 Minecraft minecraft = Minecraft.getInstance();

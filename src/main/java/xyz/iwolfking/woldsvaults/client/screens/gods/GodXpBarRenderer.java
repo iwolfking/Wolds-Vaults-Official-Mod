@@ -8,7 +8,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices;
 
@@ -24,10 +23,10 @@ public final class GodXpBarRenderer {
     private GodXpBarRenderer() {
     }
 
-    public static void render(PoseStack poseStack, Font font, VaultGod god, Rectangle bar, boolean withIconAndLevel,
+    public static void render(GodTreeView view, PoseStack poseStack, Font font, VaultGod god, Rectangle bar, boolean withIconAndLevel,
                               int mouseX, int mouseY, Consumer<List<Component>> tooltipSink) {
-        int level = ClientGodAlignmentData.getLevel(god);
-        long xp = ClientGodAlignmentData.getXp(god);
+        int level = view.getLevel(god);
+        long xp = view.getXp(god);
         long currentThreshold = GodLevels.xpForLevel(level);
         long nextThreshold = GodLevels.xpForLevel(level + 1);
         float progress = nextThreshold > currentThreshold
@@ -57,32 +56,32 @@ public final class GodXpBarRenderer {
                 ? new Rectangle(bar.x - 20, bar.y - 10, bar.width + 20, bar.height + 12)
                 : new Rectangle(bar.x - 1, bar.y - 1, bar.width + 2, bar.height + 2);
         if (hover.contains(mouseX, mouseY)) {
-            tooltipSink.accept(tooltipLines(god));
+            tooltipSink.accept(tooltipLines(view, god));
         }
     }
 
     /** Hover text: level with exact experience, then the sacrifice standing. */
-    public static List<Component> tooltipLines(VaultGod god) {
-        int level = ClientGodAlignmentData.getLevel(god);
-        long xp = ClientGodAlignmentData.getXp(god);
+    public static List<Component> tooltipLines(GodTreeView view, VaultGod god) {
+        int level = view.getLevel(god);
+        long xp = view.getXp(god);
         long nextThreshold = GodLevels.xpForLevel(level + 1);
         List<Component> lines = new ArrayList<>();
         lines.add(new TextComponent(god.getName() + " - Level " + level + "  (")
                 .append(String.format("%,d", xp)).append(" / ").append(String.format("%,d", nextThreshold))
                 .append(" XP)"));
-        lines.add(sacrificeLine(god));
+        lines.add(sacrificeLine(view, god));
         return lines;
     }
 
-    public static boolean sacrificePerformed(VaultGod god) {
-        int sacrifices = ClientGodAlignmentData.getSacrifices(god);
-        return sacrifices >= GodSacrifices.GATE_COUNT || sacrifices > ClientGodAlignmentData.getLevel(god) + 1;
+    public static boolean sacrificePerformed(GodTreeView view, VaultGod god) {
+        int sacrifices = view.getSacrifices(god);
+        return sacrifices >= GodSacrifices.GATE_COUNT || sacrifices > view.getLevel(god) + 1;
     }
 
-    public static Component sacrificeLine(VaultGod god) {
-        int level = ClientGodAlignmentData.getLevel(god);
-        long xp = ClientGodAlignmentData.getXp(god);
-        int sacrifices = ClientGodAlignmentData.getSacrifices(god);
+    public static Component sacrificeLine(GodTreeView view, VaultGod god) {
+        int level = view.getLevel(god);
+        long xp = view.getXp(god);
+        int sacrifices = view.getSacrifices(god);
         if (sacrifices >= GodSacrifices.GATE_COUNT) {
             return new TextComponent("Every cauldron sacrifice has been performed.").withStyle(ChatFormatting.GRAY);
         }

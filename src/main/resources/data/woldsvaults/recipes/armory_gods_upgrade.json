@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "WOV",
+    " T "
+  ],
+  "key": {
+    "I": {
+      "item": "woldsvaults:idona_god_neuralizer"
+    },
+    "W": {
+      "item": "woldsvaults:wendarr_god_neuralizer"
+    },
+    "V": {
+      "item": "woldsvaults:velara_god_neuralizer"
+    },
+    "T": {
+      "item": "woldsvaults:tenos_god_neuralizer"
+    },
+    "O": {
+      "item": "woldsvaults:omega_pog_block"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:armory_gods_upgrade"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BWB",
+    "BPB",
+    "BWB"
+  ],
+  "key": {
+    "B": {
+      "item": "the_vault:black_chromatic_steel_block"
+    },
+    "W": {
+      "item": "the_vault:wardrobe"
+    },
+    "P": {
+      "item": "the_vault:echo_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:armory"
+  }
+}

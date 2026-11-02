@@ -162,7 +162,7 @@ public class GodNodeWidget extends AbstractWidget {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    private void renderTooltip(PoseStack renderStack, int screenMouseX, int screenMouseY, List<Runnable> postContainerRender) {
+    protected void renderTooltip(PoseStack renderStack, int screenMouseX, int screenMouseY, List<Runnable> postContainerRender) {
         List<Component> tooltip = new ArrayList<>();
         MutableComponent name = new TextComponent(this.node.name())
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(this.god) & 0xFFFFFF)));

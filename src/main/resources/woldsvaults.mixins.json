@@ -699,6 +699,7 @@
     "sophisticatedcore.MixinStorageScreenBase",
     "sophisticatedcore.MixinStorageScreenBaseItemBorders",
     "vaulthunters.accessors.AbstractDialogAccessor",
+    "vaulthunters.accessors.StatLabelElementBuilderAccessor",
     "vaulthunters.accessors.ScrollableItemStackSelectorElementAccessor",
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAbilityDialog",

@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.phys.Vec2;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import iskallia.vault.config.entry.SkillStyle;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
@@ -45,6 +44,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     private static final long STAR_SEED = 0x1D0A57A2L;
 
     protected final GodTreeScreen parentScreen;
+    protected final GodTreeView view;
     protected final GodTreeDialog dialog;
     protected final Map<String, GodNodeWidget> nodeWidgets = new HashMap<>();
     protected final List<GodTreeModel.Edge> edges = new LinkedList<>();
@@ -59,8 +59,9 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     @Nullable
     private TransferSlotPopup popup;
 
-    public GodTreePanRegion(GodTreeScreen parentScreen, GodTreeDialog dialog, VaultGod god) {
+    public GodTreePanRegion(GodTreeScreen parentScreen, GodTreeView view, GodTreeDialog dialog, VaultGod god) {
         this.parentScreen = parentScreen;
+        this.view = view;
         this.dialog = dialog;
         this.setGod(god);
     }
@@ -90,7 +91,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         this.nodeWidgets.clear();
         this.edges.clear();
         this.selectedWidget = null;
-        this.tree = GodCharting.isCharted(this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
+        this.tree = GodCharting.isCharted(this.view, this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
         this.rebuildBackgroundStars();
         if (this.tree == null) {
             this.popup = null;
@@ -103,10 +104,10 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
                         + "it cannot be drawn.", node.id(), this.god.getName().toLowerCase(java.util.Locale.ROOT));
                 continue;
             }
-            boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, node.id());
+            boolean unlocked = this.view.isTreeNodePurchased(this.god, node.id());
             boolean available = this.tree.isPurchasable(node.id(),
-                    id -> ClientGodAlignmentData.isTreeNodePurchased(this.god, id));
-            GodNodeWidget widget = new GodNodeWidget(node, style, this.god, unlocked, available);
+                    id -> this.view.isTreeNodePurchased(this.god, id));
+            GodNodeWidget widget = this.createWidget(node, style, unlocked, available);
             this.nodeWidgets.put(node.id(), widget);
         }
         this.edges.addAll(this.tree.getEdges());
@@ -123,6 +124,10 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
                 this.popup = null;
             }
         }
+    }
+
+    protected GodNodeWidget createWidget(GodNode node, SkillStyle style, boolean unlocked, boolean available) {
+        return new GodNodeWidget(node, style, this.god, unlocked, available);
     }
 
     /** Deterministic background starfield in tree space; entries are x, y, size and twinkle phase. */
@@ -219,8 +224,8 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
             this.selectedWidget = hit;
             hit.select();
             this.dialog.setSelectedNode(hit.getNode().id());
-            if (button == 1 && hit.getNode().type() == GodNodeType.MINOR && hit.isUnlocked()) {
-                this.popup = new TransferSlotPopup(this.god, hit.getNode());
+            if (button == 1 && hit.getNode().type() == GodNodeType.MINOR && hit.isUnlocked() && this.view.isLive()) {
+                this.popup = new TransferSlotPopup(this.view, this.god, hit.getNode());
             }
             return true;
         }
@@ -410,7 +415,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     }
 
     private void renderUnchartedSky(PoseStack renderStack) {
-        String key = GodCharting.isCharted(this.god) ? "uncharted" : "uncharted.reputation";
+        String key = GodCharting.isCharted(this.view, this.god) ? "uncharted" : "uncharted.reputation";
         Component text = GodTreeTheme.lang(key, this.god.getName(), GodCharting.reputationRequired())
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(this.god) & 0xFFFFFF)));
         Minecraft minecraft = Minecraft.getInstance();

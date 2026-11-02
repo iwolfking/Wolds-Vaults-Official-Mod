@@ -24,7 +24,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.container.GodTreeContainer;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundRequestGodNodePreviewMessage;
@@ -58,23 +57,59 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
     private static final int XP_BAR_WIDTH = 130;
     private static final int PREVIEW_REFRESH_TICKS = 20;
 
-    private static GodScreenTab selectedTab = GodScreenTab.OVERVIEW;
-    private static VaultGod viewedGod = VaultGod.IDONA;
+    private static GodScreenTab lastTab = GodScreenTab.OVERVIEW;
+    private static VaultGod lastGod = VaultGod.IDONA;
 
-    private final GodTreeDialog dialog = new GodTreeDialog(this, viewedGod);
-    private final GodTreePanRegion panRegion = new GodTreePanRegion(this, this.dialog, viewedGod);
-    private final GodOverviewPage overviewPage = new GodOverviewPage(this);
+    protected final GodTreeView view;
+    protected GodScreenTab selectedTab;
+    protected VaultGod viewedGod;
+    protected final GodTreeDialog dialog;
+    protected final GodTreePanRegion panRegion;
+    private final GodOverviewPage overviewPage;
     private long seenRevision = -1L;
     private long seenPreviewRevision = -1L;
     private String requestedPreviewEffect;
     private int previewTicks;
 
     public GodTreeScreen(GodTreeContainer container, Inventory inventory, Component title) {
+        this(container, inventory, title, LiveGodTreeView.INSTANCE);
+    }
+
+    protected GodTreeScreen(GodTreeContainer container, Inventory inventory, Component title, GodTreeView view) {
         super(container, inventory, title, ScreenRenderers.getImmediate());
+        this.view = view;
+        this.selectedTab = this.initialTab();
+        this.viewedGod = this.initialGod();
+        this.dialog = this.createDialog(this.viewedGod);
+        this.panRegion = this.createPanRegion(this.dialog, this.viewedGod);
+        this.overviewPage = new GodOverviewPage(this, view);
         if (Minecraft.getInstance().player != null) {
             ActiveGodResolver.invalidate(Minecraft.getInstance().player);
         }
         this.dialog.update();
+    }
+
+    protected GodTreeDialog createDialog(VaultGod god) {
+        return new GodTreeDialog(this, this.view, god);
+    }
+
+    protected GodTreePanRegion createPanRegion(GodTreeDialog dialog, VaultGod god) {
+        return new GodTreePanRegion(this, this.view, dialog, god);
+    }
+
+    /** The page the screen opens on: the one last shown. */
+    protected GodScreenTab initialTab() {
+        return lastTab;
+    }
+
+    protected VaultGod initialGod() {
+        return lastGod;
+    }
+
+    /** Remembers the shown page for the next open. */
+    protected void rememberTab(GodScreenTab tab, VaultGod god) {
+        lastTab = tab;
+        lastGod = god;
     }
 
     @Override
@@ -87,7 +122,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         return GodTreeTheme.lang("title");
     }
 
-    private Rectangle getContentBounds() {
+    protected Rectangle getContentBounds() {
         return new Rectangle(30, 60, this.width - 30, this.height - 30 - 60);
     }
 
@@ -124,6 +159,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
             this.dialog.setGod(god);
             this.panRegion.setGod(god);
         }
+        this.rememberTab(selectedTab, viewedGod);
     }
 
     @Override
@@ -197,7 +233,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
     @Override
     protected void containerTick() {
         super.containerTick();
-        long revision = ClientGodAlignmentData.revision();
+        long revision = this.view.revision();
         if (revision != this.seenRevision) {
             this.seenRevision = revision;
             this.update();
@@ -213,7 +249,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
     /** Polls the server for the selected node's live preview; nodes answered as static are never polled. */
     private void pollPreview() {
         String effectId = selectedTab.isOverview() ? null : this.dialog.selectedEffectId();
-        if (effectId == null || ClientGodNodePreviews.isKnownStatic(effectId)) {
+        if (effectId == null || !this.view.isLive() || ClientGodNodePreviews.isKnownStatic(effectId)) {
             this.requestedPreviewEffect = null;
             return;
         }
@@ -240,7 +276,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
             postRender.addAll(this.panRegion.render(matrixStack, panBounds, mouseX, mouseY, partialTicks));
             this.renderContainerBorders(matrixStack, panBounds);
             this.renderSideTabs(matrixStack, mouseX, mouseY, postRender);
-            GodXpBarRenderer.render(matrixStack, this.font, viewedGod, this.getXpBarBounds(), true, mouseX, mouseY,
+            GodXpBarRenderer.render(this.view, matrixStack, this.font, viewedGod, this.getXpBarBounds(), true, mouseX, mouseY,
                     lines -> this.renderComponentTooltip(matrixStack, lines, mouseX, mouseY));
             this.renderPietyReadout(matrixStack, mouseX, mouseY);
             int dialogX = panBounds.x + panBounds.width + 15;
@@ -280,7 +316,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
 
     private void renderPietyReadout(PoseStack matrixStack, int mouseX, int mouseY) {
         Rectangle bounds = this.panRegion.getBounds();
-        String pietyText = String.format("%,d Piety", ClientGodAlignmentData.getPiety(viewedGod));
+        String pietyText = String.format("%,d Piety", this.view.getPiety(viewedGod));
         float scale = 0.9F;
         float width = this.font.width(pietyText) * scale;
         float pietyX = bounds.x + bounds.width - width - 14.0F;
@@ -300,9 +336,7 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
 
     /** The column of square tabs down the frame's left edge. Hover text is deferred to {@code postRender}. */
     private void renderSideTabs(PoseStack matrixStack, int mouseX, int mouseY, List<Runnable> postRender) {
-        VaultGod charmGod = this.minecraft != null && this.minecraft.player != null
-                ? ActiveGodResolver.getActiveGod(this.minecraft.player).orElse(null)
-                : null;
+        VaultGod charmGod = this.view.charmGod().orElse(null);
         GodScreenTab[] tabs = GodScreenTab.values();
         matrixStack.pushPose();
         matrixStack.translate(0.0D, 0.0D, 100.0D);
@@ -330,14 +364,14 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
                 fill(matrixStack, bounds.x + bounds.width - 4, bounds.y + 1, bounds.x + bounds.width - 1, bounds.y + 4, accent);
             }
             if (hovered) {
-                List<Component> lines = sideTabTooltip(tab, charmGod);
+                List<Component> lines = sideTabTooltip(this.view, tab, charmGod);
                 postRender.add(() -> this.renderComponentTooltip(matrixStack, lines, mouseX, mouseY));
             }
         }
         matrixStack.popPose();
     }
 
-    private static List<Component> sideTabTooltip(GodScreenTab tab, @Nullable VaultGod charmGod) {
+    private static List<Component> sideTabTooltip(GodTreeView view, GodScreenTab tab, @Nullable VaultGod charmGod) {
         List<Component> lines = new ArrayList<>();
         VaultGod god = tab.god();
         if (god == null) {
@@ -346,10 +380,10 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
             lines.add(new TextComponent("All four gods and your transfer slots at a glance").withStyle(ChatFormatting.GRAY));
             return lines;
         }
-        lines.add(new TextComponent(god.getName() + " - Level " + ClientGodAlignmentData.getLevel(god))
+        lines.add(new TextComponent(god.getName() + " - Level " + view.getLevel(god))
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(GodTreeTheme.accent(god) & 0xFFFFFF))));
-        int unspent = ClientGodAlignmentData.getUnspentPoints(god);
-        if (!GodCharting.isCharted(god)) {
+        int unspent = view.getUnspentPoints(god);
+        if (!GodCharting.isCharted(view, god)) {
             lines.add(new TextComponent("Uncharted - reach " + GodCharting.reputationRequired() + " reputation with "
                     + god.getName()).withStyle(ChatFormatting.GRAY));
         } else if (unspent > 0) {
@@ -364,8 +398,8 @@ public class GodTreeScreen extends AbstractSkillTabElementContainerScreen<GodTre
         return lines;
     }
 
-    private void renderPointsOverlay(PoseStack matrixStack) {
-        int unspent = ClientGodAlignmentData.getUnspentPoints(viewedGod);
+    protected void renderPointsOverlay(PoseStack matrixStack) {
+        int unspent = this.view.getUnspentPoints(viewedGod);
         int rightEdge = this.getContentBounds().width;
         int color = unspent > 0 ? GodTreeTheme.pointsColor(viewedGod) : 0xFFAAAAAA;
         FormattedCharSequence pointsText = new TextComponent(unspent + " Unspent God Points")

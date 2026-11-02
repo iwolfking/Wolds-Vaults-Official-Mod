@@ -27,8 +27,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
-import xyz.iwolfking.woldsvaults.gods.ActiveGodResolver;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
@@ -54,15 +52,16 @@ import javax.annotation.Nullable;
  * {@code ModConfigs.SKILL_DESCRIPTIONS}, keyed by effect id.
  */
 public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
-    private static final int COLOR_MUTED = 0xC4C4C4;
+    protected static final int COLOR_MUTED = 0xC4C4C4;
     private static final int TEXT_PADDING = 10;
     private static final int LINE_HEIGHT = 10;
     private static final int TEXT_COLOR = 0xFF192022;
     private static final Set<String> WARNED_FORMULAS = new HashSet<>();
 
-    private VaultGod god;
-    private String selectedNodeId;
-    private GodNode selectedNode;
+    protected final GodTreeView view;
+    protected VaultGod god;
+    protected String selectedNodeId;
+    protected GodNode selectedNode;
     private MutableComponent descriptionContentComponent;
     private List<FormattedCharSequence> renderedLines = List.of();
 
@@ -80,8 +79,9 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         }
     }
 
-    public GodTreeDialog(GodTreeScreen parentScreen, VaultGod god) {
+    public GodTreeDialog(GodTreeScreen parentScreen, GodTreeView view, VaultGod god) {
         super(parentScreen);
+        this.view = view;
         this.god = god;
     }
 
@@ -107,7 +107,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
 
     @Override
     public void update() {
-        GodTreeModel tree = GodCharting.isCharted(this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
+        GodTreeModel tree = GodCharting.isCharted(this.view, this.god) ? GodNodeRegistry.tree(this.god).orElse(null) : null;
         this.selectedNode = tree != null && this.selectedNodeId != null ? tree.getNode(this.selectedNodeId) : null;
         if (this.selectedNode == null) {
             this.selectedNodeId = null;
@@ -116,10 +116,10 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
             this.descriptionComponent = new DescriptionContainer(this::renderDescriptions);
             return;
         }
-        boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
+        boolean unlocked = this.view.isTreeNodePurchased(this.god, this.selectedNodeId);
         boolean reachable = tree.isPurchasable(this.selectedNodeId,
-                id -> ClientGodAlignmentData.isTreeNodePurchased(this.god, id));
-        boolean hasPoints = ClientGodAlignmentData.getUnspentPoints(this.god) > 0;
+                id -> this.view.isTreeNodePurchased(this.god, id));
+        boolean hasPoints = this.view.getUnspentPoints(this.god) > 0;
         String buttonText;
         boolean buttonActive;
         if (!this.selectedNode.enabled()) {
@@ -148,7 +148,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     public void refreshPreview() {
         if (this.selectedNode != null) {
             this.descriptionContentComponent = this.buildNodeDescription(
-                    ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId));
+                    this.view.isTreeNodePurchased(this.god, this.selectedNodeId));
         }
     }
 
@@ -158,7 +158,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         return this.selectedNode == null ? null : this.selectedNode.ledgerKey();
     }
 
-    private MutableComponent buildNodeDescription(boolean unlocked) {
+    protected MutableComponent buildNodeDescription(boolean unlocked) {
         MutableComponent description = this.withPreview(
                 ModConfigs.SKILL_DESCRIPTIONS.getDescriptionFor(this.selectedNode.ledgerKey()).copy());
         GodNodeType type = this.selectedNode.type();
@@ -179,7 +179,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
             }
         }
-        if (type == GodNodeType.MINOR && unlocked && this.selectedNode.enabled()) {
+        if (type == GodNodeType.MINOR && unlocked && this.selectedNode.enabled() && this.view.isLive()) {
             description.append(new TextComponent(transferSlot >= 0
                     ? "\n\nRight-click this star to move it to another transfer slot or take it out."
                     : "\n\nRight-click this star to put it in a transfer slot.")
@@ -191,7 +191,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     /** Swaps a live formula for the server's last resolved value, with the worked math as hover text. */
     private MutableComponent withPreview(MutableComponent description) {
         String effectId = this.selectedNode.ledgerKey();
-        ClientGodNodePreviews.Preview preview = ClientGodNodePreviews.get(effectId).orElse(null);
+        ClientGodNodePreviews.Preview preview = this.view.isLive() ? ClientGodNodePreviews.get(effectId).orElse(null) : null;
         if (preview == null) {
             return description;
         }
@@ -233,19 +233,19 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     }
 
     /** The transfer slot carrying a node, or -1; only a learned minor in an unlocked slot counts. */
-    private int transferSlotOf(GodNode node) {
+    protected int transferSlotOf(GodNode node) {
         if (node.type() != GodNodeType.MINOR) {
             return -1;
         }
-        int slot = ClientGodAlignmentData.findMinorTransferSlot(this.god, node.ledgerKey());
-        return slot >= 0 && ClientGodAlignmentData.isMinorTransferLive(this.god, slot) ? slot : -1;
+        int slot = this.view.findMinorTransferSlot(this.god, node.ledgerKey());
+        return slot >= 0 && this.view.isMinorTransferLive(this.god, slot) ? slot : -1;
     }
 
     private MutableComponent buildGodSummary() {
-        int level = ClientGodAlignmentData.getLevel(this.god);
-        long xp = ClientGodAlignmentData.getXp(this.god);
+        int level = this.view.getLevel(this.god);
+        long xp = this.view.getXp(this.god);
         long nextXp = GodLevels.xpForLevel(level + 1);
-        int unspent = ClientGodAlignmentData.getUnspentPoints(this.god);
+        int unspent = this.view.getUnspentPoints(this.god);
         int accent = GodTreeTheme.accent(this.god) & 0xFFFFFF;
         MutableComponent desc = new TextComponent("");
         desc.append(new TextComponent(this.god.getName() + ", " + this.god.getTitle() + "\n\n")
@@ -261,7 +261,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
         }
         desc.append(new TextComponent("\n"));
-        if (!GodCharting.isCharted(this.god)) {
+        if (!GodCharting.isCharted(this.view, this.god)) {
             desc.append(new TextComponent("Their constellation is uncharted. Reach "
                     + GodCharting.reputationRequired() + " reputation with " + this.god.getName()
                     + " to see it.\n\n")
@@ -284,8 +284,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
     }
 
     private boolean isCharmActive() {
-        Minecraft minecraft = Minecraft.getInstance();
-        return minecraft.player != null && ActiveGodResolver.isActive(minecraft.player, this.god);
+        return this.view.isCharmActive(this.god);
     }
 
     private static MutableComponent line(String label, String value, int accent) {
@@ -371,11 +370,11 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         int accent = GodTreeTheme.accent(this.god) & 0xFFFFFF;
         if (this.selectedNode == null) {
             heading = this.god.getName();
-            subText = "Level " + ClientGodAlignmentData.getLevel(this.god);
+            subText = "Level " + this.view.getLevel(this.god);
             headingColor = accent;
             subColor = COLOR_MUTED;
         } else {
-            boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
+            boolean unlocked = this.view.isTreeNodePurchased(this.god, this.selectedNodeId);
             boolean functional = this.selectedNode.type() == GodNodeType.MINOR
                     || this.selectedNode.type() == GodNodeType.MAJOR;
             heading = this.selectedNode.name();
@@ -394,7 +393,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                 subText = "Unlocked";
                 subColor = accent;
             } else if (GodNodeRegistry.tree(this.god).map(tree -> tree.isPurchasable(this.selectedNodeId,
-                    id -> ClientGodAlignmentData.isTreeNodePurchased(this.god, id))).orElse(false)) {
+                    id -> this.view.isTreeNodePurchased(this.god, id))).orElse(false)) {
                 int cost = this.selectedNode.cost();
                 subText = "Available - " + cost + (cost == 1 ? " God Point" : " God Points");
                 subColor = COLOR_MUTED;
@@ -411,7 +410,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         if (this.selectedNode == null) {
             GodTreeTheme.godIcon(this.god).blit(matrixStack, 0, 11, 0, 16, 16);
         } else if (this.selectedIcon() != null) {
-            boolean unlocked = ClientGodAlignmentData.isTreeNodePurchased(this.god, this.selectedNodeId);
+            boolean unlocked = this.view.isTreeNodePurchased(this.god, this.selectedNodeId);
             RenderSystem.setShaderTexture(0, this.selectedIcon());
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, unlocked ? 1.0F : 0.6F);
             GuiComponent.blit(matrixStack, 0, 11, 0.0F, 0.0F, 16, 16, 16, 16);
@@ -425,10 +424,14 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         FontHelper.drawTextComponent(matrixStack,
                 new TextComponent(heading).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(headingColor))), false);
         matrixStack.translate(0.0D, 10.0D, 0.0D);
-        FontHelper.drawTextComponent(matrixStack,
-                new TextComponent(subText).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(subColor))), false);
+        FontHelper.drawTextComponent(matrixStack, this.headingSubText(subText, subColor), false);
         matrixStack.popPose();
         matrixStack.popPose();
+    }
+
+    /** The heading's second line, drawn under the name. */
+    protected Component headingSubText(String text, int color) {
+        return new TextComponent(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)));
     }
 
     private void renderFooter(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {

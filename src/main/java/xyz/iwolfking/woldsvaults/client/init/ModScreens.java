@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.client.screens.ScavengerPouchScreen;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeScreen;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedMilestonesScreen;
 import xyz.iwolfking.woldsvaults.client.screens.SuppressorScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryScreens;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 @OnlyIn(Dist.CLIENT)
@@ -31,5 +32,6 @@ public class ModScreens {
         MenuScreens.register(ModContainers.EXTRACTOR_CARD_CONTAINER, ExtractorCardScreen::new);
         MenuScreens.register(ModContainers.TRINKET_POUCH_CONTAINER, PouchScreen::new);
         MenuScreens.register(ModContainers.SUPPRESSOR_CONTAINER, SuppressorScreen::new);
+        ArmoryScreens.register();
     }
 }

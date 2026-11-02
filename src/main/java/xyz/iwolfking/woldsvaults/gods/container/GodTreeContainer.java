@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.gods.container;
 
 import iskallia.vault.container.spi.AbstractElementContainer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
@@ -9,6 +10,10 @@ import xyz.iwolfking.woldsvaults.init.ModContainers;
 public class GodTreeContainer extends AbstractElementContainer {
     public GodTreeContainer(int windowId, Player player) {
         super(ModContainers.GOD_TREE_CONTAINER, windowId, player);
+    }
+
+    protected GodTreeContainer(MenuType<?> type, int windowId, Player player) {
+        super(type, windowId, player);
     }
 
     @Override

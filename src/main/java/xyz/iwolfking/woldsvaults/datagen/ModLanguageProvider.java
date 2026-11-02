@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.MysteryEggConfig;
@@ -535,6 +536,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.tool.raker", "Raker");
         add("item.the_vault.tool.none", "Stick");
         add(ModBlocks.VAULT_SALVAGER_BLOCK, "Vault Salvager");
+        add(ArmoryRegistry.ARMORY, "Armory");
+        add(ArmoryRegistry.CREATIVE_ARMORY, "Creative Armory");
+        add(ArmoryRegistry.SKILLS_UPGRADE, "Armory Skills Upgrade");
+        add(ArmoryRegistry.GODS_UPGRADE, "Armory Gods Upgrade");
         add(ModBlocks.WUTODIE, "Block of Wutodie Gem");
         add("block.woldsvaults.dungeon_pedestal", "Dungeon Pedestal");
         add("block.woldsvaults.iskallian_leaves", "Woldian Leaves");

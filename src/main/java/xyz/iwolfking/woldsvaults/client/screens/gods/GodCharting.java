@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.screens.gods;
 
 import iskallia.vault.core.vault.influence.VaultGod;
-import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 
 /**
@@ -16,7 +15,7 @@ public final class GodCharting {
         return GodLevels.chartingReputation();
     }
 
-    public static boolean isCharted(VaultGod god) {
-        return ClientGodAlignmentData.getReputation(god) >= reputationRequired();
+    public static boolean isCharted(GodTreeView view, VaultGod god) {
+        return view.isCharted(god);
     }
 }
