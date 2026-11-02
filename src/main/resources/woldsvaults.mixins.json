@@ -662,7 +662,6 @@
     "vaulthunters.skills.modifications.MixinNecromancyAbility",
     "vaulthunters.skills.modifications.MixinNecromancyBolt",
     "vaulthunters.skills.modifications.MixinChargedBoltsAbility",
-    "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
     "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
     "vaultintegrations.MixinAltarConduitNode",
     "vaulthunters.accessors.ChaosTaskConfigAccessor",
