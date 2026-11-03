@@ -106,7 +106,6 @@ public class ModConfigs {
         EXTRACTOR_PARTS = new xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig().readConfig();
         EXTRACTOR_COSTS = new xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig().readConfig();
         OBJECTIVE_DIFFICULTY = new xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig().readConfig();
-        GEAR_SETS = new xyz.iwolfking.woldsvaults.config.GearSetConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();

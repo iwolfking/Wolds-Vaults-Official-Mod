@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VaultConfigEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
@@ -39,6 +40,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GodTreeConfig> GOD_TREES = new WoldsTableLoader<>(new GodTreeConfig(), "gods/trees");
     public static final WoldsTableLoader<GodTreeGuiStylesConfig> GOD_TREE_STYLES = new WoldsTableLoader<>(new GodTreeGuiStylesConfig(), "gods/styles");
     public static final WoldsTableLoader<GodNodeEffectsConfig> GOD_NODE_EFFECTS = new WoldsTableLoader<>(new GodNodeEffectsConfig(), "gods/effects");
+    public static final WoldsTableLoader<GearSetConfig> GEAR_SETS = new WoldsTableLoader<>(new GearSetConfig(), "gear/sets");
     public static final WoldsTableLoader<GreedRanksConfig> GREED_RANKS = new WoldsTableLoader<>(new GreedRanksConfig(), "greed/ranks");
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
@@ -53,6 +55,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GOD_TREES);
         LoaderRegistry.addConfigProcessor(GOD_TREE_STYLES);
         LoaderRegistry.addConfigProcessor(GOD_NODE_EFFECTS);
+        LoaderRegistry.addConfigProcessor(GEAR_SETS);
         LoaderRegistry.addConfigProcessor(GREED_RANKS);
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
@@ -71,6 +74,7 @@ public final class WoldsTables {
         ModConfigs.GOD_LEVELS = require(GOD_LEVELS, "god_levels");
         installGodTrees();
         installGreedProgression();
+        ModConfigs.GEAR_SETS = require(GEAR_SETS, "gear_sets");
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
     }
 
