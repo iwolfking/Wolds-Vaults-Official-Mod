@@ -121,7 +121,6 @@ public class ModItemModelProvider extends ItemModelProvider {
                         ResourceLocation.parse("builtin/entity")
                 ));
         singleTexture("research_token_base", ResourceLocation.withDefaultNamespace("item/generated"), WoldsVaults.id("item/research_token"));
-        simpleItem(ModItems.RESEARCH_TOKEN);
         simpleItem(ModItems.RESONATING_REINFORCEMENT);
         simpleItem(ModItems.RUINED_ESSENCE);
         simpleItem(ModItems.SKILL_ORB_ITEM);
