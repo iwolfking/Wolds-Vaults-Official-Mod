@@ -4,15 +4,16 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
+import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The god alignment progression curve: XP thresholds, god point grants (from levels and from raw
  * reputation), the charting threshold and minor-transfer-slot capacity.
- * Pure arithmetic; every number is read per call from {@code config/the_vault/gods/god_levels.json}.
+ * Pure arithmetic; every number is read per call from the generated {@code gods/levels/god_levels} table. Until
+ * that table is installed every level is 0 and nothing is granted.
  */
 public final class GodLevels {
-    private static final GodLevelsConfig FALLBACK = GodLevelsConfig.defaults();
     private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     private GodLevels() {
@@ -24,19 +25,25 @@ public final class GodLevels {
             return 0L;
         }
         GodLevelsConfig config = config();
-        long[] cumulative = config.getCumulativeXp();
-        int max = config.getMaxDefinedLevel();
+        if (config == null) {
+            return Long.MAX_VALUE;
+        }
+        long[] cumulative = config.cumulativeXp;
+        int max = config.maxDefinedLevel;
         if (level <= max) {
             return cumulative[level - 1];
         }
-        return cumulative[max - 1] + (long) (level - max) * config.getXpPerLevelPastMax();
+        return cumulative[max - 1] + (long) (level - max) * config.xpPerLevelPastMax;
     }
 
     /** The highest level reachable with {@code xp} accumulated; unbounded above. */
     public static int levelForXp(long xp) {
         GodLevelsConfig config = config();
-        long[] cumulative = config.getCumulativeXp();
-        int max = config.getMaxDefinedLevel();
+        if (config == null) {
+            return 0;
+        }
+        long[] cumulative = config.cumulativeXp;
+        int max = config.maxDefinedLevel;
         if (xp < cumulative[0]) {
             return 0;
         }
@@ -48,20 +55,20 @@ public final class GodLevels {
             return level;
         }
         long past = xp - cumulative[max - 1];
-        return max + (int) (past / config.getXpPerLevelPastMax());
+        return max + (int) (past / config.xpPerLevelPastMax);
     }
 
-    /** Total god points granted by reaching {@code level}, at the per-level rates {@code god_levels.json} sets. */
+    /** Total god points granted by reaching {@code level}, at the per-level rates the table sets. */
     public static int totalPointsForLevel(int level) {
-        if (level <= 0) {
+        GodLevelsConfig config = config();
+        if (level <= 0 || config == null) {
             return 0;
         }
-        GodLevelsConfig config = config();
-        int max = config.getMaxDefinedLevel();
-        int points = config.getPointsAtLevelOne();
-        points += config.getPointsPerLevelToMax() * Math.min(level - 1, max - 1);
+        int max = config.maxDefinedLevel;
+        int points = config.pointsAtLevelOne;
+        points += config.pointsPerLevelToMax * Math.min(level - 1, max - 1);
         if (level > max) {
-            points += config.getPointsPerLevelPastMax() * (level - max);
+            points += config.pointsPerLevelPastMax * (level - max);
         }
         return points;
     }
@@ -69,7 +76,7 @@ public final class GodLevels {
     /** Minor-transfer slots unlocked by {@code level}: one per configured unlock level at or below it. */
     public static int minorTransferSlots(int level) {
         int slots = 0;
-        for (int unlock : config().getMinorTransferSlotLevels()) {
+        for (int unlock : minorTransferSlotLevels()) {
             if (level >= unlock) {
                 slots++;
             }
@@ -78,12 +85,12 @@ public final class GodLevels {
     }
 
     public static int maxMinorTransferSlots() {
-        return config().getMinorTransferSlotLevels().length;
+        return minorTransferSlotLevels().length;
     }
 
     /** The god level that opens minor-transfer slot {@code slot} (zero-based), or -1 if never granted. */
     public static int minorTransferSlotUnlockLevel(int slot) {
-        int[] levels = config().getMinorTransferSlotLevels();
+        int[] levels = minorTransferSlotLevels();
         return slot >= 0 && slot < levels.length ? levels[slot] : -1;
     }
 
@@ -92,7 +99,8 @@ public final class GodLevels {
     }
 
     public static int ultimateUnlockLevel() {
-        return config().getUltimateUnlockLevel();
+        GodLevelsConfig config = config();
+        return config == null ? Integer.MAX_VALUE : config.ultimateUnlockLevel;
     }
 
     /**
@@ -118,11 +126,13 @@ public final class GodLevels {
 
     /** The reputation with a god at which their constellation is charted and its first god point granted. */
     public static int chartingReputation() {
-        return config().getChartingReputation();
+        GodLevelsConfig config = config();
+        return config == null ? Integer.MAX_VALUE : config.chartingReputation;
     }
 
     public static int reputationPerGodPoint() {
-        return config().getReputationPerGodPoint();
+        GodLevelsConfig config = config();
+        return config == null ? Integer.MAX_VALUE : config.reputationPerGodPoint;
     }
 
     /** God points granted by raw reputation alone, one per {@link #reputationPerGodPoint()}; uncapped. */
@@ -130,23 +140,27 @@ public final class GodLevels {
         if (reputation <= 0) {
             return 0;
         }
-        return reputation / config().getReputationPerGodPoint();
+        return reputation / reputationPerGodPoint();
     }
 
     /** The experience one god altar pays before the repeat multiplier and any prestige scaling. */
     public static double baseAltarXp() {
-        return config().getBaseAltarXp();
+        GodLevelsConfig config = config();
+        return config == null ? 0.0D : config.baseAltarXp;
     }
 
+    private static int[] minorTransferSlotLevels() {
+        GodLevelsConfig config = config();
+        return config == null ? new int[0] : config.minorTransferSlotLevels;
+    }
+
+    @Nullable
     private static GodLevelsConfig config() {
         GodLevelsConfig config = ModConfigs.GOD_LEVELS;
-        if (config != null) {
-            return config;
+        if (config == null && WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("God levels were read before the gods/levels/god_levels table was installed; "
+                    + "every god level reads as 0 until it is");
         }
-        if (WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("God level curve was read before config/the_vault/gods/god_levels.json "
-                    + "was loaded; falling back to the shipped curve");
-        }
-        return FALLBACK;
+        return config;
     }
 }

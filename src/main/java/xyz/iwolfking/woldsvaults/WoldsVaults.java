@@ -133,6 +133,7 @@ public class WoldsVaults {
         }
 
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
+        WoldsTables.registerInstaller();
         ModCompressibleBlocks.addBuiltInBlocks();
     }
 

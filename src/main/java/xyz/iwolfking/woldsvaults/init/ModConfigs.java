@@ -160,7 +160,6 @@ public class ModConfigs {
      * list and the previously loaded trees stay in place.
      */
     private static void registerGodTrees() {
-        GOD_LEVELS = new GodLevelsConfig().readConfig();
         GOD_TREES.clear();
         GOD_TREE_GUI_STYLES.clear();
         GOD_NODE_EFFECTS.clear();
