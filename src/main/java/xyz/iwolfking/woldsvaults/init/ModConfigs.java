@@ -16,9 +16,6 @@ import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
-import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.EnumMap;
@@ -134,24 +131,9 @@ public class ModConfigs {
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
-        registerGreedProgression();
         registerGodTrees();
         THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
         THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();
-    }
-
-    /**
-     * Reads the rank ladder, milestone table, medallion table and champion config and installs them on their
-     * readers; the ladder must load first.
-     */
-    private static void registerGreedProgression() {
-        GREED_RANKS = new GreedRanksConfig().readConfig();
-        MilestoneRankLadder.load(GREED_RANKS);
-        GREED_MILESTONES = new GreedMilestonesConfig().readConfig();
-        MilestoneRegistry.load(GREED_MILESTONES);
-        GREED_MEDALLIONS = new GreedMedallionsConfig().readConfig();
-        GreedMedallionTier.load(GREED_MEDALLIONS);
-        GREED_CHAMPION = new GreedChampionConfig().readConfig();
     }
 
     /**

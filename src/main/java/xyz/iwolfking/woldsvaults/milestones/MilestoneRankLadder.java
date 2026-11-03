@@ -3,19 +3,22 @@ package xyz.iwolfking.woldsvaults.milestones;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * The greed rank ladder: every rank's reputation threshold, the bands, and which ranks carry a god
- * alignment gate. Values come from {@code config/the_vault/gods/greed_ranks.json}.
+ * The greed rank ladder. Its shape is structure and fixed here, since greed medallion registry ids are built from
+ * the band names before any config loads; its numbers (thresholds, god level gates, the step past Legend, trial
+ * coins) come from the generated {@code greed/ranks/greed_ranks} table. Until that table is installed no rank past
+ * the first can be reached.
  */
 public class MilestoneRankLadder {
     public static final int FIRST_RANK = 1;
     public static final int LEGEND_RANK = 16;
-    public static final int LEGEND_PLUS_STEP = 250;
+    public static final int BAND_SIZE = 3;
+    public static final List<String> BAND_NAMES = List.of("scavenger", "looter", "hunter", "master", "champion", "legend");
 
     public static final int SCAVENGER_1 = 1;
     public static final int SCAVENGER_2 = 2;
@@ -34,164 +37,54 @@ public class MilestoneRankLadder {
     public static final int CHAMPION_3 = 15;
     public static final int LEGEND = 16;
 
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
+
     private static volatile int[] thresholds;
-    private static volatile int[] godLevelGates;
-    private static volatile String[] bandNames;
-    private static volatile int bandSize;
-
-    private static volatile GreedRanksConfig localLadder;
-
-    static {
-        apply(GreedRanksConfig.defaults());
-    }
+    private static volatile int[] godLevelGates = new int[LEGEND_RANK + 1];
+    private static volatile int legendPlusStep;
+    private static volatile int trialCoinsPerRank;
 
     private MilestoneRankLadder() {
     }
 
-    /**
-     * Installs a ladder read from config. Falls back to the shipped defaults, with an error, unless
-     * the ladder has exactly {@link #LEGEND_RANK} ranks, strictly ascending thresholds and enough
-     * band names to cover it.
-     */
+    /** Installs the generated ladder numbers; the installer has already validated them. */
     public static void load(GreedRanksConfig config) {
-        localLadder = null;
-        if (isUsable(config)) {
-            reportRenamedBands(config.getBandNames());
-            apply(config);
-            return;
+        int[] loaded = new int[config.thresholds.size()];
+        for (int index = 0; index < loaded.length; index++) {
+            loaded[index] = config.thresholds.get(index);
         }
-        apply(GreedRanksConfig.defaults());
+        int[] gates = new int[LEGEND_RANK + 1];
+        for (Map.Entry<String, Integer> gate : config.godLevelGates.entrySet()) {
+            gates[Integer.parseInt(gate.getKey().trim())] = gate.getValue();
+        }
+        legendPlusStep = config.legendPlusStep;
+        trialCoinsPerRank = config.trialCoinsPerRank;
+        godLevelGates = gates;
+        thresholds = loaded;
     }
 
-    /** Installs the ladder a server sent, stashing the local one; a bad payload is refused. */
-    public static void applyServerLadder(GreedRanksConfig sent) {
-        if (!isUsable(sent)) {
-            WoldsVaults.LOGGER.error("The server's greed rank ladder was refused; the client keeps its own, so rank thresholds on screen may not match the server's");
-            return;
-        }
-        if (localLadder == null) {
-            localLadder = snapshot();
-        }
-        apply(sent);
-    }
-
-    /** Puts the local ladder back. Idempotent, and a no-op when no server ladder was installed. */
-    public static void restoreLocal() {
-        GreedRanksConfig local = localLadder;
-        if (local == null) {
-            return;
-        }
-        localLadder = null;
-        apply(local);
-    }
-
-    /** The live ladder as a config object. */
-    public static GreedRanksConfig snapshot() {
-        List<Integer> rankThresholds = new ArrayList<>(LEGEND_RANK);
-        for (int rank = FIRST_RANK; rank <= LEGEND_RANK; rank++) {
-            rankThresholds.add(getThreshold(rank));
-        }
-        Map<String, Integer> gates = new LinkedHashMap<>();
-        for (int rank = FIRST_RANK; rank <= LEGEND_RANK; rank++) {
-            if (godLevelGates[rank] > 0) {
-                gates.put(Integer.toString(rank), godLevelGates[rank]);
-            }
-        }
-        return GreedRanksConfig.of(bandSize, List.of(bandNames), rankThresholds, gates);
-    }
-
-    /** Logs renamed bands; medallion registry ids are built from the shipped names and cannot follow. */
-    private static void reportRenamedBands(List<String> names) {
-        List<String> shipped = GreedRanksConfig.defaults().getBandNames();
-        for (int index = 0; index < Math.min(names.size(), shipped.size()); index++) {
-            if (!shipped.get(index).equals(names.get(index))) {
-                WoldsVaults.LOGGER.error("greed_ranks.json renames band {} from '{}' to '{}'; greed medallion registry ids are built from the shipped names and cannot follow, so that band's medallions will not resolve",
-                        index, shipped.get(index), names.get(index));
-            }
-        }
-    }
-
-    private static boolean isUsable(GreedRanksConfig config) {
-        List<Integer> configured = config.getThresholds();
-        if (configured == null || configured.size() != LEGEND_RANK) {
-            WoldsVaults.LOGGER.error("greed_ranks.json lists {} rank thresholds but the ladder is {} ranks long; using the shipped ladder instead",
-                    configured == null ? 0 : configured.size(), LEGEND_RANK);
-            return false;
-        }
-        for (int index = 1; index < configured.size(); index++) {
-            if (configured.get(index) <= configured.get(index - 1)) {
-                WoldsVaults.LOGGER.error("greed_ranks.json puts rank {} at {} reputation and rank {} at {}; rank thresholds must strictly ascend, so the shipped ladder is used instead",
-                        index + 1, configured.get(index), index, configured.get(index - 1));
-                return false;
-            }
-        }
-        if (config.getBandSize() <= 0) {
-            WoldsVaults.LOGGER.error("greed_ranks.json sets bandSize to {}, which cannot divide the ladder; using the shipped ladder instead",
-                    config.getBandSize());
-            return false;
-        }
-        List<String> names = config.getBandNames();
-        int required = (LEGEND_RANK - FIRST_RANK) / config.getBandSize() + 1;
-        if (names == null || names.size() < required) {
-            WoldsVaults.LOGGER.error("greed_ranks.json names {} bands but a {} rank ladder in bands of {} needs {}; using the shipped ladder instead",
-                    names == null ? 0 : names.size(), LEGEND_RANK, config.getBandSize(), required);
-            return false;
-        }
-        return true;
-    }
-
-    private static void apply(GreedRanksConfig config) {
-        List<Integer> configured = config.getThresholds();
-        thresholds = new int[configured.size()];
-        for (int index = 0; index < configured.size(); index++) {
-            thresholds[index] = configured.get(index);
-        }
-        bandSize = config.getBandSize();
-        bandNames = config.getBandNames().toArray(new String[0]);
-        godLevelGates = new int[LEGEND_RANK + 1];
-        Map<String, Integer> gates = config.getGodLevelGates();
-        if (gates == null) {
-            return;
-        }
-        for (Map.Entry<String, Integer> gate : gates.entrySet()) {
-            int rank;
-            try {
-                rank = Integer.parseInt(gate.getKey().trim());
-            } catch (NumberFormatException e) {
-                WoldsVaults.LOGGER.error("greed_ranks.json god level gate key '{}' is not a rank number; that gate is ignored", gate.getKey());
-                continue;
-            }
-            if (rank < FIRST_RANK || rank > LEGEND_RANK) {
-                WoldsVaults.LOGGER.error("greed_ranks.json god level gate is keyed to rank {}, which is outside the ladder; that gate is ignored", rank);
-                continue;
-            }
-            godLevelGates[rank] = gate.getValue() == null ? 0 : gate.getValue();
-        }
-    }
-
-    /** Reputation a rank-up to this 1-based rank costs; rank 1 is 0, each rank past Legend adds {@value #LEGEND_PLUS_STEP}. */
+    /** Reputation a rank-up to this 1-based rank costs; rank 1 is 0, and each rank past Legend adds the configured step. */
     public static int getThreshold(int rank) {
         if (rank <= FIRST_RANK) {
             return 0;
         }
-        if (rank <= LEGEND_RANK) {
-            return thresholds[rank - 1];
+        int[] loaded = loadedThresholds();
+        if (loaded == null) {
+            return Integer.MAX_VALUE;
         }
-        return thresholds[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * LEGEND_PLUS_STEP;
+        if (rank <= LEGEND_RANK) {
+            return loaded[rank - 1];
+        }
+        return loaded[LEGEND_RANK - 1] + (rank - LEGEND_RANK) * legendPlusStep;
     }
 
     /** Reputation spent climbing from the first rank up to this one; the first rank itself costs nothing. */
     public static int getCumulativeCost(int rank) {
-        int total = 0;
+        long total = 0L;
         for (int climbed = FIRST_RANK + 1; climbed <= rank; climbed++) {
             total += getThreshold(climbed);
         }
-        return total;
-    }
-
-    /** Reputation a milestone tagged with this rank pays: 15% of the next rank's threshold, floored. */
-    public static int getChallengeReputation(int taggedRank) {
-        return (int) Math.floor(0.15D * getThreshold(taggedRank + 1));
+        return (int) Math.min(total, Integer.MAX_VALUE);
     }
 
     /** God level needed with one god before this rank's trial; 0 when the rank has no gate. */
@@ -207,7 +100,7 @@ public class MilestoneRankLadder {
         if (rank <= FIRST_RANK || rank > LEGEND_RANK) {
             return false;
         }
-        return (rank - FIRST_RANK) % bandSize == 0;
+        return (rank - FIRST_RANK) % BAND_SIZE == 0;
     }
 
     /** Band a rank sits in, {@code scavenger} to {@code legend}; empty for a rank off the ladder. */
@@ -215,8 +108,8 @@ public class MilestoneRankLadder {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return "";
         }
-        int band = (rank - FIRST_RANK) / bandSize;
-        return band < bandNames.length ? bandNames[band] : bandNames[bandNames.length - 1];
+        int band = (rank - FIRST_RANK) / BAND_SIZE;
+        return band < BAND_NAMES.size() ? BAND_NAMES.get(band) : BAND_NAMES.get(BAND_NAMES.size() - 1);
     }
 
     /** Position of a rank inside its band, 1-based; Legend returns 0, being a band of one. */
@@ -224,12 +117,22 @@ public class MilestoneRankLadder {
         if (rank < FIRST_RANK || rank > LEGEND_RANK) {
             return 0;
         }
-        int position = (rank - FIRST_RANK) % bandSize;
+        int position = (rank - FIRST_RANK) % BAND_SIZE;
         return position == 0 && rank == LEGEND_RANK ? 0 : position + 1;
     }
 
-    /** Greed coins paid by a successful rank-up trial: 50 per rank climbed past the first. */
+    /** Greed coins paid by a successful rank-up trial: the configured amount per rank climbed past the first. */
     public static int getTrialCoinReward(int rank) {
-        return 50 * Math.max(0, rank - 1);
+        return trialCoinsPerRank * Math.max(0, rank - 1);
+    }
+
+    @Nullable
+    private static int[] loadedThresholds() {
+        int[] loaded = thresholds;
+        if (loaded == null && WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("The greed rank ladder was read before the greed/ranks/greed_ranks table was installed; "
+                    + "no rank past the first can be reached until it is");
+        }
+        return loaded;
     }
 }

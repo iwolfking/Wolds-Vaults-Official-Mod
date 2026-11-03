@@ -1,0 +1,98 @@
+{
+  "ranks": {
+    "10": {
+      "healthPool": 2000000.0,
+      "damageMultiplier": 1.0,
+      "movementSpeedMultiplier": 1.5,
+      "attackSpeedMultiplier": 2.0
+    },
+    "11": {
+      "healthPool": 2000000.0,
+      "damageMultiplier": 2.0,
+      "movementSpeedMultiplier": 1.8,
+      "attackSpeedMultiplier": 2.4
+    },
+    "12": {
+      "healthPool": 2000000.0,
+      "damageMultiplier": 4.0,
+      "movementSpeedMultiplier": 2.1,
+      "attackSpeedMultiplier": 2.8
+    },
+    "13": {
+      "healthPool": 1.0E7,
+      "damageMultiplier": 8.0,
+      "movementSpeedMultiplier": 2.5,
+      "attackSpeedMultiplier": 3.3
+    },
+    "14": {
+      "healthPool": 1.0E7,
+      "damageMultiplier": 15.0,
+      "movementSpeedMultiplier": 3.0,
+      "attackSpeedMultiplier": 3.9
+    },
+    "15": {
+      "healthPool": 1.0E7,
+      "damageMultiplier": 30.0,
+      "movementSpeedMultiplier": 3.5,
+      "attackSpeedMultiplier": 4.4
+    },
+    "16": {
+      "healthPool": 1.0E8,
+      "damageMultiplier": 100.0,
+      "movementSpeedMultiplier": 4.0,
+      "attackSpeedMultiplier": 5.0
+    }
+  },
+  "scaling": {
+    "baseAttackDamage": 24.0,
+    "levelAnchor": 100,
+    "movementSpeedCap": 1.0,
+    "scaleTeleportCooldown": false,
+    "inheritVaultModifiers": true,
+    "sizeMultiplier": 1.5
+  },
+  "hunt": {
+    "aggroRadius": 40.0,
+    "leashDistance": 35.0,
+    "spawnRingMax": 8.0,
+    "dormantTicks": 40,
+    "orphanTicks": 200,
+    "managerIntervalTicks": 20
+  },
+  "hud": {
+    "offsetX": 0,
+    "offsetY": 30
+  },
+  "lightning": {
+    "aboveBlocks": 1.5,
+    "belowBlocks": 4.0,
+    "farBlocks": 25.0,
+    "chargeTicks": 40
+  },
+  "trueDamage": {
+    "champion": 15.0,
+    "assassin": 10.0
+  },
+  "aura": {
+    "radius": 10.0,
+    "assassinsCarryIt": true
+  },
+  "rage": {
+    "decayPerTick": 6.0,
+    "chestLooted": 200.0,
+    "oreMined": 200.0,
+    "hordeKill": 100.0,
+    "assassinKill": 300.0,
+    "tankKill": 700.0,
+    "eliteChampionMultiplier": 2.0,
+    "baseThreshold": 100000.0,
+    "thresholdMultiplierPerKill": 4.0,
+    "rollIntervalTicks": 20,
+    "baseChance": 0.001,
+    "legendBaseChance": 0.0025
+  },
+  "rewards": {
+    "greedCoinsPerRank": 5,
+    "greedyTicketsPerRank": 2
+  }
+}

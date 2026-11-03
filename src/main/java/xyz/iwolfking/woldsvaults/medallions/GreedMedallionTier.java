@@ -4,8 +4,9 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
-import java.util.Map;
+import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The sixteen greed medallion tiers; a tier's rank index follows the greed rank convention (Scavenger 1 = 1
@@ -35,9 +36,9 @@ public enum GreedMedallionTier {
     private static GreedMedallionsConfig.Gates gates;
     private static GreedMedallionsConfig.Spawn spawn;
 
-    static {
-        apply(GreedMedallionsConfig.defaults());
-    }
+    private static final GreedMedallionsConfig.Tier NO_BONUSES = new GreedMedallionsConfig.Tier();
+    private static final GreedMedallionsConfig.Spawn NO_SPAWNS = noSpawns();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     private final int rankIndex;
 
@@ -45,20 +46,20 @@ public enum GreedMedallionTier {
         this.rankIndex = rankIndex;
     }
 
-    /**
-     * Installs a medallion table read from config; one missing any rank, the gates or the spawn block is refused
-     * whole for the shipped table.
-     */
+    /** Installs the generated medallion table; the installer has already checked every rank, the gates and the spawn block. */
     public static void load(GreedMedallionsConfig config) {
-        if (isUsable(config)) {
-            apply(config);
-            return;
+        GreedMedallionsConfig.Tier[] applied = new GreedMedallionsConfig.Tier[values().length + 1];
+        for (GreedMedallionTier tier : values()) {
+            applied[tier.rankIndex] = config.tiers.get(String.valueOf(tier.rankIndex));
         }
-        apply(GreedMedallionsConfig.defaults());
+        tiers = applied;
+        gates = config.gates;
+        spawn = config.spawn;
     }
 
+    /** The assassin spawn curve; until the medallion table is installed it spawns nothing. */
     public static GreedMedallionsConfig.Spawn spawnCurve() {
-        return spawn;
+        return spawn == null ? NO_SPAWNS : spawn;
     }
 
     public static Optional<GreedMedallionTier> byRankIndex(int rankIndex) {
@@ -68,37 +69,6 @@ public enum GreedMedallionTier {
             }
         }
         return Optional.empty();
-    }
-
-    private static boolean isUsable(GreedMedallionsConfig config) {
-        Map<String, GreedMedallionsConfig.Tier> configured = config.getTiers();
-        if (configured == null) {
-            WoldsVaults.LOGGER.error("greed_medallions.json lists no tiers; using the shipped table instead");
-            return false;
-        }
-        for (GreedMedallionTier tier : values()) {
-            if (configured.get(String.valueOf(tier.rankIndex)) == null) {
-                WoldsVaults.LOGGER.error("greed_medallions.json has no entry for rank {} ({}); using the shipped "
-                        + "table instead", tier.rankIndex, tier.name());
-                return false;
-            }
-        }
-        if (config.getGates() == null || config.getSpawn() == null) {
-            WoldsVaults.LOGGER.error("greed_medallions.json is missing its gates or spawn block; using the shipped "
-                    + "table instead");
-            return false;
-        }
-        return true;
-    }
-
-    private static void apply(GreedMedallionsConfig config) {
-        GreedMedallionsConfig.Tier[] applied = new GreedMedallionsConfig.Tier[values().length + 1];
-        for (GreedMedallionTier tier : values()) {
-            applied[tier.rankIndex] = config.getTiers().get(String.valueOf(tier.rankIndex));
-        }
-        tiers = applied;
-        gates = config.getGates();
-        spawn = config.getSpawn();
     }
 
     /** Registry path segment for this tier: {@code scavenger_1} ... {@code champion_3}, {@code legend}. */
@@ -152,19 +122,19 @@ public enum GreedMedallionTier {
     }
 
     public boolean assassinsInheritVaultModifiers() {
-        return this.rankIndex >= gates.assassinsInheritVaultModifiers;
+        return gates() != null && this.rankIndex >= gates.assassinsInheritVaultModifiers;
     }
 
     public boolean assassinsInflictNegativeEffects() {
-        return this.rankIndex >= gates.assassinsInflictNegativeEffects;
+        return gates() != null && this.rankIndex >= gates.assassinsInflictNegativeEffects;
     }
 
     public boolean assassinsGainBuffingAuras() {
-        return this.rankIndex >= gates.assassinsGainBuffingAuras;
+        return gates() != null && this.rankIndex >= gates.assassinsGainBuffingAuras;
     }
 
     public boolean assassinsGainInfernalModifiers() {
-        return this.rankIndex >= gates.assassinsGainInfernalModifiers;
+        return gates() != null && this.rankIndex >= gates.assassinsGainInfernalModifiers;
     }
 
     /**
@@ -172,15 +142,30 @@ public enum GreedMedallionTier {
      * {@code gods/greed_champion.json}.
      */
     public boolean vaultChampionHunts() {
-        return this.rankIndex >= gates.vaultChampionHunts;
+        return gates() != null && this.rankIndex >= gates.vaultChampionHunts;
     }
 
     /** From this rank up, the arming roll uses the higher legend chance rather than the base one. */
     public boolean vaultChampionEnraged() {
-        return this.rankIndex >= gates.vaultChampionEnraged;
+        return gates() != null && this.rankIndex >= gates.vaultChampionEnraged;
     }
 
     private GreedMedallionsConfig.Tier row() {
-        return tiers[this.rankIndex];
+        return tiers == null ? NO_BONUSES : tiers[this.rankIndex];
+    }
+
+    @Nullable
+    private static GreedMedallionsConfig.Gates gates() {
+        if (gates == null && WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Greed medallions were read before the greed/medallions/greed_medallions table was installed; "
+                    + "medallions add nothing until it is");
+        }
+        return gates;
+    }
+
+    private static GreedMedallionsConfig.Spawn noSpawns() {
+        GreedMedallionsConfig.Spawn none = new GreedMedallionsConfig.Spawn();
+        none.recoveryTicks = 1.0D;
+        return none;
     }
 }
