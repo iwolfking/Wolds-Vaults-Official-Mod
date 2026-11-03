@@ -127,6 +127,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.useNbtForSubtypes(ModItems.CHISELING_FOCUS);
+        registration.useNbtForSubtypes(ModItems.WEAPON_TYPE_SETTER);
         // layout manipulator? but first add all in jei
     }
 

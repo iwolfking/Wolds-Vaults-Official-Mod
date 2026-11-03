@@ -46,6 +46,7 @@ public class ModCitProvider implements DataProvider {
         variants.put("Trident", "trident");
         variants.put("Twin-Blade", "twin_blade");
         variants.put("Wand", "wand");
+        variants.put("Halberd", "halberd");
         variants.put("None", "blank");
 
         return new Type(
@@ -69,14 +70,14 @@ public class ModCitProvider implements DataProvider {
     @Override
     public void run(HashCache cache) throws IOException {
         for (Type type : types) {
-            runSpec(type);
+            runSpec(type, cache);
         }
     }
 
-    private void runSpec(Type type) throws IOException {
+    private void runSpec(Type type, HashCache cache) throws IOException {
         Path output = generator.getOutputFolder();
 
-        writeModel(output, type.modelFileNameResolver.apply(type.baseTextureStem), type.textureBase, type.baseTextureStem);
+        writeModel(output, type.modelFileNameResolver.apply(type.baseTextureStem), type.textureBase, type.baseTextureStem, cache);
 
         for (Map.Entry<String, String> entry : type.variants.entrySet()) {
             String nbtValue = entry.getKey();
@@ -85,7 +86,7 @@ public class ModCitProvider implements DataProvider {
             String modelName = type.modelFileNameResolver.apply(stem);
             String citFileName = type.citFileNameResolver.apply(stem);
 
-            writeModel(output, modelName, type.textureBase, stem);
+            writeModel(output, modelName, type.textureBase, stem, cache);
 
             Path citDir = output.resolve("assets/minecraft/optifine/cit/" + type.citFolder);
             Files.createDirectories(citDir);
@@ -93,12 +94,13 @@ public class ModCitProvider implements DataProvider {
                     + "items=" + type.itemId + "\n"
                     + "model=item/" + modelName + "\n"
                     + "nbt." + type.nbtKey + "=" + nbtValue + "\n";
-            Files.write(citDir.resolve(citFileName + ".properties"),
-                    properties.getBytes(StandardCharsets.UTF_8));
+            Path citPath = citDir.resolve(citFileName + ".properties");
+            Files.write(citPath, properties.getBytes(StandardCharsets.UTF_8));
+            cache.keep(citPath);
         }
     }
 
-    private void writeModel(Path output, String modelName, String textureBase, String textureStem) throws IOException {
+    private void writeModel(Path output, String modelName, String textureBase, String textureStem, HashCache cache) throws IOException {
         Path modelDir = output.resolve("assets/minecraft/models/item");
         Files.createDirectories(modelDir);
         String json = "{\n"
@@ -107,7 +109,9 @@ public class ModCitProvider implements DataProvider {
                 + "        \"layer0\": \"" + textureBase + textureStem + "\"\n"
                 + "    }\n"
                 + "}";
-        Files.write(modelDir.resolve(modelName + ".json"), json.getBytes(StandardCharsets.UTF_8));
+        Path modelPath = modelDir.resolve(modelName + ".json");
+        Files.write(modelPath, json.getBytes(StandardCharsets.UTF_8));
+        cache.keep(modelPath);
     }
 
     public static class Type {
