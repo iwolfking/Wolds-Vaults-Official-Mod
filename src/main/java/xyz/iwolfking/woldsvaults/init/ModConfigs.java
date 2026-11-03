@@ -101,11 +101,9 @@ public class ModConfigs {
         CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         ALCHEMY_OBJECTIVE = new AlchemyObjectiveConfig().readConfig();
         SURVIVAL_OBJECTIVE = new SurvivalObjectiveConfig().readConfig();
-        HYPER_OBJECTIVE = new HyperObjectiveConfig().readConfig();
         EXTRACTION_OBJECTIVE = new ExtractionObjectiveConfig().readConfig();
         EXTRACTOR_PARTS = new xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig().readConfig();
         EXTRACTOR_COSTS = new xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig().readConfig();
-        OBJECTIVE_DIFFICULTY = new xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();

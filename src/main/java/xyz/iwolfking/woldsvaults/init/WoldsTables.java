@@ -12,6 +12,8 @@ import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
 import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
+import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
+import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
 import xyz.iwolfking.woldsvaults.config.WoldsTable;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
@@ -41,6 +43,8 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GodTreeGuiStylesConfig> GOD_TREE_STYLES = new WoldsTableLoader<>(new GodTreeGuiStylesConfig(), "gods/styles");
     public static final WoldsTableLoader<GodNodeEffectsConfig> GOD_NODE_EFFECTS = new WoldsTableLoader<>(new GodNodeEffectsConfig(), "gods/effects");
     public static final WoldsTableLoader<GearSetConfig> GEAR_SETS = new WoldsTableLoader<>(new GearSetConfig(), "gear/sets");
+    public static final WoldsTableLoader<ObjectiveDifficultyConfig> OBJECTIVE_DIFFICULTY = new WoldsTableLoader<>(new ObjectiveDifficultyConfig(), "objectives/difficulty");
+    public static final WoldsTableLoader<HyperObjectiveConfig> HYPER_OBJECTIVE = new WoldsTableLoader<>(new HyperObjectiveConfig(), "objectives/hyper");
     public static final WoldsTableLoader<GreedRanksConfig> GREED_RANKS = new WoldsTableLoader<>(new GreedRanksConfig(), "greed/ranks");
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
@@ -56,6 +60,8 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GOD_TREE_STYLES);
         LoaderRegistry.addConfigProcessor(GOD_NODE_EFFECTS);
         LoaderRegistry.addConfigProcessor(GEAR_SETS);
+        LoaderRegistry.addConfigProcessor(OBJECTIVE_DIFFICULTY);
+        LoaderRegistry.addConfigProcessor(HYPER_OBJECTIVE);
         LoaderRegistry.addConfigProcessor(GREED_RANKS);
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
@@ -75,6 +81,8 @@ public final class WoldsTables {
         installGodTrees();
         installGreedProgression();
         ModConfigs.GEAR_SETS = require(GEAR_SETS, "gear_sets");
+        ModConfigs.OBJECTIVE_DIFFICULTY = require(OBJECTIVE_DIFFICULTY, "objective_difficulty");
+        ModConfigs.HYPER_OBJECTIVE = require(HYPER_OBJECTIVE, "hyper_objective");
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
     }
 

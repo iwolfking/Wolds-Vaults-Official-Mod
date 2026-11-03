@@ -142,9 +142,19 @@ import java.util.function.Consumer;
  */
 public class HyperVaultObjective extends Objective {
 
-    /** The live tuning knobs (config/the_vault/hyper_objective.json). */
+    private static final HyperObjectiveConfig INERT = HyperObjectiveConfig.inert();
+    private static final java.util.concurrent.atomic.AtomicBoolean WARNED = new java.util.concurrent.atomic.AtomicBoolean();
+
+    /** The installed tuning knobs, or an inert table (logged once) before the hyper table is installed; never null. */
     public static HyperObjectiveConfig cfg() {
-        return xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
+        HyperObjectiveConfig config = xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
+        if (config != null) {
+            return config;
+        }
+        if (WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("The HYPER objective was read before the objectives/hyper/hyper_objective table was installed");
+        }
+        return INERT;
     }
 
     /**

@@ -1,0 +1,67 @@
+{
+  "exponents": {
+    "scavenger": 1.0,
+    "scavenger_bingo": 1.0,
+    "unhinged_scavenger": 1.0,
+    "unhinged_scavenger_bingo": 1.0,
+    "elixir": 1.0,
+    "enchanted_elixir": 1.0,
+    "rune_boss": 1.0,
+    "boss": 0.5,
+    "cake": 1.0,
+    "chaos": 0.5,
+    "corrupted": 1.0,
+    "zealot": 1.0,
+    "survival": 0.5,
+    "alchemy": 0.5
+  },
+  "bingoTileClasses": {
+    "linear": 1.0,
+    "soft": 0.7
+  },
+  "bingoTileClassByName": {
+    "Kill Dwellers": "soft",
+    "Rapidly Kill Dwellers": "soft",
+    "Kill Tanks": "soft",
+    "Kill Hordes": "soft",
+    "Defeat an Elite": "soft",
+    "Free Villager": "soft",
+    "Kill Dungeon Boss": "soft",
+    "Multi Kill!": "soft"
+  },
+  "stackLinearFactor": 3.0,
+  "stackBreakpoint": 4.0,
+  "stackOffset": 4.0,
+  "stackPower": 1.5,
+  "crateTiersBySigilDifficulty": {
+    "0.5": 2,
+    "1.0": 3,
+    "1.5": 4,
+    "3.0": 5,
+    "5.0": 6,
+    "6.0": 8,
+    "6.5": 9,
+    "7.0": 10,
+    "7.5": 11,
+    "8.0": 12,
+    "8.5": 13,
+    "9.0": 14
+  },
+  "scavengerGoalFloorLowLevel": {
+    "0.5": 5,
+    "3.0": 6
+  },
+  "scavengerGoalFloorHighLevelFrom": 20,
+  "scavengerGoalFloorHighLevel": {
+    "0.5": 5,
+    "1.0": 6,
+    "3.0": 7
+  },
+  "ballisticGridBonus": {
+    "1.0": 1,
+    "1.5": 2,
+    "5.0": 3
+  },
+  "ballisticGridCap": 9,
+  "survivalReservedWaveGroups": 3
+}
