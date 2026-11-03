@@ -15,10 +15,12 @@ import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaNodes;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.message.RampageCdmMessage;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Ultra Rampaging: the damage math Fury drives. The node adds no multiplier of its own; it rewrites
@@ -31,26 +33,24 @@ public final class UltraRampaging {
     private static final Map<UUID, Curve> CURVES = new ConcurrentHashMap<>();
     private static final Map<UUID, Integer> LAST_SENT = new ConcurrentHashMap<>();
 
-    private static volatile UltraRampagingConfig fallbackWarned;
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     private UltraRampaging() {
     }
 
-    /** The node's tuned numbers, falling back to {@link UltraRampagingConfig#defaults()} with an error. */
+    /** The node's tuned numbers from the loaded god effects, or null (logged once) while that effect is not loaded. */
+    @Nullable
     public static UltraRampagingConfig config() {
         Optional<GodEffect> effect = GodNodeRegistry.effect(IdonaNodes.ULTRA_RAMPAGING);
         if (effect.isPresent() && effect.get().params() instanceof UltraRampagingConfig params) {
             return params;
         }
-        UltraRampagingConfig defaults = UltraRampagingConfig.defaults();
-        if (fallbackWarned == null) {
-            fallbackWarned = defaults;
-            WoldsVaults.LOGGER.error("Ultra Rampaging read its configuration before god_node_effects_idona.json "
-                    + "finished loading (effect '{}' {}). Falling back to built-in defaults; any config override of "
-                    + "the Fury numbers is being ignored until the registry loads.",
-                    IdonaNodes.ULTRA_RAMPAGING, effect.isPresent() ? "has the wrong params type" : "is absent");
+        if (WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Ultra Rampaging read its configuration while effect '{}' {}; Fury does nothing "
+                    + "until the god effect tables load.", IdonaNodes.ULTRA_RAMPAGING,
+                    effect.isPresent() ? "has the wrong params type" : "is absent");
         }
-        return defaults;
+        return null;
     }
 
     public static boolean isActive(ServerPlayer player) {
@@ -108,6 +108,9 @@ public final class UltraRampaging {
             return cached;
         }
         UltraRampagingConfig config = config();
+        if (config == null) {
+            return new Curve(fury, 1.0F, 0.0F);
+        }
         float multiplier = furyMultiplier(fury, config);
         float addend = additivePercent(fury, config) * multiplier / 100.0F;
         Curve curve = new Curve(fury, multiplier, addend);

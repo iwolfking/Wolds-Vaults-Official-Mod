@@ -1,14 +1,14 @@
-package xyz.iwolfking.woldsvaults.config.gods;
+package xyz.iwolfking.woldsvaults.datagen.gods;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
 
 import java.util.Locale;
 
 /**
- * The shipped value of every god node effect, shaped as {@code god_node_effects_<god>.json} stores it:
- * {@code values} is the per-point table, every other key a handler parameter. A reset source only -
- * runtime values come from the loaded config, kept in step by the {@code checkGodEffectSync} gate.
+ * The value of every god node effect, the only source of the generated {@code gods/effects/<god>} tables:
+ * {@code values} is the per-point table, every other key a handler parameter.
  */
 public final class GodNodeEffectDefaults {
 

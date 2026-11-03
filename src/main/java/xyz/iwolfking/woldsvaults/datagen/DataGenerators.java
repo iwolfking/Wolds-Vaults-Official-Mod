@@ -97,7 +97,7 @@ public class DataGenerators {
             gen.addProvider(new ModImplicitDeckCoresProvider(gen));
             gen.addProvider(new ModPentacleProvider(gen));
             gen.addProvider(new ModTalentStyleProvider(gen));
-            gen.addProvider(new ModGodTreesProvider());
+            gen.addProvider(new ModGodTreesProvider(gen));
             gen.addProvider(new ModGodLevelsProvider(gen));
             gen.addProvider(new ModGreedRanksProvider(gen));
             gen.addProvider(new ModGreedMilestonesProvider(gen));

@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.config.gods;
+package xyz.iwolfking.woldsvaults.datagen.gods;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Builder for one god's constellation, emitted as {@code god_tree_<god>.json} (topology) and
- * {@code god_tree_<god>_gui_styles.json} (layout). Edges are undirected id pairs and every node costs
+ * Builder for one god's constellation, emitted as the generated {@code gods/trees/<god>} (topology) and
+ * {@code gods/styles/<god>} (layout) tables. Edges are undirected id pairs and every node costs
  * one god point; a duplicate id or an edge naming an undeclared node throws.
  */
 public final class GodTreeBuilder {

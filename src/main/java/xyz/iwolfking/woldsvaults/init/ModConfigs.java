@@ -13,13 +13,9 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
-import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.EnumMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class ModConfigs {
@@ -131,39 +127,8 @@ public class ModConfigs {
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
-        registerGodTrees();
         THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
         THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();
     }
 
-    /**
-     * Reads each god tree's topology, style and effect configs and rebuilds the node registry. An
-     * inconsistency is fatal on the first load; on a reload it goes to the base mod's invalid-config
-     * list and the previously loaded trees stay in place.
-     */
-    private static void registerGodTrees() {
-        GOD_TREES.clear();
-        GOD_TREE_GUI_STYLES.clear();
-        GOD_NODE_EFFECTS.clear();
-        for (VaultGod god : VaultGod.values()) {
-            String name = god.getName().toLowerCase(Locale.ROOT);
-            GOD_TREES.put(god, new GodTreeConfig(name).readConfig());
-            GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
-            GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
-        }
-        if (!godTreesLoadedOnce) {
-            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
-            godTreesLoadedOnce = true;
-            return;
-        }
-        try {
-            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
-        } catch (GodTreeConfigException e) {
-            WoldsVaults.LOGGER.error("God tree configs were rejected on reload; the previously loaded trees stay in "
-                    + "place. Fix the named file and reload again.", e);
-            iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("gods/god_tree_* - " + e.getMessage());
-        }
-    }
-
-    private static boolean godTreesLoadedOnce;
 }

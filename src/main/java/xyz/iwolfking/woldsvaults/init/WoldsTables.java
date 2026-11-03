@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.init;
 
 import iskallia.vault.config.Config;
+import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
@@ -12,12 +13,20 @@ import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
 import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
 import xyz.iwolfking.woldsvaults.config.WoldsTable;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
+import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.core.WoldsTableLoader;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
 import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Wold's Vaults' generated balance tables. Each one is written by a datagen provider into
@@ -27,6 +36,9 @@ import javax.annotation.Nullable;
  */
 public final class WoldsTables {
     public static final WoldsTableLoader<GodLevelsConfig> GOD_LEVELS = new WoldsTableLoader<>(new GodLevelsConfig(), "gods/levels");
+    public static final WoldsTableLoader<GodTreeConfig> GOD_TREES = new WoldsTableLoader<>(new GodTreeConfig(), "gods/trees");
+    public static final WoldsTableLoader<GodTreeGuiStylesConfig> GOD_TREE_STYLES = new WoldsTableLoader<>(new GodTreeGuiStylesConfig(), "gods/styles");
+    public static final WoldsTableLoader<GodNodeEffectsConfig> GOD_NODE_EFFECTS = new WoldsTableLoader<>(new GodNodeEffectsConfig(), "gods/effects");
     public static final WoldsTableLoader<GreedRanksConfig> GREED_RANKS = new WoldsTableLoader<>(new GreedRanksConfig(), "greed/ranks");
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
@@ -38,6 +50,9 @@ public final class WoldsTables {
     /** Registers the loaders with VHAPI; called from the processor registration event. */
     public static void registerLoaders() {
         LoaderRegistry.addConfigProcessor(GOD_LEVELS);
+        LoaderRegistry.addConfigProcessor(GOD_TREES);
+        LoaderRegistry.addConfigProcessor(GOD_TREE_STYLES);
+        LoaderRegistry.addConfigProcessor(GOD_NODE_EFFECTS);
         LoaderRegistry.addConfigProcessor(GREED_RANKS);
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
@@ -54,8 +69,45 @@ public final class WoldsTables {
             return;
         }
         ModConfigs.GOD_LEVELS = require(GOD_LEVELS, "god_levels");
+        installGodTrees();
         installGreedProgression();
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
+    }
+
+    /**
+     * Installs all four god trees together or none of them: a missing table or one the node registry rejects logs
+     * an error and leaves the previously installed trees in place.
+     */
+    private static void installGodTrees() {
+        Map<VaultGod, GodTreeConfig> trees = new EnumMap<>(VaultGod.class);
+        Map<VaultGod, GodTreeGuiStylesConfig> styles = new EnumMap<>(VaultGod.class);
+        Map<VaultGod, GodNodeEffectsConfig> effects = new EnumMap<>(VaultGod.class);
+        for (VaultGod god : VaultGod.values()) {
+            String name = god.getName().toLowerCase(Locale.ROOT);
+            GodTreeConfig tree = require(GOD_TREES, name);
+            GodTreeGuiStylesConfig style = require(GOD_TREE_STYLES, name);
+            GodNodeEffectsConfig effect = require(GOD_NODE_EFFECTS, name);
+            if (tree == null || style == null || effect == null) {
+                WoldsVaults.LOGGER.error("God trees were not installed because {}'s tables are incomplete", name);
+                return;
+            }
+            trees.put(god, tree);
+            styles.put(god, style);
+            effects.put(god, effect);
+        }
+        try {
+            GodNodeRegistry.load(trees, styles, effects);
+        } catch (GodTreeConfigException e) {
+            WoldsVaults.LOGGER.error("The generated god tree tables were rejected; the previously installed trees stay in place", e);
+            iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("woldsvaults gods/* - " + e.getMessage());
+            return;
+        }
+        ModConfigs.GOD_TREES.clear();
+        ModConfigs.GOD_TREES.putAll(trees);
+        ModConfigs.GOD_TREE_GUI_STYLES.clear();
+        ModConfigs.GOD_TREE_GUI_STYLES.putAll(styles);
+        ModConfigs.GOD_NODE_EFFECTS.clear();
+        ModConfigs.GOD_NODE_EFFECTS.putAll(effects);
     }
 
     /** The rank ladder installs before the milestones, which are tagged with its ranks. */

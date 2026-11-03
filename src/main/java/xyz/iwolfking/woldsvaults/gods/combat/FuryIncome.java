@@ -39,6 +39,9 @@ public final class FuryIncome {
             return;
         }
         UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            return;
+        }
         float gain = config.fury_per_hit();
         if (isBossType(event.getEntityLiving())) {
             gain *= config.fury_boss_hit_multiplier();
@@ -60,6 +63,9 @@ public final class FuryIncome {
             return;
         }
         UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            return;
+        }
         float gain = config.fury_per_kill();
         if (isBossType(victim)) {
             gain *= config.fury_boss_kill_multiplier();
@@ -91,8 +97,12 @@ public final class FuryIncome {
         if (lost <= 0.0F) {
             return;
         }
+        UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            return;
+        }
         float fraction = Math.min(lost / maxHealth, 1.0F);
-        PlayerFuryHelper.add(player, UltraRampaging.config().fury_per_hp_fraction_lost() * fraction);
+        PlayerFuryHelper.add(player, config.fury_per_hp_fraction_lost() * fraction);
     }
 
     /** Multiplies raw incoming damage by the Fury drawback, ahead of armour, even with Rampage off. */
@@ -105,7 +115,11 @@ public final class FuryIncome {
         if (fury <= 0.0F) {
             return;
         }
-        float multiplier = UltraRampaging.incomingMultiplier(fury, UltraRampaging.config());
+        UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            return;
+        }
+        float multiplier = UltraRampaging.incomingMultiplier(fury, config);
         if (multiplier > 1.0F) {
             event.setAmount(event.getAmount() * multiplier);
         }
