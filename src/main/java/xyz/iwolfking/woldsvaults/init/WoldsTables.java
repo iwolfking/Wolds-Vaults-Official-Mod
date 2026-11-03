@@ -7,7 +7,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VaultConfigEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
+import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
@@ -46,6 +48,8 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GearSetConfig> GEAR_SETS = new WoldsTableLoader<>(new GearSetConfig(), "gear/sets");
     public static final WoldsTableLoader<ObjectiveDifficultyConfig> OBJECTIVE_DIFFICULTY = new WoldsTableLoader<>(new ObjectiveDifficultyConfig(), "objectives/difficulty");
     public static final WoldsTableLoader<HyperObjectiveConfig> HYPER_OBJECTIVE = new WoldsTableLoader<>(new HyperObjectiveConfig(), "objectives/hyper");
+    public static final WoldsTableLoader<ExtractionObjectiveConfig> EXTRACTION_OBJECTIVE = new WoldsTableLoader<>(new ExtractionObjectiveConfig(), "objectives/extraction");
+    public static final WoldsTableLoader<ExtractorPartsConfig> EXTRACTOR_PARTS = new WoldsTableLoader<>(new ExtractorPartsConfig(), "extraction/parts");
     public static final WoldsTableLoader<ExtractorCostsConfig> EXTRACTOR_COSTS = new WoldsTableLoader<>(new ExtractorCostsConfig(), "extraction/costs");
     public static final WoldsTableLoader<GreedRanksConfig> GREED_RANKS = new WoldsTableLoader<>(new GreedRanksConfig(), "greed/ranks");
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
@@ -64,6 +68,8 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GEAR_SETS);
         LoaderRegistry.addConfigProcessor(OBJECTIVE_DIFFICULTY);
         LoaderRegistry.addConfigProcessor(HYPER_OBJECTIVE);
+        LoaderRegistry.addConfigProcessor(EXTRACTION_OBJECTIVE);
+        LoaderRegistry.addConfigProcessor(EXTRACTOR_PARTS);
         LoaderRegistry.addConfigProcessor(EXTRACTOR_COSTS);
         LoaderRegistry.addConfigProcessor(GREED_RANKS);
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
@@ -86,10 +92,7 @@ public final class WoldsTables {
         ModConfigs.GEAR_SETS = require(GEAR_SETS, "gear_sets");
         ModConfigs.OBJECTIVE_DIFFICULTY = require(OBJECTIVE_DIFFICULTY, "objective_difficulty");
         ModConfigs.HYPER_OBJECTIVE = require(HYPER_OBJECTIVE, "hyper_objective");
-        ExtractorCostsConfig costs = require(EXTRACTOR_COSTS, "extractor_costs");
-        if (costs != null) {
-            ModConfigs.EXTRACTOR_COSTS = costs;
-        }
+        installExtraction();
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
     }
 
@@ -127,6 +130,22 @@ public final class WoldsTables {
         ModConfigs.GOD_TREE_GUI_STYLES.putAll(styles);
         ModConfigs.GOD_NODE_EFFECTS.clear();
         ModConfigs.GOD_NODE_EFFECTS.putAll(effects);
+    }
+
+    /** The extraction holders start on inert tables, so a table that is missing or rejected keeps the last good one. */
+    private static void installExtraction() {
+        ExtractionObjectiveConfig objective = require(EXTRACTION_OBJECTIVE, "extraction_objective");
+        if (objective != null) {
+            ModConfigs.EXTRACTION_OBJECTIVE = objective;
+        }
+        ExtractorPartsConfig parts = require(EXTRACTOR_PARTS, "extractor_parts");
+        if (parts != null) {
+            ModConfigs.EXTRACTOR_PARTS = parts;
+        }
+        ExtractorCostsConfig costs = require(EXTRACTOR_COSTS, "extractor_costs");
+        if (costs != null) {
+            ModConfigs.EXTRACTOR_COSTS = costs;
+        }
     }
 
     /** The rank ladder installs before the milestones, which are tagged with its ranks. */
