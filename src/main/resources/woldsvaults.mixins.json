@@ -68,6 +68,7 @@
     "craftingtweaks.CompressMessageMixin",
     "create.accessors.FilterItemAccessor",
     "create.accessors.MixinCreativeFluidTankTileEntity",
+    "create.accessors.MixinFilterItem",
     "curios.MixinCurioInventoryWrapper",
     "customstartinggear.MixinDataManager",
     "decorative_blocks.jei10.MixinDecorativeBlocksJEIPlugin",

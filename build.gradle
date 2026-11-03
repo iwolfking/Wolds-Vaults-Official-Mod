@@ -311,7 +311,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:autoreglib-250363:3642382") // quark
     implementation fg.deobf("curse.maven:libx-412525:3829113")
     implementation fg.deobf("curse.maven:auxblocks-711533:7099196")// vault blocks
-    runtimeOnly fg.deobf("curse.maven:item-filters-309674:4553322") // ftb quests
+    implementation fg.deobf("curse.maven:item-filters-309674:4553322") // ftb quests
     runtimeOnly fg.deobf("curse.maven:terrablender-563928:3957976") // wild backport
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4521465") // lot of mods
     implementation fg.deobf("curse.maven:patchouli-306770:3846086")
