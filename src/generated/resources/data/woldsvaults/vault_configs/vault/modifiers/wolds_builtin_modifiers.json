@@ -1506,8 +1506,8 @@
         "display": {
           "name": "Exposed",
           "color": "#a8324c",
-          "description": "Your armor feels exposed... armor reduced by half",
-          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "description": "Your armor feels exposed... armor reduced by 25%",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by 25%%",
           "icon": "the_vault:gui/modifiers/impossible"
         }
       },
@@ -1519,8 +1519,8 @@
         "display": {
           "name": "Exposed",
           "color": "#a8324c",
-          "description": "Your armor feels exposed... armor reduced by half",
-          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "description": "Your armor feels exposed... armor reduced by 15%",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by 15%%",
           "icon": "the_vault:gui/modifiers/impossible"
         }
       },

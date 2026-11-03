@@ -1486,7 +1486,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                         poolValueListBuilder.add("the_vault:mana_void", 1);
                         poolValueListBuilder.add("the_vault:nullifying", 1);
                         poolValueListBuilder.add("woldsvaults:void_touch", 1);
-                        poolValueListBuilder.add("woldsvaults:doomed_aura", 1);
                     });
                 });
             });
@@ -1526,7 +1525,6 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
                         poolValueListBuilder.add("the_vault:time_bomb_spawn", 1);
                         poolValueListBuilder.add("the_vault:creeping_doom", 1);
                         poolValueListBuilder.add("woldsvaults:void_touch", 1);
-                        poolValueListBuilder.add("woldsvaults:doomed_aura", 1);
                         poolValueListBuilder.add("woldsvaults:rage_cage", 1);
                         poolValueListBuilder.add("woldsvaults:infernal_fury", 1);
                         poolValueListBuilder.add("woldsvaults:scorching_heat", 1);
