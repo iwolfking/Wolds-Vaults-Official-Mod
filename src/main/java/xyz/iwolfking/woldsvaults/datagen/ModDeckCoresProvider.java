@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.modifiers.deck.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -359,6 +360,57 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("relic_deck", 1);
             });
         });
+
+        add("greed_cores", builder -> {
+            StatEfficiencyDeckModifier.Config equilibriumConfig = new StatEfficiencyDeckModifier.Config(FloatRoll.ofUniform(0.12F, 0.2F));
+            equilibriumConfig.modifierRolls.put("lesser", variant("Lesser Equilibrium Core", FloatRoll.ofUniform(0.06F, 0.06F), 13618375, "the_vault:deck_cores/lesser_equilibrium_deck_core#inventory"));
+            equilibriumConfig.modifierRolls.put("greater", variant("Greater Equilibrium Core", FloatRoll.ofUniform(0.2F, 0.36F), 16769382, "the_vault:deck_cores/greater_equilibrium_deck_core#inventory"));
+
+            GlobalDeckModifier.Config shinyConfig = new GlobalDeckModifier.Config();
+            shinyConfig.requiredGroups.add("Foil");
+            shinyConfig.modifierRoll = FloatRoll.ofUniform(0.3F, 0.6F);
+            shinyConfig.modifierRolls.put("lesser", variant("Lesser Shiny Core", FloatRoll.ofUniform(0.2F, 0.2F), 13618375, "the_vault:deck_cores/lesser_shiny_deck_core#inventory"));
+            shinyConfig.modifierRolls.put("greater", variant("Greater Shiny Core", FloatRoll.ofUniform(0.6F, 0.9F), 16769382, "the_vault:deck_cores/greater_shiny_deck_core#inventory"));
+
+            SlotDeckModifier.Config empyrealConfig = new SlotDeckModifier.Config();
+            empyrealConfig.modifierRoll = FloatRoll.ofUniform(0.2F, 0.3F);
+            empyrealConfig.requiredGroups.add("Stat");
+            empyrealConfig.requiredGroups.add("Evolution");
+            empyrealConfig.slotRoll = IntRoll.ofUniform(2, 2);
+            empyrealConfig.slotRolls.put("lesser", slotVariant("Lesser Empyreal Core", IntRoll.ofUniform(1, 1), FloatRoll.ofUniform(0.2F, 0.2F), 13618375, "the_vault:deck_cores/lesser_empyreal_deck_core#inventory", Set.of(), new LinkedHashSet<>(List.of("Stat", "Evolution"))));
+            empyrealConfig.slotRolls.put("greater", slotVariant("Greater Empyreal Core", IntRoll.ofUniform(3, 3), FloatRoll.ofUniform(0.3F, 0.4F), 16769382, "the_vault:deck_cores/greater_empyreal_deck_core#inventory", Set.of(), new LinkedHashSet<>(List.of("Stat", "Evolution"))));
+
+            NonFoilEfficiencyDeckModifier.Config pureConfig = new NonFoilEfficiencyDeckModifier.Config(FloatRoll.ofUniform(0.02F, 0.03F));
+            pureConfig.modifierRolls.put("lesser", variant("Lesser Pure Core", FloatRoll.ofUniform(0.01F, 0.01F), 13618375, "the_vault:deck_cores/lesser_pure_deck_core#inventory"));
+            pureConfig.modifierRolls.put("greater", variant("Greater Pure Core", FloatRoll.ofUniform(0.03F, 0.05F), 16769382, "the_vault:deck_cores/greater_pure_deck_core#inventory"));
+
+            builder.addCore("equilibrium", StatEfficiencyDeckModifier::new, equilibriumConfig, "Equilibrium Core", 13618375, "the_vault:deck_cores/equilibrium_deck_core#inventory");
+            builder.addCore("shiny", GlobalDeckModifier::new, shinyConfig, "Shiny Core", 13618375, "the_vault:deck_cores/shiny_deck_core#inventory");
+            colourCore(builder, "crimson", "Crimson", CardEntry.Color.RED);
+            colourCore(builder, "azure", "Azure", CardEntry.Color.BLUE);
+            colourCore(builder, "viridian", "Viridian", CardEntry.Color.GREEN);
+            colourCore(builder, "golden", "Golden", CardEntry.Color.YELLOW);
+            builder.addCore("empyreal", MultiplicativeSlotDeckModifier::new, empyrealConfig, "Empyreal Core", 13618375, "the_vault:deck_cores/empyreal_deck_core#inventory");
+            builder.addCore("pure", NonFoilEfficiencyDeckModifier::new, pureConfig, "Pure Core", 13618375, "the_vault:deck_cores/pure_deck_core#inventory");
+
+            builder.addPool("greed_basic", pool -> {
+                pool.add("harvest", 4);
+                pool.add("bounty", 4);
+                pool.add("crimson", 4);
+                pool.add("azure", 4);
+                pool.add("viridian", 4);
+                pool.add("golden", 4);
+            });
+        });
+    }
+
+    private void colourCore(Builder builder, String id, String label, CardEntry.Color color) {
+        GlobalDeckModifier.Config config = new GlobalDeckModifier.Config();
+        config.requiredColors.add(color);
+        config.modifierRoll = FloatRoll.ofUniform(0.1F, 0.3F);
+        config.modifierRolls.put("lesser", variant("Lesser " + label + " Core", FloatRoll.ofUniform(0.05F, 0.05F), 13618375, "the_vault:deck_cores/lesser_" + id + "_deck_core#inventory"));
+        config.modifierRolls.put("greater", variant("Greater " + label + " Core", FloatRoll.ofUniform(0.4F, 0.6F), 16769382, "the_vault:deck_cores/greater_" + id + "_deck_core#inventory"));
+        builder.addCore(id, GlobalDeckModifier::new, config, label + " Core", 13618375, "the_vault:deck_cores/" + id + "_deck_core#inventory");
     }
 
     public DeckModifier.Config.RollVariant variant(String name, FloatRoll roll, int colour, String modelId) {

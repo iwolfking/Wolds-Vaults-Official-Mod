@@ -42,6 +42,8 @@ public class DataGenerators {
             gen.addProvider(new ModPlayerTitlesProvider(gen));
             gen.addProvider(new ModVaultInscriptionsProvider(gen));
             gen.addProvider(new ModUniqueGearProvider(gen));
+            gen.addProvider(new ModUniqueGearOverridesProvider(gen));
+            gen.addProvider(new ModCardModifiersProvider(gen));
             gen.addProvider(new ModVaultMobsProvider(gen));
             gen.addProvider(new ModSkillDescriptionsProvider(gen));
             gen.addProvider(new ModTooltipsProvider(gen));

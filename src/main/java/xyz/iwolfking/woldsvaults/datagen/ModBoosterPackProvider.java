@@ -261,10 +261,28 @@ public class ModBoosterPackProvider extends AbstractBoosterPackProvider {
 
         });
 
+        add("greed_packs", builder -> {
+            for (ModCardModifiersProvider.GreedTier tier : ModCardModifiersProvider.GREED_TIERS) {
+                greedPack(builder, VaultMod.id(tier.id() + "_greed_pack").toString(), tier.label() + " Greed Pack", "greed_pack", 3, tier);
+                greedPack(builder, VaultMod.id("mega_" + tier.id() + "_greed_pack").toString(), tier.label() + " Mega Greed Pack", "mega_greed_pack", 5, tier);
+            }
+        });
+    }
 
-
-
-
-
+    private static void greedPack(Builder builder, String id, String name, String model, int rolls, ModCardModifiersProvider.GreedTier tier) {
+        String pool = "@" + tier.pool();
+        builder.addEntry(id, name, VaultMod.id("booster_pack/" + model + "_ripped").toString(), VaultMod.id("booster_pack/" + model).toString(), rollList -> {
+            rollList.add(rolls, 1);
+        }, tiers -> {
+            tiers.add(1, 1);
+        }, colors -> {
+            colors.add(CardEntry.Color.GREEN, 1);
+            colors.add(CardEntry.Color.BLUE, 1);
+            colors.add(CardEntry.Color.YELLOW, 1);
+            colors.add(CardEntry.Color.RED, 1);
+        }, cards -> {
+            cards.add(List.of(new BoosterPackConfig.CardConfig(pool, null, null, null, null, 1.0)), 9);
+            cards.add(List.of(new BoosterPackConfig.CardConfig(pool, null, Set.of("Foil"), null, null, 1.0)), 1);
+        });
     }
 }
