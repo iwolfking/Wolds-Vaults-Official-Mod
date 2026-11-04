@@ -727,6 +727,7 @@
     "vaulthunters.accessors.VaultChestRendererAccessor",
     "vaulthunters.custom.MixinAbilityDialog",
     "vaulthunters.custom.MixinAugmentItem",
+    "vaulthunters.custom.MixinCardItemModels",
     "vaulthunters.custom.MixinChaosRenderer",
     "vaulthunters.custom.MixinClientVaultXpTracker",
     "vaulthunters.custom.MixinCrystalWorkbenchScreen",
