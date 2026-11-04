@@ -18,6 +18,12 @@
     "coreItem": "the_vault:repair_core",
     "coreBase": 2.0
   },
+  "FORGE": {
+    "fePerTickPerQuality": 500.0,
+    "secondsPerQuality": 10.0,
+    "energyCapacity": 2000000,
+    "energyInput": 100000
+  },
   "PARTS": {
     "chassis": {
       "wooden": [
