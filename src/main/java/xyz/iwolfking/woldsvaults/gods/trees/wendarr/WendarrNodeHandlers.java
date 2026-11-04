@@ -65,7 +65,8 @@ public final class WendarrNodeHandlers {
         GodNodeHandlers.register(WendarrNodes.MASTER_IMBUER, ListenerBoundHandler::new);
         GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, DeferredHandler::new);
         GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, DeferredHandler::new);
-        GodNodePreviews.register(WendarrNodes.PACED_STRIKES, GodNodePreviews.PACED_STRIKES_FORMULA,
+        GodNodePreviews.register(WendarrNodes.PACED_STRIKES,
+                () -> GodNodePreviews.pacedStrikesFormula(params(WendarrNodes.PACED_STRIKES, PacedStrikesParams.class).reference_minutes()),
                 WendarrTimeHandlers::previewPacedStrikes);
     }
 

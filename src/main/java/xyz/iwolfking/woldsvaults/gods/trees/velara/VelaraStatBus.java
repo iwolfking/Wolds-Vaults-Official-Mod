@@ -146,7 +146,7 @@ public final class VelaraStatBus {
         float healing = gearHealingEfficiency(player);
         float factor = maledictionFactor(healing);
         return new GodNodePreviews.Working(VaultGod.VELARA)
-                .formula("Thorns multiplier", "cubeRoot(1 + healing efficiency)")
+                .formula("Thorns multiplier", GodNodePreviews.MALEDICTION_FORMULA)
                 .input("healing efficiency", "your gear's healing efficiency, before this star forces it to -50%",
                         GodNodePreviews.signedPercent(healing))
                 .result("cubeRoot(" + GodNodePreviews.number(Math.max(0.0D, 1.0D + healing)) + ")", factor)

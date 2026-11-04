@@ -93,7 +93,7 @@ public final class TenosLootStats {
         float factor = lootingEngineFactor(reference, rate);
         String referenceText = GodNodePreviews.number(reference);
         return new GodNodePreviews.Working(VaultGod.TENOS)
-                .formula("Item Quantity and Rarity multiplier", "cubeRoot((" + referenceText + " + c) / " + referenceText + ")")
+                .formula("Item Quantity and Rarity multiplier", GodNodePreviews.lootingEngineFormula(reference))
                 .input("c", "your chests per minute, averaged over the last five minutes", GodNodePreviews.number(rate))
                 .result("cubeRoot(" + GodNodePreviews.number(reference + rate) + " / " + referenceText + ")", factor)
                 .inactive(!TenosNodes.isActive(player, TenosNodes.LOOTING_ENGINE))
@@ -127,7 +127,7 @@ public final class TenosLootStats {
         float factor = indianaJonesFactor(reference, disarm);
         String referenceText = GodNodePreviews.number(reference);
         return new GodNodePreviews.Working(VaultGod.TENOS)
-                .formula("Item Quantity and Rarity multiplier", "cubeRoot((" + referenceText + " + trap disarm) / " + referenceText + ")")
+                .formula("Item Quantity and Rarity multiplier", GodNodePreviews.indianaJonesFormula(reference))
                 .input("trap disarm", "your Trap Disarming from gear, in percent (negative counts as 0)", GodNodePreviews.number(disarm))
                 .result("cubeRoot(" + GodNodePreviews.number(reference + disarm) + " / " + referenceText + ")", factor)
                 .inactive(!TenosNodes.isActive(player, TenosNodes.INDIANA_JONES))

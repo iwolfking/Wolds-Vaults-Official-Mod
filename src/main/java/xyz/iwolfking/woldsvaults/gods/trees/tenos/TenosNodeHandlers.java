@@ -54,11 +54,14 @@ public final class TenosNodeHandlers {
         GodNodeHandlers.register(TenosNodes.DRILLMASTER, DrillmasterParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.WEALTHY_PATRON, WealthyPatronParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(TenosNodes.CASH_HUNTER, CashHunterParams.class, ListenerBoundHandler::new);
-        GodNodePreviews.register(TenosNodes.LOOTING_ENGINE, GodNodePreviews.LOOTING_ENGINE_FORMULA,
+        GodNodePreviews.register(TenosNodes.LOOTING_ENGINE,
+                () -> GodNodePreviews.lootingEngineFormula(params(TenosNodes.LOOTING_ENGINE, LootingEngineParams.class).reference()),
                 TenosLootStats::previewLootingEngine);
-        GodNodePreviews.register(TenosNodes.INDIANA_JONES, GodNodePreviews.INDIANA_JONES_FORMULA,
+        GodNodePreviews.register(TenosNodes.INDIANA_JONES,
+                () -> GodNodePreviews.indianaJonesFormula(params(TenosNodes.INDIANA_JONES, IndianaJonesParams.class).reference()),
                 TenosLootStats::previewIndianaJones);
-        GodNodePreviews.register(TenosNodes.SACK_OF_MOBS, GodNodePreviews.SACK_OF_MOBS_FORMULA,
+        GodNodePreviews.register(TenosNodes.SACK_OF_MOBS,
+                () -> GodNodePreviews.sackOfMobsFormula(params(TenosNodes.SACK_OF_MOBS, SackOfMobsParams.class).log_base()),
                 TenosSackOfMobs::preview);
     }
 

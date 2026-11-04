@@ -101,7 +101,7 @@ public final class WendarrTimeHandlers {
         float factor = pacedStrikesFactor(reference, minutes);
         String referenceText = GodNodePreviews.number(reference);
         return new GodNodePreviews.Working(VaultGod.WENDARR)
-                .formula("Damage multiplier", "sqrt((" + referenceText + " + t) / " + referenceText + ")")
+                .formula("Damage multiplier", GodNodePreviews.pacedStrikesFormula(reference))
                 .input("t", "the time left on your vault, in minutes",
                         vault == null ? "0 (not in a vault)" : GodNodePreviews.number(minutes))
                 .result("sqrt(" + GodNodePreviews.number(reference + minutes) + " / " + referenceText + ")", factor)

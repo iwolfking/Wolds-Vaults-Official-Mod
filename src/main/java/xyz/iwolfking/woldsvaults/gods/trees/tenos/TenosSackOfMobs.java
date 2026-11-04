@@ -54,7 +54,7 @@ public final class TenosSackOfMobs {
         float factor = factor(logBase, kills);
         String baseText = GodNodePreviews.number(logBase);
         return new GodNodePreviews.Working(VaultGod.TENOS)
-                .formula("Damage multiplier", "log" + baseText + "(" + baseText + " + kills)")
+                .formula("Damage multiplier", GodNodePreviews.sackOfMobsFormula(logBase))
                 .input("kills", "kills this vault while holding a vault sack", String.valueOf(kills))
                 .result("log" + baseText + "(" + GodNodePreviews.number(logBase + kills) + ")", factor)
                 .inactive(!TenosNodes.isActive(player, TenosNodes.SACK_OF_MOBS))

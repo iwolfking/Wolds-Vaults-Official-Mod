@@ -50,7 +50,7 @@ public final class VelaraNodeHandlers {
         GodNodeHandlers.register(VelaraNodes.SANITATION, SanitationParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(VelaraNodes.PRESENCE, PresenceParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(VelaraNodes.HEALING_FLOW, HealingFlowParams.class, ListenerBoundHandler::new);
-        GodNodePreviews.register(VelaraNodes.MALEDICTION, GodNodePreviews.MALEDICTION_FORMULA,
+        GodNodePreviews.register(VelaraNodes.MALEDICTION, () -> GodNodePreviews.MALEDICTION_FORMULA,
                 VelaraStatBus::previewMalediction);
     }
 
