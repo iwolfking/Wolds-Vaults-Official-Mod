@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -120,6 +122,24 @@ public class WoldTexFX {
         sCmp.withStyle(newStyle);
 
         return pCmp.append(cmp).append(sCmp);
+    }
+
+    public static MutableComponent center(List<Component> tooltip, MutableComponent component) {
+        Font font = Minecraft.getInstance().font;
+        int tooltipWidth = 0;
+        for (Component existingLine : tooltip) {
+            tooltipWidth = Math.max(tooltipWidth, font.width(existingLine));
+        }
+        final int centeredWidth = tooltipWidth;
+        int textWidth = font.width(component);
+        int spaceWidth = Math.max(1, font.width(" "));
+        int leadingSpaces = Math.max(0, (centeredWidth - textWidth) / (2 * spaceWidth));
+        StringBuilder padding = new StringBuilder();
+        for (int i = 0; i < leadingSpaces; i++) {
+            padding.append(' ');
+        }
+
+        return new TextComponent(padding.toString()).append(component);
     }
 
     //base fancy reader
