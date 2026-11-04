@@ -309,7 +309,7 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 jsonElements.add(JsonDescription.simple("Equip a "));
                 jsonElements.add(JsonDescription.simple("god charm ", "$qhighlight"));
                 jsonElements.add(JsonDescription.simple("and reach "));
-                jsonElements.add(JsonDescription.simple("god level 5 ", "$level"));
+                jsonElements.add(JsonDescription.simple("god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + " ", "$level"));
                 jsonElements.add(JsonDescription.simple("with that god, and this becomes their ultimate. Swap charms and it changes with you."));
                 jsonElements.add(castAbility());
             }, current -> {
@@ -356,7 +356,7 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 jsonElements.add(JsonDescription.simple("every runner in it and grants them "));
                 jsonElements.add(JsonDescription.simple("resistance", "$resistance"));
                 jsonElements.add(JsonDescription.simple(".\n\nIt also raises downed teammates, once per person per vault.\n\n"));
-                jsonElements.add(JsonDescription.simple("Granted by Velara at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(JsonDescription.simple("Granted by Velara at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
                 jsonElements.add(castAbility());
             }, current -> {
                 current.add("heal");
@@ -378,7 +378,7 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 jsonElements.add(JsonDescription.simple(", instantly discovering every room in a "));
                 jsonElements.add(JsonDescription.simple("radius ", "$radius"));
                 jsonElements.add(JsonDescription.simple("around you, however far away they are.\n\n"));
-                jsonElements.add(JsonDescription.simple("Granted by Tenos at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(JsonDescription.simple("Granted by Tenos at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
                 jsonElements.add(castAbility());
             }, current -> {
                 current.add("radius");
@@ -400,7 +400,7 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 jsonElements.add(JsonDescription.simple("and reflexes sharp enough to "));
                 jsonElements.add(JsonDescription.simple("dodge ", "$chance"));
                 jsonElements.add(JsonDescription.simple("almost anything.\n\n"));
-                jsonElements.add(JsonDescription.simple("Granted by Wendarr at god level 5. Its cooldown cannot be reduced."));
+                jsonElements.add(JsonDescription.simple("Granted by Wendarr at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
                 jsonElements.add(castAbility());
             }, current -> {
                 current.add("timerStretch");
@@ -489,37 +489,6 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 next.add("surgingMana");
                 next.add("buffDuration");
                 next.add("fastClear");
-                next.add("cooldown");
-                next.add("manaCost");
-            });
-        });
-
-        add("greed_battle_cry", builder -> {
-            builder.addDescription("Battle_Cry_Spectral_Strike", jsonElements -> {
-                jsonElements.add(JsonDescription.simple("Drain the essence of mobs around you, gathering "));
-                jsonElements.add(JsonDescription.simple("Battle Cry stacks ", "$maxStacks"));
-                jsonElements.add(JsonDescription.simple("and release an "));
-                jsonElements.add(JsonDescription.simple("amount ", "$stacksUsedPerHit"));
-                jsonElements.add(JsonDescription.simple("of stacks on each qualifying hit: swings and fang hits add "));
-                jsonElements.add(JsonDescription.simple("ability power ", "$abilityPowerPerStack"));
-                jsonElements.add(JsonDescription.simple("(a share of your base ability power per stack) as damage, and ability hits gain the same share per stack.\nThe stacks will fizzle after a "));
-                jsonElements.add(JsonDescription.simple("duration of time ", "$duration"));
-                jsonElements.add(JsonDescription.simple("if not used.\n\n"));
-                jsonElements.add(JsonDescription.simple("✴ Cast Ability ", "$castType"));
-            }, current -> {
-                current.add("adjustedRadius");
-                current.add("adjustedDuration");
-                current.add("abilityPowerPerStack");
-                current.add("maxStacks");
-                current.add("stacksUsedPerHit");
-                current.add("cooldown");
-                current.add("manaCost");
-            }, next -> {
-                next.add("adjustedRadius");
-                next.add("adjustedDuration");
-                next.add("abilityPowerPerStack");
-                next.add("maxStacks");
-                next.add("stacksUsedPerHit");
                 next.add("cooldown");
                 next.add("manaCost");
             });

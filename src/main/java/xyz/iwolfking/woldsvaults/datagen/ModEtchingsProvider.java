@@ -1,19 +1,15 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.VaultMod;
-import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.BooleanFlagGenerator;
 import iskallia.vault.gear.attribute.config.FloatAttributeGenerator;
 import iskallia.vault.gear.attribute.config.IntegerAttributeGenerator;
-import iskallia.vault.gear.attribute.config.WeightedListAttributeGenerator;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractEtchingProvider;
 import xyz.iwolfking.vhapi.api.util.gear.GearModifierRegistryHelper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-
-import java.util.List;
 
 public class ModEtchingsProvider extends AbstractEtchingProvider {
     protected ModEtchingsProvider(DataGenerator generator) {
@@ -200,28 +196,5 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(8);
             });
         });
-
-        add("greed_etchings", builder -> {
-            builder.addEtching(VaultMod.id("etching_lucky_cooldown_reset"), "Lucky Reset", "<gray>Proccing <#6DF5A3>Lucky Hit <gray>reduces the remaining cooldown of <yellow>%svalue/ability <gray>by <yellow>10%<gray>, at most once per ability cast", 16777215, null, etchingEntryBuilder -> {
-                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
-                    stringBasicListBuilder.add("HELMET");
-                });
-                etchingEntryBuilder.attribute(VaultMod.id("etching_lucky_cooldown_reset"), "EtchingGroup", VaultMod.id("etching_lucky_cooldown_reset"), tierBasicListBuilder -> {
-                    WeightedList<String> abilities = new WeightedList<>();
-                    for (String ability : LUCKY_RESET_ABILITIES) {
-                        abilities.add(ability, 1.0);
-                    }
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(12, -1, 100, 1, new WeightedListAttributeGenerator.Config<>(abilities)));
-                }).minGreedTier(12);
-            });
-        });
     }
-
-    private static final List<String> LUCKY_RESET_ABILITIES = List.of(
-            "Nova_Slow", "Nova_Base", "Nova_Dot", "Dash_Base", "Dash_Damage", "Dash_Warp", "Heal_Base", "Heal_Group",
-            "Heal_Cleanse", "Totem", "Totem_Player_Damage", "Totem_Mana_Regen", "Totem_Mob_Damage", "Fireball_Base",
-            "Fireball_Volley", "Mana_Shield_Implode", "Hunter_Base", "Javelin_Sight", "Ice_Bolt_Blast", "Ghost_Walk",
-            "Ghost_Walk_Spirit", "Expunge", "Concentrate_Base", "Colossus", "Sneaky_Getaway", "Mana_Barrier",
-            "Fangs_Base", "Fangs_Maw"
-    );
 }

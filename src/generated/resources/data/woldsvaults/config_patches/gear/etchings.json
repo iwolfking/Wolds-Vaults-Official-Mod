@@ -1,0 +1,24 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_lucky_cooldown_reset",
+        "description"
+      ],
+      "value": "<gray>Proccing <#6DF5A3>Lucky Hit <gray>reduces the remaining cooldown of <yellow>%svalue/ability <gray>by <yellow>10%<gray>, at most once per ability cast"
+    },
+    {
+      "op": "set",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_lucky_cooldown_reset",
+        "typeGroups"
+      ],
+      "value": [
+        "HELMET"
+      ]
+    }
+  ]
+}

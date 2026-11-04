@@ -1,0 +1,24 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_aoe_reduce"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_cooldown"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "MOD_GEAR_ATTRIBUTE_DESCRIPTIONS",
+        "the_vault:healing_effectiveness"
+      ],
+      "value": "Your §beffectiveness§7 of §bhealing§7 through §aany method except Leech§7"
+    },
+    {
+      "op": "set",
+      "path": [
+        "MOD_GEAR_ATTRIBUTE_DESCRIPTIONS",
+        "the_vault:execution_damage"
+      ],
+      "value": "Hitting a target at or below this §bpercentage§7 of its max health kills it; bosses use half"
+    },
+    {
+      "op": "add",
+      "path": [
+        "MOD_GEAR_ATTRIBUTE_DESCRIPTIONS",
+        "the_vault:thorns_damage_flat_percentile"
+      ],
+      "value": "Your §bpercentage increase§7 of your flat §aThorns§7 damage"
+    }
+  ]
+}

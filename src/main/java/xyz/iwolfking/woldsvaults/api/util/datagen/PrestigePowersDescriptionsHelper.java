@@ -19,7 +19,7 @@ import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 public class PrestigePowersDescriptionsHelper {
 
     public static void generateDescriptions(AbstractSkillDescriptionsProvider.Builder builder, SkillDescriptionsConfig prestigeDescriptions) {
-        ModConfigs.PRESTIGE_POWERS = ModPrestigePowersProvider.withOverlay(new PrestigePowersConfig().readConfig());
+        ModConfigs.PRESTIGE_POWERS = ModPrestigePowersProvider.withAdditions(new PrestigePowersConfig().readConfig());
         ModConfigs.PRESTIGE_POWERS.tree.skills.forEach(skill -> {
                 createDescriptionsForPrestige(skill, prestigeDescriptions, builder);
         });

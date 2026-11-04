@@ -691,7 +691,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             hyperMarker(modifierBuilder, WoldsVaults.id("omega_crate_tier"), "Omega Crate Tier", "#4dffd2",
                     "Injects a set of Omega rewards into the completion crate", WoldsVaults.id("gui/modifiers/omega_crate_tier"));
             hyperMarker(modifierBuilder, WoldsVaults.id("greedy_crate_tier"), "Greedy Crate Tier", "#ffd24d",
-                    "+100% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
+                    "+" + Math.round(ModHyperObjectiveProvider.table().greedyCoinBonusPerStack * 100) + "% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
             empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
                     "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
                     WoldsVaults.id("gui/modifiers/radar"));

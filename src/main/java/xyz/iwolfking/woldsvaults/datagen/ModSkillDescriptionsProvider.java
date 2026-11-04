@@ -312,11 +312,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("execute ", "#d80000"));
                 description.add(JsonDescription.text("targets: a lucky hit on a target at or below your execute threshold of its "));
                 description.add(JsonDescription.text("max health ", "red"));
-                description.add(JsonDescription.text("kills it outright. Adds to the execute threshold from your gear. Bosses take half the threshold."));
+                description.add(JsonDescription.text("kills it outright. Adds to the execute threshold from your gear. Bosses take " + ModConfigPatchesProvider.bossThresholdShare() + " the threshold."));
                 description.add(JsonDescription.text("\n\n1 "));
-                description.add(JsonDescription.text("+4% execute threshold", "#d80000"));
+                description.add(JsonDescription.text("+" + percent((float) ModConfigPatchesProvider.executionThreshold(0)) + " execute threshold", "#d80000"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+2% execute threshold", "#d80000", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+" + percent((float) (ModConfigPatchesProvider.executionThreshold(1) - ModConfigPatchesProvider.executionThreshold(0))) + " execute threshold", "#d80000", description);
             });
 
             builder.addDescription("Mind_Meld", description -> {
@@ -394,7 +394,6 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getBuiltInPrestigePowers());
         });
 
-        add(GREED_BASE_TEXTS_FILE, ModSkillDescriptionsProvider::greedBaseTexts);
 
         add("wolds_builtin_expertises_and_overrides", builder -> {
             ExpertisesDescriptionHelper.generateDescriptions(builder, getExpertises());
@@ -701,38 +700,12 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .build());
     }
 
-    public static final String GREED_BASE_TEXTS_FILE = "greed_base_texts";
-
-    /** Base-mod skill texts the greed rework rewrites without a WV table behind them. */
-    public static void greedBaseTexts(Builder builder) {
-        builder.addDescription("BerserkPower", jsonElements -> {
-            jsonElements.add(JsonDescription.text("Increases your "));
-            jsonElements.add(JsonDescription.text("Attack Damage", "#B22222"));
-            jsonElements.add(JsonDescription.text(" by "));
-            jsonElements.add(JsonDescription.text("5%", "#B22222"));
-            jsonElements.add(JsonDescription.text(" every time you kill a mob, this effect can stack "));
-            jsonElements.add(JsonDescription.text("20 times", "#FFD700"));
-            jsonElements.add(JsonDescription.text(" and lasts for "));
-            jsonElements.add(JsonDescription.text("20 seconds", "#FFD700"));
-        });
-    }
-
-    /** The skill description config as VHAPI leaves it after applying {@link #greedBaseTexts} to {@code base}. */
-    public static SkillDescriptionsConfig withGreedBaseTexts(SkillDescriptionsConfig base) {
-        Builder builder = new Builder();
-        greedBaseTexts(builder);
-        HashMap<String, JsonElement> texts = ((SkillDescriptionsConfigAccessor) builder.build()).getDescriptions();
-        texts.values().forEach(ModConfigs.COLORS::replaceColorStrings);
-        ((SkillDescriptionsConfigAccessor) base).getDescriptions().putAll(texts);
-        return base;
-    }
-
     private static PrestigePowersConfig prestigePowers;
 
     /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
     private static <T> T prestigeTier(String skillId, Class<T> type) {
         if (prestigePowers == null) {
-            prestigePowers = ModPrestigePowersProvider.withOverlay(new PrestigePowersConfig().readConfig());
+            prestigePowers = ModPrestigePowersProvider.withAdditions(new PrestigePowersConfig().readConfig());
         }
         for (Skill skill : prestigePowers.tree.skills) {
             if (skillId.equals(skill.getId()) && skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty()

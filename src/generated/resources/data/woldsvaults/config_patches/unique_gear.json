@@ -1,0 +1,76 @@
+{
+  "ops": [
+    {
+      "op": "append",
+      "path": [
+        "registry",
+        "the_vault:stormcrown",
+        "modifierIdentifiers",
+        "PREFIX"
+      ],
+      "value": "the_vault:u_storm_tracking"
+    },
+    {
+      "op": "append",
+      "path": [
+        "registry",
+        "the_vault:warbound_helmet",
+        "modifierIdentifiers",
+        "PREFIX"
+      ],
+      "value": "the_vault:u_javelin_multi_hit"
+    },
+    {
+      "op": "append",
+      "path": [
+        "registry",
+        "the_vault:warbound_helmet",
+        "modifierIdentifiers",
+        "SUFFIX"
+      ],
+      "value": "the_vault:u_splitting_javelins"
+    },
+    {
+      "op": "append",
+      "path": [
+        "registry",
+        "the_vault:sweetheart",
+        "modifierIdentifiers",
+        "SUFFIX"
+      ],
+      "value": "the_vault:u_health_boost"
+    },
+    {
+      "op": "append",
+      "path": [
+        "registry",
+        "the_vault:crashguards",
+        "modifierIdentifiers",
+        "SUFFIX"
+      ],
+      "value": "the_vault:u_crashwave"
+    },
+    {
+      "op": "set",
+      "path": [
+        "registry",
+        "the_vault:inferno_reach",
+        "name"
+      ],
+      "value": "Steel Inferno"
+    },
+    {
+      "op": "set",
+      "path": [
+        "registry",
+        "the_vault:inferno_reach",
+        "modifierIdentifiers",
+        "SUFFIX",
+        {
+          "$value": "the_vault:fireball_aoe_increase"
+        }
+      ],
+      "value": "the_vault:u_steel_inferno"
+    }
+  ]
+}

@@ -5,47 +5,12 @@ import com.google.gson.JsonObject;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.TieredSkill;
-import xyz.iwolfking.vhapi.mixin.accessors.TieredSkillAccessor;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-/**
- * Builds skills for VHAPI skill-tree overlays and applies those overlays to a base tree the same way VHAPI's
- * {@code TalentConfigLoader} and {@code PrestigePowersConfigLoader} do, so datagen text can read the merged tree.
- */
+/** Builds skills for VHAPI skill-tree overlays through the base mod's skill adapter. */
 public final class SkillOverlay {
     private SkillOverlay() {
-    }
-
-    /**
-     * Swaps the tiers of every top-level tiered skill in {@code base} whose id an overlay skill shares, as VHAPI's
-     * "replace" files do; talents also take the overlay's max learnable tier, prestige powers keep their own.
-     */
-    public static void replaceTiers(List<Skill> base, List<? extends Skill> overlay, boolean withMaxLearnableTier) {
-        List<Skill> targets = new ArrayList<>();
-        for (Skill replacement : overlay) {
-            first(base, replacement.getId()).ifPresent(targets::add);
-        }
-        for (Skill skill : base) {
-            if (targets.contains(skill) && skill instanceof TieredSkill tiered) {
-                TieredSkill source = (TieredSkill) first(overlay, skill.getId()).orElseThrow();
-                ((TieredSkillAccessor) tiered).setTiers(source.getTiers());
-                if (withMaxLearnableTier) {
-                    ((TieredSkillAccessor) tiered).setMaxLearnableTier(source.getMaxLearnableTier());
-                }
-            }
-        }
-    }
-
-    private static Optional<Skill> first(List<? extends Skill> skills, String id) {
-        for (Skill skill : skills) {
-            if (skill.getId().equals(id)) {
-                return Optional.of(skill);
-            }
-        }
-        return Optional.empty();
     }
 
     /** A tiered skill read through the base mod's skill adapter, so each tier is the registered type's own object. */

@@ -42,8 +42,6 @@ import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
-import xyz.iwolfking.woldsvaults.datagen.ModSkillDescriptionsProvider;
-import xyz.iwolfking.woldsvaults.datagen.ModTalentsProvider;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.*;
 
 import java.util.Random;
@@ -51,13 +49,13 @@ import java.util.function.Consumer;
 
 public class TalentDescriptionsHelper {
 
-    private static boolean mergedConfigsRead;
+    private static boolean patchedConfigsRead;
 
     public static void appendOverlevelDescription(String skillId, AbstractSkillDescriptionsProvider.Builder builder, String action, String overlevelBonusDesc, String descriptionColor) {
-        if(!mergedConfigsRead) {
-            ModConfigs.TALENTS = ModTalentsProvider.withOverlay(new TalentsConfig().readConfig());
-            ModConfigs.SKILL_DESCRIPTIONS = ModSkillDescriptionsProvider.withGreedBaseTexts(new SkillDescriptionsConfig().readConfig());
-            mergedConfigsRead = true;
+        if(!patchedConfigsRead) {
+            ModConfigs.TALENTS = new TalentsConfig().readConfig();
+            ModConfigs.SKILL_DESCRIPTIONS = new SkillDescriptionsConfig().readConfig();
+            patchedConfigsRead = true;
         }
 
         Skill skill = ModConfigs.TALENTS.tree.getForId(skillId).orElse(null);

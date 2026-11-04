@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The greed rework's overlay on the base mod's {@code prestige_powers.json}. VHAPI's prestige loader appends the
- * powers of the additions file and swaps the tiers of each power in the "replace" file into the base power of the
- * same id.
+ * The prestige powers the greed rework adds to the base mod's {@code prestige_powers.json}; VHAPI's prestige loader
+ * appends them. The rework's edits to base powers are config patches in {@link ModConfigPatchesProvider}.
  */
 public class ModPrestigePowersProvider extends AbstractPrestigePowerProvider {
     public static final String ADDITIONS_FILE = "greed_powers";
-    public static final String REPLACE_FILE = "greed_powers_replace";
 
     protected ModPrestigePowersProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
@@ -28,27 +26,6 @@ public class ModPrestigePowersProvider extends AbstractPrestigePowerProvider {
     @Override
     public void registerConfigs() {
         addConfig(ADDITIONS_FILE, config(additions()));
-        addConfig(REPLACE_FILE, config(replacements()));
-    }
-
-    /** Base prestige powers whose tiers the greed rework replaces. */
-    public static List<Skill> replacements() {
-        return List.of(
-                power("Toolsmith", "Echoing Hammersmith", tier("tool_capacity_power").with("capacityIncrease", 50).costs(0, 100, 1, 0).greedTier(2, 2)),
-                power("BlackMarketRerolls", "Whispers of the Market", tier("black_market_rerolls_power").with("costMultiplier", 3).costs(0, 400, 1, 0).greedTier(4, 4).id("black_market_rerolls_1")),
-                power("CrateTier", "Bountiful Crates", tier("crate_tier_power").with("extraTier", 1).costs(0, 600, 1, 0).greedTier(5, 5).id("crate_tier_1")),
-                power("SuperCrystals", "Crystalweaver's Gift", tier("super_crystals_power").with("extraCapacity", 75).costs(0, 800, 1, 0).greedTier(6, 6).id("super_crystals_1")),
-                power("NoTrinketUses", "Immortal Trinkets", tier("no_uses_power").with("itemId", "the_vault:trinket").costs(0, 1200, 1, 0).greedTier(8, 8).id("trinket_uses_1")),
-                power("StepUpPower", "Stride of the Frog", tier("activatable_trinket_power").with("trinketEffectId", "the_vault:high_heels").costs(0, 200, 1, 0).greedTier(3, 3).id("step_up_1")),
-                power("BlackMarketer", "The Black Marketer", tier("black_marketer_power").costs(0, 1600, 1, 0).greedTier(10, 10).id("black_marketer_1")),
-                power("PrismaticPouch", "Prism Possessor", tier("crafting_recipe_power").with("recipeUnlock", "woldsvaults:prismatic_trinket_pouch").costs(0, 2400, 1, 0).greedTier(13, 13).id("prism_possessor_1")),
-                power("Fruity", "Bloom of Time", tier("gear_attribute_power").with("attribute", "the_vault:fruit_effectiveness").with("value", 0.5F).costs(0, 2000, 1, 0).greedTier(12, 12).id("fruity_1")),
-                power("MasterfulPower", "Aspect of Mastery", tier("masterful_power").costs(0, 2400, 1, 0).greedTier(13, 13).id("masterful_power_1")),
-                power("ShieldOfLastingGuard", "Shield of Lasting Guard", tier("gear_attribute_power").with("attribute", "the_vault:block_cap").with("value", 0.1F).costs(0, 2800, 1, 0).greedTier(14, 14).id("shield_of_lasting_guard_1")),
-                power("BarrierOfResilience", "Barrier of Resilience", tier("gear_attribute_power").with("attribute", "the_vault:resistance_cap").with("value", 0.05F).costs(0, 2400, 1, 0).greedTier(13, 13).id("barrier_of_resilience_1")),
-                power("WeaverOfTime", "Weaver of Time", tier("gear_attribute_power").with("attribute", "the_vault:cooldown_reduction_cap").with("value", 0.05F).costs(0, 2800, 1, 0).greedTier(14, 14).id("weaver_of_time_1")),
-                power("HealthIncrease", "Blessing of the Dryad", tier("gear_attribute_power").with("attribute", "the_vault:health").with("value", 30.0F).costs(0, 1800, 1, 0).greedTier(11, 11).id("health_increase_1"))
-        );
     }
 
     /** Prestige powers the greed rework adds, in tree order. */
@@ -69,9 +46,8 @@ public class ModPrestigePowersProvider extends AbstractPrestigePowerProvider {
         );
     }
 
-    /** The prestige config as VHAPI leaves it after applying this provider's files to {@code base}. */
-    public static PrestigePowersConfig withOverlay(PrestigePowersConfig base) {
-        SkillOverlay.replaceTiers(base.tree.skills, replacements(), false);
+    /** The prestige config as VHAPI leaves it after appending this provider's powers to {@code base}. */
+    public static PrestigePowersConfig withAdditions(PrestigePowersConfig base) {
         base.tree.skills.addAll(additions());
         return base;
     }

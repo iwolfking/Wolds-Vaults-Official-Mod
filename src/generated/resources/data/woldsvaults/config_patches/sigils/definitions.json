@@ -1,0 +1,95 @@
+{
+  "ops": [
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_70"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 6.0
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_75"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 6.5
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_80"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 7.0
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_85"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 7.5
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_90"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 8.0
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_95"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 8.5
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "sigils",
+        "ancient_100"
+      ],
+      "value": {
+        "displayName": "Ancient",
+        "color": "#FFA500",
+        "modelId": "the_vault:sigil/legend_sigil#inventory",
+        "difficulty": 9.0
+      }
+    }
+  ]
+}
