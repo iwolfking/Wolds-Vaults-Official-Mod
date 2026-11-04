@@ -10,52 +10,12 @@
         ],
         "tiers": [
           {
-            "minLevel": 0,
-            "maxLevel": 40,
-            "weight": 10,
-            "value": {
-              "min": 3425,
-              "max": 4225,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 8,
-            "maxLevel": 70,
-            "weight": 10,
-            "value": {
-              "min": 4226,
-              "max": 5225,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 25,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 5226,
-              "max": 6325,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 50,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 6826,
-              "max": 8325,
-              "step": 1
-            }
-          },
-          {
             "minLevel": 70,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 8576,
-              "max": 10375,
+              "min": 12000,
+              "max": 16000,
               "step": 1
             }
           }
@@ -70,7 +30,7 @@
           {
             "minLevel": 0,
             "maxLevel": -1,
-            "weight": 20,
+            "weight": 50,
             "value": {
               "flag": true
             }
@@ -86,41 +46,9 @@
           {
             "minLevel": 0,
             "maxLevel": -1,
-            "weight": 80,
+            "weight": 50,
             "value": {
               "flag": false
-            }
-          }
-        ]
-      },
-      {
-        "attribute": "the_vault:living",
-        "group": "BaseLiving",
-        "identifier": "the_vault:base_no_living",
-        "tags": [],
-        "tiers": [
-          {
-            "minLevel": 0,
-            "maxLevel": -1,
-            "weight": 98,
-            "value": {
-              "flag": false
-            }
-          }
-        ]
-      },
-      {
-        "attribute": "the_vault:living",
-        "group": "BaseLiving",
-        "identifier": "the_vault:base_living",
-        "tags": [],
-        "tiers": [
-          {
-            "minLevel": 0,
-            "maxLevel": -1,
-            "weight": 2,
-            "value": {
-              "flag": true
             }
           }
         ]
@@ -135,111 +63,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 15,
-            "weight": 10,
-            "value": {
-              "min": 9,
-              "max": 15,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 10,
-            "maxLevel": 47,
-            "weight": 10,
-            "value": {
-              "min": 16,
-              "max": 24,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 16,
-            "maxLevel": 57,
-            "weight": 10,
-            "value": {
-              "min": 24,
-              "max": 32,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 25,
-            "maxLevel": 63,
-            "weight": 10,
-            "value": {
-              "min": 32,
-              "max": 42,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 48,
-            "maxLevel": 82,
-            "weight": 10,
-            "value": {
-              "min": 42,
-              "max": 55,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 58,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 55,
-              "max": 70,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 68,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 70,
-              "max": 80,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 80,
-              "max": 90,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 90,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 90,
-              "max": 105,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 95,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 105,
-              "max": 110,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 100,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 110,
-              "max": 120,
+              "min": 100,
+              "max": 180,
               "step": 1
             }
           }
@@ -252,22 +80,12 @@
         "tags": [],
         "tiers": [
           {
-            "minLevel": 0,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": -2.4,
-              "max": -2.3,
-              "step": 0.01
-            }
-          },
-          {
             "minLevel": 50,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": -2.3,
-              "max": -2.2,
+              "min": -2.24,
+              "max": -2.19,
               "step": 0.01
             }
           }
@@ -313,68 +131,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Fireball_Base",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 60.0,
-                "max": 100.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Fireball_Base",
-              "level": {
-                "step": 1,
-                "min": 3,
-                "max": 7
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 55.0,
-                "max": 95.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Fireball_Base",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 9
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 90.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Fireball_Base",
               "level": {
                 "step": 1,
-                "min": 6,
-                "max": 12
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -393,68 +157,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Nova_Base",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 40.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Nova_Base",
-              "level": {
-                "step": 1,
-                "min": 3,
-                "max": 7
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 40.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Nova_Base",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 9
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 35.0,
-                "max": 75.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Nova_Base",
               "level": {
                 "step": 1,
-                "min": 6,
-                "max": 12
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -473,68 +183,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Mana_Shield_Implode",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Mana_Shield_Implode",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 8
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Mana_Shield_Implode",
-              "level": {
-                "step": 1,
-                "min": 8,
-                "max": 11
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Mana_Shield_Implode",
               "level": {
                 "step": 1,
-                "min": 9,
-                "max": 16
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -553,68 +209,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Arcane_Prism",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 60.0,
-                "max": 100.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Arcane_Prism",
-              "level": {
-                "step": 1,
-                "min": 3,
-                "max": 7
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 55.0,
-                "max": 95.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Arcane_Prism",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 9
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 90.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Arcane_Prism",
               "level": {
                 "step": 1,
-                "min": 6,
-                "max": 12
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -633,68 +235,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Orbs",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Orbs",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 8
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Orbs",
-              "level": {
-                "step": 1,
-                "min": 8,
-                "max": 11
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 50.0,
-                "max": 80.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Chain_Lightning_Orbs",
               "level": {
                 "step": 1,
-                "min": 9,
-                "max": 16
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -713,68 +261,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Charged_Bolts",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 40.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Charged_Bolts",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 8
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 35.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Chain_Lightning_Charged_Bolts",
-              "level": {
-                "step": 1,
-                "min": 8,
-                "max": 11
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 30.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Chain_Lightning_Charged_Bolts",
               "level": {
                 "step": 1,
-                "min": 9,
-                "max": 16
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -793,68 +287,14 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 30,
-            "weight": 4,
-            "value": {
-              "abilityId": "Necromancy_Base",
-              "level": {
-                "step": 1,
-                "min": 1,
-                "max": 4
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 40.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 56,
-            "weight": 4,
-            "value": {
-              "abilityId": "Necromancy_Base",
-              "level": {
-                "step": 1,
-                "min": 5,
-                "max": 8
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 35.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 54,
-            "maxLevel": 90,
-            "weight": 4,
-            "value": {
-              "abilityId": "Necromancy_Base",
-              "level": {
-                "step": 1,
-                "min": 8,
-                "max": 11
-              },
-              "chargeTicks": {
-                "step": 10.0,
-                "min": 30.0,
-                "max": 70.0
-              }
-            }
-          },
-          {
-            "minLevel": 89,
             "maxLevel": -1,
             "weight": 4,
             "value": {
               "abilityId": "Necromancy_Base",
               "level": {
                 "step": 1,
-                "min": 9,
-                "max": 16
+                "min": 16,
+                "max": 30
               },
               "chargeTicks": {
                 "step": 10.0,
@@ -874,7 +314,7 @@
           {
             "minLevel": 0,
             "maxLevel": -1,
-            "weight": 20,
+            "weight": 24,
             "value": {
               "flag": true
             }
@@ -911,51 +351,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 49,
-            "weight": 10,
-            "value": {
-              "min": 2,
-              "max": 6,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 25,
-            "maxLevel": 74,
-            "weight": 10,
-            "value": {
-              "min": 7,
-              "max": 12,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 50,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 12,
-              "max": 17,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 75,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 17,
-              "max": 25,
-              "step": 1
-            }
-          },
-          {
-            "minLevel": 100,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 25,
-              "max": 30,
+              "min": 38,
+              "max": 45,
               "step": 1
             }
           },
@@ -964,8 +364,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 30,
-              "max": 40,
+              "min": 45,
+              "max": 60,
               "step": 1
             }
           },
@@ -974,8 +374,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 40,
-              "max": 65,
+              "min": 60,
+              "max": 98,
               "step": 1
             }
           }
@@ -991,41 +391,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 86,
-            "weight": 10,
-            "value": {
-              "min": 0.04,
-              "max": 0.07,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 42,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.08,
-              "max": 0.12,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 68,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.13,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 87,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.2,
+              "min": 0.24,
+              "max": 0.3,
               "step": 0.01
             }
           },
@@ -1034,8 +404,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.21,
-              "max": 0.25,
+              "min": 0.32,
+              "max": 0.38,
               "step": 0.01
             }
           },
@@ -1044,8 +414,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.39,
+              "max": 0.45,
               "step": 0.01
             }
           }
@@ -1056,7 +426,7 @@
         "group": "ModSoulChance",
         "identifier": "the_vault:mod_soul_chance",
         "tags": [
-          "focusSoulQuantity"
+          "focusSoulChance"
         ],
         "tiers": [
           {
@@ -1064,38 +434,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.1,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 28,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.3,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 45,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.31,
-              "max": 0.4,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 75,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 0.5,
+              "max": 0.75,
               "step": 0.01
             }
           },
@@ -1104,8 +444,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.51,
-              "max": 0.7,
+              "min": 0.76,
+              "max": 1.0,
               "step": 0.01
             }
           },
@@ -1114,8 +454,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.71,
-              "max": 1.0,
+              "min": 1.0,
+              "max": 1.25,
               "step": 0.01
             }
           }
@@ -1131,41 +471,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 62,
-            "weight": 10,
-            "value": {
-              "min": 0.04,
-              "max": 0.08,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 40,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.09,
-              "max": 0.14,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 63,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.15,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 89,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
+              "min": 0.32,
+              "max": 0.38,
               "step": 0.01
             }
           },
@@ -1174,8 +484,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
-              "max": 0.34,
+              "min": 0.39,
+              "max": 0.51,
               "step": 0.01
             }
           },
@@ -1184,8 +494,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.35,
-              "max": 0.45,
+              "min": 0.53,
+              "max": 0.68,
               "step": 0.01
             }
           }
@@ -1201,41 +511,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 62,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 22,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.18,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 43,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.19,
-              "max": 0.26,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.27,
-              "max": 0.35,
+              "min": 0.41,
+              "max": 0.53,
               "step": 0.01
             }
           },
@@ -1244,8 +524,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.36,
-              "max": 0.5,
+              "min": 0.54,
+              "max": 0.75,
               "step": 0.01
             }
           },
@@ -1254,8 +534,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.51,
-              "max": 0.7,
+              "min": 0.77,
+              "max": 1.05,
               "step": 0.01
             }
           }
@@ -1271,41 +551,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 62,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 22,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 43,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.22,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.23,
-              "max": 0.27,
+              "min": 0.35,
+              "max": 0.41,
               "step": 0.01
             }
           },
@@ -1314,8 +564,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.28,
-              "max": 0.34,
+              "min": 0.42,
+              "max": 0.51,
               "step": 0.01
             }
           },
@@ -1324,8 +574,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.35,
-              "max": 0.45,
+              "min": 0.53,
+              "max": 0.68,
               "step": 0.01
             }
           }
@@ -1341,41 +591,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 79,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 36,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 62,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.75,
+              "max": 1.25,
               "step": 0.01
             }
           },
@@ -1384,8 +604,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.31,
-              "max": 0.4,
+              "min": 1.4,
+              "max": 1.8,
               "step": 0.01
             }
           },
@@ -1394,8 +614,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 1.8,
+              "max": 2.4,
               "step": 0.01
             }
           }
@@ -1411,41 +631,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 79,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 36,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 62,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.75,
+              "max": 1.25,
               "step": 0.01
             }
           },
@@ -1454,8 +644,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.31,
-              "max": 0.4,
+              "min": 1.4,
+              "max": 1.8,
               "step": 0.01
             }
           },
@@ -1464,8 +654,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 1.8,
+              "max": 2.4,
               "step": 0.01
             }
           }
@@ -1481,41 +671,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 79,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 36,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 62,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.75,
+              "max": 1.25,
               "step": 0.01
             }
           },
@@ -1524,8 +684,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.31,
-              "max": 0.4,
+              "min": 1.4,
+              "max": 1.8,
               "step": 0.01
             }
           },
@@ -1534,8 +694,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 1.8,
+              "max": 2.4,
               "step": 0.01
             }
           }
@@ -1551,41 +711,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 79,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 36,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 62,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.75,
+              "max": 1.25,
               "step": 0.01
             }
           },
@@ -1594,8 +724,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.31,
-              "max": 0.4,
+              "min": 1.4,
+              "max": 1.8,
               "step": 0.01
             }
           },
@@ -1604,8 +734,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 1.8,
+              "max": 2.4,
               "step": 0.01
             }
           }
@@ -1621,40 +751,53 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 79,
+            "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.05,
-              "max": 0.1,
+              "min": 0.75,
+              "max": 1.25,
               "step": 0.01
             }
           },
           {
-            "minLevel": 36,
+            "minLevel": 101,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.11,
-              "max": 0.15,
+              "min": 1.4,
+              "max": 1.8,
               "step": 0.01
             }
           },
           {
-            "minLevel": 62,
+            "minLevel": 102,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.21,
-              "max": 0.25,
+              "min": 1.8,
+              "max": 2.4,
               "step": 0.01
             }
-          },
+          }
+        ]
+      }
+    ],
+    "SUFFIX": [
+      {
+        "attribute": "the_vault:attack_speed_percent",
+        "group": "ModAttackType",
+        "identifier": "the_vault:mod_attack_speed_percent",
+        "tags": [
+          "focusAttackSpeedPercent",
+          "noLegendary"
+        ],
+        "tiers": [
           {
-            "minLevel": 80,
+            "minLevel": 0,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
+              "min": 0.24,
               "max": 0.3,
               "step": 0.01
             }
@@ -1665,89 +808,17 @@
             "weight": 10,
             "value": {
               "min": 0.31,
+              "max": 0.34,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 102,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.35,
               "max": 0.4,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 102,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.41,
-              "max": 0.5,
-              "step": 0.01
-            }
-          }
-        ]
-      }
-    ],
-    "SUFFIX": [
-      {
-        "attribute": "the_vault:attack_speed",
-        "group": "ModAttackType",
-        "identifier": "the_vault:mod_attack_speed_percent",
-        "tags": [
-          "focusAttackSpeed"
-        ],
-        "tiers": [
-          {
-            "minLevel": 0,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 36,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 65,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 96,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 101,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 3.0,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 102,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.31,
-              "max": 0.35,
               "step": 0.01
             }
           }
@@ -1766,38 +837,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.1,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 20,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.3,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 45,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.31,
-              "max": 0.4,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 75,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.41,
-              "max": 0.5,
+              "min": 0.45,
+              "max": 0.55,
               "step": 0.01
             }
           },
@@ -1806,8 +847,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.5,
-              "max": 0.65,
+              "min": 0.56,
+              "max": 0.7,
               "step": 0.01
             }
           },
@@ -1816,8 +857,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.66,
-              "max": 1.0,
+              "min": 0.7,
+              "max": 0.9,
               "step": 0.01
             }
           }
@@ -1833,81 +874,11 @@
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 54,
-            "weight": 10,
-            "value": {
-              "min": 0.1,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 23,
-            "maxLevel": 66,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.3,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 34,
-            "maxLevel": 80,
-            "weight": 10,
-            "value": {
-              "min": 0.31,
-              "max": 0.4,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 46,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.41,
-              "max": 0.5,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 55,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.51,
-              "max": 0.6,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 67,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.61,
-              "max": 0.7,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 81,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.71,
-              "max": 0.8,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 92,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.81,
-              "max": 0.9,
+              "min": 1.22,
+              "max": 1.35,
               "step": 0.01
             }
           },
@@ -1916,8 +887,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.91,
-              "max": 1.2,
+              "min": 1.37,
+              "max": 1.8,
               "step": 0.01
             }
           },
@@ -1926,8 +897,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 1.21,
-              "max": 1.45,
+              "min": 1.82,
+              "max": 2.18,
               "step": 0.01
             }
           }
@@ -1942,41 +913,11 @@
         ],
         "tiers": [
           {
-            "minLevel": 50,
-            "maxLevel": 85,
-            "weight": 10,
-            "value": {
-              "min": 0.03,
-              "max": 0.06,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 60,
+            "minLevel": 0,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.6,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 90,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
+              "min": 0.17,
               "max": 0.2,
               "step": 0.01
             }
@@ -1986,7 +927,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.21,
+              "min": 0.19,
               "max": 0.25,
               "step": 0.01
             }
@@ -1996,8 +937,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.25,
+              "max": 0.35,
               "step": 0.01
             }
           }
@@ -2008,116 +949,16 @@
         "group": "ModElementType",
         "identifier": "the_vault:mod_stun_chance",
         "tags": [
-          "focusStunChance"
-        ],
-        "tiers": [
-          {
-            "minLevel": 50,
-            "maxLevel": 85,
-            "weight": 10,
-            "value": {
-              "min": 0.03,
-              "max": 0.06,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 60,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.6,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 90,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.2,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 101,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.21,
-              "max": 0.25,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 102,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.26,
-              "max": 0.3,
-              "step": 0.01
-            }
-          }
-        ]
-      },
-      {
-        "attribute": "the_vault:effect_duration",
-        "group": "ModEffectDuration",
-        "identifier": "the_vault:mod_effect_duration",
-        "tags": [
-          "focusEffectDuration"
+          "focusStun"
         ],
         "tiers": [
           {
             "minLevel": 0,
-            "maxLevel": 85,
-            "weight": 10,
-            "value": {
-              "min": 0.05,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 32,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.16,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 52,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.17,
-              "max": 0.22,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
             "maxLevel": -1,
             "weight": 10,
             "value": {
               "min": 0.23,
-              "max": 0.3,
+              "max": 0.27,
               "step": 0.01
             }
           },
@@ -2126,7 +967,7 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.31,
+              "min": 0.28,
               "max": 0.4,
               "step": 0.01
             }
@@ -2144,50 +985,20 @@
         ]
       },
       {
-        "attribute": "the_vault:ability_cooldown_skip",
-        "group": "ModAttackType",
-        "identifier": "the_vault:mod_ability_cooldown_skip",
+        "attribute": "the_vault:effect_duration",
+        "group": "ModEffectDuration",
+        "identifier": "the_vault:mod_effect_duration",
         "tags": [
-          "focusAbilitySkip"
+          "focusEffectDuration"
         ],
         "tiers": [
           {
-            "minLevel": 20,
-            "maxLevel": 85,
-            "weight": 10,
-            "value": {
-              "min": 0.03,
-              "max": 0.06,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 60,
+            "minLevel": 0,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.6,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 90,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.2,
+              "min": 0.35,
+              "max": 0.45,
               "step": 0.01
             }
           },
@@ -2196,8 +1007,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.21,
-              "max": 0.25,
+              "min": 0.47,
+              "max": 0.6,
               "step": 0.01
             }
           },
@@ -2206,8 +1017,48 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
+              "min": 0.62,
+              "max": 0.83,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_cooldown_skip",
+        "group": "ModAttackType",
+        "identifier": "the_vault:mod_ability_cooldown_skip",
+        "tags": [
+          "focusAbilitySkip"
+        ],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.24,
               "max": 0.3,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 101,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.32,
+              "max": 0.38,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 102,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.39,
+              "max": 0.45,
               "step": 0.01
             }
           }
@@ -2222,42 +1073,12 @@
         ],
         "tiers": [
           {
-            "minLevel": 20,
-            "maxLevel": 85,
-            "weight": 10,
-            "value": {
-              "min": 0.03,
-              "max": 0.06,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 60,
+            "minLevel": 0,
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.6,
-              "max": 0.1,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 70,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.11,
-              "max": 0.15,
-              "step": 0.01
-            }
-          },
-          {
-            "minLevel": 90,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": 0.16,
-              "max": 0.2,
+              "min": 0.24,
+              "max": 0.3,
               "step": 0.01
             }
           },
@@ -2266,8 +1087,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.21,
-              "max": 0.25,
+              "min": 0.32,
+              "max": 0.38,
               "step": 0.01
             }
           },
@@ -2276,8 +1097,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 0.26,
-              "max": 0.3,
+              "min": 0.39,
+              "max": 0.45,
               "step": 0.01
             }
           }
