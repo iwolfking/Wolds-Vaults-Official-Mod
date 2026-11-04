@@ -299,7 +299,7 @@ public final class MythicCharmRolls {
                 continue;
             }
             if (stored.key().startsWith("temporal:")) {
-                hints.add(" (+" + (TEMPORAL_TICKS_PER_UNIT / 20) + "s per 10 Piety)");
+                hints.add(" (+" + (TEMPORAL_TICKS_PER_UNIT / 20) + "s per " + GodPiety.PIETY_PER_UNIT + " Piety)");
                 continue;
             }
             Roll roll = lookup(god, stored);

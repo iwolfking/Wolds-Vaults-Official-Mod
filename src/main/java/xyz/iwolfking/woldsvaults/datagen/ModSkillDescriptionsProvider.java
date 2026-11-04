@@ -4,7 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
+import iskallia.vault.config.PrestigePowersConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
@@ -14,6 +17,9 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.datagen.ExpertisesDescriptionHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.PrestigePowersDescriptionsHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.TalentDescriptionsHelper;
+import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
+import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
+import xyz.iwolfking.woldsvaults.prestige.ToolCapacityPrestigePower;
 
 import java.util.function.Consumer;
 
@@ -687,6 +693,37 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .build());
     }
 
+    private static PrestigePowersConfig prestigePowers;
+
+    /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
+    private static <T> T prestigeTier(String skillId, Class<T> type) {
+        if (prestigePowers == null) {
+            prestigePowers = new PrestigePowersConfig().readConfig();
+        }
+        for (Skill skill : prestigePowers.tree.skills) {
+            if (skillId.equals(skill.getId()) && skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty()
+                    && type.isInstance(tiered.getTiers().get(0))) {
+                return type.cast(tiered.getTiers().get(0));
+            }
+        }
+        throw new IllegalStateException("Prestige power " + skillId + " has no " + type.getSimpleName() + " tier in the prestige config");
+    }
+
+    private static String percent(float fraction) {
+        float value = Math.round(fraction * 1000.0F) / 10.0F;
+        return (value == Math.rint(value) ? Integer.toString(Math.round(value)) : Float.toString(value)) + "%";
+    }
+
+    private static String times(float multiplier) {
+        if (multiplier == 2.0F) {
+            return "double";
+        }
+        if (multiplier == 3.0F) {
+            return "triple";
+        }
+        return "x" + (multiplier == Math.rint(multiplier) ? Integer.toString(Math.round(multiplier)) : Float.toString(multiplier));
+    }
+
     public SkillDescriptionsConfig getBuiltInPrestigePowers() {
         return new Builder()
                 .addDescription("WeaverOfTime", jsonElements -> {
@@ -720,14 +757,14 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("When crafting "));
                     jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
                     jsonElements.add(JsonDescription.simple("they gain "));
-                    jsonElements.add(JsonDescription.simple("50 ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(prestigeTier("Toolsmith", ToolCapacityPrestigePower.class).getCapacityIncrease() + " ", "yellow"));
                     jsonElements.add(JsonDescription.simple("additional capacity."));
                 })
                 .addDescription("ToolsmithII", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When crafting "));
                     jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
                     jsonElements.add(JsonDescription.simple("they gain a further "));
-                    jsonElements.add(JsonDescription.simple("75 ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(prestigeTier("ToolsmithII", ToolCapacityPrestigePower.class).getCapacityIncrease() + " ", "yellow"));
                     jsonElements.add(JsonDescription.simple("additional capacity."));
                 })
                 .addDescription("SuperCrystalsII", jsonElements -> {
@@ -754,18 +791,18 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("Every "));
                     jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
                     jsonElements.add(JsonDescription.simple("award you earn is increased by "));
-                    jsonElements.add(JsonDescription.simple("20%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("GodsDisciple", GodExperiencePrestigePower.class).getExperienceIncrease()), "yellow"));
                     jsonElements.add(JsonDescription.simple(", and "));
                     jsonElements.add(JsonDescription.simple("God Altars ", "#B2F44B"));
                     jsonElements.add(JsonDescription.simple("pay "));
-                    jsonElements.add(JsonDescription.simple("double ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(times(prestigeTier("GodsDisciple", GodExperiencePrestigePower.class).getAltarBaseMultiplier()) + " ", "yellow"));
                     jsonElements.add(JsonDescription.simple("their base experience."));
                 })
                 .addDescription("GodsDiscipleII", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Every "));
                     jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
                     jsonElements.add(JsonDescription.simple("award you earn is increased by a further "));
-                    jsonElements.add(JsonDescription.simple("15%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("GodsDiscipleII", GodExperiencePrestigePower.class).getExperienceIncrease()), "yellow"));
                     jsonElements.add(JsonDescription.simple(", stacking additively with God's Disciple."));
                 })
                 .addDescription("RelicHunter", jsonElements -> {
@@ -774,7 +811,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("to be "));
                     jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
                     jsonElements.add(JsonDescription.simple("by "));
-                    jsonElements.add(JsonDescription.simple("50%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("RelicHunter", RelicHunterPrestigePower.class).getChanceMultiplier()), "yellow"));
                     jsonElements.add(JsonDescription.simple("."));
                 })
                 .addDescription("RelicHunterII", jsonElements -> {
@@ -783,7 +820,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("to be "));
                     jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
                     jsonElements.add(JsonDescription.simple("by a further "));
-                    jsonElements.add(JsonDescription.simple("50%", "yellow"));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("RelicHunterII", RelicHunterPrestigePower.class).getChanceMultiplier()), "yellow"));
                     jsonElements.add(JsonDescription.simple(", stacking additively with Relic Hunter."));
                 })
                 .addDescription("LegendOfTime", jsonElements -> {

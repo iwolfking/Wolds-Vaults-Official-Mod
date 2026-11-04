@@ -68,10 +68,6 @@
       },
       {
         "text": ", stacking additively with Relic Hunter."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "SpiritsHand": [
@@ -94,7 +90,7 @@
         "color": "$text"
       },
       {
-        "text": "+50.0%\n",
+        "text": "+0.5 reach\n",
         "color": "#FFD700"
       }
     ],
@@ -170,10 +166,6 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "LegendOfPower": [
@@ -183,10 +175,6 @@
       },
       {
         "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "GodsDiscipleII": [
@@ -206,10 +194,6 @@
       },
       {
         "text": ", stacking additively with God's Disciple."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "LegendOfRiches": [
@@ -219,10 +203,6 @@
       },
       {
         "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "GodsDisciple": [
@@ -256,10 +236,6 @@
       },
       {
         "text": "their base experience."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "SuperCrystalsII": [
@@ -310,10 +286,6 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "ToolsmithII": [
@@ -333,10 +305,6 @@
       },
       {
         "text": "additional capacity."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "SpiritsHandII": [
@@ -359,7 +327,7 @@
         "color": "$text"
       },
       {
-        "text": "+100.0%\n",
+        "text": "+1.0 reach\n",
         "color": "#FFD700"
       }
     ],
@@ -380,10 +348,6 @@
       },
       {
         "text": "additional capacity."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "SoulFetcher": [
@@ -444,10 +408,6 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "FruityII": [
@@ -481,10 +441,6 @@
       },
       {
         "text": ". This Legend power cannot be learned yet."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "PrismaticPouch": [
@@ -504,10 +460,6 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
     "WeaverOfTime": [

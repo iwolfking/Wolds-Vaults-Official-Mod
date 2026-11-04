@@ -28,6 +28,7 @@ import net.minecraft.util.FormattedCharSequence;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
+import xyz.iwolfking.woldsvaults.gods.GodCarryover;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
@@ -275,7 +276,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
         desc.append(new TextComponent("Equipping a god's charm makes their constellation active: minor and "
                 + "major stars only function while their god is active, and stat stars carry over to other "
-                + "gods at 25%.\n\n")
+                + "gods at " + Math.round(GodCarryover.FOREIGN_TREE_SCALE * 100.0F) + "%.\n\n")
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
         desc.append(new TextComponent("Click a star to inspect it. Every star costs one point and "
                 + "must connect to a star you already own, starting from the marked start stars.")
