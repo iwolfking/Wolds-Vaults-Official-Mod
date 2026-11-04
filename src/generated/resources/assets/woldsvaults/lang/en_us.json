@@ -1195,7 +1195,7 @@
   "milestone.woldsvaults.unstable_shuffle": "Unstable Shuffle",
   "milestone.woldsvaults.unstable_shuffle.desc": "Complete the Unstable Shuffle challenge",
   "milestone.woldsvaults.vault_of_vaults": "The Vault of Vaults",
-  "milestone.woldsvaults.vault_of_vaults.desc": "One vault: 10k mobs, 4k chests, 1k ores",
+  "milestone.woldsvaults.vault_of_vaults.desc": "One vault: 10k mobs, 1k of each chest type, 10 of each door type, 1k ores",
   "milestone.woldsvaults.vault_veteran": "Vault Veteran",
   "milestone.woldsvaults.vault_veteran.desc": "Tiers cleared on every other milestone",
   "milestone.woldsvaults.vaults_hunted": "Vaults Hunted",

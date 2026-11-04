@@ -21,7 +21,11 @@ import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModGases;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.ModPigments;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout.*;
+import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
+import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 
 import java.util.HashMap;
@@ -149,22 +153,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.BLUE_VAULT_ESSENCE, "Blue Vault Essence");
         add(ModItems.GREEN_VAULT_ESSENCE, "Green Vault Essence");
         add(ModItems.YELLOW_VAULT_ESSENCE, "Yellow Vault Essence");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_1), "Scavenger 1 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_2), "Scavenger 2 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.SCAVENGER_3), "Scavenger 3 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_1), "Looter 1 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_2), "Looter 2 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LOOTER_3), "Looter 3 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_1), "Hunter 1 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_2), "Hunter 2 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.HUNTER_3), "Hunter 3 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_1), "Master 1 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_2), "Master 2 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.MASTER_3), "Master 3 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_1), "Champion 1 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_2), "Champion 2 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.CHAMPION_3), "Champion 3 Medallion");
-        add(ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LEGEND), "Legend Medallion");
+        for (GreedMedallionTier tier : GreedMedallionTier.values()) {
+            add(ModItems.GREED_MEDALLIONS.get(tier), GreedMedallionDisplay.getDisplayName(tier) + " Medallion");
+        }
         add("item.woldsvaults.unidentified_ancient_unique", "Unidentified Ancient Unique");
         add(ModPigments.IDONA_RED.getTranslationKey(), "Idona Red Pigment");
         add(ModPigments.WENDARR_YELLOW.getTranslationKey(), "Wendarr Yellow Pigment");
@@ -1106,7 +1097,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.i_live_here_now.desc", "Time spent inside vaults, in ticks");
         add("milestone.woldsvaults.legendary.desc", "Omega rooms discovered");
         add("milestone.woldsvaults.challenged.desc", "Challenge rooms completed");
-        add("milestone.woldsvaults.vault_of_vaults.desc", "One vault: 10k mobs, 4k chests, 1k ores");
+        add("milestone.woldsvaults.vault_of_vaults.desc", vaultOfVaultsDescription());
         add("milestone.woldsvaults.wanted_criminal.desc", "Black market trades made");
         add("milestone.woldsvaults.archeologist.desc", "Ancient uniques identified");
         add("milestone.woldsvaults.send_a_prayer.desc", "God altars completed");
@@ -1174,40 +1165,28 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.row.rep", "+%1$s Rep");
         add("screen.woldsvaults.greed.row.rep_list", "Rep: ");
         add("screen.woldsvaults.greed.rank.none", "Unranked");
-        add("screen.woldsvaults.greed.rank.1", "Scavenger 1");
-        add("screen.woldsvaults.greed.rank.2", "Scavenger 2");
-        add("screen.woldsvaults.greed.rank.3", "Scavenger 3");
-        add("screen.woldsvaults.greed.rank.4", "Looter 1");
-        add("screen.woldsvaults.greed.rank.5", "Looter 2");
-        add("screen.woldsvaults.greed.rank.6", "Looter 3");
-        add("screen.woldsvaults.greed.rank.7", "Hunter 1");
-        add("screen.woldsvaults.greed.rank.8", "Hunter 2");
-        add("screen.woldsvaults.greed.rank.9", "Hunter 3");
-        add("screen.woldsvaults.greed.rank.10", "Master 1");
-        add("screen.woldsvaults.greed.rank.11", "Master 2");
-        add("screen.woldsvaults.greed.rank.12", "Master 3");
-        add("screen.woldsvaults.greed.rank.13", "Champion 1");
-        add("screen.woldsvaults.greed.rank.14", "Champion 2");
-        add("screen.woldsvaults.greed.rank.15", "Champion 3");
-        add("screen.woldsvaults.greed.rank.16", "Legend");
+        for (int rank = MilestoneRankLadder.FIRST_RANK; rank <= MilestoneRankLadder.LEGEND_RANK; rank++) {
+            add("screen.woldsvaults.greed.rank." + rank, rankName(rank));
+        }
         add("screen.woldsvaults.greed.rank.legend_plus", "Legend +%1$s");
-        add("screen.woldsvaults.greed.unlock.1", "Unlocks the greed cauldron, Mr. Greedy, etchings, prestige and greed medallions");
-        add("screen.woldsvaults.greed.unlock.2", "+1 shop slot, unlocks tier 1 greed cards");
-        add("screen.woldsvaults.greed.unlock.3", "+1 shop slot, unlocks vault maps of tiers 1 to 3");
-        add("screen.woldsvaults.greed.unlock.4", "+1 shop slot, unlocks god alignments, greedy companion relics and challenges");
-        add("screen.woldsvaults.greed.unlock.5", "+1 shop slot, unlocks some Greater Cores and tier 4 maps");
-        add("screen.woldsvaults.greed.unlock.6", "+1 shop slot, unlocks tier 2 greed cards");
-        add("screen.woldsvaults.greed.unlock.7", "+1 shop slot, unlocks tier 5 maps and ancient uniques. Needs level 2 with any god.");
-        add("screen.woldsvaults.greed.unlock.8", "+1 shop slot, unlocks all Greater Cores and the Mystery Deck");
-        add("screen.woldsvaults.greed.unlock.9", "+1 shop slot, unlocks level 2 greedy relics and tier 3 greed cards");
-        add("screen.woldsvaults.greed.unlock.10", "+1 shop slot, unlocks tier 6 maps, raises ancient drop chance. Needs level 4 with any god.");
-        add("screen.woldsvaults.greed.unlock.11", "+1 shop slot, unlocks stronger greedy catalysts");
-        add("screen.woldsvaults.greed.unlock.12", "+1 shop slot, unlocks level 3 greedy relics");
-        add("screen.woldsvaults.greed.unlock.13", "+1 shop slot, unlocks tier 4 greed cards. Needs level 6 with any god.");
-        add("screen.woldsvaults.greed.unlock.14", "+1 shop slot, raises ancient drop chance");
-        add("screen.woldsvaults.greed.unlock.15", "+1 shop slot, -10% greed shop cost");
-        add("screen.woldsvaults.greed.unlock.16", "+1 shop slot. Needs level 8 with any god.");
-        add("screen.woldsvaults.greed.unlock.legend_plus", "+1 shop slot per further 250 reputation");
+        GreedRanksConfig ladder = ModGreedRanksProvider.ladder();
+        unlock(ladder, 1, "Unlocks the greed cauldron, Mr. Greedy, etchings, prestige and greed medallions");
+        unlock(ladder, 2, "+1 shop slot, unlocks tier 1 greed cards");
+        unlock(ladder, 3, "+1 shop slot, unlocks vault maps of tiers 1 to 3");
+        unlock(ladder, 4, "+1 shop slot, unlocks god alignments, greedy companion relics and challenges");
+        unlock(ladder, 5, "+1 shop slot, unlocks some Greater Cores and tier 4 maps");
+        unlock(ladder, 6, "+1 shop slot, unlocks tier 2 greed cards");
+        unlock(ladder, 7, "+1 shop slot, unlocks tier 5 maps and ancient uniques");
+        unlock(ladder, 8, "+1 shop slot, unlocks all Greater Cores and the Mystery Deck");
+        unlock(ladder, 9, "+1 shop slot, unlocks level 2 greedy relics and tier 3 greed cards");
+        unlock(ladder, 10, "+1 shop slot, unlocks tier 6 maps, raises ancient drop chance");
+        unlock(ladder, 11, "+1 shop slot, unlocks stronger greedy catalysts");
+        unlock(ladder, 12, "+1 shop slot, unlocks level 3 greedy relics");
+        unlock(ladder, 13, "+1 shop slot, unlocks tier 4 greed cards");
+        unlock(ladder, 14, "+1 shop slot, raises ancient drop chance");
+        unlock(ladder, 15, "+1 shop slot, -10% greed shop cost");
+        unlock(ladder, 16, "+1 shop slot");
+        add("screen.woldsvaults.greed.unlock.legend_plus", "+1 shop slot per further " + ladder.legendPlusStep + " reputation");
         add("screen.woldsvaults.gods.title", "Gods");
         add("screen.woldsvaults.gods.uncharted", "%1$s's constellation has not been charted yet.");
         add("screen.woldsvaults.gods.uncharted.reputation", "%1$s's constellation is uncharted - reach %2$s reputation with them.");
@@ -1225,4 +1204,29 @@ public class ModLanguageProvider extends LanguageProvider {
     }
 
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();
+
+    /** A rank's display name from the ladder's fixed bands: "Hunter 2", or "Legend" for a band of one. */
+    private static String rankName(int rank) {
+        String band = MilestoneRankLadder.getBandName(rank);
+        String name = Character.toUpperCase(band.charAt(0)) + band.substring(1);
+        int tierInBand = MilestoneRankLadder.getTierInBand(rank);
+        return tierInBand > 0 ? name + " " + tierInBand : name;
+    }
+
+    /** A rank's unlock line, ending with the god level its trial needs when the rank table gates it. */
+    private void unlock(GreedRanksConfig ladder, int rank, String unlocks) {
+        Integer gate = ladder.godLevelGates.get(String.valueOf(rank));
+        add("screen.woldsvaults.greed.unlock." + rank, gate == null ? unlocks : unlocks + ". Needs level " + gate + " with any god.");
+    }
+
+    /** Vault of Vaults' single-vault requirements, quoted from the milestone table. */
+    private static String vaultOfVaultsDescription() {
+        GreedMilestonesConfig.VaultOfVaultsEntry entry = ModGreedMilestonesProvider.milestones().vaultOfVaults;
+        return "One vault: " + compact(entry.mobKills) + " mobs, " + compact(entry.chestsPerType) + " of each chest type, "
+                + compact(entry.doorsPerType) + " of each door type, " + compact(entry.ores) + " ores";
+    }
+
+    private static String compact(long value) {
+        return value >= 1000L && value % 1000L == 0L ? (value / 1000L) + "k" : Long.toString(value);
+    }
 }

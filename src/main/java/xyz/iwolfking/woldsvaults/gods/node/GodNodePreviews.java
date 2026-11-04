@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -16,17 +17,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * The god nodes whose description carries a live formula rather than a fixed number, plus the
- * server-side resolvers behind them. The constants here are the text the descriptions datagen emits.
+ * server-side resolvers behind them. The formula functions here build the text both the descriptions datagen
+ * (from the effect table) and the runtime previews (from the loaded effect) emit, so the two always match.
  */
 public final class GodNodePreviews {
     public static final String MALEDICTION_FORMULA = "cubeRoot(1 + healing efficiency)";
-    public static final String INDIANA_JONES_FORMULA = "cubeRoot((1000 + trap disarm) / 1000)";
-    public static final String LOOTING_ENGINE_FORMULA = "cubeRoot((1200 + c) / 1200)";
-    public static final String SACK_OF_MOBS_FORMULA = "log1000(1000 + kills)";
-    public static final String PACED_STRIKES_FORMULA = "sqrt((50 + t) / 50)";
 
     public record Preview(double multiplier, List<Component> lines) {
     }
@@ -36,7 +35,7 @@ public final class GodNodePreviews {
         Preview resolve(ServerPlayer player);
     }
 
-    private record Entry(String formulaText, Resolver resolver) {
+    private record Entry(Supplier<String> formulaText, Resolver resolver) {
     }
 
     private static final Map<String, Entry> ENTRIES = new LinkedHashMap<>();
@@ -44,9 +43,36 @@ public final class GodNodePreviews {
     private GodNodePreviews() {
     }
 
-    /** Registers the live formula of one effect; registering an effect twice is fatal. */
-    public static synchronized void register(String effectId, String formulaText, Resolver resolver) {
-        if (effectId == null || effectId.isBlank() || formulaText == null || formulaText.isBlank() || resolver == null) {
+    /** Indiana Jones' multiplier, {@code cbrt((reference + disarm%) / reference)}. */
+    public static String indianaJonesFormula(double reference) {
+        String referenceText = number(reference);
+        return "cubeRoot((" + referenceText + " + trap disarm) / " + referenceText + ")";
+    }
+
+    /** Looting Engine's multiplier, {@code cbrt((reference + c) / reference)}. */
+    public static String lootingEngineFormula(double reference) {
+        String referenceText = number(reference);
+        return "cubeRoot((" + referenceText + " + c) / " + referenceText + ")";
+    }
+
+    /** Sack of Mobs' multiplier, {@code log_base(base + kills)}. */
+    public static String sackOfMobsFormula(double logBase) {
+        String baseText = number(logBase);
+        return "log" + baseText + "(" + baseText + " + kills)";
+    }
+
+    /** Paced Strikes' multiplier, {@code sqrt((reference + t) / reference)}. */
+    public static String pacedStrikesFormula(double referenceMinutes) {
+        String referenceText = number(referenceMinutes);
+        return "sqrt((" + referenceText + " + t) / " + referenceText + ")";
+    }
+
+    /**
+     * Registers the live formula of one effect; registering an effect twice is fatal. The formula text is
+     * resolved on every query, so it can read the effect's parameters once the god tables have loaded.
+     */
+    public static synchronized void register(String effectId, Supplier<String> formulaText, Resolver resolver) {
+        if (effectId == null || effectId.isBlank() || formulaText == null || resolver == null) {
             throw GodTreeConfigException.fail("Refusing to register a god node preview with a blank effect id or formula");
         }
         if (ENTRIES.containsKey(effectId)) {
@@ -59,10 +85,31 @@ public final class GodNodePreviews {
         return ENTRIES.containsKey(effectId);
     }
 
+    /**
+     * The formula text of an effect from its loaded parameters, or null when it has no live formula. A formula
+     * that cannot be resolved (its effect is not loaded) logs an error and reads as null, so the node shows as static.
+     */
     @Nullable
-    public static synchronized String formulaText(String effectId) {
-        Entry entry = ENTRIES.get(effectId);
-        return entry == null ? null : entry.formulaText();
+    public static String formulaText(String effectId) {
+        Entry entry;
+        synchronized (GodNodePreviews.class) {
+            entry = ENTRIES.get(effectId);
+        }
+        if (entry == null) {
+            return null;
+        }
+        try {
+            String text = entry.formulaText().get();
+            if (text == null || text.isBlank()) {
+                WoldsVaults.LOGGER.error("God node preview for '{}' resolved a blank formula; showing it as static.", effectId);
+                return null;
+            }
+            return text;
+        } catch (RuntimeException e) {
+            WoldsVaults.LOGGER.error("God node preview for '{}' could not resolve its formula; showing it as static.",
+                    effectId, e);
+            return null;
+        }
     }
 
     /** The player's current preview for an effect, or empty when the effect has no live formula. */

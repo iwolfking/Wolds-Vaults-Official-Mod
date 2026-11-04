@@ -27,6 +27,11 @@ public class ModGreedMilestonesProvider extends AbstractWoldsTableProvider {
 
     @Override
     public void registerConfigs() {
+        this.table("greed_milestones", milestones());
+    }
+
+    /** The milestone table, built once here for the provider and for any text that quotes its numbers. */
+    public static GreedMilestonesConfig milestones() {
         GreedRanksConfig ladder = ModGreedRanksProvider.ladder();
         GreedMilestonesConfig table = new GreedMilestonesConfig();
         Map<String, GreedMilestonesConfig.Entry> milestones = new LinkedHashMap<>();
@@ -136,7 +141,7 @@ public class ModGreedMilestonesProvider extends AbstractWoldsTableProvider {
         table.dedicatedLooter = new GreedMilestonesConfig.DedicatedLooterEntry();
         table.dedicatedLooter.perChestType = 25_000L;
         table.dedicatedLooter.chestOrder = new ArrayList<>(List.of("WOODEN", "GILDED", "ORNATE", "LIVING"));
-        this.table("greed_milestones", table);
+        return table;
     }
 
     private static void tiers(Map<String, GreedMilestonesConfig.Entry> milestones, String id, long[] thresholds, int[] reputation) {

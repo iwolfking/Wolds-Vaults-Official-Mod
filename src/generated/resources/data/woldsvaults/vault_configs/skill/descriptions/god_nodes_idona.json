@@ -481,7 +481,7 @@
     ],
     "idona_overcrit": [
       {
-        "text": "Lucky Hit chance over your cap (56.2%)",
+        "text": "Lucky Hit chance over your cap (100%)",
         "color": "gold"
       },
       {
@@ -495,7 +495,7 @@
         "text": " to each lucky hit, and the remainder is the chance of one more +100%."
       },
       {
-        "text": "\n\nExamples: at 80% chance, 24% of lucky hits deal x2. At 156.2%, every lucky hit deals x2. At 250%, lucky hits deal x2 or x3, x2.94 on average."
+        "text": "\n\nExamples: at 124% chance, 24% of lucky hits deal x2. At 200%, every lucky hit deals x2. At 250%, lucky hits deal x2 or x3, x2.5 on average."
       }
     ],
     "idona_start_reaper": [

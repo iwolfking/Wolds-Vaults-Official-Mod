@@ -273,7 +273,7 @@
         "text": ", where e is your Fruit Efficiency. The normal curve never reaches 2x; this one keeps growing. Rot chance is unchanged."
       },
       {
-        "text": "\n\nExamples: +50% efficiency gives 1.71x time instead of 1.33x, +150% gives 2.23x instead of 1.60x, +300% gives 2.73x instead of 1.75x."
+        "text": "\n\nExamples: +50% efficiency gives 1.71x time instead of 1.33x, +150% gives 2.22x instead of 1.60x, +300% gives 2.73x instead of 1.75x."
       }
     ],
     "wendarr_edge_of_time": [
