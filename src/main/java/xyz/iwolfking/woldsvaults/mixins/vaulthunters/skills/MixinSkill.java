@@ -20,6 +20,8 @@ import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.MomentumEngineTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
 import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
+import xyz.iwolfking.woldsvaults.talent.dual_wield.StatBoostDualWieldTalent;
+import xyz.iwolfking.woldsvaults.talent.dual_wield.EffectGrantDualWieldTalent;
 
 @Mixin(value = Skill.Adapter.class, remap = false)
 public class MixinSkill extends TypeSupplierAdapter<Skill> {
@@ -69,5 +71,7 @@ public class MixinSkill extends TypeSupplierAdapter<Skill> {
         this.register("potent_elixir", PotentElixirTalent.class, PotentElixirTalent::new);
         this.register("healthy_elixir", HealthyElixirTalent.class, HealthyElixirTalent::new);
         this.register("debuff_damage_bonus", DebuffDamageBonusTalent.class, DebuffDamageBonusTalent::new);
+        this.register("dual_wield_gear_attribute", StatBoostDualWieldTalent.class, StatBoostDualWieldTalent::new);
+        this.register("dual_wield_effect", EffectGrantDualWieldTalent.class, EffectGrantDualWieldTalent::new);
     }
 }
