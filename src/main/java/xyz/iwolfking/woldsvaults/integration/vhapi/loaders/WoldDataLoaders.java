@@ -9,6 +9,7 @@ import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.objectives.enchanted_
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.recipes.AugmentRecipesLoader;
 import xyz.iwolfking.woldsvaults.integration.vhapi.VHAPIModules;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.WoldsTables;
 
 public class WoldDataLoaders {
 
@@ -75,6 +76,7 @@ public class WoldDataLoaders {
         LoaderRegistry.addConfigProcessor(AUGMENT_RECIPES_LOADER);
         LoaderRegistry.addConfigProcessor(ETCHED_LAYOUT_CONFIG_LOADER);
         LoaderRegistry.addConfigProcessor(IMPLICIT_DECK_MODIFIERS_CONFIG_LOADER);
+        WoldsTables.registerLoaders();
         VHAPIModules.init();
     }
 

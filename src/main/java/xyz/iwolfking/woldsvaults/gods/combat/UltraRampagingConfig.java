@@ -22,14 +22,6 @@ public record UltraRampagingConfig(float fury_per_hit, float fury_per_kill,
                                    float incoming_divisor, float incoming_scale)
         implements GodEffectParams {
 
-    /** The fallback before the registry loads; must match the block {@code GodNodeEffectDefaults#idona} writes. */
-    public static UltraRampagingConfig defaults() {
-        return new UltraRampagingConfig(100.0F, 200.0F, 2.0F, 10.0F, 6000.0F,
-                0.985F, 6000.0F, 2000.0F, 25.0F, 15000.0F,
-                6500.0F, 1.03F, 6000.0F,
-                3000.0F, 0.2236068F);
-    }
-
     @Override
     public void validate(String effectId) {
         positive(effectId, "fury_per_hit", this.fury_per_hit);

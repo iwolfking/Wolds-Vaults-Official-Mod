@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 /**
@@ -33,8 +34,17 @@ public final class ObjectiveDifficulty {
     private ObjectiveDifficulty() {
     }
 
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
+
+    /** The installed scaling table, or null (logged once) before it is installed; nothing scales without it. */
+    @Nullable
     private static ObjectiveDifficultyConfig config() {
-        return xyz.iwolfking.woldsvaults.init.ModConfigs.OBJECTIVE_DIFFICULTY;
+        ObjectiveDifficultyConfig config = xyz.iwolfking.woldsvaults.init.ModConfigs.OBJECTIVE_DIFFICULTY;
+        if (config == null && WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Objective difficulty was read before the objectives/difficulty/objective_difficulty table "
+                    + "was installed; objectives do not scale with difficulty until it is");
+        }
+        return config;
     }
 
     /** The sigil's difficulty from sigils/definitions.json; 0 for no sigil or an unknown one (logged). */
@@ -69,7 +79,8 @@ public final class ObjectiveDifficulty {
     }
 
     public static double exponent(String objective) {
-        return config().getExponent(objective);
+        ObjectiveDifficultyConfig config = config();
+        return config == null ? 0.0D : config.getExponent(objective);
     }
 
     public static double factor(double multiplier, String objective) {
@@ -103,6 +114,9 @@ public final class ObjectiveDifficulty {
             return 0;
         }
         ObjectiveDifficultyConfig config = config();
+        if (config == null) {
+            return 0;
+        }
         double stacks = multiplier < config.getStackBreakpoint()
                 ? config.getStackLinearFactor() * multiplier
                 : config.getStackOffset() + Math.pow(multiplier, config.getStackPower());
@@ -110,23 +124,31 @@ public final class ObjectiveDifficulty {
     }
 
     public static int crateTiers(@Nullable String sigil) {
-        return config().getCrateTiers(sigilDifficulty(sigil));
+        ObjectiveDifficultyConfig config = config();
+        return config == null ? 0 : config.getCrateTiers(sigilDifficulty(sigil));
     }
 
     public static int scavengerGoalFloor(double multiplier, int level) {
-        return config().getScavengerGoalFloor(increase(multiplier), level);
+        ObjectiveDifficultyConfig config = config();
+        return config == null ? 0 : config.getScavengerGoalFloor(increase(multiplier), level);
     }
 
     public static int ballisticGridBonus(double multiplier) {
-        return config().getBallisticGridBonus(increase(multiplier));
+        ObjectiveDifficultyConfig config = config();
+        return config == null ? 0 : config.getBallisticGridBonus(increase(multiplier));
     }
 
     public static int ballisticGridCap() {
-        return config().getBallisticGridCap();
+        ObjectiveDifficultyConfig config = config();
+        return config == null ? 0 : config.getBallisticGridCap();
     }
 
     public static int survivalStartWave(double multiplier, int waveGroups) {
-        int latest = waveGroups - 1 - config().getSurvivalReservedWaveGroups();
+        ObjectiveDifficultyConfig config = config();
+        if (config == null) {
+            return 0;
+        }
+        int latest = waveGroups - 1 - config.getSurvivalReservedWaveGroups();
         return Math.max(0, Math.min((int) Math.floor(increase(multiplier)), latest));
     }
 
@@ -176,7 +198,8 @@ public final class ObjectiveDifficulty {
             if (!(counterConfig.getTarget() instanceof IntRoll roll)) {
                 continue;
             }
-            double factor = Math.pow(multiplier, config().getTileExponent(tileName(progress)));
+            ObjectiveDifficultyConfig config = config();
+            double factor = config == null ? 1.0D : Math.pow(multiplier, config.getTileExponent(tileName(progress)));
             ((TargetTaskCounterConfigAccessor) counterConfig).woldsvaults$setTarget(scale(roll, factor));
         }
     }

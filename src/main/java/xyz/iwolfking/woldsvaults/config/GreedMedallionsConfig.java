@@ -1,20 +1,22 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
+import iskallia.vault.config.Config;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * What a greed medallion does to the vault it rides - {@code config/the_vault/gods/greed_medallions.json}:
- * the numeric columns of every tier, the rank each assassin and Champion behaviour switches on at, and
- * the assassin spawn-rate curve. Tiers are keyed by rank number, 1 (first medallion) through 16 (Legend).
+ * What a greed medallion does to the vault it rides, generated as
+ * {@code vault_configs/greed/medallions/greed_medallions.json}: the numeric columns of every tier, the rank each
+ * assassin and Champion behaviour switches on at, and the assassin spawn-rate curve. Tiers are keyed by rank number,
+ * from the first rank to Legend.
  */
-public class GreedMedallionsConfig extends PackAuthoredConfig {
+public class GreedMedallionsConfig extends Config implements WoldsTable {
 
-    /** One tier's vault-side numbers. Percent columns are whole percents; 25 is +25%. */
+    /** One tier's vault-side numbers. Percent columns are whole percents. */
     public static class Tier {
         @Expose public int baseGreedCoins;
         @Expose public int mobHealthDamageBonus;
@@ -25,8 +27,8 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
         @Expose public int mobSpawnBonus;
         @Expose public int objectiveDifficultyBonus;
 
-        static Tier of(int baseGreedCoins, int mobHealthDamageBonus, int crateLootBonus, int greedCrateLootTier,
-                       int chestRollsBonus, int trapDisarmPenalty, int mobSpawnBonus, int objectiveDifficultyBonus) {
+        public static Tier of(int baseGreedCoins, int mobHealthDamageBonus, int crateLootBonus, int greedCrateLootTier,
+                              int chestRollsBonus, int trapDisarmPenalty, int mobSpawnBonus, int objectiveDifficultyBonus) {
             Tier tier = new Tier();
             tier.baseGreedCoins = baseGreedCoins;
             tier.mobHealthDamageBonus = mobHealthDamageBonus;
@@ -50,6 +52,7 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
         @Expose public int vaultChampionEnraged;
     }
 
+    /** Assassin spawn chance per attempt: base * (1 + rankChanceStep * (rank - 1)), decaying per spawn and recovering over time. */
     public static class Spawn {
         @Expose public double hordeBaseChance;
         @Expose public double eliteBaseChance;
@@ -58,17 +61,9 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
         @Expose public double recoveryTicks;
     }
 
-    @Expose private Map<String, String> documentation;
-    @Expose private Map<String, Tier> tiers;
-    @Expose private Gates gates;
-    @Expose private Spawn spawn;
-
-    /** The shipped table without touching disk; the tier enum runs on these from its own class init. */
-    public static GreedMedallionsConfig defaults() {
-        GreedMedallionsConfig config = new GreedMedallionsConfig();
-        config.reset();
-        return config;
-    }
+    @Expose public Map<String, Tier> tiers;
+    @Expose public Gates gates;
+    @Expose public Spawn spawn;
 
     @Override
     public String getName() {
@@ -77,67 +72,25 @@ public class GreedMedallionsConfig extends PackAuthoredConfig {
 
     @Override
     protected void reset() {
-        this.documentation = new LinkedHashMap<>();
-        this.documentation.put("tiers", "One entry per medallion, keyed by the greed rank it belongs to. Rank 1 is the first medallion and rank 16 the last; the band names come from greed_ranks.json");
-        this.documentation.put("baseGreedCoins", "Greed coins an assassin killed in this medallion's vault pays, and the per-crate base the completion crate pays");
-        this.documentation.put("mobHealthDamageBonus", "Percent added to vault mob health and damage. Multiplicative with every other source");
-        this.documentation.put("crateLootBonus", "Percent added to the item count of completion crates");
-        this.documentation.put("greedCrateLootTier", "Which greed_crate_loot_N table the completion crate additionally rolls. 0 rolls none");
-        this.documentation.put("chestRollsBonus", "Percent added to the roll count of tiered chests. Barrels and treasure chests are not tiered and are unaffected");
-        this.documentation.put("trapDisarmPenalty", "Percent subtracted from trap disarming. A magnitude, so 33 means -33%");
-        this.documentation.put("mobSpawnBonus", "Percent added to the sustained vault mob population ceiling");
-        this.documentation.put("objectiveDifficultyBonus", "Percent added to objective difficulty. Reaches brutal boss pillars and bosses only, the one numeric difficulty axis in the game");
-        this.documentation.put("gates", "The medallion rank each behaviour switches on at. Vault Champion behaviours are tabled but not implemented");
-        this.documentation.put("spawn", "Assassin spawn chance per attempt is base * (1 + rankChanceStep * (rank - 1)), decaying by decayFactor per spawn and recovering over recoveryTicks");
-        this.tiers = new LinkedHashMap<>();
-        this.tiers.put("1", Tier.of(2, 25, 0, 0, 0, 0, 0, 0));
-        this.tiers.put("2", Tier.of(3, 45, 5, 0, 0, 0, 0, 0));
-        this.tiers.put("3", Tier.of(3, 120, 5, 1, 0, 0, 0, 0));
-        this.tiers.put("4", Tier.of(4, 180, 10, 1, 0, 0, 0, 0));
-        this.tiers.put("5", Tier.of(5, 250, 15, 1, 10, 50, 33, 0));
-        this.tiers.put("6", Tier.of(5, 300, 20, 2, 10, 75, 33, 0));
-        this.tiers.put("7", Tier.of(6, 675, 25, 2, 15, 100, 33, 0));
-        this.tiers.put("8", Tier.of(7, 900, 25, 3, 15, 125, 50, 25));
-        this.tiers.put("9", Tier.of(8, 1200, 30, 4, 20, 175, 50, 25));
-        this.tiers.put("10", Tier.of(9, 1650, 35, 4, 20, 175, 50, 25));
-        this.tiers.put("11", Tier.of(10, 2100, 35, 4, 25, 200, 60, 35));
-        this.tiers.put("12", Tier.of(11, 2850, 40, 5, 25, 200, 60, 35));
-        this.tiers.put("13", Tier.of(12, 6250, 40, 5, 30, 250, 60, 40));
-        this.tiers.put("14", Tier.of(13, 8000, 45, 6, 30, 275, 65, 45));
-        this.tiers.put("15", Tier.of(14, 10000, 45, 6, 35, 300, 70, 45));
-        this.tiers.put("16", Tier.of(15, 12500, 50, 7, 40, 350, 75, 50));
-        this.gates = new Gates();
-        this.gates.assassinsInheritVaultModifiers = 4;
-        this.gates.assassinsInflictNegativeEffects = 7;
-        this.gates.assassinsGainBuffingAuras = 9;
-        this.gates.assassinsGainInfernalModifiers = 13;
-        this.gates.vaultChampionHunts = 10;
-        this.gates.vaultChampionEnraged = 16;
-        this.spawn = new Spawn();
-        this.spawn.hordeBaseChance = 2.0E-4D;
-        this.spawn.eliteBaseChance = 0.01D;
-        this.spawn.rankChanceStep = 0.15D;
-        this.spawn.decayFactor = 0.5D;
-        this.spawn.recoveryTicks = 6000.0D;
     }
 
-    /** Refuses the whole file, falling back to the shipped table, unless every block is present. */
+    @Nullable
     @Override
-    protected boolean isValid() {
-        return this.tiers != null && !this.tiers.isEmpty() && this.gates != null && this.spawn != null;
-    }
-
-    public Map<String, Tier> getTiers() {
-        return this.tiers;
-    }
-
-    @Nullable
-    public Gates getGates() {
-        return this.gates;
-    }
-
-    @Nullable
-    public Spawn getSpawn() {
-        return this.spawn;
+    public String validate() {
+        if (this.tiers == null) {
+            return "it lists no tiers";
+        }
+        for (int rank = MilestoneRankLadder.FIRST_RANK; rank <= MilestoneRankLadder.LEGEND_RANK; rank++) {
+            if (this.tiers.get(String.valueOf(rank)) == null) {
+                return "it has no tier for rank " + rank;
+            }
+        }
+        if (this.gates == null) {
+            return "the gates block is missing";
+        }
+        if (this.spawn == null || this.spawn.recoveryTicks <= 0.0D) {
+            return "the spawn block is missing or has no positive recoveryTicks";
+        }
+        return null;
     }
 }

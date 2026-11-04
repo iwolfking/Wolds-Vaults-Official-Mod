@@ -97,7 +97,18 @@ public class DataGenerators {
             gen.addProvider(new ModImplicitDeckCoresProvider(gen));
             gen.addProvider(new ModPentacleProvider(gen));
             gen.addProvider(new ModTalentStyleProvider(gen));
-            gen.addProvider(new ModGodTreesProvider());
+            gen.addProvider(new ModGodTreesProvider(gen));
+            gen.addProvider(new ModGodLevelsProvider(gen));
+            gen.addProvider(new ModGreedRanksProvider(gen));
+            gen.addProvider(new ModGreedMilestonesProvider(gen));
+            gen.addProvider(new ModGreedMedallionsProvider(gen));
+            gen.addProvider(new ModGreedChampionProvider(gen));
+            gen.addProvider(new ModGearSetsProvider(gen));
+            gen.addProvider(new ModObjectiveDifficultyProvider(gen));
+            gen.addProvider(new ModHyperObjectiveProvider(gen));
+            gen.addProvider(new ModExtractorCostsProvider(gen));
+            gen.addProvider(new ModExtractionObjectiveProvider(gen));
+            gen.addProvider(new ModExtractorPartsProvider(gen));
             gen.addProvider(new ModRecipeTagProvider(gen, efh));
             gen.addProvider(new ModEntityTagProvider(gen, efh));
         }

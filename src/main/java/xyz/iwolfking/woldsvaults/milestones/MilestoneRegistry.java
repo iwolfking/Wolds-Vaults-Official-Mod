@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,12 +24,11 @@ public class MilestoneRegistry {
     private static final Map<String, MilestoneDefinition> BY_CHALLENGE_CRYSTAL = new LinkedHashMap<>();
     private static List<MilestoneDefinition> ORDERED = List.of();
 
-    private static final List<VaultChestType> DEFAULT_DEDICATED_ORDER =
-            List.of(VaultChestType.WOODEN, VaultChestType.GILDED, VaultChestType.ORNATE, VaultChestType.LIVING);
+    private static final GreedMilestonesConfig.VaultOfVaultsEntry UNREACHABLE_VAULT_OF_VAULTS = unreachableVaultOfVaults();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     private static GreedMilestonesConfig config;
-    private static List<VaultChestType> dedicatedOrder = DEFAULT_DEDICATED_ORDER;
-    private static volatile Map<String, LocalNumbers> localNumbers = Map.of();
+    private static List<VaultChestType> dedicatedOrder = List.of();
 
     /** Objective keys "Seen It All" requires, as written into {@code Objectives.KEY}. */
     public static final Set<String> SEEN_IT_ALL_TYPES = Collections.unmodifiableSet(new LinkedHashSet<>(List.of(
@@ -54,79 +54,15 @@ public class MilestoneRegistry {
     private MilestoneRegistry() {
     }
 
-    static {
-        load(GreedMilestonesConfig.defaults());
-    }
-
-    /** Rebuilds every definition from config; the registry starts on the shipped defaults. */
+    /** Rebuilds every definition from the generated table; the registry is empty until the first install. */
     public static void load(GreedMilestonesConfig loaded) {
         config = loaded;
         dedicatedOrder = readDedicatedOrder(loaded);
         BY_ID.clear();
         BY_CATEGORY.clear();
         BY_CHALLENGE_CRYSTAL.clear();
-        localNumbers = Map.of();
         bootstrap();
         GreedChallengeOffers.resetAudit();
-    }
-
-    /**
-     * Installs the numbers a server sent in place, stashing the local ones for
-     * {@link #restoreLocal}. A milestone the server omits or sends bad numbers for is left alone.
-     */
-    public static void applyServerTables(Map<String, long[]> thresholds,
-                                         Map<String, int[]> reputation,
-                                         Map<String, Integer> requiredRanks) {
-        stashLocal();
-        for (MilestoneDefinition definition : ORDERED) {
-            long[] sentThresholds = thresholds.get(definition.getId());
-            int[] sentReputation = reputation.get(definition.getId());
-            if (sentThresholds == null || sentReputation == null) {
-                WoldsVaults.LOGGER.warn("The server sent no numbers for milestone '{}'; the client keeps its own for that one", definition.getId());
-                continue;
-            }
-            try {
-                definition.applyNumbers(sentThresholds, sentReputation,
-                        requiredRanks.getOrDefault(definition.getId(), 0));
-            } catch (IllegalArgumentException e) {
-                WoldsVaults.LOGGER.error("The server's numbers for milestone '{}' are inconsistent; the client keeps its own for that one",
-                        definition.getId(), e);
-            }
-        }
-    }
-
-    /** Puts the local numbers back. Idempotent, and a no-op when no server table was installed. */
-    public static void restoreLocal() {
-        if (localNumbers.isEmpty()) {
-            return;
-        }
-        localNumbers.forEach((id, numbers) -> {
-            MilestoneDefinition definition = BY_ID.get(id);
-            if (definition != null) {
-                definition.applyNumbers(numbers.thresholds, numbers.reputation, numbers.requiredRank);
-            }
-        });
-        localNumbers = Map.of();
-    }
-
-    private static void stashLocal() {
-        if (!localNumbers.isEmpty()) {
-            return;
-        }
-        Map<String, LocalNumbers> stash = new LinkedHashMap<>();
-        for (MilestoneDefinition definition : ORDERED) {
-            long[] thresholds = new long[definition.getTierCount()];
-            int[] reputation = new int[definition.getTierCount()];
-            for (int tier = 0; tier < thresholds.length; tier++) {
-                thresholds[tier] = definition.getThreshold(tier);
-                reputation[tier] = definition.getReputation(tier);
-            }
-            stash.put(definition.getId(), new LocalNumbers(thresholds, reputation, definition.getRequiredRank()));
-        }
-        localNumbers = Map.copyOf(stash);
-    }
-
-    private record LocalNumbers(long[] thresholds, int[] reputation, int requiredRank) {
     }
 
     public static MilestoneDefinition get(String id) {
@@ -178,12 +114,7 @@ public class MilestoneRegistry {
 
     /** Chests of one type "Dedicated Looter" needs before the next type starts counting. */
     public static long getDedicatedLooterTarget() {
-        GreedMilestonesConfig.DedicatedLooterEntry entry = config.getDedicatedLooter();
-        if (entry != null && entry.perChestType > 0L) {
-            return entry.perChestType;
-        }
-        WoldsVaults.LOGGER.error("greed_milestones.json has no usable dedicatedLooter.perChestType; falling back to the shipped target");
-        return GreedMilestonesConfig.defaults().getDedicatedLooter().perChestType;
+        return loaded() ? config.dedicatedLooter.perChestType : Long.MAX_VALUE;
     }
 
     /** The chest types "Dedicated Looter" must be worked through, in order, one phase each. */
@@ -192,29 +123,31 @@ public class MilestoneRegistry {
     }
 
     private static GreedMilestonesConfig.VaultOfVaultsEntry vaultOfVaults() {
-        GreedMilestonesConfig.VaultOfVaultsEntry entry = config.getVaultOfVaults();
-        if (entry != null) {
-            return entry;
-        }
-        WoldsVaults.LOGGER.error("greed_milestones.json has no vaultOfVaults block; falling back to the shipped requirements");
-        return GreedMilestonesConfig.defaults().getVaultOfVaults();
+        return loaded() ? config.vaultOfVaults : UNREACHABLE_VAULT_OF_VAULTS;
     }
 
-    /** Resolves the configured chest order; an empty or invalid one falls back to the shipped one. */
-    private static List<VaultChestType> readDedicatedOrder(GreedMilestonesConfig loaded) {
-        GreedMilestonesConfig.DedicatedLooterEntry entry = loaded.getDedicatedLooter();
-        if (entry == null || entry.chestOrder == null || entry.chestOrder.isEmpty()) {
-            WoldsVaults.LOGGER.error("greed_milestones.json has no dedicatedLooter.chestOrder; falling back to the shipped order {}", DEFAULT_DEDICATED_ORDER);
-            return DEFAULT_DEDICATED_ORDER;
+    private static boolean loaded() {
+        if (config == null && WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Greed milestones were read before the greed/milestones/greed_milestones table was installed; "
+                    + "no milestone can complete until it is");
         }
-        List<VaultChestType> order = new ArrayList<>(entry.chestOrder.size());
-        for (String name : entry.chestOrder) {
-            try {
-                order.add(VaultChestType.valueOf(name.trim().toUpperCase(Locale.ROOT)));
-            } catch (IllegalArgumentException e) {
-                WoldsVaults.LOGGER.error("greed_milestones.json dedicatedLooter.chestOrder names '{}', which is not a vault chest type; falling back to the shipped order {}", name, DEFAULT_DEDICATED_ORDER);
-                return DEFAULT_DEDICATED_ORDER;
-            }
+        return config != null;
+    }
+
+    private static GreedMilestonesConfig.VaultOfVaultsEntry unreachableVaultOfVaults() {
+        GreedMilestonesConfig.VaultOfVaultsEntry entry = new GreedMilestonesConfig.VaultOfVaultsEntry();
+        entry.mobKills = Long.MAX_VALUE;
+        entry.chestsPerType = Long.MAX_VALUE;
+        entry.doorsPerType = Long.MAX_VALUE;
+        entry.ores = Long.MAX_VALUE;
+        return entry;
+    }
+
+    /** Resolves the generated chest order; the installer has already rejected unknown chest types. */
+    private static List<VaultChestType> readDedicatedOrder(GreedMilestonesConfig loaded) {
+        List<VaultChestType> order = new ArrayList<>(loaded.dedicatedLooter.chestOrder.size());
+        for (String name : loaded.dedicatedLooter.chestOrder) {
+            order.add(VaultChestType.valueOf(name.trim().toUpperCase(Locale.ROOT)));
         }
         return List.copyOf(order);
     }
@@ -231,19 +164,6 @@ public class MilestoneRegistry {
         return definition;
     }
 
-    /** The configured numbers for a milestone, falling back to the shipped defaults with an error. */
-    private static GreedMilestonesConfig.Entry entry(String id) {
-        GreedMilestonesConfig.Entry entry = config.getMilestone(id);
-        if (entry != null && entry.isUsable()) {
-            return entry;
-        }
-        WoldsVaults.LOGGER.error("Milestone '{}' has no usable entry in greed_milestones.json; falling back to its shipped thresholds and reputation", id);
-        GreedMilestonesConfig.Entry fallback = GreedMilestonesConfig.defaults().getMilestone(id);
-        if (fallback == null) {
-            throw new IllegalStateException("Milestone " + id + " has no shipped default either");
-        }
-        return fallback;
-    }
 
     private static void count(String id, MilestoneCategory category) {
         register(id, category, MilestoneCounter.ACCUMULATE, null);
@@ -268,7 +188,11 @@ public class MilestoneRegistry {
     }
 
     private static void register(String id, MilestoneCategory category, MilestoneCounter counter, String challengeCrystalId) {
-        GreedMilestonesConfig.Entry entry = entry(id);
+        GreedMilestonesConfig.Entry entry = config.getMilestone(id);
+        if (entry == null) {
+            WoldsVaults.LOGGER.error("Milestone '{}' has no entry in the greed/milestones/greed_milestones table; it is not registered", id);
+            return;
+        }
         register(new MilestoneDefinition(id, category, counter, entry.thresholds(), entry.reputation(),
                 challengeCrystalId, entry.requiredRank()));
     }

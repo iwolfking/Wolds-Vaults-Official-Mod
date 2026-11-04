@@ -3,12 +3,14 @@ package xyz.iwolfking.woldsvaults.medallions.champion;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Identity for the Vault Champion, a {@code TheVesselEntity} carrying the {@code greed_champion} tag
@@ -69,21 +71,23 @@ public final class VaultChampion {
         entity.getPersistentData().putUUID(HUNT_TARGET_KEY, target);
     }
 
-    private static GreedChampionConfig fallback;
+    private static final GreedChampionConfig INERT = GreedChampionConfig.inert();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     /**
-     * The live champion config, or the shipped defaults when the pack file is unread or invalid; never null, since
-     * Vessel mixins can run before configs are registered.
+     * The installed champion table, or an inert one with no ranks until it is installed; never null, since Vessel
+     * mixins can run before the tables load.
      */
     public static GreedChampionConfig config() {
         GreedChampionConfig config = ModConfigs.GREED_CHAMPION;
-        if (config != null && config.isValid()) {
+        if (config != null) {
             return config;
         }
-        if (fallback == null) {
-            fallback = GreedChampionConfig.defaults();
+        if (WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("The Vault Champion was read before the greed/champion/greed_champion table was installed; "
+                    + "no Champion can spawn until it is");
         }
-        return fallback;
+        return INERT;
     }
 
     public static GreedChampionConfig.Rank rankStats(Entity entity) {

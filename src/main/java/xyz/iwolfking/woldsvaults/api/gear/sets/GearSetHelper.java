@@ -8,6 +8,7 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Shared set-gear logic: which set an item belongs to, which pieces a player's attribute snapshot counts, and the
@@ -26,14 +28,24 @@ import java.util.Set;
  * item's unique id; rarity alone is not a test, because etched gear is UNIQUE rarity too.
  */
 public final class GearSetHelper {
+    private static final GearSetConfig INERT = GearSetConfig.inert();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
     private static GearSetConfig resolvedFor;
     private static final Map<GearSetConfig.Tier, List<GearSetConfig.ResolvedGrant>> RESOLVED = new IdentityHashMap<>();
 
     private GearSetHelper() {
     }
 
+    /** The installed set table, or an inert one with no sets until it is installed; never null. */
     public static GearSetConfig config() {
-        return ModConfigs.GEAR_SETS;
+        GearSetConfig config = ModConfigs.GEAR_SETS;
+        if (config != null) {
+            return config;
+        }
+        if (WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Set gear was read before the gear/sets/gear_sets table was installed; nothing counts as a set piece until it is");
+        }
+        return INERT;
     }
 
     public static Optional<ResourceLocation> uniqueKey(ItemStack stack) {

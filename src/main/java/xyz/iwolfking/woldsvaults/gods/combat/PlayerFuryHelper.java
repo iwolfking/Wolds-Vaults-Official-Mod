@@ -44,6 +44,9 @@ public final class PlayerFuryHelper {
             return get(player);
         }
         UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            return get(player);
+        }
         float updated = Math.min(get(player) + amount, config.furyCap());
         FURY.put(player.getUUID(), updated);
         UltraRampaging.onFuryChanged(player);
@@ -67,6 +70,10 @@ public final class PlayerFuryHelper {
             return;
         }
         UltraRampagingConfig config = UltraRampaging.config();
+        if (config == null) {
+            FURY.clear();
+            return;
+        }
         Iterator<Map.Entry<UUID, Float>> entries = FURY.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<UUID, Float> entry = entries.next();

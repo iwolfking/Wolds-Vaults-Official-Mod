@@ -8,7 +8,6 @@ import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.base.Skill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.idona.ManaCostHelperAccessor;
@@ -24,9 +23,6 @@ import java.util.function.BooleanSupplier;
  * {@link CastTag} and is applied at hurt time.
  */
 public final class IdonaPowerDump {
-    private static final float DEFAULT_SQRT_REF = 2000.0F;
-    private static final float DEFAULT_HOLD_DRAIN_FRACTION = 0.025F;
-
     private IdonaPowerDump() {
     }
 
@@ -41,21 +37,11 @@ public final class IdonaPowerDump {
     /** The largest bonus a cast can reach, set by the player's max mana. */
     public static float largestBonus(ServerPlayer player) {
         IdonaNodeHandlers.PowerDumpParams params = params();
-        float sqrtRef = params.sqrt_ref();
-        if (sqrtRef <= 0.0F) {
-            WoldsVaults.LOGGER.error("Power Dump sqrt_ref is {}; using {}.", sqrtRef, DEFAULT_SQRT_REF);
-            sqrtRef = DEFAULT_SQRT_REF;
-        }
-        return params.per_mana() * (float) Math.sqrt(sqrtRef * Math.max(0.0F, Mana.getMax(player)));
+        return params.per_mana() * (float) Math.sqrt(params.sqrt_ref() * Math.max(0.0F, Mana.getMax(player)));
     }
 
     private static float holdDrainFraction() {
-        float fraction = params().hold_drain_fraction();
-        if (fraction <= 0.0F) {
-            WoldsVaults.LOGGER.error("Power Dump hold_drain_fraction is {}; using {}.", fraction, DEFAULT_HOLD_DRAIN_FRACTION);
-            return DEFAULT_HOLD_DRAIN_FRACTION;
-        }
-        return fraction;
+        return params().hold_drain_fraction();
     }
 
     private static float multiplier(ServerPlayer player, float manaAboveCost) {

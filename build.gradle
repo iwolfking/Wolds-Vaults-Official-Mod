@@ -134,9 +134,6 @@ minecraft {
             workingDirectory project.file('run-data')
             environment 'WV_DATAGEN', 'true'
             jvmArgs '-Duser.language=en', '-Duser.country=US' // dots as decimal separators
-            if (wvPackDir != null) {
-                property 'woldsvaults.packDir', wvPackDir.absolutePath
-            }
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing-mod', 'the_vault', '--existing-mod', 'compressium', '--existing-mod', 'occultism'
         }

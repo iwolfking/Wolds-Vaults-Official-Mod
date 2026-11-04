@@ -41,7 +41,6 @@ public class NetworkHandler {
         INSTANCE.register(ServerboundSetMinorTransferMessage.class, new ServerboundSetMinorTransferMessage());
         INSTANCE.register(ServerboundRequestGodNodePreviewMessage.class, new ServerboundRequestGodNodePreviewMessage());
         INSTANCE.register(ClientboundGodNodePreviewMessage.class, new ClientboundGodNodePreviewMessage());
-        INSTANCE.register(GreedTablesMessage.class, new GreedTablesMessage());
         INSTANCE.register(ServerboundUnpinMilestoneMessage.class, new ServerboundUnpinMilestoneMessage());
     }
 }

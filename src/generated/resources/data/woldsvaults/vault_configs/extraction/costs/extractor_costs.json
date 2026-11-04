@@ -32,40 +32,40 @@
         {
           "id": "woldsvaults:infused_driftwood",
           "fluid": false,
-          "min": 32,
-          "max": 40,
+          "min": 32.0,
+          "max": 40.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "the_vault:carbon_nugget",
           "fluid": false,
-          "min": 200,
-          "max": 300,
+          "min": 200.0,
+          "max": 300.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 6,
-          "max": 6,
+          "min": 6.0,
+          "max": 6.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 200,
-          "max": 200,
+          "min": 200.0,
+          "max": 200.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -82,40 +82,40 @@
         {
           "id": "the_vault:chromatic_iron_ingot",
           "fluid": false,
-          "min": 300,
-          "max": 400,
+          "min": 300.0,
+          "max": 400.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "the_vault:gem_alexandrite",
           "fluid": false,
-          "min": 24,
-          "max": 32,
+          "min": 24.0,
+          "max": 32.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 6,
-          "max": 6,
+          "min": 6.0,
+          "max": 6.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 200,
-          "max": 200,
+          "min": 200.0,
+          "max": 200.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -140,40 +140,40 @@
         {
           "id": "the_vault:perfect_painite",
           "fluid": false,
-          "min": 56,
-          "max": 72,
+          "min": 56.0,
+          "max": 72.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:chromatic_gold_ingot",
           "fluid": false,
-          "min": 12,
-          "max": 18,
+          "min": 12.0,
+          "max": 18.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 6,
-          "max": 6,
+          "min": 6.0,
+          "max": 6.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 200,
-          "max": 200,
+          "min": 200.0,
+          "max": 200.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -198,40 +198,40 @@
         {
           "id": "the_vault:carbon",
           "fluid": false,
-          "min": 90,
-          "max": 114,
+          "min": 90.0,
+          "max": 114.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "the_vault:vault_ingot",
           "fluid": false,
-          "min": 16,
-          "max": 24,
+          "min": 16.0,
+          "max": 24.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 6,
-          "max": 6,
+          "min": 6.0,
+          "max": 6.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 200,
-          "max": 200,
+          "min": 200.0,
+          "max": 200.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -248,40 +248,40 @@
         {
           "id": "the_vault:chromatic_steel_ingot",
           "fluid": false,
-          "min": 10,
-          "max": 14,
+          "min": 10.0,
+          "max": 14.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "the_vault:vault_diamond",
           "fluid": false,
-          "min": 120,
-          "max": 160,
+          "min": 120.0,
+          "max": 160.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 6,
-          "max": 6,
+          "min": 6.0,
+          "max": 6.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 200,
-          "max": 200,
+          "min": 200.0,
+          "max": 200.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -300,40 +300,40 @@
         {
           "id": "the_vault:living_rock",
           "fluid": false,
-          "min": 300,
-          "max": 360,
+          "min": 300.0,
+          "max": 360.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:cured_rubber",
           "fluid": false,
-          "min": 16,
-          "max": 24,
-          "gate": 0,
+          "min": 16.0,
+          "max": 24.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 100,
-          "max": 100,
+          "min": 100.0,
+          "max": 100.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -350,40 +350,40 @@
         {
           "id": "woldsvaults:chromatic_gold_ingot",
           "fluid": false,
-          "min": 24,
-          "max": 32,
+          "min": 24.0,
+          "max": 32.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:cured_rubber",
           "fluid": false,
-          "min": 16,
-          "max": 24,
-          "gate": 0,
+          "min": 16.0,
+          "max": 24.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 100,
-          "max": 100,
+          "min": 100.0,
+          "max": 100.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -408,40 +408,40 @@
         {
           "id": "the_vault:magic_silk",
           "fluid": false,
-          "min": 140,
-          "max": 170,
+          "min": 140.0,
+          "max": 170.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:cured_rubber",
           "fluid": false,
-          "min": 16,
-          "max": 24,
-          "gate": 0,
+          "min": 16.0,
+          "max": 24.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 100,
-          "max": 100,
+          "min": 100.0,
+          "max": 100.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -466,40 +466,40 @@
         {
           "id": "the_vault:carbon",
           "fluid": false,
-          "min": 44,
-          "max": 52,
+          "min": 44.0,
+          "max": 52.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:cured_rubber",
           "fluid": false,
-          "min": 16,
-          "max": 24,
-          "gate": 0,
+          "min": 16.0,
+          "max": 24.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 100,
-          "max": 100,
+          "min": 100.0,
+          "max": 100.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -516,40 +516,40 @@
         {
           "id": "the_vault:chromatic_steel_ingot",
           "fluid": false,
-          "min": 6,
-          "max": 9,
+          "min": 6.0,
+          "max": 9.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:servo_actuator",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:cured_rubber",
           "fluid": false,
-          "min": 16,
-          "max": 24,
-          "gate": 0,
+          "min": 16.0,
+          "max": 24.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:structural_spine",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 100,
-          "max": 100,
+          "min": 100.0,
+          "max": 100.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -568,40 +568,40 @@
         {
           "id": "the_vault:wooden_chunk",
           "fluid": false,
-          "min": 820,
-          "max": 1000,
+          "min": 820.0,
+          "max": 1000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:blast_chamber",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:rf_coil",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:containment_ring",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:nullite_crystal",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -618,40 +618,40 @@
         {
           "id": "the_vault:vault_essence",
           "fluid": false,
-          "min": 2000,
-          "max": 3000,
+          "min": 2000.0,
+          "max": 3000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:blast_chamber",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:rf_coil",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:containment_ring",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:nullite_crystal",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -676,48 +676,48 @@
         {
           "id": "woldsvaults:molten_painite",
           "fluid": true,
-          "min": 38000,
-          "max": 48000,
+          "min": 38000.0,
+          "max": 48000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:molten_echo",
           "fluid": true,
-          "min": 2000,
-          "max": 3000,
+          "min": 2000.0,
+          "max": 3000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:blast_chamber",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:rf_coil",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:containment_ring",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:nullite_crystal",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -742,48 +742,48 @@
         {
           "id": "the_vault:gem_echo",
           "fluid": false,
-          "min": 16,
-          "max": 24,
+          "min": 16.0,
+          "max": 24.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:coolant",
           "fluid": true,
-          "min": 600,
-          "max": 800,
+          "min": 600.0,
+          "max": 800.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:blast_chamber",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:rf_coil",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:containment_ring",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:nullite_crystal",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -800,40 +800,40 @@
         {
           "id": "woldsvaults:molten_echo",
           "fluid": true,
-          "min": 15000,
-          "max": 22000,
+          "min": 15000.0,
+          "max": 22000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:blast_chamber",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "thermal:rf_coil",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:containment_ring",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:nullite_crystal",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -852,40 +852,40 @@
         {
           "id": "the_vault:perfect_larimar",
           "fluid": false,
-          "min": 90,
-          "max": 110,
+          "min": 90.0,
+          "max": 110.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:field_emitter",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "powah:capacitor_basic",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:phase_lattice",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:omega_pog",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -902,40 +902,40 @@
         {
           "id": "the_vault:vault_essence",
           "fluid": false,
-          "min": 1200,
-          "max": 1800,
+          "min": 1200.0,
+          "max": 1800.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:field_emitter",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "powah:capacitor_basic",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:phase_lattice",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:omega_pog",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -960,40 +960,40 @@
         {
           "id": "the_vault:extraordinary_black_opal",
           "fluid": false,
-          "min": 4,
-          "max": 8,
+          "min": 4.0,
+          "max": 8.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:field_emitter",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "powah:capacitor_basic",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:phase_lattice",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:omega_pog",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1018,40 +1018,40 @@
         {
           "id": "the_vault:extraordinary_painite",
           "fluid": false,
-          "min": 3,
-          "max": 4,
+          "min": 3.0,
+          "max": 4.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:field_emitter",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "powah:capacitor_basic",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:phase_lattice",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:omega_pog",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1068,48 +1068,48 @@
         {
           "id": "woldsvaults:molten_echo",
           "fluid": true,
-          "min": 6000,
-          "max": 9000,
+          "min": 6000.0,
+          "max": 9000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:molten_larimar",
           "fluid": true,
-          "min": 10000,
-          "max": 14000,
+          "min": 10000.0,
+          "max": 14000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:field_emitter",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "powah:capacitor_basic",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:phase_lattice",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:omega_pog",
           "fluid": false,
-          "min": 4,
-          "max": 4,
+          "min": 4.0,
+          "max": 4.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1128,40 +1128,40 @@
         {
           "id": "the_vault:chromatic_iron_ingot",
           "fluid": false,
-          "min": 520,
-          "max": 680,
+          "min": 520.0,
+          "max": 680.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:heat_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "create:encased_fan",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:cryogenic_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 3,
+          "min": 3.0,
+          "max": 3.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 50,
-          "max": 50,
+          "min": 50.0,
+          "max": 50.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1178,40 +1178,40 @@
         {
           "id": "the_vault:magic_silk",
           "fluid": false,
-          "min": 500,
-          "max": 700,
+          "min": 500.0,
+          "max": 700.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:heat_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "create:encased_fan",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:cryogenic_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 3,
+          "min": 3.0,
+          "max": 3.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 50,
-          "max": 50,
+          "min": 50.0,
+          "max": 50.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1236,40 +1236,40 @@
         {
           "id": "woldsvaults:molten_painite",
           "fluid": true,
-          "min": 14000,
-          "max": 18000,
+          "min": 14000.0,
+          "max": 18000.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:heat_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "create:encased_fan",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:cryogenic_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 3,
+          "min": 3.0,
+          "max": 3.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 50,
-          "max": 50,
+          "min": 50.0,
+          "max": 50.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1294,40 +1294,40 @@
         {
           "id": "woldsvaults:chromatic_gold_ingot",
           "fluid": false,
-          "min": 12,
-          "max": 18,
+          "min": 12.0,
+          "max": 18.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:heat_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "create:encased_fan",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:cryogenic_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 3,
+          "min": 3.0,
+          "max": 3.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 50,
-          "max": 50,
+          "min": 50.0,
+          "max": 50.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1344,40 +1344,40 @@
         {
           "id": "woldsvaults:molten_echo",
           "fluid": true,
-          "min": 2500,
-          "max": 3100,
+          "min": 2500.0,
+          "max": 3100.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:heat_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "create:encased_fan",
           "fluid": false,
-          "min": 2,
-          "max": 3,
-          "gate": 0,
+          "min": 2.0,
+          "max": 3.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:cryogenic_exchanger",
           "fluid": false,
-          "min": 3,
-          "max": 3,
+          "min": 3.0,
+          "max": 3.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "woldsvaults:prismatic_glue",
           "fluid": true,
-          "min": 50,
-          "max": 50,
+          "min": 50.0,
+          "max": 50.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1396,40 +1396,40 @@
         {
           "id": "the_vault:gem_benitoite",
           "fluid": false,
-          "min": 110,
-          "max": 140,
+          "min": 110.0,
+          "max": 140.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:vault_processing_unit",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "minecraft:glass",
           "fluid": false,
-          "min": 10,
-          "max": 15,
-          "gate": 0,
+          "min": 10.0,
+          "max": 15.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:quantum_processing_unit",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 10,
-          "max": 10,
+          "min": 10.0,
+          "max": 10.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1446,40 +1446,40 @@
         {
           "id": "the_vault:gem_alexandrite",
           "fluid": false,
-          "min": 140,
-          "max": 180,
+          "min": 140.0,
+          "max": 180.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:vault_processing_unit",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "minecraft:spyglass",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:quantum_processing_unit",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 10,
-          "max": 10,
+          "min": 10.0,
+          "max": 10.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1488,8 +1488,8 @@
         {
           "id": "the_vault:gem_wutodie",
           "fluid": false,
-          "min": 180,
-          "max": 220,
+          "min": 180.0,
+          "max": 220.0,
           "gate": 0.0,
           "scaling": "main"
         },
@@ -1504,40 +1504,40 @@
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 1,
-          "max": 1,
+          "min": 1.0,
+          "max": 1.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:vault_processing_unit",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "minecraft:spyglass",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:quantum_processing_unit",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 10,
-          "max": 10,
+          "min": 10.0,
+          "max": 10.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1562,40 +1562,40 @@
         {
           "id": "the_vault:vault_ingot",
           "fluid": false,
-          "min": 3,
-          "max": 5,
+          "min": 3.0,
+          "max": 5.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:vault_processing_unit",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "minecraft:spyglass",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:quantum_processing_unit",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 10,
-          "max": 10,
+          "min": 10.0,
+          "max": 10.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1612,40 +1612,40 @@
         {
           "id": "the_vault:knowledge_star",
           "fluid": false,
-          "min": 3,
-          "max": 5,
+          "min": 3.0,
+          "max": 5.0,
           "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:vault_processing_unit",
           "fluid": false,
-          "min": 3,
-          "max": 4,
-          "gate": 0,
+          "min": 3.0,
+          "max": 4.0,
+          "gate": 0.0,
           "scaling": "fabricator"
         },
         {
           "id": "minecraft:spyglass",
           "fluid": false,
-          "min": 1,
-          "max": 2,
-          "gate": 0,
+          "min": 1.0,
+          "max": 2.0,
+          "gate": 0.0,
           "scaling": "main"
         },
         {
           "id": "woldsvaults:quantum_processing_unit",
           "fluid": false,
-          "min": 2,
-          "max": 2,
+          "min": 2.0,
+          "max": 2.0,
           "gate": 15.0,
           "scaling": "gated"
         },
         {
           "id": "the_vault:echo_pog",
           "fluid": false,
-          "min": 10,
-          "max": 10,
+          "min": 10.0,
+          "max": 10.0,
           "gate": 35.0,
           "scaling": "gated"
         }
@@ -1657,48 +1657,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_diamond",
         "fluid": false,
-        "min": 22,
-        "max": 28,
-        "gate": 0,
+        "min": 22.0,
+        "max": 28.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 1,
-        "max": 2,
-        "gate": 0,
+        "min": 1.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "the_vault:knowledge_star_shard",
         "fluid": false,
-        "min": 5,
-        "max": 10,
-        "gate": 0,
+        "min": 5.0,
+        "max": 10.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1707,48 +1707,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:perfect_benitoite",
         "fluid": false,
-        "min": 44,
-        "max": 52,
-        "gate": 0,
+        "min": 44.0,
+        "max": 52.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "thermal:rf_coil",
         "fluid": false,
-        "min": 3,
-        "max": 4,
-        "gate": 0,
+        "min": 3.0,
+        "max": 4.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
+        "min": 1.0,
+        "max": 1.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1757,48 +1757,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:chromatic_gold_ingot",
         "fluid": false,
-        "min": 20,
-        "max": 24,
-        "gate": 0,
+        "min": 20.0,
+        "max": 24.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:field_emitter",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:phase_lattice",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1807,48 +1807,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:mossy_bone",
         "fluid": false,
-        "min": 112,
-        "max": 144,
-        "gate": 0,
+        "min": 112.0,
+        "max": 144.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:magic_silk",
         "fluid": false,
-        "min": 64,
-        "max": 80,
-        "gate": 0,
+        "min": 64.0,
+        "max": 80.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
+        "min": 1.0,
+        "max": 1.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1857,48 +1857,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_diamond",
         "fluid": false,
-        "min": 22,
-        "max": 28,
-        "gate": 0,
+        "min": 22.0,
+        "max": 28.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 2,
-        "max": 3,
-        "gate": 0,
+        "min": 2.0,
+        "max": 3.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "the_vault:vault_ingot",
         "fluid": false,
-        "min": 5,
-        "max": 8,
-        "gate": 0,
+        "min": 5.0,
+        "max": 8.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1907,48 +1907,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:molten_painite",
         "fluid": true,
-        "min": 3000,
-        "max": 5000,
-        "gate": 0,
+        "min": 3000.0,
+        "max": 5000.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:blast_chamber",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:heat_exchanger",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:containment_ring",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -1957,48 +1957,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_plating",
         "fluid": false,
-        "min": 200,
-        "max": 240,
-        "gate": 0,
+        "min": 200.0,
+        "max": 240.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:blast_chamber",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -2007,48 +2007,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_essence",
         "fluid": false,
-        "min": 500,
-        "max": 600,
-        "gate": 0,
+        "min": 500.0,
+        "max": 600.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "create:mechanical_pump",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:cryogenic_exchanger",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -2057,48 +2057,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:ornate_chain",
         "fluid": false,
-        "min": 100,
-        "max": 130,
-        "gate": 0,
+        "min": 100.0,
+        "max": 130.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "create:mechanical_pump",
         "fluid": false,
-        "min": 3,
-        "max": 4,
-        "gate": 0,
+        "min": 3.0,
+        "max": 4.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -2107,48 +2107,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_catalyst_fragment",
         "fluid": false,
-        "min": 6,
-        "max": 10,
-        "gate": 0,
+        "min": 6.0,
+        "max": 10.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:field_emitter",
         "fluid": false,
-        "min": 1,
-        "max": 1,
-        "gate": 0,
+        "min": 1.0,
+        "max": 1.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 1,
-        "max": 1,
+        "min": 1.0,
+        "max": 1.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -2157,40 +2157,40 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 12,
-        "max": 15,
-        "gate": 0,
+        "min": 12.0,
+        "max": 15.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:nullite_fragment",
         "fluid": false,
-        "min": 2,
-        "max": 4,
-        "gate": 0,
+        "min": 2.0,
+        "max": 4.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:field_emitter",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:containment_ring",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       },
       {
         "id": "woldsvaults:prismatic_glue",
         "fluid": true,
-        "min": 50,
-        "max": 50,
+        "min": 50.0,
+        "max": 50.0,
         "gate": 35.0,
         "scaling": "gated"
       }
@@ -2201,48 +2201,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:heat_exchanger",
         "fluid": false,
-        "min": 2,
-        "max": 4,
-        "gate": 0,
+        "min": 2.0,
+        "max": 4.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "create:encased_fan",
         "fluid": false,
-        "min": 2,
-        "max": 4,
-        "gate": 0,
+        "min": 2.0,
+        "max": 4.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_larimar",
         "fluid": false,
-        "min": 192,
-        "max": 256,
-        "gate": 0,
+        "min": 192.0,
+        "max": 256.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:cryogenic_exchanger",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2251,48 +2251,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:field_emitter",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "powah:capacitor_basic",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_essence",
         "fluid": false,
-        "min": 128,
-        "max": 192,
-        "gate": 0,
+        "min": 128.0,
+        "max": 192.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:phase_lattice",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2301,48 +2301,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:blast_chamber",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "thermal:rf_coil",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2351,48 +2351,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_plating",
         "fluid": false,
-        "min": 192,
-        "max": 256,
-        "gate": 0,
+        "min": 192.0,
+        "max": 256.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "create:sturdy_sheet",
         "fluid": false,
-        "min": 24,
-        "max": 32,
-        "gate": 0,
+        "min": 24.0,
+        "max": 32.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:carbon",
         "fluid": false,
-        "min": 32,
-        "max": 48,
-        "gate": 0,
+        "min": 32.0,
+        "max": 48.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2401,48 +2401,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:blast_chamber",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "create:mechanical_pump",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:molten_painite",
         "fluid": true,
-        "min": 8000,
-        "max": 12000,
-        "gate": 0,
+        "min": 8000.0,
+        "max": 12000.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:containment_ring",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2451,48 +2451,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "powah:capacitor_basic",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "thermal:rf_coil",
         "fluid": false,
-        "min": 6,
-        "max": 8,
-        "gate": 0,
+        "min": 6.0,
+        "max": 8.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_essence",
         "fluid": false,
-        "min": 128,
-        "max": 192,
-        "gate": 0,
+        "min": 128.0,
+        "max": 192.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:containment_ring",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2501,48 +2501,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "create:encased_fan",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:smashed_vault_gem_cluster",
         "fluid": false,
-        "min": 16,
-        "max": 24,
-        "gate": 0,
+        "min": 16.0,
+        "max": 24.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2551,48 +2551,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:blast_chamber",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:quantum_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2601,48 +2601,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:vault_alloy",
         "fluid": false,
-        "min": 4,
-        "max": 6,
-        "gate": 0,
+        "min": 4.0,
+        "max": 6.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:servo_actuator",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "create:sturdy_sheet",
         "fluid": false,
-        "min": 24,
-        "max": 32,
-        "gate": 0,
+        "min": 24.0,
+        "max": 32.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:structural_spine",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }
@@ -2651,48 +2651,48 @@
       {
         "id": "the_vault:chromatic_steel_ingot",
         "fluid": false,
-        "min": 8,
-        "max": 12,
-        "gate": 0,
+        "min": 8.0,
+        "max": 12.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "the_vault:gem_pog",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:vault_processing_unit",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "the_vault:eternal_soul",
         "fluid": false,
-        "min": 12,
-        "max": 16,
-        "gate": 0,
+        "min": 12.0,
+        "max": 16.0,
+        "gate": 0.0,
         "scaling": "main"
       },
       {
         "id": "woldsvaults:field_emitter",
         "fluid": false,
-        "min": 2,
-        "max": 2,
-        "gate": 0,
+        "min": 2.0,
+        "max": 2.0,
+        "gate": 0.0,
         "scaling": "fabricator"
       },
       {
         "id": "woldsvaults:phase_lattice",
         "fluid": false,
-        "min": 2,
-        "max": 2,
+        "min": 2.0,
+        "max": 2.0,
         "gate": 15.0,
         "scaling": "gated"
       }

@@ -226,5 +226,12 @@ public final class IdonaNodeHandlers {
 
     public record PowerDumpParams(float per_mana, float sqrt_ref, float hold_drain_fraction,
                                   int toggle_grace_ticks) implements GodEffectParams {
+        @Override
+        public void validate(String effectId) {
+            if (this.sqrt_ref <= 0.0F || this.hold_drain_fraction <= 0.0F) {
+                throw GodTreeConfigException.fail("God effect '" + effectId + "' needs a positive sqrt_ref and "
+                        + "hold_drain_fraction; got " + this.sqrt_ref + " and " + this.hold_drain_fraction);
+            }
+        }
     }
 }

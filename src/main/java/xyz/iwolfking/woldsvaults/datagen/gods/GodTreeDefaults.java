@@ -1,11 +1,10 @@
-package xyz.iwolfking.woldsvaults.config.gods;
+package xyz.iwolfking.woldsvaults.datagen.gods;
 
 import java.util.Locale;
 
 /**
- * The shipped topology and layout of all four god trees, shaped as {@code god_tree_<god>.json} and
- * {@code god_tree_<god>_gui_styles.json} store them; coordinates are screen pixels with +y down.
- * {@code ModGodTreesProvider} writes these same builders out as the pack's files.
+ * The topology and layout of all four god trees, the only source of the generated {@code gods/trees/<god>} and
+ * {@code gods/styles/<god>} tables; coordinates are screen pixels with +y down.
  */
 public final class GodTreeDefaults {
 

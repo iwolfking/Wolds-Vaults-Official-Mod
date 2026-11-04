@@ -1,41 +1,25 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
+import iskallia.vault.config.Config;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
+import javax.annotation.Nullable;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * The greed rank ladder - {@code config/the_vault/gods/greed_ranks.json}: every rank's reputation
- * threshold, the rank bands, and the god alignment level each band jump is gated behind.
+ * The tunable numbers of the greed rank ladder, generated as {@code vault_configs/greed/ranks/greed_ranks.json}:
+ * every rank's reputation threshold, the god alignment level each gated rank-up needs, the reputation step past
+ * Legend and the greed coins a rank-up trial pays per rank. The ladder's shape (rank count, bands, band names) is
+ * structure and lives in {@link MilestoneRankLadder}.
  */
-public class GreedRanksConfig extends PackAuthoredConfig {
-    @Expose private Map<String, String> documentation;
-    @Expose private int bandSize;
-    @Expose private List<String> bandNames;
-    @Expose private List<Integer> thresholds;
-    @Expose private Map<String, Integer> godLevelGates;
-
-    /** The shipped defaults without touching disk; the ladder runs on these until the file-backed copy lands. */
-    public static GreedRanksConfig defaults() {
-        GreedRanksConfig config = new GreedRanksConfig();
-        config.reset();
-        return config;
-    }
-
-    /** A ladder handed in explicitly, so a synced ladder goes through the same validation as one from disk. */
-    public static GreedRanksConfig of(int bandSize, List<String> bandNames, List<Integer> thresholds,
-                                      Map<String, Integer> godLevelGates) {
-        GreedRanksConfig config = defaults();
-        config.bandSize = bandSize;
-        config.bandNames = new ArrayList<>(bandNames);
-        config.thresholds = new ArrayList<>(thresholds);
-        config.godLevelGates = new LinkedHashMap<>(godLevelGates);
-        return config;
-    }
+public class GreedRanksConfig extends Config implements WoldsTable {
+    @Expose public List<Integer> thresholds;
+    @Expose public Map<String, Integer> godLevelGates;
+    @Expose public int legendPlusStep;
+    @Expose public int trialCoinsPerRank;
 
     @Override
     public String getName() {
@@ -44,34 +28,40 @@ public class GreedRanksConfig extends PackAuthoredConfig {
 
     @Override
     protected void reset() {
-        this.documentation = new LinkedHashMap<>();
-        this.documentation.put("bandSize", "Ranks per band. A rank-up that lands on the first rank of a band is a hyper trial; every other rank-up is a vessel trial");
-        this.documentation.put("bandNames", "Band names in ladder order, one per band. Medallion registry paths, rank badges and band colours all derive from these");
-        this.documentation.put("thresholds", "Greed reputation needed to hold each rank, rank 1 upwards. The list must hold one entry per rank of the ladder");
-        this.documentation.put("godLevelGates", "God alignment level needed with any single god before the rank-up trial for that rank may be taken, keyed by the rank being climbed to. Ranks with no gate are omitted");
-        this.bandSize = 3;
-        this.bandNames = new ArrayList<>(List.of("scavenger", "looter", "hunter", "master", "champion", "legend"));
-        this.thresholds = new ArrayList<>(List.of(0, 75, 100, 125, 150, 175, 200, 250, 300, 400, 500, 550, 600, 800, 900, 1000));
-        this.godLevelGates = new LinkedHashMap<>();
-        this.godLevelGates.put("7", 2);
-        this.godLevelGates.put("10", 4);
-        this.godLevelGates.put("13", 6);
-        this.godLevelGates.put("16", 8);
     }
 
-    public int getBandSize() {
-        return this.bandSize;
-    }
-
-    public List<String> getBandNames() {
-        return this.bandNames;
-    }
-
-    public List<Integer> getThresholds() {
-        return this.thresholds;
-    }
-
-    public Map<String, Integer> getGodLevelGates() {
-        return this.godLevelGates;
+    @Nullable
+    @Override
+    public String validate() {
+        if (this.thresholds == null || this.thresholds.size() != MilestoneRankLadder.LEGEND_RANK) {
+            return "it lists " + (this.thresholds == null ? 0 : this.thresholds.size()) + " rank thresholds for a "
+                    + MilestoneRankLadder.LEGEND_RANK + " rank ladder";
+        }
+        for (int index = 1; index < this.thresholds.size(); index++) {
+            if (this.thresholds.get(index) <= this.thresholds.get(index - 1)) {
+                return "rank thresholds must strictly ascend, but rank " + (index + 1) + " sits at " + this.thresholds.get(index);
+            }
+        }
+        if (this.godLevelGates == null) {
+            return "godLevelGates is missing";
+        }
+        for (Map.Entry<String, Integer> gate : this.godLevelGates.entrySet()) {
+            int rank;
+            try {
+                rank = Integer.parseInt(gate.getKey().trim());
+            } catch (NumberFormatException e) {
+                return "god level gate key '" + gate.getKey() + "' is not a rank number";
+            }
+            if (rank < MilestoneRankLadder.FIRST_RANK || rank > MilestoneRankLadder.LEGEND_RANK || gate.getValue() == null) {
+                return "god level gate for rank " + gate.getKey() + " is outside the ladder or empty";
+            }
+        }
+        if (this.legendPlusStep <= 0) {
+            return "legendPlusStep must be positive";
+        }
+        if (this.trialCoinsPerRank < 0) {
+            return "trialCoinsPerRank is negative";
+        }
+        return null;
     }
 }

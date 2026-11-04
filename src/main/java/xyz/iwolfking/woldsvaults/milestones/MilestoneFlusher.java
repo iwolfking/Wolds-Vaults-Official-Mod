@@ -5,7 +5,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
-import xyz.iwolfking.woldsvaults.milestones.network.GreedTablesMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneStatusMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.MilestoneSyncMessage;
 
@@ -78,13 +77,10 @@ public class MilestoneFlusher {
         });
     }
 
-    /** Sends the balance tables, then the player's whole milestone set, claim marks, pin and header. */
+    /** Sends the player's whole milestone set, claim marks, pin and header. */
     public static void syncAll(ServerPlayer player) {
         MilestoneData data = MilestoneData.get(player.server);
         data.clearPendingSync(player.getUUID());
-        NetworkHandler.INSTANCE.send(
-                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
-                GreedTablesMessage.build());
         NetworkHandler.INSTANCE.send(
                 net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
                 new MilestoneSyncMessage(true, new HashMap<>(data.getAllValues(player.getUUID())),

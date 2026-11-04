@@ -5,22 +5,29 @@ import iskallia.vault.config.Config;
 import iskallia.vault.core.util.WeightedList;
 import net.minecraft.resources.ResourceLocation;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
-public class ExtractionObjectiveConfig extends Config {
-    @Expose public DefaultExtractorEntry DEFAULT_EXTRACTOR = new DefaultExtractorEntry();
-    @Expose public DurabilityEntry DURABILITY = new DurabilityEntry();
-    @Expose public DeploymentEntry DEPLOYMENT = new DeploymentEntry();
-    @Expose public LinkedHashMap<String, JobEntry> JOBS = new LinkedHashMap<>();
-    @Expose public WavesEntry WAVES = new WavesEntry();
-    @Expose public CellsEntry CELLS = new CellsEntry();
-    @Expose public SitesEntry SITES = new SitesEntry();
-    @Expose public GreedInfuserEntry GREED_INFUSER = new GreedInfuserEntry();
-    @Expose public FluidPayoutEntry FLUID_PAYOUT = new FluidPayoutEntry();
-    @Expose public AncientCrystalEntry ANCIENT_CRYSTAL = new AncientCrystalEntry();
+/**
+ * The extraction objective, generated as {@code vault_configs/objectives/extraction/extraction_objective.json}: the
+ * default rig, wear and deployment rules, every extraction job and its payout, the wave tiers sites run, cell drop
+ * chances, site placement, the Greed Infuser, fluid payouts and the Ancient Crystal payout.
+ */
+public class ExtractionObjectiveConfig extends Config implements WoldsTable {
+    @Expose public DefaultExtractorEntry DEFAULT_EXTRACTOR;
+    @Expose public DurabilityEntry DURABILITY;
+    @Expose public DeploymentEntry DEPLOYMENT;
+    @Expose public LinkedHashMap<String, JobEntry> JOBS;
+    @Expose public WavesEntry WAVES;
+    @Expose public CellsEntry CELLS;
+    @Expose public SitesEntry SITES;
+    @Expose public GreedInfuserEntry GREED_INFUSER;
+    @Expose public FluidPayoutEntry FLUID_PAYOUT;
+    @Expose public AncientCrystalEntry ANCIENT_CRYSTAL;
 
     @Override
     public String getName() {
@@ -29,89 +36,128 @@ public class ExtractionObjectiveConfig extends Config {
 
     @Override
     protected void reset() {
-        DEFAULT_EXTRACTOR = new DefaultExtractorEntry();
-        DURABILITY = new DurabilityEntry();
-        DEPLOYMENT = new DeploymentEntry();
-        WAVES = new WavesEntry();
-        CELLS = new CellsEntry();
-        SITES = new SitesEntry();
-        GREED_INFUSER = new GreedInfuserEntry();
-        FLUID_PAYOUT = new FluidPayoutEntry();
-        ANCIENT_CRYSTAL = new AncientCrystalEntry();
-        JOBS = new LinkedHashMap<>();
+    }
 
-        JobEntry arcane = new JobEntry(50, 0, "standard", 2400);
-        arcane.payout = PayoutEntry.item("woldsvaults:arcane_essence", 50, 100, "linear", 50, "sqrt");
-        JOBS.put("arcane_essence", arcane);
+    /** A config with no jobs, no wave tiers and zeroed rules: no extraction job can be started on it. */
+    public static ExtractionObjectiveConfig inert() {
+        ExtractionObjectiveConfig config = new ExtractionObjectiveConfig();
+        config.DEFAULT_EXTRACTOR = new DefaultExtractorEntry();
+        config.DEFAULT_EXTRACTOR.job = "";
+        config.DURABILITY = new DurabilityEntry();
+        config.DEPLOYMENT = new DeploymentEntry();
+        config.JOBS = new LinkedHashMap<>();
+        config.WAVES = new WavesEntry();
+        config.WAVES.statFloor = new StatFloorEntry();
+        config.WAVES.boss = new BossEntry();
+        config.WAVES.elite = new EliteEntry();
+        config.WAVES.carrier = new CarrierEntry();
+        config.WAVES.carrier.baseEntity = "";
+        config.CELLS = new CellsEntry();
+        config.SITES = new SitesEntry();
+        config.GREED_INFUSER = new GreedInfuserEntry();
+        config.GREED_INFUSER.powerPerExtraSlot = 1;
+        config.GREED_INFUSER.classOrder = new ArrayList<>();
+        config.GREED_INFUSER.cardPoolPrefix = "";
+        config.GREED_INFUSER.legacyCardPool = "";
+        config.GREED_INFUSER.traderPoolPrefix = "";
+        config.FLUID_PAYOUT = new FluidPayoutEntry();
+        config.ANCIENT_CRYSTAL = new AncientCrystalEntry();
+        config.ANCIENT_CRYSTAL.objectivePool = "";
+        config.ANCIENT_CRYSTAL.excludedObjectiveTypes = new ArrayList<>();
+        return config;
+    }
 
-        JobEntry maps = new JobEntry(50, 3, "laser", 3600);
-        maps.timePowerReference = 75;
-        maps.payout = PayoutEntry.of("maps", 2, 4, "sqrt", 50, "sqrt");
-        maps.payout.rarityWeights.put("rare", 70.0F);
-        maps.payout.rarityWeights.put("epic", 20.0F);
-        maps.payout.rarityWeights.put("omega", 10.0F);
-        maps.payout.rarityPerExtraPower.put("epic", 0.2F);
-        maps.payout.rarityPerExtraPowerSquared.put("omega", 0.002F);
-        maps.payout.itemRarityDampedKey = "rare";
-        maps.payout.itemRarityDampK = 500.0F;
-        maps.payout.tierWindows.add(new TierWindow(0, 1, 3));
-        maps.payout.tierWindows.add(new TierWindow(100, 2, 4));
-        maps.payout.tierWindows.add(new TierWindow(175, 3, 5));
-        maps.payout.tierWindows.add(new TierWindow(300, 4, 6));
-        JOBS.put("maps", maps);
+    @Nullable
+    @Override
+    public String validate() {
+        if (this.DEFAULT_EXTRACTOR == null || this.DURABILITY == null || this.DEPLOYMENT == null || this.CELLS == null
+                || this.SITES == null || this.FLUID_PAYOUT == null) {
+            return "a DEFAULT_EXTRACTOR, DURABILITY, DEPLOYMENT, CELLS, SITES or FLUID_PAYOUT block is missing";
+        }
+        if (this.JOBS == null || this.JOBS.isEmpty()) {
+            return "it defines no JOBS";
+        }
+        for (Map.Entry<String, JobEntry> entry : this.JOBS.entrySet()) {
+            String problem = checkJob(entry.getKey(), entry.getValue());
+            if (problem != null) {
+                return problem;
+            }
+        }
+        if (!this.JOBS.containsKey(this.DEFAULT_EXTRACTOR.job)) {
+            return "DEFAULT_EXTRACTOR names job '" + this.DEFAULT_EXTRACTOR.job + "', which JOBS does not define";
+        }
+        String problem = checkWaves(this.WAVES);
+        if (problem != null) {
+            return problem;
+        }
+        if (this.SITES.count <= 0 || this.SITES.ringMinRooms > this.SITES.ringMaxRooms) {
+            return "SITES has no sites or an inverted ring";
+        }
+        GreedInfuserEntry infuser = this.GREED_INFUSER;
+        if (infuser == null || infuser.powerPerExtraSlot <= 0 || infuser.classOrder == null || infuser.classOrder.isEmpty()
+                || infuser.cardPoolPrefix == null || infuser.legacyCardPool == null || infuser.traderPoolPrefix == null) {
+            return "GREED_INFUSER is missing, has no positive powerPerExtraSlot, no classOrder or a missing pool name";
+        }
+        AncientCrystalEntry crystal = this.ANCIENT_CRYSTAL;
+        if (crystal == null || crystal.strongPositive == null || crystal.strongNegative == null || crystal.randomPositive == null
+                || crystal.randomNegative == null || crystal.sigils == null || crystal.sigils.isEmpty()
+                || crystal.excludedObjectiveTypes == null || crystal.objectivePool == null || crystal.objectivePool.isEmpty()
+                || crystal.capacityMin > crystal.capacityMax) {
+            return "ANCIENT_CRYSTAL is missing a modifier source list, its sigils or objective pool, or has an inverted capacity";
+        }
+        return null;
+    }
 
-        JobEntry cards = new JobEntry(75, 4, "greed_infuser", 2400);
-        cards.requiresArming = true;
-        cards.timePowerRoot = 4.0F;
-        cards.timeShrinksWithPower = true;
-        cards.payout = PayoutEntry.of("cards", 3, 3, "none", 75, "none");
-        JOBS.put("greed_card_upgrade", cards);
+    @Nullable
+    private static String checkJob(String id, @Nullable JobEntry job) {
+        if (job == null || job.drillClass == null || job.drillClass.isEmpty() || job.baseDurationTicks <= 0) {
+            return "job " + id + " is missing, names no drill class or has no positive duration";
+        }
+        PayoutEntry payout = job.payout;
+        if (payout == null || payout.type == null || payout.type.isEmpty() || payout.item == null || payout.itemNbtId == null
+                || payout.powerScaling == null || payout.quantScaling == null || payout.itemRarityDampedKey == null) {
+            return "job " + id + " has no payout or a payout with a missing field";
+        }
+        if (payout.countMin < 0.0F || payout.countMax < payout.countMin) {
+            return "job " + id + " has a negative or inverted payout count";
+        }
+        if (("item".equals(payout.type) || "fluid".equals(payout.type)) && payout.item.isEmpty()) {
+            return "job " + id + " pays out " + payout.type + " but names no item";
+        }
+        if (payout.rarityWeights == null || payout.rarityPerExtraPower == null || payout.rarityPerExtraPowerSquared == null
+                || payout.tierWindows == null) {
+            return "job " + id + " has a missing rarity or tier window table";
+        }
+        return null;
+    }
 
-        JobEntry charms = new JobEntry(75, 4, "archeology", 4800);
-        charms.payout = PayoutEntry.of("charms", 3, 4, "sqrt", 75, "sqrt");
-        charms.payout.rarityWeights.put("omega", 70.0F);
-        charms.payout.rarityWeights.put("mythic", 30.0F);
-        charms.payout.rarityPerExtraPowerSquared.put("mythic", 0.0004F);
-        charms.payout.itemRarityDampedKey = "omega";
-        charms.payout.itemRarityDampK = 1000.0F;
-        JOBS.put("mythic_charms", charms);
-
-        JobEntry uniques = new JobEntry(100, 7, "excavator", 3600);
-        uniques.payout = PayoutEntry.of("uniques", 2, 3, "sqrt", 100, "cbrt");
-        uniques.payout.rarityWeights.put("unique", 95.0F);
-        uniques.payout.rarityWeights.put("ancient", 5.0F);
-        uniques.payout.rarityPerExtraPower.put("ancient", 0.06F);
-        uniques.payout.itemRarityDampedKey = "unique";
-        uniques.payout.itemRarityDampK = 1000.0F;
-        JOBS.put("ancient_uniques", uniques);
-
-        JobEntry sealing = new JobEntry(125, 5, "refiner", 6000);
-        sealing.payout = PayoutEntry.of("seal", 1, 1, "none", 125, "none");
-        JOBS.put("power_sealing", sealing);
-
-        JobEntry packs = new JobEntry(125, 4, "heavy", 3600);
-        packs.payout = PayoutEntry.item("the_vault:booster_pack", 3, 5, "sqrt", 75, "sqrt");
-        packs.payout.itemNbtId = "the_vault:shiny_pack";
-        JOBS.put("shiny_card_packs", packs);
-
-        JobEntry juice = new JobEntry(175, 10, "juicer", 4800);
-        juice.payout = PayoutEntry.item("the_vault:card_juice", 50, 100, "sqrt", 100, "sqrt");
-        JOBS.put("card_juice", juice);
-
-        JobEntry glue = new JobEntry(200, 8, "glue_derrick", 4800);
-        glue.payout = PayoutEntry.of("fluid", 100, 300, "sqrt", 200, "sqrt");
-        glue.payout.item = "woldsvaults:prismatic_glue";
-        JOBS.put("prismatic_glue", glue);
-
-        JobEntry crystals = new JobEntry(350, 10, "crystal", 6000);
-        crystals.payout = PayoutEntry.of("crystals", 2, 2, "none", 350, "none");
-        JOBS.put("ancient_crystals", crystals);
-
-        JobEntry nullite = new JobEntry(500, 13, "containment", 12000);
-        nullite.speedK = 500.0F;
-        nullite.speedBase = 400.0F;
-        nullite.payout = PayoutEntry.item("woldsvaults:nullite_crystal", 12, 24, "linear", 500, "sqrt");
-        JOBS.put("nullite", nullite);
+    @Nullable
+    private static String checkWaves(@Nullable WavesEntry waves) {
+        if (waves == null || waves.statFloor == null || waves.statFloor.anchors == null || waves.boss == null
+                || waves.boss.pool == null || waves.elite == null || waves.carrier == null) {
+            return "the WAVES block or one of its statFloor, boss, elite or carrier entries is missing";
+        }
+        if (waves.carrier.baseEntity == null || waves.carrier.baseEntity.isEmpty()) {
+            return "WAVES carrier names no base entity";
+        }
+        if (waves.tiers == null || waves.tiers.isEmpty()) {
+            return "WAVES defines no tiers";
+        }
+        for (TierEntry tier : waves.tiers) {
+            if (tier == null || tier.name == null) {
+                return "WAVES has an unnamed tier";
+            }
+            for (TimedWaveEntry wave : new TimedWaveEntry[]{tier.trickle, tier.horde, tier.combat, tier.assault, tier.siege}) {
+                if (wave == null || wave.intervalTicks <= 0 || wave.horde == null || wave.assassins == null || wave.tanks == null
+                        || wave.elites == null || wave.bosses == null) {
+                    return "WAVES tier " + tier.name + " has a missing wave, a wave with no positive interval, or a missing count";
+                }
+            }
+            if (tier.hordePool == null || tier.assassinPool == null || tier.tankPool == null || tier.elitePool == null) {
+                return "WAVES tier " + tier.name + " is missing a mob pool";
+            }
+        }
+        return null;
     }
 
     public JobEntry getJob(String id) {
@@ -119,20 +165,20 @@ public class ExtractionObjectiveConfig extends Config {
     }
 
     public static class DefaultExtractorEntry {
-        @Expose public float health = 10000.0F;
-        @Expose public float shield = 2000.0F;
-        @Expose public float armor = 10.0F;
-        @Expose public float shieldToughness = 0.0F;
-        @Expose public float shieldRegenPerTick = 5.0F;
-        @Expose public int power = 50;
-        @Expose public int speed = 100;
-        @Expose public float energyCapacity = 1000.0F;
-        @Expose public float energyCostPerSecond = 15.0F;
-        @Expose public float energyPerCell = 200.0F;
-        @Expose public float drillQuantity = 0.0F;
-        @Expose public float drillRarity = 0.0F;
-        @Expose public int durability = 100000;
-        @Expose public String job = "arcane_essence";
+        @Expose public float health;
+        @Expose public float shield;
+        @Expose public float armor;
+        @Expose public float shieldToughness;
+        @Expose public float shieldRegenPerTick;
+        @Expose public int power;
+        @Expose public int speed;
+        @Expose public float energyCapacity;
+        @Expose public float energyCostPerSecond;
+        @Expose public float energyPerCell;
+        @Expose public float drillQuantity;
+        @Expose public float drillRarity;
+        @Expose public int durability;
+        @Expose public String job;
     }
 
     /**
@@ -141,16 +187,16 @@ public class ExtractionObjectiveConfig extends Config {
      * attachments wear from their own pools at {@code attachmentDrainPerSecondMining} instead.
      */
     public static class DurabilityEntry {
-        @Expose public float wearCoefficient = 1.0F;
-        @Expose public float wearPowerExponent = 0.65F;
-        @Expose public float attachmentDrainPerSecondMining = 20.0F;
-        @Expose public float destructionLossFraction = 0.45F;
-        @Expose public float hpDamagePerDurabilityPoint = 2.0F;
+        @Expose public float wearCoefficient;
+        @Expose public float wearPowerExponent;
+        @Expose public float attachmentDrainPerSecondMining;
+        @Expose public float destructionLossFraction;
+        @Expose public float hpDamagePerDurabilityPoint;
     }
 
     public static class DeploymentEntry {
-        @Expose public float initialEnergyFraction = 0.4F;
-        @Expose public float healFractionOnJobComplete = 0.33F;
+        @Expose public float initialEnergyFraction;
+        @Expose public float healFractionOnJobComplete;
     }
 
     /**
@@ -160,15 +206,15 @@ public class ExtractionObjectiveConfig extends Config {
     public static class JobEntry {
         @Expose public int minPower;
         @Expose public int minRank;
-        @Expose public String drillClass = "";
+        @Expose public String drillClass;
         @Expose public boolean requiresArming;
         @Expose public int baseDurationTicks;
-        @Expose public float timePowerRoot = 3.0F;
+        @Expose public float timePowerRoot;
         @Expose public float timePowerReference;
         @Expose public boolean timeShrinksWithPower;
-        @Expose public float speedK = 300.0F;
-        @Expose public float speedBase = 200.0F;
-        @Expose public PayoutEntry payout = new PayoutEntry();
+        @Expose public float speedK;
+        @Expose public float speedBase;
+        @Expose public PayoutEntry payout;
 
         public JobEntry() {
         }
@@ -212,40 +258,24 @@ public class ExtractionObjectiveConfig extends Config {
      * rarity weights shift by extra power (TP − minPower) and the item-rarity stat damps one key by K / (K + IR).
      */
     public static class PayoutEntry {
-        @Expose public String type = "item";
-        @Expose public String item = "";
-        @Expose public String itemNbtId = "";
+        @Expose public String type;
+        @Expose public String item;
+        @Expose public String itemNbtId;
         @Expose public float countMin;
         @Expose public float countMax;
-        @Expose public String powerScaling = "linear";
+        @Expose public String powerScaling;
         @Expose public float powerReference;
-        @Expose public String quantScaling = "sqrt";
+        @Expose public String quantScaling;
         @Expose public LinkedHashMap<String, Float> rarityWeights = new LinkedHashMap<>();
         @Expose public LinkedHashMap<String, Float> rarityPerExtraPower = new LinkedHashMap<>();
         @Expose public LinkedHashMap<String, Float> rarityPerExtraPowerSquared = new LinkedHashMap<>();
-        @Expose public String itemRarityDampedKey = "";
-        @Expose public float itemRarityDampK = 1000.0F;
+        @Expose public String itemRarityDampedKey;
+        @Expose public float itemRarityDampK;
         @Expose public List<TierWindow> tierWindows = new ArrayList<>();
 
         public PayoutEntry() {
         }
 
-        static PayoutEntry of(String type, float countMin, float countMax, String powerScaling, float powerReference, String quantScaling) {
-            PayoutEntry entry = new PayoutEntry();
-            entry.type = type;
-            entry.countMin = countMin;
-            entry.countMax = countMax;
-            entry.powerScaling = powerScaling;
-            entry.powerReference = powerReference;
-            entry.quantScaling = quantScaling;
-            return entry;
-        }
-
-        static PayoutEntry item(String item, float countMin, float countMax, String powerScaling, float powerReference, String quantScaling) {
-            PayoutEntry entry = of("item", countMin, countMax, powerScaling, powerReference, quantScaling);
-            entry.item = item;
-            return entry;
-        }
     }
 
     public static class Count {
@@ -275,39 +305,17 @@ public class ExtractionObjectiveConfig extends Config {
     /** One wave on its own cooldown; every class count it does not use stays at zero. */
     public static class TimedWaveEntry {
         @Expose public int intervalTicks;
-        @Expose public Count horde = new Count(0, 0);
-        @Expose public Count assassins = new Count(0, 0);
-        @Expose public Count tanks = new Count(0, 0);
-        @Expose public Count elites = new Count(0, 0);
-        @Expose public Count bosses = new Count(0, 0);
+        @Expose public Count horde;
+        @Expose public Count assassins;
+        @Expose public Count tanks;
+        @Expose public Count elites;
+        @Expose public Count bosses;
 
         public TimedWaveEntry() {
         }
 
         public TimedWaveEntry(int intervalTicks) {
             this.intervalTicks = intervalTicks;
-        }
-
-        static TimedWaveEntry horde(int intervalTicks, int min, int max) {
-            TimedWaveEntry entry = new TimedWaveEntry(intervalTicks);
-            entry.horde = new Count(min, max);
-            return entry;
-        }
-
-        static TimedWaveEntry assassins(int intervalTicks, int count) {
-            TimedWaveEntry entry = new TimedWaveEntry(intervalTicks);
-            entry.assassins = Count.of(count);
-            return entry;
-        }
-
-        static TimedWaveEntry mixed(int intervalTicks, int horde, int assassins, int tanks, int elites, int bosses) {
-            TimedWaveEntry entry = new TimedWaveEntry(intervalTicks);
-            entry.horde = Count.of(horde);
-            entry.assassins = Count.of(assassins);
-            entry.tanks = Count.of(tanks);
-            entry.elites = Count.of(elites);
-            entry.bosses = Count.of(bosses);
-            return entry;
         }
     }
 
@@ -316,13 +324,13 @@ public class ExtractionObjectiveConfig extends Config {
      * {@code minPower} the extractor's power reaches. Pools are per tier so composition can shift with power.
      */
     public static class TierEntry {
-        @Expose public String name = "";
+        @Expose public String name;
         @Expose public int minPower;
-        @Expose public TimedWaveEntry trickle = new TimedWaveEntry();
-        @Expose public TimedWaveEntry horde = new TimedWaveEntry();
-        @Expose public TimedWaveEntry combat = new TimedWaveEntry();
-        @Expose public TimedWaveEntry assault = new TimedWaveEntry();
-        @Expose public TimedWaveEntry siege = new TimedWaveEntry();
+        @Expose public TimedWaveEntry trickle;
+        @Expose public TimedWaveEntry horde;
+        @Expose public TimedWaveEntry combat;
+        @Expose public TimedWaveEntry assault;
+        @Expose public TimedWaveEntry siege;
         @Expose public WeightedList<ResourceLocation> hordePool = new WeightedList<>();
         @Expose public WeightedList<ResourceLocation> assassinPool = new WeightedList<>();
         @Expose public WeightedList<ResourceLocation> tankPool = new WeightedList<>();
@@ -356,205 +364,39 @@ public class ExtractionObjectiveConfig extends Config {
      * medallion already meets the floor is left alone.
      */
     public static class StatFloorEntry {
-        @Expose public boolean enabled = true;
+        @Expose public boolean enabled;
         @Expose public List<FloorAnchor> anchors = new ArrayList<>();
     }
 
     public static class BossEntry {
         @Expose public WeightedList<ResourceLocation> pool = new WeightedList<>();
-        @Expose public float speedMultiplier = 0.65F;
-        @Expose public float knockbackResistance = 1.0F;
-        @Expose public int infernalModifierCount = 6;
-        @Expose public int spawnSearchRadius = 5;
+        @Expose public float speedMultiplier;
+        @Expose public float knockbackResistance;
+        @Expose public int infernalModifierCount;
+        @Expose public int spawnSearchRadius;
     }
 
     public static class EliteEntry {
-        @Expose public float knockbackResistance = 1.0F;
+        @Expose public float knockbackResistance;
     }
 
     public static class CarrierEntry {
-        @Expose public String baseEntity = "the_vault:blood_tank";
-        @Expose public int intervalTicks = 400;
-        @Expose public float healthMultiplier = 2.0F;
-        @Expose public float damageMultiplier = 1.5F;
-        @Expose public int auraRadius = 8;
-        @Expose public int auraIntervalTicks = 100;
-        @Expose public int auraEffectDurationTicks = 120;
+        @Expose public String baseEntity;
+        @Expose public int intervalTicks;
+        @Expose public float healthMultiplier;
+        @Expose public float damageMultiplier;
+        @Expose public int auraRadius;
+        @Expose public int auraIntervalTicks;
+        @Expose public int auraEffectDurationTicks;
     }
 
     public static class WavesEntry {
-        @Expose public int liveMobCapPerSite = 1000;
-        @Expose public StatFloorEntry statFloor = new StatFloorEntry();
-        @Expose public BossEntry boss = new BossEntry();
-        @Expose public EliteEntry elite = new EliteEntry();
-        @Expose public CarrierEntry carrier = new CarrierEntry();
+        @Expose public int liveMobCapPerSite;
+        @Expose public StatFloorEntry statFloor;
+        @Expose public BossEntry boss;
+        @Expose public EliteEntry elite;
+        @Expose public CarrierEntry carrier;
         @Expose public List<TierEntry> tiers = new ArrayList<>();
-
-        public WavesEntry() {
-            statFloor.anchors.add(new FloorAnchor(0, 4));
-            statFloor.anchors.add(new FloorAnchor(110, 8));
-            statFloor.anchors.add(new FloorAnchor(200, 11));
-            statFloor.anchors.add(new FloorAnchor(420, 13));
-            statFloor.anchors.add(new FloorAnchor(700, 15));
-
-            boss.pool.add(vh("elite_zombie"), 20);
-            boss.pool.add(vh("elite_husk"), 20);
-            boss.pool.add(vh("elite_skeleton"), 20);
-            boss.pool.add(vh("elite_stray"), 20);
-            boss.pool.add(vh("elite_drowned"), 20);
-            boss.pool.add(vh("elite_wither_skeleton"), 20);
-            boss.pool.add(vh("elite_witch"), 20);
-            boss.pool.add(vh("boogieman"), 10);
-            boss.pool.add(vh("blue_blaze"), 10);
-
-            TierEntry salvage = new TierEntry("salvage", 0);
-            salvage.trickle = TimedWaveEntry.horde(80, 2, 3);
-            salvage.horde = TimedWaveEntry.horde(200, 8, 12);
-            salvage.combat = TimedWaveEntry.assassins(320, 3);
-            salvage.assault = TimedWaveEntry.mixed(500, 0, 6, 1, 0, 0);
-            salvage.siege = TimedWaveEntry.mixed(1400, 12, 5, 2, 0, 0);
-            salvage.hordePool.add(new ResourceLocation("minecraft", "zombie"), 3);
-            salvage.hordePool.add(vh("t1_zombie"), 3);
-            salvage.hordePool.add(vh("t1_husk"), 2);
-            salvage.hordePool.add(vh("t1_drowned"), 2);
-            salvage.hordePool.add(vh("t2_zombie"), 2);
-            salvage.hordePool.add(vh("blood_horde_t1"), 2);
-            salvage.hordePool.add(vh("miner_zombie_t1"), 1);
-            salvage.assassinPool.add(vh("t1_skeleton"), 3);
-            salvage.assassinPool.add(vh("vault_spider"), 3);
-            salvage.assassinPool.add(vh("t1_stray"), 2);
-            salvage.assassinPool.add(vh("t1_cave_skeleton"), 1);
-            salvage.assassinPool.add(vh("blood_skeleton_t1"), 1);
-            salvage.tankPool.add(vh("blood_tank"), 3);
-            salvage.tankPool.add(vh("overgrown_tank"), 2);
-            salvage.tankPool.add(vh("t1_wither_skeleton"), 1);
-            addElitePool(salvage);
-            tiers.add(salvage);
-
-            TierEntry industrial = new TierEntry("industrial", 110);
-            industrial.trickle = TimedWaveEntry.horde(70, 2, 3);
-            industrial.horde = TimedWaveEntry.horde(180, 8, 12);
-            industrial.combat = TimedWaveEntry.assassins(300, 4);
-            industrial.assault = TimedWaveEntry.mixed(450, 0, 7, 1, 0, 0);
-            industrial.siege = TimedWaveEntry.mixed(1300, 13, 6, 2, 0, 0);
-            industrial.hordePool.add(vh("t2_zombie"), 3);
-            industrial.hordePool.add(vh("t2_husk"), 3);
-            industrial.hordePool.add(vh("t2_drowned"), 3);
-            industrial.hordePool.add(vh("blood_horde_t2"), 2);
-            industrial.hordePool.add(vh("miner_zombie_t2"), 2);
-            industrial.hordePool.add(vh("overgrown_zombie_t2"), 1);
-            industrial.hordePool.add(vh("skeleton_pirate_t2"), 1);
-            industrial.assassinPool.add(vh("t2_skeleton"), 3);
-            industrial.assassinPool.add(vh("vault_spider"), 3);
-            industrial.assassinPool.add(vh("t2_stray"), 2);
-            industrial.assassinPool.add(vh("blood_skeleton_t2"), 2);
-            industrial.assassinPool.add(new ResourceLocation("quark", "wraith"), 1);
-            industrial.tankPool.add(vh("blood_tank"), 3);
-            industrial.tankPool.add(vh("overgrown_tank"), 2);
-            industrial.tankPool.add(vh("t2_wither_skeleton"), 1);
-            addElitePool(industrial);
-            tiers.add(industrial);
-
-            TierEntry fortified = new TierEntry("fortified", 200);
-            fortified.trickle = TimedWaveEntry.horde(60, 2, 4);
-            fortified.horde = TimedWaveEntry.horde(160, 9, 13);
-            fortified.combat = TimedWaveEntry.assassins(280, 5);
-            fortified.assault = TimedWaveEntry.mixed(400, 0, 8, 1, 0, 0);
-            fortified.siege = TimedWaveEntry.mixed(1200, 15, 8, 3, 1, 0);
-            fortified.hordePool.add(vh("t2_zombie"), 2);
-            fortified.hordePool.add(vh("t2_husk"), 2);
-            fortified.hordePool.add(vh("t2_drowned"), 2);
-            fortified.hordePool.add(vh("blood_horde_t3"), 3);
-            fortified.hordePool.add(vh("miner_zombie_t3"), 2);
-            fortified.hordePool.add(vh("overgrown_zombie_t3"), 2);
-            fortified.hordePool.add(vh("winterwalker_t3"), 1);
-            fortified.hordePool.add(vh("mummy_t1"), 1);
-            fortified.assassinPool.add(vh("t2_skeleton"), 3);
-            fortified.assassinPool.add(vh("vault_spider"), 2);
-            fortified.assassinPool.add(vh("t2_stray"), 2);
-            fortified.assassinPool.add(vh("blood_skeleton_t3"), 2);
-            fortified.assassinPool.add(vh("t2_cave_skeleton"), 1);
-            fortified.assassinPool.add(vh("vault_wraith_white"), 1);
-            fortified.assassinPool.add(new ResourceLocation("quark", "wraith"), 1);
-            fortified.tankPool.add(vh("blood_tank"), 3);
-            fortified.tankPool.add(vh("overgrown_tank"), 2);
-            fortified.tankPool.add(vh("t2_wither_skeleton"), 1);
-            fortified.tankPool.add(vh("plastic_tank"), 1);
-            addElitePool(fortified);
-            tiers.add(fortified);
-
-            TierEntry siege = new TierEntry("siege", 420);
-            siege.trickle = TimedWaveEntry.horde(50, 3, 4);
-            siege.horde = TimedWaveEntry.horde(140, 10, 14);
-            siege.combat = TimedWaveEntry.assassins(260, 5);
-            siege.assault = TimedWaveEntry.mixed(350, 0, 9, 2, 1, 0);
-            siege.siege = TimedWaveEntry.mixed(1100, 18, 9, 4, 1, 1);
-            siege.hordePool.add(vh("t3_zombie"), 3);
-            siege.hordePool.add(vh("t3_husk"), 3);
-            siege.hordePool.add(vh("t3_drowned"), 2);
-            siege.hordePool.add(vh("blood_horde_t4"), 3);
-            siege.hordePool.add(vh("miner_zombie_t4"), 2);
-            siege.hordePool.add(vh("overgrown_zombie_t4"), 2);
-            siege.hordePool.add(vh("winterwalker_t4"), 1);
-            siege.hordePool.add(vh("mummy_t2"), 1);
-            siege.hordePool.add(vh("skeleton_pirate_t4"), 1);
-            siege.assassinPool.add(vh("t3_skeleton"), 3);
-            siege.assassinPool.add(vh("t3_stray"), 2);
-            siege.assassinPool.add(vh("blood_skeleton_t4"), 2);
-            siege.assassinPool.add(vh("t3_cave_skeleton"), 2);
-            siege.assassinPool.add(vh("vault_wraith_yellow"), 1);
-            siege.assassinPool.add(vh("deep_dark_skeleton"), 1);
-            siege.tankPool.add(vh("blood_tank"), 2);
-            siege.tankPool.add(vh("overgrown_tank"), 2);
-            siege.tankPool.add(vh("t3_wither_skeleton"), 2);
-            siege.tankPool.add(vh("pirate_guardian_tank"), 1);
-            addElitePool(siege);
-            tiers.add(siege);
-
-            TierEntry cataclysm = new TierEntry("cataclysm", 700);
-            cataclysm.trickle = TimedWaveEntry.horde(40, 3, 4);
-            cataclysm.horde = TimedWaveEntry.horde(120, 10, 15);
-            cataclysm.combat = TimedWaveEntry.assassins(240, 6);
-            cataclysm.assault = TimedWaveEntry.mixed(300, 0, 10, 2, 1, 0);
-            cataclysm.siege = TimedWaveEntry.mixed(1000, 20, 10, 5, 1, 1);
-            cataclysm.hordePool.add(vh("t3_zombie"), 3);
-            cataclysm.hordePool.add(vh("t3_husk"), 3);
-            cataclysm.hordePool.add(vh("t3_drowned"), 2);
-            cataclysm.hordePool.add(vh("blood_horde_t5"), 3);
-            cataclysm.hordePool.add(vh("miner_zombie_t5"), 2);
-            cataclysm.hordePool.add(vh("overgrown_zombie_t5"), 2);
-            cataclysm.hordePool.add(vh("winterwalker_t5"), 1);
-            cataclysm.hordePool.add(vh("mummy_t2"), 1);
-            cataclysm.hordePool.add(vh("skeleton_pirate_t5"), 1);
-            cataclysm.assassinPool.add(vh("t3_skeleton"), 3);
-            cataclysm.assassinPool.add(vh("t3_stray"), 2);
-            cataclysm.assassinPool.add(vh("blood_skeleton_t5"), 3);
-            cataclysm.assassinPool.add(vh("t4_cave_skeleton"), 2);
-            cataclysm.assassinPool.add(vh("vault_wraith_yellow"), 1);
-            cataclysm.assassinPool.add(vh("deep_dark_skeleton"), 1);
-            cataclysm.tankPool.add(vh("blood_tank"), 2);
-            cataclysm.tankPool.add(vh("overgrown_tank"), 2);
-            cataclysm.tankPool.add(vh("t3_wither_skeleton"), 2);
-            cataclysm.tankPool.add(vh("pirate_guardian_tank"), 2);
-            addElitePool(cataclysm);
-            tiers.add(cataclysm);
-        }
-
-        private static void addElitePool(TierEntry tier) {
-            tier.elitePool.add(vh("elite_zombie"), 3);
-            tier.elitePool.add(vh("elite_husk"), 3);
-            tier.elitePool.add(vh("elite_skeleton"), 3);
-            tier.elitePool.add(vh("elite_stray"), 2);
-            tier.elitePool.add(vh("elite_drowned"), 2);
-            tier.elitePool.add(vh("elite_wither_skeleton"), 2);
-            tier.elitePool.add(vh("vault_fighter_4"), 2);
-            tier.elitePool.add(vh("bruiser_guardian"), 1);
-            tier.elitePool.add(vh("arbalist_guardian"), 1);
-        }
-
-        private static ResourceLocation vh(String path) {
-            return new ResourceLocation("the_vault", path);
-        }
 
         /** The highest tier whose {@code minPower} the given power reaches, or null when no tier is configured. */
         public TierEntry tierFor(int power) {
@@ -569,19 +411,19 @@ public class ExtractionObjectiveConfig extends Config {
     }
 
     public static class CellsEntry {
-        @Expose public double hordeMobDropChance = 0.001D;
-        @Expose public double assassinMobDropChance = 0.01D;
-        @Expose public double eliteMobDropChance = 0.05D;
-        @Expose public double bossMobDropChance = 1.0D;
-        @Expose public double otherMobDropChance = 0.001D;
-        @Expose public double chestDropChance = 0.01D;
+        @Expose public double hordeMobDropChance;
+        @Expose public double assassinMobDropChance;
+        @Expose public double eliteMobDropChance;
+        @Expose public double bossMobDropChance;
+        @Expose public double otherMobDropChance;
+        @Expose public double chestDropChance;
     }
 
     public static class SitesEntry {
-        @Expose public int count = 3;
-        @Expose public int ringMinRooms = 4;
-        @Expose public int ringMaxRooms = 9;
-        @Expose public int minSeparationRooms = 3;
+        @Expose public int count;
+        @Expose public int ringMinRooms;
+        @Expose public int ringMaxRooms;
+        @Expose public int minSeparationRooms;
     }
 
     /**
@@ -593,13 +435,13 @@ public class ExtractionObjectiveConfig extends Config {
     public static class GreedInfuserEntry {
         public static final int SLOT_LIMIT = 27;
 
-        @Expose public int baseSlots = 3;
-        @Expose public int powerPerExtraSlot = 100;
-        @Expose public int maxSlots = 18;
-        @Expose public List<String> classOrder = new ArrayList<>(List.of("weak", "medium", "strong", "elite"));
-        @Expose public String cardPoolPrefix = "greed_";
-        @Expose public String legacyCardPool = "greed";
-        @Expose public String traderPoolPrefix = "greed_cards_";
+        @Expose public int baseSlots;
+        @Expose public int powerPerExtraSlot;
+        @Expose public int maxSlots;
+        @Expose public List<String> classOrder;
+        @Expose public String cardPoolPrefix;
+        @Expose public String legacyCardPool;
+        @Expose public String traderPoolPrefix;
 
         public int slotsFor(int power, int minPower) {
             int step = Math.max(1, this.powerPerExtraSlot);
@@ -610,14 +452,14 @@ public class ExtractionObjectiveConfig extends Config {
 
     /** A finished fluid job keeps its fluid on board; while any is left the rig refuses pickup for this long. */
     public static class FluidPayoutEntry {
-        @Expose public int pickupLockSeconds = 45;
+        @Expose public int pickupLockSeconds;
     }
 
     /** One weighted source of crystal modifiers: a vault modifier pool ({@code "vault"}) or a greed trader modifier list ({@code "greed_trader"}). */
     public static class ModifierSource {
-        @Expose public String type = "vault";
-        @Expose public String pool = "";
-        @Expose public float weight = 1.0F;
+        @Expose public String type;
+        @Expose public String pool;
+        @Expose public float weight;
 
         public ModifierSource() {
         }
@@ -630,8 +472,8 @@ public class ExtractionObjectiveConfig extends Config {
     }
 
     public static class WeightedId {
-        @Expose public String id = "";
-        @Expose public float weight = 1.0F;
+        @Expose public String id;
+        @Expose public float weight;
 
         public WeightedId() {
         }
@@ -653,44 +495,28 @@ public class ExtractionObjectiveConfig extends Config {
      * {@code excludedObjectiveTypes}; the sigil is drawn from {@code sigils}.
      */
     public static class AncientCrystalEntry {
-        @Expose public int crystalRolls = 2;
-        @Expose public float crystalChance = 0.25F;
-        @Expose public float quantityPerExtraRoll = 250.0F;
-        @Expose public int strongNegativeRolls = 10;
-        @Expose public int strongPositiveRolls = 10;
-        @Expose public int randomRolls = 15;
-        @Expose public float powerPerRandomRoll = 30.0F;
-        @Expose public float rarityPerRandomRoll = 50.0F;
-        @Expose public float positiveWeight = 60.0F;
-        @Expose public float negativeWeight = 40.0F;
-        @Expose public float positiveWeightPerRarity = 0.012F;
-        @Expose public int capacityMin = 140;
-        @Expose public int capacityMax = 175;
-        @Expose public float powerPerCapacity = 10.0F;
-        @Expose public float rarityPerCapacity = 10.0F;
-        @Expose public boolean vaultRandomModifiers = false;
+        @Expose public int crystalRolls;
+        @Expose public float crystalChance;
+        @Expose public float quantityPerExtraRoll;
+        @Expose public int strongNegativeRolls;
+        @Expose public int strongPositiveRolls;
+        @Expose public int randomRolls;
+        @Expose public float powerPerRandomRoll;
+        @Expose public float rarityPerRandomRoll;
+        @Expose public float positiveWeight;
+        @Expose public float negativeWeight;
+        @Expose public float positiveWeightPerRarity;
+        @Expose public int capacityMin;
+        @Expose public int capacityMax;
+        @Expose public float powerPerCapacity;
+        @Expose public float rarityPerCapacity;
+        @Expose public boolean vaultRandomModifiers;
         @Expose public List<ModifierSource> strongPositive = new ArrayList<>();
         @Expose public List<ModifierSource> strongNegative = new ArrayList<>();
         @Expose public List<ModifierSource> randomPositive = new ArrayList<>();
         @Expose public List<ModifierSource> randomNegative = new ArrayList<>();
-        @Expose public String objectivePool = "the_vault:default";
-        @Expose public List<String> excludedObjectiveTypes = new ArrayList<>(List.of("monolith"));
+        @Expose public String objectivePool;
+        @Expose public List<String> excludedObjectiveTypes;
         @Expose public List<WeightedId> sigils = new ArrayList<>();
-
-        public AncientCrystalEntry() {
-            this.strongPositive.add(new ModifierSource("greed_trader", "normal_modifiers", 14.0F));
-            this.strongPositive.add(new ModifierSource("greed_trader", "treasure_modifiers", 1.5F));
-            this.strongPositive.add(new ModifierSource("greed_trader", "temporal_modifiers", 1.0F));
-            this.strongNegative.add(new ModifierSource("vault", "woldsvaults:concealed_chaos_backfire", 1.0F));
-            this.randomPositive.add(new ModifierSource("greed_trader", "normal_modifiers", 14.0F));
-            this.randomPositive.add(new ModifierSource("greed_trader", "treasure_modifiers", 1.5F));
-            this.randomPositive.add(new ModifierSource("greed_trader", "temporal_modifiers", 1.0F));
-            this.randomPositive.add(new ModifierSource("vault", "the_vault:omega_positive", 16.5F));
-            this.randomNegative.add(new ModifierSource("vault", "woldsvaults:concealed_chaos_backfire", 1.0F));
-            this.randomNegative.add(new ModifierSource("vault", "the_vault:alchemy_strong_negative", 1.0F));
-            for (String step : List.of("70", "75", "80", "85", "90", "95", "100")) {
-                this.sigils.add(new WeightedId("ancient_" + step, 1.0F));
-            }
-        }
     }
 }

@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.milestones.client;
 
 import xyz.iwolfking.woldsvaults.milestones.MilestoneDefinition;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
 import java.util.*;
@@ -36,10 +35,8 @@ public class ClientMilestoneData {
         CLAIMED_TIERS.putAll(claimedTiers);
     }
 
-    /** Drops everything the last server sent, restoring the local config's balance tables. */
+    /** Drops everything the last server sent. */
     public static void clear() {
-        MilestoneRankLadder.restoreLocal();
-        MilestoneRegistry.restoreLocal();
         VALUES.clear();
         CLAIMED_TIERS.clear();
         pinned.clear();

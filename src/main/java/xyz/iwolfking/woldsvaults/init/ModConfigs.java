@@ -13,16 +13,9 @@ import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
-import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
-import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.EnumMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class ModConfigs {
@@ -45,9 +38,9 @@ public class ModConfigs {
     public static AlchemyObjectiveConfig ALCHEMY_OBJECTIVE;
     public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
     public static HyperObjectiveConfig HYPER_OBJECTIVE;
-    public static ExtractionObjectiveConfig EXTRACTION_OBJECTIVE;
-    public static xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig EXTRACTOR_PARTS;
-    public static xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig EXTRACTOR_COSTS;
+    public static ExtractionObjectiveConfig EXTRACTION_OBJECTIVE = ExtractionObjectiveConfig.inert();
+    public static xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig EXTRACTOR_PARTS = xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.inert();
+    public static xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig EXTRACTOR_COSTS = xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.inert();
     public static xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
     public static xyz.iwolfking.woldsvaults.config.GearSetConfig GEAR_SETS;
 
@@ -108,12 +101,6 @@ public class ModConfigs {
         CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         ALCHEMY_OBJECTIVE = new AlchemyObjectiveConfig().readConfig();
         SURVIVAL_OBJECTIVE = new SurvivalObjectiveConfig().readConfig();
-        HYPER_OBJECTIVE = new HyperObjectiveConfig().readConfig();
-        EXTRACTION_OBJECTIVE = new ExtractionObjectiveConfig().readConfig();
-        EXTRACTOR_PARTS = new xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig().readConfig();
-        EXTRACTOR_COSTS = new xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig().readConfig();
-        OBJECTIVE_DIFFICULTY = new xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig().readConfig();
-        GEAR_SETS = new xyz.iwolfking.woldsvaults.config.GearSetConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();
@@ -134,55 +121,8 @@ public class ModConfigs {
         VAULT_FRUIT_CONFIG = new VaultFruitConfig().readConfig();
         WEAPON_TYPES = new WeaponTypesConfig().readConfig();
         IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig().readConfig();
-        registerGreedProgression();
-        registerGodTrees();
         THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
         THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();
     }
 
-    /**
-     * Reads the rank ladder, milestone table, medallion table and champion config and installs them on their
-     * readers; the ladder must load first.
-     */
-    private static void registerGreedProgression() {
-        GREED_RANKS = new GreedRanksConfig().readConfig();
-        MilestoneRankLadder.load(GREED_RANKS);
-        GREED_MILESTONES = new GreedMilestonesConfig().readConfig();
-        MilestoneRegistry.load(GREED_MILESTONES);
-        GREED_MEDALLIONS = new GreedMedallionsConfig().readConfig();
-        GreedMedallionTier.load(GREED_MEDALLIONS);
-        GREED_CHAMPION = new GreedChampionConfig().readConfig();
-    }
-
-    /**
-     * Reads each god tree's topology, style and effect configs and rebuilds the node registry. An
-     * inconsistency is fatal on the first load; on a reload it goes to the base mod's invalid-config
-     * list and the previously loaded trees stay in place.
-     */
-    private static void registerGodTrees() {
-        GOD_LEVELS = new GodLevelsConfig().readConfig();
-        GOD_TREES.clear();
-        GOD_TREE_GUI_STYLES.clear();
-        GOD_NODE_EFFECTS.clear();
-        for (VaultGod god : VaultGod.values()) {
-            String name = god.getName().toLowerCase(Locale.ROOT);
-            GOD_TREES.put(god, new GodTreeConfig(name).readConfig());
-            GOD_TREE_GUI_STYLES.put(god, new GodTreeGuiStylesConfig(name).readConfig());
-            GOD_NODE_EFFECTS.put(god, new GodNodeEffectsConfig(name).readConfig());
-        }
-        if (!godTreesLoadedOnce) {
-            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
-            godTreesLoadedOnce = true;
-            return;
-        }
-        try {
-            GodNodeRegistry.load(GOD_TREES, GOD_TREE_GUI_STYLES, GOD_NODE_EFFECTS);
-        } catch (GodTreeConfigException e) {
-            WoldsVaults.LOGGER.error("God tree configs were rejected on reload; the previously loaded trees stay in "
-                    + "place. Fix the named file and reload again.", e);
-            iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("gods/god_tree_* - " + e.getMessage());
-        }
-    }
-
-    private static boolean godTreesLoadedOnce;
 }

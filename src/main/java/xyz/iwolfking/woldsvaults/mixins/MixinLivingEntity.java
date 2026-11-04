@@ -54,7 +54,7 @@ public abstract class MixinLivingEntity extends Entity {
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z", ordinal = 2), cancellable = true)
     private void doLevitates(Vec3 pTravelVector, CallbackInfo ci, @Local(ordinal = 1) float f3, @Local(ordinal = 1) Vec3 vec35) {
         if (this.hasEffect(ModEffects.TIDAL_HOVER) && !this.isShiftKeyDown()) {
-            GearSetConfig.Riptide tuning = xyz.iwolfking.woldsvaults.init.ModConfigs.GEAR_SETS.getRiptide();
+            GearSetConfig.Riptide tuning = xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper.config().getRiptide();
             double horizontal = f3 * tuning.hoverHorizontalFriction;
             this.setDeltaMovement(vec35.x * horizontal, vec35.y * tuning.hoverVerticalDamping, vec35.z * horizontal);
             ci.cancel();
