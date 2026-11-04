@@ -12,6 +12,9 @@ public class ModVaultTemplatePoolsProvider extends AbstractTemplatePoolProvider 
 
     @Override
     protected void registerPools() {
+        addPool(pool -> pool.id(WoldsVaults.id("vault/rooms/special/extraction"))
+                .addEntry(1, VaultMod.id("vault/rooms/special/extraction1"), palettes -> {
+                }));
         createStandardPoolsForTheme("sculk", WoldsVaults.id("universal_sculk"), VaultMod.id("generic/ore_placeholder_void"));
         createStandardPoolsForTheme("mystical_forest", WoldsVaults.id("universal_mystical_forest"), WoldsVaults.id("generic/ore_placeholder_magic"));
         createStandardPoolsForTheme("occult", WoldsVaults.id("universal_occult"), VaultMod.id("generic/ore_placeholder_nether"));

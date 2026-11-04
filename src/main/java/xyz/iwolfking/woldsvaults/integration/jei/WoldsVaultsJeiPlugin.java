@@ -27,6 +27,10 @@ import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.util.StringUtils;
 import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
+import java.util.List;
+import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
@@ -123,6 +127,12 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return WoldsVaults.id("wolds_jei_integration");
+    }
+
+    /** Hides the creative Armory, an admin block with no recipe, from the ingredient list. */
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ArmoryRegistry.CREATIVE_ARMORY)));
     }
 
     /** The Extractor Assembler fills its window; a null property set tells JEI to keep its overlay off that screen. */

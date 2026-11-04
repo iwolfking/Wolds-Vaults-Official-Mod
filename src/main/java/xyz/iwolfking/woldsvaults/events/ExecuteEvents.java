@@ -32,7 +32,7 @@ import java.util.WeakHashMap;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ExecuteEvents {
-    private static final float BOSS_THRESHOLD_FACTOR = 0.5F;
+    public static final float BOSS_THRESHOLD_FACTOR = 0.5F;
     private static final Map<LivingEntity, Float> LUCKY_HIT_BONUS = new WeakHashMap<>();
 
     private ExecuteEvents() {

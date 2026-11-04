@@ -12,7 +12,8 @@ import java.util.Map;
 /**
  * Fabrication, repair and Vault Fabricator costs for extractor parts, generated as
  * {@code vault_configs/extraction/costs/extractor_costs.json}: the quality curve, the rarity factors, the repair
- * rule, every part, drill and attachment recipe, and the Vault Fabricator component recipes.
+ * rule, the Extraction Forge's power and time rule, every part, drill and attachment recipe, and the Vault
+ * Fabricator component recipes.
  */
 public class ExtractorCostsConfig extends Config implements WoldsTable {
     public static final String SCALING_MAIN = "main";
@@ -26,6 +27,7 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
     @Expose public CurveEntry CURVE;
     @Expose public LinkedHashMap<String, Float> RARITY;
     @Expose public RepairEntry REPAIR;
+    @Expose public ForgeEntry FORGE;
     @Expose public LinkedHashMap<String, LinkedHashMap<String, List<Ingredient>>> PARTS;
     @Expose public LinkedHashMap<String, List<Ingredient>> DRILLS;
     @Expose public LinkedHashMap<String, List<Ingredient>> ATTACHMENTS;
@@ -50,6 +52,26 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         @Expose public double fraction;
         @Expose public String coreItem;
         @Expose public double coreBase;
+    }
+
+    /**
+     * The Extraction Forge's fabrication run: it draws {@code fePerTickPerQuality} × quality FE every tick for
+     * {@code secondsPerQuality} × quality seconds, from a buffer of {@code energyCapacity} FE filled at up to
+     * {@code energyInput} FE per tick.
+     */
+    public static class ForgeEntry {
+        @Expose public double fePerTickPerQuality;
+        @Expose public double secondsPerQuality;
+        @Expose public int energyCapacity;
+        @Expose public int energyInput;
+
+        public int fePerTick(double quality) {
+            return (int) Math.round(this.fePerTickPerQuality * Math.max(0.0D, quality));
+        }
+
+        public int ticks(double quality) {
+            return Math.max(1, (int) Math.round(this.secondsPerQuality * Math.max(0.0D, quality) * 20.0D));
+        }
     }
 
     /** One cost row: an item or fluid id, its roll range at the row's gate, the gate, and its scaling class. */
@@ -110,6 +132,7 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         }
         config.REPAIR = new RepairEntry();
         config.REPAIR.coreItem = "the_vault:repair_core";
+        config.FORGE = new ForgeEntry();
         config.PARTS = new LinkedHashMap<>();
         config.DRILLS = new LinkedHashMap<>();
         config.ATTACHMENTS = new LinkedHashMap<>();
@@ -140,6 +163,10 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         if (this.REPAIR == null || this.REPAIR.coreItem == null || this.REPAIR.coreItem.isEmpty()
                 || this.REPAIR.fraction <= 0.0D || this.REPAIR.fraction > 1.0D || this.REPAIR.coreBase <= 0.0D) {
             return "the REPAIR block is missing, has no core item, or has a fraction outside (0, 1] or a non-positive core base";
+        }
+        if (this.FORGE == null || this.FORGE.fePerTickPerQuality < 0.0D || this.FORGE.secondsPerQuality < 0.0D
+                || this.FORGE.energyCapacity <= 0 || this.FORGE.energyInput <= 0) {
+            return "the FORGE block is missing, has a negative rate, or has no energy capacity or input";
         }
         if (this.PARTS == null) {
             return "the PARTS block is missing";

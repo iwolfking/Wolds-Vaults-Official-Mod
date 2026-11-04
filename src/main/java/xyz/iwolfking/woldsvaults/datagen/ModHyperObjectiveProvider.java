@@ -19,6 +19,11 @@ public class ModHyperObjectiveProvider extends AbstractWoldsTableProvider {
 
     @Override
     public void registerConfigs() {
+        this.table("hyper_objective", table());
+    }
+
+    /** The HYPER objective table, shared with the modifier text that quotes it. */
+    public static HyperObjectiveConfig table() {
         HyperObjectiveConfig table = new HyperObjectiveConfig();
         table.hyperStatFactor = 1.85F;
         table.speedPerStack = 0.20F;
@@ -123,6 +128,6 @@ public class ModHyperObjectiveProvider extends AbstractWoldsTableProvider {
                 HyperObjectiveConfig.InjectionEntry.item("woldsvaults:crystal_reinforcement", 1, 20),
                 HyperObjectiveConfig.InjectionEntry.item("woldsvaults:greedy_ticket", 3, 20),
                 HyperObjectiveConfig.InjectionEntry.item("woldsvaults:core_of_the_vault_gods", 1, 1)));
-        this.table("hyper_objective", table);
+        return table;
     }
 }

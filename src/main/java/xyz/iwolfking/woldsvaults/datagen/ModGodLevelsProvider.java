@@ -16,6 +16,11 @@ public class ModGodLevelsProvider extends AbstractWoldsTableProvider {
 
     @Override
     public void registerConfigs() {
+        this.table("god_levels", levels());
+    }
+
+    /** The god level table, shared with the description text that quotes it. */
+    public static GodLevelsConfig levels() {
         GodLevelsConfig levels = new GodLevelsConfig();
         levels.cumulativeXp = new long[]{20000L, 60000L, 120000L, 200000L, 300000L, 400000L, 500000L, 650000L, 800000L, 1000000L};
         levels.maxDefinedLevel = 10;
@@ -28,6 +33,6 @@ public class ModGodLevelsProvider extends AbstractWoldsTableProvider {
         levels.chartingReputation = 10;
         levels.reputationPerGodPoint = 10;
         levels.baseAltarXp = 300.0D;
-        this.table("god_levels", levels);
+        return levels;
     }
 }

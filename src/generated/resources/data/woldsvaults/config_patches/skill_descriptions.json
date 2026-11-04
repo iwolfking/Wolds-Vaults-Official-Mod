@@ -1,0 +1,44 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        3,
+        "text"
+      ],
+      "value": "5%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        4,
+        "text"
+      ],
+      "value": " every time you kill a mob, this effect can stack "
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        5,
+        "text"
+      ],
+      "value": "20 times"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        7,
+        "text"
+      ],
+      "value": "20 seconds"
+    }
+  ]
+}

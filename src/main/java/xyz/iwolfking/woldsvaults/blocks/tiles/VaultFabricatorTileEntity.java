@@ -30,6 +30,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorContainer;
+import xyz.iwolfking.woldsvaults.blocks.containers.lib.WideContainerData;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
@@ -68,28 +69,14 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     private final LazyOptional<IItemHandler> itemCapability;
     private final LazyOptional<IFluidHandler> fluidCapability;
     private final LazyOptional<IEnergyStorage> energyCapability;
-    private final ContainerData data = new ContainerData() {
-        @Override
-        public int get(int index) {
-            ExtractorCostsConfig.ComponentEntry recipe = VaultFabricatorTileEntity.this.recipe();
-            return switch (index) {
-                case DATA_PROGRESS -> VaultFabricatorTileEntity.this.progress;
-                case DATA_TICKS -> recipe == null ? 0 : recipe.ticks;
-                case DATA_ENERGY -> VaultFabricatorTileEntity.this.energy.getEnergyStored();
-                case DATA_FLUID -> VaultFabricatorTileEntity.this.tank.getFluidAmount();
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void set(int index, int value) {
-        }
-
-        @Override
-        public int getCount() {
-            return DATA_COUNT;
-        }
-    };
+    private final ContainerData data = new WideContainerData(
+            () -> this.progress,
+            () -> {
+                ExtractorCostsConfig.ComponentEntry recipe = this.recipe();
+                return recipe == null ? 0 : recipe.ticks;
+            },
+            () -> this.energy.getEnergyStored(),
+            this::fluidAmount);
 
     public VaultFabricatorTileEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.VAULT_FABRICATOR_TILE_ENTITY_TYPE, pos, state);
@@ -128,6 +115,10 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
 
     public FluidTank getTank() {
         return this.tank;
+    }
+
+    private int fluidAmount() {
+        return this.tank.getFluidAmount();
     }
 
     public ContainerData getData() {

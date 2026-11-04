@@ -1,0 +1,12 @@
+{
+  "keys": [
+    {
+      "id": "the_vault:vault/rooms/special/extraction1",
+      "name": "Extraction Site",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/special/extraction1.nbt"
+      }
+    }
+  ]
+}

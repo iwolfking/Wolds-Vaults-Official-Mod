@@ -1,0 +1,14 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "ARMOR_MODEL_ROLLS",
+        "OMEGA",
+        {
+          "$value": null
+        }
+      ]
+    }
+  ]
+}

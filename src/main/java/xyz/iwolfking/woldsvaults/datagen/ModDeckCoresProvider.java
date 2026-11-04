@@ -359,6 +359,17 @@ public class ModDeckCoresProvider extends AbstractDeckCoreProvider {
                 stringWeightedListBuilder.add("relic_deck", 1);
             });
         });
+
+        add("greed_pools", builder -> {
+            builder.addPool("greed_basic", pool -> {
+                pool.add("harvest", 4);
+                pool.add("bounty", 4);
+                pool.add("crimson", 4);
+                pool.add("azure", 4);
+                pool.add("viridian", 4);
+                pool.add("golden", 4);
+            });
+        });
     }
 
     public DeckModifier.Config.RollVariant variant(String name, FloatRoll roll, int colour, String modelId) {

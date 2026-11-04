@@ -1,0 +1,13 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "deckRecipes",
+        {
+          "id": "the_vault:mystery_deck"
+        }
+      ]
+    }
+  ]
+}

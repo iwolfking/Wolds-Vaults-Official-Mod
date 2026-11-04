@@ -1,0 +1,34 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:u_frost_nova_on_damage"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_aoe_reduce"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_cooldown"
+        }
+      ]
+    }
+  ]
+}

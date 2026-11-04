@@ -92,12 +92,6 @@ public class HyperObjectiveConfig extends Config implements WoldsTable {
         return "hyper_objective";
     }
 
-    /**
-     * Shipped defaults (the playtested balance). Injection-pool weights ride the pack's x10
-     * convention — everything is scaled x10 so outliers can go rarer while staying integer;
-     * the greater archive core is x2 (~5x rarer relative) and the God's Mastery crafting core
-     * is the rarest line in the omega pool.
-     */
     /** A config with every value zero and no rewards, for readers that run before the hyper table installs. */
     public static HyperObjectiveConfig inert() {
         HyperObjectiveConfig config = new HyperObjectiveConfig();
@@ -157,12 +151,6 @@ public class HyperObjectiveConfig extends Config implements WoldsTable {
         return this.playerScaleBossHealth;
     }
 
-    /**
-     * Config files written before the soft cap existed have no entry for it, and
-     * Config#readConfig deserializes straight over the defaults, so an absent key arrives as
-     * 0.0 rather than the reset() value. Both getters fall back on any non-positive number so
-     * the cap still applies on an un-regenerated hyper_objective.json.
-     */
     public double getSpawnSoftCapThreshold() {
         return this.spawnSoftCapThreshold;
     }
@@ -171,10 +159,6 @@ public class HyperObjectiveConfig extends Config implements WoldsTable {
         return this.spawnSoftCapCoefficient;
     }
 
-    /**
-     * Same absent-key fallback as the soft-cap getters: a pack hyper_objective.json written
-     * before the density cap existed deserializes these as 0.
-     */
     public int getSpawnDensityCap() {
         return this.spawnDensityCap;
     }
@@ -220,11 +204,6 @@ public class HyperObjectiveConfig extends Config implements WoldsTable {
         return Math.max(1, this.fightAddPeriodTicks);
     }
 
-    /**
-     * Every Magic Missile knob falls back to its shipped default when non-positive: a pack
-     * shipping a full hyper_objective.json generated before this ability existed leaves the
-     * fields at gson's 0, which would otherwise degenerate the volley into a per-tick stream.
-     */
     public int getMagicMissileCooldownTicks() {
         return this.magicMissileCooldownTicks;
     }

@@ -1,6 +1,11 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:vault/rooms/special/extraction",
+      "name": "Vault Rooms Special Extraction",
+      "1.0": "woldsvaults:vault/rooms/special/extraction"
+    },
+    {
       "id": "woldsvaults:sculk_common_rooms",
       "name": "Sculk Common Rooms",
       "1.0": "woldsvaults:sculk_common_rooms"

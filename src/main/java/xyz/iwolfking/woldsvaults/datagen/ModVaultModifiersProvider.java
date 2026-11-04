@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Block;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultModifierProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.BasicListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.WeightedLevelEntryListBuilder;
@@ -46,6 +47,7 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -689,7 +691,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             hyperMarker(modifierBuilder, WoldsVaults.id("omega_crate_tier"), "Omega Crate Tier", "#4dffd2",
                     "Injects a set of Omega rewards into the completion crate", WoldsVaults.id("gui/modifiers/omega_crate_tier"));
             hyperMarker(modifierBuilder, WoldsVaults.id("greedy_crate_tier"), "Greedy Crate Tier", "#ffd24d",
-                    "+100% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
+                    "+" + Math.round(ModHyperObjectiveProvider.table().greedyCoinBonusPerStack * 100) + "% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
             empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
                     "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
                     WoldsVaults.id("gui/modifiers/radar"));
@@ -802,6 +804,73 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             }
 
         });
+
+        map.put("greed_modifiers", modifierBuilder -> {
+            for (int level = 70; level <= 100; level += 5) {
+                empty(modifierBuilder, VaultMod.id("sigil_ancient_" + level), "Ancient", "#FFA500", "This vault has been inscribed with an Ancient Sigil", null, VaultMod.id("gui/modifiers/sigil_legend"));
+            }
+
+            modifierBuilder.type(VaultMod.id("modifier_type/crate_item_quantity").toString(), typeBuilder -> typeBuilder.modifier(WoldsVaults.id("tenos_challenge_tackler").toString(), entry -> {
+                entry.property("percentage", 1.0F);
+                unformattedDisplay(entry, "Crate Tier", "#38C9C0", "Increases the reward crate tier once per modifier", VaultMod.id("gui/modifiers/crate_item_quantity"));
+            }));
+
+            Map<String, Integer> masterOfChests = new LinkedHashMap<>();
+            Map<String, Integer> omegaCascading = new LinkedHashMap<>();
+            OMEGA_CASCADING.forEach((suffix, cascade) -> {
+                ResourceLocation id = WoldsVaults.id("omega_cascading_" + suffix);
+                decoratorCascade(modifierBuilder, id, PartialBlock.of(cascade.block()), OMEGA_CASCADING_CHANCE, "Omega Cascading", "#3ffbf4", "+" + percent(OMEGA_CASCADING_CHANCE) + "% " + cascade.label(), "+%d%% " + cascade.label(), VaultMod.id("gui/modifiers/item_quant_4"));
+                masterOfChests.put(id.toString(), MASTER_OF_CHESTS_STACKS);
+                omegaCascading.put(id.toString(), 1);
+            });
+
+            modifierBuilder.type(VaultMod.id("modifier_type/grouped").toString(), typeBuilder -> typeBuilder
+                    .modifier(WoldsVaults.id("tenos_master_of_chests").toString(), entry -> {
+                        entry.property("children", masterOfChests);
+                        unformattedDisplay(entry, "Master of Chests", "#3FFBF4", "+" + percent(OMEGA_CASCADING_CHANCE * MASTER_OF_CHESTS_STACKS) + "% Cascading for all chests and coins.", VaultMod.id("gui/modifiers/item_quant_4"));
+                    })
+                    .modifier(WoldsVaults.id("omega_cascading").toString(), entry -> {
+                        entry.property("children", omegaCascading);
+                        unformattedDisplay(entry, "Omega Cascading", "#3ffbf4", "+" + percent(OMEGA_CASCADING_CHANCE) + "% Cascading for all chests and coins.", VaultMod.id("gui/modifiers/item_quant_4"));
+                    }));
+
+            modifierBuilder.type(VaultMod.id("modifier_type/pool_reference_weight").toString(), typeBuilder -> typeBuilder.modifier(WoldsVaults.id("omega_fortune_double").toString(), entry -> {
+                entry.property("references", List.of(VaultMod.id("vault/rooms/omega_rooms").toString()));
+                entry.property("weightMultiplier", OMEGA_SPROUT_MULTIPLIER);
+                unformattedDisplay(entry, "Omega Sprout", "#6AFF00", Math.round(OMEGA_SPROUT_MULTIPLIER) + "x Omega Room Chance", VaultMod.id("gui/modifiers/omega_fortune"));
+            }));
+        });
+    }
+
+    private static final float OMEGA_CASCADING_CHANCE = 0.01F;
+    private static final int MASTER_OF_CHESTS_STACKS = 15;
+    private static final double OMEGA_SPROUT_MULTIPLIER = 2.0;
+
+    private static int percent(float fraction) {
+        return Math.round(fraction * 100.0F);
+    }
+
+    private record Cascade(Block block, String label) {
+    }
+
+    private static final Map<String, Cascade> OMEGA_CASCADING = orderedCascades();
+
+    private static Map<String, Cascade> orderedCascades() {
+        Map<String, Cascade> cascades = new LinkedHashMap<>();
+        cascades.put("wooden", new Cascade(ModBlocks.WOODEN_CHEST, "Wooden Chests"));
+        cascades.put("gilded", new Cascade(ModBlocks.GILDED_CHEST, "Gilded Chests"));
+        cascades.put("ornate", new Cascade(ModBlocks.ORNATE_CHEST, "Ornate Chests"));
+        cascades.put("living", new Cascade(ModBlocks.LIVING_CHEST, "Living Chests"));
+        cascades.put("coins", new Cascade(ModBlocks.COIN_PILE, "Coin Piles"));
+        return cascades;
+    }
+
+    /**
+     * Display without {@code descriptionFormatted}: VH then shows the plain description instead of formatting it,
+     * which these descriptions need because they contain a literal {@code %}.
+     */
+    private static void unformattedDisplay(ModifierBuilder.ModifierEntryBuilder entry, String name, String color, String description, ResourceLocation icon) {
+        entry.display(name, color, description, null, icon.toString());
     }
 
     /**

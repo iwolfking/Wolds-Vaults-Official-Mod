@@ -1057,7 +1057,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("milestone.woldsvaults.diggy_diggy_jewel.desc", "Ore blocks mined in vaults");
         add("milestone.woldsvaults.amazon_worker.desc", "Cardboard boxes looted");
         add("milestone.woldsvaults.nullified.desc", "Nullite ore blocks mined");
-        add("milestone.woldsvaults.dedicated_looter.desc", "Loot 25k of every chest type in one vault");
+        add("milestone.woldsvaults.dedicated_looter.desc", "Loot " + compact(ModGreedMilestonesProvider.milestones().dedicatedLooter.perChestType) + " of every chest type in one vault");
         add("milestone.woldsvaults.bingo.desc", "Bingo lines completed");
         add("milestone.woldsvaults.drink_up.desc", "Elixir collected in elixir vaults");
         add("milestone.woldsvaults.brutalized.desc", "Brutal boss wave mobs killed");
@@ -1206,7 +1206,7 @@ public class ModLanguageProvider extends LanguageProvider {
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();
 
     /** A rank's display name from the ladder's fixed bands: "Hunter 2", or "Legend" for a band of one. */
-    private static String rankName(int rank) {
+    static String rankName(int rank) {
         String band = MilestoneRankLadder.getBandName(rank);
         String name = Character.toUpperCase(band.charAt(0)) + band.substring(1);
         int tierInBand = MilestoneRankLadder.getTierInBand(rank);

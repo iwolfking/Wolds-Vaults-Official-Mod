@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
@@ -12,6 +13,7 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
+import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.datagen.gods.GodNodeText;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
@@ -24,6 +26,7 @@ import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.ToolCapacityPrestigePower;
 
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvider {
@@ -309,11 +312,11 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("execute ", "#d80000"));
                 description.add(JsonDescription.text("targets: a lucky hit on a target at or below your execute threshold of its "));
                 description.add(JsonDescription.text("max health ", "red"));
-                description.add(JsonDescription.text("kills it outright. Adds to the execute threshold from your gear. Bosses take half the threshold."));
+                description.add(JsonDescription.text("kills it outright. Adds to the execute threshold from your gear. Bosses take " + ModConfigPatchesProvider.bossThresholdShare() + " the threshold."));
                 description.add(JsonDescription.text("\n\n1 "));
-                description.add(JsonDescription.text("+4% execute threshold", "#d80000"));
+                description.add(JsonDescription.text("+" + percent((float) ModConfigPatchesProvider.executionThreshold(0)) + " execute threshold", "#d80000"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+2% execute threshold", "#d80000", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+" + percent((float) (ModConfigPatchesProvider.executionThreshold(1) - ModConfigPatchesProvider.executionThreshold(0))) + " execute threshold", "#d80000", description);
             });
 
             builder.addDescription("Mind_Meld", description -> {
@@ -390,6 +393,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         add("wolds_builtin_prestiges", builder -> {
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getBuiltInPrestigePowers());
         });
+
 
         add("wolds_builtin_expertises_and_overrides", builder -> {
             ExpertisesDescriptionHelper.generateDescriptions(builder, getExpertises());
@@ -701,7 +705,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
     private static <T> T prestigeTier(String skillId, Class<T> type) {
         if (prestigePowers == null) {
-            prestigePowers = new PrestigePowersConfig().readConfig();
+            prestigePowers = ModPrestigePowersProvider.withAdditions(new PrestigePowersConfig().readConfig());
         }
         for (Skill skill : prestigePowers.tree.skills) {
             if (skillId.equals(skill.getId()) && skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty()
