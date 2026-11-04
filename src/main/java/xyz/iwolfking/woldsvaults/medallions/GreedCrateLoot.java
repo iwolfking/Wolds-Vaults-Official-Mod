@@ -28,12 +28,11 @@ import java.util.List;
 /**
  * The greed crate loot (GCL) system: which bonus loot table a completion crate rolls and how many greed
  * coins ride along. The table comes from the crystal's greed medallion
- * ({@code woldsvaults:greed_crate_loot_1} through {@code _7}, pack-side in
- * {@code config/the_vault/gen/1.0/loot_tables/}); the objective is only a scalar coin multiplier.
+ * ({@code woldsvaults:greed_crate_loot_<tier>}, generated into the jar's {@code vault_configs/gen/loot_tables}); the
+ * objective is only a scalar coin multiplier.
  */
 public final class GreedCrateLoot {
     private static final String TABLE_PREFIX = "greed_crate_loot_";
-    private static final int MAX_TABLE = 7;
     private static final double DEFAULT_MULTIPLIER = 1.0D;
     private static final double MINOR_MULTIPLIER = 1.2D;
     private static final double MAJOR_MULTIPLIER = 1.5D;
@@ -51,7 +50,7 @@ public final class GreedCrateLoot {
      * only.
      */
     public static ResourceLocation tableId(int greedCrateLootTier) {
-        return WoldsVaults.id(TABLE_PREFIX + Math.min(MAX_TABLE, greedCrateLootTier));
+        return WoldsVaults.id(TABLE_PREFIX + greedCrateLootTier);
     }
 
     public static boolean isExcludedVault(Vault vault) {

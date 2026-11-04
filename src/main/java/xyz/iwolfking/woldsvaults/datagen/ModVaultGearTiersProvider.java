@@ -23,6 +23,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.ImplodingJavelinModification;
 import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
@@ -743,6 +744,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.KNOCKBACK_RESISTANCE_JEWEL);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
         });
+
+        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective);
+        add("map_mythic", builder -> builder.key(VaultMod.id("map_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective));
 
         addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CORROSIVE);
@@ -1918,5 +1922,10 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
         tiers.accept(builder);
         group.addAll(builder.build());
         return group;
+    }
+
+    private static void extractionObjective(VaultGearAttributeGroupBuilder group) {
+        group.addModifier(ModGearAttributes.OBJECTIVE, "ModObjective", "extraction_objective", List.of(),
+                tiers -> tiers.add(new VaultGearTierConfig.ModifierTier<>(0, 40, new StringValueGenerator.StringValue("extraction")), -1));
     }
 }

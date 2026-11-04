@@ -28,6 +28,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     private static final int[] standardLevels = new int[]{0, 20, 50, 100};
     @Override
     public void registerLootTables() {
+        GreedCrateLootTables.register(this::add);
         add(WoldsVaults.id("mob_gem_drops"), lootBuilder -> {
             lootBuilder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {

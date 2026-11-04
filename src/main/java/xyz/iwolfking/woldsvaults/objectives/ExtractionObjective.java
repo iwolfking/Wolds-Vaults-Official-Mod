@@ -99,7 +99,7 @@ public class ExtractionObjective extends Objective {
             "wendarr", new int[][]{{17, 155}, {34, 155}, {51, 155}},
             "idona", new int[][]{{68, 155}, {85, 155}, {102, 155}});
     private static final Set<String> UNKNOWN_PIP_GODS = new HashSet<>();
-    private static final ResourceLocation ROOM_POOL = new ResourceLocation("the_vault", "vault/rooms/special/extraction");
+    private static final ResourceLocation ROOM_POOL = WoldsVaults.id("vault/rooms/special/extraction");
     private static final BlockPos[] CAVE_ANCHORS = new BlockPos[]{
             new BlockPos(5, 20, 5), new BlockPos(41, 20, 5), new BlockPos(5, 20, 41), new BlockPos(41, 20, 41)
     };
@@ -377,7 +377,7 @@ public class ExtractionObjective extends Objective {
     }
 
     private void applyGodPalette(PlacementSettings settings, ExtractionSite site) {
-        ResourceLocation paletteId = new ResourceLocation("the_vault", "extraction/" + site.get(ExtractionSite.GOD));
+        ResourceLocation paletteId = WoldsVaults.id("extraction/" + site.get(ExtractionSite.GOD));
         PaletteKey palette = VaultRegistry.PALETTE.getKey(paletteId);
         if (palette == null) {
             WoldsVaults.LOGGER.error("Extraction palette '{}' is missing; the site room will keep its authored stand-in blocks!", paletteId);

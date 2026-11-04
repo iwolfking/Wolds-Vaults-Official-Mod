@@ -54,6 +54,12 @@ public class ModGreedMedallionsProvider extends AbstractWoldsTableProvider {
         table.spawn.rankChanceStep = 0.15D;
         table.spawn.decayFactor = 0.5D;
         table.spawn.recoveryTicks = 6000.0D;
+        table.tiers.forEach((rank, tier) -> {
+            if (tier.greedCrateLootTier > GreedCrateLootTables.TIERS) {
+                throw new IllegalStateException("Medallion rank " + rank + " rolls greed crate loot table " + tier.greedCrateLootTier
+                        + ", but only " + GreedCrateLootTables.TIERS + " are generated");
+            }
+        });
         this.table("greed_medallions", table);
     }
 }
