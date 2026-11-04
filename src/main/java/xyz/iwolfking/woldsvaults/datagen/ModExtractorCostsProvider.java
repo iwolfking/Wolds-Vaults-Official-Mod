@@ -255,6 +255,12 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
         table.REPAIR.coreItem = "the_vault:repair_core";
         table.REPAIR.coreBase = 2.0D;
 
+        table.FORGE = new ExtractorCostsConfig.ForgeEntry();
+        table.FORGE.fePerTickPerQuality = 500.0D;
+        table.FORGE.secondsPerQuality = 10.0D;
+        table.FORGE.energyCapacity = 2_000_000;
+        table.FORGE.energyInput = 100_000;
+
         table.PARTS = new LinkedHashMap<>();
         for (String part : PART_TYPES) {
             LinkedHashMap<String, List<Ingredient>> bySeries = new LinkedHashMap<>();
