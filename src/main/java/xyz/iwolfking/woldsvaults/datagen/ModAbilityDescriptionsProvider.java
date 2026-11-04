@@ -493,6 +493,37 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
                 next.add("manaCost");
             });
         });
+
+        add("greed_battle_cry", builder -> {
+            builder.addDescription("Battle_Cry_Spectral_Strike", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Drain the essence of mobs around you, gathering "));
+                jsonElements.add(JsonDescription.simple("Battle Cry stacks ", "$maxStacks"));
+                jsonElements.add(JsonDescription.simple("and release an "));
+                jsonElements.add(JsonDescription.simple("amount ", "$stacksUsedPerHit"));
+                jsonElements.add(JsonDescription.simple("of stacks on each qualifying hit: swings and fang hits add "));
+                jsonElements.add(JsonDescription.simple("ability power ", "$abilityPowerPerStack"));
+                jsonElements.add(JsonDescription.simple("(a share of your base ability power per stack) as damage, and ability hits gain the same share per stack.\nThe stacks will fizzle after a "));
+                jsonElements.add(JsonDescription.simple("duration of time ", "$duration"));
+                jsonElements.add(JsonDescription.simple("if not used.\n\n"));
+                jsonElements.add(JsonDescription.simple("✴ Cast Ability ", "$castType"));
+            }, current -> {
+                current.add("adjustedRadius");
+                current.add("adjustedDuration");
+                current.add("abilityPowerPerStack");
+                current.add("maxStacks");
+                current.add("stacksUsedPerHit");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("adjustedRadius");
+                next.add("adjustedDuration");
+                next.add("abilityPowerPerStack");
+                next.add("maxStacks");
+                next.add("stacksUsedPerHit");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+        });
     }
 
     public JsonObject castAbility() {

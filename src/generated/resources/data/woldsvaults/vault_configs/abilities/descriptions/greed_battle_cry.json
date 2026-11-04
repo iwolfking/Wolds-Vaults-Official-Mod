@@ -1,0 +1,66 @@
+{
+  "data": {
+    "Battle_Cry_Spectral_Strike": {
+      "description": [
+        {
+          "text": "Drain the essence of mobs around you, gathering ",
+          "color": "$text"
+        },
+        {
+          "text": "Battle Cry stacks ",
+          "color": "$maxStacks"
+        },
+        {
+          "text": "and release an ",
+          "color": "$text"
+        },
+        {
+          "text": "amount ",
+          "color": "$stacksUsedPerHit"
+        },
+        {
+          "text": "of stacks on each qualifying hit: swings and fang hits add ",
+          "color": "$text"
+        },
+        {
+          "text": "ability power ",
+          "color": "$abilityPowerPerStack"
+        },
+        {
+          "text": "(a share of your base ability power per stack) as damage, and ability hits gain the same share per stack.\nThe stacks will fizzle after a ",
+          "color": "$text"
+        },
+        {
+          "text": "duration of time ",
+          "color": "$duration"
+        },
+        {
+          "text": "if not used.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "✴ Cast Ability ",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "adjustedRadius",
+        "adjustedDuration",
+        "abilityPowerPerStack",
+        "maxStacks",
+        "stacksUsedPerHit",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "adjustedRadius",
+        "adjustedDuration",
+        "abilityPowerPerStack",
+        "maxStacks",
+        "stacksUsedPerHit",
+        "cooldown",
+        "manaCost"
+      ]
+    }
+  }
+}

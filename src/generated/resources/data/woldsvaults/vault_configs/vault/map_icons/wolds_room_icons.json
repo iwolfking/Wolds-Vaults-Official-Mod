@@ -3,6 +3,9 @@
     "the_vault:gui/map/arcade": [
       "the_vault:vault/rooms/omega/arcade"
     ],
+    "the_vault:gui/map/extraction": [
+      "the_vault:vault/rooms/special/extraction1"
+    ],
     "the_vault:gui/map/end_raw": [
       "the_vault:vault/rooms/raw/end1"
     ],

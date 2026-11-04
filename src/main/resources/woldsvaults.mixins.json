@@ -230,6 +230,7 @@
     "vaulthunters.accessors.PlayerVaultAltarDataAccessor",
     "vaulthunters.accessors.PoolCrystalThemeAccessor",
     "vaulthunters.accessors.PotionBottleEffectAccessor",
+    "vaulthunters.accessors.PrestigePowersGUIConfigHeadersAccessor",
     "vaulthunters.accessors.ProductEntryAccessor",
     "vaulthunters.accessors.ScavengerBingoCrystalObjectiveAccessor",
     "vaulthunters.accessors.ScavengerBingoObjectiveAccessor",

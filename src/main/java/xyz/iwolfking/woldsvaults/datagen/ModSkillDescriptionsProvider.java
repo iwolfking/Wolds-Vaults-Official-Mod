@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
@@ -12,6 +13,7 @@ import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
+import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.datagen.gods.GodNodeText;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
@@ -24,6 +26,7 @@ import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.ToolCapacityPrestigePower;
 
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvider {
@@ -391,6 +394,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getBuiltInPrestigePowers());
         });
 
+        add(GREED_BASE_TEXTS_FILE, ModSkillDescriptionsProvider::greedBaseTexts);
+
         add("wolds_builtin_expertises_and_overrides", builder -> {
             ExpertisesDescriptionHelper.generateDescriptions(builder, getExpertises());
         });
@@ -696,12 +701,38 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .build());
     }
 
+    public static final String GREED_BASE_TEXTS_FILE = "greed_base_texts";
+
+    /** Base-mod skill texts the greed rework rewrites without a WV table behind them. */
+    public static void greedBaseTexts(Builder builder) {
+        builder.addDescription("BerserkPower", jsonElements -> {
+            jsonElements.add(JsonDescription.text("Increases your "));
+            jsonElements.add(JsonDescription.text("Attack Damage", "#B22222"));
+            jsonElements.add(JsonDescription.text(" by "));
+            jsonElements.add(JsonDescription.text("5%", "#B22222"));
+            jsonElements.add(JsonDescription.text(" every time you kill a mob, this effect can stack "));
+            jsonElements.add(JsonDescription.text("20 times", "#FFD700"));
+            jsonElements.add(JsonDescription.text(" and lasts for "));
+            jsonElements.add(JsonDescription.text("20 seconds", "#FFD700"));
+        });
+    }
+
+    /** The skill description config as VHAPI leaves it after applying {@link #greedBaseTexts} to {@code base}. */
+    public static SkillDescriptionsConfig withGreedBaseTexts(SkillDescriptionsConfig base) {
+        Builder builder = new Builder();
+        greedBaseTexts(builder);
+        HashMap<String, JsonElement> texts = ((SkillDescriptionsConfigAccessor) builder.build()).getDescriptions();
+        texts.values().forEach(ModConfigs.COLORS::replaceColorStrings);
+        ((SkillDescriptionsConfigAccessor) base).getDescriptions().putAll(texts);
+        return base;
+    }
+
     private static PrestigePowersConfig prestigePowers;
 
     /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
     private static <T> T prestigeTier(String skillId, Class<T> type) {
         if (prestigePowers == null) {
-            prestigePowers = new PrestigePowersConfig().readConfig();
+            prestigePowers = ModPrestigePowersProvider.withOverlay(new PrestigePowersConfig().readConfig());
         }
         for (Skill skill : prestigePowers.tree.skills) {
             if (skillId.equals(skill.getId()) && skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty()

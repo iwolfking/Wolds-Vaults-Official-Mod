@@ -1206,7 +1206,7 @@ public class ModLanguageProvider extends LanguageProvider {
     public static final LinkedHashMap<String, String> REGISTERED_LANGUAGE_KEYS = new LinkedHashMap<>();
 
     /** A rank's display name from the ladder's fixed bands: "Hunter 2", or "Legend" for a band of one. */
-    private static String rankName(int rank) {
+    static String rankName(int rank) {
         String band = MilestoneRankLadder.getBandName(rank);
         String name = Character.toUpperCase(band.charAt(0)) + band.substring(1);
         int tierInBand = MilestoneRankLadder.getTierInBand(rank);

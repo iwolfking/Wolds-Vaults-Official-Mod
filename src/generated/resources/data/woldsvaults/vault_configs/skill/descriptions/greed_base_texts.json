@@ -1,0 +1,34 @@
+{
+  "descriptions": {
+    "BerserkPower": [
+      {
+        "text": "Increases your "
+      },
+      {
+        "text": "Attack Damage",
+        "color": "#B22222"
+      },
+      {
+        "text": " by "
+      },
+      {
+        "text": "5%",
+        "color": "#B22222"
+      },
+      {
+        "text": " every time you kill a mob, this effect can stack "
+      },
+      {
+        "text": "20 times",
+        "color": "#FFD700"
+      },
+      {
+        "text": " and lasts for "
+      },
+      {
+        "text": "20 seconds",
+        "color": "#FFD700"
+      }
+    ]
+  }
+}

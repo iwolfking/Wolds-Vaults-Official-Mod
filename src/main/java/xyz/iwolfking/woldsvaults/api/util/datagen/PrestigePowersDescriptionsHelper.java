@@ -13,12 +13,13 @@ import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.datagen.ModPrestigePowersProvider;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 public class PrestigePowersDescriptionsHelper {
 
     public static void generateDescriptions(AbstractSkillDescriptionsProvider.Builder builder, SkillDescriptionsConfig prestigeDescriptions) {
-        ModConfigs.PRESTIGE_POWERS = new PrestigePowersConfig().readConfig();
+        ModConfigs.PRESTIGE_POWERS = ModPrestigePowersProvider.withOverlay(new PrestigePowersConfig().readConfig());
         ModConfigs.PRESTIGE_POWERS.tree.skills.forEach(skill -> {
                 createDescriptionsForPrestige(skill, prestigeDescriptions, builder);
         });
