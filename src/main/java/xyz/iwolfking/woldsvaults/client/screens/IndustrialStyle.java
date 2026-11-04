@@ -218,6 +218,18 @@ public final class IndustrialStyle {
         }
     }
 
+    /** Gauge colours (fill, lit edge, shaded edge) derived from one opaque colour. */
+    public static int[] shades(int color) {
+        return new int[]{0xFF000000 | color, mix(color, 0xFFFFFF, 0.45F), mix(color, 0x000000, 0.4F)};
+    }
+
+    private static int mix(int color, int toward, float amount) {
+        int r = (int) (((color >> 16) & 0xFF) * (1 - amount) + ((toward >> 16) & 0xFF) * amount);
+        int g = (int) (((color >> 8) & 0xFF) * (1 - amount) + ((toward >> 8) & 0xFF) * amount);
+        int b = (int) ((color & 0xFF) * (1 - amount) + (toward & 0xFF) * amount);
+        return 0xFF000000 | (r << 16) | (g << 8) | b;
+    }
+
     /** A horizontal bar filled from the left to {@code fraction}. */
     public static void hbar(PoseStack pose, int x0, int y0, int x1, int y1, float fraction, int[] colors) {
         display(pose, x0, y0, x1, y1);

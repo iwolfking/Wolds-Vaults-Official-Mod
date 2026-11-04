@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -229,6 +231,26 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
         return fluid == null || fluid.getBucket() == Items.AIR ? new ItemStack(Items.BUCKET) : new ItemStack(fluid.getBucket());
     }
 
+    /** The fluid's tint, else its block's map colour, else water blue. */
+    private static int[] fluidShades(ExtractorCosts.CostLine line) {
+        Fluid fluid = line.fluidType();
+        if (fluid == null) {
+            return IndustrialStyle.WATER_GAUGE;
+        }
+        int tint = fluid.getAttributes().getColor();
+        if ((tint & 0xFFFFFF) != 0xFFFFFF) {
+            return IndustrialStyle.shades(tint & 0xFFFFFF);
+        }
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level != null) {
+            MaterialColor map = fluid.defaultFluidState().createLegacyBlock().getMapColor(mc.level, BlockPos.ZERO);
+            if (map != null && map != MaterialColor.NONE) {
+                return IndustrialStyle.shades(map.col);
+            }
+        }
+        return IndustrialStyle.WATER_GAUGE;
+    }
+
     private static String fluidName(ExtractorCosts.CostLine line) {
         Fluid fluid = line.fluidType();
         return fluid == null ? line.id() : new FluidStack(fluid, 1000).getDisplayName().getString();
@@ -292,7 +314,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             if (i < fluids.size()) {
                 ExtractorCosts.CostLine line = fluids.get(i);
                 float fraction = line.amount() > 0 ? (float) CostLedger.paid(ledger, line) / line.amount() : 0.0F;
-                IndustrialStyle.gauge(pose, gx, y + GAUGE_Y0, gx + 8, y + GAUGE_Y1, fraction, IndustrialStyle.WATER_GAUGE, -1.0F);
+                IndustrialStyle.gauge(pose, gx, y + GAUGE_Y0, gx + 8, y + GAUGE_Y1, fraction, fluidShades(line), -1.0F);
             } else {
                 this.droplet(pose, gx, y + RAIL_Y0 + 3, UNUSED_ICON);
                 IndustrialStyle.gauge(pose, gx, y + GAUGE_Y0, gx + 8, y + GAUGE_Y1, 0.0F, IndustrialStyle.WATER_GAUGE, -1.0F);
