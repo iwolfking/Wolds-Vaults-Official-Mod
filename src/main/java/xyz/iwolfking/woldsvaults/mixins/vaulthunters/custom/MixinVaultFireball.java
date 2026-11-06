@@ -58,7 +58,7 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IWoldA
     @Shadow
     public abstract VaultFireball.FireballType getFireballType();
 
-    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;explode(Lnet/minecraft/world/phys/Vec3;)V"), remap = true)
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Liskallia/vault/entity/entity/VaultFireball;explode(Lnet/minecraft/world/phys/Vec3;)V", remap = false), remap = true)
     private void wrapWithElementalFlags(VaultFireball instance, Vec3 pos, Operation<Void> original) {
         ElementHelper.runWithElements(getElementTypes(), () -> original.call(instance, pos));
     }
@@ -111,7 +111,7 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IWoldA
         return original.call(instance);
     }
 
-    @Inject(method = "lambda$onHit$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), remap = true)
+    @Inject(method = "lambda$onHit$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
     private static void applyBurnEffectToFireshot(LivingEntity living, DamageSource damageSource, float attackDamage, CallbackInfo ci) {
         if(damageSource.getEntity() instanceof LivingEntity attacker) {
             PercentBurnEffect.applyPercentBurn(living, attacker,220, attackDamage);

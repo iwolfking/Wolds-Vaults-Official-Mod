@@ -584,6 +584,7 @@
     "inventoryhud.MixinInventoryHudRenderer",
     "jei.MixinItemStackRenderer",
     "jei.MixinRecipesGui",
+    "jei.MixinSubtypeRegistration",
     "lightmanscurrency.MixinItemEditWidget",
     "mekanism.MixinGuiModuleScrollList",
     "refinedstorage.AccessorScreen",

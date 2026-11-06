@@ -29,6 +29,8 @@ import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
+import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -128,7 +130,19 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.useNbtForSubtypes(ModItems.CHISELING_FOCUS);
         registration.useNbtForSubtypes(ModItems.WEAPON_TYPE_SETTER);
+        registration.registerSubtypeInterpreter(iskallia.vault.init.ModItems.TRINKET, NameSubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(iskallia.vault.init.ModItems.ETCHING, NameSubtypeInterpreter.INSTANCE);
         // layout manipulator? but first add all in jei
+    }
+
+    private static class NameSubtypeInterpreter implements IIngredientSubtypeInterpreter<ItemStack> {
+        public static final NameSubtypeInterpreter INSTANCE = new NameSubtypeInterpreter();
+
+        private NameSubtypeInterpreter() {}
+
+        public @NotNull String apply(ItemStack itemStack, @NotNull UidContext context) {
+            return itemStack.getItem().getName(itemStack).getString();
+        }
     }
 
     @Override @SuppressWarnings("removal")
