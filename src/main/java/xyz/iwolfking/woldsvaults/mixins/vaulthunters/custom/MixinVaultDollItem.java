@@ -30,13 +30,14 @@ import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
 /**
  * This mixin allows to block Vault Doll placement on ground if enabled in config.
  */
-@Mixin(value = VaultDollItem.class)
+@Mixin(value = VaultDollItem.class, remap = false)
 public class MixinVaultDollItem
 {
     @Inject(method = "useOn",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/block/state/BlockState;getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/shapes/VoxelShape;"),
-            cancellable = true
+            cancellable = true,
+            remap = true
     )
     private void onDollUse(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir, @Local ItemStack stack, @Local Player player, @Local Level level, @Local BlockPos clickedPos, @Local BlockState state)
     {
