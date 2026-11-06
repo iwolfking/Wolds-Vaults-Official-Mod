@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
+import me.fallenbreath.conditionalmixin.api.annotation.Condition;
+import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import mezz.jei.common.Internal;
 import mezz.jei.common.gui.ingredients.RecipeSlot;
 import mezz.jei.common.gui.recipes.RecipesGui;
@@ -14,6 +16,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Restriction(
+        require = {
+                @Condition(type = Condition.Type.MOD, value = "jei")
+        }
+)
 @Mixin(value = RecipesGui.class)
 public class MixinRecipesGui {
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lmezz/jei/common/gui/recipes/layout/RecipeLayout;isMouseOver(DD)Z", remap = false))
