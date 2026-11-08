@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConfigAccessor;
 import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
 
 import javax.annotation.Nullable;
@@ -162,7 +163,28 @@ public class AncientUniqueHelper {
         if (!isConfigUsable(config, uniqueKey)) {
             return Optional.empty();
         }
+        addSealRows(config);
         return Optional.of(config);
+    }
+
+    /**
+     * Gives the ancient table the unique table's seal rows (CORRUPTED_IMPLICIT), so ancient uniques take seals like
+     * regular uniques: corrupting an ancient, and loading a sealed ancient from a build, both read the ancient table.
+     */
+    private static void addSealRows(VaultGearTierConfig ancient) {
+        VaultGearTierConfig.AttributeGroup existing = ancient.getModifierGroup(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT);
+        if (existing != null && !existing.isEmpty()) {
+            return;
+        }
+        VaultGearTierConfig unique = ModConfigs.VAULT_GEAR_CONFIG.get(VaultGearTierConfig.UNIQUE_ITEM);
+        VaultGearTierConfig.AttributeGroup seals = unique == null ? null
+                : unique.getModifierGroup(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT);
+        if (seals == null || seals.isEmpty()) {
+            WoldsVaults.LOGGER.warn("The unique tier table has no seal rows; ancient uniques cannot take seals.");
+            return;
+        }
+        ((VaultGearTierConfigAccessor) ancient).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, seals);
+        WoldsVaults.LOGGER.debug("Gave the ancient tier table the unique table's {} seal row(s).", seals.size());
     }
 
     /** Whether the ancient table resolves at least one of the unique's modifier identifiers; memoised per unique. */
