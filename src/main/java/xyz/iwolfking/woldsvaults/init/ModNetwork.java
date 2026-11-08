@@ -12,6 +12,8 @@ import java.util.Optional;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.message.*;
 import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
+import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
+import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
 import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
@@ -91,5 +93,7 @@ public class ModNetwork {
 
     public static <T> void sendToLevel(T message, Level level) {
         CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), message);
+        CHANNEL.registerMessage(id++, ProjectileScaleMessage.class, ProjectileScaleMessage::encode, ProjectileScaleMessage::decode, ProjectileScaleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, OrbSteerMessage.class, OrbSteerMessage::encode, OrbSteerMessage::decode, OrbSteerMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 }

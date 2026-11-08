@@ -148,6 +148,7 @@ public class WoldsVaults {
             LOGGER.debug("Initializing FMLCommonSetup events!");
         }
         ModNetwork.init();
+        event.enqueueWork(xyz.iwolfking.woldsvaults.augments.FocusAugments::init);
         LivingEntityEvents.init();
         event.enqueueWork(RampageListenerFix::init);
         FuryIncome.init();

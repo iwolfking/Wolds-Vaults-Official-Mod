@@ -1,0 +1,634 @@
+{
+  "worksOutsideVaults": true,
+  "limits": {
+    "maxRecipeLength": 9,
+    "maxCastsPerTrigger": 32,
+    "maxRecipesPerItem": 3,
+    "maxDelaysPerRecipe": 5,
+    "maxEchoesPerRecipe": 1,
+    "maxBundleDepth": 2
+  },
+  "tuning": {
+    "echoDelaySeconds": 0.5,
+    "echoKeepsCharge": false,
+    "shotgunSpreadDegrees": 15.0,
+    "shotgunCopyManaShare": 0.0,
+    "homingRange": 16.0,
+    "homingTurnRate": 0.2,
+    "homingRetargetTicks": 5,
+    "orbitRadius": 2.5,
+    "orbitMaxSeconds": 30,
+    "etherealMaxSeconds": 10,
+    "bundleMaxSeconds": 30,
+    "bundleBaseSpeed": 1.0,
+    "chargeSecondsPerGlyph": 1.0,
+    "railRange": 128.0,
+    "sizeUpMaxScale": 3.0,
+    "sizeDownMinScale": 0.25
+  },
+  "augments": {
+    "amplify_area": {
+      "strength": 0.25,
+      "maxPerCast": 4,
+      "rollWeight": 10,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "quicken": {
+      "strength": 0.1,
+      "maxPerCast": 5,
+      "rollWeight": 10,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "discount": {
+      "strength": 0.1,
+      "maxPerCast": 5,
+      "rollWeight": 10,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "echo": {
+      "strength": 0.0,
+      "maxPerCast": 1,
+      "rollWeight": 2,
+      "minLevel": 60,
+      "maxTokensPerRoll": 1
+    },
+    "strengthen": {
+      "strength": 0.2,
+      "maxPerCast": 4,
+      "rollWeight": 6,
+      "minLevel": 30,
+      "maxTokensPerRoll": 2
+    },
+    "accelerate": {
+      "strength": 0.25,
+      "maxPerCast": 4,
+      "rollWeight": 10,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "homing": {
+      "strength": 0.0,
+      "maxPerCast": 1,
+      "rollWeight": 6,
+      "minLevel": 20,
+      "maxTokensPerRoll": 1
+    },
+    "orbit": {
+      "strength": 0.0,
+      "maxPerCast": 1,
+      "rollWeight": 4,
+      "minLevel": 20,
+      "maxTokensPerRoll": 1
+    },
+    "delay": {
+      "strength": 1.0,
+      "maxPerCast": 5,
+      "rollWeight": 6,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "size_up": {
+      "strength": 0.5,
+      "maxPerCast": 3,
+      "rollWeight": 8,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "size_down": {
+      "strength": 0.25,
+      "maxPerCast": 4,
+      "rollWeight": 6,
+      "minLevel": 0,
+      "maxTokensPerRoll": 2
+    },
+    "ethereal": {
+      "strength": 0.0,
+      "maxPerCast": 1,
+      "rollWeight": 2,
+      "minLevel": 60,
+      "maxTokensPerRoll": 1
+    },
+    "shotgun": {
+      "strength": 0.5,
+      "maxPerCast": 4,
+      "rollWeight": 3,
+      "minLevel": 50,
+      "maxTokensPerRoll": 1
+    },
+    "low_gravity": {
+      "strength": 0.5,
+      "maxPerCast": 2,
+      "rollWeight": 8,
+      "minLevel": 0,
+      "maxTokensPerRoll": 1
+    },
+    "charge": {
+      "strength": 9.0,
+      "maxPerCast": 1,
+      "rollWeight": 2,
+      "minLevel": 60,
+      "maxTokensPerRoll": 1
+    },
+    "bundled_spell": {
+      "strength": 0.0,
+      "maxPerCast": 1,
+      "rollWeight": 3,
+      "minLevel": 40,
+      "maxTokensPerRoll": 1
+    }
+  },
+  "sockets": [
+    {
+      "minLevel": 0,
+      "minSockets": 1,
+      "maxSockets": 1
+    },
+    {
+      "minLevel": 35,
+      "minSockets": 1,
+      "maxSockets": 2
+    },
+    {
+      "minLevel": 70,
+      "minSockets": 2,
+      "maxSockets": 3
+    }
+  ],
+  "abilityTraits": {
+    "UltimateShield_Base": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Fangs_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Fangs_Maw": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Expunge_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Concentrate_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Colossus_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Sneaky_Getaway": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Heal_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Heal_Group": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Heal_Cleanse": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Dash_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Dash_Damage": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Dash_Warp": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Nova_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Nova_Slow": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Nova_Dot": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Execute_Base": [
+      "INSTANT"
+    ],
+    "Ghost_Walk_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Ghost_Walk_Spirit": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Mega_Jump_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mega_Jump_Break_Up": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mega_Jump_Break_Down": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Levitate": [
+      "HOLD",
+      "MANA"
+    ],
+    "Rampage_Base": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Rampage_Bloodlust": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Rampage_Berserker": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Rampage_Instinct": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Rampage_Leech": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Rampage_Chain": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Smite_Base": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Smite_Archon": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Smite_Blast_Wave": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Smite_Thunderstorm": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Summon_Eternal_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Empower_Base": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Empower_Ice_Armor": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Empower_Slowness_Aura": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Vein_Miner_Base": [
+      "HOLD",
+      "AREA"
+    ],
+    "Vein_Miner_Fortune": [
+      "HOLD",
+      "AREA"
+    ],
+    "Vein_Miner_Durability": [
+      "HOLD",
+      "AREA"
+    ],
+    "Vein_Miner_Void": [
+      "HOLD",
+      "AREA"
+    ],
+    "Vein_Miner_Chain": [
+      "HOLD",
+      "AREA"
+    ],
+    "Hunter_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Javelin_Sight": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Farmer_Base": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Melon": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Cactus": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Animal": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Mana_Shield_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Mana_Barrier": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Shield_Bash": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Shield_Bash_Earthshatter": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Shield_Bash_Battering_Ram": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mana_Shield_Retribution": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mana_Shield_Implode": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Implode_Life_Tap": [
+      "INSTANT",
+      "AREA"
+    ],
+    "Taunt_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Taunt_Repel": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Taunt_Decoy": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Taunt_Charm": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Stonefall_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Stonefall_Snow": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Stonefall_Cold": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Totem_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Totem_Player_Damage": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Totem_Mana_Regen": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Totem_Mob_Damage": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Javelin_Base": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Javelin_Piercing": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Javelin_Scatter": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Shell_Base": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Shell_Porcupine": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Shell_Quill": [
+      "TOGGLE",
+      "MANA"
+    ],
+    "Fireball_Base": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Fireball_Volley": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Fireball_Fireshot": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Storm_Arrow_Base": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Storm_Arrow_Blizzard": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Battle_Cry_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Battle_Cry_Spectral_Strike": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Battle_Cry_Lucky_Strike": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Ice_Bolt_Base": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Ice_Bolt_Blast": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Shard_Blizzard": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Arcane_Base": [
+      "HOLD",
+      "BEAM",
+      "MANA"
+    ],
+    "Arcane_Rail": [
+      "INSTANT",
+      "BOLT",
+      "MANA"
+    ],
+    "Arcane_Prism": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Earthquake_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Earthquake_Singularity": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Earthquake_Tremor": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Earthquake_Landmine": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Chain_Lightning_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Chain_Lightning_Orbs": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Chain_Lightning_Charged_Bolts": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Necromancy_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Necromancy_Archer": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Necromancy_Golem": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Grenade_Base": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Grenade_Sticky": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ],
+    "Toxic_Grenade": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA"
+    ]
+  },
+  "disabledAbilities": []
+}

@@ -57,6 +57,7 @@ public class ModEntities {
     public static EntityType<xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity> EXTRACTOR;
     public static EntityType<VaultMeteor> VAULT_METEOR;
     public static EntityType<MagicMissileEntity> MAGIC_MISSILE;
+    public static EntityType<xyz.iwolfking.woldsvaults.augments.bundle.AugmentBundleEntity> AUGMENT_BUNDLE;
 
     public static void register(RegistryEvent.Register<EntityType<?>> event) {
         WOLD = registerLiving("wold", EntityType.Builder.of(WoldBoss::new, MobCategory.MONSTER)
@@ -86,6 +87,7 @@ public class ModEntities {
         EXTRACTOR = registerLivingWV("extractor", EntityType.Builder.of(xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity::new, MobCategory.MISC).sized(4.0F, 4.0F).clientTrackingRange(10).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity(EXTRACTOR, level))), xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity::createAttributes, event);
         VAULT_METEOR = registerWV("vault_meteor", EntityType.Builder.<VaultMeteor>of(VaultMeteor::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(16).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new VaultMeteor(VAULT_METEOR, level))), event);
         MAGIC_MISSILE = registerWV("magic_missile", EntityType.Builder.<MagicMissileEntity>of(MagicMissileEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(2).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new MagicMissileEntity(MAGIC_MISSILE, level))), event);
+        AUGMENT_BUNDLE = registerWV("augment_bundle", EntityType.Builder.<xyz.iwolfking.woldsvaults.augments.bundle.AugmentBundleEntity>of(xyz.iwolfking.woldsvaults.augments.bundle.AugmentBundleEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new xyz.iwolfking.woldsvaults.augments.bundle.AugmentBundleEntity(AUGMENT_BUNDLE, level))), event);
         VAULT_RANG = registerWV("rang", EntityType.Builder.<VaultRangEntity>of(VaultRangEntity::new, MobCategory.MISC)
                 .sized(0.4F, 0.4F)
                 .clientTrackingRange(4)
