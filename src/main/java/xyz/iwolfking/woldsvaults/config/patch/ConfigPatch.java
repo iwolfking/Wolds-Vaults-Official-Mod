@@ -3,8 +3,10 @@ package xyz.iwolfking.woldsvaults.config.patch;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import javax.annotation.Nullable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +18,9 @@ import java.util.Map;
  * <p>Ops address nodes by a path of object keys, array indices and array selectors. A selector is a one-entry
  * object: {@code {"id": "X"}} picks the single array element whose {@code id} equals {@code "X"}, and
  * {@code {"$value": v}} picks the single element equal to {@code v}. Each op is strict: {@code set} and
- * {@code remove} need the target to exist, {@code add} needs the key to be absent, {@code append} needs an array.
- * An op that does not resolve is reported and skipped, leaving the upstream value in place.</p>
+ * {@code remove} need the target to exist, {@code add} needs the key to be absent, {@code append} needs an array,
+ * and {@code scale} needs an existing number, which it multiplies by the op's numeric value. An op that does not
+ * resolve is reported and skipped, leaving the upstream value in place.</p>
  *
  * <p>{@code create} supplies the whole file for a config upstream does not ship; the ops then apply on top.</p>
  */
@@ -26,6 +29,7 @@ public final class ConfigPatch {
     public static final String ADD = "add";
     public static final String REMOVE = "remove";
     public static final String APPEND = "append";
+    public static final String SCALE = "scale";
     public static final String VALUE_SELECTOR = "$value";
 
     @Nullable
@@ -103,6 +107,9 @@ public final class ConfigPatch {
         if (!REMOVE.equals(op.type()) && op.value() == null) {
             return op.type() + " has no value";
         }
+        if (SCALE.equals(op.type()) && !isNumber(op.value())) {
+            return "scale factor " + op.value() + " is not a number";
+        }
         if (APPEND.equals(op.type())) {
             Located target = locate(root, path, path.size());
             if (target.problem != null) {
@@ -143,6 +150,15 @@ public final class ConfigPatch {
                         return "key " + key + " is missing";
                     }
                 }
+                case SCALE -> {
+                    if (!object.has(key)) {
+                        return "key " + key + " is missing";
+                    }
+                    if (!isNumber(object.get(key))) {
+                        return "key " + key + " holds " + object.get(key) + ", not a number";
+                    }
+                    object.add(key, scaled(object.get(key), op.value()));
+                }
                 default -> {
                     return "unknown op";
                 }
@@ -158,6 +174,12 @@ public final class ConfigPatch {
             switch (op.type()) {
                 case SET -> array.set(selected.index, op.value().deepCopy());
                 case REMOVE -> array.remove(selected.index);
+                case SCALE -> {
+                    if (!isNumber(array.get(selected.index))) {
+                        return "element " + selected.index + " holds " + array.get(selected.index) + ", not a number";
+                    }
+                    array.set(selected.index, scaled(array.get(selected.index), op.value()));
+                }
                 default -> {
                     return op.type() + " cannot target an array element";
                 }
@@ -229,6 +251,23 @@ public final class ConfigPatch {
 
     private static boolean isKey(JsonElement step) {
         return step.isJsonPrimitive() && step.getAsJsonPrimitive().isString();
+    }
+
+    private static boolean isNumber(JsonElement element) {
+        return element != null && element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber();
+    }
+
+    /**
+     * {@code number} times {@code factor}, both JSON numbers, multiplied as decimals so a scaled {@code 0.03} reads
+     * {@code 0.09} rather than a binary rounding artefact. The {@code scale} op and any text quoting a scaled value
+     * use this, so the two always agree.
+     */
+    public static JsonPrimitive scaled(JsonElement number, JsonElement factor) {
+        BigDecimal product = number.getAsBigDecimal().multiply(factor.getAsBigDecimal()).stripTrailingZeros();
+        if (product.scale() < 0) {
+            product = product.setScale(0);
+        }
+        return new JsonPrimitive(product);
     }
 
     public record Op(String type, JsonArray path, @Nullable JsonElement value) {

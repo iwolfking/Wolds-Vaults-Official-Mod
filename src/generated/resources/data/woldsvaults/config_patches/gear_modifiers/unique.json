@@ -119,6 +119,276 @@
         "step"
       ],
       "value": 0.005
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:u_witch_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        3,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        3,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        4,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        4,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        5,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "PREFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        5,
+        "value",
+        "max"
+      ],
+      "value": 3
     }
   ]
 }

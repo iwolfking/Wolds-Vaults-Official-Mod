@@ -7,6 +7,7 @@ import iskallia.vault.util.PlayerBerserkHelper;
 import xyz.iwolfking.woldsvaults.api.cast.LuckyReset;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider;
 import xyz.iwolfking.woldsvaults.datagen.patches.GreedTraderPatches;
+import xyz.iwolfking.woldsvaults.datagen.patches.SpellHastePatches;
 import xyz.iwolfking.woldsvaults.events.ExecuteEvents;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
     public static final String STEEL_INFERNO = "Steel Inferno";
     public static final int EXECUTION_STRIKE_TIERS = 29;
+    public static final double WEAVER_OF_TIME_HASTE_CAP = 1.0;
 
     private static final int UPSTREAM_PRESTIGE_HEADERS = 12;
     private static final int PRESTIGE_HEADER_COLUMNS = 3;
@@ -66,6 +68,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         sigils();
         misc();
         GreedTraderPatches.register(patch("greed/greed_trader.json"));
+        SpellHastePatches.register(this::patch);
     }
 
     private void talents() {
@@ -90,6 +93,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         prestigeRank(prestige, "BarrierOfResilience", "barrier_of_resilience_1", 13, 2400);
         prestigeRank(prestige, "ShieldOfLastingGuard", "shield_of_lasting_guard_1", 14, 2800);
         prestigeRank(prestige, "WeaverOfTime", "weaver_of_time_1", 14, 2800);
+        prestige.at("tree", "skills", id("WeaverOfTime"), "tiers", id("weaver_of_time_1")).set("value", WEAVER_OF_TIME_HASTE_CAP);
         prestige.at("tree", "skills", id("Toolsmith"), "tiers", 0).set("capacityIncrease", 50);
         prestige.at("tree", "skills", id("SuperCrystals"), "tiers", id("super_crystals_1")).set("extraCapacity", 75);
         prestige.at("tree", "skills", id("Fruity"), "tiers", id("fruity_1")).set("value", 0.5);

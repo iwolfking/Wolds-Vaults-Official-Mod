@@ -47,6 +47,12 @@ public final class GodNodeEffectDefaults {
             Object value = fields[i + 1];
             if (value instanceof Number number) {
                 json.addProperty(name, number);
+            } else if (value instanceof float[] array) {
+                JsonArray entries = new JsonArray();
+                for (float entry : array) {
+                    entries.add(entry);
+                }
+                json.add(name, entries);
             } else {
                 json.addProperty(name, String.valueOf(value));
             }
@@ -83,7 +89,7 @@ public final class GodNodeEffectDefaults {
         put(map, "idona_surrounded", "idona_surrounded", new float[]{}, "per_mob", 0.025F, "radius", 20.0D);
         put(map, "idona_grand_archmage", "idona_grand_archmage", new float[]{},
                 "mana_percentile", 1.0F, "mana_flat", 200, "mana_regen", 8.0F, "ability_damage", 3.0F,
-                "cooldown_reduction_cap", 0.05F);
+                "cooldown_reduction_cap", 2.5F);
         put(map, "idona_ultra_rampaging", "idona_ultra_rampaging", new float[]{},
                 "fury_per_hit", 100.0F, "fury_per_kill", 200.0F,
                 "fury_boss_hit_multiplier", 2.0F, "fury_boss_kill_multiplier", 10.0F,
@@ -172,23 +178,29 @@ public final class GodNodeEffectDefaults {
     /** Wendarr's shipped effect table; the two extraction effects bind deferred types and are inert. */
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
         put(map, "wendarr_start_top", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_start_bot", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_start_swift", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_start_deck", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_start_spanner", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_start_bough", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
-                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction");
+                "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
+                "secondValues", new float[]{0.06F});
         put(map, "wendarr_fruit_conissour", GEAR_ATTRIBUTE_SCALED, new float[]{0.01F},
                 "attribute", "the_vault:fruit_effectiveness");
         put(map, "wendarr_speedy", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F}, "attribute", "the_vault:movement_speed");
         put(map, "wendarr_heavily_effected", GEAR_ATTRIBUTE_SCALED, new float[]{0.1F},
                 "attribute", "the_vault:effect_duration");
-        put(map, "wendarr_speedy_caster", GEAR_ATTRIBUTE_SCALED, new float[]{0.05F},
+        put(map, "wendarr_speedy_caster", GEAR_ATTRIBUTE_SCALED, new float[]{0.15F},
                 "attribute", "the_vault:cooldown_reduction");
         put(map, "wendarr_fruity", GEAR_ATTRIBUTE_SCALED, new float[]{0.25F},
                 "attribute", "the_vault:fruit_effectiveness");
@@ -215,7 +227,7 @@ public final class GodNodeEffectDefaults {
                 "extra_fruit_chance", 0.5F, "starfruit_upgrade_chance", 0.05F);
         put(map, "wendarr_armored_extractors", "wendarr_armored_extractors", new float[]{});
         put(map, "wendarr_the_deckless", "wendarr_the_deckless", new float[]{},
-                "fruit_per_slot", 0.01F, "speed_per_slot", 0.05F, "cooldown_per_slot", 0.05F);
+                "fruit_per_slot", 0.01F, "speed_per_slot", 0.05F, "cooldown_per_slot", 0.15F);
         put(map, "wendarr_speed_demon", "wendarr_speed_demon", new float[]{}, "rate", 0.75F, "stat_multiplier", 1.1F);
         put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 0.7F);
     }
