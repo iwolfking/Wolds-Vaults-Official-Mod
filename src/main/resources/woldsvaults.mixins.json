@@ -684,7 +684,9 @@
     "MixinLivingEntityRiptide",
     "MixinPlayerRiptideContact",
     "MixinServerItemCooldownsRiptide",
-    "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets"
+    "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets",
+    "vaulthunters.accessors.VaultGearModifierReaderAccessor",
+    "vaulthunters.custom.MixinModGearAttributesSpellHaste"
   ],
   "client": [
     "AccessorParticleEngine",
