@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.client;
 
 import iskallia.vault.client.gui.framework.screen.AbstractElementContainerScreen;
+import iskallia.vault.client.gui.screen.player.StatisticsElementContainerScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -23,7 +24,7 @@ public abstract class MixinAbstractElementContainerScreen<C extends AbstractCont
 
     @Inject(method = "init", at = @At("TAIL"))
     private void woldsvaults$addWorkstationTabs(CallbackInfo ci) {
-        if(WoldsVaultsConfig.CLIENT.showWorkstationTabs.get()) {
+        if (WoldsVaultsConfig.CLIENT.showWorkstationTabs.get() && !(((Object) this) instanceof StatisticsElementContainerScreen)) {
             woldsvaults$tabButtons.clear();
             List<Button> created = WorkstationScreenTabs.createTabs((AbstractContainerScreen<?>) (Object) this);
             woldsvaults$tabButtons.addAll(created);

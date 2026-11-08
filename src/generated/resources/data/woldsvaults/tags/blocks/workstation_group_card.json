@@ -16,14 +16,6 @@
     {
       "id": "woldsvaults:vault_salvager",
       "required": false
-    },
-    {
-      "id": "the_vault:unboxing_station",
-      "required": false
-    },
-    {
-      "id": "the_vault:card_essence_extractor",
-      "required": false
     }
   ]
 }

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public class MixinVaultCompassMode {
 
     @Final
-    @Shadow
+    @Shadow @SuppressWarnings("target")
     public static VaultCompassMode EXIT;
 
     @Shadow

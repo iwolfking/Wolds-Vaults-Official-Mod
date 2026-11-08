@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.workstation;
+package xyz.iwolfking.woldsvaults.api.core.workstation;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +26,7 @@ public final class WorkstationGroup {
     }
 
     public static List<WorkstationGroup> values() {
-        return Collections.unmodifiableList(new ArrayList<>(VALUES));
+        return List.copyOf(VALUES);
     }
 
     public boolean contains(Block block) {

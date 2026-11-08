@@ -18,13 +18,14 @@ public class MekanismJEIProvider {
         );
     }
 
+    @SuppressWarnings("removal")
     public static void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(
                 new ItemStack(MekanismBlocks.MODIFICATION_STATION),
                 MekanismModificationWorkbenchCategory.UID
         );
     }
-
+    @SuppressWarnings("removal")
     public static void registerRecipes(IRecipeRegistration registration) {
         List<MekanismModificationWorkbenchCategory.MekanismModificationStationRecipe> recipes = new ArrayList<>();
 
