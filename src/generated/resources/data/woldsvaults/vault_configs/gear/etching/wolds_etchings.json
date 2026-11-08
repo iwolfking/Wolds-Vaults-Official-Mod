@@ -283,7 +283,7 @@
     },
     "woldsvaults:pyramid_scheme": {
       "name": "Pyramid Scheme",
-      "description": "Increases max stacking talent stacks by 25",
+      "description": "Pyramid Scheme",
       "color": 13338188,
       "minGreedTier": 9,
       "typeGroups": [
