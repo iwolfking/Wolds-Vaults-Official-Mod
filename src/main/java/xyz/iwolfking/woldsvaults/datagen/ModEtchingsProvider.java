@@ -92,7 +92,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(6);
             });
 
-            builder.addEtching(WoldsVaults.id("pyramid_scheme"), "Pyramid Scheme",  "Increases max stacking talent stacks by 25", 13338188, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("pyramid_scheme"), "Pyramid Scheme",  "Pyramid Scheme", 13338188, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("SWORD");
                 });
