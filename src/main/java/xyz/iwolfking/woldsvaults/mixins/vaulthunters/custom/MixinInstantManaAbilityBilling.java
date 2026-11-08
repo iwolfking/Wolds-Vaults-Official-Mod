@@ -14,14 +14,14 @@ import xyz.iwolfking.woldsvaults.spellcraft.bar.SlotBilling;
 public abstract class MixinInstantManaAbilityBilling {
 
     /** The mana check of a slot cast: the trigger checks the whole slot's cost, other steps check nothing. */
-    @WrapOperation(method = "canDoAction", at = @At(value = "INVOKE",
+    @WrapOperation(method = "lambda$canDoAction$0", at = @At(value = "INVOKE",
             target = "Liskallia/vault/util/calc/ManaCostHelper;adjustManaCost(Lnet/minecraft/server/level/ServerPlayer;Liskallia/vault/skill/base/Skill;F)F"))
     private float woldsvaults$checkSlotMana(ServerPlayer player, Skill skill, float cost, Operation<Float> original) {
         return SlotBilling.check(player, skill, original.call(player, skill, cost));
     }
 
     /** The mana payment of a slot cast: the trigger pays the whole slot's cost, other steps pay nothing. */
-    @WrapOperation(method = "doActionPost", at = @At(value = "INVOKE",
+    @WrapOperation(method = "lambda$doActionPost$1", at = @At(value = "INVOKE",
             target = "Liskallia/vault/util/calc/ManaCostHelper;adjustManaCostForPayment(Lnet/minecraft/server/level/ServerPlayer;Liskallia/vault/skill/base/Skill;F)F"))
     private float woldsvaults$paySlotMana(ServerPlayer player, Skill skill, float cost, Operation<Float> original) {
         return SlotBilling.pay(player, skill, original.call(player, skill, cost));
