@@ -34,6 +34,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -212,16 +213,28 @@ public final class HyperVaultEvents {
      * The floating lava/void pools are placed as bare liquid source blocks; explosions that
      * eat them (or whatever invisible casing sits around them) spill the pool across the
      * room floor. In hyper vaults explosions therefore cannot affect a pool fluid or any
-     * block within one step of one.
+     * block within one step of one. While a hyperboss fight is on, explosions break no blocks at
+     * all: the arena's no-modify zone keeps the walls on the server, but the explosion packet still
+     * clears them on clients, leaving ghost holes that players get stuck in.
      */
     @SubscribeEvent
     public static void protectPoolsFromExplosions(ExplosionEvent.Detonate event) {
         if (!(event.getWorld() instanceof ServerLevel level)) {
             return;
         }
-        if (ServerVaults.get(level)
-                .map(vault -> vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty())
-                .orElse(true)) {
+        List<HyperVaultObjective> objectives = ServerVaults.get(level)
+                .map(vault -> vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class))
+                .orElse(List.of());
+        if (objectives.isEmpty()) {
+            return;
+        }
+        if (objectives.stream().anyMatch(o -> o.getOr(HyperVaultObjective.PHASE, HyperVaultObjective.Phase.ROLLING)
+                == HyperVaultObjective.Phase.FIGHT)) {
+            int cleared = event.getAffectedBlocks().size();
+            event.getAffectedBlocks().clear();
+            if (cleared > 0) {
+                WoldLogger.debug("Kept {} block(s) from an explosion during a hyperboss fight.", cleared);
+            }
             return;
         }
         int before = event.getAffectedBlocks().size();

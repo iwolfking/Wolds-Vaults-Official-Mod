@@ -15,6 +15,7 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.config.ConfigurableAttributeGenerator;
+import iskallia.vault.gear.attribute.config.WeightedListAttributeGenerator;
 import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.data.UsesGearData;
 import iskallia.vault.gear.data.VaultGearData;
@@ -29,6 +30,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
@@ -37,6 +39,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AttributeGearData
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -56,6 +59,7 @@ public final class GearCodec {
     private static final Set<String> ENTRY_KEYS = Set.of("attribute", "id", "group", "tier", "categories", "added",
             "modifier", "value", "snbt", "about");
     private static final Random RANDOM = new Random();
+    private static final int FALLBACK_DURABILITY = 10000;
 
     private GearCodec() {
     }
@@ -275,6 +279,9 @@ public final class GearCodec {
         if (json.has("value") || json.has("snbt")) {
             modifier = withValue(modifier, json, path);
             checkEtchingValue(modifier, etchingTiers(entry, modifier, tier), id, tier, path, report);
+        } else if (modifier.getAttribute().getGenerator() instanceof WeightedListAttributeGenerator<?>) {
+            throw new BuildException(path + ": etching " + id + " picks one entry from a pool (an ability for Lucky Reset); give "
+                    + "'value' so the build gets the entry it was made for instead of a random one");
         } else {
             report.fallback(path + ": no etching value given; rolled " + readable(modifier) + " at greed tier " + tier);
         }
@@ -320,6 +327,19 @@ public final class GearCodec {
         ConfigurableAttributeGenerator<T, C> generator = (ConfigurableAttributeGenerator<T, C>) attribute.getGenerator();
         List<C> configs = new ArrayList<>();
         tiers.forEach(tier -> configs.add((C) tier.getModifierConfiguration()));
+        if (generator instanceof WeightedListAttributeGenerator<?>) {
+            Set<Object> pool = new LinkedHashSet<>();
+            for (C config : configs) {
+                if (config instanceof WeightedListAttributeGenerator.Config<?> listConfig && listConfig.strings != null) {
+                    pool.addAll(listConfig.strings.keySet());
+                }
+            }
+            if (!pool.contains(modifier.getValue())) {
+                throw new BuildException(path + ".value: etching " + id + " picks from " + pool + " at greed tier " + greedTier
+                        + ", not " + readable(modifier));
+            }
+            return;
+        }
         Optional<T> min = generator == null ? Optional.empty() : generator.getMinimumValue(configs);
         Optional<T> max = generator == null ? Optional.empty() : generator.getMaximumValue(configs);
         if (min.isEmpty() || max.isEmpty()) {
@@ -602,22 +622,42 @@ public final class GearCodec {
             }
         }
         if (!hasAttribute(data, ModGearAttributes.DURABILITY) && !(stack.getItem() instanceof ToolItem)) {
-            Optional<Tuple<VaultGearTierConfig.ModifierAffixTagGroup, VaultGearTierConfig.ModifierTierGroup>> durability =
-                    config.flatMap(c -> c.getAnyGroupsFulfilling(group ->
-                            ModGearAttributes.DURABILITY.getRegistryName().equals(group.getAttribute())).stream().findFirst());
-            if (durability.isPresent()) {
-                VaultGearTierConfig.ModifierTierGroup group = durability.get().getB();
-                VaultGearTierConfig.ModifierTier<?> tier = group.getHighestForLevel(level);
-                if (tier != null) {
-                    VaultGearModifier<?> rolled = tier.makeModifier(group, RANDOM);
-                    attributeList.add(rolled);
-                    report.fallback(path + ": no durability given; rolled " + rolled.getValue() + " from the item's top "
-                            + "durability tier at level " + level);
-                }
+            VaultGearModifier<?> rolled = rollDurability(config, level);
+            if (rolled != null) {
+                attributeList.add(rolled);
+                report.fallback(path + ": no durability given; rolled " + rolled.getValue() + " from the item's top "
+                        + "durability tier at level " + level);
             } else {
-                report.fallback(path + ": no durability given and this item's config has none; the item has no durability");
+                Optional<VaultGearTierConfig> base = Optional.ofNullable(stack.getItem().getRegistryName())
+                        .map(ModConfigs.VAULT_GEAR_CONFIG::get);
+                rolled = rollDurability(base, level);
+                if (rolled != null) {
+                    attributeList.add(rolled);
+                    report.fallback(path + ": no durability given and this item's " + data.getRarity().name()
+                            + " config has none; rolled " + rolled.getValue() + " from its base config's top durability "
+                            + "tier at level " + level);
+                } else {
+                    attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.DURABILITY, FALLBACK_DURABILITY));
+                    report.fallback(path + ": no durability given and no config of this item has a durability tier; set "
+                            + FALLBACK_DURABILITY);
+                }
+                WoldLogger.warn("Build gear {} ({}): its gear config has no durability tier; durability filled from a fallback.",
+                        stack.getItem().getRegistryName(), path);
             }
         }
+    }
+
+    /** Rolls the top durability tier at {@code level} from {@code config}, or null when it has no durability group. */
+    private static VaultGearModifier<?> rollDurability(Optional<VaultGearTierConfig> config, int level) {
+        Optional<Tuple<VaultGearTierConfig.ModifierAffixTagGroup, VaultGearTierConfig.ModifierTierGroup>> durability =
+                config.flatMap(c -> c.getAnyGroupsFulfilling(group ->
+                        ModGearAttributes.DURABILITY.getRegistryName().equals(group.getAttribute())).stream().findFirst());
+        if (durability.isEmpty()) {
+            return null;
+        }
+        VaultGearTierConfig.ModifierTierGroup group = durability.get().getB();
+        VaultGearTierConfig.ModifierTier<?> tier = group.getHighestForLevel(level);
+        return tier == null ? null : tier.makeModifier(group, RANDOM);
     }
 
     private static boolean hasAttribute(VaultGearData data, VaultGearAttribute<?> attribute) {
