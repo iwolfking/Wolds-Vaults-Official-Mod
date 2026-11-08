@@ -43,13 +43,19 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
             .with(Version.v1_0, Adapters.FLOAT, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Boolean> OCCUPIED = FieldKey.of("occupied", Boolean.class)
             .with(Version.v1_0, Adapters.BOOLEAN, DISK.all().or(CLIENT.all())).register(FIELDS);
+    public static final FieldKey<Integer> SPAN = FieldKey.of("span", Integer.class)
+            .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all())).register(FIELDS);
+    public static final FieldKey<Integer> POINT = FieldKey.of("point", Integer.class)
+            .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all())).register(FIELDS);
 
     public ExtractionSite() {
     }
 
-    public ExtractionSite(int regionX, int regionZ, String god, int requiredTicks) {
+    public ExtractionSite(int regionX, int regionZ, int span, String god, int requiredTicks) {
         this.set(REGION_X, regionX);
         this.set(REGION_Z, regionZ);
+        this.set(SPAN, span);
+        this.set(POINT, -1);
         this.set(GOD, god);
         this.set(STATE, STATE_UNTOUCHED);
         this.set(PROGRESS, 0.0F);
@@ -83,6 +89,16 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
     /** Placed but not started: the rig waits for its inputs and a press of Start, with no progress and no waves. */
     public boolean isArmed() {
         return this.get(STATE) == STATE_ARMED;
+    }
+
+    /** Width of the site's room in grid cells; sites saved before multi-cell rooms are single-cell. */
+    public int getSpan() {
+        return this.has(SPAN) ? this.get(SPAN) : 1;
+    }
+
+    /** Index of the pedestal the extractor was placed on, or -1 before the first placement. */
+    public int getPoint() {
+        return this.has(POINT) ? this.get(POINT) : -1;
     }
 
     /** True while an extractor entity stands on this site; drives the placed HUD. */

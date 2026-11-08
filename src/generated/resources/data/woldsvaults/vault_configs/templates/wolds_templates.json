@@ -7,6 +7,14 @@
         "type": "structure",
         "path": "woldsvaults:structures/vault/rooms/special/extraction1.nbt"
       }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/special/extraction_3x3_1",
+      "name": "Extraction Site 3x3",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/special/extraction_3x3_1.nbt"
+      }
     }
   ]
 }

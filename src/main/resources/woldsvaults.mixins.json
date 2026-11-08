@@ -640,6 +640,13 @@
     "vaulthunters.medallions.MixinCrateLootGenerator",
     "vaulthunters.medallions.MixinVaultNaturalSpawner",
     "vaulthunters.modifiers.MixinVaultModifierTypeRegistry",
+    "vaulthunters.multicell.MixinArchitectObjectiveMultiCell",
+    "vaulthunters.multicell.MixinClassicLayoutsMultiCell",
+    "vaulthunters.multicell.MixinConcurrentGridCacheMultiCell",
+    "vaulthunters.multicell.MixinDiscoveredRoomStatMultiCell",
+    "vaulthunters.multicell.MixinGridGeneratorMultiCell",
+    "vaulthunters.multicell.MixinVaultGridLayoutMultiCell",
+    "vaulthunters.multicell.MixinVaultMultiCell",
     "vaulthunters.objectives.MixinArchitectObjective",
     "vaulthunters.objectives.MixinCrystalData",
     "vaulthunters.objectives.MixinNullCrystalModel",
@@ -687,6 +694,8 @@
     "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets"
   ],
   "client": [
+    "vaultmapper.MixinVaultMapMultiCell",
+    "vaultmapper.MixinVaultMapOverlayRendererMultiCell",
     "AccessorParticleEngine",
     "accessors.ModelAccessor",
     "MixinAbstractContainerScreen",

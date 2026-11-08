@@ -33,8 +33,6 @@ import iskallia.vault.core.world.storage.BlockCuboid;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.storage.WorldZone;
 import iskallia.vault.core.world.template.PlacementSettings;
-import iskallia.vault.core.world.template.Template;
-import iskallia.vault.core.data.key.TemplatePoolKey;
 import iskallia.vault.init.ModOptions;
 import iskallia.vault.core.data.key.PaletteKey;
 import iskallia.vault.core.vault.VaultRegistry;
@@ -66,6 +64,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.layout.multicell.MultiCellFootprint;
+import xyz.iwolfking.woldsvaults.api.core.layout.multicell.MultiCellRooms;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.extraction.jobs.ExtractionPayouts;
@@ -99,9 +99,17 @@ public class ExtractionObjective extends Objective {
             "wendarr", new int[][]{{17, 155}, {34, 155}, {51, 155}},
             "idona", new int[][]{{68, 155}, {85, 155}, {102, 155}});
     private static final Set<String> UNKNOWN_PIP_GODS = new HashSet<>();
-    private static final ResourceLocation ROOM_POOL = WoldsVaults.id("vault/rooms/special/extraction");
+    private static final ResourceLocation ROOM_POOL = WoldsVaults.id("vault/rooms/special/extraction_3x3");
     private static final BlockPos[] CAVE_ANCHORS = new BlockPos[]{
             new BlockPos(5, 20, 5), new BlockPos(41, 20, 5), new BlockPos(5, 20, 41), new BlockPos(41, 20, 41)
+    };
+    private static final Vec3[] ROOM_3X3_PEDESTALS = new Vec3[]{
+            new Vec3(70.5D, 24.0D, 32.5D), new Vec3(36.5D, 24.0D, 104.5D), new Vec3(104.5D, 24.0D, 104.5D)
+    };
+    private static final BlockPos[][] ROOM_3X3_SPAWNS = new BlockPos[][]{
+            {new BlockPos(48, 20, 7), new BlockPos(70, 20, 6), new BlockPos(92, 20, 7), new BlockPos(7, 20, 48), new BlockPos(133, 20, 48)},
+            {new BlockPos(6, 20, 70), new BlockPos(7, 20, 92), new BlockPos(48, 20, 133), new BlockPos(70, 20, 134)},
+            {new BlockPos(134, 20, 70), new BlockPos(133, 20, 92), new BlockPos(92, 20, 133), new BlockPos(70, 20, 134)}
     };
 
     public static final SupplierKey<Objective> KEY = SupplierKey.of("extraction", Objective.class).with(Version.latest(), ExtractionObjective::new);
@@ -121,6 +129,8 @@ public class ExtractionObjective extends Objective {
     private ExtractionSpawnManager spawnManager;
     private final Set<UUID> discoveredPlayers = new HashSet<>();
     private final Set<Integer> sparkleFallbackLogged = new HashSet<>();
+    private final Set<Integer> roomFallbackLogged = new HashSet<>();
+    private Vault vault;
 
     protected ExtractionObjective() {
         this.set(SITES, new ExtractionSite[0]);
@@ -151,36 +161,19 @@ public class ExtractionObjective extends Objective {
 
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
+        this.vault = vault;
         guarded("site selection", () -> {
             if (this.get(SITES).length == 0) {
                 this.pickSites(vault);
             }
         });
+        guarded("site rooms", () -> this.registerSiteRooms(vault));
 
         CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             if (data.getVault() == vault) {
                 data.setProbability(0.0D);
             }
         });
-
-        CommonEvents.LAYOUT_TEMPLATE_GENERATION.register(this, data -> guarded("extraction room layout", () -> {
-            if (data.getVault() != vault || data.getPieceType() != VaultLayout.PieceType.ROOM || data.getTemplate() != null) {
-                return;
-            }
-            ExtractionSite site = this.siteAtRegion(data.getRegion().getX(), data.getRegion().getZ());
-            if (site == null) {
-                return;
-            }
-            TemplatePoolKey poolKey = VaultRegistry.TEMPLATE_POOL.getKey(ROOM_POOL);
-            if (poolKey == null) {
-                WoldsVaults.LOGGER.error("Extraction room template pool '{}' is missing; the site room cannot be forced!", ROOM_POOL);
-                return;
-            }
-            Template template = data.getLayout().getRoom(poolKey.get(vault.get(Vault.VERSION)), vault, vault.get(Vault.VERSION),
-                    data.getRegion(), data.getRandom(), data.getSettings());
-            this.applyGodPalette(data.getSettings(), site);
-            data.setTemplate(template);
-        }));
 
         guarded("site zones", () -> this.addZones(world));
 
@@ -291,9 +284,10 @@ public class ExtractionObjective extends Objective {
     }
 
     /**
-     * Seeds the site layout from the vault seed: ROOM cells on the 4-9 room ring around the start with
-     * pairwise room separation of at least the configured minimum, each with a distinct god colour.
-     * Falls back (with an error log) to relaxed rings if the rolled layout cannot satisfy the ring.
+     * Seeds the site layout from the vault seed: multi-cell site rooms whose footprint fits the layout, centred on the
+     * 4-9 room ring around the start, with pairwise room separation of at least the configured minimum and never
+     * overlapping, each with a distinct god colour. Falls back (with an error log) to relaxed rings if the rolled layout
+     * cannot satisfy the ring.
      */
     private void pickSites(Vault vault) {
         ExtractionObjectiveConfig.SitesEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.SITES;
@@ -313,33 +307,45 @@ public class ExtractionObjective extends Objective {
         int cellZ = gridGenerator.get(GridGenerator.CELL_Z);
         this.set(CELL_X, cellX);
         this.set(CELL_Z, cellZ);
+        int span = ModConfigs.MULTI_CELL_ROOMS.spanOfPool(ROOM_POOL);
+        if (span <= 1) {
+            WoldsVaults.LOGGER.error("Extraction room pool {} is not listed in the multi-cell room table; sites fall back to single-cell rooms.", ROOM_POOL);
+            span = 1;
+        }
         int radius = Math.max(2, VaultUtils.getVaultRadius(layout, vault));
         List<int[]> ringCandidates = new ArrayList<>();
         List<int[]> anyCandidates = new ArrayList<>();
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
                 RegionPos region = RegionPos.of(x, z, cellX, cellZ);
-                if (layout.getType(vault, region) != VaultLayout.PieceType.ROOM || (x == 0 && z == 0)) {
+                if (x == 0 && z == 0) {
                     continue;
                 }
-                int roomDistance = Math.max(Math.abs(x), Math.abs(z)) / 2;
+                if (span > 1 ? !MultiCellRooms.fits(vault, layout, x, z, span) : layout.getType(vault, region) != VaultLayout.PieceType.ROOM) {
+                    continue;
+                }
+                int centreX = x + span / 2;
+                int centreZ = z + span / 2;
+                int roomDistance = Math.max(Math.abs(centreX), Math.abs(centreZ)) / 2;
                 anyCandidates.add(new int[]{x, z});
                 if (roomDistance >= cfg.ringMinRooms && roomDistance <= cfg.ringMaxRooms) {
                     ringCandidates.add(new int[]{x, z});
                 }
             }
         }
+        int noOverlap = span > 1 ? span + 1 : 0;
+        int separation = Math.max(cfg.minSeparationRooms * 2, noOverlap);
         Random random = new Random(vault.get(Vault.SEED) ^ 0x455854524143L);
-        List<int[]> chosen = choose(ringCandidates, cfg.count, cfg.minSeparationRooms * 2, random);
+        List<int[]> chosen = choose(ringCandidates, cfg.count, separation, random);
         if (chosen.size() < cfg.count) {
             WoldsVaults.LOGGER.error("Extraction site ring {}..{} only fit {} of {} sites in this layout; relaxing to the whole vault.",
                     cfg.ringMinRooms, cfg.ringMaxRooms, chosen.size(), cfg.count);
-            chosen = choose(anyCandidates, cfg.count, cfg.minSeparationRooms * 2, random);
+            chosen = choose(anyCandidates, cfg.count, separation, random);
         }
         if (chosen.size() < cfg.count) {
-            WoldsVaults.LOGGER.error("Extraction site separation {} rooms could not be satisfied either; placing {} unseparated sites.",
+            WoldsVaults.LOGGER.error("Extraction site separation {} rooms could not be satisfied either; placing {} sites that only avoid overlapping.",
                     cfg.minSeparationRooms, cfg.count);
-            chosen = choose(anyCandidates, cfg.count, 0, random);
+            chosen = choose(anyCandidates, cfg.count, noOverlap, random);
         }
         List<VaultGod> gods = new ArrayList<>(Arrays.asList(VaultGod.values()));
         Collections.shuffle(gods, random);
@@ -348,9 +354,52 @@ public class ExtractionObjective extends Objective {
         ExtractionSite[] sites = new ExtractionSite[chosen.size()];
         for (int i = 0; i < chosen.size(); i++) {
             String god = gods.get(i % gods.size()).getName().toLowerCase(java.util.Locale.ROOT);
-            sites[i] = new ExtractionSite(chosen.get(i)[0], chosen.get(i)[1], god, requiredTicks);
+            sites[i] = new ExtractionSite(chosen.get(i)[0], chosen.get(i)[1], span, god, requiredTicks);
         }
         this.set(SITES, sites);
+    }
+
+    /**
+     * Registers every multi-cell site room with its god palette. Runs on every vault initialisation, before any chunk
+     * generates, so a restarted server rebuilds the same rooms; a room that no longer fits logs an error.
+     */
+    private void registerSiteRooms(Vault vault) {
+        VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
+        if (!(generator instanceof GridGenerator gridGenerator) || !(gridGenerator.get(GridGenerator.LAYOUT) instanceof VaultGridLayout layout)) {
+            WoldsVaults.LOGGER.error("Extraction site rooms need a grid vault layout; none were registered.");
+            return;
+        }
+        for (ExtractionSite site : this.get(SITES)) {
+            if (site.getSpan() <= 1) {
+                WoldsVaults.LOGGER.error("Extraction site at ({}, {}) was saved as a single-cell site; it keeps no room of its own.",
+                        site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z));
+                continue;
+            }
+            MultiCellRooms.force(vault, layout, site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z), site.getSpan(), ROOM_POOL,
+                    settings -> this.applyGodPalette(settings, site), "extraction site");
+        }
+    }
+
+    private MultiCellFootprint siteFootprint(ExtractionSite site, int siteIndex) {
+        if (site.getSpan() <= 1) {
+            return null;
+        }
+        MultiCellFootprint footprint = this.vault == null ? null
+                : MultiCellRooms.at(this.vault, site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z));
+        if (footprint == null && this.roomFallbackLogged.add(siteIndex)) {
+            WoldsVaults.LOGGER.error("Extraction site {} has no registered multi-cell room; using single-cell site geometry instead.", siteIndex);
+        }
+        return footprint;
+    }
+
+    private int indexOf(ExtractionSite site) {
+        ExtractionSite[] sites = this.get(SITES);
+        for (int i = 0; i < sites.length; i++) {
+            if (sites[i] == site) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static List<int[]> choose(List<int[]> candidates, int count, int minCellSeparation, Random random) {
@@ -391,20 +440,12 @@ public class ExtractionObjective extends Objective {
             return;
         }
         for (ExtractionSite site : this.get(SITES)) {
-            BlockPos origin = this.siteRoomOrigin(site);
-            BlockCuboid cuboid = BlockCuboid.of(origin, origin.offset(46, 46, 46));
+            AABB bounds = this.siteRoomBounds(site);
+            BlockPos origin = new BlockPos(bounds.minX, bounds.minY, bounds.minZ);
+            BlockCuboid cuboid = BlockCuboid.of(origin, new BlockPos(bounds.maxX - 1, bounds.maxY - 1, bounds.maxZ - 1));
             WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).add(new WorldZone().add(cuboid).setModify(false));
         }
         this.set(ZONES_ADDED, true);
-    }
-
-    private ExtractionSite siteAtRegion(int regionX, int regionZ) {
-        for (ExtractionSite site : this.get(SITES)) {
-            if (site.get(ExtractionSite.REGION_X) == regionX && site.get(ExtractionSite.REGION_Z) == regionZ) {
-                return site;
-            }
-        }
-        return null;
     }
 
     public BlockPos siteRoomOrigin(ExtractionSite site) {
@@ -416,18 +457,42 @@ public class ExtractionObjective extends Objective {
 
     public AABB siteRoomBounds(ExtractionSite site) {
         BlockPos origin = this.siteRoomOrigin(site);
-        return new AABB(origin, origin.offset(47, 47, 47));
+        int span = this.siteFootprint(site, this.indexOf(site)) == null ? 1 : site.getSpan();
+        return new AABB(origin, origin.offset(47 * span, 47, 47 * span));
     }
 
+    /** World centres of every extraction pedestal in the site's room, in the room template's authored order. */
+    public List<Vec3> sitePedestals(ExtractionSite site) {
+        MultiCellFootprint footprint = this.siteFootprint(site, this.indexOf(site));
+        if (footprint == null) {
+            BlockPos origin = this.siteRoomOrigin(site);
+            return List.of(new Vec3(origin.getX() + 23.5D, origin.getY() + 21.0D, origin.getZ() + 23.5D));
+        }
+        List<Vec3> pedestals = new ArrayList<>(ROOM_3X3_PEDESTALS.length);
+        for (Vec3 local : ROOM_3X3_PEDESTALS) {
+            pedestals.add(footprint.toWorldCentre(local, this.get(CELL_X), this.get(CELL_Z)));
+        }
+        return pedestals;
+    }
+
+    /** The pedestal the site's extractor uses: the one it was placed on, else the first. */
     public Vec3 sitePedestalCenter(ExtractionSite site) {
-        BlockPos origin = this.siteRoomOrigin(site);
-        return new Vec3(origin.getX() + 23.5D, origin.getY() + 21.0D, origin.getZ() + 23.5D);
+        List<Vec3> pedestals = this.sitePedestals(site);
+        int point = site.getPoint();
+        return pedestals.get(point >= 0 && point < pedestals.size() ? point : 0);
     }
 
     public BlockPos randomCaveAnchor(ExtractionSite site, Random random) {
-        BlockPos origin = this.siteRoomOrigin(site);
-        BlockPos local = CAVE_ANCHORS[random.nextInt(CAVE_ANCHORS.length)];
-        return origin.offset(local.getX(), local.getY(), local.getZ());
+        MultiCellFootprint footprint = this.siteFootprint(site, this.indexOf(site));
+        if (footprint == null) {
+            BlockPos origin = this.siteRoomOrigin(site);
+            BlockPos local = CAVE_ANCHORS[random.nextInt(CAVE_ANCHORS.length)];
+            return origin.offset(local.getX(), local.getY(), local.getZ());
+        }
+        int point = site.getPoint();
+        BlockPos[] lane = ROOM_3X3_SPAWNS[point >= 0 && point < ROOM_3X3_SPAWNS.length ? point : 0];
+        BlockPos local = lane[random.nextInt(lane.length)];
+        return footprint.toWorld(local, this.get(CELL_X), this.get(CELL_Z));
     }
 
     public ExtractorEntity getLiveExtractor(VirtualWorld world, ExtractionSite site) {
@@ -464,13 +529,18 @@ public class ExtractionObjective extends Objective {
         }
         ExtractionSite target = null;
         int targetIndex = -1;
+        int targetPoint = -1;
         ExtractionSite[] sites = this.get(SITES);
+        search:
         for (int i = 0; i < sites.length; i++) {
-            Vec3 pedestal = this.sitePedestalCenter(sites[i]);
-            if (pedestal.distanceTo(Vec3.atCenterOf(clickedPos)) <= 3.5D) {
-                target = sites[i];
-                targetIndex = i;
-                break;
+            List<Vec3> pedestals = this.sitePedestals(sites[i]);
+            for (int point = 0; point < pedestals.size(); point++) {
+                if (pedestals.get(point).distanceTo(Vec3.atCenterOf(clickedPos)) <= 3.5D) {
+                    target = sites[i];
+                    targetIndex = i;
+                    targetPoint = point;
+                    break search;
+                }
             }
         }
         if (target == null) {
@@ -524,6 +594,7 @@ public class ExtractionObjective extends Objective {
             WoldsVaults.LOGGER.error("Extractor entity could not be created; deployment aborted.");
             return InteractionResult.FAIL;
         }
+        target.set(ExtractionSite.POINT, targetPoint);
         Vec3 pedestal = this.sitePedestalCenter(target);
         extractor.initFromItem(stack, player, targetIndex, ModConfigs.EXTRACTION_OBJECTIVE.DEPLOYMENT.initialEnergyFraction);
         extractor.moveTo(pedestal.x, pedestal.y - 2.0D, pedestal.z, 0.0F, 0.0F);
@@ -624,16 +695,22 @@ public class ExtractionObjective extends Objective {
                     watching.add(player);
                 }
             }
-            Vec3 center = this.sitePedestalCenter(site);
-            BlockPos probe = new BlockPos(center);
-            if (watching.isEmpty() || !world.isLoaded(probe)) {
+            if (watching.isEmpty()) {
                 continue;
             }
-            double top = this.pedestalTop(world, probe, center.y, i);
-            for (ServerPlayer player : watching) {
-                world.sendParticles(player, ParticleTypes.END_ROD, true, center.x, top + 0.3D, center.z, 2, 0.25D, 0.2D, 0.25D, 0.01D);
-                if (twinkle) {
-                    world.sendParticles(player, ParticleTypes.FIREWORK, true, center.x, top + 0.6D, center.z, 3, 0.3D, 0.3D, 0.3D, 0.02D);
+            List<Vec3> pedestals = this.sitePedestals(site);
+            for (int point = 0; point < pedestals.size(); point++) {
+                Vec3 center = pedestals.get(point);
+                BlockPos probe = new BlockPos(center);
+                if (!world.isLoaded(probe)) {
+                    continue;
+                }
+                double top = this.pedestalTop(world, probe, center.y, i * 8 + point);
+                for (ServerPlayer player : watching) {
+                    world.sendParticles(player, ParticleTypes.END_ROD, true, center.x, top + 0.3D, center.z, 2, 0.25D, 0.2D, 0.25D, 0.01D);
+                    if (twinkle) {
+                        world.sendParticles(player, ParticleTypes.FIREWORK, true, center.x, top + 0.6D, center.z, 3, 0.3D, 0.3D, 0.3D, 0.02D);
+                    }
                 }
             }
         }
@@ -813,9 +890,10 @@ public class ExtractionObjective extends Objective {
             if (!site.isDrilling() || !site.isOccupied()) {
                 continue;
             }
-            int dx = Math.abs(playerRegion.getX() - site.get(ExtractionSite.REGION_X));
-            int dz = Math.abs(playerRegion.getZ() - site.get(ExtractionSite.REGION_Z));
-            if (dx <= 2 && dz <= 2) {
+            int half = site.getSpan() / 2;
+            int dx = Math.abs(playerRegion.getX() - (site.get(ExtractionSite.REGION_X) + half));
+            int dz = Math.abs(playerRegion.getZ() - (site.get(ExtractionSite.REGION_Z) + half));
+            if (dx <= 2 + half && dz <= 2 + half) {
                 return site;
             }
         }
