@@ -1,162 +1,1062 @@
 {
   "worksOutsideVaults": true,
-  "limits": {
-    "maxRecipeLength": 9,
-    "maxCastsPerTrigger": 32,
-    "maxRecipesPerItem": 3,
-    "maxDelaysPerRecipe": 5,
-    "maxEchoesPerRecipe": 1,
-    "maxBundleDepth": 2
+  "rules": {
+    "escalationPerGlyph": 0.12,
+    "abilityStepCost": 6,
+    "chainCooldownShare": 0.25,
+    "manaFactorFloor": 0.5,
+    "minCooldownSeconds": 0.5,
+    "maxGlyphsPerSpell": 12,
+    "maxSpellsPerItem": 6,
+    "maxCastsPerTrigger": 16,
+    "maxBundleNesting": 2,
+    "maxNameLength": 24,
+    "costNoise": [
+      {
+        "offset": -1,
+        "weight": 25
+      },
+      {
+        "offset": 0,
+        "weight": 50
+      },
+      {
+        "offset": 1,
+        "weight": 25
+      }
+    ]
   },
   "tuning": {
     "echoDelaySeconds": 0.5,
-    "echoKeepsCharge": false,
-    "shotgunSpreadDegrees": 15.0,
-    "shotgunCopyManaShare": 0.0,
-    "homingRange": 16.0,
-    "homingTurnRate": 0.2,
+    "shotgunSpreadDegrees": 12.0,
     "homingRetargetTicks": 5,
     "orbitRadius": 2.5,
-    "orbitMaxSeconds": 30,
-    "etherealMaxSeconds": 10,
-    "bundleMaxSeconds": 30,
-    "bundleBaseSpeed": 1.0,
-    "chargeSecondsPerGlyph": 1.0,
+    "orbitHeight": 1.2,
+    "bundleSpeed": 0.8,
     "railRange": 128.0,
     "sizeUpMaxScale": 3.0,
-    "sizeDownMinScale": 0.25
+    "sizeDownMinScale": 0.4,
+    "chargeSeconds": 1.0,
+    "chargeMoveMultiplier": 0.7,
+    "chargeMinShare": 0.25
   },
-  "augments": {
+  "glyphs": {
     "amplify_area": {
-      "strength": 0.25,
-      "maxPerCast": 4,
-      "rollWeight": 10,
+      "kind": "modifier",
+      "category": "power",
       "minLevel": 0,
-      "maxTokensPerRoll": 2
-    },
-    "quicken": {
-      "strength": 0.1,
-      "maxPerCast": 5,
-      "rollWeight": 10,
-      "minLevel": 0,
-      "maxTokensPerRoll": 2
-    },
-    "discount": {
-      "strength": 0.1,
-      "maxPerCast": 5,
-      "rollWeight": 10,
-      "minLevel": 0,
-      "maxTokensPerRoll": 2
-    },
-    "echo": {
-      "strength": 0.0,
-      "maxPerCast": 1,
-      "rollWeight": 2,
-      "minLevel": 60,
-      "maxTokensPerRoll": 1
+      "weight": 10,
+      "requires": [
+        [
+          "instant",
+          "area"
+        ],
+        [
+          "instant",
+          "projectile"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "area",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.18
+          },
+          {
+            "minLevel": 35,
+            "min": 0.14,
+            "max": 0.24
+          },
+          {
+            "minLevel": 70,
+            "min": 0.18,
+            "max": 0.3
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "area",
+          "k": 1.0
+        },
+        {
+          "stat": "damage",
+          "k": -0.25
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "k": 0.4
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 3,
+      "costMax": 7,
+      "noEscalation": false
     },
     "strengthen": {
-      "strength": 0.2,
-      "maxPerCast": 4,
-      "rollWeight": 6,
-      "minLevel": 30,
-      "maxTokensPerRoll": 2
+      "kind": "modifier",
+      "category": "power",
+      "minLevel": 15,
+      "weight": 8,
+      "requires": [
+        [
+          "instant"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.08,
+            "max": 0.14
+          },
+          {
+            "minLevel": 35,
+            "min": 0.11,
+            "max": 0.19
+          },
+          {
+            "minLevel": 70,
+            "min": 0.15,
+            "max": 0.25
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "k": 1.0
+        },
+        {
+          "stat": "area",
+          "k": -0.3
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "k": 0.6
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 4,
+      "costMax": 9,
+      "noEscalation": false
     },
-    "accelerate": {
-      "strength": 0.25,
-      "maxPerCast": 4,
-      "rollWeight": 10,
+    "quicken": {
+      "kind": "modifier",
+      "category": "flow",
       "minLevel": 0,
-      "maxTokensPerRoll": 2
+      "weight": 10,
+      "requires": [
+        [
+          "instant"
+        ],
+        [
+          "toggle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "haste",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.06,
+            "max": 0.1
+          },
+          {
+            "minLevel": 35,
+            "min": 0.08,
+            "max": 0.14
+          },
+          {
+            "minLevel": 70,
+            "min": 0.1,
+            "max": 0.18
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "k": -0.2
+        }
+      ],
+      "spell": [
+        {
+          "stat": "haste",
+          "k": 1.0
+        },
+        {
+          "stat": "mana",
+          "k": 0.8
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 4,
+      "costMax": 9,
+      "noEscalation": false
     },
-    "homing": {
-      "strength": 0.0,
-      "maxPerCast": 1,
-      "rollWeight": 6,
-      "minLevel": 20,
-      "maxTokensPerRoll": 1
-    },
-    "orbit": {
-      "strength": 0.0,
-      "maxPerCast": 1,
-      "rollWeight": 4,
-      "minLevel": 20,
-      "maxTokensPerRoll": 1
+    "discount": {
+      "kind": "modifier",
+      "category": "flow",
+      "minLevel": 0,
+      "weight": 10,
+      "requires": [
+        [
+          "mana"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "mana",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.06,
+            "max": 0.1
+          },
+          {
+            "minLevel": 35,
+            "min": 0.08,
+            "max": 0.14
+          },
+          {
+            "minLevel": 70,
+            "min": 0.1,
+            "max": 0.18
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "k": -1.0
+        },
+        {
+          "stat": "haste",
+          "k": -0.3
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 3,
+      "costMax": 7,
+      "noEscalation": false
     },
     "delay": {
-      "strength": 1.0,
-      "maxPerCast": 5,
-      "rollWeight": 6,
+      "kind": "delay",
+      "category": "flow",
       "minLevel": 0,
-      "maxTokensPerRoll": 2
+      "weight": 6,
+      "requires": [],
+      "excludes": [],
+      "potency": {
+        "label": "pause",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.25,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.02
+        }
+      ],
+      "maxUses": 4,
+      "useWeights": [
+        40,
+        30,
+        20,
+        10
+      ],
+      "capPerSpell": 4,
+      "costMin": 1,
+      "costMax": 1,
+      "noEscalation": true
     },
-    "size_up": {
-      "strength": 0.5,
-      "maxPerCast": 3,
-      "rollWeight": 8,
+    "accelerate": {
+      "kind": "modifier",
+      "category": "path",
       "minLevel": 0,
-      "maxTokensPerRoll": 2
+      "weight": 10,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "speed",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.15,
+            "max": 0.25
+          },
+          {
+            "minLevel": 35,
+            "min": 0.2,
+            "max": 0.32
+          },
+          {
+            "minLevel": 70,
+            "min": 0.25,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "speed",
+          "k": 1.0
+        },
+        {
+          "stat": "damage",
+          "k": -0.08
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "k": 0.2
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 2,
+      "costMax": 5,
+      "noEscalation": false
     },
-    "size_down": {
-      "strength": 0.25,
-      "maxPerCast": 4,
-      "rollWeight": 6,
-      "minLevel": 0,
-      "maxTokensPerRoll": 2
+    "homing": {
+      "kind": "modifier",
+      "category": "path",
+      "minLevel": 20,
+      "weight": 6,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [
+        "orbit"
+      ],
+      "potency": {
+        "label": "range",
+        "format": "blocks",
+        "tiers": [
+          {
+            "minLevel": 20,
+            "min": 10.0,
+            "max": 16.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "turn rate",
+            "min": 0.12,
+            "max": 0.22
+          }
+        ]
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "fixed": 0.9
+        },
+        {
+          "stat": "speed",
+          "fixed": 0.9
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 6,
+      "costMax": 10,
+      "noEscalation": false
     },
-    "ethereal": {
-      "strength": 0.0,
-      "maxPerCast": 1,
-      "rollWeight": 2,
-      "minLevel": 60,
-      "maxTokensPerRoll": 1
-    },
-    "shotgun": {
-      "strength": 0.5,
-      "maxPerCast": 4,
-      "rollWeight": 3,
-      "minLevel": 50,
-      "maxTokensPerRoll": 1
+    "orbit": {
+      "kind": "modifier",
+      "category": "path",
+      "minLevel": 20,
+      "weight": 4,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [
+        "homing"
+      ],
+      "potency": {
+        "label": "duration",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 20,
+            "min": 6.0,
+            "max": 12.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "fixed": 0.85
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.15
+        },
+        {
+          "stat": "cooldown",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 6,
+      "costMax": 10,
+      "noEscalation": false
     },
     "low_gravity": {
-      "strength": 0.5,
-      "maxPerCast": 2,
-      "rollWeight": 8,
+      "kind": "modifier",
+      "category": "path",
       "minLevel": 0,
-      "maxTokensPerRoll": 1
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "gravity",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 0.7
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "speed",
+          "fixed": 0.95
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.04
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 1,
+      "costMax": 3,
+      "noEscalation": false
+    },
+    "ethereal": {
+      "kind": "modifier",
+      "category": "path",
+      "minLevel": 60,
+      "weight": 2,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "lifetime",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 4.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "fixed": 0.85
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.2
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 9,
+      "costMax": 13,
+      "noEscalation": false
+    },
+    "size_up": {
+      "kind": "modifier",
+      "category": "form",
+      "minLevel": 0,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "instant",
+          "bolt"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "size",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 0.3
+          },
+          {
+            "minLevel": 35,
+            "min": 0.25,
+            "max": 0.4
+          },
+          {
+            "minLevel": 70,
+            "min": 0.3,
+            "max": 0.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "scale",
+          "k": 1.0
+        },
+        {
+          "stat": "speed",
+          "k": -0.3
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "k": 0.3
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 3,
+      "costMax": 7,
+      "noEscalation": false
+    },
+    "size_down": {
+      "kind": "modifier",
+      "category": "form",
+      "minLevel": 0,
+      "weight": 6,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "size",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.15,
+            "max": 0.22
+          },
+          {
+            "minLevel": 35,
+            "min": 0.18,
+            "max": 0.26
+          },
+          {
+            "minLevel": 70,
+            "min": 0.2,
+            "max": 0.3
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "scale",
+          "k": -1.0
+        },
+        {
+          "stat": "damage",
+          "k": 0.6
+        },
+        {
+          "stat": "speed",
+          "k": 0.5
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.05
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 3,
+      "costMax": 7,
+      "noEscalation": false
+    },
+    "echo": {
+      "kind": "modifier",
+      "category": "chaos",
+      "minLevel": 60,
+      "weight": 2,
+      "requires": [
+        [
+          "instant"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "echo power",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 0.45,
+            "max": 0.65
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.5
+        },
+        {
+          "stat": "cooldown",
+          "fixed": 1.3
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 12,
+      "costMax": 18,
+      "noEscalation": false
+    },
+    "shotgun": {
+      "kind": "modifier",
+      "category": "chaos",
+      "minLevel": 50,
+      "weight": 3,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "instant",
+          "bolt"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "copy damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 50,
+            "min": 0.7,
+            "max": 0.8
+          },
+          {
+            "minLevel": 70,
+            "min": 0.75,
+            "max": 0.85
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "perUse": 0.3
+        },
+        {
+          "stat": "cooldown",
+          "perUse": 0.1
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        50,
+        35,
+        15
+      ],
+      "capPerSpell": 3,
+      "costMin": 10,
+      "costMax": 16,
+      "noEscalation": false
     },
     "charge": {
-      "strength": 9.0,
-      "maxPerCast": 1,
-      "rollWeight": 2,
+      "kind": "modifier",
+      "category": "chaos",
       "minLevel": 60,
-      "maxTokensPerRoll": 1
+      "weight": 2,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "instant",
+          "area"
+        ],
+        [
+          "instant",
+          "bolt"
+        ]
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "full charge",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 0.6,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.35
+        },
+        {
+          "stat": "cooldown",
+          "fixed": 1.25
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 15,
+      "noEscalation": false
     },
     "bundled_spell": {
-      "strength": 0.0,
-      "maxPerCast": 1,
-      "rollWeight": 3,
+      "kind": "bundle",
+      "category": "chaos",
       "minLevel": 40,
-      "maxTokensPerRoll": 1
+      "weight": 3,
+      "requires": [],
+      "excludes": [],
+      "potency": {
+        "label": "flight",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 40,
+            "min": 3.0,
+            "max": 6.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "fixed": 1.25
+        },
+        {
+          "stat": "cooldown",
+          "fixed": 1.15
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 2,
+      "costMin": 10,
+      "costMax": 16,
+      "noEscalation": false
     }
   },
-  "sockets": [
+  "combos": [
     {
-      "minLevel": 0,
-      "minSockets": 1,
-      "maxSockets": 1
+      "a": "shotgun",
+      "b": "echo",
+      "cost": 8,
+      "reason": "every copy echoes"
     },
     {
-      "minLevel": 35,
-      "minSockets": 1,
-      "maxSockets": 2
+      "a": "shotgun",
+      "b": "homing",
+      "cost": 4,
+      "reason": "every copy finds a target"
     },
     {
-      "minLevel": 70,
-      "minSockets": 2,
-      "maxSockets": 3
+      "a": "shotgun",
+      "b": "orbit",
+      "cost": 4,
+      "reason": "a ring of orbiting projectiles"
+    },
+    {
+      "a": "shotgun",
+      "b": "bundled_spell",
+      "cost": 8,
+      "reason": "a Shotgun on the bundle multiplies every payload"
+    },
+    {
+      "a": "ethereal",
+      "b": "homing",
+      "cost": 4,
+      "reason": "seeks through walls"
+    },
+    {
+      "a": "ethereal",
+      "b": "bundled_spell",
+      "cost": 6,
+      "reason": "payloads land behind walls"
+    },
+    {
+      "a": "echo",
+      "b": "bundled_spell",
+      "cost": 6,
+      "reason": "an Echo inside a payload repeats at every landing"
     }
   ],
+  "focus": {
+    "budgetBase": 14.4,
+    "budgetPerLevel": 0.72,
+    "budgetRollMin": 0.9,
+    "budgetRollMax": 1.1,
+    "rarities": {
+      "SCRAPPY": {
+        "budget": 0.6,
+        "linesMin": 1,
+        "linesMax": 2
+      },
+      "COMMON": {
+        "budget": 0.8,
+        "linesMin": 2,
+        "linesMax": 3
+      },
+      "RARE": {
+        "budget": 1.0,
+        "linesMin": 3,
+        "linesMax": 4
+      },
+      "EPIC": {
+        "budget": 1.15,
+        "linesMin": 4,
+        "linesMax": 5
+      },
+      "UNIQUE": {
+        "budget": 1.15,
+        "linesMin": 4,
+        "linesMax": 5
+      },
+      "SPECIAL": {
+        "budget": 1.15,
+        "linesMin": 4,
+        "linesMax": 5
+      },
+      "OMEGA": {
+        "budget": 1.3,
+        "linesMin": 5,
+        "linesMax": 6
+      },
+      "MYTHIC": {
+        "budget": 1.5,
+        "linesMin": 6,
+        "linesMax": 7
+      },
+      "CHAOTIC": {
+        "budget": 1.3,
+        "linesMin": 3,
+        "linesMax": 7,
+        "budgetRollMin": 0.75,
+        "budgetRollMax": 1.25
+      }
+    },
+    "depth": [
+      {
+        "minLevel": 0,
+        "min": 3,
+        "max": 3
+      },
+      {
+        "minLevel": 40,
+        "min": 3,
+        "max": 4
+      },
+      {
+        "minLevel": 70,
+        "min": 4,
+        "max": 4
+      }
+    ],
+    "depthBonus": {
+      "OMEGA": {
+        "minLevel": 70,
+        "min": 4,
+        "max": 5
+      },
+      "MYTHIC": {
+        "minLevel": 70,
+        "min": 4,
+        "max": 5
+      }
+    }
+  },
+  "wand": {
+    "budgetFactor": 0.6,
+    "linesDelta": -2,
+    "minLines": 1,
+    "maxDepth": 4
+  },
   "abilityTraits": {
     "UltimateShield_Base": [
       "TOGGLE",
