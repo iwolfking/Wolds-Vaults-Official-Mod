@@ -276,6 +276,30 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         kitsune.at(1, "value").set("min", 0.03).set("max", 0.05).set("step", 0.005);
 
         patch("gear_model_roll_rarities.json").at("ARMOR_MODEL_ROLLS", "OMEGA").remove(value(null));
+
+        for (String gear : UNSHIPPED_GEAR_TABLES) {
+            patch("gear_modifiers/" + gear + ".json").create(emptyGearTable());
+        }
+    }
+
+    /**
+     * Gear tier tables the game registers but upstream ships no file for. The base mod writes its placeholder table
+     * (armor, attack damage, poison avoidance, regen cloud, fire) for a missing file and VHAPI appends the addon's
+     * rows onto it, so each of these is created empty instead.
+     */
+    private static final List<String> UNSHIPPED_GEAR_TABLES = List.of(
+            "scepter_mythic", "dagger_mythic", "dagger_sub", "dagger_sub_mythic", "unique_mythic", "vault_necklace_mythic",
+            "idol_benevolent_mythic", "idol_malevolence_mythic", "idol_omniscient_mythic", "idol_timekeeper_mythic",
+            "jewel_mythic", "void_stone_mythic");
+
+    private static JsonObject emptyGearTable() {
+        JsonObject groups = new JsonObject();
+        for (String group : new String[]{"BASE_ATTRIBUTES", "IMPLICIT", "PREFIX", "SUFFIX", "CRAFTED_PREFIX", "CRAFTED_SUFFIX", "CORRUPTED_IMPLICIT"}) {
+            groups.add(group, new JsonArray());
+        }
+        JsonObject table = new JsonObject();
+        table.add("modifierGroup", groups);
+        return table;
     }
 
     private static void removeCorruptedImplicits(Patch gear, String... identifiers) {
@@ -348,6 +372,39 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         blueprints("ornate_chest_100_map", 2.0, 0.56, "power_core", "radiator", "shield_array", "scanner", "drill");
         blueprints("ornate_strongbox_100_map", 6.4, 4.5, "chassis", "power_core", "drill", "legs", "shield_array", "radiator", "scanner", "attachment");
         blueprints("wooden_chest_map", 0.36, 0.31, "chassis", "legs", "attachment", "drill");
+        royaleWeapons();
+    }
+
+    /** Adds the scepter and dagger to the Vault Royale tables upstream left out, each at the trident's weight. */
+    private void royaleWeapons() {
+        JsonObject completion = new JsonObject();
+        completion.addProperty("the_vault:gear_roll_type_pool", "gear_completion");
+        JsonObject legendary = new JsonObject();
+        legendary.addProperty("the_vault:is_legendary", "true");
+        legendary.addProperty("the_vault:gear_roll_type_pool", "gear_treasure");
+        Node gear = patch("gen/1.0/loot_tables/royale/royale_loot_gear.json").at("entries", 0, "pool", 0, "pool");
+        Node legendaryGear = patch("gen/1.0/loot_tables/royale/royale_loot_legendary.json").at("entries", 0, "pool", 0, "pool");
+        Patch crate = patch("gen/1.0/loot_tables/royale_crate.json");
+        for (String weapon : new String[]{"the_vault:scepter", "the_vault:dagger"}) {
+            gear.append(lootEntry(16, weapon, completion));
+            legendaryGear.append(lootEntry(80, weapon, legendary));
+            crate.at("entries", 0, "pool").append(royaleCrateEntry(50, weapon, "Royale_Poor"));
+            crate.at("entries", 1, "pool").append(royaleCrateEntry(50, weapon, "Royale"));
+        }
+    }
+
+    private static JsonObject royaleCrateEntry(int weight, String item, String rollType) {
+        JsonObject stack = new JsonObject();
+        stack.addProperty("id", item);
+        stack.addProperty("nbt", "{\"the_vault:gear_roll_type\": \"" + rollType + "\", \"the_vault:fullfill_all_affix\": true}");
+        JsonObject count = new JsonObject();
+        count.addProperty("type", "constant");
+        count.addProperty("count", 1);
+        stack.add("count", count);
+        JsonObject entry = new JsonObject();
+        entry.addProperty("weight", weight);
+        entry.add("item", stack);
+        return entry;
     }
 
     private void mythicCharm(String table, double rareWeight, double jackpotWeight) {
