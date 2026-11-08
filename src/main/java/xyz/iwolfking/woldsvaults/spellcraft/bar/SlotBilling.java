@@ -10,10 +10,12 @@ import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
 /**
  * Mana for slot casts of augmented spells. The trigger step checks and pays the whole slot: its own cost (after VH's
  * mana attributes and Power Dump) plus every other ability in the spell, times the spell's mana factor. Every other
- * step of the spell (chained abilities, payloads, Echo, Shotgun copies) is free. An Ethereal talent roll that makes the
- * trigger free makes the whole slot free.
+ * step of the spell (chained abilities, payloads, Echo, Shotgun copies) is free. An Ethereal talent roll that makes a
+ * paid trigger free makes the whole slot free; a trigger that costs nothing still pays for the other abilities.
  */
 public final class SlotBilling {
+    private static float lastTriggerCost;
+
     private SlotBilling() {
     }
 
@@ -25,7 +27,11 @@ public final class SlotBilling {
         if (billing.mode() == CastScope.Mode.FREE) {
             return 0.0F;
         }
-        return isTrigger(billing, skill) ? (cost + billing.otherAbilitiesMana()) * billing.manaFactor() : cost;
+        if (!isTrigger(billing, skill)) {
+            return cost;
+        }
+        lastTriggerCost = cost;
+        return (cost + billing.otherAbilitiesMana()) * billing.manaFactor();
     }
 
     public static float pay(ServerPlayer player, Skill skill, float paid) {
@@ -39,7 +45,8 @@ public final class SlotBilling {
         if (!isTrigger(billing, skill)) {
             return paid;
         }
-        return paid <= 0.0F ? 0.0F : (paid + billing.otherAbilitiesMana()) * billing.manaFactor();
+        boolean etherealRoll = paid <= 0.0F && lastTriggerCost > 0.0F;
+        return etherealRoll ? 0.0F : (Math.max(0.0F, paid) + billing.otherAbilitiesMana()) * billing.manaFactor();
     }
 
     public static boolean suppressesCastEvent(Entity entity) {
