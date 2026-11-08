@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -112,6 +114,36 @@ public abstract class AbstractConfigPatchProvider implements DataProvider {
         return null;
     }
 
+    /**
+     * The seeded base config at {@code path} below {@code config/the_vault/}, as upstream ships it (no patch applied),
+     * for patches whose ops or text depend on upstream's values. A missing file refuses the run.
+     */
+    public static JsonElement seeded(String path) {
+        File file = new File(SEEDED_CONFIG_ROOT + path);
+        if (!file.exists()) {
+            throw new IllegalStateException("Config patches read " + path + ", which the seeded pack does not ship");
+        }
+        try (Reader reader = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8)) {
+            return JsonParser.parseReader(reader);
+        } catch (IOException e) {
+            throw new IllegalStateException("Config patches could not read the seeded " + path, e);
+        }
+    }
+
+    /** The paths of the seeded JSON configs directly in {@code folder} (such as {@code gear_modifiers/}), sorted. */
+    public static List<String> seededFiles(String folder) {
+        File[] files = new File(SEEDED_CONFIG_ROOT + folder).listFiles((dir, name) -> name.endsWith(".json"));
+        if (files == null) {
+            throw new IllegalStateException("Config patches read the folder " + folder + ", which the seeded pack does not ship");
+        }
+        List<String> paths = new ArrayList<>();
+        for (File file : files) {
+            paths.add(folder + file.getName());
+        }
+        Collections.sort(paths);
+        return paths;
+    }
+
     /** A selector for the single array element whose {@code id} is {@code id}. */
     public static JsonObject id(String id) {
         return where("id", id);
@@ -199,6 +231,12 @@ public abstract class AbstractConfigPatchProvider implements DataProvider {
         /** Adds an object key upstream does not have. */
         public Node add(String key, Object value) {
             this.patch.op(ConfigPatch.ADD, steps(this.path.deepCopy(), key), json(value));
+            return this;
+        }
+
+        /** Multiplies an existing number (an object key or an array element) by {@code factor}. */
+        public Node scale(Object step, Number factor) {
+            this.patch.op(ConfigPatch.SCALE, steps(this.path.deepCopy(), step), json(factor));
             return this;
         }
 
