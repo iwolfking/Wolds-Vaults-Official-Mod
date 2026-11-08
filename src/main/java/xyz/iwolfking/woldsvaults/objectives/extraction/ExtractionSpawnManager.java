@@ -56,6 +56,7 @@ import java.util.function.Consumer;
  */
 public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective> {
     public static final String TAG_TARGETED = "wv_extraction_targeted";
+    public static final String TAG_WAVE = "wv_ext_wave";
     public static final String TAG_HORDE = "wv_ext_horde";
     public static final String TAG_ASSASSIN = "wv_ext_assassin";
     public static final String TAG_TANK = "wv_ext_tank";
@@ -257,6 +258,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         living.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, world.getRandom().nextFloat() * 360.0F, 0.0F);
         living.addTag(classTag);
+        living.addTag(TAG_WAVE);
         if (beforeAdd != null) {
             beforeAdd.accept(living);
         }

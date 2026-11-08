@@ -44,6 +44,9 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.TicketType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.MutableComponent;
@@ -83,8 +86,11 @@ import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -99,6 +105,9 @@ public class ExtractionObjective extends Objective {
             "wendarr", new int[][]{{17, 155}, {34, 155}, {51, 155}},
             "idona", new int[][]{{68, 155}, {85, 155}, {102, 155}});
     private static final Set<String> UNKNOWN_PIP_GODS = new HashSet<>();
+    private static final TicketType<ChunkPos> ROOM_TICKET = TicketType.create("woldsvaults_extraction_room", Comparator.comparingLong(ChunkPos::toLong));
+    private static final int ROOM_TICKET_DISTANCE = 2;
+    private static final int ROOM_LOAD_CHECK_TICKS = 20;
     private static final ResourceLocation ROOM_POOL = WoldsVaults.id("vault/rooms/special/extraction_3x3");
     private static final BlockPos[] CAVE_ANCHORS = new BlockPos[]{
             new BlockPos(5, 20, 5), new BlockPos(41, 20, 5), new BlockPos(5, 20, 41), new BlockPos(41, 20, 41)
@@ -131,6 +140,8 @@ public class ExtractionObjective extends Objective {
     private final Set<Integer> sparkleFallbackLogged = new HashSet<>();
     private final Set<Integer> roomFallbackLogged = new HashSet<>();
     private Vault vault;
+    private VirtualWorld world;
+    private final Map<Integer, List<ChunkPos>> loadedRooms = new HashMap<>();
 
     protected ExtractionObjective() {
         this.set(SITES, new ExtractionSite[0]);
@@ -162,6 +173,7 @@ public class ExtractionObjective extends Objective {
     @Override
     public void initServer(VirtualWorld world, Vault vault) {
         this.vault = vault;
+        this.world = world;
         guarded("site selection", () -> {
             if (this.get(SITES).length == 0) {
                 this.pickSites(vault);
@@ -646,6 +658,9 @@ public class ExtractionObjective extends Objective {
 
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
+        if (world.getGameTime() % ROOM_LOAD_CHECK_TICKS == 0L) {
+            guarded("site room loading", () -> this.updateRoomLoading(world));
+        }
         if (vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
             return;
         }
@@ -670,6 +685,64 @@ public class ExtractionObjective extends Objective {
         if (ticked) {
             this.markDirty(SITES);
         }
+    }
+
+    @Override
+    public void releaseServer() {
+        if (this.world != null) {
+            for (Integer siteIndex : new ArrayList<>(this.loadedRooms.keySet())) {
+                this.unloadRoom(this.world, siteIndex);
+            }
+        }
+        super.releaseServer();
+    }
+
+    /**
+     * Keeps a site room's chunks entity-ticking while an extractor stands in it or its wave mobs are still alive, so
+     * mobs keep attacking rigs anywhere in the room wherever the players are. Chunk tickets are not saved; they are
+     * re-added from the site state after a restart and dropped when the room goes quiet or the vault unloads.
+     */
+    private void updateRoomLoading(VirtualWorld world) {
+        ExtractionSite[] sites = this.get(SITES);
+        for (int i = 0; i < sites.length; i++) {
+            boolean loaded = this.loadedRooms.containsKey(i);
+            boolean active = sites[i].isOccupied() || (loaded && this.hasLiveWaveMobs(world, sites[i]));
+            if (active && !loaded) {
+                this.loadRoom(world, i, sites[i]);
+            } else if (!active && loaded) {
+                this.unloadRoom(world, i);
+            }
+        }
+    }
+
+    private boolean hasLiveWaveMobs(VirtualWorld world, ExtractionSite site) {
+        return !world.getEntitiesOfClass(Mob.class, this.siteRoomBounds(site),
+                mob -> mob.isAlive() && mob.getTags().contains(ExtractionSpawnManager.TAG_WAVE)).isEmpty();
+    }
+
+    private void loadRoom(VirtualWorld world, int siteIndex, ExtractionSite site) {
+        AABB bounds = this.siteRoomBounds(site);
+        List<ChunkPos> chunks = new ArrayList<>();
+        for (int cx = ((int) Math.floor(bounds.minX)) >> 4; cx <= ((int) Math.ceil(bounds.maxX) - 1) >> 4; cx++) {
+            for (int cz = ((int) Math.floor(bounds.minZ)) >> 4; cz <= ((int) Math.ceil(bounds.maxZ) - 1) >> 4; cz++) {
+                ChunkPos chunk = new ChunkPos(cx, cz);
+                world.getChunkSource().addRegionTicket(ROOM_TICKET, chunk, ROOM_TICKET_DISTANCE, chunk);
+                chunks.add(chunk);
+            }
+        }
+        this.loadedRooms.put(siteIndex, chunks);
+        WoldsVaults.LOGGER.info("Extraction site {} is active; holding its {} room chunks loaded.", siteIndex, chunks.size());
+    }
+
+    private void unloadRoom(VirtualWorld world, int siteIndex) {
+        List<ChunkPos> chunks = this.loadedRooms.remove(siteIndex);
+        if (chunks == null) {
+            return;
+        }
+        for (ChunkPos chunk : chunks) {
+            world.getChunkSource().removeRegionTicket(ROOM_TICKET, chunk, ROOM_TICKET_DISTANCE, chunk);
+        }
+        WoldsVaults.LOGGER.info("Extraction site {} went quiet; released its {} room chunks.", siteIndex, chunks.size());
     }
 
     /** Marks every pedestal that still wants an extractor with a sparkle column visible from anywhere in its room. */
