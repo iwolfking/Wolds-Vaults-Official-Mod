@@ -321,6 +321,9 @@ public final class SpellModel {
             if (traits.contains("hold")) {
                 this.errors.add(group.replace('_', ' ') + " is a hold ability and can't be part of a spell");
             }
+            if (traits.contains("toggle") && this.groups.size() > 1) {
+                this.errors.add(group.replace('_', ' ') + " is a toggle and can only start a spell");
+            }
             if (this.config.isDisabled(spec)) {
                 this.errors.add(group.replace('_', ' ') + " is disabled for spellcraft");
             }
