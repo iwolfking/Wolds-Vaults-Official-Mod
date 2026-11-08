@@ -880,7 +880,7 @@
         "text": ", "
       },
       {
-        "text": "+4% Cooldown Reduction",
+        "text": "+4% Instant Cooldown Reduction",
         "color": "aqua"
       },
       {
@@ -922,7 +922,7 @@
         "text": ", "
       },
       {
-        "text": "+8% Cooldown Reduction",
+        "text": "+8% Instant Cooldown Reduction",
         "color": "aqua"
       },
       {
@@ -964,7 +964,7 @@
         "text": ", "
       },
       {
-        "text": "+12% Cooldown Reduction",
+        "text": "+12% Instant Cooldown Reduction",
         "color": "aqua"
       },
       {
@@ -1015,7 +1015,7 @@
         "text": "add "
       },
       {
-        "text": "+2 Absorption Hearts, +2% Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels",
+        "text": "+2 Absorption Hearts, +2% Instant Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels",
         "color": "gold"
       }
     ],
@@ -1110,7 +1110,7 @@
         "text": "Become one with your inner mana. Your "
       },
       {
-        "text": "Cooldown Reduction ",
+        "text": "Spell Haste ",
         "color": "#6DF5A3"
       },
       {
@@ -1127,7 +1127,7 @@
         "text": ".\n\n1 "
       },
       {
-        "text": "+1% Cooldown Reduction ",
+        "text": "+3% Spell Haste ",
         "color": "#6DF5A3"
       },
       {

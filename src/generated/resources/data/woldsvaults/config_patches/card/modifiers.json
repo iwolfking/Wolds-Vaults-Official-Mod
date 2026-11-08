@@ -1,0 +1,276 @@
+{
+  "ops": [
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        0,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        0,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        1,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        1,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        2,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        2,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        3,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        3,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        4,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "pool",
+        4,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "cooldown_reduction",
+        "name",
+        "text"
+      ],
+      "value": "Spell Haste Card"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "deluxe_cooldown_reduction",
+        "pool",
+        0,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "deluxe_cooldown_reduction",
+        "pool",
+        0,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "deluxe_cooldown_reduction",
+        "name",
+        "text"
+      ],
+      "value": "Deluxe Spell Haste Card"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        0,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        0,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        1,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        1,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        2,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        2,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        3,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        3,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        4,
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "pool",
+        4,
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "amp_cooldown_reduction",
+        "name",
+        "text"
+      ],
+      "value": "Evolving Spell Haste Card"
+    }
+  ]
+}

@@ -367,12 +367,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 0.51, 0.7, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
-                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.15, 0.01);
-                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.16, 0.22, 0.01);
-                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.27, 0.01);
-                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.28, 0.34, 0.01);
-                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.15, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.33, 0.45, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.48, 0.66, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.69, 0.81, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.84, 1.02, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.05, 1.35, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
@@ -580,9 +580,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 0.77, 1.05, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.35, 0.41, 0.01);
-                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.42, 0.51, 0.01);
-                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.53, 0.68, 0.01);
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 1.05, 1.23, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 1.26, 1.53, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.59, 2.04, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 10, 0.75, 1.25, 0.01);

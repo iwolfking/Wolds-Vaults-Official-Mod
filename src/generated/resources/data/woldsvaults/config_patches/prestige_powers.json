@@ -534,6 +534,22 @@
         "tree",
         "skills",
         {
+          "id": "WeaverOfTime"
+        },
+        "tiers",
+        {
+          "id": "weaver_of_time_1"
+        },
+        "value"
+      ],
+      "value": 1.0
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
           "id": "Toolsmith"
         },
         "tiers",

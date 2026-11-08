@@ -156,7 +156,7 @@ public final class MythicCharmRolls {
                     pctGrouped(iskallia.vault.init.ModGearAttributes.BLOCK, 0.002F, 0.004F, 0.001F, "velara_avoid"),
                     pctGrouped(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT, 0.001F, 0.002F, 0.0005F, "velara_avoid"));
             case WENDARR -> List.of(
-                    pct(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, 0.003F, 0.006F, 0.001F),
+                    pct(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, 0.009F, 0.018F, 0.003F),
                     pct(iskallia.vault.init.ModGearAttributes.EFFECT_DURATION, 0.0075F, 0.015F, 0.0025F),
                     pct(iskallia.vault.init.ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.02F, 0.03F, 0.005F),
                     pct(xyz.iwolfking.woldsvaults.init.ModGearAttributes.FRUIT_SAVER, 0.0002F, 0.0003F, 0.00005F));

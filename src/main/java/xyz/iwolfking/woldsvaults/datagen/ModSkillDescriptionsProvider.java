@@ -7,6 +7,7 @@ import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
 import iskallia.vault.config.PrestigePowersConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
+import iskallia.vault.config.TalentsConfig;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.init.ModConfigs;
@@ -25,6 +26,7 @@ import xyz.iwolfking.woldsvaults.api.util.datagen.TalentDescriptionsHelper;
 import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
 import xyz.iwolfking.woldsvaults.prestige.ToolCapacityPrestigePower;
+import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -95,7 +97,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text(".\n\n1 "));
                 description.add(JsonDescription.text("+2 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+4% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+4% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+1 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -107,7 +109,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("\n\n2 "));
                 description.add(JsonDescription.text("+4 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+8% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+8% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+2 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -119,7 +121,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("\n\n3 "));
                 description.add(JsonDescription.text("+6 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+12% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+12% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+3 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -129,7 +131,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+3 effect level", "#FFB00F"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Potent Elixir", "add", "+2 Absorption Hearts, +2% Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels", "gold", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Potent Elixir", "add", "+2 Absorption Hearts, +2% Instant Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels", "gold", description);
             });
             builder.addDescription("Healthy_Elixir", description -> {
                 description.add(JsonDescription.text("Enhances the "));
@@ -320,15 +322,18 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             });
 
             builder.addDescription("Mind_Meld", description -> {
+                MindMeldTalent mindMeld = talentTier("Mind_Meld", MindMeldTalent.class);
+                float manaStep = mindMeld.getManaStep();
                 description.add(JsonDescription.text("Become one with your inner mana. Your "));
-                description.add(JsonDescription.text("Cooldown Reduction ", "#6DF5A3"));
+                description.add(JsonDescription.text("Spell Haste ", "#6DF5A3"));
                 description.add(JsonDescription.text(" is increased the larger your "));
                 description.add(JsonDescription.text("max mana ", "#0353d7"));
                 description.add(JsonDescription.text("pool is"));
                 description.add(JsonDescription.text(".\n\n1 "));
-                description.add(JsonDescription.text("+1% Cooldown Reduction ", "#6DF5A3"));
+                description.add(JsonDescription.text("+" + percent(mindMeld.getBonusPerStep()) + " Spell Haste ", "#6DF5A3"));
                 description.add(JsonDescription.text("for every "));
-                description.add(JsonDescription.text("50 max mana", "#0353d7"));
+                description.add(JsonDescription.text((manaStep == Math.rint(manaStep) ? Integer.toString(Math.round(manaStep)) : Float.toString(manaStep))
+                        + " max mana", "#0353d7"));
             });
 
             builder.addDescription("Cleave", description -> {
@@ -701,6 +706,19 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     }
 
     private static PrestigePowersConfig prestigePowers;
+    private static TalentsConfig talents;
+
+    /** The first tier of a talent from the patched talent config datagen reads, failing datagen when it is absent. */
+    private static <T> T talentTier(String skillId, Class<T> type) {
+        if (talents == null) {
+            talents = new TalentsConfig().readConfig();
+        }
+        Skill skill = talents.tree.getForId(skillId).orElse(null);
+        if (skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty() && type.isInstance(tiered.getTiers().get(0))) {
+            return type.cast(tiered.getTiers().get(0));
+        }
+        throw new IllegalStateException("Talent " + skillId + " has no " + type.getSimpleName() + " tier in the talent config");
+    }
 
     /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
     private static <T> T prestigeTier(String skillId, Class<T> type) {
@@ -735,7 +753,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         return new Builder()
                 .addDescription("WeaverOfTime", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Increases the "));
-                    jsonElements.add(JsonDescription.simple("Cooldown Reduction ", "#F2CC8C"));
+                    jsonElements.add(JsonDescription.simple("Spell Haste ", "#F2CC8C"));
                     jsonElements.add(JsonDescription.simple("Cap."));
                 })
                 .addDescription("ShieldOfLastingGuard", jsonElements -> {
@@ -1686,7 +1704,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text(t.signedPercent(t.param(id, "mana_percentile")) + " Mana, "
                     + t.signedFlat(t.param(id, "mana_flat")) + " flat Mana, greatly increased Mana Regeneration, "
                     + t.times(t.param(id, "ability_damage")) + " Ability Damage and "
-                    + t.signedPercent(t.param(id, "cooldown_reduction_cap")) + " Cooldown Reduction cap", ember));
+                    + t.signedPercent(t.param(id, "cooldown_reduction_cap")) + " Spell Haste cap", ember));
             description.add(JsonDescription.text(" - but your melee attacks deal no damage."));
         });
         builder.addDescription("idona_ultra_rampaging", description -> {
@@ -1734,7 +1752,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         godStat(builder, t, "wendarr_speedy", "Movement Speed", gold);
         godStat(builder, t, "wendarr_heavily_effected", "Effect Duration", gold);
         godStat(builder, t, "wendarr_master_imbuer", "Imbuement Chance", gold);
-        godStat(builder, t, "wendarr_speedy_caster", "Cooldown Reduction", gold);
+        godStat(builder, t, "wendarr_speedy_caster", "Spell Haste", gold);
         godPiety(builder, t, "wendarr_pious_devotion", gold);
         builder.addDescription("wendarr_extraction_superviser", description -> {
             description.add(JsonDescription.text("+5% Extractor Speed", gold));
@@ -1804,7 +1822,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         });
         godNode(builder, "wendarr_the_deckless", t.signedPercent(t.param("wendarr_the_deckless", "fruit_per_slot")) + " Fruit Efficiency, "
                 + t.signedPercent(t.param("wendarr_the_deckless", "speed_per_slot")) + " Movement Speed and "
-                + t.signedPercent(t.param("wendarr_the_deckless", "cooldown_per_slot")) + " Cooldown Reduction", gold, " for every empty slot in your card deck.");
+                + t.signedPercent(t.param("wendarr_the_deckless", "cooldown_per_slot")) + " Spell Haste", gold, " for every empty slot in your card deck.");
         builder.addDescription("wendarr_speed_demon", description -> {
             double stat = t.param("wendarr_speed_demon", "stat_multiplier");
             description.add(JsonDescription.text("The vault timer runs " + t.times(1.0D / t.param("wendarr_speed_demon", "rate")) + " faster", gold));
@@ -1847,12 +1865,12 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             description.add(JsonDescription.text(timeDrain(t), gold));
             description.add(JsonDescription.text(" of vault time. Only works inside a vault."));
         });
-        godRoot(builder, t, "wendarr_start_top", "the top of Wendarr's glass", "making time - fruit and what it is worth", gold, "Movement Speed", "Cooldown Reduction");
-        godRoot(builder, t, "wendarr_start_bot", "the bottom of Wendarr's glass", "spending time - speed and the clock", gold, "Movement Speed", "Cooldown Reduction");
-        godRoot(builder, t, "wendarr_start_swift", "the Swift", "burning the clock for loot", gold, "Movement Speed", "Cooldown Reduction");
-        godRoot(builder, t, "wendarr_start_deck", "the Deck", "what you bring in with you", gold, "Movement Speed", "Cooldown Reduction");
-        godRoot(builder, t, "wendarr_start_spanner", "the Spanner", "the vault's machinery", gold, "Movement Speed", "Cooldown Reduction");
-        godRoot(builder, t, "wendarr_start_bough", "the Bough", "where fruit comes from", gold, "Movement Speed", "Cooldown Reduction");
+        godRoot(builder, t, "wendarr_start_top", "the top of Wendarr's glass", "making time - fruit and what it is worth", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_bot", "the bottom of Wendarr's glass", "spending time - speed and the clock", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_swift", "the Swift", "burning the clock for loot", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_deck", "the Deck", "what you bring in with you", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_spanner", "the Spanner", "the vault's machinery", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_bough", "the Bough", "where fruit comes from", gold, "Movement Speed", "Spell Haste");
     }
 
     private void addVelaraGodNodeDescriptions(Builder builder) {
@@ -2114,15 +2132,16 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         godNode(builder, id, t.signedFlat(t.value(id)) + " Piety", color, ".");
     }
 
-    /** A first star paying the same per-point value into its two stats. */
+    /** A first star paying its per-point value into one stat and its second value into the other. */
     private static void godRoot(Builder builder, GodNodeText t, String id, String home, String theme, String color,
                                 String stat, String secondStat) {
         String value = t.signedPercent(t.value(id));
+        String secondValue = t.signedPercent(t.secondValue(id));
         builder.addDescription(id, description -> {
             description.add(JsonDescription.text("The first star of " + home + " - "));
             description.add(JsonDescription.text(theme, color));
             description.add(JsonDescription.text(". Grants "));
-            description.add(JsonDescription.text(value + " " + stat + " and " + value + " " + secondStat, color));
+            description.add(JsonDescription.text(value + " " + stat + " and " + secondValue + " " + secondStat, color));
             description.add(JsonDescription.text("."));
         });
     }

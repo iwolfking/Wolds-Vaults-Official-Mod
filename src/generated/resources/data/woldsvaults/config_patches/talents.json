@@ -811,6 +811,22 @@
         "damageIncrease"
       ],
       "value": 0.6
+    },
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Mind_Meld"
+        },
+        "tiers",
+        {
+          "id": "mind_meld_1"
+        },
+        "bonusPerStep"
+      ],
+      "value": 3
     }
   ]
 }

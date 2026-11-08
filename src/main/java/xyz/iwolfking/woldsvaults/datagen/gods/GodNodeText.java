@@ -52,6 +52,18 @@ public final class GodNodeText {
         return values[index];
     }
 
+    /** The first entry an effect pays its second attribute: its {@code secondValues} table when it has one, else {@code values}. */
+    public double secondValue(String id) {
+        JsonElement table = this.entry(id).json().get("secondValues");
+        if (table == null) {
+            return this.value(id);
+        }
+        if (!table.isJsonArray() || table.getAsJsonArray().size() == 0) {
+            throw new IllegalStateException("God effect '" + id + "' of " + this.god + " has a secondValues entry that is not a table");
+        }
+        return table.getAsJsonArray().get(0).getAsDouble();
+    }
+
     /** A numeric handler parameter of an effect. */
     public double param(String id, String key) {
         JsonElement element = this.entry(id).json().get(key);

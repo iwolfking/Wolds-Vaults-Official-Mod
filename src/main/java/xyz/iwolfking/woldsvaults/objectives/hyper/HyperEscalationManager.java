@@ -6,6 +6,7 @@ import iskallia.vault.block.entity.BossRunePillarTileEntity;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.rune.RuneBossAnimation;
 import iskallia.vault.core.vault.objective.rune.RuneBossFight;
@@ -147,7 +148,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (cycle % 2 == 0) {
             VaultModifierUtils.addModifier(vault, VaultMod.id("inert"), 1);
             if (announce) {
-                HyperVaultObjective.broadcast(vault, "Inert seeps into the Vault (-10% cooldown reduction).", ChatFormatting.DARK_PURPLE);
+                HyperVaultObjective.broadcast(vault, "Inert seeps into the Vault" + inertEffect() + ".", ChatFormatting.DARK_PURPLE);
             }
         }
         if (cycle == 3) {
@@ -156,6 +157,16 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
                 HyperVaultObjective.broadcast(vault, "The Vault's radar comes online — stealth abilities no longer work!", ChatFormatting.RED);
             }
         }
+    }
+
+    /** The Inert modifier's effect for the cycle broadcast, read from the loaded modifier config: " (-20% Spell Haste)". */
+    private static String inertEffect() {
+        return VaultModifierRegistry.getOpt(VaultMod.id("inert"))
+                .map(modifier -> " (" + modifier.getDisplayDescriptionFormatted(1) + ")")
+                .orElseGet(() -> {
+                    WoldsVaults.LOGGER.error("HYPER cycle broadcast: vault modifier the_vault:inert is not registered; announcing it without its effect");
+                    return "";
+                });
     }
 
     /** Test-command hook: takes down a reward phase's exit pillar early. */

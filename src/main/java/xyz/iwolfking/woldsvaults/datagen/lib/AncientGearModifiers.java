@@ -252,7 +252,7 @@ public final class AncientGearModifiers {
         config.suffix("the_vault:steel_inferno", "ModSteelInferno", "the_vault:u_steel_inferno", tags(),
                 tier(0, -1, 5, obj("radiusMultiplier", obj("min", 0.55D, "max", 0.65D, "step", 0.01D), "centreBonus", obj("min", 1.75D, "max", 2.25D, "step", 0.01D))));
         config.prefix("the_vault:cooldown_reduction", "ModCooldownReduction", "the_vault:mod_cooldown_reduction", tags("focusCooldown"),
-                tier(0, -1, 100, obj("min", 0.28D, "max", 0.37D, "step", 0.01D)));
+                tier(0, -1, 100, obj("min", 0.84D, "max", 1.11D, "step", 0.01D)));
         config.prefix("the_vault:damage_baby", "uDamageBaby", "the_vault:mod_damage_baby", tags("focusDamageToddler"),
                 tier(0, -1, 10, obj("min", 1.0D, "max", 1.33D, "step", 0.01D)));
         config.prefix("the_vault:relentless_strike", "ModRelentlessStrike", "the_vault:u_relentless_strike", tags("noLegendary"),
@@ -351,7 +351,7 @@ public final class AncientGearModifiers {
         config.prefix("the_vault:effect_duration", "uEffectDuration", "the_vault:u_witch_effect_duration", tags("focusDuration"),
                 tier(0, -1, 100, obj("min", 1.0D, "max", 1.33D, "step", 0.01D)));
         config.prefix("the_vault:cooldown_reduction", "uCooldownReduction", "the_vault:u_witch_cooldown_reduction", tags("focusCooldown"),
-                tier(0, -1, 100, obj("min", -0.4D, "max", -0.27D, "step", 0.05D)));
+                tier(0, -1, 100, obj("min", -1.2D, "max", -0.81D, "step", 0.05D)));
         config.prefix("the_vault:execution_damage", "ModOnHitType", "the_vault:mod_execution_young_kitsune", tags("focusResistance"),
                 tier(0, -1, 600, obj("min", 0.05D, "max", 0.065D, "step", 0.005D)));
         config.prefix("the_vault:movement_speed", "uMovementSpeed", "the_vault:u_movement_horse", tags(),
