@@ -5,192 +5,136 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
-import iskallia.vault.gear.data.VaultGearData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
-import xyz.iwolfking.woldsvaults.augments.AugmentAbility;
-import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
-import xyz.iwolfking.woldsvaults.augments.cast.SpellPlan;
-import xyz.iwolfking.woldsvaults.augments.item.AugmentItemData;
-import xyz.iwolfking.woldsvaults.augments.item.AugmentRoller;
+import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 /**
- * {@code /wvaugments}: arranges the augments on the off-hand wand or focus into per-ability recipes until the
- * augment screen exists. Every recipe is validated on the server against the table and the item's tokens. The
- * {@code grant} and {@code reroll} subcommands are operator-only test tools.
+ * {@code /wvspellcraft}: test tools for the spell bar and focus spellcraft, next to the screens. {@code show} prints the
+ * off-hand item's implicits and spells; {@code bar <slot> <ability|clear>} sets a default bar slot; {@code spell add
+ * <tokens>} and {@code spell remove <id>} edit the off-hand item's spells; {@code itembar <slot> <entry>} sets its bar
+ * slot (inherit, blank, a:Ability or s:id). {@code reroll} (operators) rerolls the held focus or wand.
  */
 public final class AugmentsCommand {
-    private static final SuggestionProvider<CommandSourceStack> ABILITIES = (context, builder) -> {
-        FocusAugmentsConfig config = FocusAugments.config();
-        if (config == null) {
-            return builder.buildFuture();
-        }
-        return SharedSuggestionProvider.suggest(AugmentAbilities.all(config).values().stream()
-                .filter(AugmentAbility::isCastable).map(AugmentAbility::id), builder);
-    };
-    private static final SuggestionProvider<CommandSourceStack> AUGMENTS = (context, builder) ->
-            SharedSuggestionProvider.suggest(Arrays.stream(AugmentType.values()).map(AugmentType::id), builder);
+    private static final int OFFHAND_SLOT = 40;
 
     private AugmentsCommand() {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("wvaugments")
+        dispatcher.register(Commands.literal("wvspellcraft")
                 .then(Commands.literal("show").executes(context -> show(context.getSource())))
-                .then(Commands.literal("set")
-                        .then(Commands.argument("ability", StringArgumentType.word()).suggests(ABILITIES)
-                                .then(Commands.argument("glyphs", StringArgumentType.greedyString())
-                                        .executes(AugmentsCommand::set))))
-                .then(Commands.literal("clear")
-                        .then(Commands.argument("ability", StringArgumentType.word()).suggests(ABILITIES)
-                                .executes(context -> clear(context.getSource(), StringArgumentType.getString(context, "ability")))))
-                .then(Commands.literal("grant").requires(source -> source.hasPermission(2))
-                        .then(Commands.argument("augment", StringArgumentType.word()).suggests(AUGMENTS)
-                                .then(Commands.argument("count", IntegerArgumentType.integer(1, 16))
-                                        .executes(context -> grant(context.getSource(), StringArgumentType.getString(context, "augment"),
-                                                IntegerArgumentType.getInteger(context, "count"))))))
+                .then(Commands.literal("bar")
+                        .then(Commands.argument("slot", IntegerArgumentType.integer(1, SpellcraftItemData.SLOTS))
+                                .then(Commands.argument("ability", StringArgumentType.word())
+                                        .executes(AugmentsCommand::setDefault))))
+                .then(Commands.literal("itembar")
+                        .then(Commands.argument("slot", IntegerArgumentType.integer(1, SpellcraftItemData.SLOTS))
+                                .then(Commands.argument("entry", StringArgumentType.word())
+                                        .executes(AugmentsCommand::setItemBar))))
+                .then(Commands.literal("spell")
+                        .then(Commands.literal("add").then(Commands.argument("tokens", StringArgumentType.greedyString())
+                                .executes(AugmentsCommand::addSpell)))
+                        .then(Commands.literal("remove").then(Commands.argument("id", IntegerArgumentType.integer(1))
+                                .executes(AugmentsCommand::removeSpell))))
                 .then(Commands.literal("reroll").requires(source -> source.hasPermission(2))
                         .executes(context -> reroll(context.getSource()))));
     }
 
     private static int show(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
-        ItemStack stack = heldItem(source, player);
-        if (stack == null) {
-            return 0;
-        }
-        Map<AugmentType, Integer> rolled = AugmentItemData.rolled(stack);
-        source.sendSuccess(new TextComponent("Augments: " + (rolled.isEmpty() ? "none" : formatTokens(rolled))).withStyle(ChatFormatting.LIGHT_PURPLE), false);
-        Map<String, List<String>> recipes = AugmentItemData.recipes(stack);
-        if (recipes.isEmpty()) {
-            source.sendSuccess(new TextComponent("No recipes. Use /wvaugments set <ability> <glyphs...>").withStyle(ChatFormatting.GRAY), false);
-        }
-        recipes.forEach((ability, glyphs) -> source.sendSuccess(new TextComponent("  " + AugmentAbilities.displayName(ability)
-                + ": " + String.join(" ", glyphs)).withStyle(ChatFormatting.GRAY), false));
         FocusAugmentsConfig config = FocusAugments.config();
-        if (config != null && FocusAugments.sourceItem(player).isEmpty()) {
-            source.sendSuccess(new TextComponent("This item is not active (not identified, broken, or above your level).").withStyle(ChatFormatting.RED), false);
+        ItemStack stack = player.getOffhandItem();
+        if (config == null || !SpellcraftItemData.has(stack)) {
+            source.sendFailure(new TextComponent("Hold a focus or wand with spellcraft in your off hand"));
+            return 0;
         }
+        SpellcraftRules.ItemCheck check = SpellcraftRules.check(config, stack, SpellcraftRules.specOf(SpellCooldowns.tree(player)), false);
+        line(source, "Arcana " + Math.round(check.arcana()) + "/" + SpellcraftItemData.budget(stack) + ", depth "
+                + SpellcraftItemData.depth(stack), ChatFormatting.LIGHT_PURPLE);
+        for (SpellcraftItemData.Line line : SpellcraftItemData.lines(stack)) {
+            line(source, "  " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + "  cost " + line.cost()
+                    + "  uses " + check.uses().getOrDefault(line.type(), 0) + "/" + line.uses(), ChatFormatting.GRAY);
+        }
+        for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
+            SpellModel model = check.models().get(spell.id());
+            line(source, "  #" + spell.id() + " " + spell.name() + ": " + String.join(" ", spell.tokens()) + "  (" + Math.round(model.arcana())
+                    + " arcana, mana x" + String.format("%.2f", model.manaFactor()) + ", cd x" + String.format("%.2f", model.cooldownFactor())
+                    + ", haste x" + String.format("%.2f", model.hasteMultiplier()) + ", " + model.casts() + " casts)", ChatFormatting.DARK_PURPLE);
+        }
+        check.errors().forEach(error -> line(source, "  ! " + error, ChatFormatting.RED));
+        line(source, "Bar: " + String.join(" | ", SpellcraftItemData.bar(stack)), ChatFormatting.GRAY);
         return 1;
     }
 
-    private static int set(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        CommandSourceStack source = context.getSource();
-        ServerPlayer player = source.getPlayerOrException();
-        FocusAugmentsConfig config = requireConfig(source);
-        ItemStack stack = heldItem(source, player);
-        if (config == null || stack == null) {
-            return 0;
-        }
+    private static int setDefault(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
         String ability = StringArgumentType.getString(context, "ability");
-        List<String> glyphs = new ArrayList<>();
-        for (String glyph : StringArgumentType.getString(context, "glyphs").trim().split("\\s+")) {
-            if (!glyph.isEmpty()) {
-                AugmentType type = AugmentType.byId(glyph);
-                glyphs.add(type != null ? type.id() : glyph);
-            }
-        }
-        SpellPlan plan = SpellPlan.parse(config, ability, glyphs);
-        if (!plan.isValid()) {
-            source.sendFailure(new TextComponent("Invalid recipe: " + String.join("; ", plan.errors())));
-            return 0;
-        }
-        Map<String, List<String>> recipes = new LinkedHashMap<>(AugmentItemData.recipes(stack));
-        recipes.put(ability, glyphs);
-        String budget = AugmentItemData.checkBudget(config, stack, recipes);
-        if (budget != null) {
-            source.sendFailure(new TextComponent("Can't store the recipe: " + budget));
-            return 0;
-        }
-        AugmentItemData.setRecipe(stack, ability, glyphs);
-        source.sendSuccess(new TextComponent("Recipe on " + AugmentAbilities.displayName(ability) + ": " + String.join(" ", glyphs)
-                + " (" + plan.casts() + " casts per press)").withStyle(ChatFormatting.LIGHT_PURPLE), false);
-        return 1;
+        String error = SpellBars.editDefault(player, IntegerArgumentType.getInteger(context, "slot") - 1,
+                ability.equalsIgnoreCase("clear") ? "" : ability);
+        return report(context.getSource(), error);
     }
 
-    private static int clear(CommandSourceStack source, String ability) throws CommandSyntaxException {
-        ItemStack stack = heldItem(source, source.getPlayerOrException());
-        if (stack == null) {
-            return 0;
-        }
-        if (AugmentItemData.recipe(stack, ability) == null) {
-            source.sendFailure(new TextComponent("No recipe on " + ability));
-            return 0;
-        }
-        AugmentItemData.setRecipe(stack, ability, null);
-        source.sendSuccess(new TextComponent("Cleared the recipe on " + AugmentAbilities.displayName(ability)), false);
-        return 1;
+    private static int setItemBar(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String entry = StringArgumentType.getString(context, "entry");
+        String value = entry.equalsIgnoreCase("inherit") ? SpellcraftItemData.INHERIT
+                : entry.equalsIgnoreCase("blank") ? SpellcraftItemData.BLANK : entry;
+        String error = SpellBars.editItem(player, OFFHAND_SLOT, IntegerArgumentType.getInteger(context, "slot") - 1, value);
+        return report(context.getSource(), error);
     }
 
-    private static int grant(CommandSourceStack source, String augment, int count) throws CommandSyntaxException {
-        ItemStack stack = heldItem(source, source.getPlayerOrException());
-        AugmentType type = AugmentType.byId(augment);
-        if (stack == null) {
-            return 0;
-        }
-        if (type == null) {
-            source.sendFailure(new TextComponent("Unknown augment " + augment));
-            return 0;
-        }
-        Map<AugmentType, Integer> rolled = new EnumMap<>(AugmentType.class);
-        rolled.putAll(AugmentItemData.rolled(stack));
-        rolled.merge(type, count, Integer::sum);
-        AugmentItemData.setRolled(stack, rolled);
-        source.sendSuccess(new TextComponent("Augments: " + formatTokens(rolled)), true);
-        return 1;
+    private static int addSpell(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        List<String> tokens = Arrays.asList(StringArgumentType.getString(context, "tokens").trim().split("\\s+"));
+        FocusAugments.editSpell(player, OFFHAND_SLOT, 0, tokens.get(0).replace('_', ' '), tokens, false);
+        return show(context.getSource());
+    }
+
+    private static int removeSpell(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        FocusAugments.editSpell(player, OFFHAND_SLOT, IntegerArgumentType.getInteger(context, "id"), "", List.of(), true);
+        return show(context.getSource());
     }
 
     private static int reroll(CommandSourceStack source) throws CommandSyntaxException {
-        FocusAugmentsConfig config = requireConfig(source);
-        ItemStack stack = heldItem(source, source.getPlayerOrException());
-        if (config == null || stack == null) {
+        ServerPlayer player = source.getPlayerOrException();
+        ItemStack stack = SpellcraftRoller.canCarry(player.getMainHandItem()) ? player.getMainHandItem() : player.getOffhandItem();
+        if (!SpellcraftRoller.canCarry(stack)) {
+            source.sendFailure(new TextComponent("Hold a focus or wand"));
             return 0;
         }
-        Map<AugmentType, Integer> rolled = AugmentRoller.roll(config, VaultGearData.read(stack).getItemLevel(), new Random());
-        AugmentItemData.setRolled(stack, rolled);
-        AugmentItemData.recipes(stack).keySet().forEach(ability -> AugmentItemData.setRecipe(stack, ability, null));
-        source.sendSuccess(new TextComponent("Rerolled (recipes cleared). Augments: " + (rolled.isEmpty() ? "none" : formatTokens(rolled))), true);
+        SpellcraftRoller.roll(stack, new Random());
+        SpellBars.refresh(player);
+        line(source, "Rerolled spellcraft on " + stack.getHoverName().getString(), ChatFormatting.LIGHT_PURPLE);
         return 1;
     }
 
-    private static FocusAugmentsConfig requireConfig(CommandSourceStack source) {
-        FocusAugmentsConfig config = FocusAugments.config();
-        if (config == null) {
-            source.sendFailure(new TextComponent("The focus augments table is not loaded; see the server log."));
+    private static int report(CommandSourceStack source, String error) {
+        if (error != null) {
+            source.sendFailure(new TextComponent(error));
+            return 0;
         }
-        return config;
+        line(source, "Done", ChatFormatting.GRAY);
+        return 1;
     }
 
-    private static ItemStack heldItem(CommandSourceStack source, ServerPlayer player) {
-        ItemStack stack = player.getOffhandItem();
-        if (!AugmentRoller.canCarry(stack)) {
-            source.sendFailure(new TextComponent("Hold a wand or focus in your off hand."));
-            return null;
-        }
-        return stack;
-    }
-
-    private static String formatTokens(Map<AugmentType, Integer> tokens) {
-        List<String> parts = new ArrayList<>();
-        tokens.forEach((type, count) -> parts.add(type.displayName() + " x" + count + " (" + type.id().toLowerCase(Locale.ROOT) + ")"));
-        return String.join(", ", parts);
+    private static void line(CommandSourceStack source, String text, ChatFormatting colour) {
+        source.sendSuccess(new TextComponent(text).withStyle(colour), false);
     }
 }

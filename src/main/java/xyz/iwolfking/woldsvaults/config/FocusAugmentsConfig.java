@@ -11,59 +11,161 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Focus augments, generated as {@code vault_configs/focus_augments/focus_augments.json}: what each augment does per glyph,
- * how many fit on one cast, how they roll onto wands and focuses, the recipe limits, and which abilities take
- * which augments. Ability mana costs and cooldowns are never set here; they stay VH's own.
+ * Spellcraft glyphs, generated as {@code vault_configs/focus_augments/focus_augments.json}: every glyph's rolls, cost,
+ * effects and limits; how focuses and wands roll their arcana, glyph lines and depth; the spell cost rules; the
+ * mechanics tuning; and which abilities take which glyphs. Ability mana costs and cooldowns stay VH's; glyphs only
+ * multiply them.
  */
 public class FocusAugmentsConfig extends Config implements WoldsTable {
     @Expose public boolean worksOutsideVaults;
-    @Expose public Limits limits;
+    @Expose public Rules rules;
     @Expose public Tuning tuning;
-    @Expose public Map<String, AugmentEntry> augments;
-    @Expose public List<SocketTier> sockets;
+    @Expose public Map<String, Glyph> glyphs;
+    @Expose public List<Combo> combos;
+    @Expose public FocusRolls focus;
+    @Expose public WandRolls wand;
     @Expose public Map<String, List<String>> abilityTraits;
     @Expose public List<String> disabledAbilities;
 
-    public static class Limits {
-        @Expose public int maxRecipeLength;
+    /** Spell-wide rules: cost escalation, chained abilities, floors and hard limits. */
+    public static class Rules {
+        @Expose public float escalationPerGlyph;
+        @Expose public int abilityStepCost;
+        @Expose public float chainCooldownShare;
+        @Expose public float manaFactorFloor;
+        @Expose public float minCooldownSeconds;
+        @Expose public int maxGlyphsPerSpell;
+        @Expose public int maxSpellsPerItem;
         @Expose public int maxCastsPerTrigger;
-        @Expose public int maxRecipesPerItem;
-        @Expose public int maxDelaysPerRecipe;
-        @Expose public int maxEchoesPerRecipe;
-        @Expose public int maxBundleDepth;
+        @Expose public int maxBundleNesting;
+        @Expose public int maxNameLength;
+        @Expose public List<CostNoise> costNoise;
     }
 
+    public static class CostNoise {
+        @Expose public int offset;
+        @Expose public int weight;
+    }
+
+    /** Mechanics numbers that are not rolled. */
     public static class Tuning {
         @Expose public float echoDelaySeconds;
-        @Expose public boolean echoKeepsCharge;
         @Expose public float shotgunSpreadDegrees;
-        @Expose public float shotgunCopyManaShare;
-        @Expose public float homingRange;
-        @Expose public float homingTurnRate;
         @Expose public int homingRetargetTicks;
         @Expose public float orbitRadius;
-        @Expose public int orbitMaxSeconds;
-        @Expose public int etherealMaxSeconds;
-        @Expose public int bundleMaxSeconds;
-        @Expose public float bundleBaseSpeed;
-        @Expose public float chargeSecondsPerGlyph;
+        @Expose public float orbitHeight;
+        @Expose public float bundleSpeed;
         @Expose public float railRange;
         @Expose public float sizeUpMaxScale;
         @Expose public float sizeDownMinScale;
+        @Expose public float chargeSeconds;
+        @Expose public float chargeMoveMultiplier;
+        @Expose public float chargeMinShare;
     }
 
-    public static class AugmentEntry {
-        @Expose public float strength;
-        @Expose public int maxPerCast;
-        @Expose public int rollWeight;
+    /**
+     * One glyph. {@code kind} is {@code modifier}, {@code delay} or {@code bundle}. {@code requires} is a list of trait
+     * sets; a modifier fits a target when the target has every trait of one set (a Bundled Spell orb has the single
+     * trait {@code bundle}). Step effects change the modified step; spell effects change the whole slot.
+     */
+    public static class Glyph {
+        @Expose public String kind;
+        @Expose public String category;
         @Expose public int minLevel;
-        @Expose public int maxTokensPerRoll;
+        @Expose public int weight;
+        @Expose public List<List<String>> requires;
+        @Expose public List<String> excludes;
+        @Expose public Potency potency;
+        @Expose public List<Effect> step;
+        @Expose public List<Effect> spell;
+        @Expose public int maxUses;
+        @Expose public List<Integer> useWeights;
+        @Expose public int capPerSpell;
+        @Expose public int costMin;
+        @Expose public int costMax;
+        @Expose public boolean noEscalation;
     }
 
-    public static class SocketTier {
+    /** The rolled main value: a range per item-level tier, plus values rolled at the same quality. */
+    public static class Potency {
+        @Expose public String label;
+        @Expose public String format;
+        @Expose public List<PotencyTier> tiers;
+        @Expose public List<Linked> linked;
+    }
+
+    public static class PotencyTier {
         @Expose public int minLevel;
-        @Expose public int minSockets;
-        @Expose public int maxSockets;
+        @Expose public float min;
+        @Expose public float max;
+    }
+
+    public static class Linked {
+        @Expose public String name;
+        @Expose public float min;
+        @Expose public float max;
+    }
+
+    /**
+     * A multiplier on a stat: {@code 1 + k * potency}, a {@code fixed} factor, or {@code 1 + perUse} once per use.
+     * Stats: {@code damage}, {@code area}, {@code speed}, {@code scale} (step); {@code mana}, {@code cooldown},
+     * {@code haste} (spell).
+     */
+    public static class Effect {
+        @Expose public String stat;
+        @Expose public Float k;
+        @Expose public Float fixed;
+        @Expose public Float perUse;
+
+        public float factor(float potency) {
+            if (this.k != null) {
+                return 1.0F + this.k * potency;
+            }
+            if (this.fixed != null) {
+                return this.fixed;
+            }
+            return this.perUse != null ? 1.0F + this.perUse : 1.0F;
+        }
+    }
+
+    /** A flat arcana surcharge when a spell holds both glyphs. */
+    public static class Combo {
+        @Expose public String a;
+        @Expose public String b;
+        @Expose public int cost;
+        @Expose public String reason;
+    }
+
+    public static class FocusRolls {
+        @Expose public float budgetBase;
+        @Expose public float budgetPerLevel;
+        @Expose public float budgetRollMin;
+        @Expose public float budgetRollMax;
+        @Expose public Map<String, RarityRolls> rarities;
+        @Expose public List<DepthTier> depth;
+        @Expose public Map<String, DepthTier> depthBonus;
+    }
+
+    public static class RarityRolls {
+        @Expose public float budget;
+        @Expose public int linesMin;
+        @Expose public int linesMax;
+        @Expose public Float budgetRollMin;
+        @Expose public Float budgetRollMax;
+    }
+
+    /** Depth: the most glyphs one spell on the item may hold. */
+    public static class DepthTier {
+        @Expose public int minLevel;
+        @Expose public int min;
+        @Expose public int max;
+    }
+
+    public static class WandRolls {
+        @Expose public float budgetFactor;
+        @Expose public int linesDelta;
+        @Expose public int minLines;
+        @Expose public int maxDepth;
     }
 
     @Override
@@ -75,26 +177,19 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
     protected void reset() {
     }
 
-    /** The table entry for an augment; present on every installed table ({@link #validate()} checks it). */
-    public AugmentEntry entry(AugmentType type) {
-        return this.augments.get(type.id());
+    public Glyph glyph(AugmentType type) {
+        return this.glyphs.get(type.id());
     }
 
-    /** Strength per glyph of an augment; what it means is documented on each {@link AugmentType}. */
-    public float strength(AugmentType type) {
-        return entry(type).strength;
+    public boolean isDisabled(String abilityId) {
+        return this.disabledAbilities.contains(abilityId);
     }
 
-    /** Most glyphs of this augment one cast (or one recipe, for Echo and Delay) may carry. */
-    public int maxPerCast(AugmentType type) {
-        return entry(type).maxPerCast;
-    }
-
-    /** The socket tier for an item level: the highest tier whose minimum level the item reaches. */
+    /** The potency tier for an item level: the highest tier whose minimum level the item reaches. */
     @Nullable
-    public SocketTier socketTier(int itemLevel) {
-        SocketTier best = null;
-        for (SocketTier tier : this.sockets) {
+    public static PotencyTier potencyTier(Glyph glyph, int itemLevel) {
+        PotencyTier best = null;
+        for (PotencyTier tier : glyph.potency.tiers) {
             if (tier.minLevel <= itemLevel && (best == null || tier.minLevel > best.minLevel)) {
                 best = tier;
             }
@@ -102,45 +197,65 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         return best;
     }
 
-    public boolean isDisabled(String abilityId) {
-        return this.disabledAbilities.contains(abilityId);
+    @Nullable
+    public static DepthTier depthTier(List<DepthTier> tiers, int itemLevel) {
+        DepthTier best = null;
+        for (DepthTier tier : tiers) {
+            if (tier.minLevel <= itemLevel && (best == null || tier.minLevel > best.minLevel)) {
+                best = tier;
+            }
+        }
+        return best;
     }
 
     @Nullable
     @Override
     public String validate() {
-        if (this.limits == null || this.tuning == null || this.augments == null || this.sockets == null
-                || this.abilityTraits == null || this.disabledAbilities == null) {
+        if (this.rules == null || this.tuning == null || this.glyphs == null || this.combos == null || this.focus == null
+                || this.wand == null || this.abilityTraits == null || this.disabledAbilities == null) {
             return "a section is missing";
         }
+        if (this.rules.costNoise == null || this.rules.costNoise.isEmpty()) {
+            return "the cost noise table is empty";
+        }
+        if (this.rules.maxGlyphsPerSpell < 1 || this.rules.maxSpellsPerItem < 1 || this.rules.maxCastsPerTrigger < 1
+                || this.rules.maxBundleNesting < 0 || this.rules.manaFactorFloor <= 0 || this.rules.maxNameLength < 1) {
+            return "a spell rule is out of range";
+        }
+        if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
+                || this.tuning.chargeSeconds <= 0 || this.tuning.chargeMoveMultiplier <= 0) {
+            return "a tuning value is out of range";
+        }
         for (AugmentType type : AugmentType.values()) {
-            AugmentEntry entry = this.augments.get(type.id());
-            if (entry == null) {
-                return "augment " + type.id() + " has no entry";
+            Glyph glyph = this.glyphs.get(type.id());
+            if (glyph == null) {
+                return "glyph " + type.id() + " has no entry";
             }
-            if (entry.strength < 0 || entry.maxPerCast < 0 || entry.rollWeight < 0 || entry.maxTokensPerRoll < 1) {
-                return "augment " + type.id() + " has a negative value or rolls no tokens";
+            String problem = validateGlyph(type, glyph);
+            if (problem != null) {
+                return "glyph " + type.id() + " " + problem;
             }
         }
-        if (this.augments.size() != AugmentType.values().length) {
-            return "it has entries for augments that do not exist";
+        if (this.glyphs.size() != AugmentType.values().length) {
+            return "it has entries for glyphs that do not exist";
         }
-        if (this.limits.maxRecipeLength < 1 || this.limits.maxCastsPerTrigger < 1 || this.limits.maxRecipesPerItem < 1) {
-            return "a recipe limit is below 1";
-        }
-        if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1) {
-            return "the size limits are out of range";
-        }
-        if (this.tuning.shotgunCopyManaShare < 0 || this.tuning.shotgunCopyManaShare > 1) {
-            return "the Shotgun copy mana share is outside 0-1";
-        }
-        if (this.sockets.isEmpty() || socketTier(0) == null) {
-            return "no socket tier starts at level 0";
-        }
-        for (SocketTier tier : this.sockets) {
-            if (tier.minSockets < 0 || tier.maxSockets < tier.minSockets) {
-                return "socket tier at level " + tier.minLevel + " has an invalid range";
+        for (Combo combo : this.combos) {
+            if (AugmentType.byId(combo.a) == null || AugmentType.byId(combo.b) == null || combo.cost < 0) {
+                return "combo " + combo.a + " + " + combo.b + " is invalid";
             }
+        }
+        if (this.focus.rarities == null || this.focus.rarities.isEmpty() || this.focus.depth == null
+                || depthTier(this.focus.depth, 0) == null || this.focus.depthBonus == null) {
+            return "the focus rolls are incomplete";
+        }
+        for (Map.Entry<String, RarityRolls> rarity : this.focus.rarities.entrySet()) {
+            RarityRolls rolls = rarity.getValue();
+            if (rolls.linesMin < 0 || rolls.linesMax < rolls.linesMin || rolls.budget < 0) {
+                return "rarity " + rarity.getKey() + " has an invalid roll";
+            }
+        }
+        if (this.wand.minLines < 0 || this.wand.maxDepth < 1 || this.wand.budgetFactor < 0) {
+            return "the wand rolls are invalid";
         }
         for (Map.Entry<String, List<String>> ability : this.abilityTraits.entrySet()) {
             for (String trait : ability.getValue()) {
@@ -149,6 +264,42 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
                 } catch (IllegalArgumentException e) {
                     return "ability " + ability.getKey() + " has an unknown trait " + trait;
                 }
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private static String validateGlyph(AugmentType type, Glyph glyph) {
+        if (glyph.kind == null || !List.of("modifier", "delay", "bundle").contains(glyph.kind)) {
+            return "has an unknown kind";
+        }
+        if (glyph.potency == null || glyph.potency.tiers == null || glyph.potency.tiers.isEmpty() || glyph.step == null
+                || glyph.spell == null || glyph.requires == null || glyph.excludes == null || glyph.useWeights == null) {
+            return "is missing a field";
+        }
+        if (glyph.maxUses < 1 || glyph.useWeights.size() != glyph.maxUses || glyph.capPerSpell < 1
+                || glyph.costMin < 0 || glyph.costMax < glyph.costMin || glyph.weight < 0) {
+            return "has an invalid roll";
+        }
+        for (PotencyTier tier : glyph.potency.tiers) {
+            if (tier.max < tier.min) {
+                return "has a potency tier with max below min";
+            }
+        }
+        for (Effect effect : glyph.step) {
+            if (!List.of("damage", "area", "speed", "scale").contains(effect.stat)) {
+                return "has an unknown step stat " + effect.stat;
+            }
+        }
+        for (Effect effect : glyph.spell) {
+            if (!List.of("mana", "cooldown", "haste").contains(effect.stat)) {
+                return "has an unknown spell stat " + effect.stat;
+            }
+        }
+        for (String other : glyph.excludes) {
+            if (AugmentType.byId(other) == null) {
+                return "excludes an unknown glyph " + other;
             }
         }
         return null;

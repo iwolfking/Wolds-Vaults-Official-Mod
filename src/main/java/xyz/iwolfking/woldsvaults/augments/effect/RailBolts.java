@@ -75,7 +75,7 @@ public final class RailBolts {
             }
             float percent = Mth.lerp(player.getRandom().nextFloat(), rail.getPercentAbilityPowerDealtMin(),
                     rail.getPercentAbilityPowerDealtMax());
-            float damage = AbilityPowerHelper.getAbilityPower(player) * percent * modifiers.totalDamage();
+            float damage = AbilityPowerHelper.getAbilityPower(player) * percent * modifiers.damage();
             ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ActiveFlags.IS_ARCANE_RAIL_ATTACKING
                     .runIfNotSet(() -> target.hurt(DamageSource.playerAttack(player), damage)));
         }

@@ -6,8 +6,9 @@ import net.minecraft.world.entity.projectile.Projectile;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 
 /**
- * The augment state a projectile carries in its persistent data. Child projectiles a tagged projectile spawns
- * during its own tick (Scatter javelin splits, ricochets) copy it, so augments follow the whole cast.
+ * The glyph state a projectile carries in its persistent data: damage and area multipliers, size, Low Gravity, the
+ * Ethereal and Orbit durations, and Homing's range and turn rate. Child projectiles a tagged projectile spawns during
+ * its own tick (Scatter javelin splits, ricochets) copy it, so glyphs follow the whole cast.
  */
 public final class AugmentTags {
     public static final String DAMAGE = "woldsvaults:augment_damage";
@@ -15,20 +16,21 @@ public final class AugmentTags {
     public static final String SCALE = "woldsvaults:augment_scale";
     public static final String GRAVITY = "woldsvaults:augment_gravity";
     public static final String ETHEREAL = "woldsvaults:augment_ethereal";
-    public static final String HOMING = "woldsvaults:augment_homing";
+    public static final String HOMING_RANGE = "woldsvaults:augment_homing_range";
+    public static final String HOMING_TURN = "woldsvaults:augment_homing_turn";
     public static final String ORBIT = "woldsvaults:augment_orbit";
-    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING, ORBIT};
+    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING_RANGE, HOMING_TURN, ORBIT};
 
     private AugmentTags() {
     }
 
     public static void write(Projectile projectile, CastModifiers modifiers) {
         CompoundTag data = projectile.getPersistentData();
-        if (modifiers.totalDamage() != 1.0F) {
-            data.putFloat(DAMAGE, modifiers.totalDamage());
+        if (modifiers.damage() != 1.0F) {
+            data.putFloat(DAMAGE, modifiers.damage());
         }
-        if (modifiers.areaBonus() > 0) {
-            data.putFloat(AREA, modifiers.areaBonus());
+        if (modifiers.area() != 1.0F) {
+            data.putFloat(AREA, modifiers.area());
         }
         if (modifiers.scale() != 1.0F) {
             data.putFloat(SCALE, modifiers.scale());
@@ -37,12 +39,13 @@ public final class AugmentTags {
             data.putFloat(GRAVITY, modifiers.gravityReduction());
         }
         if (modifiers.ethereal()) {
-            data.putBoolean(ETHEREAL, true);
+            data.putFloat(ETHEREAL, modifiers.etherealSeconds());
         }
         if (modifiers.orbit()) {
-            data.putBoolean(ORBIT, true);
+            data.putFloat(ORBIT, modifiers.orbitSeconds());
         } else if (modifiers.homing()) {
-            data.putBoolean(HOMING, true);
+            data.putFloat(HOMING_RANGE, modifiers.homingRange());
+            data.putFloat(HOMING_TURN, modifiers.homingTurn());
         }
     }
 
@@ -71,7 +74,7 @@ public final class AugmentTags {
     }
 
     public static float area(Entity entity) {
-        return entity.getPersistentData().getFloat(AREA);
+        return entity.getPersistentData().contains(AREA) ? entity.getPersistentData().getFloat(AREA) : 1.0F;
     }
 
     public static float scale(Entity entity) {
@@ -82,15 +85,19 @@ public final class AugmentTags {
         return entity.getPersistentData().getFloat(GRAVITY);
     }
 
-    public static boolean ethereal(Entity entity) {
-        return entity.getPersistentData().getBoolean(ETHEREAL);
+    public static float etherealSeconds(Entity entity) {
+        return entity.getPersistentData().getFloat(ETHEREAL);
     }
 
-    public static boolean homing(Entity entity) {
-        return entity.getPersistentData().getBoolean(HOMING);
+    public static float homingRange(Entity entity) {
+        return entity.getPersistentData().getFloat(HOMING_RANGE);
     }
 
-    public static boolean orbit(Entity entity) {
-        return entity.getPersistentData().getBoolean(ORBIT);
+    public static float homingTurn(Entity entity) {
+        return entity.getPersistentData().getFloat(HOMING_TURN);
+    }
+
+    public static float orbitSeconds(Entity entity) {
+        return entity.getPersistentData().getFloat(ORBIT);
     }
 }

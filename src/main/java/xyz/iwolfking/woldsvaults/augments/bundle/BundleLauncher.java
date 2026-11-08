@@ -2,50 +2,49 @@ package xyz.iwolfking.woldsvaults.augments.bundle;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.augments.AugmentType;
-import xyz.iwolfking.woldsvaults.augments.cast.CastContext;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
+import xyz.iwolfking.woldsvaults.augments.cast.CastOrigin;
 import xyz.iwolfking.woldsvaults.augments.cast.ShotgunPattern;
-import xyz.iwolfking.woldsvaults.augments.cast.SpellPlan;
 import xyz.iwolfking.woldsvaults.augments.effect.ProjectileSteering;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
+import javax.annotation.Nullable;
+
 /**
- * Throws a Bundled Spell from the player, or from a landing point for a bundle inside another bundle's payload.
- * Shotgun copies share one landing tracker, so only the first landing of each ability casts natively; each copy's
- * payload gets the Shotgun damage factor per split.
+ * Throws a Bundled Spell from the player, or from a landing point for a bundle inside another bundle's payload. The
+ * glyphs right after it modify the orb: speed, size, Homing or Orbit, Ethereal, and Shotgun (one orb per copy, each
+ * carrying the whole payload at the copies' damage). The orb flies for the Bundled Spell's rolled flight time.
  */
 public final class BundleLauncher {
     private BundleLauncher() {
     }
 
-    public static void launch(FocusAugmentsConfig config, ServerPlayer player, SpellPlan.Bundle bundle, CastContext context) {
+    public static void launch(FocusAugmentsConfig config, ServerPlayer player, SpellModel.Bundle bundle, @Nullable CastOrigin origin,
+                              float damageFactor) {
         Vec3 start;
         Vec3 direction;
-        if (context.origin() != null) {
-            start = context.origin().position();
-            direction = context.origin().direction().lengthSqr() > 1.0E-6 ? context.origin().direction() : player.getLookAngle();
+        if (origin != null) {
+            start = origin.position();
+            direction = origin.direction().lengthSqr() > 1.0E-6 ? origin.direction() : player.getLookAngle();
         } else {
             start = player.getEyePosition().subtract(0, 0.1, 0);
             direction = player.getLookAngle();
         }
-        int splits = bundle.count(AugmentType.SHOTGUN);
-        float scale = CastModifiers.scale(config, bundle.count(AugmentType.SIZE_UP), bundle.count(AugmentType.SIZE_DOWN));
-        double speed = config.tuning.bundleBaseSpeed * (1 + bundle.count(AugmentType.ACCELERATE) * config.strength(AugmentType.ACCELERATE));
-        boolean ethereal = bundle.count(AugmentType.ETHEREAL) > 0;
-        CastContext.Landings landings = context.landings() != null ? context.landings() : CastContext.Landings.firstNative();
-        float splitFactor = (float) Math.pow(config.strength(AugmentType.SHOTGUN), splits);
-        CastContext payloadContext = new CastContext(null, landings, context.damageMultiplier() * splitFactor);
-
-        for (Vec3 heading : ShotgunPattern.directions(direction, splits, config.tuning.shotgunSpreadDegrees)) {
-            AugmentBundleEntity projectile = new AugmentBundleEntity(player.level, player, bundle.payload(), payloadContext, scale, ethereal);
+        CastModifiers orb = CastModifiers.of(config, bundle.glyphs());
+        double speed = config.tuning.bundleSpeed * orb.speed();
+        int lifetime = Math.max(1, Math.round(bundle.glyph().potency() * 20.0F));
+        float payloadDamage = damageFactor * orb.damage();
+        for (Vec3 heading : ShotgunPattern.fan(direction, orb.shotgunCopies(), config.tuning.shotgunSpreadDegrees)) {
+            AugmentBundleEntity projectile = new AugmentBundleEntity(player.level, player, bundle.payload(), payloadDamage, lifetime,
+                    orb.scale(), orb.ethereal());
             projectile.setPos(start);
             projectile.setDeltaMovement(heading.scale(speed));
             player.level.addFreshEntity(projectile);
-            if (bundle.count(AugmentType.ORBIT) > 0) {
-                ProjectileSteering.orbit(projectile, player);
-            } else if (bundle.count(AugmentType.HOMING) > 0) {
-                ProjectileSteering.home(projectile, player);
+            if (orb.orbit()) {
+                ProjectileSteering.orbit(projectile, player, orb.orbitSeconds());
+            } else if (orb.homing()) {
+                ProjectileSteering.home(projectile, player, orb.homingRange(), orb.homingTurn());
             }
         }
     }

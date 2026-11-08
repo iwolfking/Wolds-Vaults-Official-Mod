@@ -14,6 +14,10 @@ import xyz.iwolfking.woldsvaults.network.message.*;
 import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
 import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellBarEditMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellEditMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellSlotKeyMessage;
 import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
 import xyz.iwolfking.woldsvaults.network.message.BrewingAltarParticleMessage;
 import xyz.iwolfking.woldsvaults.network.message.ClientboundSyncGamerulesMessage;
@@ -77,6 +81,12 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundDepositBackpackToMEPacket.class, ServerboundDepositBackpackToMEPacket::encode, ServerboundDepositBackpackToMEPacket::decode, ServerboundDepositBackpackToMEPacket::handle);
         CHANNEL.registerMessage(id++, ClientboundBackpackContentsRefreshPacket.class, ClientboundBackpackContentsRefreshPacket::encode, ClientboundBackpackContentsRefreshPacket::decode, ClientboundBackpackContentsRefreshPacket::handle);
         CHANNEL.registerMessage(id++, ServerboundDepositBackpackToRSGridPacket.class, ServerboundDepositBackpackToRSGridPacket::encode, ServerboundDepositBackpackToRSGridPacket::decode, ServerboundDepositBackpackToRSGridPacket::handle);
+        CHANNEL.registerMessage(id++, ProjectileScaleMessage.class, ProjectileScaleMessage::encode, ProjectileScaleMessage::decode, ProjectileScaleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, OrbSteerMessage.class, OrbSteerMessage::encode, OrbSteerMessage::decode, OrbSteerMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, SpellBarSyncMessage.class, SpellBarSyncMessage::encode, SpellBarSyncMessage::decode, SpellBarSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, SpellSlotKeyMessage.class, SpellSlotKeyMessage::encode, SpellSlotKeyMessage::decode, SpellSlotKeyMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, SpellBarEditMessage.class, SpellBarEditMessage::encode, SpellBarEditMessage::decode, SpellBarEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, SpellEditMessage.class, SpellEditMessage::encode, SpellEditMessage::decode, SpellEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {
@@ -93,7 +103,5 @@ public class ModNetwork {
 
     public static <T> void sendToLevel(T message, Level level) {
         CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), message);
-        CHANNEL.registerMessage(id++, ProjectileScaleMessage.class, ProjectileScaleMessage::encode, ProjectileScaleMessage::decode, ProjectileScaleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(id++, OrbSteerMessage.class, OrbSteerMessage::encode, OrbSteerMessage::decode, OrbSteerMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 }

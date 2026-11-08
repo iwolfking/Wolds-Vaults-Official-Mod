@@ -34,7 +34,6 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSteering {
     private static final double GOLDEN_ANGLE = 2.39996;
-    private static final double ORBIT_HEIGHT = 1.2;
     private static final double RESEND_COS = Math.cos(Math.toRadians(2.0));
     private static final int RESEND_TICKS = 10;
     private static final List<Steered> STEERED = new ArrayList<>();
@@ -42,16 +41,16 @@ public final class ProjectileSteering {
     private ProjectileSteering() {
     }
 
-    public static void orbit(Projectile projectile, ServerPlayer owner) {
+    public static void orbit(Projectile projectile, ServerPlayer owner, float seconds) {
         long orbiting = STEERED.stream().filter(s -> s.orbit && s.owner == owner).count();
-        STEERED.add(new Steered(projectile, owner, true, orbiting * GOLDEN_ANGLE));
+        STEERED.add(new Steered(projectile, owner, true, orbiting * GOLDEN_ANGLE, 0, 0, Math.max(1, Math.round(seconds * 20.0F))));
     }
 
-    public static void home(Projectile projectile, ServerPlayer owner) {
+    public static void home(Projectile projectile, ServerPlayer owner, float range, float turnRate) {
         if (isNativelyHoming(projectile)) {
             return;
         }
-        STEERED.add(new Steered(projectile, owner, false, 0));
+        STEERED.add(new Steered(projectile, owner, false, 0, range, turnRate, 0));
     }
 
     private static boolean isNativelyHoming(Projectile projectile) {
@@ -68,7 +67,6 @@ public final class ProjectileSteering {
             STEERED.clear();
             return;
         }
-        int maxOrbitTicks = config.tuning.orbitMaxSeconds * 20;
         for (Iterator<Steered> it = STEERED.iterator(); it.hasNext(); ) {
             Steered steered = it.next();
             Projectile projectile = steered.projectile;
@@ -79,7 +77,7 @@ public final class ProjectileSteering {
             }
             steered.age++;
             if (steered.orbit) {
-                if (steered.age > maxOrbitTicks) {
+                if (steered.age > steered.orbitTicks) {
                     projectile.discard();
                     it.remove();
                     continue;
@@ -101,14 +99,14 @@ public final class ProjectileSteering {
         double radius = config.tuning.orbitRadius;
         double angularSpeed = Math.max(0.15, Math.min(0.6, steered.speed / radius));
         double angle = steered.angleOffset + steered.age * angularSpeed;
-        Vec3 center = steered.owner.position().add(0, ORBIT_HEIGHT, 0);
+        Vec3 center = steered.owner.position().add(0, config.tuning.orbitHeight, 0);
         Vec3 target = center.add(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
         move(steered, target.subtract(steered.projectile.position()));
     }
 
     private static void steerHoming(Steered steered, FocusAugmentsConfig config) {
         Projectile projectile = steered.projectile;
-        AABB area = projectile.getBoundingBox().inflate(config.tuning.homingRange);
+        AABB area = projectile.getBoundingBox().inflate(steered.range);
         LivingEntity target = steered.target;
         if (steered.age % Math.max(1, config.tuning.homingRetargetTicks) == 0 || target == null || target.level != projectile.level
                 || !target.getBoundingBox().intersects(area) || !canTarget(projectile, steered.owner, target)) {
@@ -121,7 +119,7 @@ public final class ProjectileSteering {
         Vec3 motion = projectile.getDeltaMovement();
         double speed = Math.max(motion.length(), steered.speed);
         Vec3 desired = target.getBoundingBox().getCenter().subtract(projectile.position()).normalize().scale(speed);
-        Vec3 turned = motion.add(desired.subtract(motion).scale(config.tuning.homingTurnRate));
+        Vec3 turned = motion.add(desired.subtract(motion).scale(steered.turnRate));
         move(steered, turned.normalize().scale(speed));
     }
 
@@ -155,6 +153,9 @@ public final class ProjectileSteering {
         final boolean orbit;
         final double angleOffset;
         final double speed;
+        final double range;
+        final double turnRate;
+        final int orbitTicks;
         int age;
         Vec3 lastPosition;
         int stillTicks;
@@ -163,7 +164,10 @@ public final class ProjectileSteering {
         float sentSpeed;
         int sentAge;
 
-        Steered(Projectile projectile, ServerPlayer owner, boolean orbit, double angleOffset) {
+        Steered(Projectile projectile, ServerPlayer owner, boolean orbit, double angleOffset, double range, double turnRate, int orbitTicks) {
+            this.range = range;
+            this.turnRate = turnRate;
+            this.orbitTicks = orbitTicks;
             this.projectile = projectile;
             this.owner = owner;
             this.orbit = orbit;

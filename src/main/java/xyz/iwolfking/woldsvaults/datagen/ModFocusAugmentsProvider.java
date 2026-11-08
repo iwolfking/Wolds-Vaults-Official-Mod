@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Focus augments: per-glyph strengths and caps, the socket rolls on wands and focuses, recipe limits, tuning, and the
- * ability trait list that decides which augments fit which ability. Strengths and tuning start from Vault Grimoire's
- * defaults; the roll weights, socket tiers and recipe limits are first-pass values awaiting balance.
+ * Spellcraft glyphs (redesign/spellcraft/SPEC.md): each glyph's potency tiers, side effects, uses, per-spell cap and
+ * arcana cost; the combo surcharges; how focuses and wands roll arcana, glyph lines and depth (glyphs per spell); the
+ * spell rules and mechanics tuning; and the ability trait list that decides which glyphs fit which ability. Numbers are
+ * the 2026-11-08 prototype with depth +2 and arcana x1.2 over the spec.
  */
 public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
 
@@ -26,56 +27,153 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         FocusAugmentsConfig table = new FocusAugmentsConfig();
         table.worksOutsideVaults = true;
 
-        FocusAugmentsConfig.Limits limits = new FocusAugmentsConfig.Limits();
-        limits.maxRecipeLength = 9;
-        limits.maxCastsPerTrigger = 32;
-        limits.maxRecipesPerItem = 3;
-        limits.maxDelaysPerRecipe = 5;
-        limits.maxEchoesPerRecipe = 1;
-        limits.maxBundleDepth = 2;
-        table.limits = limits;
+        FocusAugmentsConfig.Rules rules = new FocusAugmentsConfig.Rules();
+        rules.escalationPerGlyph = 0.12F;
+        rules.abilityStepCost = 6;
+        rules.chainCooldownShare = 0.25F;
+        rules.manaFactorFloor = 0.5F;
+        rules.minCooldownSeconds = 0.5F;
+        rules.maxGlyphsPerSpell = 12;
+        rules.maxSpellsPerItem = 6;
+        rules.maxCastsPerTrigger = 16;
+        rules.maxBundleNesting = 2;
+        rules.maxNameLength = 24;
+        rules.costNoise = List.of(noise(-1, 25), noise(0, 50), noise(1, 25));
+        table.rules = rules;
 
         FocusAugmentsConfig.Tuning tuning = new FocusAugmentsConfig.Tuning();
         tuning.echoDelaySeconds = 0.5F;
-        tuning.echoKeepsCharge = false;
-        tuning.shotgunSpreadDegrees = 15.0F;
-        tuning.shotgunCopyManaShare = 0.0F;
-        tuning.homingRange = 16.0F;
-        tuning.homingTurnRate = 0.2F;
+        tuning.shotgunSpreadDegrees = 12.0F;
         tuning.homingRetargetTicks = 5;
         tuning.orbitRadius = 2.5F;
-        tuning.orbitMaxSeconds = 30;
-        tuning.etherealMaxSeconds = 10;
-        tuning.bundleMaxSeconds = 30;
-        tuning.bundleBaseSpeed = 1.0F;
-        tuning.chargeSecondsPerGlyph = 1.0F;
+        tuning.orbitHeight = 1.2F;
+        tuning.bundleSpeed = 0.8F;
         tuning.railRange = 128.0F;
         tuning.sizeUpMaxScale = 3.0F;
-        tuning.sizeDownMinScale = 0.25F;
+        tuning.sizeDownMinScale = 0.4F;
+        tuning.chargeSeconds = 1.0F;
+        tuning.chargeMoveMultiplier = 0.7F;
+        tuning.chargeMinShare = 0.25F;
         table.tuning = tuning;
 
-        table.augments = new LinkedHashMap<>();
-        augment(table, AugmentType.AMPLIFY_AREA, 0.25F, 4, 10, 0, 2);
-        augment(table, AugmentType.QUICKEN, 0.10F, 5, 10, 0, 2);
-        augment(table, AugmentType.DISCOUNT, 0.10F, 5, 10, 0, 2);
-        augment(table, AugmentType.ECHO, 0.0F, 1, 2, 60, 1);
-        augment(table, AugmentType.STRENGTHEN, 0.20F, 4, 6, 30, 2);
-        augment(table, AugmentType.ACCELERATE, 0.25F, 4, 10, 0, 2);
-        augment(table, AugmentType.HOMING, 0.0F, 1, 6, 20, 1);
-        augment(table, AugmentType.ORBIT, 0.0F, 1, 4, 20, 1);
-        augment(table, AugmentType.DELAY, 1.0F, 5, 6, 0, 2);
-        augment(table, AugmentType.SIZE_UP, 0.5F, 3, 8, 0, 2);
-        augment(table, AugmentType.SIZE_DOWN, 0.25F, 4, 6, 0, 2);
-        augment(table, AugmentType.ETHEREAL, 0.0F, 1, 2, 60, 1);
-        augment(table, AugmentType.SHOTGUN, 0.5F, 4, 3, 50, 1);
-        augment(table, AugmentType.LOW_GRAVITY, 0.5F, 2, 8, 0, 1);
-        augment(table, AugmentType.CHARGE, 9.0F, 1, 2, 60, 1);
-        augment(table, AugmentType.BUNDLED_SPELL, 0.0F, 1, 3, 40, 1);
+        table.glyphs = new LinkedHashMap<>();
+        glyph(table, AugmentType.AMPLIFY_AREA, "modifier", "power", 0, 10, List.of(List.of("instant", "area"), List.of("instant", "projectile")), List.of(),
+                potency("area", "pct", List.of(tier(0, 0.1F, 0.18F), tier(35, 0.14F, 0.24F), tier(70, 0.18F, 0.3F)), List.of()),
+                List.of(k("area", 1.0F), k("damage", -0.25F)),
+                List.of(k("mana", 0.4F)),
+                3, List.of(60, 30, 10), 3, 3, 7, false);
+        glyph(table, AugmentType.STRENGTHEN, "modifier", "power", 15, 8, List.of(List.of("instant")), List.of(),
+                potency("damage", "pct", List.of(tier(0, 0.08F, 0.14F), tier(35, 0.11F, 0.19F), tier(70, 0.15F, 0.25F)), List.of()),
+                List.of(k("damage", 1.0F), k("area", -0.3F)),
+                List.of(k("mana", 0.6F)),
+                3, List.of(60, 30, 10), 3, 4, 9, false);
+        glyph(table, AugmentType.QUICKEN, "modifier", "flow", 0, 10, List.of(List.of("instant"), List.of("toggle")), List.of(),
+                potency("haste", "pct", List.of(tier(0, 0.06F, 0.1F), tier(35, 0.08F, 0.14F), tier(70, 0.1F, 0.18F)), List.of()),
+                List.of(k("damage", -0.2F)),
+                List.of(k("haste", 1.0F), k("mana", 0.8F)),
+                3, List.of(60, 30, 10), 3, 4, 9, false);
+        glyph(table, AugmentType.DISCOUNT, "modifier", "flow", 0, 10, List.of(List.of("mana")), List.of(),
+                potency("mana", "neg_pct", List.of(tier(0, 0.06F, 0.1F), tier(35, 0.08F, 0.14F), tier(70, 0.1F, 0.18F)), List.of()),
+                List.of(),
+                List.of(k("mana", -1.0F), k("haste", -0.3F)),
+                3, List.of(60, 30, 10), 3, 3, 7, false);
+        glyph(table, AugmentType.DELAY, "delay", "flow", 0, 6, List.of(), List.of(),
+                potency("pause", "seconds", List.of(tier(0, 0.25F, 1.0F)), List.of()),
+                List.of(),
+                List.of(fixed("mana", 1.02F)),
+                4, List.of(40, 30, 20, 10), 4, 1, 1, true);
+        glyph(table, AugmentType.ACCELERATE, "modifier", "path", 0, 10, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+                potency("speed", "pct", List.of(tier(0, 0.15F, 0.25F), tier(35, 0.2F, 0.32F), tier(70, 0.25F, 0.4F)), List.of()),
+                List.of(k("speed", 1.0F), k("damage", -0.08F)),
+                List.of(k("mana", 0.2F)),
+                3, List.of(60, 30, 10), 3, 2, 5, false);
+        glyph(table, AugmentType.HOMING, "modifier", "path", 20, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("orbit"),
+                potency("range", "blocks", List.of(tier(20, 10.0F, 16.0F)), List.of(linked("turn rate", 0.12F, 0.22F))),
+                List.of(fixed("damage", 0.9F), fixed("speed", 0.9F)),
+                List.of(fixed("mana", 1.1F)),
+                1, List.of(100), 1, 6, 10, false);
+        glyph(table, AugmentType.ORBIT, "modifier", "path", 20, 4, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("homing"),
+                potency("duration", "seconds", List.of(tier(20, 6.0F, 12.0F)), List.of()),
+                List.of(fixed("damage", 0.85F)),
+                List.of(fixed("mana", 1.15F), fixed("cooldown", 1.1F)),
+                1, List.of(100), 1, 6, 10, false);
+        glyph(table, AugmentType.LOW_GRAVITY, "modifier", "path", 0, 8, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+                potency("gravity", "neg_pct", List.of(tier(0, 0.4F, 0.7F)), List.of()),
+                List.of(fixed("speed", 0.95F)),
+                List.of(fixed("mana", 1.04F)),
+                1, List.of(100), 1, 1, 3, false);
+        glyph(table, AugmentType.ETHEREAL, "modifier", "path", 60, 2, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+                potency("lifetime", "seconds", List.of(tier(60, 4.0F, 8.0F)), List.of()),
+                List.of(fixed("damage", 0.85F)),
+                List.of(fixed("mana", 1.2F)),
+                1, List.of(100), 1, 9, 13, false);
+        glyph(table, AugmentType.SIZE_UP, "modifier", "form", 0, 8, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
+                potency("size", "pct", List.of(tier(0, 0.2F, 0.3F), tier(35, 0.25F, 0.4F), tier(70, 0.3F, 0.5F)), List.of()),
+                List.of(k("scale", 1.0F), k("speed", -0.3F)),
+                List.of(k("mana", 0.3F)),
+                2, List.of(70, 30), 2, 3, 7, false);
+        glyph(table, AugmentType.SIZE_DOWN, "modifier", "form", 0, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+                potency("size", "neg_pct", List.of(tier(0, 0.15F, 0.22F), tier(35, 0.18F, 0.26F), tier(70, 0.2F, 0.3F)), List.of()),
+                List.of(k("scale", -1.0F), k("damage", 0.6F), k("speed", 0.5F)),
+                List.of(fixed("mana", 1.05F)),
+                2, List.of(70, 30), 2, 3, 7, false);
+        glyph(table, AugmentType.ECHO, "modifier", "chaos", 60, 2, List.of(List.of("instant")), List.of(),
+                potency("echo power", "pct_plain", List.of(tier(60, 0.45F, 0.65F)), List.of()),
+                List.of(),
+                List.of(fixed("mana", 1.5F), fixed("cooldown", 1.3F)),
+                1, List.of(100), 1, 12, 18, false);
+        glyph(table, AugmentType.SHOTGUN, "modifier", "chaos", 50, 3, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
+                potency("copy damage", "pct_plain", List.of(tier(50, 0.7F, 0.8F), tier(70, 0.75F, 0.85F)), List.of()),
+                List.of(),
+                List.of(perUse("mana", 0.3F), perUse("cooldown", 0.1F)),
+                3, List.of(50, 35, 15), 3, 10, 16, false);
+        glyph(table, AugmentType.CHARGE, "modifier", "chaos", 60, 2, List.of(List.of("instant", "projectile"), List.of("instant", "area"), List.of("instant", "bolt")), List.of(),
+                potency("full charge", "pct", List.of(tier(60, 0.6F, 1.0F)), List.of()),
+                List.of(),
+                List.of(fixed("mana", 1.35F), fixed("cooldown", 1.25F)),
+                1, List.of(100), 1, 10, 15, false);
+        glyph(table, AugmentType.BUNDLED_SPELL, "bundle", "chaos", 40, 3, List.of(), List.of(),
+                potency("flight", "seconds", List.of(tier(40, 3.0F, 6.0F)), List.of()),
+                List.of(),
+                List.of(fixed("mana", 1.25F), fixed("cooldown", 1.15F)),
+                1, List.of(100), 2, 10, 16, false);
 
-        table.sockets = new ArrayList<>();
-        table.sockets.add(sockets(0, 1, 1));
-        table.sockets.add(sockets(35, 1, 2));
-        table.sockets.add(sockets(70, 2, 3));
+        table.combos = new ArrayList<>();
+        combo(table, "shotgun", "echo", 8, "every copy echoes");
+        combo(table, "shotgun", "homing", 4, "every copy finds a target");
+        combo(table, "shotgun", "orbit", 4, "a ring of orbiting projectiles");
+        combo(table, "shotgun", "bundled_spell", 8, "a Shotgun on the bundle multiplies every payload");
+        combo(table, "ethereal", "homing", 4, "seeks through walls");
+        combo(table, "ethereal", "bundled_spell", 6, "payloads land behind walls");
+        combo(table, "echo", "bundled_spell", 6, "an Echo inside a payload repeats at every landing");
+
+        FocusAugmentsConfig.FocusRolls focus = new FocusAugmentsConfig.FocusRolls();
+        focus.budgetBase = 14.4F;
+        focus.budgetPerLevel = 0.72F;
+        focus.budgetRollMin = 0.9F;
+        focus.budgetRollMax = 1.1F;
+        focus.rarities = new LinkedHashMap<>();
+        rarity(focus, "SCRAPPY", 0.6F, 1, 2, null, null);
+        rarity(focus, "COMMON", 0.8F, 2, 3, null, null);
+        rarity(focus, "RARE", 1.0F, 3, 4, null, null);
+        rarity(focus, "EPIC", 1.15F, 4, 5, null, null);
+        rarity(focus, "UNIQUE", 1.15F, 4, 5, null, null);
+        rarity(focus, "SPECIAL", 1.15F, 4, 5, null, null);
+        rarity(focus, "OMEGA", 1.3F, 5, 6, null, null);
+        rarity(focus, "MYTHIC", 1.5F, 6, 7, null, null);
+        rarity(focus, "CHAOTIC", 1.3F, 3, 7, 0.75F, 1.25F);
+        focus.depth = List.of(depth(0, 3, 3), depth(40, 3, 4), depth(70, 4, 4));
+        focus.depthBonus = new LinkedHashMap<>();
+        focus.depthBonus.put("OMEGA", depth(70, 4, 5));
+        focus.depthBonus.put("MYTHIC", depth(70, 4, 5));
+        table.focus = focus;
+
+        FocusAugmentsConfig.WandRolls wand = new FocusAugmentsConfig.WandRolls();
+        wand.budgetFactor = 0.6F;
+        wand.linesDelta = -2;
+        wand.minLines = 1;
+        wand.maxDepth = 4;
+        table.wand = wand;
 
         Map<String, List<String>> traits = new LinkedHashMap<>();
         traits.put("UltimateShield_Base", List.of("TOGGLE", "MANA"));
@@ -184,22 +282,108 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         table("focus_augments", table);
     }
 
-    private static void augment(FocusAugmentsConfig table, AugmentType type, float strength, int maxPerCast, int rollWeight,
-                                int minLevel, int maxTokensPerRoll) {
-        FocusAugmentsConfig.AugmentEntry entry = new FocusAugmentsConfig.AugmentEntry();
-        entry.strength = strength;
-        entry.maxPerCast = maxPerCast;
-        entry.rollWeight = rollWeight;
-        entry.minLevel = minLevel;
-        entry.maxTokensPerRoll = maxTokensPerRoll;
-        table.augments.put(type.id(), entry);
+    private static void glyph(FocusAugmentsConfig table, AugmentType type, String kind, String category, int minLevel, int weight,
+                              List<List<String>> requires, List<String> excludes, FocusAugmentsConfig.Potency potency,
+                              List<FocusAugmentsConfig.Effect> step, List<FocusAugmentsConfig.Effect> spell, int maxUses,
+                              List<Integer> useWeights, int capPerSpell, int costMin, int costMax, boolean noEscalation) {
+        FocusAugmentsConfig.Glyph glyph = new FocusAugmentsConfig.Glyph();
+        glyph.kind = kind;
+        glyph.category = category;
+        glyph.minLevel = minLevel;
+        glyph.weight = weight;
+        glyph.requires = requires;
+        glyph.excludes = excludes;
+        glyph.potency = potency;
+        glyph.step = step;
+        glyph.spell = spell;
+        glyph.maxUses = maxUses;
+        glyph.useWeights = useWeights;
+        glyph.capPerSpell = capPerSpell;
+        glyph.costMin = costMin;
+        glyph.costMax = costMax;
+        glyph.noEscalation = noEscalation;
+        table.glyphs.put(type.id(), glyph);
     }
 
-    private static FocusAugmentsConfig.SocketTier sockets(int minLevel, int minSockets, int maxSockets) {
-        FocusAugmentsConfig.SocketTier tier = new FocusAugmentsConfig.SocketTier();
+    private static FocusAugmentsConfig.Potency potency(String label, String format, List<FocusAugmentsConfig.PotencyTier> tiers,
+                                                       List<FocusAugmentsConfig.Linked> linked) {
+        FocusAugmentsConfig.Potency potency = new FocusAugmentsConfig.Potency();
+        potency.label = label;
+        potency.format = format;
+        potency.tiers = tiers;
+        potency.linked = linked;
+        return potency;
+    }
+
+    private static FocusAugmentsConfig.PotencyTier tier(int minLevel, float min, float max) {
+        FocusAugmentsConfig.PotencyTier tier = new FocusAugmentsConfig.PotencyTier();
         tier.minLevel = minLevel;
-        tier.minSockets = minSockets;
-        tier.maxSockets = maxSockets;
+        tier.min = min;
+        tier.max = max;
+        return tier;
+    }
+
+    private static FocusAugmentsConfig.Linked linked(String name, float min, float max) {
+        FocusAugmentsConfig.Linked linked = new FocusAugmentsConfig.Linked();
+        linked.name = name;
+        linked.min = min;
+        linked.max = max;
+        return linked;
+    }
+
+    private static FocusAugmentsConfig.Effect k(String stat, float k) {
+        FocusAugmentsConfig.Effect effect = new FocusAugmentsConfig.Effect();
+        effect.stat = stat;
+        effect.k = k;
+        return effect;
+    }
+
+    private static FocusAugmentsConfig.Effect fixed(String stat, float fixed) {
+        FocusAugmentsConfig.Effect effect = new FocusAugmentsConfig.Effect();
+        effect.stat = stat;
+        effect.fixed = fixed;
+        return effect;
+    }
+
+    private static FocusAugmentsConfig.Effect perUse(String stat, float perUse) {
+        FocusAugmentsConfig.Effect effect = new FocusAugmentsConfig.Effect();
+        effect.stat = stat;
+        effect.perUse = perUse;
+        return effect;
+    }
+
+    private static void combo(FocusAugmentsConfig table, String a, String b, int cost, String reason) {
+        FocusAugmentsConfig.Combo combo = new FocusAugmentsConfig.Combo();
+        combo.a = a;
+        combo.b = b;
+        combo.cost = cost;
+        combo.reason = reason;
+        table.combos.add(combo);
+    }
+
+    private static FocusAugmentsConfig.CostNoise noise(int offset, int weight) {
+        FocusAugmentsConfig.CostNoise noise = new FocusAugmentsConfig.CostNoise();
+        noise.offset = offset;
+        noise.weight = weight;
+        return noise;
+    }
+
+    private static void rarity(FocusAugmentsConfig.FocusRolls focus, String rarity, float budget, int linesMin, int linesMax,
+                               Float budgetRollMin, Float budgetRollMax) {
+        FocusAugmentsConfig.RarityRolls rolls = new FocusAugmentsConfig.RarityRolls();
+        rolls.budget = budget;
+        rolls.linesMin = linesMin;
+        rolls.linesMax = linesMax;
+        rolls.budgetRollMin = budgetRollMin;
+        rolls.budgetRollMax = budgetRollMax;
+        focus.rarities.put(rarity, rolls);
+    }
+
+    private static FocusAugmentsConfig.DepthTier depth(int minLevel, int min, int max) {
+        FocusAugmentsConfig.DepthTier tier = new FocusAugmentsConfig.DepthTier();
+        tier.minLevel = minLevel;
+        tier.min = min;
+        tier.max = max;
         return tier;
     }
 }

@@ -41,6 +41,13 @@ public final class AbilityCastTracker {
         }
     }
 
+    /** Marks a cast whose ABILITY_CAST event was suppressed (Shotgun copies) as cast. */
+    public static void note(Ability ability) {
+        if (ability == watched) {
+            watchedCast = true;
+        }
+    }
+
     public record Outcome(boolean accepted, boolean cast) {
     }
 }

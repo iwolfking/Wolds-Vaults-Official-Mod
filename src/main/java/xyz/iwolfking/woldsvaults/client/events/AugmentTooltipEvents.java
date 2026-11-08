@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
@@ -10,47 +11,58 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
-import xyz.iwolfking.woldsvaults.augments.AugmentType;
-import xyz.iwolfking.woldsvaults.augments.item.AugmentItemData;
-import xyz.iwolfking.woldsvaults.augments.item.AugmentRoller;
+import xyz.iwolfking.woldsvaults.augments.FocusAugments;
+import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
+import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
- * The augment block at the bottom of a wand's or focus's tooltip: its rolled augment tokens, then each stored recipe.
+ * The spellcraft block at the bottom of a focus's or wand's tooltip: arcana and depth, then (with Alt held) each glyph
+ * line with its roll, uses and cost, and each spell.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public class AugmentTooltipEvents {
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onAugmentTooltip(ItemTooltipEvent event) {
+    public static void onSpellcraftTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if (!AugmentRoller.canCarry(stack) || !AugmentItemData.hasRolled(stack)) {
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (config == null || !SpellcraftRoller.canCarry(stack) || !SpellcraftItemData.has(stack)) {
             return;
         }
-        Map<AugmentType, Integer> rolled = AugmentItemData.rolled(stack);
         List<Component> block = new ArrayList<>();
         block.add(TextComponent.EMPTY);
-        block.add(new TextComponent("Augments").withStyle(ChatFormatting.LIGHT_PURPLE));
-        if (rolled.isEmpty()) {
-            block.add(new TextComponent("  none").withStyle(ChatFormatting.DARK_GRAY));
+        block.add(new TextComponent("Spellcraft: " + SpellcraftItemData.budget(stack) + " arcana, depth " + SpellcraftItemData.depth(stack))
+                .withStyle(ChatFormatting.LIGHT_PURPLE));
+        if (!Screen.hasAltDown()) {
+            block.add(new TextComponent("Hold Alt for glyphs and spells").withStyle(ChatFormatting.DARK_GRAY));
+            event.getToolTip().addAll(block);
+            return;
         }
-        rolled.forEach((type, count) -> block.add(new TextComponent("  " + type.displayName() + (count > 1 ? " x" + count : ""))
-                .withStyle(ChatFormatting.GRAY)));
-        AugmentItemData.recipes(stack).forEach((ability, glyphs) -> block.add(new TextComponent("  " + AugmentAbilities.displayName(ability)
-                + ": " + describe(glyphs)).withStyle(ChatFormatting.DARK_PURPLE)));
+        for (SpellcraftItemData.Line line : SpellcraftItemData.lines(stack)) {
+            block.add(new TextComponent("  " + line.type().displayName() + " " + potency(config, line) + "  x" + line.uses()
+                    + "  cost " + line.cost()).withStyle(ChatFormatting.GRAY));
+        }
+        for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
+            block.add(new TextComponent("  " + spell.name() + ": " + String.join(" ", spell.tokens())).withStyle(ChatFormatting.DARK_PURPLE));
+        }
         event.getToolTip().addAll(block);
     }
 
-    private static String describe(List<String> glyphs) {
-        List<String> names = new ArrayList<>();
-        for (String glyph : glyphs) {
-            AugmentType type = AugmentType.byId(glyph);
-            names.add(type != null ? type.displayName() : AugmentAbilities.displayName(glyph));
-        }
-        return String.join(", ", names);
+    /** A line's potency in its table format (percent, seconds, blocks). */
+    public static String potency(FocusAugmentsConfig config, SpellcraftItemData.Line line) {
+        FocusAugmentsConfig.Potency potency = config.glyph(line.type()).potency;
+        float p = line.potency();
+        return switch (potency.format) {
+            case "pct" -> "+" + Math.round(p * 100) + "% " + potency.label;
+            case "neg_pct" -> "-" + Math.round(p * 100) + "% " + potency.label;
+            case "pct_plain" -> Math.round(p * 100) + "% " + potency.label;
+            case "seconds" -> potency.label + " " + String.format("%.2fs", p);
+            case "blocks" -> potency.label + " " + Math.round(p);
+            default -> potency.label + " " + p;
+        };
     }
 }

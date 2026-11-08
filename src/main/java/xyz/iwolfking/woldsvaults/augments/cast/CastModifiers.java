@@ -1,68 +1,111 @@
 package xyz.iwolfking.woldsvaults.augments.cast;
 
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
+import java.util.List;
+
 /**
- * The combined effect of the augments on one ability step, with the table's strengths applied. Area and cooldown
- * reduction go into VH's own stats (so its caps apply); the damage multiplier carries Strengthen, Charge and the
- * Shotgun split factor.
+ * What the glyphs on one step (an ability or a Bundled Spell orb) do, from their rolled potencies: multipliers on
+ * damage, area, projectile speed and size; Homing (range, turn rate), Orbit and Ethereal durations; Low Gravity; Shotgun
+ * copies and their per-copy damage; Echo power; and Charge's full-charge bonus. Dormant glyphs are left out.
  */
-public record CastModifiers(float areaBonus, float quickenBonus, float discountFraction, boolean echo,
-                            float damageMultiplier, float chargeMultiplier, float speedMultiplier, boolean homing,
-                            boolean orbit, float gravityReduction, boolean ethereal, int shotgunSplits, float scale) {
+public record CastModifiers(float damage, float area, float speed, float scale, float homingRange, float homingTurn,
+                            float orbitSeconds, float gravityReduction, float etherealSeconds, int shotgunCopies,
+                            float echoPower, float chargeBonus) {
 
-    public static final CastModifiers NONE = new CastModifiers(0, 0, 0, false, 1, 1, 1, false, false, 0, false, 0, 1);
+    public static final CastModifiers NONE = new CastModifiers(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    public static CastModifiers of(FocusAugmentsConfig config, SpellPlan.Cast cast) {
-        float charge = cast.count(AugmentType.CHARGE) > 0
-                ? 1.0F + cast.count(AugmentType.CHARGE) * config.strength(AugmentType.CHARGE) : 1.0F;
-        return new CastModifiers(
-                cast.count(AugmentType.AMPLIFY_AREA) * config.strength(AugmentType.AMPLIFY_AREA),
-                cast.count(AugmentType.QUICKEN) * config.strength(AugmentType.QUICKEN),
-                Math.min(1.0F, cast.count(AugmentType.DISCOUNT) * config.strength(AugmentType.DISCOUNT)),
-                cast.count(AugmentType.ECHO) > 0,
-                1.0F + cast.count(AugmentType.STRENGTHEN) * config.strength(AugmentType.STRENGTHEN),
-                charge,
-                1.0F + cast.count(AugmentType.ACCELERATE) * config.strength(AugmentType.ACCELERATE),
-                cast.count(AugmentType.HOMING) > 0,
-                cast.count(AugmentType.ORBIT) > 0,
-                Math.min(1.0F, cast.count(AugmentType.LOW_GRAVITY) * config.strength(AugmentType.LOW_GRAVITY)),
-                cast.count(AugmentType.ETHEREAL) > 0,
-                cast.count(AugmentType.SHOTGUN),
-                scale(config, cast.count(AugmentType.SIZE_UP), cast.count(AugmentType.SIZE_DOWN)));
+    public static CastModifiers of(FocusAugmentsConfig config, List<SpellModel.Glyph> glyphs) {
+        float damage = 1.0F;
+        float area = 1.0F;
+        float speed = 1.0F;
+        float scale = 1.0F;
+        float homingRange = 0.0F;
+        float homingTurn = 0.0F;
+        float orbit = 0.0F;
+        float gravity = 0.0F;
+        float ethereal = 0.0F;
+        int copies = 0;
+        float echo = 0.0F;
+        float charge = 0.0F;
+        for (SpellModel.Glyph glyph : glyphs) {
+            if (glyph.dormant()) {
+                continue;
+            }
+            FocusAugmentsConfig.Glyph spec = config.glyph(glyph.type());
+            for (FocusAugmentsConfig.Effect effect : spec.step) {
+                float factor = effect.factor(glyph.potency());
+                switch (effect.stat) {
+                    case "damage" -> damage *= factor;
+                    case "area" -> area *= factor;
+                    case "speed" -> speed *= factor;
+                    case "scale" -> scale *= factor;
+                    default -> {
+                    }
+                }
+            }
+            switch (glyph.type()) {
+                case HOMING -> {
+                    homingRange = glyph.potency();
+                    homingTurn = linked(spec, glyph.quality());
+                }
+                case ORBIT -> orbit = glyph.potency();
+                case LOW_GRAVITY -> gravity = Math.min(1.0F, glyph.potency());
+                case ETHEREAL -> ethereal = glyph.potency();
+                case SHOTGUN -> {
+                    copies++;
+                    damage *= glyph.potency();
+                }
+                case ECHO -> echo = glyph.potency();
+                case CHARGE -> charge = glyph.potency();
+                default -> {
+                }
+            }
+        }
+        scale = Math.max(config.tuning.sizeDownMinScale, Math.min(config.tuning.sizeUpMaxScale, scale));
+        return new CastModifiers(damage, area, speed, scale, homingRange, homingTurn, orbit, gravity, ethereal, copies, echo, charge);
     }
 
-    /** Size Up and Size Down combined, clamped to the table's size limits. */
-    public static float scale(FocusAugmentsConfig config, int sizeUps, int sizeDowns) {
-        double scale = Math.pow(1 + config.strength(AugmentType.SIZE_UP), sizeUps)
-                * Math.pow(Math.max(0.0, 1 - config.strength(AugmentType.SIZE_DOWN)), sizeDowns);
-        return (float) Math.max(config.tuning.sizeDownMinScale, Math.min(config.tuning.sizeUpMaxScale, scale));
+    private static float linked(FocusAugmentsConfig.Glyph spec, float quality) {
+        if (spec.potency.linked == null || spec.potency.linked.isEmpty()) {
+            return 0.0F;
+        }
+        FocusAugmentsConfig.Linked linked = spec.potency.linked.get(0);
+        return linked.min + (linked.max - linked.min) * quality;
     }
 
-    /** The damage factor every hit of this cast gets: Strengthen times Charge times any outside factor. */
-    public float totalDamage() {
-        return this.damageMultiplier * this.chargeMultiplier;
+    public boolean homing() {
+        return this.homingRange > 0 && this.orbitSeconds <= 0;
     }
 
-    public boolean charged() {
-        return this.chargeMultiplier > 1.0F;
+    public boolean orbit() {
+        return this.orbitSeconds > 0;
     }
 
+    public boolean ethereal() {
+        return this.etherealSeconds > 0;
+    }
+
+    /** The same modifiers with every hit scaled by an outside factor (Echo power, a Charge bonus, a payload's copies). */
     public CastModifiers withDamageFactor(float factor) {
-        return new CastModifiers(areaBonus, quickenBonus, discountFraction, echo, damageMultiplier * factor, chargeMultiplier,
-                speedMultiplier, homing, orbit, gravityReduction, ethereal, shotgunSplits, scale);
+        return new CastModifiers(damage * factor, area, speed, scale, homingRange, homingTurn, orbitSeconds, gravityReduction,
+                etherealSeconds, shotgunCopies, echoPower, chargeBonus);
     }
 
-    /** The same modifiers without Charge, for Echo when the table says echoes don't keep it. */
-    public CastModifiers withoutCharge() {
-        return new CastModifiers(areaBonus, quickenBonus, discountFraction, echo, damageMultiplier, 1.0F,
-                speedMultiplier, homing, orbit, gravityReduction, ethereal, shotgunSplits, scale);
-    }
-
-    /** Whether projectiles spawned by the cast need to be tagged or steered. */
+    /** Whether projectiles spawned by the cast need tags, steering or physics. */
     public boolean affectsProjectiles() {
-        return totalDamage() != 1.0F || speedMultiplier != 1.0F || homing || orbit || areaBonus > 0
-                || gravityReduction > 0 || ethereal || scale != 1.0F;
+        return this.damage != 1.0F || this.speed != 1.0F || homing() || orbit() || this.area != 1.0F
+                || this.gravityReduction > 0 || ethereal() || this.scale != 1.0F;
+    }
+
+    public boolean has(AugmentType type) {
+        return switch (type) {
+            case SHOTGUN -> this.shotgunCopies > 0;
+            case ECHO -> this.echoPower > 0;
+            case CHARGE -> this.chargeBonus > 0;
+            default -> false;
+        };
     }
 }

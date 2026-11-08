@@ -2,164 +2,169 @@ package xyz.iwolfking.woldsvaults.augments.cast;
 
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
+import iskallia.vault.skill.tree.AbilityTree;
+import iskallia.vault.util.calc.ManaCostHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.augments.AbilityTrait;
 import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentAbility;
-import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.CastResult;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.bundle.BundleLauncher;
-import xyz.iwolfking.woldsvaults.augments.effect.ManaRefunds;
 import xyz.iwolfking.woldsvaults.augments.effect.RailBolts;
 import xyz.iwolfking.woldsvaults.augments.effect.ToggleDiscounts;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Runs a recipe's timeline: each ability step with its augments in order, pausing at Delay, winding up Charge, and
- * throwing Bundled Spells whose payload runs where they land. A step that cannot cast is skipped with an action-bar
- * message and the rest still cast. The table is re-read at every step, so a reload mid-recipe uses the new values,
- * and a recipe whose table disappeared stops.
+ * Casts an augmented spell slot. The trigger step is a real key press on the player's ability, charged for the whole
+ * slot (every ability's mana times the spell's mana factor, and the slot cooldown); if it doesn't go through, nothing
+ * else casts. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
+ * (on-cast effects fire) and Shotgun copies (they don't). The table is re-read at every step.
  */
 public final class AugmentCaster {
     private AugmentCaster() {
     }
 
-    /** Casts a parsed, validated recipe from the player. */
-    public static void cast(ServerPlayer player, SpellPlan plan) {
-        run(player, plan.steps(), 0, CastContext.DIRECT, false);
+    /** Casts the slot's spell. {@code chargeShare} is how full Charge got (0-1), or negative when not charged. */
+    public static void castSlot(ServerPlayer player, EffectiveBar.Slot slot, float chargeShare) {
+        FocusAugmentsConfig config = FocusAugments.config();
+        SpellModel model = slot.model();
+        if (config == null || model == null || model.steps().isEmpty() || !(model.steps().get(0) instanceof SpellModel.Cast trigger)
+                || trigger.spec() == null) {
+            return;
+        }
+        AbilityTree tree = SpellCooldowns.tree(player);
+        float otherMana = 0.0F;
+        for (String group : model.groups()) {
+            if (group.equals(trigger.group())) {
+                continue;
+            }
+            Ability ability = SpellCooldowns.ability(tree, group);
+            if (ability instanceof InstantManaAbility mana) {
+                otherMana += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
+            }
+        }
+        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot);
+        run(player, model.steps(), 0, null, 1.0F, billing, chargeShare, model);
     }
 
-    /** A Bundled Spell landed: run its payload at the landing point. */
-    public static void runPayload(ServerPlayer player, List<SpellPlan.Step> payload, CastContext context) {
-        run(player, payload, 0, context, false);
+    /** A Bundled Spell landed: run its payload at the landing point, free. */
+    public static void runPayload(ServerPlayer player, List<SpellModel.Step> payload, CastOrigin origin, float damageFactor) {
+        run(player, payload, 0, origin, damageFactor, null, -1.0F, null);
     }
 
-    private static void run(ServerPlayer player, List<SpellPlan.Step> steps, int from, CastContext context, boolean charged) {
+    private static void run(ServerPlayer player, List<SpellModel.Step> steps, int from, @Nullable CastOrigin origin, float damageFactor,
+                            @Nullable CastScope.Billing trigger, float chargeShare, @Nullable SpellModel model) {
         FocusAugmentsConfig config = FocusAugments.config();
         if (config == null) {
             return;
         }
+        CastScope.Billing billing = trigger;
         for (int i = from; i < steps.size(); i++) {
-            SpellPlan.Step step = steps.get(i);
-            if (step instanceof SpellPlan.Pause pause) {
+            SpellModel.Step step = steps.get(i);
+            if (step instanceof SpellModel.Pause pause) {
                 int next = i + 1;
-                SpellScheduler.schedule(player, pause.ticks(), later -> run(later, steps, next, context, false));
+                int ticks = Math.max(1, Math.round(pause.glyph().potency() * 20.0F));
+                SpellScheduler.schedule(player, ticks, later -> run(later, steps, next, origin, damageFactor, null, chargeShare, model));
                 return;
             }
-            if (step instanceof SpellPlan.Bundle bundle) {
-                if (SpellPlan.containsCast(bundle.payload())) {
-                    BundleLauncher.launch(config, player, bundle, context);
-                } else {
-                    showMessage(player, "The Bundled Spell carries nothing to cast");
-                }
+            if (step instanceof SpellModel.Bundle bundle) {
+                BundleLauncher.launch(config, player, bundle, origin, damageFactor);
                 return;
             }
-            SpellPlan.Cast cast = (SpellPlan.Cast) step;
-            boolean woundUp = charged && i == from;
-            if (!woundUp && cast.count(AugmentType.CHARGE) > 0 && startCharge(player, cast)) {
-                int index = i;
-                int ticks = Math.max(1, Math.round(config.tuning.chargeSecondsPerGlyph * 20 * cast.count(AugmentType.CHARGE)));
-                SpellScheduler.schedule(player, ticks, later -> run(later, steps, index, context, true));
+            SpellModel.Cast cast = (SpellModel.Cast) step;
+            CastResult result = castStep(config, player, cast, origin, damageFactor, billing, chargeShare, model);
+            if (billing != null && !result.went()) {
                 return;
             }
-            castWithAugments(config, player, cast, context);
+            billing = null;
         }
     }
 
-    private static boolean startCharge(ServerPlayer player, SpellPlan.Cast cast) {
-        AugmentAbility ability = cast.ability();
-        if (!ability.isUnlocked(AugmentAbility.serverTree(player)) || ability.remainingCooldownTicks(AugmentAbility.serverTree(player)) > 0) {
-            return false;
+    private static CastResult castStep(FocusAugmentsConfig config, ServerPlayer player, SpellModel.Cast cast, @Nullable CastOrigin origin,
+                                       float damageFactor, @Nullable CastScope.Billing trigger, float chargeShare, @Nullable SpellModel model) {
+        AugmentAbility ability = cast.spec() == null ? null : AugmentAbilities.get(config, cast.spec());
+        if (ability == null) {
+            showMessage(player, cast.group().replace('_', ' ') + " can't be cast by a spell");
+            return CastResult.UNSUPPORTED;
         }
-        player.level.playSound(null, player.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 0.6F, 1.6F);
-        showMessage(player, "Charging " + AugmentAbilities.displayName(ability.id()) + "...");
-        return true;
-    }
-
-    private static void castWithAugments(FocusAugmentsConfig config, ServerPlayer player, SpellPlan.Cast cast, CastContext context) {
-        AugmentAbility ability = cast.ability();
-        if (config.isDisabled(ability.id())) {
-            report(player, ability, CastResult.DISABLED);
-            return;
+        CastModifiers base = CastModifiers.of(config, cast.glyphs()).withDamageFactor(damageFactor);
+        CastModifiers modifiers = base;
+        if (chargeShare >= 0.0F && base.chargeBonus() > 0.0F) {
+            float share = chargeShare < config.tuning.chargeMinShare ? 0.0F : Math.min(1.0F, chargeShare);
+            modifiers = base.withDamageFactor(1.0F + base.chargeBonus() * share);
         }
-        CastModifiers base = CastModifiers.of(config, cast);
-        float splitFactor = (float) Math.pow(config.strength(AugmentType.SHOTGUN), base.shotgunSplits());
-        CastModifiers modifiers = base.withDamageFactor(context.damageMultiplier() * splitFactor);
-        CastOrigin origin = context.origin();
-        CastContext.Claim claim = context.claim(ability);
-        if (claim == CastContext.Claim.SKIP) {
-            return;
+        List<Vec3> aims = ShotgunPattern.fan(baseDirection(player, origin), modifiers.shotgunCopies(), config.tuning.shotgunSpreadDegrees);
+        CastModifiers applied = modifiers;
+        CastResult result;
+        if (trigger != null) {
+            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), trigger, aims.get(0),
+                    () -> ability.cast(player, aimedOrigin(origin, aims.get(0))));
+        } else {
+            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), CastScope.Billing.free(false), aims.get(0),
+                    () -> ability.castExtra(player, aimedOrigin(origin, aims.get(0))));
         }
-        if (claim == CastContext.Claim.EXTRA) {
-            castExtra(config, player, ability, modifiers, origin);
-            return;
-        }
-        List<Vec3> aims = shotgunAims(config, player, origin, modifiers);
-        Vec3 aim = aims.get(0);
-        CastResult result = ManaRefunds.withRefund(player, modifiers.discountFraction(),
-                () -> aimed(player, aim, () -> CastScope.call(player, modifiers, aimedOrigin(origin, aim),
-                        () -> ability.cast(player, aimedOrigin(origin, aim)))));
-        context.record(ability, result.went());
-        afterRail(config, player, ability, modifiers, aim, result);
+        afterRail(config, player, ability, applied, aims.get(0), result);
         if (result == CastResult.SUCCESS) {
-            castShotgunCopies(config, player, ability, modifiers, origin, aims);
+            castCopies(config, player, ability, applied, origin, aims);
         }
         report(player, ability, result);
         if (!result.went()) {
-            return;
+            return result;
         }
-        if (modifiers.discountFraction() > 0 && ability.has(AbilityTrait.TOGGLE)
+        if (trigger != null && model != null && ability.has(AbilityTrait.TOGGLE) && model.manaFactor() < 1.0F
                 && ability.findAbility(player).filter(Ability::isActive).isPresent()) {
-            ToggleDiscounts.start(player, ability.id(), modifiers.discountFraction());
+            ToggleDiscounts.start(player, ability.id(), 1.0F - model.manaFactor());
         }
-        if (modifiers.echo()) {
-            CastModifiers echoed = config.tuning.echoKeepsCharge ? modifiers : modifiers.withoutCharge();
-            int echoDelay = Math.max(1, Math.round(config.tuning.echoDelaySeconds * 20));
-            SpellScheduler.schedule(player, echoDelay, later -> {
+        if (base.echoPower() > 0.0F && ability.has(AbilityTrait.INSTANT)) {
+            CastModifiers echoed = base.withDamageFactor(base.echoPower());
+            int delay = Math.max(1, Math.round(config.tuning.echoDelaySeconds * 20.0F));
+            SpellScheduler.schedule(player, delay, later -> {
                 FocusAugmentsConfig current = FocusAugments.config();
-                if (current != null) {
-                    castExtra(current, later, ability, echoed, origin);
+                if (current == null) {
+                    return;
+                }
+                List<Vec3> echoAims = ShotgunPattern.fan(baseDirection(later, origin), echoed.shotgunCopies(), current.tuning.shotgunSpreadDegrees);
+                CastResult echo = scoped(later, echoed, aimedOrigin(origin, echoAims.get(0)), CastScope.Billing.free(false), echoAims.get(0),
+                        () -> ability.castExtra(later, aimedOrigin(origin, echoAims.get(0))));
+                afterRail(current, later, ability, echoed, echoAims.get(0), echo);
+                if (echo == CastResult.SUCCESS) {
+                    castCopies(current, later, ability, echoed, origin, echoAims);
                 }
             });
         }
-    }
-
-    private static void castExtra(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,
-                                  @Nullable CastOrigin origin) {
-        List<Vec3> aims = shotgunAims(config, player, origin, modifiers);
-        CastResult result = castExtraAimed(config, player, ability, modifiers, origin, aims.get(0), modifiers.discountFraction());
-        if (result == CastResult.SUCCESS) {
-            castShotgunCopies(config, player, ability, modifiers, origin, aims);
-        } else if (result != CastResult.UNSUPPORTED) {
-            report(player, ability, result);
-        }
-    }
-
-    private static void castShotgunCopies(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability,
-                                          CastModifiers modifiers, @Nullable CastOrigin origin, List<Vec3> aims) {
-        float refund = 1.0F - config.tuning.shotgunCopyManaShare;
-        for (int i = 1; i < aims.size(); i++) {
-            castExtraAimed(config, player, ability, modifiers, origin, aims.get(i), refund);
-        }
-    }
-
-    private static CastResult castExtraAimed(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability,
-                                             CastModifiers modifiers, @Nullable CastOrigin origin, Vec3 aim, float refundFraction) {
-        CastOrigin aimedOrigin = aimedOrigin(origin, aim);
-        CastResult result = ManaRefunds.withRefund(player, refundFraction, () -> aimed(player, aim,
-                () -> CastScope.call(player, modifiers, aimedOrigin, () -> ability.castExtra(player, aimedOrigin))));
-        afterRail(config, player, ability, modifiers, aim, result);
         return result;
+    }
+
+    private static void castCopies(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,
+                                   @Nullable CastOrigin origin, List<Vec3> aims) {
+        for (int i = 1; i < aims.size(); i++) {
+            Vec3 aim = aims.get(i);
+            CastResult copy = scoped(player, modifiers, aimedOrigin(origin, aim), CastScope.Billing.free(true), aim,
+                    () -> ability.castExtra(player, aimedOrigin(origin, aim)));
+            afterRail(config, player, ability, modifiers, aim, copy);
+        }
+    }
+
+    private static CastResult scoped(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, CastScope.Billing billing,
+                                     Vec3 aim, Supplier<CastResult> action) {
+        return AimOverride.call(player, aim, () -> CastScope.call(player, modifiers, origin, billing, action));
+    }
+
+    private static Vec3 baseDirection(ServerPlayer player, @Nullable CastOrigin origin) {
+        return origin != null && origin.direction().lengthSqr() > 1.0E-6 ? origin.direction() : player.getLookAngle();
     }
 
     private static void afterRail(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,
@@ -171,15 +176,6 @@ public final class AugmentCaster {
         if (extraRadius > 0) {
             RailBolts.widen(player, ability, modifiers, aim, extraRadius, config.tuning.railRange);
         }
-    }
-
-    private static List<Vec3> shotgunAims(FocusAugmentsConfig config, ServerPlayer player, @Nullable CastOrigin origin, CastModifiers modifiers) {
-        Vec3 base = origin != null && origin.direction().lengthSqr() > 1.0E-6 ? origin.direction() : player.getLookAngle();
-        return ShotgunPattern.directions(base, modifiers.shotgunSplits(), config.tuning.shotgunSpreadDegrees);
-    }
-
-    private static <T> T aimed(ServerPlayer player, Vec3 aim, Supplier<T> action) {
-        return AimOverride.call(player, aim, action);
     }
 
     @Nullable

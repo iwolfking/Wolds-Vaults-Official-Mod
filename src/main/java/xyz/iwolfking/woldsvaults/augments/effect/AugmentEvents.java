@@ -21,8 +21,8 @@ import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
 import javax.annotation.Nullable;
 
 /**
- * Applies augments to what VH does during and after a cast. During a cast, Amplify Area and Quicken add to VH's own
- * area-of-effect and cooldown reduction stats, before VH clamps them to the player's caps. Projectiles the cast spawns
+ * Applies glyphs to what VH does during and after a cast. During a cast, Amplify Area and Strengthen's area penalty
+ * multiply VH's area-of-effect factor before VH clamps it to the player's limit (spell haste is applied by the bar). Projectiles the cast spawns
  * are tagged (and steered, resized, re-weighted); a tagged projectile's area reads and hits during its own tick count
  * as the cast's, and the children it spawns then inherit its tags. Damage is multiplied only for the cast itself, for
  * hits by a tagged projectile, and for hits made while one is ticking, so other damage of the same player is untouched.
@@ -45,15 +45,11 @@ public final class AugmentEvents {
             return;
         }
         if (data.getStat() == PlayerStat.AREA_OF_EFFECT) {
-            float bonus = scopeFor(entity) != null ? scopeFor(entity).areaBonus() : tickingProjectileOf(entity) != null
-                    ? AugmentTags.area(tickingProjectileOf(entity)) : 0.0F;
-            if (bonus > 0) {
-                data.setValue(data.getValue() + bonus);
-            }
-        } else if (data.getStat() == PlayerStat.COOLDOWN_REDUCTION) {
             CastModifiers scope = scopeFor(entity);
-            if (scope != null && scope.quickenBonus() > 0) {
-                data.setValue(data.getValue() + scope.quickenBonus());
+            Projectile ticking = scope == null ? tickingProjectileOf(entity) : null;
+            float factor = scope != null ? scope.area() : ticking != null ? AugmentTags.area(ticking) : 1.0F;
+            if (factor != 1.0F) {
+                data.setValue((1.0F + data.getValue()) * factor - 1.0F);
             }
         }
     }
@@ -95,8 +91,8 @@ public final class AugmentEvents {
         if (scope.origin() != null) {
             relaunchFrom(projectile, scope.origin());
         }
-        if (modifiers.speedMultiplier() != 1.0F) {
-            projectile.setDeltaMovement(projectile.getDeltaMovement().scale(modifiers.speedMultiplier()));
+        if (modifiers.speed() != 1.0F) {
+            projectile.setDeltaMovement(projectile.getDeltaMovement().scale(modifiers.speed()));
         }
         AugmentTags.write(projectile, modifiers);
         activate(projectile, scope.player());
@@ -106,13 +102,13 @@ public final class AugmentEvents {
         if (AugmentTags.scale(projectile) != 1.0F) {
             ProjectileSizing.apply(projectile, AugmentTags.scale(projectile));
         }
-        if (AugmentTags.gravity(projectile) > 0 || AugmentTags.ethereal(projectile)) {
-            ProjectilePhysics.track(projectile, AugmentTags.gravity(projectile), AugmentTags.ethereal(projectile));
+        if (AugmentTags.gravity(projectile) > 0 || AugmentTags.etherealSeconds(projectile) > 0) {
+            ProjectilePhysics.track(projectile, AugmentTags.gravity(projectile), AugmentTags.etherealSeconds(projectile));
         }
-        if (AugmentTags.orbit(projectile)) {
-            ProjectileSteering.orbit(projectile, owner);
-        } else if (AugmentTags.homing(projectile)) {
-            ProjectileSteering.home(projectile, owner);
+        if (AugmentTags.orbitSeconds(projectile) > 0) {
+            ProjectileSteering.orbit(projectile, owner, AugmentTags.orbitSeconds(projectile));
+        } else if (AugmentTags.homingRange(projectile) > 0) {
+            ProjectileSteering.home(projectile, owner, AugmentTags.homingRange(projectile), AugmentTags.homingTurn(projectile));
         }
     }
 
@@ -142,7 +138,7 @@ public final class AugmentEvents {
         } else if (attacker != null) {
             CastModifiers scope = scopeFor(attacker);
             if (scope != null) {
-                multiplier = scope.totalDamage();
+                multiplier = scope.damage();
             } else {
                 Projectile ticking = tickingProjectileOf(attacker);
                 if (ticking != null) {

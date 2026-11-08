@@ -12,8 +12,6 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.augments.FocusAugments;
-import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -23,7 +21,7 @@ import java.util.WeakHashMap;
  * Low Gravity and Ethereal for VH ability projectiles, after the entities ticked. Low Gravity gives back a share of
  * the vanilla gravity just applied. Ethereal projectiles ignore block hits; arrows also get the no-physics flag while
  * inside a block, never near their owner (a no-physics javelin touching its owner is picked up into a null item,
- * which crashes the tick). Ethereal projectiles are removed after the table's lifetime.
+ * which crashes the tick). Ethereal projectiles are removed after their glyph's rolled lifetime.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectilePhysics {
@@ -35,8 +33,8 @@ public final class ProjectilePhysics {
     private ProjectilePhysics() {
     }
 
-    public static void track(Projectile projectile, float gravityReduction, boolean ethereal) {
-        TRACKED.put(projectile, new Physics(gravityReduction, ethereal));
+    public static void track(Projectile projectile, float gravityReduction, float etherealSeconds) {
+        TRACKED.put(projectile, new Physics(gravityReduction, etherealSeconds > 0, Math.max(1, Math.round(etherealSeconds * 20.0F))));
     }
 
     static boolean ignoresBlockHit(Projectile projectile, HitResult hit) {
@@ -49,8 +47,6 @@ public final class ProjectilePhysics {
         if (event.phase != TickEvent.Phase.END || TRACKED.isEmpty()) {
             return;
         }
-        FocusAugmentsConfig config = FocusAugments.config();
-        int maxEtherealTicks = config == null ? 0 : config.tuning.etherealMaxSeconds * 20;
         for (Iterator<Map.Entry<Projectile, Physics>> it = TRACKED.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<Projectile, Physics> entry = it.next();
             Projectile projectile = entry.getKey();
@@ -67,7 +63,7 @@ public final class ProjectilePhysics {
                 projectile.hurtMarked = true;
             }
             if (physics.ethereal) {
-                if (physics.age > maxEtherealTicks) {
+                if (physics.age > physics.etherealTicks) {
                     projectile.discard();
                     it.remove();
                     continue;
@@ -95,11 +91,13 @@ public final class ProjectilePhysics {
     private static final class Physics {
         final float gravityReduction;
         final boolean ethereal;
+        final int etherealTicks;
         int age;
 
-        Physics(float gravityReduction, boolean ethereal) {
+        Physics(float gravityReduction, boolean ethereal, int etherealTicks) {
             this.gravityReduction = gravityReduction;
             this.ethereal = ethereal;
+            this.etherealTicks = etherealTicks;
         }
     }
 }

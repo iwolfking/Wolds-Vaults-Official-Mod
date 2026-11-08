@@ -22,15 +22,14 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.cast.AugmentCaster;
-import xyz.iwolfking.woldsvaults.augments.cast.CastContext;
 import xyz.iwolfking.woldsvaults.augments.cast.CastOrigin;
-import xyz.iwolfking.woldsvaults.augments.cast.SpellPlan;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 import java.util.List;
 
 /**
- * The Bundled Spell projectile: flies straight and, on hitting an entity or block, casts its payload (the rest of the
+ * The Bundled Spell projectile: flies straight for its rolled flight time and, on hitting an entity or block, casts its payload (the rest of the
  * recipe) at the landing point. Its size, hitbox included, is synced to clients; an ethereal bundle passes through
  * blocks and lands only on entities. It is never saved with the world, since its payload lives only in memory.
  */
@@ -38,8 +37,9 @@ public class AugmentBundleEntity extends Projectile {
     private static final EntityDataAccessor<Float> SCALE = SynchedEntityData.defineId(AugmentBundleEntity.class, EntityDataSerializers.FLOAT);
     private static final DustParticleOptions TRAIL = new DustParticleOptions(new Vector3f(0.75F, 0.35F, 1.0F), 1.0F);
 
-    private List<SpellPlan.Step> payload;
-    private CastContext context;
+    private List<SpellModel.Step> payload;
+    private float damageFactor;
+    private int lifetimeTicks;
     private boolean ethereal;
     private int age;
 
@@ -47,12 +47,13 @@ public class AugmentBundleEntity extends Projectile {
         super(type, level);
     }
 
-    public AugmentBundleEntity(Level level, ServerPlayer owner, List<SpellPlan.Step> payload, CastContext context,
+    public AugmentBundleEntity(Level level, ServerPlayer owner, List<SpellModel.Step> payload, float damageFactor, int lifetimeTicks,
                                float scale, boolean ethereal) {
         this(ModEntities.AUGMENT_BUNDLE, level);
         setOwner(owner);
         this.payload = payload;
-        this.context = context;
+        this.damageFactor = damageFactor;
+        this.lifetimeTicks = lifetimeTicks;
         this.ethereal = ethereal;
         this.entityData.set(SCALE, scale);
         refreshDimensions();
@@ -90,8 +91,7 @@ public class AugmentBundleEntity extends Projectile {
     public void tick() {
         super.tick();
         if (!this.level.isClientSide) {
-            int maxTicks = FocusAugments.config() == null ? 0 : FocusAugments.config().tuning.bundleMaxSeconds * 20;
-            if (this.payload == null || ++this.age > maxTicks) {
+            if (this.payload == null || FocusAugments.config() == null || ++this.age > this.lifetimeTicks) {
                 discard();
                 return;
             }
@@ -132,7 +132,7 @@ public class AugmentBundleEntity extends Projectile {
 
     private void land(Vec3 position) {
         if (getOwner() instanceof ServerPlayer owner && owner.isAlive() && this.payload != null) {
-            AugmentCaster.runPayload(owner, this.payload, this.context.withOrigin(new CastOrigin(position, getDeltaMovement())));
+            AugmentCaster.runPayload(owner, this.payload, new CastOrigin(position, getDeltaMovement()), this.damageFactor);
         }
         discard();
     }
