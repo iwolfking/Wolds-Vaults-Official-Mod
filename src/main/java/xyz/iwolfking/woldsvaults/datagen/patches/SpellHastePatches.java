@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen.patches;
 
+import xyz.iwolfking.woldsvaults.datagen.ModSpellHasteProvider;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -274,7 +276,9 @@ public final class SpellHastePatches {
     private static void statDescription(Patch descriptions) {
         descriptions.at("MOD_GEAR_ATTRIBUTE_DESCRIPTIONS").set(ATTRIBUTE,
                 "Your \u00A7bspell haste\u00A77 for \u00A7aany Ability\u00A77: cooldowns are divided by \u00A7b1 + spell haste\u00A77,"
-                        + " and negative spell haste multiplies them by \u00A7b1 + its size\u00A77");
+                        + " and negative spell haste multiplies them by \u00A7b1 + its size\u00A77. Positive spell haste counts"
+                        + " up to \u00A7b+" + percent(new JsonPrimitive(ModSpellHasteProvider.spellHaste().baseCap))
+                        + "\u00A77 plus your Spell Haste Cap");
     }
 
     /** The archetypes quest line naming cooldown reduction as a gear goal. */

@@ -16,9 +16,14 @@ public class ModSpellHasteProvider extends AbstractWoldsTableProvider {
 
     @Override
     public void registerConfigs() {
+        table("spell_haste", spellHaste());
+    }
+
+    /** The spell haste table; text that quotes its numbers (the statistics tab description) reads it from here. */
+    public static SpellHasteConfig spellHaste() {
         SpellHasteConfig table = new SpellHasteConfig();
         table.baseCap = 4.0F;
         table.skipChanceCap = 0.5F;
-        table("spell_haste", table);
+        return table;
     }
 }
