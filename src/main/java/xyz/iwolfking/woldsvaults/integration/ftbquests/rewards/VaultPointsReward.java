@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.integration.ftbquests;
+package xyz.iwolfking.woldsvaults.integration.ftbquests.rewards;
 
 import dev.ftb.mods.ftblibrary.config.ConfigGroup;
 import dev.ftb.mods.ftblibrary.icon.Icons;

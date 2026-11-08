@@ -162,6 +162,7 @@
     "supplementaries.TrowelItemMixin",
     "thermal.MixinCyclicAssemblerBlock",
     "thermal.MixinTileBlockActive4Way",
+    "trashslot.TrashSlotGuiHandlerMixin",
     "travel_anchors.MixinTeleportHandler",
     "tropicraft.MixinEIHEntity",
     "vaultarhud.MixinInventoryHudRender",
@@ -567,6 +568,7 @@
     "vaulthunters.skills.modifications.MixinChargedBoltsAbility",
     "vaulthunters.skills.modifications.MixinFireballAbility",
     "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
+    "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
     "vaulthunters.skills.modifications.MixinNecromancyAbility",
     "vaulthunters.skills.modifications.MixinNecromancyBolt",
     "vaultintegrations.MixinAltarConduitNode"
