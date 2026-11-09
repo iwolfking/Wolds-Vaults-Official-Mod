@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
-import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
@@ -799,7 +798,8 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         String mana = "-";
         String cooldown = "-";
         if (numbers != null) {
-            mana = numbers.hasMana() ? SpellcraftGui.tr("fmt.arrow", Math.round(numbers.manaBefore()), Math.round(numbers.manaAfter())) : "-";
+            mana = numbers.hasMana() ? SpellcraftGui.tr("fmt.arrow", ClientAbilityStats.compact(Math.round(numbers.manaBefore())),
+                    ClientAbilityStats.compact(Math.round(numbers.manaAfter()))) : "-";
             cooldown = SpellcraftGui.tr("fmt.arrow", SpellcraftGui.seconds(numbers.cooldownBefore()),
                     SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(numbers.cooldownAfter())));
         }
@@ -832,8 +832,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                 this.font.draw(pose, SpellcraftGui.tr("screen.more_errors", wrapped.size() - shown), rx, y0 + 4 + shown * STAT_PITCH, SpellcraftGui.DARK);
             }
         } else if (model != null) {
-            List<String[]> steps = new ArrayList<>();
-            stepRows(config, tree, model.steps(), steps);
+            List<String[]> steps = stepRows(config, tree, model);
             for (int i = 0; i < Math.min(status, steps.size()); i++) {
                 statRow(pose, rx + 1, y0 + 4 + i * STAT_PITCH, rw, steps.get(i)[0], steps.get(i)[1], SpellcraftGui.LABEL);
             }
@@ -894,26 +893,58 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         return hidden.size() == 1 ? hidden.get(0) : SpellcraftGui.tr("screen.and_more", hidden.get(0), hidden.size() - 1);
     }
 
-    private void stepRows(FocusAugmentsConfig config, AbilityTree tree, List<SpellModel.Step> steps, List<String[]> rows) {
-        for (SpellModel.Step step : steps) {
-            if (step instanceof SpellModel.Cast cast) {
-                rows.add(new String[]{SpellcraftGui.groupName(tree, cast.group()), stepValue(CastModifiers.of(config, cast.glyphs()))});
-            } else if (step instanceof SpellModel.Bundle bundle) {
-                rows.add(new String[]{SpellcraftGui.tr("screen.step.bundle"), stepValue(CastModifiers.of(config, bundle.glyphs()))});
-                stepRows(config, tree, bundle.payload(), rows);
+    /** One row per ability step and Bundled Spell orb, labelled by name, valued by {@link #stepValue}. */
+    private List<String[]> stepRows(FocusAugmentsConfig config, AbilityTree tree, SpellModel model) {
+        List<String[]> rows = new ArrayList<>();
+        ClientAbilityStats.SpellStats stats = ClientAbilityStats.spell(config, tree, model);
+        if (stats == null) {
+            return rows;
+        }
+        for (ClientAbilityStats.Row row : stats.rows()) {
+            if (row instanceof ClientAbilityStats.Step step) {
+                rows.add(new String[]{SpellcraftGui.groupName(tree, step.group()), stepValue(step)});
+            } else if (row instanceof ClientAbilityStats.Orb orb) {
+                List<String> parts = new ArrayList<>();
+                if (orb.copies() > 1) {
+                    parts.add(SpellcraftGui.tr("screen.step.casts", orb.copies()));
+                }
+                parts.add(SpellcraftGui.tr("screen.step.velocity", ClientAbilityStats.compact(orb.velocity())));
+                parts.add(SpellcraftGui.tr("fmt.seconds", SpellcraftGui.trim(orb.flightSeconds())));
+                rows.add(new String[]{SpellcraftGui.tr("screen.step.bundle"), String.join(" ", parts)});
             }
         }
+        return rows;
     }
 
-    private static String stepValue(CastModifiers modifiers) {
-        if (modifiers.echoPower() > 0.0F) {
-            return SpellcraftGui.tr("screen.step.echo", Math.round(modifiers.echoPower() * 100.0F));
+    /**
+     * A step's numbers in one short cell, most important first since the row cuts the end: the hit, the casts, the
+     * radius, then Echo; without damage, the radius, velocity and duration.
+     */
+    private static String stepValue(ClientAbilityStats.Step step) {
+        List<String> parts = new ArrayList<>();
+        if (step.hit() != null) {
+            parts.add(ClientAbilityStats.hit(step.hit()));
+            if (step.casts() > 1) {
+                parts.add(SpellcraftGui.tr("screen.step.casts", step.casts()));
+            }
+            if (step.radius() >= 0.0F) {
+                parts.add(SpellcraftGui.tr("screen.step.radius", ClientAbilityStats.compact(step.radius())));
+            }
+            if (step.echoPower() > 0.0F) {
+                parts.add(SpellcraftGui.tr("screen.step.echo", Math.round(step.echoPower() * 100.0F)));
+            }
+        } else {
+            if (step.radius() >= 0.0F) {
+                parts.add(SpellcraftGui.tr("screen.step.radius", ClientAbilityStats.compact(step.radius())));
+            }
+            if (step.velocity() >= 0.0F) {
+                parts.add(SpellcraftGui.tr("screen.step.velocity", ClientAbilityStats.compact(step.velocity())));
+            }
+            if (step.durationTicks() >= 0) {
+                parts.add(SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(step.durationTicks())));
+            }
         }
-        String value = SpellcraftGui.tr("screen.step.damage", String.format(Locale.ROOT, "%.2f", modifiers.damage()));
-        if (Math.abs(modifiers.area() - 1.0F) > 1.0E-4F) {
-            value += " " + SpellcraftGui.tr("screen.step.area", String.format(Locale.ROOT, "%.2f", modifiers.area()));
-        }
-        return value;
+        return parts.isEmpty() ? "-" : String.join(" ", parts);
     }
 
     /** Every problem that blocks saving this draft; the draft's own name prefix is dropped. */
