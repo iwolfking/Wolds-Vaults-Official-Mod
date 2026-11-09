@@ -357,9 +357,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.bar.augmented", "Augmented: %s");
         add("woldsvaults.spellcraft.bar.broken", "This spell breaks a rule and won't cast");
         add("woldsvaults.spellcraft.bar.item_errors", "The item breaks a rule; its spells won't cast");
-        add("woldsvaults.spellcraft.bar.mana_cooldown", "Mana %s   Cooldown %s");
-        add("woldsvaults.spellcraft.bar.cooldown_only", "Cooldown %s");
-        add("woldsvaults.spellcraft.bar.haste", "(%s%% haste)");
+        add("woldsvaults.spellcraft.bar.mana_label", "Mana cost: ");
+        add("woldsvaults.spellcraft.bar.cooldown_label", "Cooldown: ");
+        add("woldsvaults.spellcraft.bar.haste_label", "Spell haste: ");
         add("woldsvaults.spellcraft.bar.hint_default", "Click: put %s here. Right-click: clear");
         add("woldsvaults.spellcraft.bar.hint_choose", "Click: choose an ability. Right-click: clear");
         add("woldsvaults.spellcraft.bar.hint_item", "Click: choose. Right-click: inherit. Shift+right-click: blank");
@@ -403,7 +403,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.screen.no_spellcraft", "no spellcraft");
         add("woldsvaults.spellcraft.screen.more_errors", "+%s more (hover)");
         add("woldsvaults.spellcraft.screen.weave_rows", "rows %s-%s of %s");
-        add("woldsvaults.spellcraft.screen.uses_left", "Uses left: %s of %s");
+        add("woldsvaults.spellcraft.screen.uses_left", "Left in this spell: %s of %s");
         add("woldsvaults.spellcraft.screen.cost", "Arcana cost: %s");
         add("woldsvaults.spellcraft.screen.fits", "Fits: %s");
         add("woldsvaults.spellcraft.screen.status.saved", "Saved");
@@ -424,7 +424,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.tooltip.spells", "Spells: ");
         add("woldsvaults.spellcraft.tooltip.no_spells", "none yet");
         add("woldsvaults.spellcraft.tooltip.hold_alt", "Hold Alt for glyphs and spells");
-        add("woldsvaults.spellcraft.tooltip.legend", "Depth %s     uses left / rolled, arcana cost");
+        add("woldsvaults.spellcraft.tooltip.legend", "Depth %s     most per spell, arcana cost");
         add("woldsvaults.spellcraft.tooltip.glyphs", "Glyphs");
         add("woldsvaults.spellcraft.tooltip.spells_header", "Spells");
         add("woldsvaults.spellcraft.tooltip.spell", "%s (%s)");

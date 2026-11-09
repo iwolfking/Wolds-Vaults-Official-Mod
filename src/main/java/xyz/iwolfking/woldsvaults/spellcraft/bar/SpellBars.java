@@ -37,6 +37,7 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class SpellBars {
     private static final int REFRESH_TICKS = 4;
+    private static final int ROLL_SCAN_TICKS = 40;
     private static final Map<UUID, State> STATES = new HashMap<>();
     private static boolean dispatching;
 
@@ -365,7 +366,25 @@ public final class SpellBars {
         if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player) || player.tickCount % REFRESH_TICKS != 0) {
             return;
         }
+        if (player.tickCount % ROLL_SCAN_TICKS == 0) {
+            rollMissingSpellcraft(player);
+        }
         refresh(player);
+    }
+
+    /**
+     * Gives spellcraft implicits to any identified focus or wand in the inventory that has none: ones identified
+     * before spellcraft existed, uniques (identified through a path that skips the roll hook) and any other route
+     * that bypasses it.
+     */
+    private static void rollMissingSpellcraft(ServerPlayer player) {
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (SpellcraftRoller.canCarry(stack) && !SpellcraftItemData.has(stack)
+                    && iskallia.vault.gear.data.VaultGearData.read(stack).getState() == iskallia.vault.gear.VaultGearState.IDENTIFIED) {
+                SpellcraftRoller.roll(stack, player.getRandom());
+            }
+        }
     }
 
     @SubscribeEvent

@@ -135,10 +135,14 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ArmoryRegistry.CREATIVE_ARMORY)));
     }
 
-    /** The Extractor Assembler fills its window; a null property set tells JEI to keep its overlay off that screen. */
+    /**
+     * The Extractor Assembler fills its window, and the skill menu's Abilities tab has the spell bar along its bottom; a
+     * null property set tells JEI to keep its overlay off those screens.
+     */
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGuiScreenHandler(xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerScreen.class, screen -> null);
+        registration.addGuiScreenHandler(iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen.class, screen -> null);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
 import iskallia.vault.client.gui.screen.player.legacy.LegacySkillTreeElementContainerScreen;
@@ -74,6 +76,7 @@ public abstract class MixinLegacySkillTreeScreenSpellBar {
         }
         menu.endTree();
         menu.strip().render(poseStack, mouseX, mouseY);
+        RenderSystem.enableDepthTest();
     }
 
     /** The spell bar's chooser or slot tooltip, above everything else. */

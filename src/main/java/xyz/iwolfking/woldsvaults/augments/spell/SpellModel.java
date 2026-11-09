@@ -239,6 +239,7 @@ public final class SpellModel {
         int nesting;
         int maxNesting;
         boolean shotgunOnBundle;
+        boolean awaitingStep;
         float manaFactor = 1.0F;
         float cooldownFactor = 1.0F;
         float hasteMultiplier = 1.0F;
@@ -271,8 +272,9 @@ public final class SpellModel {
             if (!spec.noEscalation) {
                 this.escalating++;
             }
-            if (placed > spec.capPerSpell) {
-                this.errors.add(type.displayName() + " fits at most " + spec.capPerSpell + " times in one spell");
+            int limit = Math.min(spec.capPerSpell, line.uses());
+            if (placed > limit) {
+                this.errors.add(type.displayName() + " fits at most " + limit + " times in one spell on this item");
             }
             for (String excluded : spec.excludes) {
                 AugmentType other = AugmentType.byId(excluded);
@@ -284,6 +286,9 @@ public final class SpellModel {
                 Glyph glyph = new Glyph(type, line.potency(), line.quality(), line.cost(), false);
                 this.sink.add(new Pause(glyph));
                 applySpellEffects(spec, glyph);
+                this.target = null;
+                this.targetGlyphs = null;
+                this.awaitingStep = true;
                 return;
             }
             if ("bundle".equals(spec.kind)) {
@@ -291,7 +296,8 @@ public final class SpellModel {
                 return;
             }
             if (this.target == null) {
-                this.errors.add(type.displayName() + " has no ability or orb before it to modify");
+                this.errors.add(this.awaitingStep ? type.displayName() + " follows a Delay; put it before the Delay, or after the next ability"
+                        : type.displayName() + " has no ability or orb before it to modify");
                 return;
             }
             boolean fits = type.fits(this.config, this.targetTraits);
@@ -327,6 +333,7 @@ public final class SpellModel {
             if (this.config.isDisabled(spec)) {
                 this.errors.add(group.replace('_', ' ') + " is disabled for spellcraft");
             }
+            this.awaitingStep = false;
             List<Glyph> glyphs = new ArrayList<>();
             Cast cast = new Cast(group, spec, glyphs);
             this.sink.add(cast);
@@ -344,6 +351,7 @@ public final class SpellModel {
             if (this.groups.isEmpty()) {
                 this.errors.add("a Bundled Spell needs the trigger ability before it");
             }
+            this.awaitingStep = false;
             List<Glyph> glyphs = new ArrayList<>();
             Bundle bundle = new Bundle(glyph, glyphs, new ArrayList<>());
             this.sink.add(bundle);
@@ -356,6 +364,9 @@ public final class SpellModel {
         }
 
         void finishBundles() {
+            if (this.awaitingStep) {
+                this.errors.add("a Delay pauses before the next ability, so it needs an ability after it");
+            }
             for (Bundle bundle : this.openBundles) {
                 if (bundle.payload().stream().noneMatch(step -> step instanceof Cast || step instanceof Bundle)) {
                     this.errors.add("a Bundled Spell carries no ability");

@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Item-wide spellcraft rules: every spell on a focus or wand together must fit its arcana budget and its glyph lines'
- * uses, within the table's spell count and name length. Used before any edit is stored and to show the arcana bar.
+ * Item-wide spellcraft rules: every spell on a focus or wand together must fit its arcana budget, within the table's
+ * spell count and name length. A glyph line's uses are a per-spell limit, checked by each spell's model. Used before any edit is stored and to show the arcana bar.
  */
 public final class SpellcraftRules {
     private SpellcraftRules() {
@@ -68,12 +68,6 @@ public final class SpellcraftRules {
             }
             if (spell.name().length() > config.rules.maxNameLength) {
                 errors.add(spell.name() + ": the name is longer than " + config.rules.maxNameLength + " characters");
-            }
-        }
-        for (Map.Entry<AugmentType, Integer> use : uses.entrySet()) {
-            int allowed = lines.stream().filter(line -> line.type() == use.getKey()).mapToInt(SpellcraftItemData.Line::uses).sum();
-            if (use.getValue() > allowed) {
-                errors.add(use.getKey().displayName() + " is placed " + use.getValue() + " times; the item allows " + allowed);
             }
         }
         int budget = SpellcraftItemData.budget(stack);

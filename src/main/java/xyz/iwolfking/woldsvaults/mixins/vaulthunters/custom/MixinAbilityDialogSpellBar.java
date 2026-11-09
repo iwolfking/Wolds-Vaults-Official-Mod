@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.AbilityDialog;
 import iskallia.vault.client.gui.screen.player.legacy.widget.AbilityWidget;
@@ -111,5 +113,6 @@ public class MixinAbilityDialogSpellBar {
         }
         int x = 10 + this.selectedAbilityWidget.getWidth() + GAP;
         Minecraft.getInstance().font.drawShadow(poseStack, this.woldsvaults$slotLine, x, THIRD_LINE_Y, this.woldsvaults$slotColor);
+        RenderSystem.enableDepthTest();
     }
 }

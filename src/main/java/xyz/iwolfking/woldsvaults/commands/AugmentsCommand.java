@@ -28,7 +28,8 @@ import java.util.Random;
  * {@code /wvspellcraft}: test tools for the spell bar and focus spellcraft, next to the screens. {@code show} prints the
  * off-hand item's implicits and spells; {@code bar <slot> <ability|clear>} sets a default bar slot; {@code spell add
  * <tokens>} and {@code spell remove <id>} edit the off-hand item's spells; {@code itembar <slot> <entry>} sets its bar
- * slot (inherit, blank, a:Ability or s:id). {@code reroll} (operators) rerolls the held focus or wand.
+ * slot (inherit, blank, a:Ability or s:id). Operators: {@code reroll} rerolls the held focus or wand; {@code givefocus
+ * <level> <rarity> [wand]} gives an identified focus or wand of that level and rarity.
  */
 public final class AugmentsCommand {
     private static final int OFFHAND_SLOT = 40;
@@ -53,7 +54,14 @@ public final class AugmentsCommand {
                         .then(Commands.literal("remove").then(Commands.argument("id", IntegerArgumentType.integer(1))
                                 .executes(AugmentsCommand::removeSpell))))
                 .then(Commands.literal("reroll").requires(source -> source.hasPermission(2))
-                        .executes(context -> reroll(context.getSource()))));
+                        .executes(context -> reroll(context.getSource())))
+                .then(Commands.literal("givefocus").requires(source -> source.hasPermission(2))
+                        .then(Commands.argument("level", IntegerArgumentType.integer(0, 100))
+                                .then(Commands.argument("rarity", StringArgumentType.word())
+                                        .suggests((context, builder) -> net.minecraft.commands.SharedSuggestionProvider.suggest(
+                                                Arrays.stream(iskallia.vault.gear.VaultGearRarity.values()).map(Enum::name), builder))
+                                        .executes(context -> giveFocus(context, false))
+                                        .then(Commands.literal("wand").executes(context -> giveFocus(context, true)))))));
     }
 
     private static int show(CommandSourceStack source) throws CommandSyntaxException {
@@ -69,7 +77,7 @@ public final class AugmentsCommand {
                 + SpellcraftItemData.depth(stack), ChatFormatting.LIGHT_PURPLE);
         for (SpellcraftItemData.Line line : SpellcraftItemData.lines(stack)) {
             line(source, "  " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + "  cost " + line.cost()
-                    + "  uses " + check.uses().getOrDefault(line.type(), 0) + "/" + line.uses(), ChatFormatting.GRAY);
+                    + "  up to " + Math.min(line.uses(), config.glyph(line.type()).capPerSpell) + " per spell", ChatFormatting.GRAY);
         }
         for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
             SpellModel model = check.models().get(spell.id());
@@ -122,6 +130,37 @@ public final class AugmentsCommand {
         SpellcraftRoller.roll(stack, new Random());
         SpellBars.refresh(player);
         line(source, "Rerolled spellcraft on " + stack.getHoverName().getString(), ChatFormatting.LIGHT_PURPLE);
+        return 1;
+    }
+
+    /**
+     * Gives a focus (or wand) of the given level and rarity, identified on the spot so the rarity sticks (identifying
+     * an unidentified item re-rolls its rarity), with its affixes and spellcraft rolled.
+     */
+    private static int giveFocus(CommandContext<CommandSourceStack> context, boolean wand) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String name = StringArgumentType.getString(context, "rarity").toUpperCase(java.util.Locale.ROOT);
+        iskallia.vault.gear.VaultGearRarity rarity;
+        try {
+            rarity = iskallia.vault.gear.VaultGearRarity.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            context.getSource().sendFailure(new TextComponent("Unknown rarity " + name));
+            return 0;
+        }
+        ItemStack stack = new ItemStack(wand ? iskallia.vault.init.ModItems.WAND : iskallia.vault.init.ModItems.FOCUS);
+        iskallia.vault.gear.data.VaultGearData data = iskallia.vault.gear.data.VaultGearData.read(stack);
+        data.setItemLevel(IntegerArgumentType.getInteger(context, "level"));
+        data.setRarity(rarity);
+        data.setState(iskallia.vault.gear.VaultGearState.UNIDENTIFIED);
+        data.write(stack);
+        iskallia.vault.gear.GearRollHelper.initializeGear(stack, player);
+        if (!SpellcraftItemData.has(stack)) {
+            SpellcraftRoller.roll(stack, player.getRandom());
+        }
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+        line(context.getSource(), "Gave a level " + data.getItemLevel() + " " + name + (wand ? " wand" : " focus"), ChatFormatting.LIGHT_PURPLE);
         return 1;
     }
 

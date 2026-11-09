@@ -65,7 +65,7 @@ public class AugmentTooltipEvents {
         if (!Screen.hasAltDown()) {
             List<SpellcraftTooltipRow.Rune> runes = new ArrayList<>();
             for (SpellcraftItemData.Line line : lines) {
-                runes.add(new SpellcraftTooltipRow.Rune(line.type(), check.uses().getOrDefault(line.type(), 0) >= line.uses()));
+                runes.add(new SpellcraftTooltipRow.Rune(line.type(), false));
             }
             block.add(Either.right(new SpellcraftTooltipRow(SpellcraftTooltipRow.Kind.RUNES, SpellcraftGui.tr("tooltip.depth", depth), "", "",
                     runes, List.of(), SpellcraftGui.GREY, false, 0, 0, width)));
@@ -79,11 +79,11 @@ public class AugmentTooltipEvents {
             block.add(Either.left(colored(SpellcraftGui.tr("tooltip.legend", depth), SpellcraftGui.DARK)));
             block.add(Either.left(colored(SpellcraftGui.tr("tooltip.glyphs"), SpellcraftGui.WHITE)));
             for (SpellcraftItemData.Line line : lines) {
-                int left = line.uses() - check.uses().getOrDefault(line.type(), 0);
+                int left = Math.min(line.uses(), config.glyph(line.type()).capPerSpell);
                 block.add(Either.right(new SpellcraftTooltipRow(SpellcraftTooltipRow.Kind.GLYPH, line.type().displayName(),
-                        Math.max(0, left) + "/" + line.uses(), SpellcraftGui.potency(config, line.type(), line.potency()),
-                        List.of(new SpellcraftTooltipRow.Rune(line.type(), left <= 0)), List.of(), SpellcraftGui.categoryColor(config, line.type()),
-                        left <= 0, line.cost(), 0, width)));
+                        "x" + left, SpellcraftGui.potency(config, line.type(), line.potency()),
+                        List.of(new SpellcraftTooltipRow.Rune(line.type(), false)), List.of(), SpellcraftGui.categoryColor(config, line.type()),
+                        false, line.cost(), 0, width)));
                 String side = SpellcraftGui.sideEffects(config, line.type(), line.potency());
                 if (!side.isEmpty()) {
                     block.add(Either.left(colored("     " + side, SpellcraftGui.DARK)));

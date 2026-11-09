@@ -562,8 +562,17 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
     }
 
     private int usesLeft(SpellcraftItemData.Line line, @Nullable SpellcraftRules.ItemCheck check) {
-        int used = check == null ? 0 : check.uses().getOrDefault(line.type(), 0);
-        return line.uses() - used;
+        return perSpellLimit(line) - usedInDraft(line);
+    }
+
+    private int perSpellLimit(SpellcraftItemData.Line line) {
+        FocusAugmentsConfig config = xyz.iwolfking.woldsvaults.augments.FocusAugments.config();
+        return config == null ? line.uses() : Math.min(line.uses(), config.glyph(line.type()).capPerSpell);
+    }
+
+    private int usedInDraft(SpellcraftItemData.Line line) {
+        Draft draft = draft();
+        return draft == null ? 0 : (int) draft.tokens.stream().filter(token -> token.equals(line.type().id())).count();
     }
 
     private void renderGlyphRow(PoseStack pose, FocusAugmentsConfig config, SpellcraftItemData.Line line, @Nullable SpellcraftRules.ItemCheck check,
@@ -574,7 +583,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         SpellcraftGui.rune(pose, line.type(), lx0 + 3, y + 1, 16, spent);
         int tx = lx0 + 23;
         int room = right - tx;
-        String uses = Math.max(0, left) + "/" + line.uses();
+        String uses = Math.max(0, left) + "/" + perSpellLimit(line);
         String name = this.font.plainSubstrByWidth(line.type().displayName(), room - this.font.width(uses) - 3);
         this.font.drawShadow(pose, name, tx, y + 1, spent ? SpellcraftGui.DARK : SpellcraftGui.categoryColor(config, line.type()));
         this.font.drawShadow(pose, uses, right - this.font.width(uses), y + 1, spent ? SpellcraftGui.DARK : SpellcraftGui.WHITE);
@@ -964,7 +973,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                 if (row < all.size()) {
                     SpellcraftItemData.Line line = all.get(row);
                     glyphLines(config, line.type(), line.potency(), lines);
-                    lines.add(colored(SpellcraftGui.tr("screen.uses_left", Math.max(0, usesLeft(line, check)), line.uses()), SpellcraftGui.WHITE));
+                    lines.add(colored(SpellcraftGui.tr("screen.uses_left", Math.max(0, usesLeft(line, check)), perSpellLimit(line)), SpellcraftGui.WHITE));
                     lines.add(colored(SpellcraftGui.tr("screen.cost", line.cost()), SpellcraftGui.ARCANA));
                     lines.add(new TextComponent(SpellcraftGui.tr("screen.pouch_hint")).withStyle(ChatFormatting.DARK_GRAY));
                 }

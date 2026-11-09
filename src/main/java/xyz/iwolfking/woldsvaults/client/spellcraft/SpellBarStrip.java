@@ -40,6 +40,8 @@ import java.util.function.Function;
  * abilities. Right-click clears a slot (default: empty, item: inherit); Shift+right-click sets an item slot to Blank.
  */
 public final class SpellBarStrip {
+    private static final int MANA_COLOR = 0xFF6FA8FF;
+    private static final int COOLDOWN_COLOR = 0xFFFFC46A;
     public static final int HEIGHT = 24;
     public static final int BAND = 27;
     public static final int PICK = 20;
@@ -299,12 +301,7 @@ public final class SpellBarStrip {
                 lines.add(colored(SpellcraftGui.abilityName(tree, slot.group()) + tierSuffix(tree, slot.group()), SpellcraftGui.NAME_GOLD));
                 ClientSpellStats.Numbers numbers = ClientSpellStats.plain(tree, slot.group());
                 if (numbers != null) {
-                    String line = numbersLine(numbers);
-                    Integer haste = ClientSpellStats.hastePercent();
-                    if (haste != null && haste != 0) {
-                        line += " " + SpellcraftGui.tr("bar.haste", (haste > 0 ? "+" : "") + haste);
-                    }
-                    lines.add(colored(line, SpellcraftGui.WHITE));
+                    lines.addAll(numberLines(numbers));
                 }
                 if (view.isItem() && slot.inherited()) {
                     lines.add(colored(SpellcraftGui.tr("bar.inherited"), SpellcraftGui.GREY));
@@ -320,7 +317,7 @@ public final class SpellBarStrip {
                 if (config != null && slot.model() != null) {
                     ClientSpellStats.Numbers numbers = ClientSpellStats.spell(config, tree, slot.model());
                     if (numbers != null) {
-                        lines.add(colored(numbersLine(numbers), SpellcraftGui.WHITE));
+                        lines.addAll(numberLines(numbers));
                     }
                 }
                 if (slot.broken()) {
@@ -365,18 +362,30 @@ public final class SpellBarStrip {
         return lines;
     }
 
-    private static String numbersLine(ClientSpellStats.Numbers numbers) {
+    /** Mana (blue), cooldown (gold) and spell haste (violet) lines, the label grey and the numbers coloured. */
+    private static List<Component> numberLines(ClientSpellStats.Numbers numbers) {
+        List<Component> lines = new ArrayList<>();
+        if (numbers.hasMana()) {
+            int before = Math.round(numbers.manaBefore());
+            int after = Math.round(numbers.manaAfter());
+            String mana = before == after ? String.valueOf(after) : SpellcraftGui.tr("fmt.arrow", before, after);
+            lines.add(labelled(SpellcraftGui.tr("bar.mana_label"), mana, MANA_COLOR));
+        }
         String cooldown = numbers.cooldownBefore() == numbers.cooldownAfter()
                 ? SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(numbers.cooldownAfter()))
-                : SpellcraftGui.tr("fmt.arrow", SpellcraftGui.seconds(numbers.cooldownBefore()),
+                : SpellcraftGui.tr("fmt.arrow", SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(numbers.cooldownBefore())),
                 SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(numbers.cooldownAfter())));
-        if (!numbers.hasMana()) {
-            return SpellcraftGui.tr("bar.cooldown_only", cooldown);
+        lines.add(labelled(SpellcraftGui.tr("bar.cooldown_label"), cooldown, COOLDOWN_COLOR));
+        Integer haste = ClientSpellStats.hastePercent();
+        if (haste != null && haste != 0) {
+            lines.add(labelled(SpellcraftGui.tr("bar.haste_label"), (haste > 0 ? "+" : "") + haste + "%", SpellcraftGui.ARCANE_GLOW));
         }
-        int before = Math.round(numbers.manaBefore());
-        int after = Math.round(numbers.manaAfter());
-        String mana = before == after ? String.valueOf(after) : SpellcraftGui.tr("fmt.arrow", before, after);
-        return SpellcraftGui.tr("bar.mana_cooldown", mana, cooldown);
+        return lines;
+    }
+
+    private static Component labelled(String label, String value, int color) {
+        return new TextComponent(label).withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftGui.GREY & 0xFFFFFF)))
+                .append(new TextComponent(value).withStyle(style -> style.withColor(TextColor.fromRgb(color & 0xFFFFFF))));
     }
 
     private static String tierSuffix(AbilityTree tree, String group) {
