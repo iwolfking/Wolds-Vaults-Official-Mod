@@ -32,6 +32,8 @@ import xyz.iwolfking.woldsvaults.client.screens.PouchScreen;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.menu.PouchMenu;
+import xyz.iwolfking.woldsvaults.mixins.accessors.AbstractContainerScreenAccessor;
+import xyz.iwolfking.woldsvaults.network.packets.DepositBackpackPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import top.theillusivec4.curios.common.inventory.CurioSlot;
 
@@ -77,7 +79,29 @@ public class KeyInputEvents {
                 ModNetwork.sendToServer(new ServerboundOpenTrinketPouchPacket(player.containerMenu.containerId, PouchMenu.EQUIPPED));
             }
         }
+
+        if(ModKeybinds.depositBackpack.consumeClick()) {
+            if (!(Minecraft.getInstance().screen instanceof AbstractContainerScreen<?> screen)) {
+                WoldLogger.info("Not container screen");
+                return;
+            }
+
+            Slot hoveredSlot = ((AbstractContainerScreenAccessor) screen)
+                    .getHoveredSlot();
+
+            if (hoveredSlot == null || !hoveredSlot.hasItem()) {
+                WoldLogger.info("hovered slot empty");
+                return;
+            }
+
+            int menuSlot = screen.getMenu().slots.indexOf(hoveredSlot);
+
+                ModNetwork.CHANNEL.sendToServer(
+                        new DepositBackpackPacket(menuSlot)
+                );
+        }
     }
+
 
     @SubscribeEvent
     public static void onGuiMouseClicked(ScreenEvent.MouseClickedEvent.Pre event) {
@@ -126,7 +150,32 @@ public class KeyInputEvents {
         if (minecraft.player == null || !(minecraft.screen instanceof AbstractContainerScreen<?> containerScreen)) {
             return;
         }
-        InputConstants.Key pressedKey = InputConstants.getKey(event.getKeyCode(), event.getScanCode());
+
+        InputConstants.Key pressedKey =
+                InputConstants.getKey(event.getKeyCode(), event.getScanCode());
+
+        if (ModKeybinds.depositBackpack.isActiveAndMatches(pressedKey)) {
+            WoldLogger.info("Deposit key detected in GUI");
+
+            Slot hoveredSlot = containerScreen.getSlotUnderMouse();
+
+            if (hoveredSlot == null || !hoveredSlot.hasItem()) {
+                WoldLogger.info("No hovered item");
+                return;
+            }
+
+            int menuSlot = containerScreen.getMenu().slots.indexOf(hoveredSlot);
+
+            WoldLogger.info("Sending backpack deposit for menu slot " + menuSlot);
+
+            ModNetwork.CHANNEL.sendToServer(
+                    new DepositBackpackPacket(menuSlot)
+            );
+
+            event.setCanceled(true);
+            return;
+        }
+
         if (!ModKeybinds.configureTrinket.isActiveAndMatches(pressedKey)) {
             return;
         }

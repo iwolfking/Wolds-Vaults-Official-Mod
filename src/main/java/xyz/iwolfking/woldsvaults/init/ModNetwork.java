@@ -7,18 +7,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.message.*;
-import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
-import xyz.iwolfking.woldsvaults.network.packets.StopFlightMessage;
-import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
-import xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet.ServerboundDepositBackpackToMEPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
-import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDepositBackpackToRSGridPacket;
-import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
-import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
-import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
+import xyz.iwolfking.woldsvaults.network.packets.*;
 
 public class ModNetwork {
     private static int id = 0;
@@ -47,9 +36,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundRenameTrinketPouchPresetPacket.class, ServerboundRenameTrinketPouchPresetPacket::encode, ServerboundRenameTrinketPouchPresetPacket::decode, ServerboundRenameTrinketPouchPresetPacket::handle);
         CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
         CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
-        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToMEPacket.class, ServerboundDepositBackpackToMEPacket::encode, ServerboundDepositBackpackToMEPacket::decode, ServerboundDepositBackpackToMEPacket::handle);
-        CHANNEL.registerMessage(id++, ClientboundBackpackContentsRefreshPacket.class, ClientboundBackpackContentsRefreshPacket::encode, ClientboundBackpackContentsRefreshPacket::decode, ClientboundBackpackContentsRefreshPacket::handle);
-        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToRSGridPacket.class, ServerboundDepositBackpackToRSGridPacket::encode, ServerboundDepositBackpackToRSGridPacket::decode, ServerboundDepositBackpackToRSGridPacket::handle);
+        CHANNEL.registerMessage(id++, DepositBackpackPacket.class, DepositBackpackPacket::encode, DepositBackpackPacket::decode, DepositBackpackPacket::handle);
     }
 
     public static <T> void sendToServer(T message) {

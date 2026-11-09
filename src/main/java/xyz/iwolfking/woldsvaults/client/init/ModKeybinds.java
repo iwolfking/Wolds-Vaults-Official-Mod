@@ -16,6 +16,7 @@ public class ModKeybinds {
     public static KeyMapping openInventoryHUD;
     public static KeyMapping configureTrinket;
     public static KeyMapping openTrinketPouch;
+    public static KeyMapping depositBackpack;
 
     public static void registerKeyBinds() {
         isFeatherFixed = registerKeyMapping("is_feather_fixed", -1);
@@ -24,6 +25,7 @@ public class ModKeybinds {
         openInventoryHUD = registerKeyMapping("open_inventory_hud", GLFW.GLFW_KEY_O);
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
         openTrinketPouch = registerKeyMapping("open_trinket_pouch", GLFW.GLFW_KEY_T, KeyConflictContext.IN_GAME, KeyModifier.CONTROL);
+        depositBackpack = registerKeyMapping("deposit_backpack", GLFW.GLFW_KEY_D, KeyConflictContext.GUI, KeyModifier.SHIFT);
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

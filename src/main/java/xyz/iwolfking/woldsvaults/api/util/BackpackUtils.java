@@ -2,6 +2,9 @@ package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.util.InventoryUtil;
 import net.joseph.vaultfilters.mixin.compat.sophisticatedcore.mixin.InventoryHandlerSlotTrackerAccessor;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -17,7 +20,6 @@ import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefr
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BackpackUtils {
 
@@ -27,9 +29,23 @@ public class BackpackUtils {
     }
 
     public static boolean isBackpackEmpty(ItemStack stack) {
-        AtomicBoolean empty = new AtomicBoolean(false);
-        stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent((iBackpackWrapper) -> empty.set(((InventoryHandlerSlotTrackerAccessor)iBackpackWrapper.getInventoryHandler().getSlotTracker()).getEmptySlots().size() == ((BackpackItem)stack.getItem()).getNumberOfSlots()));
-        return empty.get();
+        return stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+                .map(wrapper -> {
+                    Optional<UUID> uuid = wrapper.getContentsUuid();
+
+                    if (uuid.isEmpty()) {
+                        return true;
+                    }
+
+                    CompoundTag contents = BackpackStorage.get()
+                            .getOrCreateBackpackContents(uuid.get());
+
+                    CompoundTag inventory = contents.getCompound("inventory");
+                    ListTag items = inventory.getList("Items", Tag.TAG_COMPOUND);
+
+                    return items.isEmpty();
+                })
+                .orElse(true);
     }
 
     public static void sendRefreshPacket(ItemStack backpack, ServerPlayer player) {
