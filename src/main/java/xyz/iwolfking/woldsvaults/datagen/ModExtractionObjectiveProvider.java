@@ -38,6 +38,8 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         table.DEPLOYMENT.healFractionOnJobComplete = 0.33F;
         table.JOBS = jobs();
         table.WAVES = waves();
+        table.THUMPER = thumper();
+        table.CACHE = cache();
         table.CELLS = cells();
         table.SITES = new ExtractionObjectiveConfig.SitesEntry();
         table.SITES.count = 3;
@@ -194,7 +196,33 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
 
     private static ExtractionObjectiveConfig.WavesEntry waves() {
         ExtractionObjectiveConfig.WavesEntry waves = new ExtractionObjectiveConfig.WavesEntry();
-        waves.liveMobCapPerSite = 1000;
+        waves.roomCountMultiplier = 1.2F;
+        waves.rampAtFullProgress = 1.0F;
+        waves.packetSize = 4;
+        waves.packetStaggerTicks = 5;
+        waves.liveMobCapPerRoom = 600;
+        waves.liveMobCapPerVault = 1200;
+        waves.focusOrder = new ArrayList<>(List.of(1, 0, 2));
+        waves.surgeSiege = true;
+        waves.spawnDebugLog = true;
+
+        waves.lanes = new ExtractionObjectiveConfig.LanesEntry();
+        waves.lanes.engageSteps = 6;
+        waves.lanes.rangedEngageBlocks = 12.0F;
+        waves.lanes.repathTicks = 10;
+        waves.lanes.lookahead = 12;
+        waves.lanes.stuckTicks = 200;
+
+        waves.ram = new ExtractionObjectiveConfig.RamEntry();
+        waves.ram.entity = "minecraft:ravager";
+        waves.ram.hpReference = "the_vault:elite_zombie";
+        waves.ram.hpEliteMultiple = 2.0F;
+        waves.ram.speedMultiplier = 0.6F;
+        waves.ram.killSeconds = 60.0F;
+        waves.ram.firstTicks = 900;
+        waves.ram.maxPerRoom = 2;
+        waves.ram.maxPerTarget = 1;
+        waves.ram.cellDrop = true;
 
         waves.statFloor = new ExtractionObjectiveConfig.StatFloorEntry();
         waves.statFloor.enabled = true;
@@ -253,6 +281,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         salvage.tankPool.add(vh("overgrown_tank"), 2);
         salvage.tankPool.add(vh("t1_wither_skeleton"), 1);
         addElitePool(salvage);
+        salvage.ramIntervalTicks = 1200;
         waves.tiers.add(salvage);
 
         TierEntry industrial = new TierEntry("industrial", 110);
@@ -277,6 +306,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         industrial.tankPool.add(vh("overgrown_tank"), 2);
         industrial.tankPool.add(vh("t2_wither_skeleton"), 1);
         addElitePool(industrial);
+        industrial.ramIntervalTicks = 1200;
         waves.tiers.add(industrial);
 
         TierEntry fortified = new TierEntry("fortified", 200);
@@ -305,6 +335,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         fortified.tankPool.add(vh("t2_wither_skeleton"), 1);
         fortified.tankPool.add(vh("plastic_tank"), 1);
         addElitePool(fortified);
+        fortified.ramIntervalTicks = 1200;
         waves.tiers.add(fortified);
 
         TierEntry siege = new TierEntry("siege", 420);
@@ -333,6 +364,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         siege.tankPool.add(vh("t3_wither_skeleton"), 2);
         siege.tankPool.add(vh("pirate_guardian_tank"), 1);
         addElitePool(siege);
+        siege.ramIntervalTicks = 900;
         waves.tiers.add(siege);
 
         TierEntry cataclysm = new TierEntry("cataclysm", 700);
@@ -361,6 +393,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         cataclysm.tankPool.add(vh("t3_wither_skeleton"), 2);
         cataclysm.tankPool.add(vh("pirate_guardian_tank"), 2);
         addElitePool(cataclysm);
+        cataclysm.ramIntervalTicks = 900;
         waves.tiers.add(cataclysm);
         return waves;
     }
@@ -401,6 +434,36 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
 
     private static TimedWaveEntry mixed(int intervalTicks, int horde, int assassins, int tanks, int elites, int bosses) {
         return wave(intervalTicks, Count.of(horde), Count.of(assassins), Count.of(tanks), Count.of(elites), Count.of(bosses));
+    }
+
+    private static ExtractionObjectiveConfig.ThumperEntry thumper() {
+        ExtractionObjectiveConfig.ThumperEntry thumper = new ExtractionObjectiveConfig.ThumperEntry();
+        thumper.healthFraction = 0.6F;
+        thumper.shieldFraction = 0.6F;
+        thumper.shieldRegenFraction = 0.6F;
+        thumper.healthRegenFraction = 0.6F;
+        thumper.armorFraction = 1.0F;
+        thumper.shieldToughnessFraction = 1.0F;
+        thumper.progressLossPerThumper = 0.25F;
+        thumper.destructionPenaltyFraction = 0.10F;
+        return thumper;
+    }
+
+    private static ExtractionObjectiveConfig.CacheEntry cache() {
+        ExtractionObjectiveConfig.CacheEntry cache = new ExtractionObjectiveConfig.CacheEntry();
+        cache.intervalTicks = 600;
+        cache.batchMin = 4;
+        cache.batchMax = 8;
+        cache.cap = 40;
+        cache.cellChance = 0.05D;
+        cache.mobMargin = 2;
+        cache.pedestalClearance = 6;
+        cache.minSpacing = 2;
+        cache.playerClearance = 4;
+        cache.cluster = true;
+        cache.clusterRadius = 4;
+        cache.clusterSpacing = 10;
+        return cache;
     }
 
     private static ExtractionObjectiveConfig.CellsEntry cells() {

@@ -266,6 +266,23 @@ public class ExtractorItem extends Item {
         return data.hasUUID("DeployEntity") ? data.getUUID("DeployEntity") : null;
     }
 
+    /** This extractor's identity for keying an extraction room, or null before it ever placed a thumper. */
+    @Nullable
+    public static UUID getRigId(ItemStack stack) {
+        CompoundTag data = getData(stack);
+        return data.hasUUID("RigId") ? data.getUUID("RigId") : null;
+    }
+
+    /** Returns this extractor's identity, giving it a fresh one first if it has none. */
+    public static UUID ensureRigId(ItemStack stack) {
+        CompoundTag data = getData(stack);
+        if (!data.hasUUID("RigId")) {
+            data.putUUID("RigId", UUID.randomUUID());
+            setData(stack, data);
+        }
+        return getData(stack).getUUID("RigId");
+    }
+
     @Override
     public boolean isBarVisible(ItemStack stack) {
         CompoundTag data = getData(stack);

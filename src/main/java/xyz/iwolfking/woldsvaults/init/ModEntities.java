@@ -55,6 +55,7 @@ public class ModEntities {
     public static EntityType<StarDevourerEntity> STAR_DEVOURER_ENTITY;
     public static EntityType<CustomFangEntity> CUSTOM_FANGS;
     public static EntityType<xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity> EXTRACTOR;
+    public static EntityType<xyz.iwolfking.woldsvaults.entities.extraction.ThumperEntity> THUMPER;
     public static EntityType<VaultMeteor> VAULT_METEOR;
     public static EntityType<MagicMissileEntity> MAGIC_MISSILE;
 
@@ -84,6 +85,7 @@ public class ModEntities {
         SINGULARITY_CREEPER = registerLivingWV("singularity_creeper", EntityType.Builder.of(SingularityCreeperEntity::new, MobCategory.MONSTER).sized(0.6F, 1.7F).clientTrackingRange(16).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new SingularityCreeperEntity(SINGULARITY_CREEPER, level))), SingularityCreeperEntity::createAttributes, event);
         CUSTOM_FANGS = registerWV("custom_fangs", EntityType.Builder.<CustomFangEntity>of(CustomFangEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(16).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new CustomFangEntity(CUSTOM_FANGS, level))), event);
         EXTRACTOR = registerLivingWV("extractor", EntityType.Builder.of(xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity::new, MobCategory.MISC).sized(4.0F, 4.0F).clientTrackingRange(10).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity(EXTRACTOR, level))), xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity::createAttributes, event);
+        THUMPER = registerLivingWV("thumper", EntityType.Builder.of(xyz.iwolfking.woldsvaults.entities.extraction.ThumperEntity::new, MobCategory.MISC).sized(1.6F, 2.5F).clientTrackingRange(10).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new xyz.iwolfking.woldsvaults.entities.extraction.ThumperEntity(THUMPER, level))), xyz.iwolfking.woldsvaults.entities.extraction.ThumperEntity::createAttributes, event);
         VAULT_METEOR = registerWV("vault_meteor", EntityType.Builder.<VaultMeteor>of(VaultMeteor::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(16).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new VaultMeteor(VAULT_METEOR, level))), event);
         MAGIC_MISSILE = registerWV("magic_missile", EntityType.Builder.<MagicMissileEntity>of(MagicMissileEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(2).fireImmune().setCustomClientFactory(((spawnEntity, level) -> new MagicMissileEntity(MAGIC_MISSILE, level))), event);
         VAULT_RANG = registerWV("rang", EntityType.Builder.<VaultRangEntity>of(VaultRangEntity::new, MobCategory.MISC)

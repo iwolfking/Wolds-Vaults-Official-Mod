@@ -23,6 +23,8 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     @Expose public DeploymentEntry DEPLOYMENT;
     @Expose public LinkedHashMap<String, JobEntry> JOBS;
     @Expose public WavesEntry WAVES;
+    @Expose public ThumperEntry THUMPER;
+    @Expose public CacheEntry CACHE;
     @Expose public CellsEntry CELLS;
     @Expose public SitesEntry SITES;
     @Expose public GreedInfuserEntry GREED_INFUSER;
@@ -52,6 +54,13 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         config.WAVES.elite = new EliteEntry();
         config.WAVES.carrier = new CarrierEntry();
         config.WAVES.carrier.baseEntity = "";
+        config.WAVES.lanes = new LanesEntry();
+        config.WAVES.ram = new RamEntry();
+        config.WAVES.ram.entity = "";
+        config.WAVES.ram.hpReference = "";
+        config.WAVES.focusOrder = new ArrayList<>();
+        config.THUMPER = new ThumperEntry();
+        config.CACHE = new CacheEntry();
         config.CELLS = new CellsEntry();
         config.SITES = new SitesEntry();
         config.GREED_INFUSER = new GreedInfuserEntry();
@@ -89,6 +98,15 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         String problem = checkWaves(this.WAVES);
         if (problem != null) {
             return problem;
+        }
+        if (this.THUMPER == null || this.THUMPER.healthFraction <= 0.0F || this.THUMPER.progressLossPerThumper < 0.0F
+                || this.THUMPER.progressLossPerThumper * 2.0F >= 1.0F) {
+            return "THUMPER is missing, has no positive healthFraction, or its progress loss would stop a rig with two thumpers lost";
+        }
+        CacheEntry cache = this.CACHE;
+        if (cache == null || cache.intervalTicks <= 0 || cache.batchMin < 0 || cache.batchMax < cache.batchMin || cache.cap < 0
+                || cache.cellChance < 0.0D || cache.cellChance > 1.0D) {
+            return "CACHE is missing, has no positive interval, an inverted batch size, a negative cap or a cell chance outside 0..1";
         }
         if (this.SITES.count <= 0 || this.SITES.ringMinRooms > this.SITES.ringMaxRooms) {
             return "SITES has no sites or an inverted ring";
@@ -140,6 +158,18 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (waves.carrier.baseEntity == null || waves.carrier.baseEntity.isEmpty()) {
             return "WAVES carrier names no base entity";
         }
+        if (waves.lanes == null || waves.lanes.repathTicks <= 0 || waves.lanes.lookahead <= 0 || waves.lanes.stuckTicks <= 0) {
+            return "WAVES lanes is missing or has a non-positive repath interval, lookahead or stuck time";
+        }
+        if (waves.roomCountMultiplier <= 0.0F || waves.packetSize <= 0 || waves.liveMobCapPerRoom <= 0 || waves.liveMobCapPerVault <= 0
+                || waves.focusOrder == null) {
+            return "WAVES has a non-positive count multiplier, packet size or live mob cap, or no focusOrder list";
+        }
+        RamEntry ram = waves.ram;
+        if (ram == null || ram.entity == null || ram.hpReference == null || ram.maxPerRoom < 0 || ram.maxPerTarget < 0
+                || (ram.maxPerRoom > 0 && (ram.entity.isEmpty() || ram.killSeconds <= 0.0F || ram.hpEliteMultiple <= 0.0F || ram.speedMultiplier <= 0.0F))) {
+            return "WAVES ram is missing, has negative caps, or is enabled without an entity, kill time, HP multiple or speed";
+        }
         if (waves.tiers == null || waves.tiers.isEmpty()) {
             return "WAVES defines no tiers";
         }
@@ -155,6 +185,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
             }
             if (tier.hordePool == null || tier.assassinPool == null || tier.tankPool == null || tier.elitePool == null) {
                 return "WAVES tier " + tier.name + " is missing a mob pool";
+            }
+            if (waves.ram.maxPerRoom > 0 && tier.ramIntervalTicks <= 0) {
+                return "WAVES tier " + tier.name + " has no positive ramIntervalTicks while rams are enabled";
             }
         }
         return null;
@@ -335,6 +368,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public WeightedList<ResourceLocation> assassinPool = new WeightedList<>();
         @Expose public WeightedList<ResourceLocation> tankPool = new WeightedList<>();
         @Expose public WeightedList<ResourceLocation> elitePool = new WeightedList<>();
+        @Expose public int ramIntervalTicks;
 
         public TierEntry() {
         }
@@ -390,8 +424,56 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public int auraEffectDurationTicks;
     }
 
+    /**
+     * Baked lane pathing for wave mobs. A mob follows its rig's flow field until it is within {@code engageSteps}
+     * lane steps of the pad, or, if ranged, sees the rig within {@code rangedEngageBlocks}; it re-aims every
+     * {@code repathTicks} at the farthest lane cell in straight-line view within {@code lookahead} steps, and is nudged
+     * one lane cell forward after {@code stuckTicks} without progress.
+     */
+    public static class LanesEntry {
+        @Expose public int engageSteps;
+        @Expose public float rangedEngageBlocks;
+        @Expose public int repathTicks;
+        @Expose public int lookahead;
+        @Expose public int stuckTicks;
+    }
+
+    /**
+     * The battering ram: a slow, single-minded mob that walks a 2-wide lane to one rig and deals level-independent
+     * true damage to it. Max HP = {@code hpEliteMultiple} x the max HP {@code hpReference} rolls in the same vault; each
+     * hit deals the rig's shield regen per second plus (max shield + max HP) / {@code killSeconds}.
+     */
+    public static class RamEntry {
+        @Expose public String entity;
+        @Expose public String hpReference;
+        @Expose public float hpEliteMultiple;
+        @Expose public float speedMultiplier;
+        @Expose public float killSeconds;
+        @Expose public int firstTicks;
+        @Expose public int maxPerRoom;
+        @Expose public int maxPerTarget;
+        @Expose public boolean cellDrop;
+    }
+
+    /**
+     * One wave state per site room, run from the main rig's tier while it drills. Spread waves go out in packets of at
+     * most {@code packetSize} from a shuffle bag of the room's caves, each to the rig its cave faces; assault waves focus
+     * one rig at a time in {@code focusOrder} (pad indices); siege waves surge from every cave when {@code surgeSiege}.
+     * Counts are multiplied by {@code roomCountMultiplier}, ramping linearly to x{@code rampAtFullProgress} at the
+     * end of the job.
+     */
     public static class WavesEntry {
-        @Expose public int liveMobCapPerSite;
+        @Expose public float roomCountMultiplier;
+        @Expose public float rampAtFullProgress;
+        @Expose public int packetSize;
+        @Expose public int packetStaggerTicks;
+        @Expose public int liveMobCapPerRoom;
+        @Expose public int liveMobCapPerVault;
+        @Expose public List<Integer> focusOrder = new ArrayList<>();
+        @Expose public boolean surgeSiege;
+        @Expose public boolean spawnDebugLog;
+        @Expose public LanesEntry lanes;
+        @Expose public RamEntry ram;
         @Expose public StatFloorEntry statFloor;
         @Expose public BossEntry boss;
         @Expose public EliteEntry elite;
@@ -408,6 +490,45 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
             }
             return best;
         }
+    }
+
+    /**
+     * Thumpers, the two secondary rigs of a site room. Their pools are fractions of the keyed extractor's stats, taken
+     * when placed. Each wrecked thumper cuts the main rig's progress rate by {@code progressLossPerThumper} and charges
+     * {@code destructionPenaltyFraction} of the main rig's own destruction durability loss.
+     */
+    public static class ThumperEntry {
+        @Expose public float healthFraction;
+        @Expose public float shieldFraction;
+        @Expose public float shieldRegenFraction;
+        @Expose public float healthRegenFraction;
+        @Expose public float armorFraction;
+        @Expose public float shieldToughnessFraction;
+        @Expose public float progressLossPerThumper;
+        @Expose public float destructionPenaltyFraction;
+    }
+
+    /**
+     * Cache chests placed in a site room while its main rig drills: every {@code intervalTicks} a batch of
+     * {@code batchMin..batchMax} chests, at most {@code cap} standing at once. Spots are standable, player-reachable cells
+     * at least {@code mobMargin} columns from any mob lane and {@code pedestalClearance} from pads and room walls. In
+     * cluster mode a batch is one pile within {@code clusterRadius} of a centre that keeps {@code clusterSpacing} from
+     * other chests; chests stay {@code minSpacing} apart and centres {@code playerClearance} from players. A player break
+     * drops one power cell with chance {@code cellChance}.
+     */
+    public static class CacheEntry {
+        @Expose public int intervalTicks;
+        @Expose public int batchMin;
+        @Expose public int batchMax;
+        @Expose public int cap;
+        @Expose public double cellChance;
+        @Expose public int mobMargin;
+        @Expose public int pedestalClearance;
+        @Expose public int minSpacing;
+        @Expose public int playerClearance;
+        @Expose public boolean cluster;
+        @Expose public int clusterRadius;
+        @Expose public int clusterSpacing;
     }
 
     public static class CellsEntry {

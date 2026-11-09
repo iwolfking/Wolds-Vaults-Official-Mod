@@ -76,7 +76,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SuppressWarnings({"deprecated", "removal"})
-public class ExtractorEntity extends LivingEntity implements IAnimatable {
+public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTarget {
     private static final EntityDataAccessor<Boolean> DATA_DRILLING = SynchedEntityData.defineId(ExtractorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_JOB_DONE = SynchedEntityData.defineId(ExtractorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<String> DATA_VARIANTS = SynchedEntityData.defineId(ExtractorEntity.class, EntityDataSerializers.STRING);
@@ -318,6 +318,10 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable {
         if (!(source.getEntity() instanceof LivingEntity attacker) || attacker instanceof Player) {
             return false;
         }
+        if (attacker.getTags().contains(xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager.TAG_RAM)) {
+            this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
+            return true;
+        }
         if (this.shield > 0.0F) {
             float absorbed = CombatRules.getDamageAfterAbsorb(amount, this.shieldToughness, 0.0F);
             float taken = Math.min(this.shield, absorbed);
@@ -488,7 +492,59 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable {
         return localHit.x < -0.85D && localHit.y >= 2.2D && localHit.y <= 3.1D;
     }
 
-    private int depositCellsFrom(Player player) {
+    @Override
+    public int getPadIndex() {
+        return 0;
+    }
+
+    @Override
+    public boolean isRigTargetable() {
+        return this.isAlive() && !this.isJobDone() && !this.isArmed();
+    }
+
+    @Override
+    public float ramHitDamage(float killSeconds) {
+        return this.shieldRegenPerTick * 20.0F + (this.maxShield + this.getMaxHealth()) / Math.max(1.0F, killSeconds);
+    }
+
+    @Override
+    public void applyRamHit(LivingEntity ram, float damage) {
+        float taken = Math.min(this.shield, damage);
+        this.shield -= taken;
+        if (taken > 0.0F && this.shield <= 0.0F) {
+            this.shield = 0.0F;
+            this.shieldDownTicks = SHIELD_REACTIVATION_TICKS;
+            this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.HOSTILE, 0.8F, 0.9F);
+        }
+        float overflow = damage - taken;
+        if (overflow > 0.0F) {
+            float hpDamagePerDurability = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.hpDamagePerDurabilityPoint;
+            if (hpDamagePerDurability > 0.0F) {
+                this.currentDurability = Math.max(0.0F, this.currentDurability - overflow / hpDamagePerDurability * this.durabilityDrainMult);
+            }
+            super.hurt(DamageSource.mobAttack(ram), overflow);
+            this.invulnerableTime = 0;
+        }
+        this.level.playSound(null, this.blockPosition(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.HOSTILE, 1.0F, 0.5F);
+    }
+
+    /** Charges a share of the destruction loss to the hull's durability: a wrecked thumper costs the main rig this. */
+    public float chargeDestructionPenalty(float fractionOfDestructionLoss) {
+        float loss = fractionOfDestructionLoss * ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.destructionLossFraction * this.maxDurability;
+        this.currentDurability = Math.max(0.0F, this.currentDurability - loss);
+        return loss;
+    }
+
+    public int getMaxDurability() {
+        return this.maxDurability;
+    }
+
+    public float getEnergyPerCell() {
+        return this.energyPerCell;
+    }
+
+    /** Moves power cells from the player's inventory, backpacks and curios into the energy pool until it is full. */
+    public int depositCellsFrom(Player player) {
         int consumed = 0;
         for (int i = 0; i < player.getInventory().getContainerSize() && this.energy < this.energyCapacity; i++) {
             ItemStack stack = player.getInventory().getItem(i);
