@@ -114,6 +114,7 @@ public class DataGenerators {
             gen.addProvider(new ModObjectiveDifficultyProvider(gen));
             gen.addProvider(new ModHyperObjectiveProvider(gen));
             gen.addProvider(new ModExtractorCostsProvider(gen));
+            gen.addProvider(new ModMultiCellRoomsProvider(gen));
             gen.addProvider(new ModExtractionObjectiveProvider(gen));
             gen.addProvider(new ModExtractorPartsProvider(gen));
             gen.addProvider(new ModRecipeTagProvider(gen, efh));

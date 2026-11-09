@@ -131,6 +131,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModItems.EXTRACTOR, "Extractor");
         add(ModItems.POWER_CELL, "Power Cell");
         add("entity.woldsvaults.extractor", "Extractor");
+        add("entity.woldsvaults.thumper", "Thumper");
+        add("entity.woldsvaults.battering_ram", "Battering Ram");
         ModItems.EXTRACTOR_BLUEPRINTS.forEach((type, item) -> add(item, type.getDisplayName() + " Blueprint"));
         ModItems.EXTRACTOR_PARTS.forEach((type, item) -> add(item, "Extractor " + type.getDisplayName()));
         add(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK, "Extractor Assembler");
@@ -138,6 +140,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK, "Extractor Assembler Frame");
         add(ModBlocks.EXTRACTION_FORGE_PART_BLOCK, "Extraction Forge Frame");
         add(ModBlocks.MOBILE_FLUID_TANK, "Mobile Extractor Fluid Tank");
+        add(ModBlocks.EXTRACTION_CACHE, "Cache");
         add("container.woldsvaults.extractor_assembler", "Extractor Assembler");
         add("container.woldsvaults.extractor_forge", "Extraction Forge");
         add(ModItems.PRISMATIC_GLUE_BUCKET, "Bucket of Prismatic Glue");

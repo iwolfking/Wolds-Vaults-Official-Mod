@@ -65,6 +65,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         add(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK, noDrop());
         add(ModBlocks.EXTRACTION_FORGE_PART_BLOCK, noDrop());
         add(ModBlocks.MOBILE_FLUID_TANK, noDrop());
+        add(ModBlocks.EXTRACTION_CACHE, noDrop());
         dropSelf(ModBlocks.CARBON_BLOCK);
         dropSelf(ModBlocks.PRISMATIC_FIBER_BLOCK);
         dropSelf(ModBlocks.CHROMATIC_GOLD_BLOCK);
