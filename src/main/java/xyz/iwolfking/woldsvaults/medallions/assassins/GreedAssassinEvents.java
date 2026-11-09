@@ -19,8 +19,8 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 
 /**
- * Server-side hooks for the assassin behaviours that act after the spawn: the on-hit debuff and the aura pulse.
- * Both read the tier stamped on the assassin, not the vault's.
+ * Server-side hooks for the assassin behaviours that act after the spawn, the on-hit debuff and the aura pulse,
+ * which read the tier stamped on the assassin rather than the vault's, plus the assassin fury roll.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public class GreedAssassinEvents {
@@ -48,14 +48,21 @@ public class GreedAssassinEvents {
                 .ifPresent(tier -> GreedAssassinBehaviors.applyRandomNegativeEffect(player, player.level.random));
     }
 
-    /** Pulses Hunter 3+ auras every five seconds; the sweep also prunes assassins that no longer resolve. */
+    /**
+     * Runs the assassin fury roll and pulses Hunter 3+ auras every five seconds; the aura sweep also prunes assassins
+     * that no longer resolve.
+     */
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null || server.getTickCount() % AURA_PULSE_TICKS != 0) {
+        if (server == null) {
+            return;
+        }
+        GreedAssassinFury.tick(server);
+        if (server.getTickCount() % AURA_PULSE_TICKS != 0) {
             return;
         }
         GreedAssassinRegistry.forEach(server, (level, assassin) ->
@@ -67,6 +74,6 @@ public class GreedAssassinEvents {
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         GreedAssassinRegistry.clearAll();
-        GreedAssassinSpawner.clearDecayTrackers();
+        GreedAssassinFury.clearAll();
     }
 }

@@ -34,11 +34,11 @@ public enum GreedMedallionTier {
 
     private static GreedMedallionsConfig.Tier[] tiers;
     private static GreedMedallionsConfig.Gates gates;
-    private static GreedMedallionsConfig.Spawn spawn;
+    private static GreedMedallionsConfig.Fury fury;
 
     private static final GreedMedallionsConfig.Tier NO_BONUSES = new GreedMedallionsConfig.Tier();
-    private static final GreedMedallionsConfig.Spawn NO_SPAWNS = noSpawns();
     private static final AtomicBoolean WARNED = new AtomicBoolean();
+    private static final AtomicBoolean FURY_WARNED = new AtomicBoolean();
 
     private final int rankIndex;
 
@@ -46,7 +46,7 @@ public enum GreedMedallionTier {
         this.rankIndex = rankIndex;
     }
 
-    /** Installs the generated medallion table; the installer has already checked every rank, the gates and the spawn block. */
+    /** Installs the generated medallion table; the installer has already checked every rank, the gates and the fury block. */
     public static void load(GreedMedallionsConfig config) {
         GreedMedallionsConfig.Tier[] applied = new GreedMedallionsConfig.Tier[values().length + 1];
         for (GreedMedallionTier tier : values()) {
@@ -54,12 +54,17 @@ public enum GreedMedallionTier {
         }
         tiers = applied;
         gates = config.gates;
-        spawn = config.spawn;
+        fury = config.fury;
     }
 
-    /** The assassin spawn curve; until the medallion table is installed it spawns nothing. */
-    public static GreedMedallionsConfig.Spawn spawnCurve() {
-        return spawn == null ? NO_SPAWNS : spawn;
+    /** The assassin fury curve, or null until the medallion table is installed, in which case no assassins spawn. */
+    @Nullable
+    public static GreedMedallionsConfig.Fury furyCurve() {
+        if (fury == null && FURY_WARNED.compareAndSet(false, true)) {
+            WoldsVaults.LOGGER.error("Greed assassin fury was read before the greed/medallions/greed_medallions table was "
+                    + "installed; no greed assassins spawn until it is");
+        }
+        return fury;
     }
 
     public static Optional<GreedMedallionTier> byRankIndex(int rankIndex) {
@@ -121,6 +126,18 @@ public enum GreedMedallionTier {
         return this.row().objectiveDifficultyBonus;
     }
 
+    public double getAssassinFuryGain() {
+        return this.row().assassinFuryGain;
+    }
+
+    public double getAssassinSquadTarget() {
+        return this.row().assassinSquadTarget;
+    }
+
+    public double getAssassinRecoverySeconds() {
+        return this.row().assassinRecoverySeconds;
+    }
+
     public boolean assassinsInheritVaultModifiers() {
         return gates() != null && this.rankIndex >= gates.assassinsInheritVaultModifiers;
     }
@@ -161,11 +178,5 @@ public enum GreedMedallionTier {
                     + "medallions add nothing until it is");
         }
         return gates;
-    }
-
-    private static GreedMedallionsConfig.Spawn noSpawns() {
-        GreedMedallionsConfig.Spawn none = new GreedMedallionsConfig.Spawn();
-        none.recoveryTicks = 1.0D;
-        return none;
     }
 }
