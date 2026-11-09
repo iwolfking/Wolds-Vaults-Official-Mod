@@ -22,8 +22,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatNumberFormat;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatRowStyle;
+import xyz.iwolfking.woldsvaults.client.screens.stats.StatSyncClient;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatValueColor;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatValueStyle;
+import xyz.iwolfking.woldsvaults.stats.StatSources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,9 @@ public abstract class MixinStatLabelElementBuilder<V extends Comparable<V>> impl
     @Unique private static final String ELLIPSIS = "...";
 
     @Shadow @Final @Mutable private Supplier<List<String>> descriptionSupplier;
-    @Shadow @Final private Supplier<V> valueSupplier;
+    @Shadow @Final @Mutable private Supplier<V> valueSupplier;
+    @Shadow private Supplier<V> finalValueSupplier;
+    @Shadow private Supplier<V> valueCapSupplier;
     @Shadow @Final private Function<V, MutableComponent> valueFormatFunction;
 
     @Unique private String woldsvaults$statKey;
@@ -66,6 +70,20 @@ public abstract class MixinStatLabelElementBuilder<V extends Comparable<V>> impl
     @Override
     public TextColor woldsvaults$getValueColor() {
         return this.woldsvaults$valueColor;
+    }
+
+    @Override
+    public void woldsvaults$syncFrom(String key) {
+        Supplier<V> local = this.valueSupplier;
+        Supplier<V> synced = () -> StatSyncClient.value(key, local.get());
+        if (this.finalValueSupplier == local) {
+            this.finalValueSupplier = synced;
+        }
+        this.valueSupplier = synced;
+        if (this.valueCapSupplier != null) {
+            Supplier<V> localCap = this.valueCapSupplier;
+            this.valueCapSupplier = () -> StatSyncClient.value(StatSources.CAP_PREFIX + key, localCap.get());
+        }
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

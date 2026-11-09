@@ -1,16 +1,17 @@
-package xyz.iwolfking.woldsvaults.client.screens.stats;
+package xyz.iwolfking.woldsvaults.stats;
 
 import iskallia.vault.client.data.ClientDamageData;
 import iskallia.vault.client.data.ClientTalentData;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.skill.base.LearnableSkill;
-import iskallia.vault.skill.base.TieredSkill;
+import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.PuristTalent;
 import iskallia.vault.skill.talent.type.luckyhit.DamageLuckyHitTalent;
+import iskallia.vault.skill.tree.TalentTree;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.calc.LuckyHitHelper;
 import iskallia.vault.util.damage.PlayerDamageHelper;
+import iskallia.vault.world.data.PlayerTalentsData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -18,7 +19,8 @@ import net.minecraft.world.entity.player.Player;
 
 /**
  * Statistics tab values computed the way combat applies them, where the base screen reads a raw gear sum instead.
- * Talents come from the client talent data, as the base screen's damage estimate does.
+ * Works on either side: talents come from the server's talent data for a server player and from the synced client
+ * tree otherwise, read the same way combat reads them.
  */
 public final class StatDisplayValues {
     private static final float DEFAULT_LUCKY_HIT_MULTIPLIER = 1.1F;
@@ -27,14 +29,18 @@ public final class StatDisplayValues {
     private StatDisplayValues() {
     }
 
+    private static TalentTree talents(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            return PlayerTalentsData.get(serverPlayer.getLevel()).getTalents(serverPlayer);
+        }
+        return ClientTalentData.getTree();
+    }
+
     /** Purist's damage multiplier; Wold's Vaults applies it on top of Damage Increase rather than adding to it. */
     public static float puristMultiplier(Player player) {
         float multiplier = 1.0F;
-        for (TieredSkill node : ClientTalentData.getLearnedTalentNodes()) {
-            LearnableSkill skill = node.getChild();
-            if (skill instanceof PuristTalent purist) {
-                multiplier += purist.getDamageIncrease() * (float) purist.getCount(player);
-            }
+        for (PuristTalent purist : talents(player).getAll(PuristTalent.class, Skill::isUnlocked)) {
+            multiplier += purist.getDamageIncrease() * (float) purist.getCount(player);
         }
         return multiplier;
     }
@@ -70,10 +76,8 @@ public final class StatDisplayValues {
         double luckyHitChance = LuckyHitHelper.getLuckyHitChance(player);
         if (luckyHitChance != 0.0D) {
             float luckyHitMultiplier = DEFAULT_LUCKY_HIT_MULTIPLIER;
-            for (TieredSkill node : ClientTalentData.getLearnedTalentNodes()) {
-                if (node.getChild() instanceof DamageLuckyHitTalent talent) {
-                    luckyHitMultiplier = 1.0F + talent.getDamageIncrease();
-                }
+            for (DamageLuckyHitTalent talent : talents(player).getAll(DamageLuckyHitTalent.class, Skill::isUnlocked)) {
+                luckyHitMultiplier = 1.0F + talent.getDamageIncrease();
             }
             attackDamage *= 1.0D - luckyHitChance + luckyHitMultiplier * luckyHitChance;
         }

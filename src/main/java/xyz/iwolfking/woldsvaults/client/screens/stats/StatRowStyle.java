@@ -18,4 +18,7 @@ public interface StatRowStyle {
 
     @Nullable
     TextColor woldsvaults$getValueColor();
+
+    /** Shows the server-synced value for this key (and {@code cap:} key) while one is recent. */
+    void woldsvaults$syncFrom(String key);
 }

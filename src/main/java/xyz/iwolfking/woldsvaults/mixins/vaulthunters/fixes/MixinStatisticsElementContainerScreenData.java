@@ -31,7 +31,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.util.VaultGodAffinityHelper;
-import xyz.iwolfking.woldsvaults.client.screens.stats.StatDisplayValues;
+import xyz.iwolfking.woldsvaults.stats.StatDisplayValues;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatRowStyle;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatScreenLayout;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;

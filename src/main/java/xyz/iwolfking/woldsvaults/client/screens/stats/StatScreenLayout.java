@@ -6,6 +6,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.StatScreenConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;
+import xyz.iwolfking.woldsvaults.stats.StatSources;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -31,11 +32,16 @@ public final class StatScreenLayout {
     /** Colours the prominent rows beside the player model, matched by label. */
     public static void styleProminent(List<StatLabelElementBuilder<?>> rows) {
         StatScreenConfig table = table();
-        if (table == null) {
-            return;
-        }
         for (StatLabelElementBuilder<?> row : rows) {
             String label = label(row);
+            String key = StatSources.PROMINENT_PREFIX + label;
+            ((StatRowStyle) row).woldsvaults$setStatKey(key);
+            if (StatSources.has(key)) {
+                ((StatRowStyle) row).woldsvaults$syncFrom(key);
+            }
+            if (table == null) {
+                continue;
+            }
             String tag = table.prominent.get(label);
             if (tag == null) {
                 report("prominent:" + label, "Statistics tab: prominent stat '" + label + "' has no colour in the stat screen table; drawn plain");
@@ -52,6 +58,9 @@ public final class StatScreenLayout {
             StatRowStyle style = (StatRowStyle) row;
             if (style.woldsvaults$getStatKey() == null) {
                 style.woldsvaults$setStatKey(StatScreenConfig.LABEL_PREFIX + label(row));
+            }
+            if (StatSources.has(style.woldsvaults$getStatKey())) {
+                style.woldsvaults$syncFrom(style.woldsvaults$getStatKey());
             }
             if (table == null) {
                 continue;

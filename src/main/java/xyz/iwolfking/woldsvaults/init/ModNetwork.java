@@ -1,5 +1,8 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import xyz.iwolfking.woldsvaults.stats.ClientboundStatSyncMessage;
+import xyz.iwolfking.woldsvaults.stats.ServerboundStatSyncRequestMessage;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
@@ -75,6 +78,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundDepositBackpackToMEPacket.class, ServerboundDepositBackpackToMEPacket::encode, ServerboundDepositBackpackToMEPacket::decode, ServerboundDepositBackpackToMEPacket::handle);
         CHANNEL.registerMessage(id++, ClientboundBackpackContentsRefreshPacket.class, ClientboundBackpackContentsRefreshPacket::encode, ClientboundBackpackContentsRefreshPacket::decode, ClientboundBackpackContentsRefreshPacket::handle);
         CHANNEL.registerMessage(id++, ServerboundDepositBackpackToRSGridPacket.class, ServerboundDepositBackpackToRSGridPacket::encode, ServerboundDepositBackpackToRSGridPacket::decode, ServerboundDepositBackpackToRSGridPacket::handle);
+        CHANNEL.registerMessage(id++, ServerboundStatSyncRequestMessage.class, ServerboundStatSyncRequestMessage::encode, ServerboundStatSyncRequestMessage::decode, ServerboundStatSyncRequestMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, ClientboundStatSyncMessage.class, ClientboundStatSyncMessage::encode, ClientboundStatSyncMessage::decode, ClientboundStatSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static <T> void sendToServer(T message) {
