@@ -30,6 +30,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -61,6 +62,7 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
+import xyz.iwolfking.woldsvaults.integration.create.SpellcraftCreateAttributes;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
@@ -156,6 +158,9 @@ public class WoldsVaults {
         AncientModifierEvents.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
+        if (ModList.get().isLoaded("create")) {
+            event.enqueueWork(SpellcraftCreateAttributes::register);
+        }
         ModGameRules.initialize();
         ModLayoutDefinitions.init();
         NetworkHandler.onCommonSetup();
