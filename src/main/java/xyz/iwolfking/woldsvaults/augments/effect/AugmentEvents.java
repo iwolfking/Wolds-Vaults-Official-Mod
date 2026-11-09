@@ -22,7 +22,8 @@ import javax.annotation.Nullable;
 
 /**
  * Applies glyphs to what VH does during and after a cast. During a cast, Amplify Area and Strengthen's area penalty
- * multiply VH's area-of-effect factor before VH clamps it to the player's limit (spell haste is applied by the bar). Projectiles the cast spawns
+ * multiply VH's area-of-effect multiplier ({@code 1 + AoE}, the value VH's cast-time area helper passes) before VH clamps it
+ * to the player's limit (spell haste is applied by the bar). Projectiles the cast spawns
  * are tagged (and steered, resized, re-weighted); a tagged projectile's area reads and hits during its own tick count
  * as the cast's, and the children it spawns then inherit its tags. Damage is multiplied only for the cast itself, for
  * hits by a tagged projectile, and for hits made while one is ticking, so other damage of the same player is untouched.
@@ -49,7 +50,7 @@ public final class AugmentEvents {
             Projectile ticking = scope == null ? tickingProjectileOf(entity) : null;
             float factor = scope != null ? scope.area() : ticking != null ? AugmentTags.area(ticking) : 1.0F;
             if (factor != 1.0F) {
-                data.setValue((1.0F + data.getValue()) * factor - 1.0F);
+                data.setValue(data.getValue() * factor);
             }
         }
     }
