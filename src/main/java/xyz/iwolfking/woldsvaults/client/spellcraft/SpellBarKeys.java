@@ -65,6 +65,9 @@ public final class SpellBarKeys {
         if (!quickfireHidden && minecraft.options != null) {
             hideQuickfireKeys(minecraft);
         }
+        if (minecraft.player != null && !minecraft.isPaused()) {
+            tickClientCooldowns();
+        }
         boolean active = minecraft.player != null && minecraft.screen == null && minecraft.getConnection() != null;
         for (int i = 0; i < KEYS.length; i++) {
             boolean down = active && KEYS[i].isDown();
@@ -75,6 +78,24 @@ public final class SpellBarKeys {
                 }
             }
         }
+    }
+
+    /**
+     * Counts the client's copy of ability cooldowns down every tick. VH only syncs them on casts and every half second
+     * for the selected ability, so without this the HUD sat on stale values (a 1 s cooldown stuck at "1s", or coming
+     * back after it had already ended); every server sync still overwrites the local count.
+     */
+    private static void tickClientCooldowns() {
+        iskallia.vault.skill.tree.AbilityTree tree = iskallia.vault.client.data.ClientAbilityData.getTree();
+        if (tree == null) {
+            return;
+        }
+        tree.iterate(iskallia.vault.skill.ability.effect.spi.core.Ability.class, ability -> ability.getCooldown().ifPresent(cooldown -> {
+            cooldown.decrement();
+            if (cooldown.getRemainingTicks() <= 0 && cooldown.getRemainingDelayTicks() <= 0) {
+                ability.setCooldownFromSync(0, 0, 0);
+            }
+        }));
     }
 
     /**
@@ -102,6 +123,7 @@ public final class SpellBarKeys {
 
     @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
+        xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.clearClient();
         java.util.Arrays.fill(DOWN, false);
         ClientSpellBar.reset();
     }

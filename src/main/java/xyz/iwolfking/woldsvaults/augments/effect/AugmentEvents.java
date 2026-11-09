@@ -93,6 +93,7 @@ public final class AugmentEvents {
         }
         if (modifiers.speed() != 1.0F) {
             projectile.setDeltaMovement(projectile.getDeltaMovement().scale(modifiers.speed()));
+            projectile.hurtMarked = true;
         }
         AugmentTags.write(projectile, modifiers);
         activate(projectile, scope.player());

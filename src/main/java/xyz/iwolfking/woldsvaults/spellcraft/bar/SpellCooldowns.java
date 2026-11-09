@@ -64,6 +64,7 @@ public final class SpellCooldowns {
             return false;
         }
         start(player, bar.slot(index), delayTicks, true);
+        tree(player).sync(context);
         return true;
     }
 

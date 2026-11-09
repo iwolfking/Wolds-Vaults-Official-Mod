@@ -29,7 +29,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
 
         FocusAugmentsConfig.Rules rules = new FocusAugmentsConfig.Rules();
         rules.escalationPerGlyph = 0.12F;
-        rules.abilityStepCost = 6;
+        rules.abilityStepCost = 7;
         rules.chainCooldownShare = 0.25F;
         rules.manaFactorFloor = 0.5F;
         rules.minCooldownSeconds = 0.5F;
@@ -52,7 +52,6 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         tuning.sizeUpMaxScale = 3.0F;
         tuning.sizeDownMinScale = 0.4F;
         tuning.chargeSeconds = 1.0F;
-        tuning.chargeMoveMultiplier = 0.7F;
         tuning.chargeMinShare = 0.25F;
         table.tuning = tuning;
 
@@ -61,22 +60,22 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 potency("area", "pct", List.of(tier(0, 0.1F, 0.18F), tier(35, 0.14F, 0.24F), tier(70, 0.18F, 0.3F)), List.of()),
                 List.of(k("area", 1.0F), k("damage", -0.25F)),
                 List.of(k("mana", 0.4F)),
-                3, List.of(60, 30, 10), 3, 3, 7, false);
+                3, List.of(60, 30, 10), 3, 4, 8, false);
         glyph(table, AugmentType.STRENGTHEN, "modifier", "power", 15, 8, List.of(List.of("instant")), List.of(),
                 potency("damage", "pct", List.of(tier(0, 0.08F, 0.14F), tier(35, 0.11F, 0.19F), tier(70, 0.15F, 0.25F)), List.of()),
                 List.of(k("damage", 1.0F), k("area", -0.3F)),
                 List.of(k("mana", 0.6F)),
-                3, List.of(60, 30, 10), 3, 4, 9, false);
+                3, List.of(60, 30, 10), 3, 5, 11, false);
         glyph(table, AugmentType.QUICKEN, "modifier", "flow", 0, 10, List.of(List.of("instant"), List.of("toggle")), List.of(),
                 potency("haste", "pct", List.of(tier(0, 0.06F, 0.1F), tier(35, 0.08F, 0.14F), tier(70, 0.1F, 0.18F)), List.of()),
                 List.of(k("damage", -0.2F)),
                 List.of(k("haste", 1.0F), k("mana", 0.8F)),
-                3, List.of(60, 30, 10), 3, 4, 9, false);
+                3, List.of(60, 30, 10), 3, 5, 11, false);
         glyph(table, AugmentType.DISCOUNT, "modifier", "flow", 0, 10, List.of(List.of("mana")), List.of(),
                 potency("mana", "neg_pct", List.of(tier(0, 0.06F, 0.1F), tier(35, 0.08F, 0.14F), tier(70, 0.1F, 0.18F)), List.of()),
                 List.of(),
                 List.of(k("mana", -1.0F), k("haste", -0.3F)),
-                3, List.of(60, 30, 10), 3, 3, 7, false);
+                3, List.of(60, 30, 10), 3, 4, 8, false);
         glyph(table, AugmentType.DELAY, "delay", "flow", 0, 6, List.of(), List.of(),
                 potency("pause", "seconds", List.of(tier(0, 0.25F, 1.0F)), List.of()),
                 List.of(),
@@ -86,66 +85,66 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 potency("speed", "pct", List.of(tier(0, 0.15F, 0.25F), tier(35, 0.2F, 0.32F), tier(70, 0.25F, 0.4F)), List.of()),
                 List.of(k("speed", 1.0F), k("damage", -0.08F)),
                 List.of(k("mana", 0.2F)),
-                3, List.of(60, 30, 10), 3, 2, 5, false);
+                3, List.of(60, 30, 10), 3, 2, 6, false);
         glyph(table, AugmentType.HOMING, "modifier", "path", 20, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("orbit"),
                 potency("range", "blocks", List.of(tier(20, 10.0F, 16.0F)), List.of(linked("turn rate", 0.12F, 0.22F))),
                 List.of(fixed("damage", 0.9F), fixed("speed", 0.9F)),
                 List.of(fixed("mana", 1.1F)),
-                1, List.of(100), 1, 6, 10, false);
+                1, List.of(100), 1, 7, 12, false);
         glyph(table, AugmentType.ORBIT, "modifier", "path", 20, 4, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("homing"),
                 potency("duration", "seconds", List.of(tier(20, 6.0F, 12.0F)), List.of()),
                 List.of(fixed("damage", 0.85F)),
                 List.of(fixed("mana", 1.15F), fixed("cooldown", 1.1F)),
-                1, List.of(100), 1, 6, 10, false);
+                1, List.of(100), 1, 7, 12, false);
         glyph(table, AugmentType.LOW_GRAVITY, "modifier", "path", 0, 8, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("gravity", "neg_pct", List.of(tier(0, 0.4F, 0.7F)), List.of()),
                 List.of(fixed("speed", 0.95F)),
                 List.of(fixed("mana", 1.04F)),
-                1, List.of(100), 1, 1, 3, false);
+                1, List.of(100), 1, 1, 4, false);
         glyph(table, AugmentType.ETHEREAL, "modifier", "path", 60, 2, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("lifetime", "seconds", List.of(tier(60, 4.0F, 8.0F)), List.of()),
                 List.of(fixed("damage", 0.85F)),
                 List.of(fixed("mana", 1.2F)),
-                1, List.of(100), 1, 9, 13, false);
+                1, List.of(100), 1, 11, 16, false);
         glyph(table, AugmentType.SIZE_UP, "modifier", "form", 0, 8, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
                 potency("size", "pct", List.of(tier(0, 0.2F, 0.3F), tier(35, 0.25F, 0.4F), tier(70, 0.3F, 0.5F)), List.of()),
                 List.of(k("scale", 1.0F), k("speed", -0.3F)),
                 List.of(k("mana", 0.3F)),
-                2, List.of(70, 30), 2, 3, 7, false);
+                2, List.of(70, 30), 2, 4, 8, false);
         glyph(table, AugmentType.SIZE_DOWN, "modifier", "form", 0, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("size", "neg_pct", List.of(tier(0, 0.15F, 0.22F), tier(35, 0.18F, 0.26F), tier(70, 0.2F, 0.3F)), List.of()),
                 List.of(k("scale", -1.0F), k("damage", 0.6F), k("speed", 0.5F)),
                 List.of(fixed("mana", 1.05F)),
-                2, List.of(70, 30), 2, 3, 7, false);
+                2, List.of(70, 30), 2, 4, 8, false);
         glyph(table, AugmentType.ECHO, "modifier", "chaos", 60, 2, List.of(List.of("instant")), List.of(),
                 potency("echo power", "pct_plain", List.of(tier(60, 0.45F, 0.65F)), List.of()),
                 List.of(),
                 List.of(fixed("mana", 1.5F), fixed("cooldown", 1.3F)),
-                1, List.of(100), 1, 12, 18, false);
+                1, List.of(100), 1, 14, 22, false);
         glyph(table, AugmentType.SHOTGUN, "modifier", "chaos", 50, 3, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
                 potency("copy damage", "pct_plain", List.of(tier(50, 0.7F, 0.8F), tier(70, 0.75F, 0.85F)), List.of()),
                 List.of(),
                 List.of(perUse("mana", 0.3F), perUse("cooldown", 0.1F)),
-                3, List.of(50, 35, 15), 3, 10, 16, false);
+                3, List.of(50, 35, 15), 3, 12, 19, false);
         glyph(table, AugmentType.CHARGE, "modifier", "chaos", 60, 2, List.of(List.of("instant", "projectile"), List.of("instant", "area"), List.of("instant", "bolt")), List.of(),
                 potency("full charge", "pct", List.of(tier(60, 0.6F, 1.0F)), List.of()),
                 List.of(),
                 List.of(fixed("mana", 1.35F), fixed("cooldown", 1.25F)),
-                1, List.of(100), 1, 10, 15, false);
+                1, List.of(100), 1, 12, 18, false);
         glyph(table, AugmentType.BUNDLED_SPELL, "bundle", "chaos", 40, 3, List.of(), List.of(),
                 potency("flight", "seconds", List.of(tier(40, 3.0F, 6.0F)), List.of()),
                 List.of(),
                 List.of(fixed("mana", 1.25F), fixed("cooldown", 1.15F)),
-                1, List.of(100), 2, 10, 16, false);
+                1, List.of(100), 2, 12, 19, false);
 
         table.combos = new ArrayList<>();
-        combo(table, "shotgun", "echo", 8, "every copy echoes");
-        combo(table, "shotgun", "homing", 4, "every copy finds a target");
-        combo(table, "shotgun", "orbit", 4, "a ring of orbiting projectiles");
-        combo(table, "shotgun", "bundled_spell", 8, "a Shotgun on the bundle multiplies every payload");
-        combo(table, "ethereal", "homing", 4, "seeks through walls");
-        combo(table, "ethereal", "bundled_spell", 6, "payloads land behind walls");
-        combo(table, "echo", "bundled_spell", 6, "an Echo inside a payload repeats at every landing");
+        combo(table, "shotgun", "echo", 10, "every copy echoes");
+        combo(table, "shotgun", "homing", 5, "every copy finds a target");
+        combo(table, "shotgun", "orbit", 5, "a ring of orbiting projectiles");
+        combo(table, "shotgun", "bundled_spell", 10, "a Shotgun on the bundle multiplies every payload");
+        combo(table, "ethereal", "homing", 5, "seeks through walls");
+        combo(table, "ethereal", "bundled_spell", 7, "payloads land behind walls");
+        combo(table, "echo", "bundled_spell", 7, "an Echo inside a payload repeats at every landing");
 
         FocusAugmentsConfig.FocusRolls focus = new FocusAugmentsConfig.FocusRolls();
         focus.budgetBase = 14.4F;
@@ -153,15 +152,15 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         focus.budgetRollMin = 0.9F;
         focus.budgetRollMax = 1.1F;
         focus.rarities = new LinkedHashMap<>();
-        rarity(focus, "SCRAPPY", 0.6F, 1, 2, null, null);
-        rarity(focus, "COMMON", 0.8F, 2, 3, null, null);
-        rarity(focus, "RARE", 1.0F, 3, 4, null, null);
-        rarity(focus, "EPIC", 1.15F, 4, 5, null, null);
-        rarity(focus, "UNIQUE", 1.15F, 4, 5, null, null);
-        rarity(focus, "SPECIAL", 1.15F, 4, 5, null, null);
-        rarity(focus, "OMEGA", 1.3F, 5, 6, null, null);
-        rarity(focus, "MYTHIC", 1.5F, 6, 7, null, null);
-        rarity(focus, "CHAOTIC", 1.3F, 3, 7, 0.75F, 1.25F);
+        rarity(focus, "SCRAPPY", 0.6F, 2, 3, null, null);
+        rarity(focus, "COMMON", 0.8F, 3, 4, null, null);
+        rarity(focus, "RARE", 1.0F, 4, 5, null, null);
+        rarity(focus, "EPIC", 1.15F, 5, 6, null, null);
+        rarity(focus, "UNIQUE", 1.15F, 5, 6, null, null);
+        rarity(focus, "SPECIAL", 1.15F, 5, 6, null, null);
+        rarity(focus, "OMEGA", 1.3F, 6, 7, null, null);
+        rarity(focus, "MYTHIC", 1.5F, 8, 9, null, null);
+        rarity(focus, "CHAOTIC", 1.3F, 4, 8, 0.75F, 1.25F);
         focus.depth = List.of(depth(0, 3, 3), depth(40, 3, 4), depth(70, 4, 4));
         focus.depthBonus = new LinkedHashMap<>();
         focus.depthBonus.put("OMEGA", depth(70, 4, 5));

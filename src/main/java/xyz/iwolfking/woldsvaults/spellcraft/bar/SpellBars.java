@@ -1,5 +1,10 @@
 package xyz.iwolfking.woldsvaults.spellcraft.bar;
 
+import iskallia.vault.mana.ManaPlayer;
+import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
+import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
+import iskallia.vault.util.calc.ManaCostHelper;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.SpecializedSkill;
@@ -37,7 +42,10 @@ import java.util.UUID;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class SpellBars {
     private static final int REFRESH_TICKS = 4;
+    private static final int RETRY_TICKS = 10;
+    private static final Map<UUID, Map<Integer, Integer>> HELD = new HashMap<>();
     private static final int ROLL_SCAN_TICKS = 40;
+    private static final int STAT_SYNC_TICKS = 20;
     private static final Map<UUID, State> STATES = new HashMap<>();
     private static boolean dispatching;
 
@@ -80,11 +88,16 @@ public final class SpellBars {
         EffectiveBar bar = EffectiveBar.resolve(FocusAugments.config(), saved.defaults, source, SpellcraftRules.specOf(tree));
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         String[] keys = new String[SpellcraftItemData.SLOTS];
+        boolean swapped = false;
         for (int i = 0; i < keys.length; i++) {
             keys[i] = bar.slot(i).key();
             if (state.keys != null && !keys[i].isEmpty() && !keys[i].equals(state.keys[i])) {
                 SpellCooldowns.startFull(player, bar.slot(i));
+                swapped = true;
             }
+        }
+        if (swapped) {
+            tree.sync(SkillContext.of(player));
         }
         state.keys = keys;
         state.bar = bar;
@@ -234,6 +247,16 @@ public final class SpellBars {
 
     private static void press(ServerPlayer player, EffectiveBar bar, int index, boolean down) {
         EffectiveBar.Slot slot = bar.slot(index);
+        if (slot.kind() != EffectiveBar.Kind.EMPTY && repeats(player, slot)) {
+            Map<Integer, Integer> held = HELD.computeIfAbsent(player.getUUID(), id -> new HashMap<>());
+            if (down) {
+                held.put(index, player.tickCount + RETRY_TICKS);
+                castOnce(player, bar, slot);
+            } else {
+                held.remove(index);
+            }
+            return;
+        }
         switch (slot.kind()) {
             case EMPTY -> {
                 if (!down) {
@@ -263,6 +286,78 @@ public final class SpellBars {
             }
             case SPELL -> FocusAugments.onSpellKey(player, bar, slot, down);
         }
+    }
+
+    /**
+     * Whether a held key keeps recasting this slot: instant abilities and instant spells without Charge. Toggles,
+     * holds and Charge spells keep their own press and release handling.
+     */
+    private static boolean repeats(ServerPlayer player, EffectiveBar.Slot slot) {
+        Ability trigger = SpellCooldowns.ability(SpellCooldowns.tree(player), slot.group());
+        if (!(trigger instanceof InstantAbility)) {
+            return false;
+        }
+        return slot.kind() == EffectiveBar.Kind.ABILITY || (slot.model() != null && !slot.model().hasCharge());
+    }
+
+    private static void castOnce(ServerPlayer player, EffectiveBar bar, EffectiveBar.Slot slot) {
+        if (slot.kind() == EffectiveBar.Kind.SPELL) {
+            FocusAugments.onSpellKey(player, bar, slot, false);
+            return;
+        }
+        AbilityTree tree = SpellCooldowns.tree(player);
+        followSelection(player, tree, slot);
+        SpecializedSkill selected = tree.getSelected();
+        if (selected == null || !selected.getId().equals(slot.group())) {
+            return;
+        }
+        SkillContext context = SkillContext.of(player);
+        dispatch(() -> {
+            tree.onKeyDown(context);
+            tree.onKeyUp(context);
+        });
+    }
+
+    /** Recasts held slots as soon as they are ready: off cooldown and affordable. Failed attempts wait a moment. */
+    private static void recastHeld(ServerPlayer player) {
+        Map<Integer, Integer> held = HELD.get(player.getUUID());
+        if (held == null || held.isEmpty()) {
+            return;
+        }
+        EffectiveBar bar = current(player);
+        if (bar == null) {
+            return;
+        }
+        AbilityTree tree = SpellCooldowns.tree(player);
+        for (Map.Entry<Integer, Integer> entry : new java.util.ArrayList<>(held.entrySet())) {
+            EffectiveBar.Slot slot = bar.slot(entry.getKey());
+            if (slot.kind() == EffectiveBar.Kind.EMPTY || !repeats(player, slot)) {
+                held.remove(entry.getKey());
+                continue;
+            }
+            Ability trigger = SpellCooldowns.ability(tree, slot.group());
+            if (player.tickCount < entry.getValue() || trigger == null || trigger.isTreeOnCooldown() || !canAfford(player, tree, slot)) {
+                continue;
+            }
+            held.put(entry.getKey(), player.tickCount + RETRY_TICKS);
+            castOnce(player, bar, slot);
+        }
+    }
+
+    private static boolean canAfford(ServerPlayer player, AbilityTree tree, EffectiveBar.Slot slot) {
+        if (player.isCreative()) {
+            return true;
+        }
+        float cost = 0.0F;
+        for (String group : slot.groups()) {
+            if (SpellCooldowns.ability(tree, group) instanceof InstantManaAbility mana) {
+                cost += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
+            }
+        }
+        if (slot.model() != null) {
+            cost *= slot.model().manaFactor();
+        }
+        return ((ManaPlayer) player).getMana() >= cost;
     }
 
     /** Sets a default-bar slot (empty string clears it); the ability moves if it was on another default slot. */
@@ -363,7 +458,14 @@ public final class SpellBars {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player) || player.tickCount % REFRESH_TICKS != 0) {
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
+            return;
+        }
+        recastHeld(player);
+        if (player.tickCount % STAT_SYNC_TICKS == 0) {
+            xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.sync(player);
+        }
+        if (player.tickCount % REFRESH_TICKS != 0) {
             return;
         }
         if (player.tickCount % ROLL_SCAN_TICKS == 0) {
@@ -389,11 +491,14 @@ public final class SpellBars {
 
     @SubscribeEvent
     public static void onLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        HELD.remove(event.getPlayer().getUUID());
+        xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.forget(event.getPlayer().getUUID());
         STATES.remove(event.getPlayer().getUUID());
     }
 
     @SubscribeEvent
     public static void onServerStopped(ServerStoppedEvent event) {
+        HELD.clear();
         STATES.clear();
     }
 }

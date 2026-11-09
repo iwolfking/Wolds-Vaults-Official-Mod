@@ -87,6 +87,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SpellSlotKeyMessage.class, SpellSlotKeyMessage::encode, SpellSlotKeyMessage::decode, SpellSlotKeyMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, SpellBarEditMessage.class, SpellBarEditMessage::encode, SpellBarEditMessage::decode, SpellBarEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, SpellEditMessage.class, SpellEditMessage::encode, SpellEditMessage::decode, SpellEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage.class, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::encode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::decode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static <T> void sendToServer(T message) {

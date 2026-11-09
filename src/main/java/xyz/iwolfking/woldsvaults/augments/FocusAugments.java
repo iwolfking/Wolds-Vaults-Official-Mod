@@ -20,7 +20,6 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
-import xyz.iwolfking.woldsvaults.spellcraft.haste.SpellHaste;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -107,12 +106,11 @@ public final class FocusAugments {
                 return;
             }
             if (trigger.isTreeOnCooldown()) {
-                AugmentCaster.showMessage(player, slot.spell().name() + " is on cooldown");
+                player.level.playSound(null, player.blockPosition(), iskallia.vault.init.ModSounds.ABILITY_ON_COOLDOWN,
+                        net.minecraft.sounds.SoundSource.PLAYERS, 1.0F, 1.0F);
                 return;
             }
-            Float haste = SpellHaste.factor(player, model.hasteMultiplier());
-            int fullTicks = Math.round(config.tuning.chargeSeconds * 20.0F / (haste == null ? 1.0F : haste));
-            SpellCharge.start(player, slot.index(), fullTicks, slot.spell().name(), config.tuning.chargeMoveMultiplier);
+            SpellCharge.start(player, slot.index(), Math.round(config.tuning.chargeSeconds * 20.0F));
         } else {
             float share = SpellCharge.release(player, slot.index());
             if (share >= 0.0F) {

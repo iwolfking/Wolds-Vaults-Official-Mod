@@ -59,7 +59,6 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public float sizeUpMaxScale;
         @Expose public float sizeDownMinScale;
         @Expose public float chargeSeconds;
-        @Expose public float chargeMoveMultiplier;
         @Expose public float chargeMinShare;
     }
 
@@ -223,7 +222,7 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             return "a spell rule is out of range";
         }
         if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
-                || this.tuning.chargeSeconds <= 0 || this.tuning.chargeMoveMultiplier <= 0) {
+                || this.tuning.chargeSeconds <= 0) {
             return "a tuning value is out of range";
         }
         for (AugmentType type : AugmentType.values()) {
