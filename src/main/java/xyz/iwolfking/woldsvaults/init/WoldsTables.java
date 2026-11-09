@@ -18,6 +18,7 @@ import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
+import xyz.iwolfking.woldsvaults.config.StatScreenConfig;
 import xyz.iwolfking.woldsvaults.config.WoldsTable;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
@@ -57,6 +58,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
     public static final WoldsTableLoader<GreedChampionConfig> GREED_CHAMPION = new WoldsTableLoader<>(new GreedChampionConfig(), "greed/champion");
+    public static final WoldsTableLoader<StatScreenConfig> STAT_SCREEN = new WoldsTableLoader<>(new StatScreenConfig(), "gui/stat_screen");
 
     private WoldsTables() {
     }
@@ -78,6 +80,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
         LoaderRegistry.addConfigProcessor(GREED_CHAMPION);
+        LoaderRegistry.addConfigProcessor(STAT_SCREEN);
     }
 
     /** Installs the tables after the loaders have run; lowest priority so every loader has gathered first. */
@@ -100,6 +103,7 @@ public final class WoldsTables {
             ModConfigs.MULTI_CELL_ROOMS = multiCell;
         }
         installExtraction();
+        ModConfigs.STAT_SCREEN = require(STAT_SCREEN, "player_stats");
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
     }
 

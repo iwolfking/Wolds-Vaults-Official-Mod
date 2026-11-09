@@ -86,6 +86,7 @@ import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -357,11 +358,7 @@ public class LivingEntityEvents {
             }
         });
 
-        float dodgeChance = AttributeSnapshotHelper.getInstance().getSnapshot(entity).getAttributeValue(ModGearAttributes.DODGE_PERCENT, VaultGearAttributeTypeMerger.floatSum());
-        if(entity.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
-            dodgeChance += SneakyGetawayAbility.SneakyGetawayEffect.getSneakyEtchingDodgeChance(entity);
-        }
-        boolean dodge = entity.getRandom().nextDouble() <= Math.min(LuckHelper.getLuckAffectedChance(dodgeChance, entity), 0.75);
+        boolean dodge = entity.getRandom().nextDouble() <= Math.min(WoldAttributeHelper.getDodgeChance(entity), WoldConstants.DODGE_PERCENT_CAP);
 
         if (dodge && entity instanceof ServerPlayer dodgingPlayer) {
             Milestones.advance(dodgingPlayer, MilestoneIds.WOOSH, 1L);

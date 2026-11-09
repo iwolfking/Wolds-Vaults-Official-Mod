@@ -110,6 +110,7 @@ public class DataGenerators {
             gen.addProvider(new ModGreedMilestonesProvider(gen));
             gen.addProvider(new ModGreedMedallionsProvider(gen));
             gen.addProvider(new ModGreedChampionProvider(gen));
+            gen.addProvider(new ModStatScreenProvider(gen));
             gen.addProvider(new ModGearSetsProvider(gen));
             gen.addProvider(new ModObjectiveDifficultyProvider(gen));
             gen.addProvider(new ModHyperObjectiveProvider(gen));
