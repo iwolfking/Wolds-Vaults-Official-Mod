@@ -42,6 +42,11 @@ import java.util.function.Function;
 public final class SpellBarStrip {
     private static final int MANA_COLOR = 0xFF6FA8FF;
     private static final int COOLDOWN_COLOR = 0xFFFFC46A;
+    private static final int DAMAGE_COLOR = 0xFFFF7A5C;
+    private static final int AREA_COLOR = 0xFF7EE787;
+    private static final int VELOCITY_COLOR = 0xFF5FD8E8;
+    private static final int DURATION_COLOR = 0xFFF59AD0;
+    private static final int EXTRA_COLOR = 0xFFD9C98A;
     public static final int HEIGHT = 24;
     public static final int BAND = 27;
     public static final int PICK = 20;
@@ -299,6 +304,10 @@ public final class SpellBarStrip {
         switch (slot.state()) {
             case ABILITY -> {
                 lines.add(colored(SpellcraftGui.abilityName(tree, slot.group()) + tierSuffix(tree, slot.group()), SpellcraftGui.NAME_GOLD));
+                ClientAbilityStats.Step stats = ClientAbilityStats.plain(tree, slot.group());
+                if (stats != null) {
+                    lines.addAll(statLines(stats, ""));
+                }
                 ClientSpellStats.Numbers numbers = ClientSpellStats.plain(tree, slot.group());
                 if (numbers != null) {
                     lines.addAll(numberLines(numbers));
@@ -315,6 +324,10 @@ public final class SpellBarStrip {
                 }
                 lines.add(colored(SpellcraftGui.tr("bar.augmented", String.join(" + ", parts)), SpellcraftGui.GREY));
                 if (config != null && slot.model() != null) {
+                    ClientAbilityStats.SpellStats stats = ClientAbilityStats.spell(config, tree, slot.model());
+                    if (stats != null) {
+                        lines.addAll(spellLines(tree, stats));
+                    }
                     ClientSpellStats.Numbers numbers = ClientSpellStats.spell(config, tree, slot.model());
                     if (numbers != null) {
                         lines.addAll(numberLines(numbers));
@@ -366,9 +379,9 @@ public final class SpellBarStrip {
     private static List<Component> numberLines(ClientSpellStats.Numbers numbers) {
         List<Component> lines = new ArrayList<>();
         if (numbers.hasMana()) {
-            int before = Math.round(numbers.manaBefore());
-            int after = Math.round(numbers.manaAfter());
-            String mana = before == after ? String.valueOf(after) : SpellcraftGui.tr("fmt.arrow", before, after);
+            String before = ClientAbilityStats.compact(Math.round(numbers.manaBefore()));
+            String after = ClientAbilityStats.compact(Math.round(numbers.manaAfter()));
+            String mana = before.equals(after) ? after : SpellcraftGui.tr("fmt.arrow", before, after);
             lines.add(labelled(SpellcraftGui.tr("bar.mana_label"), mana, MANA_COLOR));
         }
         String cooldown = numbers.cooldownBefore() == numbers.cooldownAfter()
@@ -379,6 +392,90 @@ public final class SpellBarStrip {
         Integer haste = ClientSpellStats.hastePercent();
         if (haste != null && haste != 0) {
             lines.add(labelled(SpellcraftGui.tr("bar.haste_label"), (haste > 0 ? "+" : "") + haste + "%", SpellcraftGui.ARCANE_GLOW));
+        }
+        return lines;
+    }
+
+    /**
+     * A spell's stat lines: with one row, that step's lines; with more, each ability step and Bundled Spell orb under its
+     * own header, indented by payload depth, then the whole press's damage when several steps deal damage.
+     */
+    private static List<Component> spellLines(AbilityTree tree, ClientAbilityStats.SpellStats stats) {
+        List<Component> lines = new ArrayList<>();
+        if (stats.rows().size() == 1 && stats.rows().get(0) instanceof ClientAbilityStats.Step step) {
+            lines.addAll(statLines(step, ""));
+            return lines;
+        }
+        for (ClientAbilityStats.Row row : stats.rows()) {
+            String indent = "  ".repeat(row.depth());
+            if (row instanceof ClientAbilityStats.Step step) {
+                lines.add(colored(indent + SpellcraftGui.groupName(tree, step.group()), SpellcraftGui.NAME_GOLD));
+                lines.addAll(statLines(step, indent + "  "));
+            } else if (row instanceof ClientAbilityStats.Orb orb) {
+                lines.add(colored(indent + SpellcraftGui.tr("bar.stat.orb_step"), SpellcraftGui.ARCANE_GLOW));
+                String inner = indent + "  ";
+                if (orb.copies() > 1) {
+                    lines.add(labelled(inner + SpellcraftGui.tr("bar.stat.orbs"), String.valueOf(orb.copies()), EXTRA_COLOR));
+                }
+                lines.add(labelled(inner + SpellcraftGui.tr("bar.stat.velocity"),
+                        SpellcraftGui.tr("fmt.blocks_per_second", ClientAbilityStats.compact(orb.velocity())), VELOCITY_COLOR));
+                lines.add(labelled(inner + SpellcraftGui.tr("bar.stat.flight"),
+                        SpellcraftGui.tr("fmt.seconds", SpellcraftGui.trim(orb.flightSeconds())), DURATION_COLOR));
+            }
+        }
+        if (stats.total() != null) {
+            lines.add(labelled(SpellcraftGui.tr("bar.stat.spell_total"), ClientAbilityStats.hit(stats.total()), DAMAGE_COLOR));
+        }
+        return lines;
+    }
+
+    /** One step's stats, one per line: damage (and total, splinter, splash), radius, velocity, duration, then VH's other numbers. */
+    private static List<Component> statLines(ClientAbilityStats.Step step, String indent) {
+        List<Component> lines = new ArrayList<>();
+        if (step.hit() != null) {
+            String hit = ClientAbilityStats.hit(step.hit());
+            if (step.charged() != null) {
+                hit = SpellcraftGui.tr("fmt.charged", hit, ClientAbilityStats.hit(step.charged()));
+            }
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.damage"), hit, DAMAGE_COLOR));
+        }
+        if (step.total() != null) {
+            String total = ClientAbilityStats.hit(step.total());
+            int echo = Math.round(step.echoPower() * 100.0F);
+            if (step.echoPower() > 0.0F) {
+                total = step.casts() > 1 ? SpellcraftGui.tr("fmt.casts_echo", total, step.casts(), echo) : SpellcraftGui.tr("fmt.echo", total, echo);
+            } else {
+                total = SpellcraftGui.tr("fmt.casts", total, step.casts());
+            }
+            if (step.chargedTotal() != null) {
+                total = SpellcraftGui.tr("fmt.charged", total, ClientAbilityStats.hit(step.chargedTotal()));
+            }
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.total"), total, DAMAGE_COLOR));
+        }
+        if (step.splinter() != null) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.splinter"), ClientAbilityStats.hit(step.splinter()), DAMAGE_COLOR));
+        }
+        if (step.splash() != null) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.splash"), ClientAbilityStats.hit(step.splash()), DAMAGE_COLOR));
+        }
+        if (step.radius() >= 0.0F) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.radius"),
+                    SpellcraftGui.tr("fmt.blocks", ClientAbilityStats.compact(step.radius())), AREA_COLOR));
+        }
+        if (step.splashRadius() >= 0.0F) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.splash_radius"),
+                    SpellcraftGui.tr("fmt.blocks", ClientAbilityStats.compact(step.splashRadius())), AREA_COLOR));
+        }
+        if (step.velocity() >= 0.0F) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.velocity"),
+                    SpellcraftGui.tr("fmt.blocks_per_second", ClientAbilityStats.compact(step.velocity())), VELOCITY_COLOR));
+        }
+        if (step.durationTicks() >= 0) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.duration"),
+                    SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(step.durationTicks())), DURATION_COLOR));
+        }
+        for (ClientAbilityStats.Extra extra : step.extras()) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat." + extra.key()), extra.value(), EXTRA_COLOR));
         }
         return lines;
     }
