@@ -1,14 +1,7 @@
 package xyz.iwolfking.woldsvaults;
 
 import com.mojang.logging.LogUtils;
-import fuzs.puzzleslib.api.client.event.v1.ModelEvents;
-import iskallia.vault.config.EntityGroupDefinitionsConfig;
-import iskallia.vault.config.VaultMapRoomIconsConfig;
-import iskallia.vault.init.ModTextureAtlases;
-import iskallia.vault.item.tool.ToolMaterial;
-import iskallia.vault.item.tool.ToolType;
 import iskallia.vault.world.data.PlayerGreedData;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -20,9 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -41,9 +31,9 @@ import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.registry.gear.CustomVaultGearRegistryEntry;
 import xyz.iwolfking.vhapi.api.registry.objective.CustomObjectiveRegistryEntry;
 import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
-import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.api.core.competition.PlayerRewardStorage;
-import xyz.iwolfking.woldsvaults.api.lib.ExtendedToolType;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.rewards.UnlockResearchReward;
+import xyz.iwolfking.woldsvaults.integration.ftbquests.rewards.VaultPointsReward;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
 import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
@@ -161,6 +151,10 @@ public class WoldsVaults {
         DelayedExecutionHelper.init();
         ModVaultEvents.init();
         ModPetModels.register();
+        if (LoadingModList.get().getModFileById("ftbquests") != null) {
+            event.enqueueWork(VaultPointsReward::register);
+            event.enqueueWork(UnlockResearchReward::register);
+        }
         BETTER_COMBAT_PRESENT = LoadingModList.get().getModFileById("bettercombat") != null;
         if(ConditionalModUtils.isModPresent("mekanism")) {
             ModModuleToVaultGearModifications.init();

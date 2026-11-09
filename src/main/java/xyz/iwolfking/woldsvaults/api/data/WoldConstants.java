@@ -28,4 +28,7 @@ public class WoldConstants {
 
     //Caps
     public static final float DODGE_PERCENT_CAP = 0.95F;
+
+    //Constant Strings
+    public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
 }

@@ -499,7 +499,6 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
         });
 
-        //TODO: Configure Mythic values
         add("scepter_mythic", builder -> {
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.BASE_ATTRIBUTES, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DURABILITY, "BaseDurability", "base_durability", List.of("resilientFocusTarget"), vaultGearModifierTiersBuilder -> {

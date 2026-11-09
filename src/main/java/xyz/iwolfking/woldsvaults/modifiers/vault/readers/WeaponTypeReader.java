@@ -27,7 +27,7 @@ public class WeaponTypeReader extends VaultGearModifierReader<String> {
 
     @Nonnull
     public MutableComponent getValueDisplay(String value) {
-        TextComponent component = new TextComponent("Weapon Type: " + value);
+        TextComponent component = new TextComponent(value);
         WeaponTypesConfig.Entry entry = ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.get(value);
 
         if (entry != null) {

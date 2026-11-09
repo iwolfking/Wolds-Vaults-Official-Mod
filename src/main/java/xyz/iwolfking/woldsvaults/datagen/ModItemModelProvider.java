@@ -175,6 +175,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.LEAD_DYE_BASE);
         simpleItem(ModItems.CONCENTRATED_VOID);
         simpleItem(ModItems.INSCRIBING_FOCUS);
+        simpleItem(ModItems.WEAPON_TYPE_SETTER);
 
         withExistingParent("owned_crafting_table",
                 mcLoc("item/crafting_table"));

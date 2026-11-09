@@ -61,6 +61,7 @@ import xyz.iwolfking.woldsvaults.integration.occultism.RitualRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.thermal.recipe.ThermalCentrifugeRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.thermal.recipe.ThermalSmelterRecipeBuilder;
 import xyz.iwolfking.woldsvaults.items.GodReputationItem;
+import xyz.iwolfking.woldsvaults.items.WeaponTypeSettingItem;
 import xyz.iwolfking.woldsvaults.recipes.lib.InfuserRecipeBuilder;
 import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
 import xyz.iwolfking.woldsvaults.recipes.lib.UncheckedRecipe;
@@ -1111,6 +1112,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                     .save(pFinishedRecipeConsumer);
         });
 
+        weaponTypeSetter("Anchor", Items.NAUTILUS_SHELL, pFinishedRecipeConsumer);
+        weaponTypeSetter("Axe", Items.STONE_AXE, pFinishedRecipeConsumer);
+        weaponTypeSetter("Battlestaff", Items.IRON_INGOT, pFinishedRecipeConsumer);
+        weaponTypeSetter("Claw", Items.DIAMOND_HOE, pFinishedRecipeConsumer);
+        weaponTypeSetter("Claymore", Items.DIAMOND_SWORD, pFinishedRecipeConsumer);
+        weaponTypeSetter("Cutlass", Items.IRON_SWORD, pFinishedRecipeConsumer);
+        weaponTypeSetter("Dagger", Items.WOODEN_SWORD, pFinishedRecipeConsumer);
+        weaponTypeSetter("Double-Axe", Items.IRON_AXE, pFinishedRecipeConsumer);
+        weaponTypeSetter("Fist", Items.DIRT, pFinishedRecipeConsumer);
+        weaponTypeSetter("Hammer", Items.IRON_BLOCK, pFinishedRecipeConsumer);
+        weaponTypeSetter("Katana", Items.LAPIS_BLOCK, pFinishedRecipeConsumer);
+        weaponTypeSetter("Pickaxe", Items.IRON_PICKAXE, pFinishedRecipeConsumer);
+        weaponTypeSetter("Rapier", Items.NETHERITE_SWORD, pFinishedRecipeConsumer);
+        weaponTypeSetter("Spear", Items.ARROW, pFinishedRecipeConsumer);
+        weaponTypeSetter("Staff", Items.STICK, pFinishedRecipeConsumer);
+        weaponTypeSetter("Sword", Items.STONE_SWORD, pFinishedRecipeConsumer);
+        weaponTypeSetter("Trident", Items.TRIDENT, pFinishedRecipeConsumer);
+        weaponTypeSetter("Twin-Blade", Items.GRINDSTONE, pFinishedRecipeConsumer);
+        weaponTypeSetter("Wand", Items.LAPIS_LAZULI, pFinishedRecipeConsumer);
+        weaponTypeSetter("Halberd", Items.REDSTONE_TORCH, pFinishedRecipeConsumer);
+
         slabRecipe(pFinishedRecipeConsumer, ModBlocks.TENOS_PLANKS_SLAB, iskallia.vault.init.ModBlocks.TENOS_PLANKS);
         slabRecipe(pFinishedRecipeConsumer, ModBlocks.TENOS_BRICKS_SLAB, iskallia.vault.init.ModBlocks.TENOS_BRICK);
         slabRecipe(pFinishedRecipeConsumer, ModBlocks.TENOS_BRICK_CHISELED_SLAB, iskallia.vault.init.ModBlocks.TENOS_CHISELED_BRICK);
@@ -1358,6 +1380,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("DTD")
                 .unlockedBy("has_temporal_shard", has(iskallia.vault.init.ModItems.TEMPORAL_SHARD))
                 .save(finishedRecipe, WoldsVaults.id(recipeId));
+    }
+
+    private void weaponTypeSetter(String recipeId, Item weaponTypeItem, Consumer<FinishedRecipe> finishedRecipe) {
+        CompoundTag weaponTypeTag = new CompoundTag();
+        weaponTypeTag.putString("modifier", recipeId);
+        ShapedRecipeBuilder.shaped(ModItems.WEAPON_TYPE_SETTER)
+                .define('T', iskallia.vault.init.ModItems.VAULT_DIAMOND)
+                .define('R', weaponTypeItem)
+                .define('C', ModItems.WEAPON_TYPE_FOCUS)
+                .define('D', iskallia.vault.init.ModItems.PERFECT_WUTODIE)
+                .pattern("DTD")
+                .pattern("CRC")
+                .pattern("DTD")
+                .unlockedBy("has_weapon_type_focus", has(ModItems.WEAPON_TYPE_FOCUS))
+                .save(output -> finishedRecipe.accept(new NbtOutputResult(output, weaponTypeTag)), WoldsVaults.id("weapon_type_setter_" + recipeId.toLowerCase()));
     }
 
     private void gemBlockRecipe(String recipeId, Block gemBlock, Item gemItem, Consumer<FinishedRecipe> finishedRecipe) {

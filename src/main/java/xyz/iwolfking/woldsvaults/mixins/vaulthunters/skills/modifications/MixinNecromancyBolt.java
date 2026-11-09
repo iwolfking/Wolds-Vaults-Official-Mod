@@ -18,7 +18,7 @@ import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(targets = "iskallia.vault.skill.ability.effect.NecromancyAbility$NecromancyBolt", remap = false)
+@Mixin(value = NecromancyAbility.NecromancyBolt.class, remap = false)
 public class MixinNecromancyBolt {
 
     @Unique

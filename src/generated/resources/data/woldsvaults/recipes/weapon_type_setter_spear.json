@@ -1,0 +1,29 @@
+{
+  "type": "botania:nbt_output_wrapper",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "DTD",
+      "CRC",
+      "DTD"
+    ],
+    "key": {
+      "T": {
+        "item": "the_vault:vault_diamond"
+      },
+      "R": {
+        "item": "minecraft:arrow"
+      },
+      "C": {
+        "item": "woldsvaults:accoutre_focus"
+      },
+      "D": {
+        "item": "the_vault:perfect_wutodie"
+      }
+    },
+    "result": {
+      "item": "woldsvaults:weapon_type_setter"
+    }
+  },
+  "nbt": "{modifier:\"Spear\"}"
+}

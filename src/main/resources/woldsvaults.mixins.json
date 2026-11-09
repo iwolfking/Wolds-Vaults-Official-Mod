@@ -691,7 +691,13 @@
     "MixinLivingEntityRiptide",
     "MixinPlayerRiptideContact",
     "MixinServerItemCooldownsRiptide",
-    "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets"
+    "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets",
+    "accessors.NearestAttackableTargetGoalAccessor",
+    "accessors.TargetingConditionsAccessor",
+    "create.accessors.MixinFilterItem",
+    "dungeons_library.MixinAbilityHelper",
+    "trashslot.TrashSlotGuiHandlerMixin",
+    "vaulthunters.skills.modifications.MixinLightningOrbsAbility"
   ],
   "client": [
     "vhatcaniroll.MixinVhatCanIRollItems",
@@ -781,7 +787,9 @@
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
     "vaulthunters.gods.MixinVaultEndScreenGodXp",
-    "vaulthunters.objectives.MixinClientCrystalData"
+    "vaulthunters.objectives.MixinClientCrystalData",
+    "jei.MixinSubtypeRegistration",
+    "vaulthunters.custom.MixinStatisticsElementContainerScreen"
   ],
   "injectors": {
     "defaultRequire": 1

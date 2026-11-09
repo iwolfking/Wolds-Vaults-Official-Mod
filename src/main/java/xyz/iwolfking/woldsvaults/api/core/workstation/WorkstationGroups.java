@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.workstation;
+package xyz.iwolfking.woldsvaults.api.core.workstation;
 
 public final class WorkstationGroups {
     private WorkstationGroups() {}
