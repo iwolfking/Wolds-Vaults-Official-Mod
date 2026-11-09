@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * Homing and Orbit: steers projectiles a cast spawned by setting their motion each server tick; the projectile's own
@@ -56,13 +57,13 @@ public final class ProjectileSteering {
         Steered steered = new Steered(projectile, owner, false, 0, range, turnRate, 0);
         FocusAugmentsConfig config = FocusAugments.config();
         if (config != null) {
-            steered.preferred = cursorTarget(projectile, owner, config).orElse(null);
+            steered.preferred = cursorTarget(owner, config, e -> canTarget(projectile, owner, e)).orElse(null);
         }
         STEERED.add(steered);
     }
 
     /** The enemy nearest the owner's crosshair: inside the aim cone and range, in sight, smallest angle wins. */
-    private static Optional<LivingEntity> cursorTarget(Projectile projectile, ServerPlayer owner, FocusAugmentsConfig config) {
+    public static Optional<LivingEntity> cursorTarget(ServerPlayer owner, FocusAugmentsConfig config, Predicate<LivingEntity> valid) {
         Vec3 eye = owner.getEyePosition();
         Vec3 look = AimOverride.realLook(owner).normalize();
         double minCos = Math.cos(Math.toRadians(config.tuning.homingAimConeDegrees));
@@ -70,7 +71,7 @@ public final class ProjectileSteering {
         AABB area = owner.getBoundingBox().inflate(range);
         LivingEntity best = null;
         double bestCos = minCos;
-        for (LivingEntity candidate : owner.level.getEntitiesOfClass(LivingEntity.class, area, e -> canTarget(projectile, owner, e))) {
+        for (LivingEntity candidate : owner.level.getEntitiesOfClass(LivingEntity.class, area, valid)) {
             Vec3 to = candidate.getBoundingBox().getCenter().subtract(eye);
             double distance = to.length();
             if (distance < 1.0E-4 || distance > range) {
@@ -165,7 +166,7 @@ public final class ProjectileSteering {
     }
 
     /** Turns a unit vector toward another by at most {@code maxAngle} radians, along the great circle. */
-    private static Vec3 rotateToward(Vec3 from, Vec3 to, double maxAngle) {
+    public static Vec3 rotateToward(Vec3 from, Vec3 to, double maxAngle) {
         double dot = Math.max(-1.0, Math.min(1.0, from.dot(to)));
         double angle = Math.acos(dot);
         if (angle <= maxAngle || angle < 1.0E-6) {

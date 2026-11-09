@@ -84,12 +84,12 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(),
                 List.of(fixed("mana", 1.02F)),
                 4, List.of(40, 30, 20, 10), 4, 1, 1, true);
-        glyph(table, AugmentType.ACCELERATE, "modifier", "path", 0, 10, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+        glyph(table, AugmentType.ACCELERATE, "modifier", "path", 0, 10, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("speed", "pct", List.of(tier(0, 0.15F, 0.25F), tier(35, 0.2F, 0.32F), tier(70, 0.25F, 0.4F)), List.of()),
                 List.of(k("speed", 1.0F), k("damage", -0.08F)),
                 List.of(k("mana", 0.2F)),
                 3, List.of(60, 30, 10), 3, 2, 6, false);
-        glyph(table, AugmentType.HOMING, "modifier", "path", 20, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("orbit"),
+        glyph(table, AugmentType.HOMING, "modifier", "path", 20, 6, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("bundle")), List.of("orbit"),
                 potency("turn rate", "deg_s", List.of(tier(20, 60.0F, 120.0F), tier(50, 80.0F, 150.0F), tier(80, 100.0F, 180.0F)), List.of()),
                 List.of(fixed("damage", 0.9F), fixed("speed", 0.9F)),
                 List.of(fixed("mana", 1.1F)),
@@ -104,17 +104,17 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(fixed("speed", 0.95F)),
                 List.of(fixed("mana", 1.04F)),
                 1, List.of(100), 1, 1, 4, false);
-        glyph(table, AugmentType.ETHEREAL, "modifier", "path", 60, 2, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+        glyph(table, AugmentType.ETHEREAL, "modifier", "path", 60, 2, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("lifetime", "seconds", List.of(tier(60, 4.0F, 8.0F)), List.of()),
                 List.of(fixed("damage", 0.85F)),
                 List.of(fixed("mana", 1.2F)),
                 1, List.of(100), 1, 11, 16, false);
-        glyph(table, AugmentType.SIZE_UP, "modifier", "form", 0, 8, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
+        glyph(table, AugmentType.SIZE_UP, "modifier", "form", 0, 8, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
                 potency("size", "pct", List.of(tier(0, 0.2F, 0.3F), tier(35, 0.25F, 0.4F), tier(70, 0.3F, 0.5F)), List.of()),
                 List.of(k("scale", 1.0F), k("speed", -0.3F)),
                 List.of(k("mana", 0.3F)),
                 2, List.of(70, 30), 2, 4, 8, false);
-        glyph(table, AugmentType.SIZE_DOWN, "modifier", "form", 0, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of(),
+        glyph(table, AugmentType.SIZE_DOWN, "modifier", "form", 0, 6, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("bundle")), List.of(),
                 potency("size", "neg_pct", List.of(tier(0, 0.15F, 0.22F), tier(35, 0.18F, 0.26F), tier(70, 0.2F, 0.3F)), List.of()),
                 List.of(k("scale", -1.0F), k("damage", 0.6F), k("speed", 0.5F)),
                 List.of(fixed("mana", 1.05F)),
@@ -124,12 +124,12 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(),
                 List.of(fixed("mana", 1.5F), fixed("cooldown", 1.3F)),
                 1, List.of(100), 1, 14, 22, false);
-        glyph(table, AugmentType.SHOTGUN, "modifier", "chaos", 50, 3, List.of(List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
+        glyph(table, AugmentType.SHOTGUN, "modifier", "chaos", 50, 3, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("instant", "bolt"), List.of("bundle")), List.of(),
                 potency("copy damage", "pct_plain", List.of(tier(50, 0.7F, 0.8F), tier(70, 0.75F, 0.85F)), List.of()),
                 List.of(),
                 List.of(perUse("mana", 0.3F), perUse("cooldown", 0.1F)),
                 3, List.of(50, 35, 15), 3, 12, 19, false);
-        glyph(table, AugmentType.CHARGE, "modifier", "chaos", 60, 2, List.of(List.of("instant", "projectile"), List.of("instant", "area"), List.of("instant", "bolt")), List.of(),
+        glyph(table, AugmentType.CHARGE, "modifier", "chaos", 60, 2, List.of(List.of("instant", "path"), List.of("instant", "projectile"), List.of("instant", "area"), List.of("instant", "bolt")), List.of(),
                 potency("full charge", "pct", List.of(tier(60, 0.6F, 1.0F)), List.of()),
                 List.of(),
                 List.of(fixed("mana", 1.35F), fixed("cooldown", 1.25F)),
@@ -271,7 +271,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         traits.put("Earthquake_Landmine", List.of("INSTANT", "AREA", "MANA"));
         traits.put("Chain_Lightning_Base", List.of("INSTANT", "MANA"));
         traits.put("Chain_Lightning_Orbs", List.of("INSTANT", "AREA", "PROJECTILE", "MANA"));
-        traits.put("Chain_Lightning_Charged_Bolts", List.of("INSTANT", "MANA"));
+        traits.put("Chain_Lightning_Charged_Bolts", List.of("INSTANT", "PATH", "MANA"));
         traits.put("Necromancy_Base", List.of("INSTANT", "MANA"));
         traits.put("Necromancy_Archer", List.of("INSTANT", "MANA"));
         traits.put("Necromancy_Golem", List.of("INSTANT", "MANA"));

@@ -332,6 +332,10 @@
       "requires": [
         [
           "instant",
+          "path"
+        ],
+        [
+          "instant",
           "projectile"
         ],
         [
@@ -394,6 +398,10 @@
       "minLevel": 20,
       "weight": 6,
       "requires": [
+        [
+          "instant",
+          "path"
+        ],
         [
           "instant",
           "projectile"
@@ -562,6 +570,10 @@
       "requires": [
         [
           "instant",
+          "path"
+        ],
+        [
+          "instant",
           "projectile"
         ],
         [
@@ -608,6 +620,10 @@
       "minLevel": 0,
       "weight": 8,
       "requires": [
+        [
+          "instant",
+          "path"
+        ],
         [
           "instant",
           "projectile"
@@ -675,6 +691,10 @@
       "minLevel": 0,
       "weight": 6,
       "requires": [
+        [
+          "instant",
+          "path"
+        ],
         [
           "instant",
           "projectile"
@@ -787,6 +807,10 @@
       "requires": [
         [
           "instant",
+          "path"
+        ],
+        [
+          "instant",
           "projectile"
         ],
         [
@@ -843,6 +867,10 @@
       "minLevel": 60,
       "weight": 2,
       "requires": [
+        [
+          "instant",
+          "path"
+        ],
         [
           "instant",
           "projectile"
@@ -1503,6 +1531,7 @@
     ],
     "Chain_Lightning_Charged_Bolts": [
       "INSTANT",
+      "PATH",
       "MANA"
     ],
     "Necromancy_Base": [

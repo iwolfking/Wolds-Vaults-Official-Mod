@@ -46,6 +46,8 @@
     "vaulthunters.custom.MixinStatMirrorAbilityPower",
     "vaulthunters.custom.MixinSpellChargePoseFocusItem",
     "vaulthunters.custom.MixinSpellChargePoseWandItem",
+    "vaulthunters.custom.MixinChargedBoltsAugmentPath",
+    "vaulthunters.accessors.ChargedBoltsAbilityInvoker",
     "vaulthunters.custom.MixinAbilityQuickselectMessageSpellBar",
     "vaulthunters.custom.MixinAbilitySpellCooldown",
     "vaulthunters.custom.MixinInstantManaAbilityBilling",

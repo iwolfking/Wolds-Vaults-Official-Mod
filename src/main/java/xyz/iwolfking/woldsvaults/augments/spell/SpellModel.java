@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.augments.spell;
 
+import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
@@ -399,7 +400,7 @@ public final class SpellModel {
 
         String describeTarget() {
             if (this.target instanceof Cast cast) {
-                return cast.group().replace('_', ' ');
+                return cast.spec() == null ? cast.group().replace('_', ' ') : AugmentAbilities.displayName(cast.spec());
             }
             return "a Bundled Spell orb";
         }
