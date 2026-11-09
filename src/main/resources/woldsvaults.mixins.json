@@ -724,6 +724,7 @@
     "client.MixinAbstractContainerScreenTabs",
     "client.MixinEntityRenderDispatcherAugmentScale",
     "client.MixinAbilitiesModuleSpellBar",
+    "client.MixinMultiPlayerGameModeSpellCharge",
     "vaulthunters.custom.MixinAbilitiesScreenNoQuickfireToggle",
     "accessors.OptionsKeyMappingsAccessor",
     "client.MixinAbstractElementContainerScreen",
