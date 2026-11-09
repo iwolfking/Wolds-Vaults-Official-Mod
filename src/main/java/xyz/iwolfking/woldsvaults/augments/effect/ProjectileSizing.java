@@ -19,8 +19,8 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.accessors.AccessorProjectile;
 import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -29,7 +29,7 @@ import java.util.WeakHashMap;
  * Size Up and Size Down on VH ability projectiles. The hitbox follows Forge's size event; clients learn the scale
  * when they start tracking the projectile and draw it scaled. Vanilla projectiles find entities with a thin ray, so an
  * enlarged projectile also hits any entity its enlarged box swept through this tick, through the projectile's own
- * impact event and hit handling. Ball of Lightning damages by its own synced radius, so its radius is scaled instead.
+ * impact event and hit handling. Those hits can spawn more sized projectiles, so the tick walks a snapshot. Ball of Lightning damages by its own synced radius, so its radius is scaled instead.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSizing {
@@ -71,11 +71,10 @@ public final class ProjectileSizing {
         if (event.phase != TickEvent.Phase.END || ENLARGED.isEmpty()) {
             return;
         }
-        for (Iterator<Map.Entry<Projectile, Set<Entity>>> it = ENLARGED.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<Projectile, Set<Entity>> entry = it.next();
+        for (Map.Entry<Projectile, Set<Entity>> entry : new ArrayList<>(ENLARGED.entrySet())) {
             Projectile projectile = entry.getKey();
             if (projectile.isRemoved()) {
-                it.remove();
+                ENLARGED.remove(projectile);
             } else if (projectile.getDeltaMovement().lengthSqr() > 1.0E-4) {
                 hitTouchingEntities(projectile, entry.getValue());
             }

@@ -22,7 +22,6 @@ import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,19 +99,18 @@ public final class ProjectileSteering {
             STEERED.clear();
             return;
         }
-        for (Iterator<Steered> it = STEERED.iterator(); it.hasNext(); ) {
-            Steered steered = it.next();
+        for (Steered steered : new ArrayList<>(STEERED)) {
             Projectile projectile = steered.projectile;
             if (projectile.isRemoved() || steered.owner.isRemoved() || steered.owner.level != projectile.level
                     || steered.isStuck() || (!steered.orbit && isNativelyHoming(projectile))) {
-                it.remove();
+                STEERED.remove(steered);
                 continue;
             }
             steered.age++;
             if (steered.orbit) {
                 if (steered.age > steered.orbitTicks) {
                     projectile.discard();
-                    it.remove();
+                    STEERED.remove(steered);
                     continue;
                 }
                 steerOrbit(steered, config);

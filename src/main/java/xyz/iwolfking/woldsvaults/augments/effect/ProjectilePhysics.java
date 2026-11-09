@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -47,12 +47,11 @@ public final class ProjectilePhysics {
         if (event.phase != TickEvent.Phase.END || TRACKED.isEmpty()) {
             return;
         }
-        for (Iterator<Map.Entry<Projectile, Physics>> it = TRACKED.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry<Projectile, Physics> entry = it.next();
+        for (Map.Entry<Projectile, Physics> entry : new ArrayList<>(TRACKED.entrySet())) {
             Projectile projectile = entry.getKey();
             Physics physics = entry.getValue();
             if (projectile.isRemoved()) {
-                it.remove();
+                TRACKED.remove(projectile);
                 continue;
             }
             physics.age++;
@@ -65,7 +64,7 @@ public final class ProjectilePhysics {
             if (physics.ethereal) {
                 if (physics.age > physics.etherealTicks) {
                     projectile.discard();
-                    it.remove();
+                    TRACKED.remove(projectile);
                     continue;
                 }
                 if (projectile instanceof AbstractArrow arrow) {
