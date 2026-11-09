@@ -30,6 +30,9 @@
     "echoDelaySeconds": 0.5,
     "shotgunSpreadDegrees": 12.0,
     "homingRetargetTicks": 5,
+    "homingRange": 6.0,
+    "homingAimRange": 48.0,
+    "homingAimConeDegrees": 25.0,
     "orbitRadius": 2.5,
     "orbitHeight": 1.2,
     "bundleSpeed": 0.8,
@@ -403,22 +406,26 @@
         "orbit"
       ],
       "potency": {
-        "label": "range",
-        "format": "blocks",
+        "label": "turn rate",
+        "format": "deg_s",
         "tiers": [
           {
             "minLevel": 20,
-            "min": 10.0,
-            "max": 16.0
+            "min": 60.0,
+            "max": 120.0
+          },
+          {
+            "minLevel": 50,
+            "min": 80.0,
+            "max": 150.0
+          },
+          {
+            "minLevel": 80,
+            "min": 100.0,
+            "max": 180.0
           }
         ],
-        "linked": [
-          {
-            "name": "turn rate",
-            "min": 0.12,
-            "max": 0.22
-          }
-        ]
+        "linked": []
       },
       "step": [
         {

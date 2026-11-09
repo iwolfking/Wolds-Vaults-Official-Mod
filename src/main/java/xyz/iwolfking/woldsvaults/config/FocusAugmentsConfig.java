@@ -52,6 +52,9 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public float echoDelaySeconds;
         @Expose public float shotgunSpreadDegrees;
         @Expose public int homingRetargetTicks;
+        @Expose public float homingRange;
+        @Expose public float homingAimRange;
+        @Expose public float homingAimConeDegrees;
         @Expose public float orbitRadius;
         @Expose public float orbitHeight;
         @Expose public float bundleSpeed;
@@ -222,7 +225,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             return "a spell rule is out of range";
         }
         if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
-                || this.tuning.chargeSeconds <= 0) {
+                || this.tuning.chargeSeconds <= 0 || this.tuning.homingRange <= 0 || this.tuning.homingAimRange <= 0
+                || this.tuning.homingAimConeDegrees <= 0) {
             return "a tuning value is out of range";
         }
         for (AugmentType type : AugmentType.values()) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * What the glyphs on one step (an ability or a Bundled Spell orb) do, from their rolled potencies: multipliers on
- * damage, area, projectile speed and size; Homing (range, turn rate), Orbit and Ethereal durations; Low Gravity; Shotgun
+ * damage, area, projectile speed and size; Homing (lock-on range from the table, rolled turn rate in degrees per second), Orbit and Ethereal durations; Low Gravity; Shotgun
  * copies and their per-copy damage; Echo power; and Charge's full-charge bonus. Dormant glyphs are left out.
  */
 public record CastModifiers(float damage, float area, float speed, float scale, float homingRange, float homingTurn,
@@ -48,8 +48,8 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
             }
             switch (glyph.type()) {
                 case HOMING -> {
-                    homingRange = glyph.potency();
-                    homingTurn = linked(spec, glyph.quality());
+                    homingRange = config.tuning.homingRange;
+                    homingTurn = glyph.potency();
                 }
                 case ORBIT -> orbit = glyph.potency();
                 case LOW_GRAVITY -> gravity = Math.min(1.0F, glyph.potency());
@@ -66,14 +66,6 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
         }
         scale = Math.max(config.tuning.sizeDownMinScale, Math.min(config.tuning.sizeUpMaxScale, scale));
         return new CastModifiers(damage, area, speed, scale, homingRange, homingTurn, orbit, gravity, ethereal, copies, echo, charge);
-    }
-
-    private static float linked(FocusAugmentsConfig.Glyph spec, float quality) {
-        if (spec.potency.linked == null || spec.potency.linked.isEmpty()) {
-            return 0.0F;
-        }
-        FocusAugmentsConfig.Linked linked = spec.potency.linked.get(0);
-        return linked.min + (linked.max - linked.min) * quality;
     }
 
     public boolean homing() {

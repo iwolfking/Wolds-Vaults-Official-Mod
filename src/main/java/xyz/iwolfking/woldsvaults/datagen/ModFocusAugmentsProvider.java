@@ -45,6 +45,9 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         tuning.echoDelaySeconds = 0.5F;
         tuning.shotgunSpreadDegrees = 12.0F;
         tuning.homingRetargetTicks = 5;
+        tuning.homingRange = 6.0F;
+        tuning.homingAimRange = 48.0F;
+        tuning.homingAimConeDegrees = 25.0F;
         tuning.orbitRadius = 2.5F;
         tuning.orbitHeight = 1.2F;
         tuning.bundleSpeed = 0.8F;
@@ -87,7 +90,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(k("mana", 0.2F)),
                 3, List.of(60, 30, 10), 3, 2, 6, false);
         glyph(table, AugmentType.HOMING, "modifier", "path", 20, 6, List.of(List.of("instant", "projectile"), List.of("bundle")), List.of("orbit"),
-                potency("range", "blocks", List.of(tier(20, 10.0F, 16.0F)), List.of(linked("turn rate", 0.12F, 0.22F))),
+                potency("turn rate", "deg_s", List.of(tier(20, 60.0F, 120.0F), tier(50, 80.0F, 150.0F), tier(80, 100.0F, 180.0F)), List.of()),
                 List.of(fixed("damage", 0.9F), fixed("speed", 0.9F)),
                 List.of(fixed("mana", 1.1F)),
                 1, List.of(100), 1, 7, 12, false);

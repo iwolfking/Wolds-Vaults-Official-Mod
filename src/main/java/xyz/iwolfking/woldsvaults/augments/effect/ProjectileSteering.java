@@ -15,6 +15,7 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.lib.HomingJavelin;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
+import xyz.iwolfking.woldsvaults.augments.cast.AimOverride;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
@@ -29,7 +30,10 @@ import java.util.Optional;
  * Homing and Orbit: steers projectiles a cast spawned by setting their motion each server tick; the projectile's own
  * logic still moves it and handles hits. Steering stops when the projectile is gone, stuck, or its owner left.
  * Javelins already homing through the Warbound flag are left to that steering, so no projectile is steered twice.
- * Homing targets need no line of sight from the owner, so split children at a wall still find mobs past it.
+ * Homing flies straight until an enemy is within the table's lock-on range, then turns toward it at its rolled rate
+ * (degrees per second). The enemy nearest the owner's crosshair when the projectile was fired is preferred whenever it
+ * is in range; otherwise the nearest enemy is chased. Lock-on needs no line of sight, so split children at a wall still
+ * find mobs past it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSteering {
@@ -50,7 +54,36 @@ public final class ProjectileSteering {
         if (isNativelyHoming(projectile)) {
             return;
         }
-        STEERED.add(new Steered(projectile, owner, false, 0, range, turnRate, 0));
+        Steered steered = new Steered(projectile, owner, false, 0, range, turnRate, 0);
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (config != null) {
+            steered.preferred = cursorTarget(projectile, owner, config).orElse(null);
+        }
+        STEERED.add(steered);
+    }
+
+    /** The enemy nearest the owner's crosshair: inside the aim cone and range, in sight, smallest angle wins. */
+    private static Optional<LivingEntity> cursorTarget(Projectile projectile, ServerPlayer owner, FocusAugmentsConfig config) {
+        Vec3 eye = owner.getEyePosition();
+        Vec3 look = AimOverride.realLook(owner).normalize();
+        double minCos = Math.cos(Math.toRadians(config.tuning.homingAimConeDegrees));
+        double range = config.tuning.homingAimRange;
+        AABB area = owner.getBoundingBox().inflate(range);
+        LivingEntity best = null;
+        double bestCos = minCos;
+        for (LivingEntity candidate : owner.level.getEntitiesOfClass(LivingEntity.class, area, e -> canTarget(projectile, owner, e))) {
+            Vec3 to = candidate.getBoundingBox().getCenter().subtract(eye);
+            double distance = to.length();
+            if (distance < 1.0E-4 || distance > range) {
+                continue;
+            }
+            double cos = to.dot(look) / distance;
+            if (cos > bestCos && owner.hasLineOfSight(candidate)) {
+                bestCos = cos;
+                best = candidate;
+            }
+        }
+        return Optional.ofNullable(best);
     }
 
     private static boolean isNativelyHoming(Projectile projectile) {
@@ -107,20 +140,45 @@ public final class ProjectileSteering {
     private static void steerHoming(Steered steered, FocusAugmentsConfig config) {
         Projectile projectile = steered.projectile;
         AABB area = projectile.getBoundingBox().inflate(steered.range);
+        LivingEntity preferred = steered.preferred;
         LivingEntity target = steered.target;
-        if (steered.age % Math.max(1, config.tuning.homingRetargetTicks) == 0 || target == null || target.level != projectile.level
-                || !target.getBoundingBox().intersects(area) || !canTarget(projectile, steered.owner, target)) {
+        if (preferred != null && inRange(projectile, steered.owner, preferred, area)) {
+            target = preferred;
+        } else if (steered.age % Math.max(1, config.tuning.homingRetargetTicks) == 0 || target == null
+                || !inRange(projectile, steered.owner, target, area)) {
             target = findTarget(projectile, steered.owner, area).orElse(null);
-            steered.target = target;
         }
+        steered.target = target;
         if (target == null) {
             return;
         }
         Vec3 motion = projectile.getDeltaMovement();
         double speed = Math.max(motion.length(), steered.speed);
-        Vec3 desired = target.getBoundingBox().getCenter().subtract(projectile.position()).normalize().scale(speed);
-        Vec3 turned = motion.add(desired.subtract(motion).scale(steered.turnRate));
-        move(steered, turned.normalize().scale(speed));
+        Vec3 current = motion.lengthSqr() > 1.0E-8 ? motion.normalize() : projectile.getLookAngle();
+        Vec3 desired = target.getBoundingBox().getCenter().subtract(projectile.position());
+        if (desired.lengthSqr() < 1.0E-8) {
+            return;
+        }
+        move(steered, rotateToward(current, desired.normalize(), Math.toRadians(steered.turnRate / 20.0)).scale(speed));
+    }
+
+    private static boolean inRange(Projectile projectile, ServerPlayer owner, LivingEntity target, AABB area) {
+        return target.level == projectile.level && target.getBoundingBox().intersects(area) && canTarget(projectile, owner, target);
+    }
+
+    /** Turns a unit vector toward another by at most {@code maxAngle} radians, along the great circle. */
+    private static Vec3 rotateToward(Vec3 from, Vec3 to, double maxAngle) {
+        double dot = Math.max(-1.0, Math.min(1.0, from.dot(to)));
+        double angle = Math.acos(dot);
+        if (angle <= maxAngle || angle < 1.0E-6) {
+            return to;
+        }
+        Vec3 ortho = to.subtract(from.scale(dot));
+        if (ortho.lengthSqr() < 1.0E-10) {
+            ortho = Math.abs(from.y) < 0.9 ? from.cross(new Vec3(0, 1, 0)) : from.cross(new Vec3(1, 0, 0));
+        }
+        ortho = ortho.normalize();
+        return from.scale(Math.cos(maxAngle)).add(ortho.scale(Math.sin(maxAngle))).normalize();
     }
 
     private static void move(Steered steered, Vec3 motion) {
@@ -160,6 +218,7 @@ public final class ProjectileSteering {
         Vec3 lastPosition;
         int stillTicks;
         LivingEntity target;
+        LivingEntity preferred;
         Vec3 sentDirection;
         float sentSpeed;
         int sentAge;

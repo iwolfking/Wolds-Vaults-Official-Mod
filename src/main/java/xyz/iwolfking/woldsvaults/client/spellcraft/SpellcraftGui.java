@@ -280,6 +280,7 @@ public final class SpellcraftGui {
             case "pct_plain" -> Math.round(p * 100) + "% " + potency.label;
             case "seconds" -> potency.label + " " + trim(p) + "s";
             case "blocks" -> potency.label + " " + Math.round(p);
+            case "deg_s" -> potency.label + " " + Math.round(p) + "°/s";
             default -> potency.label + " " + trim(p);
         };
     }
