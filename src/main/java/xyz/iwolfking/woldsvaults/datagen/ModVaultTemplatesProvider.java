@@ -17,6 +17,8 @@ public class ModVaultTemplatesProvider extends AbstractTemplatesProvider {
     @Override
     protected void registerTemplates() {
         add("wolds_templates", builder -> builder.addStructureTemplate(VaultMod.id("vault/rooms/special/extraction1"), "Extraction Site",
-                WoldsVaults.id("structures/vault/rooms/special/extraction1.nbt")));
+                WoldsVaults.id("structures/vault/rooms/special/extraction1.nbt"))
+                .addStructureTemplate(WoldsVaults.id("vault/rooms/special/extraction_3x3_1"), "Extraction Site 3x3",
+                        WoldsVaults.id("structures/vault/rooms/special/extraction_3x3_1.nbt")));
     }
 }

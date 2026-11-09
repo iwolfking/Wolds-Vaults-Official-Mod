@@ -6,6 +6,11 @@
       "1.0": "woldsvaults:vault/rooms/special/extraction"
     },
     {
+      "id": "woldsvaults:vault/rooms/special/extraction_3x3",
+      "name": "Vault Rooms Special Extraction 3x3",
+      "1.0": "woldsvaults:vault/rooms/special/extraction_3x3"
+    },
+    {
       "id": "woldsvaults:sculk_common_rooms",
       "name": "Sculk Common Rooms",
       "1.0": "woldsvaults:sculk_common_rooms"

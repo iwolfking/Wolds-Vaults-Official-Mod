@@ -96,6 +96,7 @@ public class ModVaultMapIconsProvider extends AbstractVaultMapIconsProvider {
 
             builder.addRoomIcons(VaultMod.id("gui/map/extraction"), resourceLocations -> {
                 resourceLocations.add(VaultMod.id("vault/rooms/special/extraction1"));
+                resourceLocations.add(WoldsVaults.id("vault/rooms/special/extraction_3x3_1"));
             });
 
 
