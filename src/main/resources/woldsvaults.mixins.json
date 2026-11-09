@@ -693,6 +693,7 @@
     "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets"
   ],
   "client": [
+    "vhatcaniroll.MixinVhatCanIRollItems",
     "AccessorParticleEngine",
     "MixinAnvilScreen",
     "MixinItemRenderer",

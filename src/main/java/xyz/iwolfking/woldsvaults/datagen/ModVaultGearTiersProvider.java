@@ -446,7 +446,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ECHOING_CHANCE, "ModElementType", "mod_echoing_chance", List.of("focusEchoingChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -454,7 +454,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_STUN, "ModElementType", "mod_stun_chance", List.of("focusStunChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -470,7 +470,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_SKIP_CHANCE, "ModAttackType", "mod_ability_cooldown_skip", List.of("focusAbilitySkip"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -478,7 +478,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEXING_CHANCE, "ModAttackType", "mod_hexing_chance", List.of("focusHexingChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -970,7 +970,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_PERCENT, "ModJavelinCooldownIncrease", "javelin_cooldown_increase", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 12F, 16F, 0.5F));
+                            vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 9F, 13F, 0.5F));
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_MANACOST_PERCENT, "ModJavelinManaIncrease", "javelin_mana_cost", List.of(), vaultGearModifierTiersBuilder -> {
