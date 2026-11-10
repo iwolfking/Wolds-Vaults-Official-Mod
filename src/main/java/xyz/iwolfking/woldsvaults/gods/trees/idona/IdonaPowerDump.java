@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
+import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.mana.Mana;
 import iskallia.vault.mana.ManaAction;
 import iskallia.vault.skill.ability.effect.ImplodeAbility;
@@ -10,7 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
+import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
+import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.idona.ManaCostHelperAccessor;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SlotBilling;
 
 import java.util.function.BooleanSupplier;
 
@@ -20,7 +25,10 @@ import java.util.function.BooleanSupplier;
  * bonus is {@code B = per_mana x sqrt(sqrt_ref x max mana)}. Held channels cast while sneaking drain
  * {@code hold_drain_fraction} of the bar per tick and score the drain above their cost. Every Implode
  * takes the bonus for the mana it consumes, sneaking or not. The multiplier lives on the cast's
- * {@link CastTag} and is applied at hurt time.
+ * {@link CastTag} and is applied at hurt time. In a spell slot only the trigger step dumps, against the
+ * slot's whole cost; free steps (chained abilities, payloads, Echo, Shotgun copies) never resolve a dump.
+ * A slot cast with Charge held to full scores the dump as if max mana were the Power Core etching's roll
+ * times larger.
  */
 public final class IdonaPowerDump {
     private IdonaPowerDump() {
@@ -36,8 +44,25 @@ public final class IdonaPowerDump {
 
     /** The largest bonus a cast can reach, set by the player's max mana. */
     public static float largestBonus(ServerPlayer player) {
+        return largestBonus(player, 1.0F);
+    }
+
+    /** The largest bonus with the player's max mana scaled by {@code maxManaScale} (Power Core on a full charge). */
+    public static float largestBonus(ServerPlayer player, float maxManaScale) {
         IdonaNodeHandlers.PowerDumpParams params = params();
-        return params.per_mana() * (float) Math.sqrt(params.sqrt_ref() * Math.max(0.0F, Mana.getMax(player)));
+        return params.per_mana() * (float) Math.sqrt(params.sqrt_ref() * Math.max(0.0F, Mana.getMax(player)) * maxManaScale);
+    }
+
+    /** The Power Core scale for the running slot cast: the etching's roll when the slot was fully charged, else 1. */
+    private static float powerCoreScale(ServerPlayer player) {
+        CastScope.Billing billing = CastScope.billing(player);
+        if (billing == null || billing.mode() != CastScope.Mode.TRIGGER || !billing.fullyCharged()) {
+            return 1.0F;
+        }
+        return EtchingHelper.getEtchings(player, ModEtchingGearAttributes.POWER_CORE).stream()
+                .map(VaultGearAttributeInstance::getValue)
+                .max(Float::compare)
+                .orElse(1.0F);
     }
 
     private static float holdDrainFraction() {
@@ -45,12 +70,16 @@ public final class IdonaPowerDump {
     }
 
     private static float multiplier(ServerPlayer player, float manaAboveCost) {
+        return multiplier(player, manaAboveCost, 1.0F);
+    }
+
+    private static float multiplier(ServerPlayer player, float manaAboveCost, float maxManaScale) {
         float max = Mana.getMax(player);
         if (max <= 0.0F) {
             return 1.0F;
         }
         float share = Math.max(0.0F, Math.min(1.0F, manaAboveCost / max));
-        return 1.0F + largestBonus(player) * share;
+        return 1.0F + largestBonus(player, maxManaScale) * share;
     }
 
     /**
@@ -63,6 +92,13 @@ public final class IdonaPowerDump {
         }
         CastTag tag = CastContext.current();
         boolean ownCast = tag != null && tag.isCastOf(player, skill) && !tag.powerDumpResolved();
+        CastScope.Billing billing = CastScope.billing(player);
+        if (billing != null && billing.mode() == CastScope.Mode.FREE) {
+            if (ownCast) {
+                tag.resolvePowerDump(false, 1.0F);
+            }
+            return cost;
+        }
         if (skill instanceof HoldManaAbility) {
             if (!player.isShiftKeyDown()) {
                 return cost;
@@ -78,7 +114,7 @@ public final class IdonaPowerDump {
         }
         float bar = Mana.get(player);
         if (skill instanceof ImplodeAbility) {
-            tag.resolvePowerDump(false, multiplier(player, bar));
+            tag.resolvePowerDump(false, multiplier(player, bar, powerCoreScale(player)));
             tag.setManaConsumed(bar);
             return cost;
         }
@@ -86,11 +122,12 @@ public final class IdonaPowerDump {
             tag.resolvePowerDump(false, 1.0F);
             return cost;
         }
-        if (bar < cost) {
+        float due = SlotBilling.slotCost(player, skill, cost);
+        if (bar < due) {
             return cost;
         }
         boolean free = ManaCostHelperAccessor.woldsvaults$rollsEthereal(player);
-        tag.resolvePowerDump(true, multiplier(player, free ? bar : bar - cost));
+        tag.resolvePowerDump(true, multiplier(player, free ? bar : bar - due, powerCoreScale(player)));
         return cost;
     }
 

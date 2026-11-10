@@ -51,6 +51,7 @@
     "vaulthunters.custom.MixinAbilityQuickselectMessageSpellBar",
     "vaulthunters.custom.MixinAbilitySpellCooldown",
     "vaulthunters.custom.MixinInstantManaAbilityBilling",
+    "vaulthunters.custom.MixinManaCostHelperEtherealRoll",
     "vaulthunters.custom.MixinInstantAbilityCastEvent",
     "vaulthunters.accessors.AbilityCooldownInvoker",
     "vaulthunters.custom.MixinGearRollHelperAugments",

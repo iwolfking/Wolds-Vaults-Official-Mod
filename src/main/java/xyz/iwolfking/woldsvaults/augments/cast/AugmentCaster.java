@@ -21,6 +21,7 @@ import xyz.iwolfking.woldsvaults.augments.effect.ToggleDiscounts;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SlotBilling;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
 import javax.annotation.Nullable;
@@ -30,7 +31,7 @@ import java.util.function.Supplier;
 /**
  * Casts an augmented spell slot. The trigger step is a real key press on the player's ability, charged for the whole
  * slot (every ability's mana times the spell's mana factor, and the slot cooldown); if it doesn't go through, nothing
- * else casts. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
+ * else casts. A toggle trigger runs the rest of the spell only when it switches on. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
  * (on-cast effects fire) and Shotgun copies (they don't). The table is re-read at every step.
  */
 public final class AugmentCaster {
@@ -56,7 +57,12 @@ public final class AugmentCaster {
                 otherMana += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
             }
         }
-        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot);
+        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot, chargeShare >= 1.0F);
+        Ability triggerAbility = SpellCooldowns.ability(tree, trigger.group());
+        if (triggerAbility != null && !triggerAbility.isActive() && !SlotBilling.canPayUnbilledTrigger(player, triggerAbility, billing)) {
+            player.level.playSound(null, player.blockPosition(), ModSounds.ABILITY_OUT_OF_MANA, SoundSource.PLAYERS, 1.0F, 1.0F);
+            return;
+        }
         run(player, model.steps(), 0, null, 1.0F, billing, chargeShare, model);
     }
 
@@ -86,8 +92,11 @@ public final class AugmentCaster {
             }
             SpellModel.Cast cast = (SpellModel.Cast) step;
             CastResult result = castStep(config, player, cast, origin, damageFactor, billing, chargeShare, model);
-            if (billing != null && !result.went()) {
-                return;
+            if (billing != null) {
+                if (!result.went() || result == CastResult.STOPPED) {
+                    return;
+                }
+                SlotBilling.payUnbilledTrigger(player, SpellCooldowns.ability(SpellCooldowns.tree(player), cast.group()), billing);
             }
             billing = null;
         }
