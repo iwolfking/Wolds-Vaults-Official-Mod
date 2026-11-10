@@ -1,9 +1,15 @@
 package xyz.iwolfking.woldsvaults.augments.effect;
 
+import iskallia.vault.entity.entity.ToxicGrenadeEntity;
+import iskallia.vault.entity.entity.VaultDecoyProjectile;
+import iskallia.vault.entity.entity.VaultFireball;
+import iskallia.vault.entity.entity.VaultGrenade;
+import iskallia.vault.entity.entity.VaultStormArrow;
+import iskallia.vault.entity.entity.VaultThrownJavelin;
+import iskallia.vault.skill.ability.effect.NecromancyAbility;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -15,18 +21,26 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Low Gravity and Ethereal for VH ability projectiles, after the entities ticked. Low Gravity gives back a share of
- * the vanilla gravity just applied. Ethereal projectiles ignore block hits; arrows also get the no-physics flag while
+ * Low Gravity and Ethereal for VH ability projectiles, after the entities ticked. Low Gravity gives back the rolled
+ * share of the gravity the projectile's own class applies each tick (a code constant per VH entity), so it falls
+ * {@code 1 - roll} as fast and never rises; a class missing from the table logs an error once and gets none. Ethereal projectiles ignore block hits; arrows also get the no-physics flag while
  * inside a block, never near their owner (a no-physics javelin touching its owner is picked up into a null item,
  * which crashes the tick). Ethereal projectiles are removed after their glyph's rolled lifetime.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectilePhysics {
-    private static final double ARROW_GRAVITY = 0.05;
-    private static final double THROWN_GRAVITY = 0.03;
+    private static final double FIREBALL_GRAVITY = 0.025;
+    private static final double VOLLEY_GRAVITY = FIREBALL_GRAVITY * 4.0;
+    private static final double STORM_ARROW_GRAVITY = 0.025;
+    private static final double JAVELIN_GRAVITY = 0.05;
+    private static final double VANILLA_ARROW_GRAVITY = 0.05;
+    private static final double VANILLA_THROWN_GRAVITY = 0.03;
+    private static final Set<Class<?>> UNKNOWN_WARNED = ConcurrentHashMap.newKeySet();
     private static final double OWNER_CLEARANCE_SQR = 3.0 * 3.0;
     private static final Map<Projectile, Physics> TRACKED = new WeakHashMap<>();
 
@@ -56,10 +70,11 @@ public final class ProjectilePhysics {
             }
             physics.age++;
             if (physics.gravityReduction > 0 && !projectile.isNoGravity()) {
-                double gravity = projectile instanceof AbstractArrow ? ARROW_GRAVITY
-                        : projectile instanceof ThrowableProjectile ? THROWN_GRAVITY : 0.0;
-                projectile.setDeltaMovement(projectile.getDeltaMovement().add(0, gravity * physics.gravityReduction, 0));
-                projectile.hurtMarked = true;
+                double gravity = gravityOf(projectile);
+                if (gravity > 0.0) {
+                    projectile.setDeltaMovement(projectile.getDeltaMovement().add(0, gravity * physics.gravityReduction, 0));
+                    projectile.hurtMarked = true;
+                }
             }
             if (physics.ethereal) {
                 if (physics.age > physics.etherealTicks) {
@@ -74,6 +89,33 @@ public final class ProjectilePhysics {
                 }
             }
         }
+    }
+
+    /**
+     * The downward speed a VH ability projectile's own tick takes off each tick: VaultFireball 0.025 (x4 while
+     * bouncing, Volley), VaultStormArrow 0.025, VaultThrownJavelin 0.05, Necromancy's bolt the vanilla arrow's 0.05,
+     * grenades and the decoy the vanilla thrown projectile's 0.03. Unknown classes log an error once and return 0.
+     */
+    private static double gravityOf(Projectile projectile) {
+        if (projectile instanceof VaultFireball fireball) {
+            return fireball.getFireballType() == VaultFireball.FireballType.BOUNCING ? VOLLEY_GRAVITY : FIREBALL_GRAVITY;
+        }
+        if (projectile instanceof VaultStormArrow) {
+            return STORM_ARROW_GRAVITY;
+        }
+        if (projectile instanceof VaultThrownJavelin) {
+            return JAVELIN_GRAVITY;
+        }
+        if (projectile instanceof NecromancyAbility.NecromancyBolt) {
+            return VANILLA_ARROW_GRAVITY;
+        }
+        if (projectile instanceof VaultGrenade || projectile instanceof ToxicGrenadeEntity || projectile instanceof VaultDecoyProjectile) {
+            return VANILLA_THROWN_GRAVITY;
+        }
+        if (UNKNOWN_WARNED.add(projectile.getClass())) {
+            WoldsVaults.LOGGER.error("Low Gravity: no gravity entry for projectile class {}; the glyph does nothing on it.", projectile.getClass().getName());
+        }
+        return 0.0;
     }
 
     @SubscribeEvent
