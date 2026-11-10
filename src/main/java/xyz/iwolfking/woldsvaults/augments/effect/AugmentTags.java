@@ -4,11 +4,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
+import xyz.iwolfking.woldsvaults.augments.cast.ShotgunHits;
+
+import javax.annotation.Nullable;
 
 /**
  * The glyph state a projectile carries in its persistent data: damage and area multipliers, size, Low Gravity, the
- * Ethereal and Orbit durations, and Homing's range and turn rate. Child projectiles a tagged projectile spawns during
- * its own tick (Scatter javelin splits, ricochets) copy it, so glyphs follow the whole cast.
+ * Ethereal and Orbit durations, Homing's range and turn rate, the ability spec that cast it (to tell its own hits from
+ * procs) and its Shotgun volley member. Child projectiles a tagged projectile spawns during its own tick (Scatter
+ * javelin splits, ricochets) copy it, so glyphs follow the whole cast.
  */
 public final class AugmentTags {
     public static final String DAMAGE = "woldsvaults:augment_damage";
@@ -19,13 +23,23 @@ public final class AugmentTags {
     public static final String HOMING_RANGE = "woldsvaults:augment_homing_range";
     public static final String HOMING_TURN = "woldsvaults:augment_homing_turn";
     public static final String ORBIT = "woldsvaults:augment_orbit";
-    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING_RANGE, HOMING_TURN, ORBIT};
+    public static final String SPEC = "woldsvaults:augment_spec";
+    public static final String SHOT_GROUP = "woldsvaults:augment_shot_group";
+    public static final String SHOT_MEMBER = "woldsvaults:augment_shot_member";
+    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING_RANGE, HOMING_TURN, ORBIT, SPEC, SHOT_GROUP, SHOT_MEMBER};
 
     private AugmentTags() {
     }
 
-    public static void write(Projectile projectile, CastModifiers modifiers) {
+    public static void write(Projectile projectile, CastModifiers modifiers, @Nullable String spec, @Nullable ShotgunHits.Shot shot) {
         CompoundTag data = projectile.getPersistentData();
+        if (spec != null) {
+            data.putString(SPEC, spec);
+        }
+        if (shot != null) {
+            data.putLong(SHOT_GROUP, shot.group());
+            data.putInt(SHOT_MEMBER, shot.member());
+        }
         if (modifiers.damage() != 1.0F) {
             data.putFloat(DAMAGE, modifiers.damage());
         }
@@ -67,6 +81,19 @@ public final class AugmentTags {
                 target.put(key, source.get(key).copy());
             }
         }
+    }
+
+    @Nullable
+    public static String spec(@Nullable Entity entity) {
+        return entity != null && entity.getPersistentData().contains(SPEC) ? entity.getPersistentData().getString(SPEC) : null;
+    }
+
+    @Nullable
+    public static ShotgunHits.Shot shot(@Nullable Entity entity) {
+        if (entity == null || !entity.getPersistentData().contains(SHOT_GROUP)) {
+            return null;
+        }
+        return new ShotgunHits.Shot(entity.getPersistentData().getLong(SHOT_GROUP), entity.getPersistentData().getInt(SHOT_MEMBER));
     }
 
     public static float damage(Entity entity) {

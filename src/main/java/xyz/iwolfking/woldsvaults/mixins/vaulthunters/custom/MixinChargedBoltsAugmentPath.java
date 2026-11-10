@@ -16,7 +16,7 @@ public abstract class MixinChargedBoltsAugmentPath {
     @Inject(method = "castBolts", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$augmentedBolts(ServerPlayer player, CallbackInfo ci) {
         CastScope.current().filter(active -> active.player() == player).ifPresent(active -> {
-            ChargedBoltPaths.cast((ChargedBoltsAbility) (Object) this, player, active.modifiers());
+            ChargedBoltPaths.cast((ChargedBoltsAbility) (Object) this, player, active.modifiers(), active.spec(), active.shot());
             ci.cancel();
         });
     }

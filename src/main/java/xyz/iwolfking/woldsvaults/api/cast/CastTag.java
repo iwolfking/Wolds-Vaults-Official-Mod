@@ -23,6 +23,7 @@ public final class CastTag {
     private boolean dumpsBar;
     private boolean leechUsed;
     private boolean luckyResetUsed;
+    private boolean arcaneStrikeUsed;
     private Object manaStealEvent;
     private Object lifeStealEvent;
 
@@ -98,6 +99,15 @@ public final class CastTag {
             return false;
         }
         this.luckyResetUsed = true;
+        return true;
+    }
+
+    /** Claims the cast's one Arcane Strike; false when an earlier lucky hit of this cast already cut cooldowns. */
+    public boolean claimArcaneStrike() {
+        if (this.arcaneStrikeUsed) {
+            return false;
+        }
+        this.arcaneStrikeUsed = true;
         return true;
     }
 

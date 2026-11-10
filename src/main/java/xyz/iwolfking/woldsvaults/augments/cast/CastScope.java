@@ -9,7 +9,8 @@ import java.util.function.Supplier;
 
 /**
  * What is in effect while the spell caster runs one ability for one player: the step's glyph modifiers, the landing
- * point of a Bundled Spell (projectiles the cast spawns move there), and the slot's billing. VH computes area, mana,
+ * point of a Bundled Spell (projectiles the cast spawns move there), the slot's billing, the ability spec being cast
+ * (so its own hits can be told from procs) and the Shotgun volley member it is. VH computes area, mana,
  * cooldown and spawns projectiles synchronously inside the cast, so all of it only needs to apply for its duration.
  * Server thread only; nested casts restore the outer scope.
  */
@@ -23,15 +24,17 @@ public final class CastScope {
      * How mana and cooldown are charged inside a slot cast. The trigger step charges the whole slot (the mana of every
      * ability in the spell times the spell's mana factor, and the slot cooldown); every other step is free, since the
      * slot already paid. {@code suppressCastEvent} keeps a step from firing on-cast effects (Shotgun copies).
+     * {@code fullyCharged}: the slot was cast with Charge held to full.
      */
     public record Billing(Mode mode, @Nullable String triggerSpec, float otherAbilitiesMana, float manaFactor,
-                          @Nullable EffectiveBar.Slot slot, boolean suppressCastEvent) {
-        public static Billing trigger(String triggerSpec, float otherAbilitiesMana, float manaFactor, EffectiveBar.Slot slot) {
-            return new Billing(Mode.TRIGGER, triggerSpec, otherAbilitiesMana, manaFactor, slot, false);
+                          @Nullable EffectiveBar.Slot slot, boolean suppressCastEvent, boolean fullyCharged) {
+        public static Billing trigger(String triggerSpec, float otherAbilitiesMana, float manaFactor, EffectiveBar.Slot slot,
+                                      boolean fullyCharged) {
+            return new Billing(Mode.TRIGGER, triggerSpec, otherAbilitiesMana, manaFactor, slot, false, fullyCharged);
         }
 
         public static Billing free(boolean suppressCastEvent) {
-            return new Billing(Mode.FREE, null, 0.0F, 1.0F, null, suppressCastEvent);
+            return new Billing(Mode.FREE, null, 0.0F, 1.0F, null, suppressCastEvent, false);
         }
     }
 
@@ -41,9 +44,9 @@ public final class CastScope {
     }
 
     public static <T> T call(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing,
-                             Supplier<T> action) {
+                             @Nullable String spec, @Nullable ShotgunHits.Shot shot, Supplier<T> action) {
         Active outer = current;
-        current = new Active(player, modifiers, origin, billing);
+        current = new Active(player, modifiers, origin, billing, spec, shot);
         try {
             return action.get();
         } finally {
@@ -61,6 +64,7 @@ public final class CastScope {
         return current != null && current.player() == player ? current.billing() : null;
     }
 
-    public record Active(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing) {
+    public record Active(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing,
+                         @Nullable String spec, @Nullable ShotgunHits.Shot shot) {
     }
 }

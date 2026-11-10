@@ -21,6 +21,7 @@ import xyz.iwolfking.woldsvaults.augments.effect.ToggleDiscounts;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SlotBilling;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
 import javax.annotation.Nullable;
@@ -30,7 +31,7 @@ import java.util.function.Supplier;
 /**
  * Casts an augmented spell slot. The trigger step is a real key press on the player's ability, charged for the whole
  * slot (every ability's mana times the spell's mana factor, and the slot cooldown); if it doesn't go through, nothing
- * else casts. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
+ * else casts. A toggle trigger runs the rest of the spell only when it switches on. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
  * (on-cast effects fire) and Shotgun copies (they don't). The table is re-read at every step.
  */
 public final class AugmentCaster {
@@ -56,7 +57,12 @@ public final class AugmentCaster {
                 otherMana += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
             }
         }
-        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot);
+        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot, chargeShare >= 1.0F);
+        Ability triggerAbility = SpellCooldowns.ability(tree, trigger.group());
+        if (triggerAbility != null && !triggerAbility.isActive() && !SlotBilling.canPayUnbilledTrigger(player, triggerAbility, billing)) {
+            player.level.playSound(null, player.blockPosition(), ModSounds.ABILITY_OUT_OF_MANA, SoundSource.PLAYERS, 1.0F, 1.0F);
+            return;
+        }
         run(player, model.steps(), 0, null, 1.0F, billing, chargeShare, model);
     }
 
@@ -86,8 +92,11 @@ public final class AugmentCaster {
             }
             SpellModel.Cast cast = (SpellModel.Cast) step;
             CastResult result = castStep(config, player, cast, origin, damageFactor, billing, chargeShare, model);
-            if (billing != null && !result.went()) {
-                return;
+            if (billing != null) {
+                if (!result.went() || result == CastResult.STOPPED) {
+                    return;
+                }
+                SlotBilling.payUnbilledTrigger(player, SpellCooldowns.ability(SpellCooldowns.tree(player), cast.group()), billing);
             }
             billing = null;
         }
@@ -108,17 +117,19 @@ public final class AugmentCaster {
         }
         List<Vec3> aims = ShotgunPattern.fan(baseDirection(player, origin), modifiers.shotgunCopies(), config.tuning.shotgunSpreadDegrees);
         CastModifiers applied = modifiers;
+        long volley = aims.size() > 1 ? ShotgunHits.newGroup() : 0L;
+        ShotgunHits.Shot nativeShot = volley > 0 ? new ShotgunHits.Shot(volley, 0) : null;
         CastResult result;
         if (trigger != null) {
-            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), trigger, aims.get(0),
+            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), trigger, ability.id(), nativeShot, aims.get(0),
                     () -> ability.cast(player, aimedOrigin(origin, aims.get(0))));
         } else {
-            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), CastScope.Billing.free(false), aims.get(0),
-                    () -> ability.castExtra(player, aimedOrigin(origin, aims.get(0))));
+            result = scoped(player, applied, aimedOrigin(origin, aims.get(0)), CastScope.Billing.free(false), ability.id(), nativeShot,
+                    aims.get(0), () -> ability.castExtra(player, aimedOrigin(origin, aims.get(0))));
         }
-        afterRail(config, player, ability, applied, aims.get(0), result);
+        afterRail(config, player, ability, applied, aims.get(0), result, nativeShot);
         if (result == CastResult.SUCCESS) {
-            castCopies(config, player, ability, applied, origin, aims);
+            castCopies(config, player, ability, applied, origin, aims, volley);
         }
         report(player, ability, result);
         if (!result.went()) {
@@ -137,11 +148,13 @@ public final class AugmentCaster {
                     return;
                 }
                 List<Vec3> echoAims = ShotgunPattern.fan(baseDirection(later, origin), echoed.shotgunCopies(), current.tuning.shotgunSpreadDegrees);
-                CastResult echo = scoped(later, echoed, aimedOrigin(origin, echoAims.get(0)), CastScope.Billing.free(false), echoAims.get(0),
-                        () -> ability.castExtra(later, aimedOrigin(origin, echoAims.get(0))));
-                afterRail(current, later, ability, echoed, echoAims.get(0), echo);
+                long echoVolley = echoAims.size() > 1 ? ShotgunHits.newGroup() : 0L;
+                ShotgunHits.Shot echoShot = echoVolley > 0 ? new ShotgunHits.Shot(echoVolley, 0) : null;
+                CastResult echo = scoped(later, echoed, aimedOrigin(origin, echoAims.get(0)), CastScope.Billing.free(false), ability.id(),
+                        echoShot, echoAims.get(0), () -> ability.castExtra(later, aimedOrigin(origin, echoAims.get(0))));
+                afterRail(current, later, ability, echoed, echoAims.get(0), echo, echoShot);
                 if (echo == CastResult.SUCCESS) {
-                    castCopies(current, later, ability, echoed, origin, echoAims);
+                    castCopies(current, later, ability, echoed, origin, echoAims, echoVolley);
                 }
             });
         }
@@ -149,18 +162,19 @@ public final class AugmentCaster {
     }
 
     private static void castCopies(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,
-                                   @Nullable CastOrigin origin, List<Vec3> aims) {
+                                   @Nullable CastOrigin origin, List<Vec3> aims, long volley) {
         for (int i = 1; i < aims.size(); i++) {
             Vec3 aim = aims.get(i);
-            CastResult copy = scoped(player, modifiers, aimedOrigin(origin, aim), CastScope.Billing.free(true), aim,
+            ShotgunHits.Shot shot = new ShotgunHits.Shot(volley, i);
+            CastResult copy = scoped(player, modifiers, aimedOrigin(origin, aim), CastScope.Billing.free(true), ability.id(), shot, aim,
                     () -> ability.castExtra(player, aimedOrigin(origin, aim)));
-            afterRail(config, player, ability, modifiers, aim, copy);
+            afterRail(config, player, ability, modifiers, aim, copy, shot);
         }
     }
 
     private static CastResult scoped(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, CastScope.Billing billing,
-                                     Vec3 aim, Supplier<CastResult> action) {
-        return AimOverride.call(player, aim, () -> CastScope.call(player, modifiers, origin, billing, action));
+                                     String spec, @Nullable ShotgunHits.Shot shot, Vec3 aim, Supplier<CastResult> action) {
+        return AimOverride.call(player, aim, () -> CastScope.call(player, modifiers, origin, billing, spec, shot, action));
     }
 
     private static Vec3 baseDirection(ServerPlayer player, @Nullable CastOrigin origin) {
@@ -168,13 +182,13 @@ public final class AugmentCaster {
     }
 
     private static void afterRail(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,
-                                  Vec3 aim, CastResult result) {
+                                  Vec3 aim, CastResult result, @Nullable ShotgunHits.Shot shot) {
         if (result != CastResult.SUCCESS || !ability.has(AbilityTrait.BOLT)) {
             return;
         }
         double extraRadius = RailBolts.extraRadius(modifiers);
         if (extraRadius > 0) {
-            RailBolts.widen(player, ability, modifiers, aim, extraRadius, config.tuning.railRange);
+            RailBolts.widen(player, ability, modifiers, aim, extraRadius, config.tuning.railRange, shot);
         }
     }
 

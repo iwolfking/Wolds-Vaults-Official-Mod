@@ -19,6 +19,9 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.augments.AugmentAbility;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
+import xyz.iwolfking.woldsvaults.augments.cast.ShotgunHits;
+
+import javax.annotation.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,7 +30,8 @@ import java.util.List;
  * Size Up on Arcane Rail. VH fires the rail natively (mana, cooldown, its own thin hit); right after, this applies
  * VH's rail rules (ability power times a roll between its min and max percent, as many targets as the Rail Pierce
  * etching allows, nearest first, players only in PvP vaults) to every mob within the wider radius of the same line.
- * Mobs the native bolt just hit are immune for half a second, so they are skipped rather than hit twice.
+ * Mobs the native bolt just hit are immune for half a second, so they are skipped rather than hit twice. In a Shotgun
+ * volley only mobs this member's own bolt hit are skipped; mobs another member hit take the sweep through immunity.
  */
 public final class RailBolts {
     private static final int JUST_HIT = 10;
@@ -40,7 +44,8 @@ public final class RailBolts {
         return Math.max(0.0, modifiers.scale() - 1.0);
     }
 
-    public static void widen(ServerPlayer player, AugmentAbility glyph, CastModifiers modifiers, Vec3 aim, double extraRadius, double range) {
+    public static void widen(ServerPlayer player, AugmentAbility glyph, CastModifiers modifiers, Vec3 aim, double extraRadius, double range,
+                             @Nullable ShotgunHits.Shot shot) {
         if (!(glyph.findAbility(player).orElse(null) instanceof ArcaneRailAbility rail)) {
             return;
         }
@@ -70,14 +75,18 @@ public final class RailBolts {
                 break;
             }
             hits++;
-            if (target.invulnerableTime > JUST_HIT) {
+            if (shot == null ? target.invulnerableTime > JUST_HIT
+                    : ShotgunHits.memberHit(target, shot) || target.invulnerableTime > JUST_HIT && !ShotgunHits.volleyHit(target, shot)) {
                 continue;
             }
             float percent = Mth.lerp(player.getRandom().nextFloat(), rail.getPercentAbilityPowerDealtMin(),
                     rail.getPercentAbilityPowerDealtMax());
             float damage = AbilityPowerHelper.getAbilityPower(player) * percent * modifiers.damage();
-            ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ActiveFlags.IS_ARCANE_RAIL_ATTACKING
-                    .runIfNotSet(() -> target.hurt(DamageSource.playerAttack(player), damage)));
+            ShotgunHits.runAs(glyph.id(), shot, () -> {
+                ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ActiveFlags.IS_ARCANE_RAIL_ATTACKING
+                        .runIfNotSet(() -> target.hurt(DamageSource.playerAttack(player), damage)));
+                return null;
+            });
         }
     }
 
