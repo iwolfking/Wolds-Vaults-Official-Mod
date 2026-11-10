@@ -687,6 +687,7 @@
     "vaulthunters.skills.MixinLuckyHitTalentDerivedHits",
     "vaulthunters.skills.MixinOnHitTalentsLightningFiend",
     "vaulthunters.skills.MixinModAbilityLabelBindings",
+    "vaulthunters.skills.MixinBloodlustSpeedEffect",
     "vaulthunters.skills.MixinResistanceHelper",
     "vaulthunters.skills.MixinSkill",
     "vaulthunters.skills.modifications.MixinAbstractVeinMinerAbility",

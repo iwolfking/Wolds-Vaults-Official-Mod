@@ -15,6 +15,11 @@ import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
 import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorAbility;
 
 import java.util.Map;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import iskallia.vault.skill.ability.component.AbilityLabelBindingKeys;
+import iskallia.vault.skill.ability.component.IAbilityLabelBinding;
+import iskallia.vault.skill.ability.effect.RampageBerserkerAbility;
 
 @Mixin(value = ModAbilityLabelBindings.class,remap = false)
 public abstract class MixinModAbilityLabelBindings {
@@ -225,5 +230,15 @@ public abstract class MixinModAbilityLabelBindings {
                 "fastClear",
                 ability -> AbilityLabelFormatters.ticks(ability.getFastClearTicks())
         ));
+    }
+
+    /** Rampage Berserker's drain has no cap (VH never applies {@code maxManaCostPerSecond}), so it gets no max-drain label. */
+    @WrapOperation(method = "register(Ljava/lang/Class;Ljava/util/Map;)V", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/skill/ability/component/AbilityLabelBindingRegistry;register(Ljava/lang/Class;Ljava/lang/String;Liskallia/vault/skill/ability/component/IAbilityLabelBinding;)V"))
+    private static void woldsvaults$dropBerserkerMaxDrain(Class<?> ability, String key, IAbilityLabelBinding<?> binding, Operation<Void> original) {
+        if (ability == RampageBerserkerAbility.class && AbilityLabelBindingKeys.MAX_MANA_COST.equals(key)) {
+            return;
+        }
+        original.call(ability, key, binding);
     }
 }
