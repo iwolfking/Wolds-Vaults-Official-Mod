@@ -58,6 +58,7 @@
     "vaulthunters.custom.MixinAttributeLimitHelperSpellHaste",
     "vaulthunters.custom.MixinAbilitySkipChanceCap",
     "accessors.ChaosTaskAccessor",
+    "accessors.ChainLightningProjectileAccessor",
     "vaulthunters.accessors.DeckModifierValueAccessor",
     "vaulthunters.accessors.ConfigInvoker",
     "vaulthunters.patches.MixinConfigPatches",

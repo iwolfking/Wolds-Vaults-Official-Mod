@@ -21,6 +21,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 
 import java.util.List;
+import net.minecraft.world.entity.Entity;
 
 @Mixin(value = NovaAbility.class, remap = false)
 public abstract class MixinNovaAbility {
@@ -58,5 +59,12 @@ public abstract class MixinNovaAbility {
             }
         }
         return strongest == null ? List.of() : List.of(strongest);
+    }
+
+    /** Nova falloff is measured from the cast's source position (a Bundled Spell landing), not from the player. */
+    @WrapOperation(method = "lambda$doAction$4", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;distanceTo(Lnet/minecraft/world/entity/Entity;)F", remap = true))
+    private float woldsvaults$falloffFromSource(ServerPlayer player, Entity entity, Operation<Float> original,
+                                                @Local(argsOnly = true) SkillContext context) {
+        return context.getSource().getPos().map(pos -> (float) entity.position().distanceTo(pos)).orElseGet(() -> original.call(player, entity));
     }
 }

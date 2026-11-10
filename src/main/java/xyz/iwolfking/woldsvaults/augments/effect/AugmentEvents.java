@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.augments.effect;
 
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.PlayerStatEvent;
+import iskallia.vault.skill.ability.effect.ChainLightningAbility;
 import iskallia.vault.util.calc.PlayerStat;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +18,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.cast.CastOrigin;
 import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
+import xyz.iwolfking.woldsvaults.mixins.accessors.ChainLightningProjectileAccessor;
 
 import javax.annotation.Nullable;
 
@@ -120,6 +122,16 @@ public final class AugmentEvents {
                 ? origin.direction().normalize() : projectile.getDeltaMovement().normalize();
         projectile.setPos(origin.position());
         projectile.setDeltaMovement(direction.scale(speed));
+        if (projectile instanceof ChainLightningAbility.ChainLightningProjectile lightning) {
+            restartRangeCheck(lightning, origin.position());
+        }
+    }
+
+    /** Chain Lightning discards its bolt by distance from where it spawned; a relaunched bolt measures from its new start. */
+    private static void restartRangeCheck(ChainLightningAbility.ChainLightningProjectile lightning, Vec3 start) {
+        lightning.getEntityData().set(ChainLightningProjectileAccessor.woldsvaults$startX(), (float) start.x);
+        lightning.getEntityData().set(ChainLightningProjectileAccessor.woldsvaults$startY(), (float) start.y);
+        lightning.getEntityData().set(ChainLightningProjectileAccessor.woldsvaults$startZ(), (float) start.z);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
