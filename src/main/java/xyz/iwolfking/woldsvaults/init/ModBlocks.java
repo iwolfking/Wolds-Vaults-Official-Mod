@@ -58,6 +58,7 @@ public class ModBlocks {
     public static final TrinketFusionBlock TRINKET_FUSION_BLOCK;
     public static final OwnedCraftingTableBlock OWNED_CRAFTING_TABLE_BLOCK;
     public static final SuppressorBlock SUPPRESSOR_BLOCK;
+    public static final ExtractionCacheBlock EXTRACTION_CACHE;
 
     public static final BrewingAltar BREWING_ALTAR;
     public static final SurvivalObjectiveBlock SURVIVAL_OBJECTIVE_BLOCK;
@@ -108,6 +109,7 @@ public class ModBlocks {
     public static final BlockEntityType<CrateCrackerTileEntity> CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<OwnedCraftingTableTileEntity> OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<SuppressorTileEntity> SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<ExtractionCacheTileEntity> EXTRACTION_CACHE_TILE_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -282,6 +284,7 @@ public class ModBlocks {
         SURVIVAL_OBJECTIVE_BLOCK = new SurvivalObjectiveBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         OWNED_CRAFTING_TABLE_BLOCK = new OwnedCraftingTableBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
         SUPPRESSOR_BLOCK = new SuppressorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
+        EXTRACTION_CACHE = new ExtractionCacheBlock();
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
@@ -327,6 +330,7 @@ public class ModBlocks {
         TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TrinketFusionForgeTileEntity::new, new Block[]{TRINKET_FUSION_BLOCK}).build(null);
         OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(OwnedCraftingTableTileEntity::new, new Block[]{OWNED_CRAFTING_TABLE_BLOCK}).build(null);
         SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SuppressorTileEntity::new, new Block[]{SUPPRESSOR_BLOCK}).build(null);
+        EXTRACTION_CACHE_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ExtractionCacheTileEntity::new, EXTRACTION_CACHE).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -458,6 +462,7 @@ public class ModBlocks {
         registerBlock(event, OWNED_CRAFTING_TABLE_BLOCK, WoldsVaults.id("owned_crafting_table"));
         registerBlock(event, LOCKED_TREASURE_CONTAINER_BLOCK, WoldsVaults.id("locked_treasure_container"));
         registerBlock(event, SUPPRESSOR_BLOCK, WoldsVaults.id("universal_suppressor"));
+        registerBlock(event, EXTRACTION_CACHE, WoldsVaults.id("extraction_cache"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -558,6 +563,7 @@ public class ModBlocks {
         registerTileEntity(event, DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_idona_altar_tile_entity"));
         registerTileEntity(event, DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_tenos_altar_tile_entity"));
         registerTileEntity(event, SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("universal_suppressor_tile_entity"));
+        registerTileEntity(event, EXTRACTION_CACHE_TILE_ENTITY_TYPE, WoldsVaults.id("extraction_cache_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -695,6 +701,7 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
         event.registerBlockEntityRenderer(CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, ConfigurableFloatingTextRenderer::new);
         event.registerBlockEntityRenderer(CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, CrateCrackerRenderer::new);
+        event.registerBlockEntityRenderer(EXTRACTION_CACHE_TILE_ENTITY_TYPE, ExtractionCacheRenderer::new);
     }
 
 

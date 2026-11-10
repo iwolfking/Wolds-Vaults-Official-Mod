@@ -660,6 +660,13 @@
     "vaulthunters.medallions.MixinCrateLootGenerator",
     "vaulthunters.medallions.MixinVaultNaturalSpawner",
     "vaulthunters.modifiers.MixinVaultModifierTypeRegistry",
+    "vaulthunters.multicell.MixinArchitectObjectiveMultiCell",
+    "vaulthunters.multicell.MixinClassicLayoutsMultiCell",
+    "vaulthunters.multicell.MixinConcurrentGridCacheMultiCell",
+    "vaulthunters.multicell.MixinDiscoveredRoomStatMultiCell",
+    "vaulthunters.multicell.MixinGridGeneratorMultiCell",
+    "vaulthunters.multicell.MixinVaultGridLayoutMultiCell",
+    "vaulthunters.multicell.MixinVaultMultiCell",
     "vaulthunters.objectives.MixinArchitectObjective",
     "vaulthunters.objectives.MixinCrystalData",
     "vaulthunters.objectives.MixinNullCrystalModel",
@@ -706,9 +713,18 @@
     "MixinServerItemCooldownsRiptide",
     "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets",
     "vaulthunters.accessors.VaultGearModifierReaderAccessor",
-    "vaulthunters.custom.MixinModGearAttributesSpellHaste"
+    "vaulthunters.custom.MixinModGearAttributesSpellHaste",
+    "accessors.NearestAttackableTargetGoalAccessor",
+    "accessors.TargetingConditionsAccessor",
+    "create.accessors.MixinFilterItem",
+    "dungeons_library.MixinAbilityHelper",
+    "trashslot.TrashSlotGuiHandlerMixin",
+    "vaulthunters.skills.modifications.MixinLightningOrbsAbility"
   ],
   "client": [
+    "vhatcaniroll.MixinVhatCanIRollItems",
+    "vaultmapper.MixinVaultMapMultiCell",
+    "vaultmapper.MixinVaultMapOverlayRendererMultiCell",
     "AccessorParticleEngine",
     "accessors.ModelAccessor",
     "MixinAbstractContainerScreen",
@@ -806,7 +822,9 @@
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
     "vaulthunters.gods.MixinVaultEndScreenGodXp",
-    "vaulthunters.objectives.MixinClientCrystalData"
+    "vaulthunters.objectives.MixinClientCrystalData",
+    "jei.MixinSubtypeRegistration",
+    "vaulthunters.custom.MixinStatisticsElementContainerScreen"
   ],
   "injectors": {
     "defaultRequire": 1

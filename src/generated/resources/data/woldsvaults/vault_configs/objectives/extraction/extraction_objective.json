@@ -376,7 +376,37 @@
     }
   },
   "WAVES": {
-    "liveMobCapPerSite": 1000,
+    "roomCountMultiplier": 1.2,
+    "rampAtFullProgress": 1.0,
+    "packetSize": 4,
+    "packetStaggerTicks": 5,
+    "liveMobCapPerRoom": 600,
+    "liveMobCapPerVault": 1200,
+    "focusOrder": [
+      1,
+      0,
+      2
+    ],
+    "surgeSiege": true,
+    "spawnDebugLog": true,
+    "lanes": {
+      "engageSteps": 6,
+      "rangedEngageBlocks": 12.0,
+      "repathTicks": 10,
+      "lookahead": 12,
+      "stuckTicks": 200
+    },
+    "ram": {
+      "entity": "minecraft:ravager",
+      "hpReference": "the_vault:elite_zombie",
+      "hpEliteMultiple": 2.0,
+      "speedMultiplier": 0.6,
+      "killSeconds": 60.0,
+      "firstTicks": 900,
+      "maxPerRoom": 2,
+      "maxPerTarget": 1,
+      "cellDrop": true
+    },
     "statFloor": {
       "enabled": true,
       "anchors": [
@@ -680,7 +710,8 @@
             "value": "the_vault:arbalist_guardian",
             "weight": 1.0
           }
-        ]
+        ],
+        "ramIntervalTicks": 1200
       },
       {
         "name": "industrial",
@@ -903,7 +934,8 @@
             "value": "the_vault:arbalist_guardian",
             "weight": 1.0
           }
-        ]
+        ],
+        "ramIntervalTicks": 1200
       },
       {
         "name": "fortified",
@@ -1142,7 +1174,8 @@
             "value": "the_vault:arbalist_guardian",
             "weight": 1.0
           }
-        ]
+        ],
+        "ramIntervalTicks": 1200
       },
       {
         "name": "siege",
@@ -1381,7 +1414,8 @@
             "value": "the_vault:arbalist_guardian",
             "weight": 1.0
           }
-        ]
+        ],
+        "ramIntervalTicks": 900
       },
       {
         "name": "cataclysm",
@@ -1620,9 +1654,34 @@
             "value": "the_vault:arbalist_guardian",
             "weight": 1.0
           }
-        ]
+        ],
+        "ramIntervalTicks": 900
       }
     ]
+  },
+  "THUMPER": {
+    "healthFraction": 0.6,
+    "shieldFraction": 0.6,
+    "shieldRegenFraction": 0.6,
+    "healthRegenFraction": 0.6,
+    "armorFraction": 1.0,
+    "shieldToughnessFraction": 1.0,
+    "progressLossPerThumper": 0.25,
+    "destructionPenaltyFraction": 0.1
+  },
+  "CACHE": {
+    "intervalTicks": 600,
+    "batchMin": 4,
+    "batchMax": 8,
+    "cap": 40,
+    "cellChance": 0.05,
+    "mobMargin": 2,
+    "pedestalClearance": 6,
+    "minSpacing": 2,
+    "playerClearance": 4,
+    "cluster": true,
+    "clusterRadius": 4,
+    "clusterSpacing": 10
   },
   "CELLS": {
     "hordeMobDropChance": 0.001,

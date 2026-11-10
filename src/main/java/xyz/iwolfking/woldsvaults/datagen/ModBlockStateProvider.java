@@ -38,6 +38,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateOmegaVaultInfuser();
         generateVaultFabricator();
         generateExtractionFluids();
+        generateExtractionCache();
         generateChromaticIronVaultInfuser();
         generateAugmentTableBlock();
         generateGatewayChannelingBlock();
@@ -282,6 +283,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void generateExtractionFluids() {
         xyz.iwolfking.woldsvaults.init.ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleBlock(fluid.block,
                 models().getBuilder(fluid.key + "_block").texture("particle", modLoc("block/fluid/" + fluid.key))));
+    }
+
+    private void generateExtractionCache() {
+        simpleBlock(ModBlocks.EXTRACTION_CACHE, models().getBuilder("extraction_cache").texture("particle", VaultMod.id("block/vault_meat_block")));
     }
 
     private void generateOmegaVaultInfuser() {

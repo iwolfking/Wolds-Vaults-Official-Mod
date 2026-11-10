@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.fruitbag;
 
-import com.shiftthedev.vaultfruitbag.containers.FruitSlot;
 import com.shiftthedev.vaultfruitbag.handlers.FruitBagHandler;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;

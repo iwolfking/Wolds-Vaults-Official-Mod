@@ -8,6 +8,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -16,14 +17,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.config.WeaponTypesConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.util.List;
 import java.util.Map;
 
-public class WeaponTypeSettingItem extends BasicItem {
+public class WeaponTypeSettingItem extends Item {
     public WeaponTypeSettingItem(ResourceLocation id, Properties properties) {
-        super(id, properties);
+        super(properties);
+        this.setRegistryName(id);
     }
 
     public @NotNull String getModifierTagString(ItemStack stack) {
@@ -74,7 +77,7 @@ public class WeaponTypeSettingItem extends BasicItem {
 
     @Override
     public void fillItemCategory(CreativeModeTab category, @NotNull NonNullList<ItemStack> items) {
-        if (category.equals(iskallia.vault.init.ModItems.VAULT_MOD_GROUP)) {
+        if (category.equals(ModCreativeTabs.WOLDS_VAULTS)) {
             for (Map.Entry<String, WeaponTypesConfig.Entry> weaponType : ModConfigs.WEAPON_TYPES.WEAPON_TYPES_MAP.entrySet()) {
                 items.add(create(weaponType.getKey()));
             }

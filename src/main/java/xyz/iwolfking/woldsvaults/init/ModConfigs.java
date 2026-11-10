@@ -39,6 +39,7 @@ public class ModConfigs {
     public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
     public static HyperObjectiveConfig HYPER_OBJECTIVE;
     public static ExtractionObjectiveConfig EXTRACTION_OBJECTIVE = ExtractionObjectiveConfig.inert();
+    public static xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig MULTI_CELL_ROOMS = xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig.inert();
     public static xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig EXTRACTOR_PARTS = xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.inert();
     public static xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig EXTRACTOR_COSTS = xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.inert();
     public static xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;

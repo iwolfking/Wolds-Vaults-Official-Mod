@@ -72,6 +72,10 @@
             "type": "constant"
           },
           {
+            "id": "Trash Slot",
+            "type": "constant"
+          },
+          {
             "id": "Phytogenic Insulator",
             "type": "constant"
           },
@@ -125,6 +129,10 @@
           },
           {
             "id": "Incorporeal",
+            "type": "constant"
+          },
+          {
+            "id": "Delooting Pro",
             "type": "constant"
           },
           {

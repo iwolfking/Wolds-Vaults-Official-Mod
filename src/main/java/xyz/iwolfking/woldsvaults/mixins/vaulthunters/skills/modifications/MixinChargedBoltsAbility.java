@@ -43,7 +43,7 @@ public class MixinChargedBoltsAbility implements IWoldAbilityEnhancements {
         });
     }
 
-    @WrapOperation(method = "lambda$applyLightningDamage$3", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), remap = true)
+    @WrapOperation(method = "lambda$applyLightningDamage$3", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
     private static boolean woldsVaults$wrapElementalFlags(LivingEntity instance, DamageSource source, float amount, Operation<Boolean> original) {
         Entity attacker = source.getEntity();
         List<ElementalType> types = List.of();

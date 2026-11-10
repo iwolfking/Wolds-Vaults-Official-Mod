@@ -8,9 +8,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinFury;
 
 /**
- * Startup and lifecycle for greed medallions: releases the vault state on vault end and hosts the effect hooks
+ * Startup and lifecycle for greed medallions: releases the vault state and assassin fury on vault end and hosts the effect hooks
  * that are plain listeners. Registration is in the crystal mixin.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -30,6 +31,7 @@ public final class GreedMedallionEvents {
             Vault vault = data.getVault();
             if (vault != null && vault.has(Vault.ID)) {
                 GreedMedallionVaultState.release(vault.get(Vault.ID));
+                GreedAssassinFury.release(vault.get(Vault.ID));
             }
         });
         CommonEvents.PLAYER_STAT.of(PlayerStat.TRAP_DISARM_CHANCE).register(OWNER, data -> {

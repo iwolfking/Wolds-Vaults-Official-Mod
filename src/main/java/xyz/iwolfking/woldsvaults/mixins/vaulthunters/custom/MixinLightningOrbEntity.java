@@ -32,7 +32,7 @@ public class MixinLightningOrbEntity {
         }
     }
 
-    @WrapOperation(method = "lambda$applyLightningDamage$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), remap = true)
+    @WrapOperation(method = "lambda$applyLightningDamage$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
     private static boolean woldsVaults$wrapElementalFlags(LivingEntity instance, DamageSource source, float amount, Operation<Boolean> original) {
         boolean[] result = new boolean[]{false};
         ElementHelper.runWithElements(woldsVaults$elementalTypes, () -> result[0] = original.call(instance, source, amount));

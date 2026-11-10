@@ -9,6 +9,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +17,10 @@ import net.minecraft.world.item.ItemStack;
 import mekanism.common.registries.MekanismBlocks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MekanismModificationWorkbenchCategory implements IRecipeCategory<MekanismModificationWorkbenchCategory.MekanismModificationStationRecipe> {
     public static final ResourceLocation UID = WoldsVaults.id("mekanism_modification_station");
     
@@ -31,12 +34,12 @@ public class MekanismModificationWorkbenchCategory implements IRecipeCategory<Me
         this.slotBackground = helper.getSlotDrawable();
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public ResourceLocation getUid() {
         return UID;
     }
 
-    @Override
+    @Override @SuppressWarnings("removal")
     public Class<? extends MekanismModificationStationRecipe> getRecipeClass() {
         return MekanismModificationStationRecipe.class;
     }

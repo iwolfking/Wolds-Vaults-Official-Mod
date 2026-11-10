@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:weapon_type_setter_claymore"
+    ]
+  },
+  "criteria": {
+    "has_weapon_type_focus": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:accoutre_focus"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:weapon_type_setter_claymore"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_weapon_type_focus",
+      "has_the_recipe"
+    ]
+  ]
+}

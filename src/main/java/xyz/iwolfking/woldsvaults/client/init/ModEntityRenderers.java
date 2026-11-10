@@ -46,5 +46,6 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.MAGIC_MISSILE, NoopRenderer::new);
         EntityRenderers.register(ModEntities.AUGMENT_BUNDLE, NoopRenderer::new);
         EntityRenderers.register(ModEntities.EXTRACTOR, xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorGeoRenderer::new);
+        EntityRenderers.register(ModEntities.THUMPER, xyz.iwolfking.woldsvaults.entities.extraction.client.ThumperGeoRenderer::new);
     }
 }
