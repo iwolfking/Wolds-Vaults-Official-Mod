@@ -79,9 +79,9 @@ public class DepositBackpackPacket {
             else if(menu instanceof GridContainerMenu gridContainerMenu) {
                 RefinedStorageBackpackDeposit.deposit(player, gridContainerMenu, backpack);
             }
-//            else if(menu instanceof StorageContainerMenuBase<?> storageContainerMenuBase && !(storageContainerMenuBase instanceof BackpackContainer)) {
-//                StorageContainerDeposit.deposit(player, storageContainerMenuBase, backpack);
-//            }
+            else if(menu instanceof StorageContainerMenuBase<?> storageContainerMenuBase && !(storageContainerMenuBase instanceof BackpackContainer)) {
+                StorageContainerDeposit.deposit(player, storageContainerMenuBase, backpack);
+            }
             else if(!(menu instanceof BackpackContainer) && !menu.slots.isEmpty()) {
                 BackpackUtils.depositInventoryToMenu(backpack, menu, 0, menu.slots.size(), player);
             }
