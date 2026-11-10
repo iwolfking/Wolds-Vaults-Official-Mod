@@ -27,6 +27,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
@@ -98,7 +99,7 @@ public final class ClientAbilityStats {
      */
     public record Step(String group, int depth, @Nullable Hit hit, @Nullable Hit charged, @Nullable Hit splinter, @Nullable Hit splash,
                        int casts, float echoPower, @Nullable Hit total, @Nullable Hit chargedTotal, float radius, float splashRadius,
-                       float velocity, int durationTicks, List<Extra> extras) implements Row {
+                       float velocity, int durationTicks, List<Extra> extras, @Nullable GlyphStacking.Pool glyphs) implements Row {
         public boolean hasStats() {
             return this.hit != null || this.splinter != null || this.splash != null || this.radius >= 0.0F || this.splashRadius >= 0.0F
                     || this.velocity >= 0.0F || this.durationTicks >= 0 || !this.extras.isEmpty();
@@ -106,7 +107,7 @@ public final class ClientAbilityStats {
     }
 
     /** A Bundled Spell orb: how many orbs fly, their velocity in blocks per second, and the flight time in seconds. */
-    public record Orb(int depth, int copies, float velocity, float flightSeconds) implements Row {
+    public record Orb(int depth, int copies, float velocity, float flightSeconds, GlyphStacking.Pool glyphs) implements Row {
     }
 
     /** Every row of a spell, and the whole press's damage when more than one step deals damage (else null). */
@@ -126,7 +127,7 @@ public final class ClientAbilityStats {
         if (player == null || ability == null) {
             return null;
         }
-        return step(player, group, base(player, ability), CastModifiers.NONE, 1.0F, 1, false, 0);
+        return step(player, group, base(player, ability), CastModifiers.NONE, 1.0F, 1, false, 0, null);
     }
 
     /** An augmented spell's rows: each ability step with its glyphs, each Bundled Spell orb and its payload. */
@@ -137,7 +138,7 @@ public final class ClientAbilityStats {
             return null;
         }
         List<Row> rows = new ArrayList<>();
-        walk(player, config, tree, model.steps(), 1.0F, 1, true, 0, rows);
+        walk(player, config, tree, model, model.steps(), 1.0F, 1, true, 0, rows);
         Hit total = null;
         int damaging = 0;
         for (Row row : rows) {
@@ -150,28 +151,30 @@ public final class ClientAbilityStats {
         return new SpellStats(rows, damaging > 1 ? total : null);
     }
 
-    private static void walk(LocalPlayer player, FocusAugmentsConfig config, AbilityTree tree, List<SpellModel.Step> steps, float damageFactor,
-                             int multiplicity, boolean root, int depth, List<Row> rows) {
+    private static void walk(LocalPlayer player, FocusAugmentsConfig config, AbilityTree tree, SpellModel model, List<SpellModel.Step> steps,
+                             float damageFactor, int multiplicity, boolean root, int depth, List<Row> rows) {
         for (SpellModel.Step step : steps) {
             if (step instanceof SpellModel.Cast cast) {
                 Ability ability = SpellCooldowns.ability(tree, cast.group());
                 Base base = ability == null ? null : base(player, ability);
-                rows.add(step(player, cast.group(), base, CastModifiers.of(config, cast.glyphs()), damageFactor, multiplicity, root, depth));
+                rows.add(step(player, cast.group(), base, CastModifiers.of(config, cast.glyphs()), damageFactor, multiplicity, root, depth,
+                        model.stepPool(cast)));
             } else if (step instanceof SpellModel.Bundle bundle) {
                 CastModifiers orb = CastModifiers.of(config, bundle.glyphs());
                 int copies = 1 + orb.shotgunCopies();
-                rows.add(new Orb(depth, copies * multiplicity, (float) (config.tuning.bundleSpeed * orb.speed() * 20.0), bundle.glyph().potency()));
-                walk(player, config, tree, bundle.payload(), damageFactor * orb.damage(), multiplicity * copies, false, depth + 1, rows);
+                rows.add(new Orb(depth, copies * multiplicity, (float) (config.tuning.bundleSpeed * orb.speed() * 20.0), bundle.glyph().potency(),
+                        model.stepPool(bundle)));
+                walk(player, config, tree, model, bundle.payload(), damageFactor * orb.damage(), multiplicity * copies, false, depth + 1, rows);
             }
         }
     }
 
     private static Step step(LocalPlayer player, String group, @Nullable Base base, CastModifiers modifiers, float damageFactor, int multiplicity,
-                             boolean root, int depth) {
+                             boolean root, int depth, @Nullable GlyphStacking.Pool glyphs) {
         int casts = (1 + modifiers.shotgunCopies()) * multiplicity;
         float echo = modifiers.echoPower();
         if (base == null) {
-            return new Step(group, depth, null, null, null, null, casts, echo, null, null, -1.0F, -1.0F, -1.0F, -1, List.of());
+            return new Step(group, depth, null, null, null, null, casts, echo, null, null, -1.0F, -1.0F, -1.0F, -1, List.of(), glyphs);
         }
         float factor = modifiers.damage() * damageFactor;
         Hit hit = base.hit() == null ? null : base.hit().times(factor);
@@ -188,7 +191,7 @@ public final class ClientAbilityStats {
         float radius = base.radius() >= 0.0F && base.aoe() ? base.radius() * areaRatio(player, modifiers.area()) : base.radius();
         float velocity = base.velocity() >= 0.0F ? base.velocity() * modifiers.speed() : -1.0F;
         return new Step(group, depth, hit, charged, splinter, splash, casts, echo, total, chargedTotal, radius, base.splashRadius(), velocity,
-                base.durationTicks(), base.extras());
+                base.durationTicks(), base.extras(), glyphs);
     }
 
     /** VH's numbers for one ability against the player's current stats, before any glyph. */

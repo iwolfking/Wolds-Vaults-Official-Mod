@@ -40,11 +40,13 @@
     "sizeUpMaxScale": 3.0,
     "sizeDownMinScale": 0.4,
     "chargeSeconds": 1.0,
-    "chargeMinShare": 0.25
+    "chargeMinShare": 0.25,
+    "chargeMoveFactor": 0.5
   },
   "glyphs": {
     "amplify_area": {
       "kind": "modifier",
+      "class": "common",
       "category": "power",
       "minLevel": 0,
       "weight": 10,
@@ -52,12 +54,10 @@
         [
           "instant",
           "area"
-        ],
-        [
-          "instant",
-          "projectile"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "area",
@@ -65,18 +65,18 @@
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.1,
-            "max": 0.18
+            "min": 0.12,
+            "max": 0.216
           },
           {
             "minLevel": 35,
-            "min": 0.14,
-            "max": 0.24
+            "min": 0.168,
+            "max": 0.288
           },
           {
             "minLevel": 70,
-            "min": 0.18,
-            "max": 0.3
+            "min": 0.216,
+            "max": 0.36
           }
         ],
         "linked": []
@@ -84,17 +84,20 @@
       "step": [
         {
           "stat": "area",
+          "role": "upside",
           "k": 1.0
         },
         {
           "stat": "damage",
-          "k": -0.25
+          "role": "downside",
+          "k": -0.20833333
         }
       ],
       "spell": [
         {
           "stat": "mana",
-          "k": 0.4
+          "role": "cost",
+          "k": 0.3333333
         }
       ],
       "maxUses": 3,
@@ -110,33 +113,39 @@
     },
     "strengthen": {
       "kind": "modifier",
+      "class": "common",
       "category": "power",
       "minLevel": 15,
       "weight": 8,
       "requires": [
         [
-          "instant"
+          "instant",
+          "damage"
         ]
       ],
-      "excludes": [],
+      "forbids": [],
+      "specs": [],
+      "excludes": [
+        "intensify"
+      ],
       "potency": {
         "label": "damage",
         "format": "pct",
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.08,
-            "max": 0.14
+            "min": 0.096,
+            "max": 0.168
           },
           {
             "minLevel": 35,
-            "min": 0.11,
-            "max": 0.19
+            "min": 0.132,
+            "max": 0.228
           },
           {
             "minLevel": 70,
-            "min": 0.15,
-            "max": 0.25
+            "min": 0.18,
+            "max": 0.3
           }
         ],
         "linked": []
@@ -144,17 +153,20 @@
       "step": [
         {
           "stat": "damage",
+          "role": "upside",
           "k": 1.0
         },
         {
           "stat": "area",
-          "k": -0.3
+          "role": "downside",
+          "k": -0.25
         }
       ],
       "spell": [
         {
           "stat": "mana",
-          "k": 0.6
+          "role": "cost",
+          "k": 0.5
         }
       ],
       "maxUses": 3,
@@ -170,6 +182,7 @@
     },
     "quicken": {
       "kind": "modifier",
+      "class": "common",
       "category": "flow",
       "minLevel": 0,
       "weight": 10,
@@ -181,6 +194,8 @@
           "toggle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "haste",
@@ -188,18 +203,18 @@
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.06,
-            "max": 0.1
+            "min": 0.072,
+            "max": 0.12
           },
           {
             "minLevel": 35,
-            "min": 0.08,
-            "max": 0.14
+            "min": 0.096,
+            "max": 0.168
           },
           {
             "minLevel": 70,
-            "min": 0.1,
-            "max": 0.18
+            "min": 0.12,
+            "max": 0.216
           }
         ],
         "linked": []
@@ -207,17 +222,20 @@
       "step": [
         {
           "stat": "damage",
-          "k": -0.2
+          "role": "downside",
+          "k": -0.16666666
         }
       ],
       "spell": [
         {
           "stat": "haste",
+          "role": "upside",
           "k": 1.0
         },
         {
           "stat": "mana",
-          "k": 0.8
+          "role": "cost",
+          "k": 0.6666666
         }
       ],
       "maxUses": 3,
@@ -233,6 +251,7 @@
     },
     "discount": {
       "kind": "modifier",
+      "class": "common",
       "category": "flow",
       "minLevel": 0,
       "weight": 10,
@@ -241,25 +260,27 @@
           "mana"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
-        "label": "mana",
-        "format": "neg_pct",
+        "label": "mana efficiency",
+        "format": "pct",
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.06,
-            "max": 0.1
+            "min": 0.077,
+            "max": 0.133
           },
           {
             "minLevel": 35,
-            "min": 0.08,
-            "max": 0.14
+            "min": 0.104,
+            "max": 0.195
           },
           {
             "minLevel": 70,
-            "min": 0.1,
-            "max": 0.18
+            "min": 0.133,
+            "max": 0.263
           }
         ],
         "linked": []
@@ -267,12 +288,14 @@
       "step": [],
       "spell": [
         {
-          "stat": "mana",
-          "k": -1.0
+          "stat": "efficiency",
+          "role": "upside",
+          "k": 1.0
         },
         {
           "stat": "haste",
-          "k": -0.3
+          "role": "downside",
+          "k": -0.2
         }
       ],
       "maxUses": 3,
@@ -288,10 +311,13 @@
     },
     "delay": {
       "kind": "delay",
+      "class": "utility",
       "category": "flow",
       "minLevel": 0,
       "weight": 6,
       "requires": [],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "pause",
@@ -309,6 +335,7 @@
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.02
         }
       ],
@@ -326,6 +353,7 @@
     },
     "accelerate": {
       "kind": "modifier",
+      "class": "common",
       "category": "path",
       "minLevel": 0,
       "weight": 10,
@@ -342,6 +370,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "speed",
@@ -349,18 +379,18 @@
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.15,
-            "max": 0.25
+            "min": 0.18,
+            "max": 0.3
           },
           {
             "minLevel": 35,
-            "min": 0.2,
-            "max": 0.32
+            "min": 0.24,
+            "max": 0.384
           },
           {
             "minLevel": 70,
-            "min": 0.25,
-            "max": 0.4
+            "min": 0.3,
+            "max": 0.48
           }
         ],
         "linked": []
@@ -368,17 +398,20 @@
       "step": [
         {
           "stat": "speed",
+          "role": "upside",
           "k": 1.0
         },
         {
           "stat": "damage",
-          "k": -0.08
+          "role": "downside",
+          "k": -0.06666666
         }
       ],
       "spell": [
         {
           "stat": "mana",
-          "k": 0.2
+          "role": "cost",
+          "k": 0.16666666
         }
       ],
       "maxUses": 3,
@@ -394,6 +427,7 @@
     },
     "homing": {
       "kind": "modifier",
+      "class": "utility",
       "category": "path",
       "minLevel": 20,
       "weight": 6,
@@ -410,6 +444,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [
         "orbit"
       ],
@@ -438,16 +474,19 @@
       "step": [
         {
           "stat": "damage",
+          "role": "downside",
           "fixed": 0.9
         },
         {
           "stat": "speed",
+          "role": "downside",
           "fixed": 0.9
         }
       ],
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.1
         }
       ],
@@ -462,6 +501,7 @@
     },
     "orbit": {
       "kind": "modifier",
+      "class": "utility",
       "category": "path",
       "minLevel": 20,
       "weight": 4,
@@ -474,6 +514,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [
         "homing"
       ],
@@ -492,16 +534,19 @@
       "step": [
         {
           "stat": "damage",
+          "role": "downside",
           "fixed": 0.85
         }
       ],
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.15
         },
         {
           "stat": "cooldown",
+          "role": "cost",
           "fixed": 1.1
         }
       ],
@@ -516,18 +561,21 @@
     },
     "low_gravity": {
       "kind": "modifier",
+      "class": "utility",
       "category": "path",
       "minLevel": 0,
       "weight": 8,
       "requires": [
         [
           "instant",
-          "projectile"
+          "gravity"
         ],
         [
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "gravity",
@@ -544,12 +592,14 @@
       "step": [
         {
           "stat": "speed",
+          "role": "downside",
           "fixed": 0.95
         }
       ],
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.04
         }
       ],
@@ -564,6 +614,7 @@
     },
     "ethereal": {
       "kind": "modifier",
+      "class": "utility",
       "category": "path",
       "minLevel": 60,
       "weight": 2,
@@ -580,6 +631,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "lifetime",
@@ -596,12 +649,14 @@
       "step": [
         {
           "stat": "damage",
+          "role": "downside",
           "fixed": 0.85
         }
       ],
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.2
         }
       ],
@@ -616,6 +671,7 @@
     },
     "size_up": {
       "kind": "modifier",
+      "class": "common",
       "category": "form",
       "minLevel": 0,
       "weight": 8,
@@ -636,6 +692,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "size",
@@ -643,18 +701,18 @@
         "tiers": [
           {
             "minLevel": 0,
-            "min": 0.2,
-            "max": 0.3
+            "min": 0.24,
+            "max": 0.36
           },
           {
             "minLevel": 35,
-            "min": 0.25,
-            "max": 0.4
+            "min": 0.3,
+            "max": 0.48
           },
           {
             "minLevel": 70,
-            "min": 0.3,
-            "max": 0.5
+            "min": 0.36,
+            "max": 0.6
           }
         ],
         "linked": []
@@ -662,17 +720,20 @@
       "step": [
         {
           "stat": "scale",
+          "role": "upside",
           "k": 1.0
         },
         {
           "stat": "speed",
-          "k": -0.3
+          "role": "downside",
+          "k": -0.25
         }
       ],
       "spell": [
         {
           "stat": "mana",
-          "k": 0.3
+          "role": "cost",
+          "k": 0.25
         }
       ],
       "maxUses": 2,
@@ -687,6 +748,7 @@
     },
     "size_down": {
       "kind": "modifier",
+      "class": "common",
       "category": "form",
       "minLevel": 0,
       "weight": 6,
@@ -703,6 +765,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "size",
@@ -729,20 +793,24 @@
       "step": [
         {
           "stat": "scale",
+          "role": "downside",
           "k": -1.0
         },
         {
           "stat": "damage",
-          "k": 0.6
+          "role": "upside",
+          "k": 0.72
         },
         {
           "stat": "speed",
-          "k": 0.5
+          "role": "upside",
+          "k": 0.6
         }
       ],
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.05
         }
       ],
@@ -758,14 +826,18 @@
     },
     "echo": {
       "kind": "modifier",
+      "class": "special",
       "category": "chaos",
       "minLevel": 60,
       "weight": 2,
       "requires": [
         [
-          "instant"
+          "instant",
+          "damage"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "echo power",
@@ -783,10 +855,12 @@
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.5
         },
         {
           "stat": "cooldown",
+          "role": "cost",
           "fixed": 1.3
         }
       ],
@@ -801,6 +875,7 @@
     },
     "shotgun": {
       "kind": "modifier",
+      "class": "special",
       "category": "chaos",
       "minLevel": 50,
       "weight": 3,
@@ -821,6 +896,8 @@
           "bundle"
         ]
       ],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "copy damage",
@@ -843,10 +920,12 @@
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "perUse": 0.3
         },
         {
           "stat": "cooldown",
+          "role": "cost",
           "perUse": 0.1
         }
       ],
@@ -863,27 +942,36 @@
     },
     "charge": {
       "kind": "modifier",
+      "class": "special",
       "category": "chaos",
       "minLevel": 60,
       "weight": 2,
       "requires": [
         [
           "instant",
+          "damage",
           "path"
         ],
         [
           "instant",
+          "damage",
           "projectile"
         ],
         [
           "instant",
+          "damage",
           "area"
         ],
         [
           "instant",
+          "damage",
           "bolt"
         ]
       ],
+      "forbids": [
+        "linger"
+      ],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "full charge",
@@ -891,8 +979,8 @@
         "tiers": [
           {
             "minLevel": 60,
-            "min": 0.6,
-            "max": 1.0
+            "min": 0.9,
+            "max": 1.5
           }
         ],
         "linked": []
@@ -901,10 +989,12 @@
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.35
         },
         {
           "stat": "cooldown",
+          "role": "cost",
           "fixed": 1.25
         }
       ],
@@ -919,10 +1009,13 @@
     },
     "bundled_spell": {
       "kind": "bundle",
+      "class": "special",
       "category": "chaos",
       "minLevel": 40,
       "weight": 3,
       "requires": [],
+      "forbids": [],
+      "specs": [],
       "excludes": [],
       "potency": {
         "label": "flight",
@@ -940,10 +1033,12 @@
       "spell": [
         {
           "stat": "mana",
+          "role": "cost",
           "fixed": 1.25
         },
         {
           "stat": "cooldown",
+          "role": "cost",
           "fixed": 1.15
         }
       ],
@@ -951,10 +1046,209 @@
       "useWeights": [
         100
       ],
-      "capPerSpell": 2,
+      "capPerSpell": 1,
       "costMin": 12,
       "costMax": 19,
       "noEscalation": false
+    },
+    "intensify": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "power",
+      "minLevel": 20,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "intensify"
+        ],
+        [
+          "toggle",
+          "intensify"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [
+        "strengthen"
+      ],
+      "potency": {
+        "label": "intensity",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.14
+          },
+          {
+            "minLevel": 35,
+            "min": 0.12,
+            "max": 0.16
+          },
+          {
+            "minLevel": 70,
+            "min": 0.14,
+            "max": 0.18
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "intensity",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "duration",
+          "role": "downside",
+          "fixed": 0.85
+        },
+        {
+          "stat": "drain",
+          "role": "downside",
+          "k": 1.5
+        },
+        {
+          "stat": "heal_mana",
+          "role": "downside",
+          "k": 1.5
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.15
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 6,
+      "costMax": 10,
+      "noEscalation": false
+    },
+    "extend": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "flow",
+      "minLevel": 20,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "extend"
+        ],
+        [
+          "toggle",
+          "extend"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "duration",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 0.275
+          },
+          {
+            "minLevel": 35,
+            "min": 0.25,
+            "max": 0.325
+          },
+          {
+            "minLevel": 70,
+            "min": 0.3,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "duration",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "intensity",
+          "role": "downside",
+          "base": 0.98,
+          "k": -0.2
+        },
+        {
+          "stat": "drain",
+          "role": "upside",
+          "k": -0.5
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 5,
+      "costMax": 9,
+      "noEscalation": false
+    },
+    "chaining": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "power",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        [
+          "instant",
+          "damage",
+          "direct"
+        ]
+      ],
+      "forbids": [
+        "linger"
+      ],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "chains",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
     }
   },
   "combos": [
@@ -1044,6 +1338,7 @@
       },
       "MYTHIC": {
         "budget": 1.5,
+        "focusBudgetMult": 1.3,
         "linesMin": 8,
         "linesMax": 9
       },
@@ -1080,8 +1375,8 @@
       },
       "MYTHIC": {
         "minLevel": 70,
-        "min": 4,
-        "max": 5
+        "min": 6,
+        "max": 6
       }
     }
   },
@@ -1094,44 +1389,59 @@
   "abilityTraits": {
     "UltimateShield_Base": [
       "TOGGLE",
-      "MANA"
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Fangs_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Fangs_Maw": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Expunge_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "LINGER"
     ],
     "Concentrate_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Colossus_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Sneaky_Getaway": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Heal_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "INTENSIFY"
     ],
     "Heal_Group": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY"
     ],
     "Heal_Cleanse": [
       "INSTANT",
@@ -1143,8 +1453,8 @@
     ],
     "Dash_Damage": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Dash_Warp": [
       "INSTANT",
@@ -1153,28 +1463,36 @@
     "Nova_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Nova_Slow": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Nova_Dot": [
       "INSTANT",
       "AREA",
-      "MANA"
-    ],
-    "Execute_Base": [
-      "INSTANT"
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "PAYLOAD"
     ],
     "Ghost_Walk_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "EXTEND"
     ],
     "Ghost_Walk_Spirit": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "EXTEND"
     ],
     "Mega_Jump_Base": [
       "INSTANT",
@@ -1197,95 +1515,113 @@
     ],
     "Rampage_Base": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Rampage_Bloodlust": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Rampage_Berserker": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Rampage_Instinct": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Rampage_Leech": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Rampage_Chain": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Smite_Base": [
       "TOGGLE",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Smite_Archon": [
       "TOGGLE",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Smite_Blast_Wave": [
       "TOGGLE",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Smite_Thunderstorm": [
-      "TOGGLE",
-      "AREA",
-      "MANA"
+      "TOGGLE"
     ],
     "Summon_Eternal_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "EXTEND"
     ],
     "Empower_Base": [
       "TOGGLE",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Empower_Ice_Armor": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Empower_Slowness_Aura": [
       "TOGGLE",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Vein_Miner_Base": [
-      "HOLD",
-      "AREA"
+      "HOLD"
     ],
     "Vein_Miner_Fortune": [
-      "HOLD",
-      "AREA"
+      "HOLD"
     ],
     "Vein_Miner_Durability": [
-      "HOLD",
-      "AREA"
+      "HOLD"
     ],
     "Vein_Miner_Void": [
-      "HOLD",
-      "AREA"
+      "HOLD"
     ],
     "Vein_Miner_Chain": [
-      "HOLD",
-      "AREA"
+      "HOLD"
     ],
     "Hunter_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "EXTEND"
     ],
     "Javelin_Sight": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Farmer_Base": [
       "TOGGLE",
@@ -1309,260 +1645,420 @@
     ],
     "Mana_Shield_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Mana_Barrier": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "EXTEND"
     ],
     "Shield_Bash": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Shield_Bash_Earthshatter": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Shield_Bash_Battering_Ram": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Mana_Shield_Retribution": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "LINGER"
     ],
     "Mana_Shield_Implode": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Implode_Life_Tap": [
       "INSTANT",
-      "AREA"
+      "AREA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Taunt_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Taunt_Repel": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Taunt_Decoy": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "PROJECTILE",
+      "MANA",
+      "GRAVITY",
+      "PAYLOAD",
+      "EXTEND"
     ],
     "Taunt_Charm": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Stonefall_Base": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Stonefall_Snow": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Stonefall_Cold": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Totem_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Totem_Player_Damage": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Totem_Mana_Regen": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Totem_Mob_Damage": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "EXTEND"
     ],
     "Javelin_Base": [
       "INSTANT",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Javelin_Piercing": [
       "INSTANT",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Javelin_Scatter": [
       "INSTANT",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Shell_Base": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Shell_Porcupine": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Shell_Quill": [
       "TOGGLE",
-      "MANA"
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Fireball_Base": [
       "INSTANT",
+      "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Fireball_Volley": [
       "INSTANT",
+      "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Fireball_Fireshot": [
       "INSTANT",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Storm_Arrow_Base": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Storm_Arrow_Blizzard": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Battle_Cry_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Battle_Cry_Spectral_Strike": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Battle_Cry_Lucky_Strike": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
     ],
     "Ice_Bolt_Base": [
       "INSTANT",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "PAYLOAD"
     ],
     "Ice_Bolt_Blast": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "PAYLOAD"
     ],
     "Shard_Blizzard": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Arcane_Base": [
       "HOLD",
       "BEAM",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Arcane_Rail": [
       "INSTANT",
       "BOLT",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Arcane_Prism": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Earthquake_Base": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Earthquake_Singularity": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Earthquake_Tremor": [
       "INSTANT",
       "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Earthquake_Landmine": [
       "INSTANT",
-      "AREA",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "PAYLOAD"
     ],
     "Chain_Lightning_Base": [
       "INSTANT",
-      "MANA"
+      "PATH",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Chain_Lightning_Orbs": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
     ],
     "Chain_Lightning_Charged_Bolts": [
       "INSTANT",
       "PATH",
-      "MANA"
+      "MANA",
+      "DAMAGE"
     ],
     "Necromancy_Base": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
     ],
     "Necromancy_Archer": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
     ],
     "Necromancy_Golem": [
       "INSTANT",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
     ],
     "Grenade_Base": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Grenade_Sticky": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
-      "MANA"
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
     ],
     "Toxic_Grenade": [
       "INSTANT",
       "AREA",
       "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Stirrings_Of_Power": [
+      "INSTANT",
       "MANA"
+    ],
+    "Stirrings_Of_Power_Dormant": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Cope_De_Grace": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Savior": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Eyes_Of_God": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Bullet_Time": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Life_Block_Base": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Mana_Block": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
     ]
   },
   "disabledAbilities": []

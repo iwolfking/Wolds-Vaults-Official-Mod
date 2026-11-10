@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.augments.spell;
 
 import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
+import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
@@ -9,6 +10,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -18,8 +20,9 @@ import java.util.function.Function;
 
 /**
  * An augmented spell read against its item and the table: the timeline of steps with each glyph's rolled potency,
- * the arcana it costs, its spell-wide mana, cooldown and haste factors, how many ability casts one press makes, and
- * every rule it breaks. The same model drives casting (server), the focus screen and tooltips (client).
+ * the arcana it costs, its spell-wide mana, cooldown and haste factors, each step's stacked glyph stats, how many
+ * ability casts one press makes, and every rule it breaks. The same model drives casting (server), the focus screen and
+ * tooltips (client).
  * <p>
  * Grammar: the first token is the trigger ability; a modifier glyph changes the nearest ability or orb before it;
  * Delay pauses; Bundled Spell throws an orb, modified by the glyphs right after it, whose payload is everything from the
@@ -37,6 +40,8 @@ public final class SpellModel {
     private final float manaFactor;
     private final float cooldownFactor;
     private final float hasteMultiplier;
+    private final GlyphStacking.Pool spellPool;
+    private final Map<Step, GlyphStacking.Pool> stepPools;
     private final List<FocusAugmentsConfig.Combo> combos;
 
     /** One placed glyph with its line's roll. A dormant glyph no longer fits its target and is skipped at cast. */
@@ -63,7 +68,7 @@ public final class SpellModel {
         }
     }
 
-    private SpellModel(Builder builder, float arcana, int casts) {
+    private SpellModel(Builder builder, float arcana, int casts, float manaFactor, Map<Step, GlyphStacking.Pool> stepPools) {
         this.steps = Collections.unmodifiableList(builder.root);
         this.errors = Collections.unmodifiableList(builder.errors);
         this.groups = Collections.unmodifiableSet(builder.groups);
@@ -72,9 +77,11 @@ public final class SpellModel {
         this.glyphCount = builder.glyphCount;
         this.casts = casts;
         this.nesting = builder.maxNesting;
-        this.manaFactor = builder.manaFactor;
-        this.cooldownFactor = builder.cooldownFactor;
-        this.hasteMultiplier = builder.hasteMultiplier;
+        this.manaFactor = manaFactor;
+        this.cooldownFactor = builder.spellPool.total("cooldown");
+        this.hasteMultiplier = builder.spellPool.total("haste");
+        this.spellPool = builder.spellPool;
+        this.stepPools = stepPools;
         this.combos = Collections.unmodifiableList(builder.appliedCombos);
     }
 
@@ -134,6 +141,20 @@ public final class SpellModel {
         return this.combos;
     }
 
+    /** The spell-wide glyph stats (mana, cooldown, haste, efficiency) as stacked, before the mana floor. */
+    public GlyphStacking.Pool spellPool() {
+        return this.spellPool;
+    }
+
+    /**
+     * The stacked step stats of an ability step or Bundled Spell orb of this spell (its active glyphs only), or an empty
+     * pool for a Delay or a step from another model.
+     */
+    public GlyphStacking.Pool stepPool(Step step) {
+        GlyphStacking.Pool pool = this.stepPools.get(step);
+        return pool != null ? pool : new GlyphStacking.Pool();
+    }
+
     public boolean hasCharge() {
         return anyGlyph(this.steps, AugmentType.CHARGE);
     }
@@ -175,8 +196,26 @@ public final class SpellModel {
         if (casts > config.rules.maxCastsPerTrigger) {
             builder.errors.add("one press would make " + casts + " casts; at most " + config.rules.maxCastsPerTrigger + " are allowed");
         }
-        builder.manaFactor = Math.max(config.rules.manaFactorFloor, builder.manaFactor);
-        return new SpellModel(builder, arcana(config, builder), casts);
+        float manaFactor = Math.max(config.rules.manaFactorFloor, builder.spellPool.mana());
+        Map<Step, GlyphStacking.Pool> stepPools = new IdentityHashMap<>();
+        collectPools(config, builder.root, stepPools);
+        return new SpellModel(builder, arcana(config, builder), casts, manaFactor, stepPools);
+    }
+
+    private static void collectPools(FocusAugmentsConfig config, List<Step> steps, Map<Step, GlyphStacking.Pool> pools) {
+        for (Step step : steps) {
+            if (step instanceof Cast cast) {
+                pools.put(cast, CastModifiers.pool(config::glyph, cast.glyphs()));
+            } else if (step instanceof Bundle bundle) {
+                pools.put(bundle, CastModifiers.pool(config::glyph, bundle.glyphs()));
+                collectPools(config, bundle.payload(), pools);
+            }
+        }
+    }
+
+    /** How many times one spell may place a line's glyph: the line's uses, capped by the glyph's per-spell cap. */
+    public static int perSpellLimit(FocusAugmentsConfig config, SpellcraftItemData.Line line) {
+        return Math.min(config.glyph(line.type()).capPerSpell, line.uses());
     }
 
     private static float arcana(FocusAugmentsConfig config, Builder builder) {
@@ -234,6 +273,7 @@ public final class SpellModel {
         Object target;
         List<Glyph> targetGlyphs;
         Set<String> targetTraits = Set.of();
+        String targetSpec;
         int glyphCount;
         int escalating;
         float glyphCost;
@@ -241,9 +281,7 @@ public final class SpellModel {
         int maxNesting;
         boolean shotgunOnBundle;
         boolean awaitingStep;
-        float manaFactor = 1.0F;
-        float cooldownFactor = 1.0F;
-        float hasteMultiplier = 1.0F;
+        final GlyphStacking.Pool spellPool = new GlyphStacking.Pool();
         final List<Bundle> openBundles = new ArrayList<>();
 
         Builder(FocusAugmentsConfig config, List<SpellcraftItemData.Line> lines, Function<String, String> specOf, boolean strict) {
@@ -273,15 +311,9 @@ public final class SpellModel {
             if (!spec.noEscalation) {
                 this.escalating++;
             }
-            int limit = Math.min(spec.capPerSpell, line.uses());
+            int limit = perSpellLimit(this.config, line);
             if (placed > limit) {
                 this.errors.add(type.displayName() + " fits at most " + limit + " times in one spell on this item");
-            }
-            for (String excluded : spec.excludes) {
-                AugmentType other = AugmentType.byId(excluded);
-                if (other != null && this.uses.containsKey(other)) {
-                    this.errors.add(type.displayName() + " can't share a spell with " + other.displayName());
-                }
             }
             if ("delay".equals(spec.kind)) {
                 Glyph glyph = new Glyph(type, line.potency(), line.quality(), line.cost(), false);
@@ -301,7 +333,12 @@ public final class SpellModel {
                         : type.displayName() + " has no ability or orb before it to modify");
                 return;
             }
-            boolean fits = type.fits(this.config, this.targetTraits);
+            for (Glyph existing : this.targetGlyphs) {
+                if (excludes(spec, existing.type()) || excludes(this.config.glyph(existing.type()), type)) {
+                    this.errors.add(type.displayName() + " can't modify the same step as " + existing.type().displayName());
+                }
+            }
+            boolean fits = type.fits(this.config, this.targetTraits, this.targetSpec);
             if (!fits && this.strict) {
                 this.errors.add(type.displayName() + " doesn't fit " + describeTarget());
             }
@@ -315,11 +352,23 @@ public final class SpellModel {
             }
         }
 
+        static boolean excludes(FocusAugmentsConfig.Glyph spec, AugmentType other) {
+            for (String excluded : spec.excludes) {
+                if (AugmentType.byId(excluded) == other) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         void acceptAbility(String group) {
             String spec = this.specOf.apply(group);
             if (spec == null) {
                 this.errors.add(group + " is not an ability");
                 return;
+            }
+            if (AugmentAbilities.get(this.config, spec) == null) {
+                this.errors.add(AugmentAbilities.displayName(spec) + " can't be cast by a spell");
             }
             if (!this.groups.add(group)) {
                 this.errors.add(group.replace('_', ' ') + " appears twice in the spell");
@@ -334,6 +383,9 @@ public final class SpellModel {
             if (this.config.isDisabled(spec)) {
                 this.errors.add(group.replace('_', ' ') + " is disabled for spellcraft");
             }
+            if (!this.openBundles.isEmpty() && !traits.contains("payload")) {
+                this.errors.add(AugmentAbilities.displayName(spec) + " can't ride in a Bundled Spell payload");
+            }
             this.awaitingStep = false;
             List<Glyph> glyphs = new ArrayList<>();
             Cast cast = new Cast(group, spec, glyphs);
@@ -341,6 +393,7 @@ public final class SpellModel {
             this.target = cast;
             this.targetGlyphs = glyphs;
             this.targetTraits = traits;
+            this.targetSpec = spec;
         }
 
         void openBundle(Glyph glyph, FocusAugmentsConfig.Glyph spec) {
@@ -361,6 +414,7 @@ public final class SpellModel {
             this.target = bundle;
             this.targetGlyphs = glyphs;
             this.targetTraits = Set.of(AugmentType.BUNDLE_TRAIT);
+            this.targetSpec = null;
             applySpellEffects(spec, glyph);
         }
 
@@ -376,16 +430,7 @@ public final class SpellModel {
         }
 
         void applySpellEffects(FocusAugmentsConfig.Glyph spec, Glyph glyph) {
-            for (FocusAugmentsConfig.Effect effect : spec.spell) {
-                float factor = effect.factor(glyph.potency());
-                switch (effect.stat) {
-                    case "mana" -> this.manaFactor *= factor;
-                    case "cooldown" -> this.cooldownFactor *= factor;
-                    case "haste" -> this.hasteMultiplier *= factor;
-                    default -> {
-                    }
-                }
-            }
+            this.spellPool.add(spec, spec.spell, glyph.potency());
         }
 
         Set<String> traits(String spec) {

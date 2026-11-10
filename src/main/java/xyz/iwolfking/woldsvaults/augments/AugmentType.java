@@ -28,7 +28,10 @@ public enum AugmentType {
     SHOTGUN("Shotgun"),
     LOW_GRAVITY("Low Gravity"),
     CHARGE("Charge"),
-    BUNDLED_SPELL("Bundled Spell");
+    BUNDLED_SPELL("Bundled Spell"),
+    INTENSIFY("Intensify"),
+    EXTEND("Extend"),
+    CHAINING("Chaining");
 
     public static final String BUNDLE_TRAIT = "bundle";
 
@@ -61,11 +64,21 @@ public enum AugmentType {
     }
 
     /**
-     * Whether this modifier fits a target with the given traits (lower case; an orb is {@link #BUNDLE_TRAIT}): the
-     * target has every trait of at least one of the table's required sets.
+     * Whether this modifier fits a target with the given traits (lower case; an orb is {@link #BUNDLE_TRAIT}) and
+     * specialization id (null for an orb): the target has every trait of at least one of the table's required sets,
+     * none of its forbidden traits, and is one of its specializations when the glyph is spec-locked.
      */
-    public boolean fits(FocusAugmentsConfig config, Set<String> traits) {
-        for (List<String> set : config.glyph(this).requires) {
+    public boolean fits(FocusAugmentsConfig config, Set<String> traits, @Nullable String spec) {
+        FocusAugmentsConfig.Glyph glyph = config.glyph(this);
+        if (!glyph.specs.isEmpty() && (spec == null || !glyph.specs.contains(spec))) {
+            return false;
+        }
+        for (String forbidden : glyph.forbids) {
+            if (traits.contains(forbidden.toLowerCase(Locale.ROOT))) {
+                return false;
+            }
+        }
+        for (List<String> set : glyph.requires) {
             if (traits.containsAll(set)) {
                 return true;
             }

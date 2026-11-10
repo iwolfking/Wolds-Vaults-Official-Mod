@@ -79,7 +79,7 @@ public class AugmentTooltipEvents {
             block.add(Either.left(colored(SpellcraftGui.tr("tooltip.legend", depth), SpellcraftGui.DARK)));
             block.add(Either.left(colored(SpellcraftGui.tr("tooltip.glyphs"), SpellcraftGui.WHITE)));
             for (SpellcraftItemData.Line line : lines) {
-                int left = Math.min(line.uses(), config.glyph(line.type()).capPerSpell);
+                int left = SpellModel.perSpellLimit(config, line);
                 block.add(Either.right(new SpellcraftTooltipRow(SpellcraftTooltipRow.Kind.GLYPH, line.type().displayName(),
                         "x" + left, SpellcraftGui.potency(config, line.type(), line.potency()),
                         List.of(new SpellcraftTooltipRow.Rune(line.type(), false)), List.of(), SpellcraftGui.categoryColor(config, line.type()),

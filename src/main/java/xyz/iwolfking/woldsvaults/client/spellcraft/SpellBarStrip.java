@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
@@ -421,6 +422,7 @@ public final class SpellBarStrip {
                         SpellcraftGui.tr("fmt.blocks_per_second", ClientAbilityStats.compact(orb.velocity())), VELOCITY_COLOR));
                 lines.add(labelled(inner + SpellcraftGui.tr("bar.stat.flight"),
                         SpellcraftGui.tr("fmt.seconds", SpellcraftGui.trim(orb.flightSeconds())), DURATION_COLOR));
+                glyphLine(orb.glyphs(), inner, lines);
             }
         }
         if (stats.total() != null) {
@@ -477,7 +479,18 @@ public final class SpellBarStrip {
         for (ClientAbilityStats.Extra extra : step.extras()) {
             lines.add(labelled(indent + SpellcraftGui.tr("bar.stat." + extra.key()), extra.value(), EXTRA_COLOR));
         }
+        if (step.glyphs() != null) {
+            glyphLine(step.glyphs(), indent, lines);
+        }
         return lines;
+    }
+
+    /** The step's stacked glyph stats ("+48% dmg, +22% area; 0.86x area"), when any glyph moves a stat. */
+    private static void glyphLine(GlyphStacking.Pool pool, String indent, List<Component> lines) {
+        String summary = SpellcraftGui.poolSummary(pool);
+        if (!summary.isEmpty()) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.glyphs"), summary, SpellcraftGui.ARCANE_GLOW));
+        }
     }
 
     private static Component labelled(String label, String value, int color) {

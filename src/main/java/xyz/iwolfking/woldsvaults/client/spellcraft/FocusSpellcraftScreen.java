@@ -566,7 +566,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
 
     private int perSpellLimit(SpellcraftItemData.Line line) {
         FocusAugmentsConfig config = xyz.iwolfking.woldsvaults.augments.FocusAugments.config();
-        return config == null ? line.uses() : Math.min(line.uses(), config.glyph(line.type()).capPerSpell);
+        return config == null ? line.uses() : SpellModel.perSpellLimit(config, line);
     }
 
     private int usedInDraft(SpellcraftItemData.Line line) {
@@ -1042,6 +1042,12 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     glyphLines(config, type, potency, lines);
                 } else {
                     lines.add(colored(SpellcraftGui.abilityName(tree(), token), SpellcraftGui.NAME_GOLD));
+                    SpellModel model = check == null ? null : check.models().get(draft.id > 0 ? draft.id : Integer.MAX_VALUE);
+                    SpellModel.Cast cast = model == null ? null : castOf(model.steps(), token);
+                    String summary = cast == null ? "" : SpellcraftGui.poolSummary(model.stepPool(cast));
+                    if (!summary.isEmpty()) {
+                        lines.add(colored(SpellcraftGui.tr("bar.stat.glyphs") + summary, SpellcraftGui.ARCANE_GLOW));
+                    }
                 }
                 int payload = payloadStart(draft);
                 if (payload >= 0 && cell.index() >= payload) {
@@ -1074,6 +1080,25 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         if (!fits.isEmpty()) {
             lines.add(colored(SpellcraftGui.tr("screen.fits", String.join(", ", fits)), SpellcraftGui.GREY));
         }
+        if (!config.glyph(type).forbids.isEmpty()) {
+            lines.add(colored(SpellcraftGui.tr("screen.forbids", String.join(", ", config.glyph(type).forbids)), SpellcraftGui.GREY));
+        }
+    }
+
+    @Nullable
+    private static SpellModel.Cast castOf(List<SpellModel.Step> steps, String group) {
+        for (SpellModel.Step step : steps) {
+            if (step instanceof SpellModel.Cast cast && cast.group().equals(group)) {
+                return cast;
+            }
+            if (step instanceof SpellModel.Bundle bundle) {
+                SpellModel.Cast inner = castOf(bundle.payload(), group);
+                if (inner != null) {
+                    return inner;
+                }
+            }
+        }
+        return null;
     }
 
     private static Component colored(String text, int color) {
