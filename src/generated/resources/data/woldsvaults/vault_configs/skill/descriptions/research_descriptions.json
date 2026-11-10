@@ -1,77 +1,5 @@
 {
   "descriptions": {
-    "ComputerCraft": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "ComputerCraft",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod provides you with the amazing power of computing! Conquer the world and improve your automation with this Lua-based machine!... or just have some fun messing around!",
-        "color": "$text"
-      }
-    ],
-    "Scanner": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Scannable",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Which offers an FE powered device that can scan for entities, blocks, and in this pack, a special Vault Ores module! Consider it like Hunter in a device!",
-        "color": "$text"
-      }
-    ],
-    "Extra Storage": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Extra Storage",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod adds massive disks for storing all your items and fluids in, as well as enhanced importers, exporters, and crafters for your Refined Storage setup!",
-        "color": "$text"
-      }
-    ],
-    "Mega Cells": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Mega Cells",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod adds massive item and fluid cells, crafting storages and units, as well as adding Chemical and Radioactive Chemical cells for Mekanism!",
-        "color": "$text"
-      }
-    ],
     "QuarryPlus": [
       {
         "text": "Unlocks the ",
@@ -98,7 +26,32 @@
         "color": "$text"
       }
     ],
-    "Just Dire Things": [],
+    "Just Dire Things": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Just Dire Things",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Just Dire Things is a collection of various cool items, blocks, and utilities.",
+        "color": "$text"
+      }
+    ],
     "Create Ore Excavation": [
       {
         "text": "Unlocks the ",
@@ -168,66 +121,6 @@
       },
       {
         "text": "These pots can automate any tree in the game very easily by growing them in tiny pots.\n\n",
-        "color": "$text"
-      }
-    ],
-    "Time in a Bottle": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Time in a Bottle",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "⚠",
-        "color": "red"
-      },
-      {
-        "text": "Disabled In Vaults!\n\n",
-        "color": "dark_red"
-      },
-      {
-        "text": "This mod adds an amazing item called the Time in a Bottle that stores time as you play, then you can right-click on a block to speed up its tick time using your stored time! Nifty!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Also unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Weather Control ",
-        "color": "yellow"
-      },
-      {
-        "text": "mod! ",
-        "color": "$text"
-      },
-      {
-        "text": "Which lets you control the time of day and the weather!",
-        "color": "$text"
-      }
-    ],
-    "Cable Tiers": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Cable Tiers",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod adds enhanced versions of the importer, exporter, disk manipulation, constructor, destructor, and requester. They come in 3 different tiers and are progressively faster and have more filter slots.",
         "color": "$text"
       }
     ],
@@ -333,6 +226,426 @@
         "color": "$text"
       }
     ],
+    "Trash Slot": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Trash Slot",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "You really know how to take out the trash!",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nYou now have a trash slot in your inventory you can use to quickly remove cruft! The last item that went in will stay there in case you made a mistake!",
+        "color": "$text"
+      },
+      {
+        "text": "\nDon't like to drag your trash around? You can also delete them in style using a keybind! DEL (who would have thought!) by default will quickly delete the item you have hovered, while SHIFT-DEL will delete all items of the same type. \n\nNifty!",
+        "color": "$text"
+      }
+    ],
+    "Ars Nouveau": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Ars Nouveau",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Ars Nouveau is a magic mod inspired by Ars Magicka that allows players to craft their own spells, create magical artifacts, perform rituals, and much more!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Documentation is provided entirely in-game by Patchouli. To get started with this mod, craft the Worn Notebook using a book and 1 Lapis Lazuli.\n\n",
+        "color": "$text"
+      }
+    ],
+    "RFTools Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "RFTools Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This is a semi basic digital storage solution, that allows you to search items and store them on disk drives. It is far more limiting than it's similarities, Applied Energistics and Refined Storage, but is cheaper to manage early and mid game.",
+        "color": "$text"
+      }
+    ],
+    "PneumaticCraft": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "PneumaticCraft",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "PneumaticCraft is a tech mod that is based around air pressure and heat. You can use PneumaticCraft as your mob farm system, plant harvesting, item transferring, and more!",
+        "color": "$text"
+      },
+      {
+        "text": "It also has some useful tools and armor, although some of the modules have been disabled!",
+        "color": "$text"
+      }
+    ],
+    "Misc Bag Upgrades": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Everlasting, Tool Swapper, Tank, Pump, XP Pump, and Battery Upgrade",
+        "color": "$yellow"
+      },
+      {
+        "text": " from Sophisticated Backpacks!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "These will come in handy for utilizing your bag in more non-conventional ways... Note: the Tool Swapper upgrade functionality is disabled while in a vault.",
+        "color": "$text"
+      }
+    ],
+    "Hexcasting": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Hexcasting",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      [
+        {
+          "text": "⚠",
+          "color": "red"
+        },
+        {
+          "text": "Disabled In Vaults!\n\n",
+          "color": "dark_red"
+        }
+      ],
+      {
+        "text": "This mod adds stack-based programmable spellcasting. Complicated mod, but you can do some cool stuff with it!",
+        "color": "$text"
+      }
+    ],
+    "Psi": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Psi",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "Psi is a magical tech spell programming mod inspired by Mahouka Kokou no Rettousei. Don't worry if that doesn't make any sense. The core of Psi is a system where you can create action sequences (\\\"Spells\\\") to be executed in the world. This system is followed by a leveling system containing ingame documentation and tutorials of the various concepts and pieces you'll get. The mod makes use of basic mathematical concepts, such as Vectors in its systems, which allows for great flexibility on what spells can do.",
+        "color": "$text"
+      }
+    ],
+    "Incorporeal": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Incorporeal",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds new ways of interacting with your Corporea system, some decorative blocks, and some other nifty and fun little things.",
+        "color": "$text"
+      }
+    ],
+    "Delooting Pro": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Delooting Pro",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Wow, looks like you are a certified real delooting wiz now!",
+        "color": "$text"
+      },
+      {
+        "text": "\n\nYou can now use a keybind to quickly deposit your Backpacks with Deposit Upgrade's installed into supported inventories like your Applied Energistics 2, Refined Storage, or Sophisticated Storage storage!",
+        "color": "$text"
+      },
+      {
+        "text": "\nSimply hover over your bag while in one of the appropriate menus and press the keybind! Need to empty the bag on your back? No problem, just point at any empty slot in your inventory instead.",
+        "color": "$text"
+      }
+    ],
+    "Compressed Creativity": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Compressed Creativity",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds some new blocks and items that add better integration between Create and PneumaticCraft, such as letting you convert air pressure into SU/RPM.",
+        "color": "$text"
+      }
+    ],
+    "Dave's Potioneering": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Dave's Potioneering",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Dave's Potioneering is a mod that adds an upgraded Brewing Stand that's faster and has double potion output, a new Reinforced Cauldron that allows you to coat your weapons or tools with potion effects, and a Potioneer Gauntlet that can store up to 6 potion effects and apply them on attack.",
+        "color": "$text"
+      }
+    ],
+    "RFTools Power": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "RFTools Power",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod generates power through a few different options using fuel.",
+        "color": "$text"
+      }
+    ],
+    "Little Logistics": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Little Logistics",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod is focused on efficient, affordable, long-distance transport. It adds vessels and locomotives you can use to move item, fluids, and energy around great distances. Additionally, comes with a faster version of hoppers, and a fluid version of hoppers",
+        "color": "$text"
+      },
+      {
+        "text": "\\n\\nThe mod also comes with Create support so you can put Create contraptions on top of your barges or train cars!",
+        "color": "$text"
+      }
+    ],
+    "ComputerCraft": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "ComputerCraft",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod provides you with the amazing power of computing! Conquer the world and improve your automation with this Lua-based machine!... or just have some fun messing around!",
+        "color": "$text"
+      }
+    ],
+    "Scanner": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Scannable",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Which offers an FE powered device that can scan for entities, blocks, and in this pack, a special Vault Ores module! Consider it like Hunter in a device!",
+        "color": "$text"
+      }
+    ],
+    "Extra Storage": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Extra Storage",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds massive disks for storing all your items and fluids in, as well as enhanced importers, exporters, and crafters for your Refined Storage setup!",
+        "color": "$text"
+      }
+    ],
+    "Mega Cells": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Mega Cells",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds massive item and fluid cells, crafting storages and units, as well as adding Chemical and Radioactive Chemical cells for Mekanism!",
+        "color": "$text"
+      }
+    ],
+    "Time in a Bottle": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Time in a Bottle",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "⚠",
+        "color": "red"
+      },
+      {
+        "text": "Disabled In Vaults!\n\n",
+        "color": "dark_red"
+      },
+      {
+        "text": "This mod adds an amazing item called the Time in a Bottle that stores time as you play, then you can right-click on a block to speed up its tick time using your stored time! Nifty!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "Also unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Weather Control ",
+        "color": "yellow"
+      },
+      {
+        "text": "mod! ",
+        "color": "$text"
+      },
+      {
+        "text": "Which lets you control the time of day and the weather!",
+        "color": "$text"
+      }
+    ],
+    "Cable Tiers": [
+      {
+        "text": "Unlocks the ",
+        "color": "$text"
+      },
+      {
+        "text": "Cable Tiers",
+        "color": "$yellow"
+      },
+      {
+        "text": " mod!\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "This mod adds enhanced versions of the importer, exporter, disk manipulation, constructor, destructor, and requester. They come in 3 different tiers and are progressively faster and have more filter slots.",
+        "color": "$text"
+      }
+    ],
     "Hostile Neural Networks": [
       {
         "text": "Unlocks the ",
@@ -408,36 +721,6 @@
       },
       {
         "text": "Items such as tools and armor are disabled!",
-        "color": "$text"
-      }
-    ],
-    "Ars Nouveau": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Ars Nouveau",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "⚠",
-        "color": "red"
-      },
-      {
-        "text": "Disabled In Vaults!\n\n",
-        "color": "dark_red"
-      },
-      {
-        "text": "Ars Nouveau is a magic mod inspired by Ars Magicka that allows players to craft their own spells, create magical artifacts, perform rituals, and much more!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Documentation is provided entirely in-game by Patchouli. To get started with this mod, craft the Worn Notebook using a book and 1 Lapis Lazuli.\n\n",
         "color": "$text"
       }
     ],
@@ -537,46 +820,6 @@
         "color": "$text"
       }
     ],
-    "RFTools Storage": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "RFTools Storage",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This is a semi basic digital storage solution, that allows you to search items and store them on disk drives. It is far more limiting than it's similarities, Applied Energistics and Refined Storage, but is cheaper to manage early and mid game.",
-        "color": "$text"
-      }
-    ],
-    "PneumaticCraft": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "PneumaticCraft",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "PneumaticCraft is a tech mod that is based around air pressure and heat. You can use PneumaticCraft as your mob farm system, plant harvesting, item transferring, and more!",
-        "color": "$text"
-      },
-      {
-        "text": "It also has some useful tools and armor, although some of the modules have been disabled!",
-        "color": "$text"
-      }
-    ],
     "Immersive Engineering": [
       {
         "text": "Unlocks the ",
@@ -651,78 +894,6 @@
         "color": "$text"
       }
     ],
-    "Misc Bag Upgrades": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Everlasting, Tool Swapper, Tank, Pump, XP Pump, and Battery Upgrade",
-        "color": "$yellow"
-      },
-      {
-        "text": " from Sophisticated Backpacks!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "These will come in handy for utilizing your bag in more non-conventional ways... Note: the Tool Swapper upgrade functionality is disabled while in a vault.",
-        "color": "$text"
-      }
-    ],
-    "Hexcasting": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Hexcasting",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      [
-        {
-          "text": "⚠",
-          "color": "red"
-        },
-        {
-          "text": "Disabled In Vaults!\n\n",
-          "color": "dark_red"
-        }
-      ],
-      {
-        "text": "This mod adds stack-based programmable spellcasting. Complicated mod, but you can do some cool stuff with it!",
-        "color": "$text"
-      }
-    ],
-    "Psi": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Psi",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "⚠",
-        "color": "red"
-      },
-      {
-        "text": "Disabled In Vaults!\n\n",
-        "color": "dark_red"
-      },
-      {
-        "text": "Psi is a magical tech spell programming mod inspired by Mahouka Kokou no Rettousei. Don't worry if that doesn't make any sense. The core of Psi is a system where you can create action sequences (\\\"Spells\\\") to be executed in the world. This system is followed by a leveling system containing ingame documentation and tutorials of the various concepts and pieces you'll get. The mod makes use of basic mathematical concepts, such as Vectors in its systems, which allows for great flexibility on what spells can do.",
-        "color": "$text"
-      }
-    ],
     "Create Diesel Generators": [
       {
         "text": "Unlocks the ",
@@ -759,24 +930,6 @@
         "color": "$text"
       }
     ],
-    "Incorporeal": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Incorporeal",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod adds new ways of interacting with your Corporea system, some decorative blocks, and some other nifty and fun little things.",
-        "color": "$text"
-      }
-    ],
     "RFTools Utility": [
       {
         "text": "Unlocks the ",
@@ -810,60 +963,6 @@
       },
       {
         "text": "This mod adds a new block powered by kinetic energy that can be used to generate cobblestone, obsidian, and other stones. Very useful addition for automation!",
-        "color": "$text"
-      }
-    ],
-    "Compressed Creativity": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Compressed Creativity",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod adds some new blocks and items that add better integration between Create and PneumaticCraft, such as letting you convert air pressure into SU/RPM.",
-        "color": "$text"
-      }
-    ],
-    "Dave's Potioneering": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Dave's Potioneering",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "Dave's Potioneering is a mod that adds an upgraded Brewing Stand that's faster and has double potion output, a new Reinforced Cauldron that allows you to coat your weapons or tools with potion effects, and a Potioneer Gauntlet that can store up to 6 potion effects and apply them on attack.",
-        "color": "$text"
-      }
-    ],
-    "RFTools Power": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "RFTools Power",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod generates power through a few different options using fuel.",
         "color": "$text"
       }
     ],
@@ -960,28 +1059,6 @@
       },
       {
         "text": "The ultimate bulk storage mod with massively upgradeable storage and chests and barrels that can be chained together to create an array of storage.",
-        "color": "$text"
-      }
-    ],
-    "Little Logistics": [
-      {
-        "text": "Unlocks the ",
-        "color": "$text"
-      },
-      {
-        "text": "Little Logistics",
-        "color": "$yellow"
-      },
-      {
-        "text": " mod!\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "This mod is focused on efficient, affordable, long-distance transport. It adds vessels and locomotives you can use to move item, fluids, and energy around great distances. Additionally, comes with a faster version of hoppers, and a fluid version of hoppers",
-        "color": "$text"
-      },
-      {
-        "text": "\\n\\nThe mod also comes with Create support so you can put Create contraptions on top of your barges or train cars!",
         "color": "$text"
       }
     ],

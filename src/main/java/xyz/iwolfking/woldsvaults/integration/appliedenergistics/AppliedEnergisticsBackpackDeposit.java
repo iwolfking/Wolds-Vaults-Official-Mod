@@ -17,6 +17,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedcore.api.IStorageWrapper;
 import net.p3pp3rf1y.sophisticatedcore.inventory.ITrackedContentsItemHandler;
+import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import net.p3pp3rf1y.sophisticatedcore.util.InventoryHelper;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
@@ -47,8 +48,7 @@ public class AppliedEnergisticsBackpackDeposit {
             return;
         }
 
-        long[] result = backpack
-                .getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+        long[] result = BackpackUtils.getBackpackInventory(backpack)
                 .map(wrapper -> depositContents(
                         wrapper,
                         storage,
@@ -90,13 +90,11 @@ public class AppliedEnergisticsBackpackDeposit {
     }
 
     private static long[] depositContents(
-            IStorageWrapper wrapper,
+            InventoryHandler inventory,
             MEStorage storage,
             IEnergySource powerSource,
             MEStorageMenu menu
     ) {
-        ITrackedContentsItemHandler inventory = wrapper.getInventoryForUpgradeProcessing();
-
         long[] counts = new long[2];
 
         IItemHandler destination = new IItemHandler() {
@@ -169,9 +167,7 @@ public class AppliedEnergisticsBackpackDeposit {
         InventoryHelper.transfer(
                 inventory,
                 destination,
-                extracted -> {
-                    // InventoryHelper performs the actual extraction and insertion.
-                }
+                extracted -> {}
         );
 
         for (int slot = 0; slot < inventory.getSlots(); slot++) {

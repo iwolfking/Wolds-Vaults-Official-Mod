@@ -51,12 +51,19 @@ public class DepositBackpackPacket {
             }
 
             AbstractContainerMenu menu = player.containerMenu;
+            ItemStack backpack = ItemStack.EMPTY;
 
-            if (msg.slot < 0 || msg.slot >= menu.slots.size()) {
+            if(msg.slot == -1) {
+                backpack = BackpackUtils.getCuriosBackpack(player);
+            }
+            else if (msg.slot < 0 || msg.slot >= menu.slots.size()) {
                 return;
             }
 
-            ItemStack backpack = menu.getSlot(msg.slot).getItem();
+            if(backpack.isEmpty()) {
+                backpack = menu.getSlot(msg.slot).getItem();
+            }
+
 
             if (!(backpack.getItem() instanceof BackpackItem)) {
                 return;
@@ -72,14 +79,12 @@ public class DepositBackpackPacket {
             else if(menu instanceof GridContainerMenu gridContainerMenu) {
                 RefinedStorageBackpackDeposit.deposit(player, gridContainerMenu, backpack);
             }
-            else if(menu instanceof StorageContainerMenuBase<?> storageContainerMenuBase) {
-                if(menu instanceof BackpackContainer) {
-                    return;
-                }
-
-                StorageContainerDeposit.deposit(player, storageContainerMenuBase, backpack);
+//            else if(menu instanceof StorageContainerMenuBase<?> storageContainerMenuBase && !(storageContainerMenuBase instanceof BackpackContainer)) {
+//                StorageContainerDeposit.deposit(player, storageContainerMenuBase, backpack);
+//            }
+            else if(!(menu instanceof BackpackContainer) && !menu.slots.isEmpty()) {
+                BackpackUtils.depositInventoryToMenu(backpack, menu, 0, menu.slots.size(), player);
             }
-
         });
 
         context.setPacketHandled(true);

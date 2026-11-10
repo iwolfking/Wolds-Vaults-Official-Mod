@@ -673,7 +673,17 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .addDescription("Just Dire Things", jsonElements -> modDesc("Just Dire Things", innerDesc -> {
                             disabledInVaults().forEach(innerDesc::add);
                             innerDesc.add(JsonDescription.simple("Just Dire Things is a collection of various cool items, blocks, and utilities."));
-                        }))
+                }).forEach(jsonElements::add))
+               .addDescription("Delooting Pro", jsonElements -> modDesc("Delooting Pro", innerDesc -> {
+                            innerDesc.add(JsonDescription.simple("Wow, looks like you are a certified real delooting wiz now!"));
+                            innerDesc.add(JsonDescription.simple("\n\nYou can now use a keybind to quickly deposit your Backpacks with Deposit Upgrade's installed into supported inventories like your Applied Energistics 2, Refined Storage, or Sophisticated Storage storage!"));
+                            innerDesc.add(JsonDescription.simple("\nSimply hover over your bag while in one of the appropriate menus and press the keybind! Need to empty the bag on your back? No problem, just point at any empty slot in your inventory instead."));
+               }).forEach(jsonElements::add))
+               .addDescription("Trash Slot", jsonElements -> modDesc("Trash Slot", innerDesc -> {
+                            innerDesc.add(JsonDescription.simple("You really know how to take out the trash!"));
+                            innerDesc.add(JsonDescription.simple("\n\nYou now have a trash slot in your inventory you can use to quickly remove cruft! The last item that went in will stay there in case you made a mistake!"));
+                            innerDesc.add(JsonDescription.simple("\nDon't like to drag your trash around? You can also delete them in style using a keybind! DEL (who would have thought!) by default will quickly delete the item you have hovered, while SHIFT-DEL will delete all items of the same type. \n\nNifty!"));
+               }).forEach(jsonElements::add))
                 .build());
     }
 

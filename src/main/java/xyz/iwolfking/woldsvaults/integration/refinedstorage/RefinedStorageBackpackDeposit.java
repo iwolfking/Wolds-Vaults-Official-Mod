@@ -2,6 +2,7 @@
 package xyz.iwolfking.woldsvaults.integration.refinedstorage;
 
 import com.refinedmods.refinedstorage.api.network.grid.IGrid;
+import com.refinedmods.refinedstorage.api.network.grid.handler.IItemGridHandler;
 import com.refinedmods.refinedstorage.container.GridContainerMenu;
 import iskallia.vault.world.data.PlayerResearchesData;
 import net.minecraft.ChatFormatting;
@@ -16,6 +17,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 
 public class RefinedStorageBackpackDeposit {
@@ -31,20 +33,19 @@ public class RefinedStorageBackpackDeposit {
         }
 
         if (!isResearched(player)) {
-            MessageUtils.sendMessage(player, "Altar Automation research is required.", ChatFormatting.RED);
+            MessageUtils.sendMessage(player, WoldConstants.DELOOT_RESEARCH + " research is required.", ChatFormatting.RED);
             return;
         }
 
         if (backpack.isEmpty() || !(backpack.getItem() instanceof BackpackItem)) {
-            MessageUtils.sendMessage(player, "No backpack in your curios or inventory", ChatFormatting.RED);
+            MessageUtils.sendMessage(player, "No valid backpack in your curios or inventory", ChatFormatting.RED);
             return;
         }
 
-        long[] result = backpack
-                .getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
-                .map(wrapper -> depositContents(
-                        wrapper.getInventoryHandler(),
-                        (IItemHandler) grid.getItemHandler(),
+        long[] result = BackpackUtils.getBackpackInventory(backpack)
+                .map(handler -> depositContents(
+                        handler,
+                        grid.getItemHandler(),
                         player
                 ))
                 .orElse(new long[]{0L, 0L});
@@ -83,7 +84,7 @@ public class RefinedStorageBackpackDeposit {
 
     private static long[] depositContents(
             InventoryHandler inventory,
-            IItemHandler destination,
+            IItemGridHandler destination,
             ServerPlayer player
     ) {
         long[] counts = new long[2];
@@ -124,17 +125,11 @@ public class RefinedStorageBackpackDeposit {
     }
 
     private static ItemStack insertIntoNetwork(
-            IItemHandler destination,
+            IItemGridHandler destination,
             ItemStack stack,
             ServerPlayer player
     ) {
-        ItemStack remainder = stack.copy();
-
-        for (int slot = 0; slot < destination.getSlots() && !remainder.isEmpty(); slot++) {
-            remainder = destination.insertItem(slot, remainder, false);
-        }
-
-        return remainder;
+        return destination.onInsert(player, stack, false);
     }
 
     private static boolean isResearched(ServerPlayer player) {

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mrcrayfish.configured.api.util.ConfigScreenHelper;
 import iskallia.vault.client.gui.screen.accessibility.InventoryHudEditScreen;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.research.StageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
@@ -96,9 +98,8 @@ public class KeyInputEvents {
 
             int menuSlot = screen.getMenu().slots.indexOf(hoveredSlot);
 
-                ModNetwork.CHANNEL.sendToServer(
-                        new DepositBackpackPacket(menuSlot)
-                );
+            ModNetwork.CHANNEL.sendToServer(new DepositBackpackPacket(menuSlot)
+            );
         }
     }
 
@@ -155,18 +156,24 @@ public class KeyInputEvents {
                 InputConstants.getKey(event.getKeyCode(), event.getScanCode());
 
         if (ModKeybinds.depositBackpack.isActiveAndMatches(pressedKey)) {
-            WoldLogger.info("Deposit key detected in GUI");
+            if(!StageManager.RESEARCH_TREE.isResearched(WoldConstants.DELOOT_RESEARCH)) {
+                WoldLogger.info("No research");
+                return;
+            }
 
             Slot hoveredSlot = containerScreen.getSlotUnderMouse();
 
-            if (hoveredSlot == null || !hoveredSlot.hasItem()) {
-                WoldLogger.info("No hovered item");
+            if (hoveredSlot == null) {
+                WoldLogger.info("No slot");
                 return;
             }
 
             int menuSlot = containerScreen.getMenu().slots.indexOf(hoveredSlot);
 
-            WoldLogger.info("Sending backpack deposit for menu slot " + menuSlot);
+            if(hoveredSlot.getItem().isEmpty()) {
+                WoldLogger.info("Empty slot");
+                menuSlot = -1;
+            }
 
             ModNetwork.CHANNEL.sendToServer(
                     new DepositBackpackPacket(menuSlot)

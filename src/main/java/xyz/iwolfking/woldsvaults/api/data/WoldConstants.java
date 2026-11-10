@@ -31,4 +31,5 @@ public class WoldConstants {
 
     //Constant Strings
     public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
+    public static final String DELOOT_RESEARCH = "Delooting Pro";
 }
