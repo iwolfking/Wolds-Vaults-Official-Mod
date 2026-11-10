@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.modifiers.vault;
 
-
 import com.google.gson.annotations.Expose;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
@@ -12,19 +11,14 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.WorldSettings;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.eventbus.api.EventPriority;
-import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
+import xyz.iwolfking.woldsvaults.api.data.modifiers.DifficultyLockData;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultDifficultyAccessor;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier.Properties> {
-
-    private final Map<UUID, VaultDifficulty> RETURN_DIFFICULTY_MAP = new HashMap<>();
 
     public DifficultyLockModifier(ResourceLocation id, DifficultyLockModifier.Properties properties, VaultModifier.Display display) {
         super(id, properties, display);
@@ -32,37 +26,45 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
 
     @Override
     public void initServer(VirtualWorld world, Vault vault, ModifierContext context) {
-        if(world.getGameRules().getBoolean(ModGameRules.NORMALIZED_ENABLED)) {
+        if (world.getGameRules().getBoolean(ModGameRules.NORMALIZED_ENABLED)) {
             CommonEvents.PLAYER_TICK.register(context.getUUID(), EventPriority.HIGHEST, (event) -> {
-                if(event.side.isServer()) {
-                    if((event.player.tickCount % 20) != 0) {
+                if (event.side.isServer()) {
+                    if ((event.player.tickCount % 20) != 0) {
                         return;
                     }
 
-                    if(!(event.player.getLevel().dimension().equals(world.dimension()))) {
+                    if (!event.player.getLevel().dimension().equals(world.dimension())) {
                         return;
                     }
 
-                    if(vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
+                    if (vault.get(Vault.CLOCK).has(TickClock.PAUSED)) {
                         return;
                     }
 
-                    if(event.player.getUUID() != vault.get(Vault.OWNER)) {
-                        return;
-                    }
-                    if(WorldSettings.get(world).getPlayerDifficulty(vault.get(Vault.OWNER)).equals(properties.getDifficulty())) {
-                        return;
-                    }
-
-                    if(!properties().shouldLockHigher() && isDifficultyHigher(world, vault)) {
+                    UUID ownerId = vault.get(Vault.OWNER);
+                    if (ownerId == null) {
                         return;
                     }
 
-                    if(!RETURN_DIFFICULTY_MAP.containsKey(vault.get(Vault.OWNER))) {
-                        RETURN_DIFFICULTY_MAP.put(vault.get(Vault.OWNER), WorldSettings.get(world).getPlayerDifficulty(vault.get(Vault.OWNER)));
+                    if (!event.player.getUUID().equals(ownerId)) {
+                        return;
                     }
 
-                    WorldSettings.get(world).setPlayerDifficulty(vault.get(Vault.OWNER), properties.getDifficulty());
+                    VaultDifficulty currentDifficulty = WorldSettings.get(world).getPlayerDifficulty(ownerId);
+                    if (currentDifficulty.equals(properties.getDifficulty())) {
+                        return;
+                    }
+
+                    if (!properties().shouldLockHigher() && isDifficultyHigher(world, vault)) {
+                        return;
+                    }
+
+                    DifficultyLockData lockData = DifficultyLockData.get(world);
+                    if (!lockData.hasDifficulty(ownerId)) {
+                        lockData.setDifficulty(ownerId, currentDifficulty);
+                    }
+
+                    WorldSettings.get(world).setPlayerDifficulty(ownerId, properties.getDifficulty());
                 }
             });
         }
@@ -70,18 +72,24 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
 
     @Override
     public void onListenerRemove(VirtualWorld world, Vault vault, ModifierContext context, Listener listener) {
-        if(listener.getPlayer().isPresent()) {
-            ServerPlayer player = listener.getPlayer().get();
-            UUID playerId = player.getUUID();
-            if(RETURN_DIFFICULTY_MAP.containsKey(playerId)) {
-                WorldSettings.get(world).setPlayerDifficulty(playerId, RETURN_DIFFICULTY_MAP.get(playerId));
-                RETURN_DIFFICULTY_MAP.remove(playerId);
+        UUID ownerId = vault.get(Vault.OWNER);
+        if (ownerId != null) {
+            DifficultyLockData lockData = DifficultyLockData.get(world);
+            VaultDifficulty originalDifficulty = lockData.getDifficulty(ownerId);
+            if (originalDifficulty != null) {
+                WorldSettings.get(world).setPlayerDifficulty(ownerId, originalDifficulty);
+                lockData.removeDifficulty(ownerId);
             }
         }
     }
 
     private boolean isDifficultyHigher(VirtualWorld world, Vault vault) {
-        return ((VaultDifficultyAccessor)(Object)WorldSettings.get(world).getPlayerDifficulty(vault.get(Vault.OWNER))).getDisplayOrder() >= ((VaultDifficultyAccessor)(Object)properties.getDifficulty()).getDisplayOrder();
+        UUID ownerId = vault.get(Vault.OWNER);
+        if (ownerId == null) return false;
+        VaultDifficulty ownerDifficulty = WorldSettings.get(world).getPlayerDifficulty(ownerId);
+        if (ownerDifficulty == null) return false;
+        return ((VaultDifficultyAccessor)(Object)ownerDifficulty).getDisplayOrder() 
+                >= ((VaultDifficultyAccessor)(Object)properties.getDifficulty()).getDisplayOrder();
     }
 
     public static class Properties {
@@ -96,8 +104,6 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
             this.lockHigher = lockHigher;
         }
 
-
-
         public VaultDifficulty getDifficulty() {
             return VaultDifficulty.valueOf(this.difficulty);
         }
@@ -105,6 +111,5 @@ public class DifficultyLockModifier extends VaultModifier<DifficultyLockModifier
         public boolean shouldLockHigher() {
             return lockHigher;
         }
-
     }
 }
