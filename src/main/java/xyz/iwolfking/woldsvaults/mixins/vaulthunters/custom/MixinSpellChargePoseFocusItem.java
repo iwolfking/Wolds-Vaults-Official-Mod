@@ -12,7 +12,7 @@ public abstract class MixinSpellChargePoseFocusItem extends Item {
         super(properties);
     }
 
-    /** Charging a spell uses the off-hand item, drawn like a bow (only Charge starts using it). */
+    /** Charging a spell uses the spell's item, drawn like a bow (only Charge starts using it). */
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.BOW;

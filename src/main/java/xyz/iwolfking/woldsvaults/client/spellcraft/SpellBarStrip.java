@@ -25,6 +25,7 @@ import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -32,13 +33,14 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * The spell bar window (skill menu and focus screen): a picker for the default bar and the focus bar, the 16 slots
- * with their key labels, and a Keys button. Slot states: inherited (faded, link marker), augmented (violet frame,
- * corner star), hidden (struck red), blank (dash), unlearned (red X).
+ * The spell bar window (skill menu and focus screen): a picker for the default bar and the equipped bar, the 16 slots
+ * with their key labels, and a Keys button. Slot states: augmented (violet frame, corner star, the source item as a
+ * badge), implicit (gold frame: a base ability with auto glyphs from gear), LOCKED (red, padlock), hidden (struck
+ * red), unlearned (red X), and darkened while any of the slot's ability groups is cooling down.
  * <p>
  * Clicks: on the default bar a slot takes the host's selected ability (the skill menu's dialog) or, without one, opens
- * a chooser of learned abilities; on a focus bar a slot opens a chooser of the item's spells, Inherit, Blank and
- * abilities. Right-click clears a slot (default: empty, item: inherit); Shift+right-click sets an item slot to Blank.
+ * a chooser of learned abilities; right-click clears it. The equipped bar is read-only: spells choose their slots and
+ * priorities on their item.
  */
 public final class SpellBarStrip {
     private static final int MANA_COLOR = 0xFF6FA8FF;
@@ -62,6 +64,11 @@ public final class SpellBarStrip {
     private static final int LINK_INNER = 0xFFB0B0B0;
     private static final int HOVER = 0x80FFFFFF;
     private static final int BROKEN = 0x80FF3030;
+    private static final int COOLING = 0x90000000;
+    private static final int LOCK = 0xFFFF5050;
+    private static final int IMPLICIT_RING = 0xFFE0B040;
+    public static final int BADGE = 8;
+    public static final int WRAP = 200;
     private static final int POPUP_BG = 0xF0100010;
     private static final int POPUP_HOVER = 0x405000FF;
 
@@ -79,9 +86,6 @@ public final class SpellBarStrip {
         /** The ability group a default-bar click assigns, or null to open the ability chooser instead. */
         @Nullable
         String selectedGroup();
-
-        /** Whether the chooser on a focus bar lists every learned ability (focus screen) or only the selection. */
-        boolean chooserListsAbilities();
 
         void openKeys();
     }
@@ -159,6 +163,7 @@ public final class SpellBarStrip {
             int y = this.y0 + 4;
             SpellBarView.Slot slot = view.slot(i);
             drawSlot(pose, view, slot, specOf, x, y);
+            drawBadge(slot, x, y);
             if (inside(mouseX, mouseY, x, y, 16, 16) && this.popupSlot < 0) {
                 GuiComponent.fill(pose, x, y, x + 16, y + 16, HOVER);
             }
@@ -202,39 +207,57 @@ public final class SpellBarStrip {
         String icon = spec != null ? spec : slot.group();
         switch (slot.state()) {
             case ABILITY -> {
-                boolean faded = view.isItem() && slot.inherited();
-                SpellcraftGui.ability(pose, icon, x, y, 16, faded ? 0.45F : slot.unlearned() ? 0.4F : 1.0F);
-                if (faded) {
-                    GuiComponent.fill(pose, x + 12, y + 12, x + 16, y + 16, LINK_OUTER);
-                    GuiComponent.fill(pose, x + 13, y + 13, x + 15, y + 15, LINK_INNER);
-                }
+                SpellcraftGui.ability(pose, icon, x, y, 16, slot.unlearned() ? 0.4F : 1.0F);
                 if (slot.unlearned()) {
                     SpellcraftGui.redX(pose, x, y);
                 }
             }
             case SPELL -> {
-                SpellcraftGui.ability(pose, icon, x, y, 16, 1.0F);
-                if (slot.broken()) {
+                SpellcraftGui.ability(pose, icon, x, y, 16, slot.locked() ? 0.45F : 1.0F);
+                if (slot.locked()) {
                     GuiComponent.fill(pose, x, y, x + 16, y + 16, BROKEN);
+                    GuiComponent.fill(pose, x + 5, y + 7, x + 11, y + 13, LOCK);
+                    GuiComponent.fill(pose, x + 6, y + 4, x + 7, y + 7, LOCK);
+                    GuiComponent.fill(pose, x + 9, y + 4, x + 10, y + 7, LOCK);
+                    GuiComponent.fill(pose, x + 6, y + 4, x + 10, y + 5, LOCK);
                 }
-                SpellcraftGui.ring(pose, x - 1, y - 1, x + 17, y + 17, SpellcraftGui.ARCANE_GLOW);
-                SpellcraftGui.augmentStar(pose, x, y);
+                SpellcraftGui.ring(pose, x - 1, y - 1, x + 17, y + 17, slot.implicit() ? IMPLICIT_RING : SpellcraftGui.ARCANE_GLOW);
+                if (!slot.implicit()) {
+                    SpellcraftGui.augmentStar(pose, x, y);
+                }
                 if (slot.unlearned()) {
                     SpellcraftGui.redX(pose, x, y);
                 }
             }
             case HIDDEN -> {
                 SpellcraftGui.ability(pose, icon, x, y, 16, 0.45F);
-                if (slot.inherited()) {
-                    GuiComponent.fill(pose, x + 12, y + 12, x + 16, y + 16, LINK_OUTER);
-                    GuiComponent.fill(pose, x + 13, y + 13, x + 15, y + 15, LINK_INNER);
-                }
                 SpellcraftGui.strike(pose, x, y);
             }
-            case BLANK -> GuiComponent.fill(pose, x + 3, y + 7, x + 13, y + 9, DASH);
             case EMPTY -> {
             }
         }
+        if (slot.filled() && SpellCooldowns.blocking(this.host.tree(), slot.groups()) != null) {
+            GuiComponent.fill(pose, x, y, x + 16, y + 16, COOLING);
+        }
+    }
+
+    /** The item a synced spell slot comes from, drawn at half size in the slot's bottom right corner. */
+    private static void drawBadge(SpellBarView.Slot slot, int x, int y) {
+        if (slot.state() != SpellBarView.State.SPELL || slot.itemKey().isEmpty()) {
+            return;
+        }
+        ItemStack stack = ClientSpellBar.stackOf(slot.itemKey());
+        if (stack.isEmpty()) {
+            return;
+        }
+        PoseStack modelView = RenderSystem.getModelViewStack();
+        modelView.pushPose();
+        modelView.translate(x + 16 - BADGE, y + 16 - BADGE, 250.0);
+        modelView.scale(0.5F, 0.5F, 1.0F);
+        RenderSystem.applyModelViewMatrix();
+        Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, 0, 0);
+        modelView.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 
     /** A vanilla button at any height: the texture's top rows plus its bottom edge row, label centred. */
@@ -281,7 +304,7 @@ public final class SpellBarStrip {
         }
         SpellBarView item = this.host.itemView();
         if (item != null && inside(mouseX, mouseY, pickX(1), this.y0 + 2, PICK, PICK)) {
-            lines.add(new TextComponent(SpellcraftGui.tr("bar.item", item.stack().getHoverName().getString()))
+            lines.add(new TextComponent(SpellcraftGui.tr("bar.item"))
                     .withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftGui.ARCANE_GLOW & 0xFFFFFF))));
             return lines;
         }
@@ -313,18 +336,23 @@ public final class SpellBarStrip {
                 if (numbers != null) {
                     lines.addAll(numberLines(numbers));
                 }
-                if (view.isItem() && slot.inherited()) {
-                    lines.add(colored(SpellcraftGui.tr("bar.inherited"), SpellcraftGui.GREY));
-                }
             }
             case SPELL -> {
-                lines.add(colored(slot.spellName(), SpellcraftGui.ARCANE_GLOW));
+                lines.add(colored(slot.spellName(), slot.implicit() ? IMPLICIT_RING : SpellcraftGui.ARCANE_GLOW));
                 List<String> parts = new ArrayList<>();
                 for (String group : slot.groups()) {
                     parts.add(SpellcraftGui.groupName(tree, group) + tierSuffix(tree, group));
                 }
                 lines.add(colored(SpellcraftGui.tr("bar.augmented", String.join(" + ", parts)), SpellcraftGui.GREY));
-                if (config != null && slot.model() != null) {
+                if (slot.implicit()) {
+                    lines.add(colored(SpellcraftGui.tr("bar.implicit"), IMPLICIT_RING));
+                } else if (!slot.sourceName().isEmpty()) {
+                    lines.add(colored(SpellcraftGui.tr("bar.source", slot.sourceName(), slot.prio()), SpellcraftGui.GREY));
+                }
+                if (slot.locked()) {
+                    wrapped(lines, SpellcraftGui.tr("bar.locked", slot.lockReason()), SpellcraftGui.BAD);
+                }
+                if (config != null && slot.model() != null && !slot.locked()) {
                     ClientAbilityStats.SpellStats stats = ClientAbilityStats.spell(config, tree, slot.model());
                     if (stats != null) {
                         lines.addAll(spellLines(tree, stats));
@@ -334,15 +362,20 @@ public final class SpellBarStrip {
                         lines.addAll(numberLines(numbers));
                     }
                 }
-                if (slot.broken()) {
-                    lines.add(colored(SpellcraftGui.tr("bar.broken"), SpellcraftGui.BAD));
-                    if (slot.model() != null && !slot.model().errors().isEmpty()) {
-                        lines.add(colored(slot.model().errors().get(0), SpellcraftGui.BAD));
+                if (slot.model() != null) {
+                    for (var glyph : slot.model().glyphs()) {
+                        if (!glyph.active()) {
+                            lines.add(colored(SpellcraftGui.tr("bar.inactive_glyph", glyph.type().displayName(), SpellcraftGui.inactiveReason(glyph)),
+                                    SpellcraftGui.DARK));
+                        }
                     }
                 }
-                if (!view.itemErrors().isEmpty()) {
-                    lines.add(colored(SpellcraftGui.tr("bar.item_errors"), SpellcraftGui.BAD));
-                    lines.add(colored(view.itemErrors().get(0), SpellcraftGui.BAD));
+                var source = ClientSpellBar.source(slot.itemKey());
+                if (source != null && source.budgetInactive() > 0) {
+                    wrapped(lines, SpellcraftGui.tr("bar.over_budget", source.name(), source.budgetInactive()), SpellcraftGui.BAD);
+                }
+                for (String shadowed : slot.shadowed()) {
+                    wrapped(lines, SpellcraftGui.tr("bar.shadowed", shadowed), SpellcraftGui.DARK);
                 }
             }
             case HIDDEN -> {
@@ -351,8 +384,7 @@ public final class SpellBarStrip {
                         : SpellcraftGui.abilityName(tree, view.slot(by).group());
                 lines.add(colored(SpellcraftGui.tr("bar.hidden", name, by + 1, SpellcraftGui.groupName(tree, slot.group())), SpellcraftGui.BAD));
             }
-            case BLANK -> lines.add(colored(SpellcraftGui.tr("bar.blank"), SpellcraftGui.GREY));
-            case EMPTY -> lines.add(colored(SpellcraftGui.tr(view.isItem() ? "bar.inherited_empty" : "bar.empty"), SpellcraftGui.GREY));
+            case EMPTY -> lines.add(colored(SpellcraftGui.tr("bar.empty"), SpellcraftGui.GREY));
         }
         if (slot.unlearned()) {
             for (String group : slot.groups()) {
@@ -360,6 +392,11 @@ public final class SpellBarStrip {
                     lines.add(colored(SpellcraftGui.tr("bar.unlearned", SpellcraftGui.groupName(tree, group)), SpellcraftGui.BAD));
                 }
             }
+        }
+        SpellCooldowns.Blocking blocking = slot.filled() ? SpellCooldowns.blocking(tree, slot.groups()) : null;
+        if (blocking != null) {
+            lines.add(colored(SpellcraftGui.tr("bar.waiting", SpellcraftGui.groupName(tree, blocking.group()),
+                    SpellcraftGui.seconds(blocking.ticks())), COOLDOWN_COLOR));
         }
         String key = SpellcraftGui.keyName(index);
         String keyLine = key.isEmpty() ? SpellcraftGui.tr("bar.no_key", index + 1) : SpellcraftGui.tr("bar.key", index + 1, key);
@@ -374,6 +411,12 @@ public final class SpellBarStrip {
         }
         lines.add(new TextComponent(hint).withStyle(ChatFormatting.DARK_GRAY));
         return lines;
+    }
+
+    /** Adds {@code text} split into lines of at most {@link #WRAP} px, so long reasons stay inside narrow screens. */
+    private static void wrapped(List<Component> lines, String text, int color) {
+        Minecraft.getInstance().font.getSplitter().splitLines(text, WRAP, net.minecraft.network.chat.Style.EMPTY)
+                .forEach(line -> lines.add(colored(line.getString(), color)));
     }
 
     /** Mana (blue), cooldown (gold) and spell haste (violet) lines, the label grey and the numbers coloured. */
@@ -596,9 +639,12 @@ public final class SpellBarStrip {
     }
 
     private void clickSlot(int index, int button) {
+        if (this.view.isItem()) {
+            return;
+        }
         AbilityTree tree = this.host.tree();
         if (button == 1) {
-            this.view.send(index, this.view.isItem() && Screen.hasShiftDown() ? SpellcraftItemData.BLANK : "");
+            this.view.send(index, "");
             click();
             return;
         }
@@ -606,7 +652,7 @@ public final class SpellBarStrip {
             return;
         }
         String selected = this.host.selectedGroup();
-        if (!this.view.isItem() && selected != null) {
+        if (selected != null) {
             if (SpellBarView.learned(tree, selected)) {
                 this.view.send(index, selected);
                 click();
@@ -614,26 +660,11 @@ public final class SpellBarStrip {
             return;
         }
         List<Choice> choices = new ArrayList<>();
-        if (this.view.isItem()) {
-            for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(this.view.stack())) {
-                choices.add(new Choice(SpellcraftItemData.SPELL_PREFIX + spell.id(), spell.name(), spell.trigger(), SpellcraftGui.ARCANE_GLOW));
-            }
-            choices.add(new Choice(SpellcraftItemData.INHERIT, SpellcraftGui.tr("picker.inherit"), null, SpellcraftGui.GREY));
-            choices.add(new Choice(SpellcraftItemData.BLANK, SpellcraftGui.tr("picker.blank"), null, SpellcraftGui.GREY));
-            if (selected != null && SpellBarView.learned(tree, selected)) {
-                choices.add(0, new Choice(SpellcraftItemData.ABILITY_PREFIX + selected, SpellcraftGui.abilityName(tree, selected), selected,
+        choices.add(new Choice("", SpellcraftGui.tr("picker.empty"), null, SpellcraftGui.GREY));
+        for (Skill skill : tree.skills) {
+            if (skill instanceof SpecializedSkill specialized && specialized.isUnlocked()) {
+                choices.add(new Choice(specialized.getId(), SpellcraftGui.abilityName(tree, specialized.getId()), specialized.getId(),
                         SpellcraftGui.NAME_GOLD));
-            }
-        } else {
-            choices.add(new Choice("", SpellcraftGui.tr("picker.empty"), null, SpellcraftGui.GREY));
-        }
-        if (!this.view.isItem() || this.host.chooserListsAbilities()) {
-            String prefix = this.view.isItem() ? SpellcraftItemData.ABILITY_PREFIX : "";
-            for (Skill skill : tree.skills) {
-                if (skill instanceof SpecializedSkill specialized && specialized.isUnlocked()) {
-                    choices.add(new Choice(prefix + specialized.getId(), SpellcraftGui.abilityName(tree, specialized.getId()), specialized.getId(),
-                            SpellcraftGui.NAME_GOLD));
-                }
             }
         }
         this.popup = choices;

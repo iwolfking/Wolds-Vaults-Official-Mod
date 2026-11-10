@@ -48,7 +48,7 @@ public final class AugmentCaster {
         }
         AbilityTree tree = SpellCooldowns.tree(player);
         float otherMana = 0.0F;
-        for (String group : model.groups()) {
+        for (String group : model.castGroups()) {
             if (group.equals(trigger.group())) {
                 continue;
             }
@@ -80,6 +80,9 @@ public final class AugmentCaster {
         CastScope.Billing billing = trigger;
         for (int i = from; i < steps.size(); i++) {
             SpellModel.Step step = steps.get(i);
+            if (step instanceof SpellModel.Pause pause && !pause.glyph().active()) {
+                continue;
+            }
             if (step instanceof SpellModel.Pause pause) {
                 int next = i + 1;
                 int ticks = Math.max(1, Math.round(pause.glyph().potency() * 20.0F));
@@ -87,7 +90,9 @@ public final class AugmentCaster {
                 return;
             }
             if (step instanceof SpellModel.Bundle bundle) {
-                BundleLauncher.launch(config, player, bundle, origin, damageFactor);
+                if (bundle.glyph().active()) {
+                    BundleLauncher.launch(config, player, bundle, origin, damageFactor);
+                }
                 return;
             }
             SpellModel.Cast cast = (SpellModel.Cast) step;

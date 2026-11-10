@@ -11,6 +11,9 @@
     "maxCastsPerTrigger": 16,
     "maxBundleNesting": 2,
     "maxNameLength": 24,
+    "defaultPriority": 3,
+    "priorities": 5,
+    "uniqueMixCost": 10,
     "costNoise": [
       {
         "offset": -1,

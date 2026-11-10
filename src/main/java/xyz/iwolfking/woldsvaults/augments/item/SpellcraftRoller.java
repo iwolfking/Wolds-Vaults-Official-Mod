@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.augments.item;
 
+import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.item.gear.FocusItem;
 import iskallia.vault.item.gear.WandItem;
@@ -20,7 +22,30 @@ import java.util.Random;
  * fewer lines and a lower depth cap.
  */
 public final class SpellcraftRoller {
+    private static UniqueSets uniqueSets;
+
     private SpellcraftRoller() {
+    }
+
+    /**
+     * The unique-set hook (R30, loadout spec sec. 6.1): a unique focus or wand with a set rolls its lines from the set and
+     * its budget and depth from the set's rarity row, and a unique rolled before sets existed converts on first read.
+     * Until a provider is installed uniques roll like any other carrier.
+     */
+    public interface UniqueSets {
+        /** Rolls a unique's implicits from its set; false when the unique has no set, so it rolls as any carrier. */
+        boolean roll(FocusAugmentsConfig config, ItemStack stack, VaultGearData data, Random random);
+
+        /**
+         * Converts a unique whose implicits predate its set: new lines, budget and depth through
+         * {@link SpellcraftItemData#replaceImplicits}, spells kept. Returns true when it changed the item.
+         */
+        boolean convert(FocusAugmentsConfig config, ItemStack stack, VaultGearData data, Random random);
+    }
+
+    /** Installs the unique-set provider; call during common setup. */
+    public static void setUniqueSets(UniqueSets sets) {
+        uniqueSets = sets;
     }
 
     public static boolean canCarry(ItemStack stack) {
@@ -37,13 +62,39 @@ public final class SpellcraftRoller {
         }
     }
 
-    /** Rolls fresh implicits, replacing any spells and bar on the item. Logs and leaves the item alone if it can't. */
+    /**
+     * The server's inventory scan for one stack: rolls implicits for an identified carrier that has none (identified
+     * before spellcraft existed, or through a path that skips the roll hook) and lets the unique-set hook convert old
+     * uniques.
+     */
+    public static void upkeep(ItemStack stack, Random random) {
+        if (!canCarry(stack)) {
+            return;
+        }
+        VaultGearData data = VaultGearData.read(stack);
+        if (data.getState() != VaultGearState.IDENTIFIED) {
+            return;
+        }
+        if (!SpellcraftItemData.has(stack)) {
+            roll(stack, random);
+            return;
+        }
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (uniqueSets != null && config != null && data.getRarity() == VaultGearRarity.UNIQUE) {
+            uniqueSets.convert(config, stack, data, random);
+        }
+    }
+
+    /** Rolls fresh implicits, replacing any spells on the item. Logs and leaves the item alone if it can't. */
     public static void roll(ItemStack stack, Random random) {
         FocusAugmentsConfig config = FocusAugments.config();
         if (config == null || !canCarry(stack)) {
             return;
         }
         VaultGearData data = VaultGearData.read(stack);
+        if (uniqueSets != null && data.getRarity() == VaultGearRarity.UNIQUE && uniqueSets.roll(config, stack, data, random)) {
+            return;
+        }
         int level = data.getItemLevel();
         String rarity = data.getRarity().name();
         FocusAugmentsConfig.FocusRolls focus = config.focus;

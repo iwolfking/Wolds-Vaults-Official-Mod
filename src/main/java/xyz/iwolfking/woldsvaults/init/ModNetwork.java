@@ -88,6 +88,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SpellBarEditMessage.class, SpellBarEditMessage::encode, SpellBarEditMessage::decode, SpellBarEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, SpellEditMessage.class, SpellEditMessage::encode, SpellEditMessage::decode, SpellEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage.class, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::encode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::decode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage.class, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::encode, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::decode, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage.class, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::encode, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::decode, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {

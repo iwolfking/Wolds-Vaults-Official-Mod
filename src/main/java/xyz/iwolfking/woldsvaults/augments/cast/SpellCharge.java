@@ -9,6 +9,8 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +18,9 @@ import java.util.UUID;
 
 /**
  * Charge: holding a slot key whose spell has Charge winds it up over the table's fixed charge time, like drawing a bow.
- * The player uses the off-hand focus or wand meanwhile, so every client shows the bow pose and the bow's slowdown
- * applies; releasing reports how full it got. Charging ends on death, logout or dimension change without casting.
+ * The player uses the spell's item in its hand meanwhile, so every client shows the bow pose and the bow's slowdown
+ * applies; releasing reports how full it got. The charge belongs to the slot's occupant ({@code itemId:spellId}): it
+ * ends without casting when the occupant changes, and on death, logout or dimension change.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class SpellCharge {
@@ -26,22 +29,29 @@ public final class SpellCharge {
     private SpellCharge() {
     }
 
-    private record Charging(int slot, int fullTicks, int[] held) {
+    private record Charging(int slot, String occupant, InteractionHand hand, int fullTicks, int[] held) {
     }
 
-    public static void start(ServerPlayer player, int slot, int fullTicks) {
+    /** Starts charging the occupant {@code occupant} of bar slot {@code slot}, using the occupant item's hand. */
+    public static void start(ServerPlayer player, int slot, String occupant, InteractionHand hand, int fullTicks) {
         stop(player);
-        CHARGING.put(player.getUUID(), new Charging(slot, Math.max(1, fullTicks), new int[1]));
-        player.startUsingItem(InteractionHand.OFF_HAND);
+        CHARGING.put(player.getUUID(), new Charging(slot, occupant, hand, Math.max(1, fullTicks), new int[1]));
+        player.startUsingItem(hand);
     }
 
-    /** Ends charging on {@code slot} and returns how full it got (0-1), or -1 if that slot wasn't charging. */
-    public static float release(ServerPlayer player, int slot) {
+    /**
+     * Ends charging on {@code slot} and returns how full it got (0-1), or -1 if that slot wasn't charging or its
+     * occupant changed since the charge began.
+     */
+    public static float release(ServerPlayer player, int slot, String occupant) {
         Charging charging = CHARGING.get(player.getUUID());
         if (charging == null || charging.slot() != slot) {
             return -1.0F;
         }
         stop(player);
+        if (!charging.occupant().equals(occupant)) {
+            return -1.0F;
+        }
         return Math.min(1.0F, charging.held()[0] / (float) charging.fullTicks());
     }
 
@@ -50,7 +60,8 @@ public final class SpellCharge {
     }
 
     private static void stop(ServerPlayer player) {
-        if (CHARGING.remove(player.getUUID()) != null && player.isUsingItem() && player.getUsedItemHand() == InteractionHand.OFF_HAND) {
+        Charging charging = CHARGING.remove(player.getUUID());
+        if (charging != null && player.isUsingItem() && player.getUsedItemHand() == charging.hand()) {
             player.stopUsingItem();
         }
     }
@@ -61,9 +72,15 @@ public final class SpellCharge {
             return;
         }
         Charging charging = CHARGING.get(player.getUUID());
-        if (charging != null) {
-            charging.held()[0]++;
+        if (charging == null) {
+            return;
         }
+        EffectiveBar bar = SpellBars.current(player);
+        if (bar == null || !bar.slot(charging.slot()).key().equals(charging.occupant())) {
+            stop(player);
+            return;
+        }
+        charging.held()[0]++;
     }
 
     @SubscribeEvent

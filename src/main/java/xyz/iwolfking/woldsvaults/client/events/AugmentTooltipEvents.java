@@ -27,6 +27,7 @@ import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.client.spellcraft.ClientSpellStats;
 import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftGui;
 import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftTooltipRow;
+import xyz.iwolfking.woldsvaults.client.spellcraft.ClientGlyphViews;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class AugmentTooltipEvents {
         int[] width = {0};
         AbilityTree tree = ClientAbilityData.getTree();
         Function<String, String> specOf = SpellcraftRules.specOf(tree);
-        SpellcraftRules.ItemCheck check = SpellcraftRules.check(config, stack, specOf, false);
+        SpellcraftRules.ItemCheck check = SpellcraftRules.check(config, stack, ClientGlyphViews.view(config, stack), specOf);
         List<SpellcraftItemData.Line> lines = SpellcraftItemData.lines(stack);
         List<SpellcraftItemData.Spell> spells = SpellcraftItemData.spells(stack);
         int budget = SpellcraftItemData.budget(stack);

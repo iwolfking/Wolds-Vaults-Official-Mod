@@ -3,7 +3,10 @@ package xyz.iwolfking.woldsvaults.client.spellcraft;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
@@ -12,49 +15,53 @@ import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarEditMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
-import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
+import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphView;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
 /**
- * One bar as the spell bar strip draws it: the default bar, the active focus bar as last synced (skill menu), or the
- * bar stored on one focus or wand (focus screen, resolved locally from its NBT). Each slot knows what it shows
- * (ability, augmented spell, blank, hidden, empty), whether it is inherited, unlearned or broken, and which ability
- * groups it casts. Edits go to the server; the view is rebuilt from the next sync.
+ * One bar as the spell bar strip draws it: the default bar (editable), or the effective bar exactly as the server last
+ * resolved it (read-only; items no longer hold bars). Each slot knows what it shows (ability, spell, hidden, empty),
+ * whether it is unlearned, LOCKED or implicit, where its spell comes from, and which ability groups it holds. A synced
+ * spell's model is rebuilt from the server's tokens, glyph lines and glyph states, never from the client's item NBT.
  */
 public final class SpellBarView {
     public enum State {
         EMPTY,
-        BLANK,
         ABILITY,
         SPELL,
         HIDDEN
     }
 
-    /** One displayed slot; {@code spell} and {@code model} are set for augmented spells found on the item. */
-    public record Slot(int index, State state, String group, String spellName, boolean inherited, boolean unlearned, boolean broken,
-                       @Nullable SpellcraftItemData.Spell spell, @Nullable SpellModel model, List<String> groups) {
+    /**
+     * One displayed slot; {@code spell} and {@code model} are set for spells. {@code itemKey}/{@code spellId} identify the
+     * spell's item and spell; {@code sourceName} names the item.
+     */
+    public record Slot(int index, State state, String group, String spellName, boolean unlearned, @Nullable SpellcraftItemData.Spell spell,
+                       @Nullable SpellModel model, List<String> groups, String itemKey, int spellId, String sourceName,
+                       @Nullable InteractionHand hand, int prio, boolean locked, String lockReason, boolean implicit, List<String> shadowed) {
         public boolean filled() {
-            return this.state == State.ABILITY || this.state == State.SPELL;
+            return this.state == State.ABILITY || (this.state == State.SPELL && !this.locked);
+        }
+
+        static Slot of(int index, State state, String group, List<String> groups, boolean unlearned) {
+            return new Slot(index, state, group, "", unlearned, null, null, groups, "", 0, "", null, 0, false, "", false, List.of());
         }
     }
 
     private final Slot[] slots;
     private final boolean item;
-    private final ItemStack stack;
-    private final int inventorySlot;
-    private final List<String> itemErrors;
+    private final ItemStack badge;
 
-    private SpellBarView(Slot[] slots, boolean item, ItemStack stack, int inventorySlot, List<String> itemErrors) {
+    private SpellBarView(Slot[] slots, boolean item, ItemStack badge) {
         this.slots = slots;
         this.item = item;
-        this.stack = stack;
-        this.inventorySlot = inventorySlot;
-        this.itemErrors = itemErrors;
+        this.badge = badge;
     }
 
     /** The default bar as last synced. */
@@ -62,88 +69,75 @@ public final class SpellBarView {
         Slot[] slots = new Slot[SpellcraftItemData.SLOTS];
         for (int i = 0; i < slots.length; i++) {
             String group = ClientSpellBar.defaultSlot(i);
-            slots[i] = group.isEmpty()
-                    ? new Slot(i, State.EMPTY, "", "", false, false, false, null, null, List.of())
-                    : new Slot(i, State.ABILITY, group, "", false, !learned(tree, group), false, null, null, List.of(group));
+            slots[i] = group.isEmpty() ? Slot.of(i, State.EMPTY, "", List.of(), false)
+                    : Slot.of(i, State.ABILITY, group, List.of(group), !learned(tree, group));
         }
-        return new SpellBarView(slots, false, ItemStack.EMPTY, -1, List.of());
+        return new SpellBarView(slots, false, ItemStack.EMPTY);
     }
 
-    /**
-     * The active focus bar as the server last synced it ({@link ClientSpellBar}), with spell details looked up on the
-     * off-hand item; the off-hand NBT is not synced while the skill menu is open, the bar sync is.
-     */
-    public static SpellBarView ofSynced(AbilityTree tree, ItemStack offhand, int inventorySlot) {
+    /** The effective bar as the server last synced it, or null when no item lays a spell over it. */
+    @Nullable
+    public static SpellBarView ofSynced(AbilityTree tree) {
+        if (!ClientSpellBar.isSynced() || !ClientSpellBar.hasOverlays()) {
+            return null;
+        }
         Slot[] slots = new Slot[SpellcraftItemData.SLOTS];
         FocusAugmentsConfig config = FocusAugments.config();
-        Function<String, String> specOf = SpellcraftRules.specOf(tree);
-        List<SpellcraftItemData.Spell> spells = SpellcraftItemData.spells(offhand);
         for (int i = 0; i < slots.length; i++) {
             SpellBarSyncMessage.Entry entry = ClientSpellBar.entry(i);
             String group = entry.group();
             if (entry.kind() == ClientSpellBar.ABILITY) {
-                slots[i] = new Slot(i, State.ABILITY, group, "", entry.inherited(), !learned(tree, group), false, null, null, List.of(group));
+                slots[i] = Slot.of(i, State.ABILITY, group, List.of(group), !learned(tree, group));
             } else if (entry.kind() == ClientSpellBar.SPELL) {
-                SpellcraftItemData.Spell spell = find(spells, entry.spellName(), group);
-                SpellModel model = spell == null || config == null ? null
-                        : SpellModel.build(config, SpellcraftItemData.lines(offhand), SpellcraftItemData.depth(offhand), spell.tokens(), specOf, false);
-                List<String> groups = spell == null ? List.of(group) : SpellcraftGui.groups(spell);
-                slots[i] = new Slot(i, State.SPELL, group, entry.spellName(), false, groups.stream().anyMatch(g -> !learned(tree, g)),
-                        entry.broken(), spell, model, groups);
-            } else if (entry.hidden()) {
-                slots[i] = new Slot(i, State.HIDDEN, group, "", entry.inherited(), false, false, null, null, List.of());
+                SpellcraftItemData.Spell spell = new SpellcraftItemData.Spell(entry.spellId(), entry.spellName(), entry.tokens(), i, entry.prio());
+                SpellModel model = config == null ? null : model(config, tree, entry);
+                InteractionHand hand = entry.hand() >= 0 && entry.hand() < InteractionHand.values().length ? InteractionHand.values()[entry.hand()] : null;
+                slots[i] = new Slot(i, State.SPELL, group, entry.spellName(), entry.groups().stream().anyMatch(g -> !learned(tree, g)), spell, model,
+                        entry.groups(), entry.itemKey(), entry.spellId(), entry.sourceName(), hand, entry.prio(), entry.locked(), entry.lockReason(),
+                        entry.implicit(), entry.shadowed());
             } else {
-                slots[i] = new Slot(i, entry.inherited() ? State.EMPTY : State.BLANK, "", "", entry.inherited(), false, false, null, null, List.of());
+                slots[i] = Slot.of(i, entry.hidden() ? State.HIDDEN : State.EMPTY, group, List.of(), false);
             }
         }
-        return new SpellBarView(slots, true, offhand, inventorySlot, List.copyOf(ClientSpellBar.itemErrors()));
+        return new SpellBarView(slots, true, badgeStack());
     }
 
-    /** The bar stored on a focus or wand, resolved over the default bar as the server would. */
-    public static SpellBarView ofItem(AbilityTree tree, ItemStack stack, int inventorySlot) {
-        FocusAugmentsConfig config = FocusAugments.config();
-        String[] defaults = new String[SpellcraftItemData.SLOTS];
-        Arrays.setAll(defaults, ClientSpellBar::defaultSlot);
-        EffectiveBar bar = EffectiveBar.resolve(config, defaults, stack, SpellcraftRules.specOf(tree));
-        String[] raw = SpellcraftItemData.bar(stack);
-        Slot[] slots = new Slot[SpellcraftItemData.SLOTS];
-        for (int i = 0; i < slots.length; i++) {
-            EffectiveBar.Slot slot = bar.slot(i);
-            String group = slot.group();
-            switch (slot.kind()) {
-                case ABILITY -> slots[i] = new Slot(i, State.ABILITY, group, "", slot.inherited(), !learned(tree, group), false, null, null,
-                        List.of(group));
-                case SPELL -> {
-                    List<String> groups = new ArrayList<>(slot.groups());
-                    slots[i] = new Slot(i, State.SPELL, group, slot.spell() == null ? "" : slot.spell().name(), false,
-                            groups.stream().anyMatch(g -> !learned(tree, g)), slot.model() != null && !slot.model().isValid(),
-                            slot.spell(), slot.model(), groups);
-                }
-                case EMPTY -> {
-                    if (slot.hidden()) {
-                        slots[i] = new Slot(i, State.HIDDEN, group, "", slot.inherited(), false, false, null, null, List.of());
-                    } else {
-                        boolean blank = SpellcraftItemData.BLANK.equals(raw[i]);
-                        slots[i] = new Slot(i, blank ? State.BLANK : State.EMPTY, "", "", !blank, false, false, null, null, List.of());
-                    }
-                }
+    /**
+     * Rebuilds a synced spell's model: a view made of the server's glyph lines, and the server's states forced on every
+     * glyph it did not find active for a reason the client can't see (sources, uses, budget).
+     */
+    private static SpellModel model(FocusAugmentsConfig config, AbilityTree tree, SpellBarSyncMessage.Entry entry) {
+        Map<AugmentType, SpellcraftItemData.Line> lines = new LinkedHashMap<>();
+        Map<Integer, SpellModel.State> forced = new HashMap<>();
+        for (SpellBarSyncMessage.Glyph glyph : entry.glyphs()) {
+            if (glyph.token() < 0 || glyph.token() >= entry.tokens().size()) {
+                continue;
+            }
+            AugmentType type = AugmentType.byId(entry.tokens().get(glyph.token()));
+            if (type == null) {
+                continue;
+            }
+            lines.putIfAbsent(type, new SpellcraftItemData.Line(type, glyph.potency(), glyph.quality(), glyph.cost(), entry.tokens().size(), false,
+                    entry.tokens().size()));
+            SpellModel.State state = glyph.stateEnum();
+            if (!glyph.dependent() && state != SpellModel.State.ACTIVE && state != SpellModel.State.DORMANT) {
+                forced.put(glyph.token(), state);
             }
         }
-        return new SpellBarView(slots, true, stack, inventorySlot, bar.itemErrors());
+        GlyphView view = GlyphView.of(config, "", "", new ArrayList<>(lines.values()), List.of());
+        return SpellModel.build(config, view, config.rules.maxGlyphsPerSpell, entry.tokens(), SpellcraftRules.specOf(tree), SpellModel.Mode.LENIENT,
+                forced, Map.of());
     }
 
-    @Nullable
-    private static SpellcraftItemData.Spell find(List<SpellcraftItemData.Spell> spells, String name, String trigger) {
-        SpellcraftItemData.Spell byName = null;
-        for (SpellcraftItemData.Spell spell : spells) {
-            if (spell.name().equals(name)) {
-                if (spell.trigger().equals(trigger)) {
-                    return spell;
-                }
-                byName = byName == null ? spell : byName;
+    /** The first synced arcana item found in the player's hands, for the strip's picker icon. */
+    private static ItemStack badgeStack() {
+        for (SpellBarSyncMessage.Source source : ClientSpellBar.sources()) {
+            ItemStack stack = ClientSpellBar.stackOf(source.key());
+            if (!stack.isEmpty()) {
+                return stack;
             }
         }
-        return byName;
+        return Minecraft.getInstance().player == null ? ItemStack.EMPTY : Minecraft.getInstance().player.getOffhandItem();
     }
 
     public static boolean learned(AbilityTree tree, String group) {
@@ -159,12 +153,9 @@ public final class SpellBarView {
         return this.item;
     }
 
+    /** The item shown on the strip's picker for this view (empty for the default bar). */
     public ItemStack stack() {
-        return this.stack;
-    }
-
-    public List<String> itemErrors() {
-        return this.itemErrors;
+        return this.badge;
     }
 
     /** The slot that casts this ability group, or -1. */
@@ -191,8 +182,10 @@ public final class SpellBarView {
         return -1;
     }
 
-    /** Sets a slot: an ability group (or empty) on the default bar, a bar entry on an item bar. */
+    /** Sets a default-bar slot to an ability group, or clears it with an empty value. Synced views are read-only. */
     public void send(int index, String value) {
-        ModNetwork.sendToServer(new SpellBarEditMessage(this.item, Math.max(0, this.inventorySlot), index, value));
+        if (!this.item) {
+            ModNetwork.sendToServer(new SpellBarEditMessage(index, value));
+        }
     }
 }

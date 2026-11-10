@@ -19,6 +19,9 @@ import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
+import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphSources;
+import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphView;
+import xyz.iwolfking.woldsvaults.spellcraft.pool.ViewLine;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,10 +29,11 @@ import java.util.Random;
 
 /**
  * {@code /wvspellcraft}: test tools for the spell bar and focus spellcraft, next to the screens. {@code show} prints the
- * off-hand item's implicits and spells; {@code bar <slot> <ability|clear>} sets a default bar slot; {@code spell add
- * <tokens>} and {@code spell remove <id>} edit the off-hand item's spells; {@code itembar <slot> <entry>} sets its bar
- * slot (inherit, blank, a:Ability or s:id). Operators: {@code reroll} rerolls the held focus or wand; {@code givefocus
- * <level> <rarity> [wand]} gives an identified focus or wand of that level and rarity.
+ * off-hand item's implicits and spells with their glyph states; {@code view} prints the off-hand item's glyph view and
+ * the auto lines; {@code bar <slot> <ability|clear>} sets a default bar slot; {@code spell add <tokens>} and
+ * {@code spell remove <id>} edit the off-hand item's spells; {@code slot <spell id> <slot|0>} puts a spell on a bar slot
+ * (0 takes it off) and {@code prio <spell id> <priority>} sets its priority. Operators: {@code reroll} rerolls the held
+ * focus or wand; {@code givefocus <level> <rarity> [wand]} gives an identified focus or wand of that level and rarity.
  */
 public final class AugmentsCommand {
     private static final int OFFHAND_SLOT = 40;
@@ -44,10 +48,15 @@ public final class AugmentsCommand {
                         .then(Commands.argument("slot", IntegerArgumentType.integer(1, SpellcraftItemData.SLOTS))
                                 .then(Commands.argument("ability", StringArgumentType.word())
                                         .executes(AugmentsCommand::setDefault))))
-                .then(Commands.literal("itembar")
-                        .then(Commands.argument("slot", IntegerArgumentType.integer(1, SpellcraftItemData.SLOTS))
-                                .then(Commands.argument("entry", StringArgumentType.word())
-                                        .executes(AugmentsCommand::setItemBar))))
+                .then(Commands.literal("view").executes(context -> view(context.getSource())))
+                .then(Commands.literal("slot")
+                        .then(Commands.argument("spell", IntegerArgumentType.integer(1))
+                                .then(Commands.argument("slot", IntegerArgumentType.integer(0, SpellcraftItemData.SLOTS))
+                                        .executes(AugmentsCommand::setSlot))))
+                .then(Commands.literal("prio")
+                        .then(Commands.argument("spell", IntegerArgumentType.integer(1))
+                                .then(Commands.argument("priority", IntegerArgumentType.integer(1, 99))
+                                        .executes(AugmentsCommand::setPrio))))
                 .then(Commands.literal("spell")
                         .then(Commands.literal("add").then(Commands.argument("tokens", StringArgumentType.greedyString())
                                 .executes(AugmentsCommand::addSpell)))
@@ -72,22 +81,83 @@ public final class AugmentsCommand {
             source.sendFailure(new TextComponent("Hold a focus or wand with spellcraft in your off hand"));
             return 0;
         }
-        SpellcraftRules.ItemCheck check = SpellcraftRules.check(config, stack, SpellcraftRules.specOf(SpellCooldowns.tree(player)), false);
+        GlyphView view = GlyphSources.get(player).view(config, stack);
+        SpellcraftRules.ItemCheck check = SpellcraftRules.check(config, stack, view, SpellcraftRules.specOf(SpellCooldowns.tree(player)));
         line(source, "Arcana " + Math.round(check.arcana()) + "/" + SpellcraftItemData.budget(stack) + ", depth "
-                + SpellcraftItemData.depth(stack), ChatFormatting.LIGHT_PURPLE);
+                + SpellcraftItemData.depth(stack) + (check.budgetInactive() > 0 ? ", over budget: " + check.budgetInactive() + " glyphs inactive" : ""),
+                ChatFormatting.LIGHT_PURPLE);
         for (SpellcraftItemData.Line line : SpellcraftItemData.lines(stack)) {
             line(source, "  " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + "  cost " + line.cost()
-                    + "  up to " + SpellModel.perSpellLimit(config, line) + " per spell", ChatFormatting.GRAY);
+                    + "  up to " + SpellModel.perSpellLimit(config, line) + " per spell" + (line.transferable() ? "  transferable" : ""),
+                    ChatFormatting.GRAY);
         }
         for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
             SpellModel model = check.models().get(spell.id());
-            line(source, "  #" + spell.id() + " " + spell.name() + ": " + String.join(" ", spell.tokens()) + "  (" + Math.round(model.arcana())
-                    + " arcana, mana x" + String.format("%.2f", model.manaFactor()) + ", cd x" + String.format("%.2f", model.cooldownFactor())
-                    + ", haste x" + String.format("%.2f", model.hasteMultiplier()) + ", " + model.casts() + " casts)", ChatFormatting.DARK_PURPLE);
+            String slot = spell.assigned() ? "slot " + (spell.slot() + 1) : "off the bar";
+            line(source, "  #" + spell.id() + " " + spell.name() + " [" + slot + ", priority " + SpellcraftRules.priority(config, spell) + "]: "
+                    + String.join(" ", spell.tokens()) + "  (" + Math.round(model.arcana()) + " arcana, mana x" + String.format("%.2f", model.manaFactor())
+                    + ", cd x" + String.format("%.2f", model.cooldownFactor()) + ", haste x" + String.format("%.2f", model.hasteMultiplier()) + ", "
+                    + model.casts() + " casts)", ChatFormatting.DARK_PURPLE);
+            for (SpellModel.Glyph glyph : model.glyphs()) {
+                if (!glyph.active()) {
+                    line(source, "     token " + (glyph.token() + 1) + " " + glyph.type().id() + ": "
+                            + glyph.state().name().toLowerCase(java.util.Locale.ROOT) + (glyph.dependent() ? " (rides on an inactive Bundled Spell)" : ""),
+                            ChatFormatting.DARK_GRAY);
+                }
+            }
         }
         check.errors().forEach(error -> line(source, "  ! " + error, ChatFormatting.RED));
-        line(source, "Bar: " + String.join(" | ", SpellcraftItemData.bar(stack)), ChatFormatting.GRAY);
         return 1;
+    }
+
+    private static int view(CommandSourceStack source) throws CommandSyntaxException {
+        ServerPlayer player = source.getPlayerOrException();
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (config == null) {
+            source.sendFailure(new TextComponent("The focus augments table is not loaded"));
+            return 0;
+        }
+        GlyphSources.Snapshot snapshot = GlyphSources.get(player);
+        ItemStack stack = player.getOffhandItem();
+        if (SpellcraftItemData.has(stack)) {
+            line(source, "View of " + stack.getHoverName().getString() + ":", ChatFormatting.LIGHT_PURPLE);
+            for (ViewLine line : snapshot.view(config, stack).lines()) {
+                line(source, "  " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + " from " + line.potencySource()
+                        + ", cost " + line.cost() + ", " + line.limit() + " per spell from " + line.usesSource()
+                        + (line.borrowed() ? "  (borrowed)" : "") + (line.transferable() ? "  (transferable)" : ""), ChatFormatting.GRAY);
+            }
+        } else {
+            line(source, "No spellcraft item in the off hand", ChatFormatting.GRAY);
+        }
+        line(source, "Equipped arcana items: " + snapshot.arcanaItems().size() + ", glyph sources: " + snapshot.sources().size(), ChatFormatting.GRAY);
+        GlyphView auto = snapshot.autoLines(config);
+        if (auto.isEmpty()) {
+            line(source, "Auto lines: none", ChatFormatting.GRAY);
+        }
+        for (ViewLine line : auto.lines()) {
+            line(source, "  auto " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + " from " + line.potencySource(),
+                    ChatFormatting.GOLD);
+        }
+        return 1;
+    }
+
+    private static int setSlot(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        int slot = IntegerArgumentType.getInteger(context, "slot");
+        FocusAugments.placeSpell(player, OFFHAND_SLOT, IntegerArgumentType.getInteger(context, "spell"), slot - 1, 0);
+        return show(context.getSource());
+    }
+
+    private static int setPrio(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        int spellId = IntegerArgumentType.getInteger(context, "spell");
+        SpellcraftItemData.Spell spell = SpellcraftItemData.spell(player.getOffhandItem(), spellId).orElse(null);
+        if (spell == null) {
+            context.getSource().sendFailure(new TextComponent("No spell #" + spellId + " on the off-hand item"));
+            return 0;
+        }
+        FocusAugments.placeSpell(player, OFFHAND_SLOT, spellId, spell.slot(), IntegerArgumentType.getInteger(context, "priority"));
+        return show(context.getSource());
     }
 
     private static int setDefault(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -95,15 +165,6 @@ public final class AugmentsCommand {
         String ability = StringArgumentType.getString(context, "ability");
         String error = SpellBars.editDefault(player, IntegerArgumentType.getInteger(context, "slot") - 1,
                 ability.equalsIgnoreCase("clear") ? "" : ability);
-        return report(context.getSource(), error);
-    }
-
-    private static int setItemBar(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        ServerPlayer player = context.getSource().getPlayerOrException();
-        String entry = StringArgumentType.getString(context, "entry");
-        String value = entry.equalsIgnoreCase("inherit") ? SpellcraftItemData.INHERIT
-                : entry.equalsIgnoreCase("blank") ? SpellcraftItemData.BLANK : entry;
-        String error = SpellBars.editItem(player, OFFHAND_SLOT, IntegerArgumentType.getInteger(context, "slot") - 1, value);
         return report(context.getSource(), error);
     }
 
