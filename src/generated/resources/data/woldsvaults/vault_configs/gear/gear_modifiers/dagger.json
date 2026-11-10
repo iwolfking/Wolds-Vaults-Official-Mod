@@ -1662,34 +1662,6 @@
             }
           }
         ]
-      },
-      {
-        "attribute": "the_vault:attack_range",
-        "group": "BaseReducedRange",
-        "identifier": "the_vault:base_reduced_range",
-        "tags": [],
-        "tiers": [
-          {
-            "minLevel": 0,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": -0.5,
-              "max": -0.3,
-              "step": 1.0
-            }
-          },
-          {
-            "minLevel": 50,
-            "maxLevel": -1,
-            "weight": 10,
-            "value": {
-              "min": -0.29,
-              "max": -0.1,
-              "step": 1.0
-            }
-          }
-        ]
       }
     ],
     "PREFIX": [
