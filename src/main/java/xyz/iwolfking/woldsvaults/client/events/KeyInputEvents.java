@@ -84,7 +84,6 @@ public class KeyInputEvents {
 
         if(ModKeybinds.depositBackpack.consumeClick()) {
             if (!(Minecraft.getInstance().screen instanceof AbstractContainerScreen<?> screen)) {
-                WoldLogger.info("Not container screen");
                 return;
             }
 
@@ -92,7 +91,6 @@ public class KeyInputEvents {
                     .getHoveredSlot();
 
             if (hoveredSlot == null || !hoveredSlot.hasItem()) {
-                WoldLogger.info("hovered slot empty");
                 return;
             }
 
@@ -157,21 +155,18 @@ public class KeyInputEvents {
 
         if (ModKeybinds.depositBackpack.isActiveAndMatches(pressedKey)) {
             if(!StageManager.RESEARCH_TREE.isResearched(WoldConstants.DELOOT_RESEARCH)) {
-                WoldLogger.info("No research");
                 return;
             }
 
             Slot hoveredSlot = containerScreen.getSlotUnderMouse();
 
             if (hoveredSlot == null) {
-                WoldLogger.info("No slot");
                 return;
             }
 
             int menuSlot = containerScreen.getMenu().slots.indexOf(hoveredSlot);
 
             if(hoveredSlot.getItem().isEmpty()) {
-                WoldLogger.info("Empty slot");
                 menuSlot = -1;
             }
 
