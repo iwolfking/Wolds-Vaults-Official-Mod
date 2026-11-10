@@ -50,6 +50,14 @@
       {
         "text": "Just Dire Things is a collection of various cool items, blocks, and utilities.",
         "color": "$text"
+      },
+      {
+        "text": "\n\nThis mod includes nifty little blocks like Auto Clickers, Inventory Holders, Block Placer and Breakers, and various other utilities.",
+        "color": "$text"
+      },
+      {
+        "text": "\nAlso includes some fun toys like a Portal Gun and other interesting ways of getting around!",
+        "color": "$text"
       }
     ],
     "Create Ore Excavation": [

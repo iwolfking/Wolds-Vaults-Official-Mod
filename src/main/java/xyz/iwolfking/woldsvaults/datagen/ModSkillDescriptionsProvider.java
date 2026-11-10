@@ -673,6 +673,8 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .addDescription("Just Dire Things", jsonElements -> modDesc("Just Dire Things", innerDesc -> {
                             disabledInVaults().forEach(innerDesc::add);
                             innerDesc.add(JsonDescription.simple("Just Dire Things is a collection of various cool items, blocks, and utilities."));
+                            innerDesc.add(JsonDescription.simple("\n\nThis mod includes nifty little blocks like Auto Clickers, Inventory Holders, Block Placer and Breakers, and various other utilities."));
+                            innerDesc.add(JsonDescription.simple("\nAlso includes some fun toys like a Portal Gun and other interesting ways of getting around!"));
                 }).forEach(jsonElements::add))
                .addDescription("Delooting Pro", jsonElements -> modDesc("Delooting Pro", innerDesc -> {
                             innerDesc.add(JsonDescription.simple("Wow, looks like you are a certified real delooting wiz now!"));
