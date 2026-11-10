@@ -250,8 +250,8 @@ public final class SpellBars {
         if (slot.kind() != EffectiveBar.Kind.EMPTY && repeats(player, slot)) {
             Map<Integer, Integer> held = HELD.computeIfAbsent(player.getUUID(), id -> new HashMap<>());
             if (down) {
-                held.put(index, player.tickCount + RETRY_TICKS);
                 castOnce(player, bar, slot);
+                held.put(index, nextAttempt(player, slot));
             } else {
                 held.remove(index);
             }
@@ -318,7 +318,11 @@ public final class SpellBars {
         });
     }
 
-    /** Recasts held slots as soon as they are ready: off cooldown and affordable. Failed attempts wait a moment. */
+    /**
+     * Recasts held slots on the tick they are ready: the tick their cooldown ends (VH ticks cooldowns at the start of
+     * the player tick, this runs at its end) when the slot is affordable. An attempt that does not start the cooldown
+     * (a curse, a suppressor, a failed cast) waits {@link #RETRY_TICKS} before the next one.
+     */
     private static void recastHeld(ServerPlayer player) {
         Map<Integer, Integer> held = HELD.get(player.getUUID());
         if (held == null || held.isEmpty()) {
@@ -339,9 +343,14 @@ public final class SpellBars {
             if (player.tickCount < entry.getValue() || trigger == null || trigger.isTreeOnCooldown() || !canAfford(player, tree, slot)) {
                 continue;
             }
-            held.put(entry.getKey(), player.tickCount + RETRY_TICKS);
             castOnce(player, bar, slot);
+            held.put(entry.getKey(), nextAttempt(player, slot));
         }
+    }
+
+    private static int nextAttempt(ServerPlayer player, EffectiveBar.Slot slot) {
+        Ability trigger = SpellCooldowns.ability(SpellCooldowns.tree(player), slot.group());
+        return trigger != null && trigger.isTreeOnCooldown() ? 0 : player.tickCount + RETRY_TICKS;
     }
 
     private static boolean canAfford(ServerPlayer player, AbilityTree tree, EffectiveBar.Slot slot) {
