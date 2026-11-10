@@ -2,6 +2,9 @@ package xyz.iwolfking.woldsvaults.api.cast;
 
 import iskallia.vault.skill.base.Skill;
 import net.minecraft.server.level.ServerPlayer;
+import xyz.iwolfking.woldsvaults.augments.cast.DeferredGlyphs;
+
+import javax.annotation.Nullable;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,6 +29,8 @@ public final class CastTag {
     private boolean arcaneStrikeUsed;
     private Object manaStealEvent;
     private Object lifeStealEvent;
+    @Nullable
+    private DeferredGlyphs glyphs;
 
     public CastTag(ServerPlayer owner, Skill skill) {
         this.castId = NEXT_ID.incrementAndGet();
@@ -52,6 +57,16 @@ public final class CastTag {
     /** Whether this tag belongs to {@code player}'s cast of {@code skill}. */
     public boolean isCastOf(ServerPlayer player, Skill skill) {
         return this.isOwnedBy(player) && this.skill == skill;
+    }
+
+    /** The spell step's frozen glyphs when this cast ran as a spell step; null for any other cast. */
+    @Nullable
+    public DeferredGlyphs glyphs() {
+        return this.glyphs;
+    }
+
+    public void setGlyphs(@Nullable DeferredGlyphs glyphs) {
+        this.glyphs = glyphs;
     }
 
     public float damageMultiplier() {

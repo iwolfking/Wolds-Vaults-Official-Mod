@@ -13,12 +13,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.effect.AugmentTags;
+import xyz.iwolfking.woldsvaults.augments.effect.DeferredReach;
 import xyz.iwolfking.woldsvaults.augments.effect.SpellHits;
 import xyz.iwolfking.woldsvaults.augments.effect.TickingEntity;
 
 import javax.annotation.Nullable;
 import java.util.BitSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
@@ -42,7 +44,10 @@ public final class ShotgunHits {
     public record Shot(long group, int member) {
     }
 
-    private record Member(String spec, Shot shot) {
+    private record Member(String spec, Shot shot, @Nullable Set<SpellHits.Carrier> carriers) {
+        Member(String spec, Shot shot) {
+            this(spec, shot, null);
+        }
     }
 
     private static final class Volley {
@@ -92,7 +97,12 @@ public final class ShotgunHits {
     @Nullable
     private static Shot of(ServerPlayer player, DamageSource source) {
         Member member = memberOf(player, source);
-        return member != null && member.shot() != null && SpellHits.matchesOwnHit(member.spec(), source) ? member.shot() : null;
+        if (member == null || member.shot() == null) {
+            return null;
+        }
+        boolean own = member.carriers() == null ? SpellHits.matchesOwnHit(member.spec(), source)
+                : SpellHits.isOwnDeferredHit(member.spec(), source, member.carriers());
+        return own ? member.shot() : null;
     }
 
     @Nullable
@@ -111,6 +121,10 @@ public final class ShotgunHits {
         Entity ticking = TickingEntity.current();
         if (ticking instanceof Projectile projectile && projectile.getOwner() == player && AugmentTags.shot(projectile) != null) {
             return new Member(AugmentTags.spec(projectile), AugmentTags.shot(projectile));
+        }
+        DeferredReach.Reach reach = DeferredReach.forHit(source);
+        if (reach != null && reach.glyphs().shot() != null) {
+            return new Member(reach.glyphs().spec(), reach.glyphs().shot(), reach.carriers());
         }
         return null;
     }

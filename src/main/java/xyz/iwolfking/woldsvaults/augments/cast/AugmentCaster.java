@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.augments.cast;
 
 import iskallia.vault.init.ModSounds;
+import iskallia.vault.skill.ability.effect.NecromancyAbility;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
 import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.tree.AbilityTree;
@@ -144,7 +145,7 @@ public final class AugmentCaster {
                 && ability.findAbility(player).filter(Ability::isActive).isPresent()) {
             ToggleDiscounts.start(player, ability.id(), 1.0F - model.manaFactor());
         }
-        if (base.echoPower() > 0.0F && ability.has(AbilityTrait.INSTANT)) {
+        if (base.echoPower() > 0.0F && ability.has(AbilityTrait.INSTANT) && !echoesMinionHits(player, ability)) {
             CastModifiers echoed = base.withDamageFactor(base.echoPower());
             int delay = Math.max(1, Math.round(config.tuning.echoDelaySeconds * 20.0F));
             SpellScheduler.schedule(player, delay, later -> {
@@ -164,6 +165,11 @@ public final class AugmentCaster {
             });
         }
         return result;
+    }
+
+    /** Echo on Necromancy follows each minion hit instead of recasting the curse. */
+    private static boolean echoesMinionHits(ServerPlayer player, AugmentAbility ability) {
+        return ability.findAbility(player).filter(NecromancyAbility.class::isInstance).isPresent();
     }
 
     private static void castCopies(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,

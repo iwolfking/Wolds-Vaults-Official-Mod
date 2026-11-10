@@ -1678,6 +1678,7 @@
     ],
     "Mana_Shield_Retribution": [
       "INSTANT",
+      "AREA",
       "MANA",
       "DAMAGE",
       "LINGER"
@@ -1952,6 +1953,7 @@
     ],
     "Earthquake_Landmine": [
       "INSTANT",
+      "AREA",
       "MANA",
       "DAMAGE",
       "LINGER",
