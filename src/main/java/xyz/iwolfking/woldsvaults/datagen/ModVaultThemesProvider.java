@@ -32,7 +32,12 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .particleProbability(0.015F)
                     .levelEntry("the_vault:default", 50)
                     .themeWeight(5)
-                    .themeGroup("Industrial");
+                    .themeGroup("Industrial")
+                    .themeLore("Industrial", 0x535846, themeLoreDescriptionBuilder -> {
+                        themeLoreDescriptionBuilder
+                                .perk("Wooden Chests rarely become Ornate chests", "$name");
+
+                    });
         });
 
         add(WoldsVaults.id("mekanism_factory"), t -> {

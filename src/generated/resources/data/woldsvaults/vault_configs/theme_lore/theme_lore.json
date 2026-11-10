@@ -1,5 +1,29 @@
 {
   "series": {
+    "Industrial": {
+      "displayName": "Industrial",
+      "colour": 5462086,
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "Wooden Chests rarely become Ornate chests",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": []
+        }
+      ]
+    },
     "Arcane": {
       "displayName": "Arcane",
       "colour": 9662683,
