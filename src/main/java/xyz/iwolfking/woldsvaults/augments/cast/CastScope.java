@@ -9,7 +9,8 @@ import java.util.function.Supplier;
 
 /**
  * What is in effect while the spell caster runs one ability for one player: the step's glyph modifiers, the landing
- * point of a Bundled Spell (projectiles the cast spawns move there), and the slot's billing. VH computes area, mana,
+ * point of a Bundled Spell (projectiles the cast spawns move there), the slot's billing, the ability spec being cast
+ * (so its own hits can be told from procs) and the Shotgun volley member it is. VH computes area, mana,
  * cooldown and spawns projectiles synchronously inside the cast, so all of it only needs to apply for its duration.
  * Server thread only; nested casts restore the outer scope.
  */
@@ -41,9 +42,9 @@ public final class CastScope {
     }
 
     public static <T> T call(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing,
-                             Supplier<T> action) {
+                             @Nullable String spec, @Nullable ShotgunHits.Shot shot, Supplier<T> action) {
         Active outer = current;
-        current = new Active(player, modifiers, origin, billing);
+        current = new Active(player, modifiers, origin, billing, spec, shot);
         try {
             return action.get();
         } finally {
@@ -61,6 +62,7 @@ public final class CastScope {
         return current != null && current.player() == player ? current.billing() : null;
     }
 
-    public record Active(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing) {
+    public record Active(ServerPlayer player, CastModifiers modifiers, @Nullable CastOrigin origin, @Nullable Billing billing,
+                         @Nullable String spec, @Nullable ShotgunHits.Shot shot) {
     }
 }

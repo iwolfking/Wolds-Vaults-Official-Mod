@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
+import xyz.iwolfking.woldsvaults.augments.cast.ShotgunHits;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ChargedBoltsAbilityInvoker;
 
@@ -36,7 +37,8 @@ public final class ChargedBoltPaths {
     private ChargedBoltPaths() {
     }
 
-    public static void cast(ChargedBoltsAbility ability, ServerPlayer player, CastModifiers modifiers) {
+    public static void cast(ChargedBoltsAbility ability, ServerPlayer player, CastModifiers modifiers, @Nullable String spec,
+                            @Nullable ShotgunHits.Shot shot) {
         FocusAugmentsConfig config = FocusAugments.config();
         ChargedBoltsAbilityInvoker invoker = (ChargedBoltsAbilityInvoker) ability;
         Vec3 look = player.getLookAngle().normalize();
@@ -52,7 +54,7 @@ public final class ChargedBoltPaths {
         player.level.playSound(null, player, SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 0.55F, 1.65F);
         for (int index = 0; index < bolts; index++) {
             Vec3 direction = ChargedBoltsAbilityInvoker.woldsvaults$rotateY(look, Math.toRadians(invoker.woldsvaults$getSpreadOffset(index, bolts))).normalize();
-            Bolt bolt = new Bolt(ability, player, modifiers, start, direction, speed, homing ? preferred : null, homing, hitCounts);
+            Bolt bolt = new Bolt(ability, player, modifiers, spec, shot, start, direction, speed, homing ? preferred : null, homing, hitCounts);
             for (int tick = 0; tick <= maxTicks; tick++) {
                 int step = tick;
                 ServerScheduler.INSTANCE.schedule(step, () -> bolt.step(step));
@@ -64,6 +66,8 @@ public final class ChargedBoltPaths {
         final ChargedBoltsAbility ability;
         final ServerPlayer player;
         final CastModifiers modifiers;
+        @Nullable final String spec;
+        @Nullable final ShotgunHits.Shot shot;
         final double speed;
         final boolean homing;
         final Map<Integer, Integer> hitCounts;
@@ -74,11 +78,13 @@ public final class ChargedBoltPaths {
         Vec3 direction;
         boolean active = true;
 
-        Bolt(ChargedBoltsAbility ability, ServerPlayer player, CastModifiers modifiers, Vec3 start, Vec3 direction, double speed,
-             @Nullable LivingEntity preferred, boolean homing, Map<Integer, Integer> hitCounts) {
+        Bolt(ChargedBoltsAbility ability, ServerPlayer player, CastModifiers modifiers, @Nullable String spec, @Nullable ShotgunHits.Shot shot,
+             Vec3 start, Vec3 direction, double speed, @Nullable LivingEntity preferred, boolean homing, Map<Integer, Integer> hitCounts) {
             this.ability = ability;
             this.player = player;
             this.modifiers = modifiers;
+            this.spec = spec;
+            this.shot = shot;
             this.position = start;
             this.direction = direction;
             this.speed = speed;
@@ -106,7 +112,7 @@ public final class ChargedBoltPaths {
             LivingEntity hit = findHit(previous, current);
             if (hit != null) {
                 this.active = false;
-                CastScope.call(this.player, this.modifiers, null, CastScope.Billing.free(true), () -> {
+                CastScope.call(this.player, this.modifiers, null, CastScope.Billing.free(true), this.spec, this.shot, () -> {
                     ((ChargedBoltsAbilityInvoker) this.ability).woldsvaults$hitTarget(this.player, hit, this.hitCounts);
                     return null;
                 });

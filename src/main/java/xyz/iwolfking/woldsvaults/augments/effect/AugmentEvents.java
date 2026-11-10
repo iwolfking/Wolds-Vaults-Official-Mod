@@ -27,8 +27,9 @@ import javax.annotation.Nullable;
  * multiply VH's area-of-effect multiplier ({@code 1 + AoE}, the value VH's cast-time area helper passes) before VH clamps it
  * to the player's limit (spell haste is applied by the bar). Projectiles the cast spawns
  * are tagged (and steered, resized, re-weighted); a tagged projectile's area reads and hits during its own tick count
- * as the cast's, and the children it spawns then inherit its tags. Damage is multiplied only for the cast itself, for
- * hits by a tagged projectile, and for hits made while one is ticking, so other damage of the same player is untouched.
+ * as the cast's, and the children it spawns then inherit its tags. Damage is multiplied only for the ability's own hits
+ * ({@link SpellHits}: its damage source and VH attack flags) made during the cast, by a tagged projectile, or while one
+ * is ticking, so procs, lucky-hit extras and other damage of the same player are untouched.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class AugmentEvents {
@@ -75,7 +76,7 @@ public final class AugmentEvents {
         }
         CastScope.Active scope = CastScope.current().orElse(null);
         if (scope != null && projectile.getOwner() == scope.player()) {
-            if (scope.origin() != null || scope.modifiers().affectsProjectiles()) {
+            if (scope.origin() != null || scope.modifiers().affectsProjectiles() || scope.shot() != null) {
                 applyFromCast(projectile, scope);
             }
             return;
@@ -98,7 +99,7 @@ public final class AugmentEvents {
             projectile.setDeltaMovement(projectile.getDeltaMovement().scale(modifiers.speed()));
             projectile.hurtMarked = true;
         }
-        AugmentTags.write(projectile, modifiers);
+        AugmentTags.write(projectile, modifiers, scope.spec(), scope.shot());
         activate(projectile, scope.player());
     }
 
@@ -147,20 +148,24 @@ public final class AugmentEvents {
         Entity direct = event.getSource().getDirectEntity();
         Entity attacker = event.getSource().getEntity();
         float multiplier = 1.0F;
+        String spec = null;
         if (direct instanceof Projectile && direct.getPersistentData().contains(AugmentTags.DAMAGE)) {
             multiplier = AugmentTags.damage(direct);
+            spec = AugmentTags.spec(direct);
         } else if (attacker != null) {
-            CastModifiers scope = scopeFor(attacker);
+            CastScope.Active scope = CastScope.current().filter(active -> active.player() == attacker).orElse(null);
             if (scope != null) {
-                multiplier = scope.damage();
+                multiplier = scope.modifiers().damage();
+                spec = scope.spec();
             } else {
                 Projectile ticking = tickingProjectileOf(attacker);
                 if (ticking != null) {
                     multiplier = AugmentTags.damage(ticking);
+                    spec = AugmentTags.spec(ticking);
                 }
             }
         }
-        if (multiplier != 1.0F) {
+        if (multiplier != 1.0F && SpellHits.isOwnHit(spec, event.getSource())) {
             event.setAmount(event.getAmount() * multiplier);
         }
     }

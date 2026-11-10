@@ -638,6 +638,7 @@
     "vaulthunters.gods.idona.MixinArcaneNovaOnHitHelperPowerDump",
     "cast.MixinInstantAbilityCast",
     "cast.MixinAbilityHoldTickCast",
+    "cast.MixinLivingEntityHurtDepth",
     "cast.MixinServerLevelCastTag",
     "cast.MixinLevelChunkCastTag",
     "cast.MixinBoundTickingBlockEntityCastTag",
