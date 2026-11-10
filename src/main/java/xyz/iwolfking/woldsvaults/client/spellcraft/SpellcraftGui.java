@@ -273,6 +273,20 @@ public final class SpellcraftGui {
     }
 
     /** A line's potency in its table format (percent, seconds, blocks), labelled from the table. */
+    /** Why a glyph does nothing right now, for tooltips. */
+    public static String inactiveReason(xyz.iwolfking.woldsvaults.augments.spell.SpellModel.Glyph glyph) {
+        if (glyph.dependent()) {
+            return tr("glyph_state.dependent");
+        }
+        return switch (glyph.state()) {
+            case ACTIVE -> "";
+            case DORMANT -> tr("glyph_state.dormant");
+            case INACTIVE_SOURCE -> tr("glyph_state.source", glyph.type().displayName());
+            case INACTIVE_USES -> tr("glyph_state.uses", glyph.type().displayName());
+            case INACTIVE_BUDGET -> tr("glyph_state.budget");
+        };
+    }
+
     public static String potency(FocusAugmentsConfig config, AugmentType type, float p) {
         FocusAugmentsConfig.Potency potency = config.glyph(type).potency;
         return switch (potency.format) {

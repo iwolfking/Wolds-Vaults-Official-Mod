@@ -41,6 +41,9 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public int maxCastsPerTrigger;
         @Expose public int maxBundleNesting;
         @Expose public int maxNameLength;
+        @Expose public int defaultPriority;
+        @Expose public int priorities;
+        @Expose public int uniqueMixCost;
         @Expose public List<CostNoise> costNoise;
     }
 
@@ -237,6 +240,10 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         if (this.rules.maxGlyphsPerSpell < 1 || this.rules.maxSpellsPerItem < 1 || this.rules.maxCastsPerTrigger < 1
                 || this.rules.maxBundleNesting < 0 || this.rules.manaFactorFloor <= 0 || this.rules.maxNameLength < 1) {
             return "a spell rule is out of range";
+        }
+        if (this.rules.priorities < 1 || this.rules.defaultPriority < 1 || this.rules.defaultPriority > this.rules.priorities
+                || this.rules.uniqueMixCost < 0) {
+            return "a priority or unique glyph rule is out of range";
         }
         if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
                 || this.tuning.chargeSeconds <= 0 || this.tuning.homingRange <= 0 || this.tuning.homingAimRange <= 0

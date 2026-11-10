@@ -4,18 +4,16 @@ import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 /**
  * The skill menu's spell bar: the strip under the Abilities tab, its views for this frame (the default bar and, while
- * a focus bar is active, that bar as last synced), and the ability selected in the tree, which a default-bar click
+ * items lay spells over it, the effective bar as last synced), and the ability selected in the tree, which a default-bar click
  * assigns. The tree's slot tags and the dialog heading read the shown view from here.
  */
 public final class SpellBarMenu implements SpellBarStrip.Host {
-    private static final int OFFHAND_SLOT = 40;
     @Nullable
     private static SpellBarMenu current;
     private static boolean showItem = true;
@@ -62,9 +60,7 @@ public final class SpellBarMenu implements SpellBarStrip.Host {
     public void beginFrame() {
         AbilityTree tree = tree();
         this.defaultView = SpellBarView.ofDefaults(tree);
-        ItemStack offhand = Minecraft.getInstance().player == null ? ItemStack.EMPTY : Minecraft.getInstance().player.getOffhandItem();
-        this.itemView = ClientSpellBar.isSynced() && !ClientSpellBar.sourceName().isEmpty()
-                ? SpellBarView.ofSynced(tree, offhand, OFFHAND_SLOT) : null;
+        this.itemView = SpellBarView.ofSynced(tree);
         int h = this.screen.height;
         this.strip.layout(21, h - 21 - SpellBarStrip.HEIGHT, this.screen.width - 21);
         this.strip.view();
@@ -119,10 +115,6 @@ public final class SpellBarMenu implements SpellBarStrip.Host {
         return group == null ? null : group.getId();
     }
 
-    @Override
-    public boolean chooserListsAbilities() {
-        return false;
-    }
 
     @Override
     public void openKeys() {

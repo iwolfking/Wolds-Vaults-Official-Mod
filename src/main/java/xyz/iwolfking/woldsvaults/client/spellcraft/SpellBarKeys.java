@@ -126,5 +126,6 @@ public final class SpellBarKeys {
         xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.clearClient();
         java.util.Arrays.fill(DOWN, false);
         ClientSpellBar.reset();
+        ClientGlyphViews.reset();
     }
 }

@@ -45,6 +45,9 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         rules.maxCastsPerTrigger = 16;
         rules.maxBundleNesting = 2;
         rules.maxNameLength = 24;
+        rules.defaultPriority = 3;
+        rules.priorities = 5;
+        rules.uniqueMixCost = 10;
         rules.costNoise = List.of(noise(-1, 25), noise(0, 50), noise(1, 25));
         table.rules = rules;
 

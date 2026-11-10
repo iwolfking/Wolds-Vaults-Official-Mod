@@ -1,15 +1,20 @@
 package xyz.iwolfking.woldsvaults.client.spellcraft;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * The client's copy of the player's spell bar, as last synced: the default bar, the selected slot and the effective
- * bar. Read by the HUD tray, the skill menu's bar and the focus screen. Empty until the first sync.
+ * The client's copy of the player's spell bar, as last synced: the default bar, the selected slot, the effective bar
+ * the server resolved and the equipped arcana items it came from. Read by the HUD tray, the skill menu's bar and the
+ * focus screen. Empty until the first sync.
  */
 public final class ClientSpellBar {
     public static final int EMPTY = 0;
@@ -18,9 +23,8 @@ public final class ClientSpellBar {
 
     private static final String[] DEFAULTS = new String[SpellcraftItemData.SLOTS];
     private static final List<SpellBarSyncMessage.Entry> ENTRIES = new ArrayList<>();
-    private static final List<String> ITEM_ERRORS = new ArrayList<>();
+    private static final List<SpellBarSyncMessage.Source> SOURCES = new ArrayList<>();
     private static int selected;
-    private static String sourceName = "";
     private static boolean synced;
 
     static {
@@ -34,10 +38,9 @@ public final class ClientSpellBar {
         System.arraycopy(message.defaults(), 0, DEFAULTS, 0, Math.min(DEFAULTS.length, message.defaults().length));
         ENTRIES.clear();
         ENTRIES.addAll(message.entries());
-        ITEM_ERRORS.clear();
-        ITEM_ERRORS.addAll(message.itemErrors());
+        SOURCES.clear();
+        SOURCES.addAll(message.sources());
         selected = message.selected();
-        sourceName = message.sourceName();
         synced = true;
     }
 
@@ -57,13 +60,43 @@ public final class ClientSpellBar {
         return selected;
     }
 
-    /** The name of the focus or wand whose bar is active, or empty when the default bar is active. */
-    public static String sourceName() {
-        return sourceName;
+    /** The equipped arcana items the bar was resolved from, with their arcana, budget-greyed glyphs and errors. */
+    public static List<SpellBarSyncMessage.Source> sources() {
+        return SOURCES;
     }
 
-    public static List<String> itemErrors() {
-        return ITEM_ERRORS;
+    @Nullable
+    public static SpellBarSyncMessage.Source source(String key) {
+        for (SpellBarSyncMessage.Source source : SOURCES) {
+            if (source.key().equals(key)) {
+                return source;
+            }
+        }
+        return null;
+    }
+
+    /** Whether any slot holds an item's spell (or a LOCKED clash of them). */
+    public static boolean hasOverlays() {
+        for (SpellBarSyncMessage.Entry entry : ENTRIES) {
+            if (!entry.itemKey().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** The stack in the player's hands whose spellcraft key is {@code key}, or empty. */
+    public static ItemStack stackOf(String key) {
+        if (Minecraft.getInstance().player == null || key.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack stack = Minecraft.getInstance().player.getItemInHand(hand);
+            if (SpellcraftItemData.has(stack) && SpellcraftItemData.key(stack).equals(key)) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     /** The filled slot before or after {@code index} in bar order, or -1. */
@@ -83,9 +116,8 @@ public final class ClientSpellBar {
     public static void reset() {
         Arrays.fill(DEFAULTS, "");
         ENTRIES.clear();
-        ITEM_ERRORS.clear();
+        SOURCES.clear();
         selected = 0;
-        sourceName = "";
         synced = false;
     }
 }

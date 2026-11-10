@@ -26,11 +26,12 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Slot cooldowns. A slot's timer is kept on the tier objects of the abilities in its spell (the bar never holds an
- * ability twice, so each tier object belongs to exactly one slot), which keeps VH's gating, sync, HUD, cooldown
- * reductions and vault-exit reset working unchanged. An augmented spell's cooldown is the longest cooldown of its
- * abilities plus a share of the others, times its glyph cooldown factor, with its Quicken/Discount haste multiplier
- * applied through spell haste. Plain spells keep VH's own cooldown path.
+ * Slot cooldowns. A cast writes its cooldown on the tier objects of every ability group in it, which keeps VH's gating,
+ * sync, HUD, cooldown reductions and vault-exit reset working unchanged. A group's remaining time is absolute: it
+ * follows the group whatever spell or item casts it next, and a spell waits for its slowest group. Swapping items
+ * writes nothing. An augmented spell's cooldown is the longest cooldown of its abilities plus a share of the others,
+ * times its glyph cooldown factor, with its Quicken/Discount haste multiplier applied through spell haste. Plain casts
+ * keep VH's own cooldown path.
  */
 public final class SpellCooldowns {
     private SpellCooldowns() {
@@ -68,7 +69,10 @@ public final class SpellCooldowns {
         return true;
     }
 
-    /** Starts a spell slot's cooldown on every ability in it. With {@code roll}, skip chance and Quickening apply. */
+    /**
+     * Starts a spell slot's cooldown on every ability group it holds, computed from the groups that cast. With
+     * {@code roll}, skip chance and Quickening apply; a skip skips every group of the cast.
+     */
     public static void start(ServerPlayer player, EffectiveBar.Slot slot, int delayTicks, boolean roll) {
         FocusAugmentsConfig config = FocusAugments.config();
         SpellModel model = slot.model();
@@ -81,27 +85,12 @@ public final class SpellCooldowns {
             player.level.playSound(null, player.blockPosition(), ModSounds.COOLDOWN_RESET, SoundSource.MASTER, 0.5F, 1.0F);
             return;
         }
-        int ticks = spellCooldownTicks(config, player, tree, model.groups(), model.cooldownFactor(), model.hasteMultiplier());
+        int ticks = spellCooldownTicks(config, player, tree, model.castGroups(), model.cooldownFactor(), model.hasteMultiplier());
         int remaining = roll ? CooldownRefundHelper.adjustInitialCooldown(player, ticks) : ticks;
         for (String group : model.groups()) {
             Ability ability = ability(tree, group);
             if (ability != null) {
                 ((AbilityCooldownInvoker) ability).woldsvaults$setCooldown(ticks, remaining, delayTicks);
-            }
-        }
-    }
-
-    /** Puts a slot on its full cooldown (the swap rule); plain slots use VH's cooldown for the ability. */
-    public static void startFull(ServerPlayer player, EffectiveBar.Slot slot) {
-        if (slot.kind() == EffectiveBar.Kind.SPELL) {
-            start(player, slot, 0, false);
-        } else if (slot.kind() == EffectiveBar.Kind.ABILITY) {
-            Ability ability = ability(tree(player), slot.group());
-            if (ability != null && ability.getCooldownTicks() > 0) {
-                int ticks = CooldownHelper.adjustCooldown(player, ability, ability.getCooldownTicks());
-                if (ticks > 0) {
-                    ((AbilityCooldownInvoker) ability).woldsvaults$setCooldown(ticks, ticks, 0);
-                }
             }
         }
     }
@@ -128,6 +117,30 @@ public final class SpellCooldowns {
         Float spell = SpellHaste.factor(player, hasteMultiplier);
         double ticks = chain * cooldownFactor * (plain != null && spell != null ? plain / spell : 1.0);
         return Math.max(Math.round(config.rules.minCooldownSeconds * 20.0F), (int) Math.round(ticks));
+    }
+
+    /** A group holding up a cast and its remaining ticks (delay included). */
+    public record Blocking(String group, int ticks) {
+    }
+
+    /**
+     * The group with the longest remaining cooldown among {@code groups}, or null when all are ready. Works on the
+     * client's synced tree too.
+     */
+    @Nullable
+    public static Blocking blocking(AbilityTree tree, Collection<String> groups) {
+        Blocking longest = null;
+        for (String group : groups) {
+            Ability ability = ability(tree, group);
+            if (ability == null || !ability.isTreeOnCooldown()) {
+                continue;
+            }
+            int ticks = ability.getCooldown().map(cooldown -> cooldown.getRemainingTicks() + cooldown.getRemainingDelayTicks()).orElse(0);
+            if (longest == null || ticks > longest.ticks()) {
+                longest = new Blocking(group, Math.max(1, ticks));
+            }
+        }
+        return longest;
     }
 
     public static AbilityTree tree(ServerPlayer player) {

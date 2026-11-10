@@ -42,7 +42,7 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
         float echo = 0.0F;
         float charge = 0.0F;
         for (SpellModel.Glyph glyph : glyphs) {
-            if (glyph.dormant()) {
+            if (!glyph.active()) {
                 continue;
             }
             switch (glyph.type()) {
@@ -73,7 +73,7 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
     public static GlyphStacking.Pool pool(Function<AugmentType, FocusAugmentsConfig.Glyph> specs, List<SpellModel.Glyph> glyphs) {
         GlyphStacking.Pool pool = new GlyphStacking.Pool();
         for (SpellModel.Glyph glyph : glyphs) {
-            if (!glyph.dormant()) {
+            if (glyph.active()) {
                 FocusAugmentsConfig.Glyph spec = specs.apply(glyph.type());
                 pool.add(spec, spec.step, glyph.potency());
             }

@@ -10,7 +10,6 @@ import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
@@ -36,8 +35,8 @@ import java.util.UUID;
  * The spell bar service. Players cast slots: a slot key (or VH's cast key, for the selected slot) casts the slot's
  * spell; VH's quick-select keys and ability wheel select the slot holding that ability; scrolling with the cast key
  * held moves through filled slots. The tree's selected ability always follows the selected slot, so VH code that reads
- * it (Vein Miner, the HUD tray) keeps working. Whenever the effective bar changes (focus swap, an edit), every slot whose
- * spell changed starts on its full cooldown.
+ * it (Vein Miner, the HUD tray) keeps working. Swapping items writes no cooldown; a held key whose slot changes
+ * occupant stops recasting.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class SpellBars {
@@ -74,9 +73,9 @@ public final class SpellBars {
     }
 
     /**
-     * Resolves the player's effective bar, applies the swap rule to slots whose spell changed since the last
-     * resolution, keeps the selected slot and the tree's selection in step, and syncs the client when anything shown
-     * changed.
+     * Resolves the player's effective bar from their equipped sources, cancels held keys on slots whose occupant changed
+     * since the last resolution, keeps the selected slot and the tree's selection in step, and syncs the client when
+     * anything shown changed.
      */
     public static EffectiveBar refresh(ServerPlayer player) {
         SpellBarData.PlayerBar saved = saved(player);
@@ -84,20 +83,15 @@ public final class SpellBars {
         if (!saved.migrated) {
             migrate(player, saved, tree);
         }
-        ItemStack source = FocusAugments.sourceItem(player);
-        EffectiveBar bar = EffectiveBar.resolve(FocusAugments.config(), saved.defaults, source, SpellcraftRules.specOf(tree));
+        EffectiveBar bar = EffectiveBar.forPlayer(player, saved.defaults, SpellcraftRules.specOf(tree));
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         String[] keys = new String[SpellcraftItemData.SLOTS];
-        boolean swapped = false;
+        Map<Integer, Integer> held = HELD.get(player.getUUID());
         for (int i = 0; i < keys.length; i++) {
             keys[i] = bar.slot(i).key();
-            if (state.keys != null && !keys[i].isEmpty() && !keys[i].equals(state.keys[i])) {
-                SpellCooldowns.startFull(player, bar.slot(i));
-                swapped = true;
+            if (state.keys != null && held != null && !keys[i].equals(state.keys[i])) {
+                held.remove(i);
             }
-        }
-        if (swapped) {
-            tree.sync(SkillContext.of(player));
         }
         state.keys = keys;
         state.bar = bar;
@@ -109,10 +103,11 @@ public final class SpellBars {
             }
         }
         followSelection(player, tree, bar.slot(saved.selected));
-        String signature = signature(saved, bar);
+        SpellBarSyncMessage message = SpellBarSyncMessage.of(saved, bar);
+        String signature = message.signature();
         if (!Objects.equals(signature, state.signature)) {
             state.signature = signature;
-            ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), SpellBarSyncMessage.of(saved, bar));
+            ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
         }
         return bar;
     }
@@ -133,18 +128,6 @@ public final class SpellBars {
         }
         saved.migrated = true;
         SpellBarData.get(player.getServer()).setDirty();
-    }
-
-    private static String signature(SpellBarData.PlayerBar saved, EffectiveBar bar) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(saved.selected).append('|').append(String.join(",", saved.defaults)).append('|');
-        builder.append(bar.hasItemBar() ? bar.source().getHoverName().getString() : "").append('|');
-        for (EffectiveBar.Slot slot : bar.slots()) {
-            builder.append(slot.kind().ordinal()).append(slot.group()).append(slot.key()).append(slot.hidden()).append(slot.inherited())
-                    .append(slot.spell() == null ? "" : slot.spell().name()).append(slot.model() != null && !slot.model().isValid()).append(';');
-        }
-        builder.append(String.join(";", bar.itemErrors()));
-        return builder.toString();
     }
 
     private static int firstFilled(EffectiveBar bar, int from, int direction) {
@@ -294,7 +277,7 @@ public final class SpellBars {
      */
     private static boolean repeats(ServerPlayer player, EffectiveBar.Slot slot) {
         Ability trigger = SpellCooldowns.ability(SpellCooldowns.tree(player), slot.group());
-        if (!(trigger instanceof InstantAbility)) {
+        if (!(trigger instanceof InstantAbility) || slot.locked()) {
             return false;
         }
         return slot.kind() == EffectiveBar.Kind.ABILITY || (slot.model() != null && !slot.model().hasCharge());
@@ -319,8 +302,8 @@ public final class SpellBars {
     }
 
     /**
-     * Recasts held slots on the tick they are ready: the tick their cooldown ends (VH ticks cooldowns at the start of
-     * the player tick, this runs at its end) when the slot is affordable. An attempt that does not start the cooldown
+     * Recasts held slots on the tick they are ready: the tick the last of their groups' cooldowns ends (VH ticks
+     * cooldowns at the start of the player tick, this runs at its end) when the slot is affordable. An attempt that does not start the cooldown
      * (a curse, a suppressor, a failed cast) waits {@link #RETRY_TICKS} before the next one.
      */
     private static void recastHeld(ServerPlayer player) {
@@ -340,7 +323,8 @@ public final class SpellBars {
                 continue;
             }
             Ability trigger = SpellCooldowns.ability(tree, slot.group());
-            if (player.tickCount < entry.getValue() || trigger == null || trigger.isTreeOnCooldown() || !canAfford(player, tree, slot)) {
+            if (player.tickCount < entry.getValue() || trigger == null || SpellCooldowns.blocking(tree, slot.groups()) != null
+                    || !canAfford(player, tree, slot)) {
                 continue;
             }
             castOnce(player, bar, slot);
@@ -349,8 +333,7 @@ public final class SpellBars {
     }
 
     private static int nextAttempt(ServerPlayer player, EffectiveBar.Slot slot) {
-        Ability trigger = SpellCooldowns.ability(SpellCooldowns.tree(player), slot.group());
-        return trigger != null && trigger.isTreeOnCooldown() ? 0 : player.tickCount + RETRY_TICKS;
+        return SpellCooldowns.blocking(SpellCooldowns.tree(player), slot.groups()) != null ? 0 : player.tickCount + RETRY_TICKS;
     }
 
     private static boolean canAfford(ServerPlayer player, AbilityTree tree, EffectiveBar.Slot slot) {
@@ -358,7 +341,7 @@ public final class SpellBars {
             return true;
         }
         float cost = 0.0F;
-        for (String group : slot.groups()) {
+        for (String group : slot.model() != null ? slot.model().castGroups() : slot.groups()) {
             if (SpellCooldowns.ability(tree, group) instanceof InstantManaAbility mana) {
                 cost += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
             }
@@ -392,79 +375,6 @@ public final class SpellBars {
         return null;
     }
 
-    /**
-     * Sets a slot of the bar on the focus or wand in the given inventory slot: inherit, blank, an ability or one of the
-     * item's spells. Another explicit slot using any of the same abilities goes back to inherit.
-     */
-    @Nullable
-    public static String editItem(ServerPlayer player, int inventorySlot, int index, String value) {
-        if (index < 0 || index >= SpellcraftItemData.SLOTS || inventorySlot < 0 || inventorySlot >= player.getInventory().getContainerSize()) {
-            return "no such slot";
-        }
-        ItemStack stack = player.getInventory().getItem(inventorySlot);
-        if (!SpellcraftRoller.canCarry(stack) || !SpellcraftItemData.has(stack)) {
-            return "that item has no spellcraft";
-        }
-        AbilityTree tree = SpellCooldowns.tree(player);
-        java.util.Set<String> groups;
-        if (value.startsWith(SpellcraftItemData.ABILITY_PREFIX)) {
-            String group = value.substring(SpellcraftItemData.ABILITY_PREFIX.length());
-            if (SpellcraftRules.specOf(tree).apply(group) == null) {
-                return group + " is not an ability";
-            }
-            groups = java.util.Set.of(group);
-        } else if (value.startsWith(SpellcraftItemData.SPELL_PREFIX)) {
-            int id;
-            try {
-                id = Integer.parseInt(value.substring(SpellcraftItemData.SPELL_PREFIX.length()));
-            } catch (NumberFormatException e) {
-                return "that is not a spell";
-            }
-            SpellcraftItemData.Spell spell = SpellcraftItemData.spell(stack, id).orElse(null);
-            if (spell == null) {
-                return "that spell is not on the item";
-            }
-            groups = new java.util.HashSet<>();
-            for (String token : spell.tokens()) {
-                if (xyz.iwolfking.woldsvaults.augments.AugmentType.byId(token) == null) {
-                    groups.add(token);
-                }
-            }
-        } else if (value.equals(SpellcraftItemData.INHERIT) || value.equals(SpellcraftItemData.BLANK)) {
-            groups = java.util.Set.of();
-        } else {
-            return "unknown bar entry";
-        }
-        String[] bar = SpellcraftItemData.bar(stack);
-        for (int i = 0; i < bar.length; i++) {
-            if (i != index && overlaps(stack, bar[i], groups)) {
-                SpellcraftItemData.setBarEntry(stack, i, SpellcraftItemData.INHERIT);
-            }
-        }
-        SpellcraftItemData.setBarEntry(stack, index, value);
-        refresh(player);
-        return null;
-    }
-
-    private static boolean overlaps(ItemStack stack, String entry, java.util.Set<String> groups) {
-        if (groups.isEmpty()) {
-            return false;
-        }
-        if (entry.startsWith(SpellcraftItemData.ABILITY_PREFIX)) {
-            return groups.contains(entry.substring(SpellcraftItemData.ABILITY_PREFIX.length()));
-        }
-        if (entry.startsWith(SpellcraftItemData.SPELL_PREFIX)) {
-            try {
-                int id = Integer.parseInt(entry.substring(SpellcraftItemData.SPELL_PREFIX.length()));
-                return SpellcraftItemData.spell(stack, id).map(spell -> spell.tokens().stream().anyMatch(groups::contains)).orElse(false);
-            } catch (NumberFormatException e) {
-                WoldsVaults.LOGGER.error("Spell bar: item bar entry {} is not a spell id", entry);
-                return false;
-            }
-        }
-        return false;
-    }
-
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
@@ -484,17 +394,13 @@ public final class SpellBars {
     }
 
     /**
-     * Gives spellcraft implicits to any identified focus or wand in the inventory that has none: ones identified
-     * before spellcraft existed, uniques (identified through a path that skips the roll hook) and any other route
-     * that bypasses it.
+     * Gives spellcraft implicits to any identified focus or wand in the inventory that has none (identified before
+     * spellcraft existed, uniques identified through a path that skips the roll hook, any other route that bypasses
+     * it), and lets the unique-set hook convert old uniques.
      */
     private static void rollMissingSpellcraft(ServerPlayer player) {
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (SpellcraftRoller.canCarry(stack) && !SpellcraftItemData.has(stack)
-                    && iskallia.vault.gear.data.VaultGearData.read(stack).getState() == iskallia.vault.gear.VaultGearState.IDENTIFIED) {
-                SpellcraftRoller.roll(stack, player.getRandom());
-            }
+            SpellcraftRoller.upkeep(player.getInventory().getItem(i), player.getRandom());
         }
     }
 
