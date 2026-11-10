@@ -743,6 +743,7 @@
     "client.MixinEntityRenderDispatcherAugmentScale",
     "client.MixinAbilitiesModuleSpellBar",
     "client.MixinMultiPlayerGameModeSpellCharge",
+    "client.MixinLocalPlayerSpellChargeSlow",
     "vaulthunters.custom.MixinAbilitiesScreenNoQuickfireToggle",
     "accessors.OptionsKeyMappingsAccessor",
     "client.MixinAbstractElementContainerScreen",

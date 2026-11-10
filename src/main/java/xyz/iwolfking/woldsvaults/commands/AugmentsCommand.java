@@ -77,7 +77,7 @@ public final class AugmentsCommand {
                 + SpellcraftItemData.depth(stack), ChatFormatting.LIGHT_PURPLE);
         for (SpellcraftItemData.Line line : SpellcraftItemData.lines(stack)) {
             line(source, "  " + line.type().id() + "  potency " + String.format("%.3f", line.potency()) + "  cost " + line.cost()
-                    + "  up to " + Math.min(line.uses(), config.glyph(line.type()).capPerSpell) + " per spell", ChatFormatting.GRAY);
+                    + "  up to " + SpellModel.perSpellLimit(config, line) + " per spell", ChatFormatting.GRAY);
         }
         for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
             SpellModel model = check.models().get(spell.id());

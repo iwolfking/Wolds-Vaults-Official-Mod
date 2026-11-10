@@ -66,6 +66,8 @@ public final class SpellcraftRoller {
             budget *= config.wand.budgetFactor;
             lineCount = Math.max(config.wand.minLines, lineCount + config.wand.linesDelta);
             depth = Math.min(depth, config.wand.maxDepth);
+        } else if (rolls.focusBudgetMult != null) {
+            budget *= rolls.focusBudgetMult;
         }
         List<AugmentType> pool = new ArrayList<>();
         for (AugmentType type : AugmentType.values()) {

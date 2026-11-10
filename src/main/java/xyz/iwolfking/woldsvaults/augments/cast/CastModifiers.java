@@ -1,27 +1,38 @@
 package xyz.iwolfking.woldsvaults.augments.cast;
 
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * What the glyphs on one step (an ability or a Bundled Spell orb) do, from their rolled potencies: multipliers on
- * damage, area, projectile speed and size; Homing (lock-on range from the table, rolled turn rate in degrees per second), Orbit and Ethereal durations; Low Gravity; Shotgun
- * copies and their per-copy damage; Echo power; and Charge's full-charge bonus. Dormant glyphs are left out.
+ * damage, area, projectile speed and size, buff intensity and duration, toggle drain and heal mana (stacked by
+ * {@link GlyphStacking}); Homing (lock-on range from the table, rolled turn rate in degrees per second), Orbit and
+ * Ethereal durations; Low Gravity; Shotgun copies and their per-copy damage; Echo power; and Charge's full-charge
+ * bonus. Dormant glyphs are left out.
  */
-public record CastModifiers(float damage, float area, float speed, float scale, float homingRange, float homingTurn,
-                            float orbitSeconds, float gravityReduction, float etherealSeconds, int shotgunCopies,
-                            float echoPower, float chargeBonus) {
+public record CastModifiers(float damage, float area, float speed, float scale, float intensity, float duration, float drain,
+                            float healMana, float homingRange, float homingTurn, float orbitSeconds, float gravityReduction,
+                            float etherealSeconds, int shotgunCopies, float echoPower, float chargeBonus) {
 
-    public static final CastModifiers NONE = new CastModifiers(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+    public static final CastModifiers NONE = new CastModifiers(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
     public static CastModifiers of(FocusAugmentsConfig config, List<SpellModel.Glyph> glyphs) {
-        float damage = 1.0F;
-        float area = 1.0F;
-        float speed = 1.0F;
-        float scale = 1.0F;
+        return of(config::glyph, config.tuning, glyphs);
+    }
+
+    /**
+     * The step's modifiers from its glyphs: the stacked step stats ({@link #pool}), times each Shotgun copy's damage
+     * factor, with size clamped to the table's limits.
+     */
+    public static CastModifiers of(Function<AugmentType, FocusAugmentsConfig.Glyph> specs, FocusAugmentsConfig.Tuning tuning,
+                                   List<SpellModel.Glyph> glyphs) {
+        GlyphStacking.Pool pool = pool(specs, glyphs);
+        float shotgunDamage = 1.0F;
         float homingRange = 0.0F;
         float homingTurn = 0.0F;
         float orbit = 0.0F;
@@ -34,21 +45,9 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
             if (glyph.dormant()) {
                 continue;
             }
-            FocusAugmentsConfig.Glyph spec = config.glyph(glyph.type());
-            for (FocusAugmentsConfig.Effect effect : spec.step) {
-                float factor = effect.factor(glyph.potency());
-                switch (effect.stat) {
-                    case "damage" -> damage *= factor;
-                    case "area" -> area *= factor;
-                    case "speed" -> speed *= factor;
-                    case "scale" -> scale *= factor;
-                    default -> {
-                    }
-                }
-            }
             switch (glyph.type()) {
                 case HOMING -> {
-                    homingRange = config.tuning.homingRange;
+                    homingRange = tuning.homingRange;
                     homingTurn = glyph.potency();
                 }
                 case ORBIT -> orbit = glyph.potency();
@@ -56,7 +55,7 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
                 case ETHEREAL -> ethereal = glyph.potency();
                 case SHOTGUN -> {
                     copies++;
-                    damage *= glyph.potency();
+                    shotgunDamage *= glyph.potency();
                 }
                 case ECHO -> echo = glyph.potency();
                 case CHARGE -> charge = glyph.potency();
@@ -64,8 +63,22 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
                 }
             }
         }
-        scale = Math.max(config.tuning.sizeDownMinScale, Math.min(config.tuning.sizeUpMaxScale, scale));
-        return new CastModifiers(damage, area, speed, scale, homingRange, homingTurn, orbit, gravity, ethereal, copies, echo, charge);
+        float scale = Math.max(tuning.sizeDownMinScale, Math.min(tuning.sizeUpMaxScale, pool.total("scale")));
+        return new CastModifiers(pool.total("damage") * shotgunDamage, pool.total("area"), pool.total("speed"), scale,
+                pool.total("intensity"), pool.total("duration"), pool.total("drain"), pool.total("heal_mana"), homingRange, homingTurn,
+                orbit, gravity, ethereal, copies, echo, charge);
+    }
+
+    /** The stacked step stats of a step's active glyphs, before Shotgun's per-copy damage and the size clamp. */
+    public static GlyphStacking.Pool pool(Function<AugmentType, FocusAugmentsConfig.Glyph> specs, List<SpellModel.Glyph> glyphs) {
+        GlyphStacking.Pool pool = new GlyphStacking.Pool();
+        for (SpellModel.Glyph glyph : glyphs) {
+            if (!glyph.dormant()) {
+                FocusAugmentsConfig.Glyph spec = specs.apply(glyph.type());
+                pool.add(spec, spec.step, glyph.potency());
+            }
+        }
+        return pool;
     }
 
     public boolean homing() {
@@ -82,8 +95,8 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
 
     /** The same modifiers with every hit scaled by an outside factor (Echo power, a Charge bonus, a payload's copies). */
     public CastModifiers withDamageFactor(float factor) {
-        return new CastModifiers(damage * factor, area, speed, scale, homingRange, homingTurn, orbitSeconds, gravityReduction,
-                etherealSeconds, shotgunCopies, echoPower, chargeBonus);
+        return new CastModifiers(damage * factor, area, speed, scale, intensity, duration, drain, healMana, homingRange, homingTurn,
+                orbitSeconds, gravityReduction, etherealSeconds, shotgunCopies, echoPower, chargeBonus);
     }
 
     /** Whether projectiles spawned by the cast need tags, steering or physics. */

@@ -385,6 +385,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.bar.stat.orbs", "Orbs: ");
         add("woldsvaults.spellcraft.bar.stat.orb_step", "Bundled Spell orb");
         add("woldsvaults.spellcraft.bar.stat.spell_total", "Spell total: ");
+        add("woldsvaults.spellcraft.bar.stat.glyphs", "Glyphs: ");
         add("woldsvaults.spellcraft.bar.stat.distance", "Distance: ");
         add("woldsvaults.spellcraft.bar.stat.interval", "Interval: ");
         add("woldsvaults.spellcraft.bar.stat.shockCount", "Shocks: ");
@@ -449,6 +450,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.screen.uses_left", "Left in this spell: %s of %s");
         add("woldsvaults.spellcraft.screen.cost", "Arcana cost: %s");
         add("woldsvaults.spellcraft.screen.fits", "Fits: %s");
+        add("woldsvaults.spellcraft.screen.forbids", "Never on: %s");
         add("woldsvaults.spellcraft.screen.status.saved", "Saved");
         add("woldsvaults.spellcraft.screen.status.saving", "Saving...");
         add("woldsvaults.spellcraft.screen.status.unsaved", "Not saved");
@@ -461,6 +463,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.stat.mana", "mana");
         add("woldsvaults.spellcraft.stat.cooldown", "cd");
         add("woldsvaults.spellcraft.stat.haste", "haste");
+        add("woldsvaults.spellcraft.stat.efficiency", "efficiency");
+        add("woldsvaults.spellcraft.stat.intensity", "intensity");
+        add("woldsvaults.spellcraft.stat.duration", "duration");
+        add("woldsvaults.spellcraft.stat.drain", "drain");
+        add("woldsvaults.spellcraft.stat.heal_mana", "heal mana");
         add("woldsvaults.spellcraft.stat.per_use", "%s/use");
         add("woldsvaults.spellcraft.tooltip.title", "Spellcraft");
         add("woldsvaults.spellcraft.tooltip.depth", "Depth %s");

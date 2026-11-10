@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import javax.annotation.Nullable;
@@ -281,13 +282,15 @@ public final class SpellcraftGui {
             case "seconds" -> potency.label + " " + trim(p) + "s";
             case "blocks" -> potency.label + " " + Math.round(p);
             case "deg_s" -> potency.label + " " + Math.round(p) + "°/s";
+            case "none" -> potency.label;
             default -> potency.label + " " + trim(p);
         };
     }
 
     /**
-     * The glyph's side effects at a potency, e.g. "-7% area, +13% mana": every step and spell effect except the
-     * potency's own stat (the effect with k = +-1).
+     * The glyph's side effects at a potency, e.g. "+18% dmg, 0.93x area, 1.13x mana": every step and spell effect
+     * except the potency's own stat (the effect with k = +-1 and no base). Common upsides, which add into the step's
+     * pool, read as a percentage; everything that multiplies reads as a factor.
      */
     public static String sideEffects(FocusAugmentsConfig config, AugmentType type, float p) {
         FocusAugmentsConfig.Glyph glyph = config.glyph(type);
@@ -295,20 +298,64 @@ public final class SpellcraftGui {
         List<FocusAugmentsConfig.Effect> effects = new ArrayList<>(glyph.step);
         effects.addAll(glyph.spell);
         for (FocusAugmentsConfig.Effect effect : effects) {
-            if (effect.k != null && Math.abs(Math.abs(effect.k) - 1.0F) < 1.0E-6F) {
+            if (effect.k != null && effect.base == null && Math.abs(Math.abs(effect.k) - 1.0F) < 1.0E-6F) {
                 continue;
             }
-            int pct = Math.round((effect.factor(p) - 1.0F) * 100.0F);
-            if (pct == 0) {
-                continue;
-            }
-            String stat = tr("stat." + effect.stat.toLowerCase(Locale.ROOT));
+            float factor = effect.factor(p);
+            String stat = statName(effect.stat);
             if (effect.k == null && effect.fixed == null && effect.perUse != null) {
                 stat = tr("stat.per_use", stat);
             }
-            parts.add((pct > 0 ? "+" : "") + pct + "% " + stat);
+            String part = GlyphStacking.pooled(glyph, effect) ? percent(factor - 1.0F, stat) : times(factor, stat);
+            if (part != null) {
+                parts.add(part);
+            }
         }
         return String.join(", ", parts);
+    }
+
+    /**
+     * A step's stacked glyph stats, e.g. "+48% dmg, +22% area; 0.86x area": first each stat's pool of common upsides,
+     * then each stat's multiplied part (downsides, costs and special factors). Empty when no glyph moves a stat.
+     */
+    public static String poolSummary(GlyphStacking.Pool pool) {
+        List<String> pooled = new ArrayList<>();
+        List<String> multiplied = new ArrayList<>();
+        for (GlyphStacking.Stat stat : pool.stats().values()) {
+            String name = statName(stat.name());
+            if (stat.pool() != 0.0F) {
+                float change = GlyphStacking.lowerIsBetter(stat.name()) ? 1.0F / (1.0F + stat.pool()) - 1.0F : stat.pool();
+                String part = percent(change, name);
+                if (part != null) {
+                    pooled.add(part);
+                }
+            }
+            String part = times(stat.perCopy() * stat.special(), name);
+            if (part != null) {
+                multiplied.add(part);
+            }
+        }
+        if (pooled.isEmpty() || multiplied.isEmpty()) {
+            pooled.addAll(multiplied);
+            return String.join(", ", pooled);
+        }
+        return String.join(", ", pooled) + "; " + String.join(", ", multiplied);
+    }
+
+    private static String statName(String stat) {
+        return tr("stat." + stat.toLowerCase(Locale.ROOT));
+    }
+
+    @Nullable
+    private static String percent(float change, String name) {
+        int pct = Math.round(change * 100.0F);
+        return pct == 0 ? null : (pct > 0 ? "+" : "") + pct + "% " + name;
+    }
+
+    @Nullable
+    private static String times(float factor, String name) {
+        String text = trim(factor);
+        return "1".equals(text) ? null : text + "x " + name;
     }
 
     public static String trim(float value) {

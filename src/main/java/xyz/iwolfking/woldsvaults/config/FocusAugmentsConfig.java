@@ -1,9 +1,11 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import iskallia.vault.config.Config;
 import xyz.iwolfking.woldsvaults.augments.AbilityTrait;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -63,19 +65,26 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public float sizeDownMinScale;
         @Expose public float chargeSeconds;
         @Expose public float chargeMinShare;
+        @Expose public float chargeMoveFactor;
     }
 
     /**
-     * One glyph. {@code kind} is {@code modifier}, {@code delay} or {@code bundle}. {@code requires} is a list of trait
-     * sets; a modifier fits a target when the target has every trait of one set (a Bundled Spell orb has the single
-     * trait {@code bundle}). Step effects change the modified step; spell effects change the whole slot.
+     * One glyph. {@code kind} is {@code modifier}, {@code delay} or {@code bundle}. {@code class} is {@code common},
+     * {@code special}, {@code unique} or {@code utility} and decides how its effects stack ({@link GlyphStacking}).
+     * {@code requires} is a list of trait sets; a modifier fits a target when the target has every trait of one set (a
+     * Bundled Spell orb has the single trait {@code bundle}), none of the {@code forbids} traits, and, when
+     * {@code specs} is not empty, is one of those specializations. {@code excludes} lists glyphs it never shares a step
+     * with. Step effects change the modified step; spell effects change the whole slot.
      */
     public static class Glyph {
         @Expose public String kind;
+        @Expose @SerializedName("class") public String glyphClass;
         @Expose public String category;
         @Expose public int minLevel;
         @Expose public int weight;
         @Expose public List<List<String>> requires;
+        @Expose public List<String> forbids;
+        @Expose public List<String> specs;
         @Expose public List<String> excludes;
         @Expose public Potency potency;
         @Expose public List<Effect> step;
@@ -109,19 +118,22 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
     }
 
     /**
-     * A multiplier on a stat: {@code 1 + k * potency}, a {@code fixed} factor, or {@code 1 + perUse} once per use.
-     * Stats: {@code damage}, {@code area}, {@code speed}, {@code scale} (step); {@code mana}, {@code cooldown},
-     * {@code haste} (spell).
+     * A multiplier on a stat: {@code base + k * potency} ({@code base} defaults to 1), a {@code fixed} factor, or
+     * {@code 1 + perUse} once per use. {@code role} is {@code upside}, {@code downside} or {@code cost}; with the
+     * glyph's class it decides how the effect stacks ({@link GlyphStacking}). Step stats are
+     * {@link GlyphStacking#STEP_STATS}, spell stats {@link GlyphStacking#SPELL_STATS}.
      */
     public static class Effect {
         @Expose public String stat;
+        @Expose public String role;
+        @Expose public Float base;
         @Expose public Float k;
         @Expose public Float fixed;
         @Expose public Float perUse;
 
         public float factor(float potency) {
             if (this.k != null) {
-                return 1.0F + this.k * potency;
+                return (this.base != null ? this.base : 1.0F) + this.k * potency;
             }
             if (this.fixed != null) {
                 return this.fixed;
@@ -148,8 +160,10 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public Map<String, DepthTier> depthBonus;
     }
 
+    /** One rarity's rolls; {@code focusBudgetMult} multiplies the arcana budget on focuses only (wands keep theirs). */
     public static class RarityRolls {
         @Expose public float budget;
+        @Expose public Float focusBudgetMult;
         @Expose public int linesMin;
         @Expose public int linesMax;
         @Expose public Float budgetRollMin;
@@ -226,7 +240,7 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         }
         if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
                 || this.tuning.chargeSeconds <= 0 || this.tuning.homingRange <= 0 || this.tuning.homingAimRange <= 0
-                || this.tuning.homingAimConeDegrees <= 0) {
+                || this.tuning.homingAimConeDegrees <= 0 || this.tuning.chargeMoveFactor <= 0 || this.tuning.chargeMoveFactor > 1) {
             return "a tuning value is out of range";
         }
         for (AugmentType type : AugmentType.values()) {
@@ -253,7 +267,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         }
         for (Map.Entry<String, RarityRolls> rarity : this.focus.rarities.entrySet()) {
             RarityRolls rolls = rarity.getValue();
-            if (rolls.linesMin < 0 || rolls.linesMax < rolls.linesMin || rolls.budget < 0) {
+            if (rolls.linesMin < 0 || rolls.linesMax < rolls.linesMin || rolls.budget < 0
+                    || (rolls.focusBudgetMult != null && rolls.focusBudgetMult <= 0)) {
                 return "rarity " + rarity.getKey() + " has an invalid roll";
             }
         }
@@ -277,9 +292,25 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         if (glyph.kind == null || !List.of("modifier", "delay", "bundle").contains(glyph.kind)) {
             return "has an unknown kind";
         }
+        if (glyph.glyphClass == null || !GlyphStacking.CLASSES.contains(glyph.glyphClass)) {
+            return "has an unknown class";
+        }
         if (glyph.potency == null || glyph.potency.tiers == null || glyph.potency.tiers.isEmpty() || glyph.step == null
-                || glyph.spell == null || glyph.requires == null || glyph.excludes == null || glyph.useWeights == null) {
+                || glyph.spell == null || glyph.requires == null || glyph.forbids == null || glyph.specs == null
+                || glyph.excludes == null || glyph.useWeights == null) {
             return "is missing a field";
+        }
+        for (List<String> set : glyph.requires) {
+            for (String trait : set) {
+                if (!AugmentType.BUNDLE_TRAIT.equals(trait) && !isTrait(trait)) {
+                    return "requires an unknown trait " + trait;
+                }
+            }
+        }
+        for (String trait : glyph.forbids) {
+            if (!isTrait(trait)) {
+                return "forbids an unknown trait " + trait;
+            }
         }
         if (glyph.maxUses < 1 || glyph.useWeights.size() != glyph.maxUses || glyph.capPerSpell < 1
                 || glyph.costMin < 0 || glyph.costMax < glyph.costMin || glyph.weight < 0) {
@@ -291,13 +322,21 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             }
         }
         for (Effect effect : glyph.step) {
-            if (!List.of("damage", "area", "speed", "scale").contains(effect.stat)) {
+            if (!GlyphStacking.STEP_STATS.contains(effect.stat)) {
                 return "has an unknown step stat " + effect.stat;
+            }
+            String problem = validateEffect(glyph, effect);
+            if (problem != null) {
+                return problem;
             }
         }
         for (Effect effect : glyph.spell) {
-            if (!List.of("mana", "cooldown", "haste").contains(effect.stat)) {
+            if (!GlyphStacking.SPELL_STATS.contains(effect.stat)) {
                 return "has an unknown spell stat " + effect.stat;
+            }
+            String problem = validateEffect(glyph, effect);
+            if (problem != null) {
+                return problem;
             }
         }
         for (String other : glyph.excludes) {
@@ -306,5 +345,29 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             }
         }
         return null;
+    }
+
+    @Nullable
+    private static String validateEffect(Glyph glyph, Effect effect) {
+        if (effect.role == null || !GlyphStacking.ROLES.contains(effect.role)) {
+            return "has an effect on " + effect.stat + " with an unknown role";
+        }
+        int modes = (effect.k != null ? 1 : 0) + (effect.fixed != null ? 1 : 0) + (effect.perUse != null ? 1 : 0);
+        if (modes != 1 || (effect.base != null && effect.k == null)) {
+            return "has an effect on " + effect.stat + " that is not exactly one of k, fixed or perUse";
+        }
+        if ("utility".equals(glyph.glyphClass) && "upside".equals(effect.role)) {
+            return "is a utility glyph with an upside on " + effect.stat;
+        }
+        return null;
+    }
+
+    private static boolean isTrait(String trait) {
+        try {
+            AbilityTrait.valueOf(trait.toUpperCase(Locale.ROOT));
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
