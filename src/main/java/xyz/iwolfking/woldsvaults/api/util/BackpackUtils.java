@@ -178,7 +178,6 @@ public class BackpackUtils {
                         }
                     }
                 } else {
-                    // Placement logic for empty slots
                     int maxStackSize = Math.min(destSlot.getMaxStackSize(inputStack), inputStack.getMaxStackSize());
                     int amountToMove = Math.min(inputStack.getCount(), maxStackSize);
 
