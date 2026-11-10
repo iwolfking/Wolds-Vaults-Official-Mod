@@ -150,7 +150,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 etchingEntryBuilder.attribute(WoldsVaults.id("fireball_volley_mitosis"), "ModEtching", WoldsVaults.id("fireball_volley_mitosis_etching"), tierBasicListBuilder -> {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 8, 10, 1, new IntegerAttributeGenerator.Range(1, 1, 1)));
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(8, 10, 10, 1, new IntegerAttributeGenerator.Range(2, 2, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new IntegerAttributeGenerator.Range(2, 4, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new IntegerAttributeGenerator.Range(2, 3, 1)));
                 }).minGreedTier(0);
             });
 
@@ -184,6 +184,15 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("conservation_of_momentum"), "ModEtching", WoldsVaults.id("conservation_of_momentum_etching"), tierBasicListBuilder -> {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new BooleanFlagGenerator.BooleanFlag(true)));
+                }).minGreedTier(0);
+            });
+
+            builder.addEtching(WoldsVaults.id("power_core"), "Power Core",  "<gray>A spell cast with <#B26BFF>Charge<gray> held to full resolves <aqua>Power Dump<gray> as if your max mana were <yellow>%.1fvalue<gray> times larger", 7039999, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("CHESTPLATE");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("power_core"), "ModEtching", WoldsVaults.id("power_core_etching"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new FloatAttributeGenerator.Range(6.0F, 8.0F, 0.1F)));
                 }).minGreedTier(0);
             });
 
