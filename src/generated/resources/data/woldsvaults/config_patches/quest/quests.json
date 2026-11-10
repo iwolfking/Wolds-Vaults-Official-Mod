@@ -1,20 +1,3 @@
 {
-  "ops": [
-    {
-      "op": "set",
-      "path": [
-        "quests",
-        {
-          "id": "archetypes"
-        },
-        "descriptionData",
-        "description",
-        {
-          "text": "\n\nChoose an archetype to track it. The guide compares your current spent skill points against the build path and shows important gear goals like cooldown reduction and mana regeneration."
-        },
-        "text"
-      ],
-      "value": "\n\nChoose an archetype to track it. The guide compares your current spent skill points against the build path and shows important gear goals like spell haste and mana regeneration."
-    }
-  ]
+  "ops": []
 }
