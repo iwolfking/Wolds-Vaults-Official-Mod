@@ -156,6 +156,12 @@
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/prime_amplification"
     },
+    "Dual_Striker": {
+      "x": -76,
+      "y": 0,
+      "frameType": "RECTANGULAR",
+      "icon": "woldsvaults:gui/skills/dual_striker"
+    },
     "Ransack": {
       "x": -204,
       "y": 80,

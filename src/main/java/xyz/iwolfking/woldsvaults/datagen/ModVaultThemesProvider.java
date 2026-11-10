@@ -35,7 +35,12 @@ public class ModVaultThemesProvider extends AbstractThemeProvider {
                     .themeGroup("Industrial")
                     .themeLore("Industrial", 0x535846, themeLoreDescriptionBuilder -> {
                         themeLoreDescriptionBuilder
-                                .perk("Wooden Chests rarely become Ornate chests", "$name");
+                                .perk("Wooden Chests rarely become Ornate chests", "$name")
+                                .horde(4, ThemeLoreDescriptionBuilder.mob("???", 2, 2, 2, "⚔"))
+                                .assassin(3, ThemeLoreDescriptionBuilder.mob("???", 2, 2, 2, "⚔ \uD83C\uDFF9"))
+                                .tank(2, ThemeLoreDescriptionBuilder.mob("???", 4, 3, 3, "✸ ⚔"))
+                                .dweller(2);
+
 
                     });
         });

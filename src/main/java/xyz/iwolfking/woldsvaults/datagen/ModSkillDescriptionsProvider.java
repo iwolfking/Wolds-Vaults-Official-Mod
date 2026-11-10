@@ -73,6 +73,19 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         });
 
         add("wolds_talents", builder -> {
+            builder.addDescription("Dual_Striker", description -> {
+                description.add(JsonDescription.text("Boosts your stats while dual wielding weaponry."));
+                description.add(JsonDescription.text(".\n\n1 "));
+                description.add(JsonDescription.text("+15% Attack Damage, +5% Movement Speed, +15% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n2 "));
+                description.add(JsonDescription.text("+22.5% Attack Damage, +7.5% Movement Speed, +22.5% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n3 "));
+                description.add(JsonDescription.text("+30% Attack Damage, +10% Movement Speed, +30% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n4 "));
+                description.add(JsonDescription.text("+37.5% Attack Damage, +12.5% Movement Speed, +37.5% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n"));
+                TalentDescriptionsHelper.appendOverlevelDescription("Dual Striker", "add", "+2.5% Damage, +1% Movement Speed, +2.5% Attack Speed", "#f99b21", description);
+            });
             builder.addDescription("Potent_Elixir", description -> {
                 description.add(JsonDescription.text("Increases the "));
                 description.add(JsonDescription.text("Potency ", "#5ae09c"));

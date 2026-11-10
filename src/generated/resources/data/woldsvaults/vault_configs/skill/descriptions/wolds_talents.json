@@ -848,6 +848,62 @@
         "color": "#ffeb07"
       }
     ],
+    "Dual_Striker": [
+      {
+        "text": "Boosts your stats while dual wielding weaponry."
+      },
+      {
+        "text": ".\n\n1 "
+      },
+      {
+        "text": "+15% Attack Damage, +5% Movement Speed, +15% Attack Speed",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n2 "
+      },
+      {
+        "text": "+22.5% Attack Damage, +7.5% Movement Speed, +22.5% Attack Speed",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n3 "
+      },
+      {
+        "text": "+30% Attack Damage, +10% Movement Speed, +30% Attack Speed",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n4 "
+      },
+      {
+        "text": "+37.5% Attack Damage, +12.5% Movement Speed, +37.5% Attack Speed",
+        "color": "#f99b21"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "\n\n"
+      },
+      {
+        "text": "Overlevels of the "
+      },
+      {
+        "text": "Dual Striker",
+        "color": "gold"
+      },
+      {
+        "text": " talent "
+      },
+      {
+        "text": "add "
+      },
+      {
+        "text": "+2.5% Damage, +1% Movement Speed, +2.5% Attack Speed",
+        "color": "#f99b21"
+      }
+    ],
     "Potent_Elixir": [
       {
         "text": "Increases the "
