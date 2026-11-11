@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.skill.ability.effect.ImplodeAbility;
 import iskallia.vault.skill.ability.effect.NovaAbility;
 import iskallia.vault.skill.base.SkillContext;
@@ -32,5 +33,16 @@ public abstract class MixinImplodeAbility {
     private float woldsvaults$falloffFromSource(ServerPlayer player, Entity entity, Operation<Float> original,
                                                 @Local(argsOnly = true) SkillContext context) {
         return context.getSource().getPos().map(pos -> (float) entity.position().distanceTo(pos)).orElseGet(() -> original.call(player, entity));
+    }
+
+    /** Implode's hits run under VH's implode flag, which its Imploding Reversal kill reward checks and nothing else ever set. */
+    @WrapOperation(method = "lambda$doAction$1", at = @At(value = "INVOKE", target = "Liskallia/vault/event/ActiveFlags;runIfNotSet(Ljava/lang/Runnable;)V"))
+    private void woldsvaults$flagImplodeHits(ActiveFlags flag, Runnable hit, Operation<Void> original) {
+        ActiveFlags.IS_IMPLODE_ATTACKING.push();
+        try {
+            original.call(flag, hit);
+        } finally {
+            ActiveFlags.IS_IMPLODE_ATTACKING.pop();
+        }
     }
 }

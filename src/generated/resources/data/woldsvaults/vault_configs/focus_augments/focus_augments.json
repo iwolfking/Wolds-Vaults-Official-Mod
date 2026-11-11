@@ -1764,6 +1764,1688 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true
+    },
+    "glacial_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Slow"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "freeze chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.75
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "nova_recast": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Base",
+        "Nova_Slow",
+        "Nova_Dot"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "recast after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "low_mana_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage below half mana",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 1.2
+          }
+        ],
+        "linked": [
+          {
+            "name": "threshold",
+            "min": 0.5,
+            "max": 0.5
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "glacial_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "attack damage on the blast",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "shattering_bolt": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "glacial shatter chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 0.9
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 2.0,
+            "max": 5.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "frozen_barrage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "extra casts",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 4.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "piercing_bolt": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast",
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 4.0,
+            "max": 15.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "blizzard_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "ability power per hit",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.6
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "blizzard_vulnerability": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "vulnerable stacks",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 20.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "stunning_smite": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "stun chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "echoing_smite": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "echo bolt damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.2
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "second_strike": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm",
+        "Chain_Lightning_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "strikes again after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 4.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "grand_orb": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "orb size",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 2.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "orb_refund": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "cooldown refunded per kill",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "tristorm_orbs": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage per orb (3 orbs)",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 0.8
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "arcane_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "rail_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Rail"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 10.0,
+            "max": 25.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "wide_rail": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Rail"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "hit width (blocks)",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.1,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "prism_anchor": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Prism"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "anchors to blocks on a miss",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "prism_split": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Prism"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "also fires the other pattern",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "scatter_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Piercing"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "side javelin damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.3,
+            "max": 1.2
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "piercing_ricochet": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Piercing"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "ricochet damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.3,
+            "max": 0.8
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "scatter_mana": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Scatter"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "mana per hit",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "aftershock": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Earthquake_Base",
+        "Earthquake_Singularity",
+        "Earthquake_Tremor"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "quakes again after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 3.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "arcane_wrath": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Totem_Player_Damage"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "buff also raises ability power",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "vulnerable_totem": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Totem_Player_Damage"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "vulnerable stacks",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 20.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "shockwave": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Stonefall_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "stun chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 40.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "bash_force": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shield_Bash"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "attack damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "heal_cleanse": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Heal_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "cleanse level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "rampaging_luck": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Rampage_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "lucky hit",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.02,
+            "max": 0.12
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "tap_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Implode_Life_Tap"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage per health drained",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "lucky_tap": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Implode_Life_Tap"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "% lucky hit per kill",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 2.5
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 160.0,
+            "max": 220.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "imploding_reversal": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Mana_Shield_Implode"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "mana regen per kill",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.01,
+            "max": 0.06
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "nova_shield": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Mana_Shield_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 20.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "nova_dash": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Dash_Warp"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 20.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "spirit_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ghost_Walk_Spirit"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "frost nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "concentrated_drain": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Concentrate_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "current health drained per effect",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.02,
+            "max": 0.1
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "greedball": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "of quantity, rarity and copiously as damage, minimum radius",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "volley_mitosis": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Volley"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "fireballs on first bounce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 3.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "colossus_titan": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Colossus_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "resistance cap",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.04,
+            "max": 0.08
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "ninja_getaway": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Sneaky_Getaway"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "dodge",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.25,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "chemical_barrage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Expunge_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "chaos grenades",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 3.0,
+            "max": 9.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "imploding_barrier": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "UltimateShield_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "chance to implode when hit",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.03,
+            "max": 0.15
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
+    },
+    "ravenous_fangs": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fangs_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "75% less damage, double execute threshold",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true
     }
   },
   "combos": [
@@ -2801,5 +4483,647 @@
       "drawMin": 2,
       "drawMax": 4
     }
-  }
+  },
+  "etchingGlyphs": [
+    {
+      "attribute": "the_vault:etching_frost_nova_freeze",
+      "glyph": "glacial_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_nova_recast",
+      "glyph": "nova_recast",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_nova_low_mana_damage",
+      "glyph": "low_mana_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "float",
+          "linked": "threshold"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_chunk_damage",
+      "glyph": "glacial_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_effect",
+      "glyph": "shattering_bolt",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        }
+      ],
+      "choices": [
+        "the_vault:glacial_shatter"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_multicast",
+      "glyph": "frozen_barrage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_pierce",
+      "glyph": "piercing_bolt",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_storm_arrow_blizzard_damage",
+      "glyph": "blizzard_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_storm_arrow_blizzard_effect",
+      "glyph": "blizzard_vulnerability",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "the_vault:vulnerable"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_smite_stun",
+      "glyph": "stunning_smite",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_smite_echo",
+      "glyph": "echoing_smite",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_strike_delay",
+      "glyph": "second_strike",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_size",
+      "glyph": "grand_orb",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_kill_cooldown",
+      "glyph": "orb_refund",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_triple_damage",
+      "glyph": "tristorm_orbs",
+      "scale": -1.0,
+      "offset": 1.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_arcane_pierce",
+      "glyph": "arcane_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_rail_pierce",
+      "glyph": "rail_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_arcane_rail_size",
+      "glyph": "wide_rail",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_prism_anchor",
+      "glyph": "prism_anchor",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_prism_split",
+      "glyph": "prism_split",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_extra_piercing_javelin",
+      "glyph": "scatter_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_piercing_javelin_ricochet",
+      "glyph": "piercing_ricochet",
+      "scale": -1.0,
+      "offset": 1.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_scatter_mana",
+      "glyph": "scatter_mana",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_earthquake_recast_delay",
+      "glyph": "aftershock",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_totem_player_damage_ap",
+      "glyph": "arcane_wrath",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_totem_player_damage_effect",
+      "glyph": "vulnerable_totem",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "linked",
+          "type": "float",
+          "linked": "duration"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "the_vault:vulnerable"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_stone_fall_stun",
+      "glyph": "shockwave",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        },
+        {
+          "role": "choice"
+        }
+      ],
+      "choices": [
+        "the_vault:noai"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_shield_bash_damage",
+      "glyph": "bash_force",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_heal_cleanse",
+      "glyph": "heal_cleanse",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_rampage_lucky_hit",
+      "glyph": "rampaging_luck",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_life_tap_extra_damage",
+      "glyph": "tap_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_life_tap_lucky_hit",
+      "glyph": "lucky_tap",
+      "scale": 100.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_implode_mana_regen",
+      "glyph": "imploding_reversal",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_mana_shield_nova",
+      "glyph": "nova_shield",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow",
+        "Nova_Base",
+        "Nova_Dot"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_dash_warp_nova",
+      "glyph": "nova_dash",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow",
+        "Nova_Base",
+        "Nova_Dot"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_spirit_walk_ability",
+      "glyph": "spirit_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow"
+      ]
+    },
+    {
+      "attribute": "woldsvaults:concentrate_drain",
+      "glyph": "concentrated_drain",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:fireball_greedball",
+      "glyph": "greedball",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:fireball_volley_mitosis",
+      "glyph": "volley_mitosis",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:colossus_titan_resistance",
+      "glyph": "colossus_titan",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:sneaky_getaway_ninja",
+      "glyph": "ninja_getaway",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:diffuse_chemical_bomb",
+      "glyph": "chemical_barrage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:imploding_barrier",
+      "glyph": "imploding_barrier",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:ravenous_fangs",
+      "glyph": "ravenous_fangs",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    }
+  ],
+  "removedEtchings": [
+    "the_vault:etching_ice_bolt_lucky"
+  ]
 }

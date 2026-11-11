@@ -2,6 +2,8 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.gear.attribute.ability.special.EntropyPoisonModification;
 import iskallia.vault.gear.attribute.ability.special.FrostNovaVulnerabilityModification;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
+import iskallia.vault.gear.etching.EtchingGearAttributes;
 import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
@@ -9,6 +11,7 @@ import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
 import xyz.iwolfking.woldsvaults.datagen.lib.AncientGearModifiers;
+import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.FireballModification;
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.GlacialBlastModification;
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.ImplodingJavelinModification;
@@ -35,6 +38,8 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
     private static final String LOWER = "lower";
     private static final String REGULAR_UNIQUE_ROW = "OMEGA";
     private static final String ANCIENT_UNIQUE_ROW = "MYTHIC";
+    private static final float TICK = 0.05F;
+    public static final float RAIL_SIZE_MIN = 1.1F;
 
     public ModFocusAugmentsProvider(DataGenerator generator) {
         super(generator, "focus_augments");
@@ -220,6 +225,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(), List.of());
         gearGlyph(table, AugmentType.QUICK_MEND, "unique", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
                 List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
+        etchingGlyphs(table);
         checkRoles(table);
 
         String special = ModGearAttributes.ABILITY_SPECIAL_MODIFICATION.getRegistryName().toString();
@@ -600,5 +606,162 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         tier.min = min;
         tier.max = max;
         return tier;
+    }
+
+    /**
+     * The etchings that grant unique glyphs: each glyph is locked to the specs its etching acts on, and its entry reads
+     * the etching's value into the glyph's potency (and quality, for a second number or a choice). Delays given in
+     * ticks show as seconds. Lucky Bolt is removed: existing copies grant nothing and do nothing.
+     */
+    private static void etchingGlyphs(FocusAugmentsConfig table) {
+        table.etchingGlyphs = new ArrayList<>();
+        List<String> novas = List.of("Nova_Base", "Nova_Slow", "Nova_Dot");
+        List<String> iceBolts = List.of("Ice_Bolt_Base", "Ice_Bolt_Blast");
+        List<String> blizzards = List.of("Shard_Blizzard", "Storm_Arrow_Blizzard");
+        List<String> smites = List.of("Smite_Base", "Smite_Archon", "Smite_Thunderstorm");
+        List<String> orbs = List.of("Chain_Lightning_Orbs");
+        List<String> quakes = List.of("Earthquake_Base", "Earthquake_Singularity", "Earthquake_Tremor");
+        List<String> novaChoices = List.of("Nova_Slow", "Nova_Base", "Nova_Dot");
+
+        etching(table, AugmentType.GLACIAL_NOVA, "unique", List.of("Nova_Slow"), potency("freeze chance", "pct_plain", List.of(tier(0, 0.1F, 0.75F)), List.of()),
+                EtchingGearAttributes.FROST_NOVA_FREEZE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.NOVA_RECAST, "unique", novas, potency("recast after", "seconds", List.of(tier(0, 1.0F, 5.0F)), List.of()),
+                EtchingGearAttributes.NOVA_RECAST, TICK, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.LOW_MANA_NOVA, "unique", List.of("Nova_Base"),
+                potency("damage below half mana", "pct", List.of(tier(0, 0.4F, 1.2F)), List.of(linked("threshold", 0.5F, 0.5F))),
+                EtchingGearAttributes.NOVA_LOW_MANA_DAMAGE, 1.0F, 0.0F, List.of(), part("potency", "float"), linkedPart("threshold", "float"));
+        etching(table, AugmentType.GLACIAL_DAMAGE, "unique", List.of("Ice_Bolt_Blast"),
+                potency("attack damage on the blast", "pct_plain", List.of(tier(0, 0.1F, 1.0F)), List.of()),
+                EtchingGearAttributes.ICE_BOLT_CHUNK_DAMAGE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.SHATTERING_BOLT, "unique", iceBolts,
+                potency("glacial shatter chance", "pct_plain", List.of(tier(0, 0.2F, 0.9F)), List.of(linked("duration", 2.0F, 5.0F))),
+                EtchingGearAttributes.ICE_BOLT_EFFECT_ETCHING, 1.0F, 0.0F, List.of("the_vault:glacial_shatter"),
+                part("choice", null), part("potency", "float"), linkedPart("duration", "int"));
+        etching(table, AugmentType.FROZEN_BARRAGE, "unique", iceBolts, potency("extra casts", "default", List.of(tier(0, 4.0F, 10.0F)), List.of()),
+                EtchingGearAttributes.ICE_BOLT_MULTICAST, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.PIERCING_BOLT, "unique", List.of("Ice_Bolt_Base", "Ice_Bolt_Blast", "Shard_Blizzard", "Storm_Arrow_Blizzard"),
+                potency("pierce", "default", List.of(tier(0, 4.0F, 15.0F)), List.of()),
+                EtchingGearAttributes.ICE_BOLT_PIERCE, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.BLIZZARD_DAMAGE, "unique", blizzards, potency("ability power per hit", "pct_plain", List.of(tier(0, 0.1F, 0.6F)), List.of()),
+                EtchingGearAttributes.STORM_ARROW_BLIZZARD_DAMAGE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.BLIZZARD_VULNERABILITY, "unique", blizzards,
+                potency("vulnerable stacks", "level", List.of(tier(0, 1.0F, 10.0F)), List.of(linked("duration", 20.0F, 120.0F))),
+                EtchingGearAttributes.STORM_ARROW_BLIZZARD_EFFECT, 1.0F, 0.0F, List.of("the_vault:vulnerable"),
+                part("choice", null), linkedPart("duration", "int"), part("potency", "int"));
+        etching(table, AugmentType.STUNNING_SMITE, "unique", smites, potency("stun chance", "pct_plain", List.of(tier(0, 0.5F, 1.0F)), List.of()),
+                EtchingGearAttributes.SMITE_SUN, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.ECHOING_SMITE, "unique", smites, potency("echo bolt damage", "pct_plain", List.of(tier(0, 0.2F, 1.2F)), List.of()),
+                EtchingGearAttributes.SMITE_ECHO, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.SECOND_STRIKE, "unique", List.of("Smite_Base", "Smite_Archon", "Smite_Thunderstorm", "Chain_Lightning_Base"),
+                potency("strikes again after", "seconds", List.of(tier(0, 1.0F, 4.0F)), List.of()),
+                EtchingGearAttributes.LIGHTNING_STRIKE_DELAY, TICK, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.GRAND_ORB, "unique", orbs, potency("orb size", "pct", List.of(tier(0, 0.5F, 2.5F)), List.of()),
+                EtchingGearAttributes.LIGHTNING_ORB_SIZE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.ORB_REFUND, "unique", orbs, potency("cooldown refunded per kill", "pct_plain", List.of(tier(0, 0.2F, 1.0F)), List.of()),
+                EtchingGearAttributes.LIGHTNING_ORB_KILL_COOLDOWN, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.TRISTORM_ORBS, "unique", orbs, potency("damage per orb (3 orbs)", "pct_plain", List.of(tier(0, 0.4F, 0.8F)), List.of()),
+                EtchingGearAttributes.LIGHTNING_ORB_TRIPLE_DAMAGE, -1.0F, 1.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.ARCANE_PIERCE, "unique", List.of("Arcane_Base"), potency("pierce", "default", List.of(tier(0, 2.0F, 5.0F)), List.of()),
+                EtchingGearAttributes.ARCANE_PIERCE, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.RAIL_PIERCE, "unique", List.of("Arcane_Rail"), potency("pierce", "default", List.of(tier(0, 10.0F, 25.0F)), List.of()),
+                EtchingGearAttributes.RAIL_PIERCE, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.WIDE_RAIL, "unique", List.of("Arcane_Rail"),
+                potency("hit width (blocks)", "default", List.of(tier(0, RAIL_SIZE_MIN, 5.0F)), List.of()),
+                EtchingGearAttributes.ARCANE_RAIL_SIZE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.PRISM_ANCHOR, "unique", List.of("Arcane_Prism"), potency("anchors to blocks on a miss", "none", List.of(tier(0, 1.0F, 1.0F)), List.of()),
+                EtchingGearAttributes.PRISM_ANCHOR, 1.0F, 0.0F, List.of(), part("flag", null));
+        etching(table, AugmentType.PRISM_SPLIT, "unique", List.of("Arcane_Prism"), potency("also fires the other pattern", "none", List.of(tier(0, 1.0F, 1.0F)), List.of()),
+                EtchingGearAttributes.PRISM_SPLIT, 1.0F, 0.0F, List.of(), part("flag", null));
+        etching(table, AugmentType.SCATTER_PIERCE, "unique", List.of("Javelin_Piercing"),
+                potency("side javelin damage", "pct_plain", List.of(tier(0, 0.3F, 1.2F)), List.of()),
+                EtchingGearAttributes.EXTRA_PIERCING_JAVELIN, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.PIERCING_RICOCHET, "unique", List.of("Javelin_Piercing"), potency("ricochet damage", "pct_plain", List.of(tier(0, 0.3F, 0.8F)), List.of()),
+                EtchingGearAttributes.PIERCING_JAVELIN_RICOCHET, -1.0F, 1.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.SCATTER_MANA, "unique", List.of("Javelin_Scatter"), potency("mana per hit", "default", List.of(tier(0, 1.0F, 8.0F)), List.of()),
+                EtchingGearAttributes.SCATTER_MANA, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.AFTERSHOCK, "unique", quakes, potency("quakes again after", "seconds", List.of(tier(0, 1.0F, 3.5F)), List.of()),
+                EtchingGearAttributes.EARTHQUAKE_RECAST_DELAY, TICK, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.ARCANE_WRATH, "unique", List.of("Totem_Player_Damage"),
+                potency("buff also raises ability power", "none", List.of(tier(0, 1.0F, 1.0F)), List.of()),
+                EtchingGearAttributes.TOTEM_PLAYER_DAMAGE_AP, 1.0F, 0.0F, List.of(), part("flag", null));
+        etching(table, AugmentType.VULNERABLE_TOTEM, "unique", List.of("Totem_Player_Damage"),
+                potency("vulnerable stacks", "level", List.of(tier(0, 1.0F, 10.0F)), List.of(linked("duration", 20.0F, 120.0F))),
+                EtchingGearAttributes.TOTEM_PLAYER_DAMAGE_EFFECT, 1.0F, 0.0F, List.of("the_vault:vulnerable"),
+                part("choice", null), linkedPart("duration", "float"), part("potency", "int"));
+        etching(table, AugmentType.SHOCKWAVE, "unique", List.of("Stonefall_Base"),
+                potency("stun chance", "pct_plain", List.of(tier(0, 0.2F, 1.0F)), List.of(linked("duration", 40.0F, 120.0F))),
+                EtchingGearAttributes.STONE_FALL_STUN, 1.0F, 0.0F, List.of("the_vault:noai"),
+                part("potency", "float"), linkedPart("duration", "int"), part("choice", null));
+        etching(table, AugmentType.BASH_FORCE, "unique", List.of("Shield_Bash"), potency("attack damage", "pct_plain", List.of(tier(0, 0.1F, 0.5F)), List.of()),
+                EtchingGearAttributes.SHIELD_BASH_DAMAGE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.HEAL_CLEANSE, "unique", List.of("Heal_Base"), potency("cleanse level", "level", List.of(tier(0, 1.0F, 10.0F)), List.of()),
+                EtchingGearAttributes.HEAL_CLEANSE, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.RAMPAGING_LUCK, "unique", List.of("Rampage_Base"), potency("lucky hit", "pct", List.of(tier(0, 0.02F, 0.12F)), List.of()),
+                EtchingGearAttributes.RAMPAGE_LUCKY_HIT, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.TAP_DAMAGE, "unique", List.of("Implode_Life_Tap"),
+                potency("damage per health drained", "default", List.of(tier(0, 1.0F, 8.0F)), List.of()),
+                EtchingGearAttributes.LIFE_TAP_EXTRA_DAMAGE, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.LUCKY_TAP, "unique", List.of("Implode_Life_Tap"),
+                potency("% lucky hit per kill", "default", List.of(tier(0, 0.5F, 2.5F)), List.of(linked("duration", 160.0F, 220.0F))),
+                EtchingGearAttributes.LIFE_TAP_LUCKY_HIT, 100.0F, 0.0F, List.of(), part("potency", "float"), linkedPart("duration", "int"));
+        etching(table, AugmentType.IMPLODING_REVERSAL, "unique", List.of("Mana_Shield_Implode"),
+                potency("mana regen per kill", "pct", List.of(tier(0, 0.01F, 0.06F)), List.of()),
+                EtchingGearAttributes.IMPLODE_MANA_REGEN, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.NOVA_SHIELD, "unique", List.of("Mana_Shield_Base"), potency("nova level", "level", List.of(tier(0, 2.0F, 20.0F)), List.of()),
+                EtchingGearAttributes.MANA_SHIELD_NOVA, 1.0F, 0.0F, novaChoices, part("choice", null), part("potency", "int"));
+        etching(table, AugmentType.NOVA_DASH, "unique", List.of("Dash_Warp"), potency("nova level", "level", List.of(tier(0, 2.0F, 20.0F)), List.of()),
+                EtchingGearAttributes.DASH_WARP_NOVA, 1.0F, 0.0F, novaChoices, part("choice", null), part("potency", "int"));
+        etching(table, AugmentType.SPIRIT_NOVA, "unique", List.of("Ghost_Walk_Spirit"),
+                potency("frost nova level", "level", List.of(tier(0, 1.0F, 10.0F)), List.of()),
+                EtchingGearAttributes.SPIRIT_WALK_ABILITY, 1.0F, 0.0F, List.of("Nova_Slow"), part("choice", null), part("potency", "int"));
+        etching(table, AugmentType.CONCENTRATED_DRAIN, "unique", List.of("Concentrate_Base"),
+                potency("current health drained per effect", "pct_plain", List.of(tier(0, 0.02F, 0.1F)), List.of()),
+                ModEtchingGearAttributes.CONCENTRATE_DRAIN, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.GREEDBALL, "unique", List.of("Fireball_Base"),
+                potency("of quantity, rarity and copiously as damage, minimum radius", "pct_plain", List.of(tier(0, 0.1F, 0.4F)), List.of()),
+                ModEtchingGearAttributes.FIREBALL_GREEDBALL, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.VOLLEY_MITOSIS, "unique", List.of("Fireball_Volley"),
+                potency("fireballs on first bounce", "default", List.of(tier(0, 1.0F, 3.0F)), List.of()),
+                ModEtchingGearAttributes.FIREBALL_VOLLEY_MITOSIS, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.COLOSSUS_TITAN, "unique", List.of("Colossus_Base"), potency("resistance cap", "pct", List.of(tier(0, 0.04F, 0.08F)), List.of()),
+                ModEtchingGearAttributes.COLOSSUS_TITAN_RESISTANCE, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.NINJA_GETAWAY, "unique", List.of("Sneaky_Getaway"), potency("dodge", "pct", List.of(tier(0, 0.25F, 0.4F)), List.of()),
+                ModEtchingGearAttributes.SNEAKY_GETAWAY_NINJA, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.CHEMICAL_BARRAGE, "unique", List.of("Expunge_Base"), potency("chaos grenades", "default", List.of(tier(0, 3.0F, 9.0F)), List.of()),
+                ModEtchingGearAttributes.DIFFUSE_CHEMICAL_BOMB, 1.0F, 0.0F, List.of(), part("potency", "int"));
+        etching(table, AugmentType.IMPLODING_BARRIER, "unique", List.of("UltimateShield_Base"),
+                potency("chance to implode when hit", "pct_plain", List.of(tier(0, 0.03F, 0.15F)), List.of()),
+                ModEtchingGearAttributes.IMPLODING_BARRIER, 1.0F, 0.0F, List.of(), part("potency", "float"));
+        etching(table, AugmentType.RAVENOUS_FANGS, "unique", List.of("Fangs_Base"),
+                potency("75% less damage, double execute threshold", "none", List.of(tier(0, 1.0F, 1.0F)), List.of()),
+                ModEtchingGearAttributes.RAVENOUS_FANGS, 1.0F, 0.0F, List.of(), part("flag", null));
+
+        table.removedEtchings = new ArrayList<>(List.of(EtchingGearAttributes.ICE_BOLT_LUCKY.getRegistryName().toString()));
+    }
+
+    private static void etching(FocusAugmentsConfig table, AugmentType type, String category, List<String> specs, FocusAugmentsConfig.Potency potency,
+                                VaultGearAttribute<?> attribute, float scale, float offset, List<String> choices, FocusAugmentsConfig.EtchingPart... parts) {
+        gearGlyph(table, type, category, specs, potency, List.of(), List.of());
+        FocusAugmentsConfig.EtchingGlyph entry = new FocusAugmentsConfig.EtchingGlyph();
+        entry.attribute = attribute.getRegistryName().toString();
+        entry.glyph = type.id();
+        entry.scale = scale;
+        entry.offset = offset;
+        entry.parts = List.of(parts);
+        entry.choices = choices;
+        table.etchingGlyphs.add(entry);
+    }
+
+    private static FocusAugmentsConfig.EtchingPart part(String role, String type) {
+        FocusAugmentsConfig.EtchingPart part = new FocusAugmentsConfig.EtchingPart();
+        part.role = role;
+        part.type = type;
+        return part;
+    }
+
+    private static FocusAugmentsConfig.EtchingPart linkedPart(String linked, String type) {
+        FocusAugmentsConfig.EtchingPart part = part("linked", type);
+        part.linked = linked;
+        return part;
     }
 }

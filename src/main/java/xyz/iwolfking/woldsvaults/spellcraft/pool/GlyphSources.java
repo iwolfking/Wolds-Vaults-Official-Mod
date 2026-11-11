@@ -100,7 +100,7 @@ public final class GlyphSources {
             return this.shared;
         }
 
-        /** Auto lines: unique glyph lines on gear without arcana. */
+        /** Auto lines: unique glyph lines on gear without arcana, and etching glyph lines on any source. */
         public List<GlyphCandidate> auto() {
             return this.auto;
         }
@@ -207,7 +207,7 @@ public final class GlyphSources {
                 if (transferable) {
                     shared.add(new GlyphCandidate(line.line(), source.key(), source.name()));
                 }
-                if (line.auto() && !source.arcana()) {
+                if (line.auto()) {
                     if (config != null && "unique".equals(config.glyph(line.line().type()).glyphClass)) {
                         auto.add(new GlyphCandidate(line.line(), source.key(), source.name()));
                     } else if (config != null) {
