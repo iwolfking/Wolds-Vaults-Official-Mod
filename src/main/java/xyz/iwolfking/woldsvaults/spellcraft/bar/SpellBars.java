@@ -103,6 +103,7 @@ public final class SpellBars {
             }
         }
         followSelection(player, tree, bar.slot(saved.selected));
+        ToggleGuard.check(player, bar, tree);
         SpellBarSyncMessage message = SpellBarSyncMessage.of(saved, bar);
         String signature = message.signature();
         if (!Objects.equals(signature, state.signature)) {
@@ -153,7 +154,7 @@ public final class SpellBars {
         }
     }
 
-    private static void dispatch(Runnable action) {
+    static void dispatch(Runnable action) {
         boolean outer = dispatching;
         dispatching = true;
         try {
