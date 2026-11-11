@@ -182,10 +182,8 @@ public final class SpellBarView {
         return -1;
     }
 
-    /** Sets a default-bar slot to an ability group, or clears it with an empty value. Synced views are read-only. */
+    /** Sets a default-bar slot to an ability group, or clears it with an empty value (from either view). */
     public void send(int index, String value) {
-        if (!this.item) {
-            ModNetwork.sendToServer(new SpellBarEditMessage(index, value));
-        }
+        ModNetwork.sendToServer(new SpellBarEditMessage(index, value));
     }
 }

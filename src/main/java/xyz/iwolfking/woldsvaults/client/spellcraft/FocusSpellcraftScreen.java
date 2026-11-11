@@ -1157,6 +1157,9 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                 lines.add(colored(SpellcraftGui.tr("screen.place_unsaved"), SpellcraftGui.GREY));
             } else {
                 lines.add(colored(SpellcraftGui.tr(slot ? "screen.slot_hint" : "screen.priority_hint"), SpellcraftGui.WHITE));
+                if (ClientSpellBar.source(SpellcraftItemData.key(stack())) == null) {
+                    lines.add(colored(SpellcraftGui.tr("screen.not_equipped"), SpellcraftGui.BAD));
+                }
                 SpellModel model = check == null ? null : check.models().get(draft.id);
                 if (slot && model != null) {
                     lines.add(colored(SpellcraftGui.tr("screen.stat.hides") + ": " + hides(tree(), draft, model), HIDES_TEXT));

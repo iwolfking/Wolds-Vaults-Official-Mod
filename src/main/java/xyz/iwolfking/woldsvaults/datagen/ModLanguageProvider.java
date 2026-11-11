@@ -421,6 +421,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.screen.transferable", "Transferable: other arcana items may use this line");
         add("woldsvaults.spellcraft.bar.scroll", "%s-%s of %s, scroll for more");
         add("woldsvaults.spellcraft.picker.empty", "Empty");
+        add("woldsvaults.spellcraft.picker.spell", "Spell: %s");
+        add("woldsvaults.spellcraft.picker.spell_on", "Spell: %s (now on slot %s)");
+        add("woldsvaults.spellcraft.screen.not_equipped", "This item isn't in your off hand, so its spells aren't on the bar");
         add("woldsvaults.spellcraft.dialog.slot", "Slot %s");
         add("woldsvaults.spellcraft.dialog.slot_key", "Slot %s [%s]");
         add("woldsvaults.spellcraft.dialog.slot_spell", "%s: %s");

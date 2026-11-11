@@ -2,9 +2,12 @@ package xyz.iwolfking.woldsvaults.augments;
 
 import iskallia.vault.init.ModSounds;
 import iskallia.vault.skill.tree.AbilityTree;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.cast.AugmentCaster;
 import xyz.iwolfking.woldsvaults.augments.cast.SpellCharge;
 import xyz.iwolfking.woldsvaults.augments.effect.AugmentEvents;
@@ -166,17 +169,21 @@ public final class FocusAugments {
      */
     public static void placeSpell(ServerPlayer player, int inventorySlot, int spellId, int barSlot, int prio) {
         FocusAugmentsConfig config = config();
+        if (config == null) {
+            WoldsVaults.LOGGER.error("Spellcraft: no focus augments table; spell {} was not moved", spellId);
+            return;
+        }
         ItemStack stack = carrier(player, inventorySlot);
-        if (config == null || stack == null) {
+        if (stack == null) {
             return;
         }
         SpellcraftItemData.Spell stored = SpellcraftItemData.spell(stack, spellId).orElse(null);
         if (stored == null) {
-            AugmentCaster.showMessage(player, "That spell is not on the item");
+            refuse(player, "That spell is not on the item");
             return;
         }
         if (barSlot < SpellcraftItemData.UNASSIGNED || barSlot >= SpellcraftItemData.SLOTS || prio < 0 || prio > config.rules.priorities) {
-            AugmentCaster.showMessage(player, "Spell not moved: slot or priority out of range");
+            refuse(player, "Spell not moved: slot or priority out of range");
             return;
         }
         SpellcraftItemData.Spell moved = stored.withSlot(barSlot).withPrio(prio > 0 ? prio : stored.prio());
@@ -192,7 +199,7 @@ public final class FocusAugments {
         GlyphView view = GlyphSources.get(player).view(config, stack);
         SpellcraftRules.ItemCheck check = SpellcraftRules.checkEdit(config, stack, view, spells, SpellcraftRules.specOf(SpellCooldowns.tree(player)));
         if (!check.isValid()) {
-            AugmentCaster.showMessage(player, refusal + check.errors().get(0));
+            refuse(player, refusal + check.errors().get(0));
             return false;
         }
         return true;
@@ -205,9 +212,15 @@ public final class FocusAugments {
         }
         ItemStack stack = player.getInventory().getItem(inventorySlot);
         if (!SpellcraftRoller.canCarry(stack) || !SpellcraftItemData.has(stack)) {
-            AugmentCaster.showMessage(player, "That item has no spellcraft");
+            refuse(player, "That item has no spellcraft");
             return null;
         }
         return stack;
+    }
+
+    /** A refused edit or placement: shown in chat (the action bar is hidden behind the focus screen) and logged. */
+    private static void refuse(ServerPlayer player, String message) {
+        WoldsVaults.LOGGER.warn("Spellcraft: refused a spell edit by {}: {}", player.getGameProfile().getName(), message);
+        player.displayClientMessage(new TextComponent(message).withStyle(ChatFormatting.LIGHT_PURPLE), false);
     }
 }

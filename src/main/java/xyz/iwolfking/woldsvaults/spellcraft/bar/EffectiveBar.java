@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.spellcraft.bar;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 /**
@@ -34,6 +36,7 @@ import java.util.function.Function;
  * identity ({@code itemId:spellId} or {@code base:<group>}).
  */
 public final class EffectiveBar {
+    private static final Set<String> DROPPED = ConcurrentHashMap.newKeySet();
     private final Slot[] slots;
     private final List<ArcanaItem> items;
 
@@ -107,7 +110,14 @@ public final class EffectiveBar {
         for (ArcanaItem item : items) {
             for (SpellcraftItemData.Spell spell : item.spells()) {
                 SpellModel model = item.check().models().get(spell.id());
-                if (config == null || !spell.assigned() || model == null || !model.isValid()) {
+                if (config == null || !spell.assigned() || model == null) {
+                    continue;
+                }
+                if (!model.isValid()) {
+                    if (DROPPED.add(item.key() + ":" + spell.id() + ":" + model.errors().get(0))) {
+                        WoldsVaults.LOGGER.warn("Spellcraft: spell '{}' on {} is assigned to slot {} but can't be cast, so it is off the bar: {}",
+                                spell.name(), item.name(), spell.slot() + 1, model.errors().get(0));
+                    }
                     continue;
                 }
                 bySlot.computeIfAbsent(spell.slot(), slot -> new ArrayList<>())

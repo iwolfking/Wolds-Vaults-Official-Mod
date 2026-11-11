@@ -19,12 +19,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
 import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
 
 import javax.annotation.Nullable;
@@ -91,6 +96,8 @@ public final class SpellBarStrip {
     }
 
     /** One chooser entry: the value sent for the slot, its label, an ability icon (or none) and its colour. */
+    private static final String SPELL_CHOICE = "spell:";
+
     private record Choice(String value, String label, @Nullable String icon, int color) {
     }
 
@@ -604,7 +611,7 @@ public final class SpellBarStrip {
             if (inside(mouseX, mouseY, box[0], box[1], box[2], box[3] * POPUP_ROW) && button == 0) {
                 int row = (int) ((mouseY - box[1]) / POPUP_ROW) + this.popupScroll;
                 if (row >= 0 && row < this.popup.size()) {
-                    this.view.send(this.popupSlot, this.popup.get(row).value());
+                    pick(this.popupSlot, this.popup.get(row).value());
                     click();
                 }
             }
@@ -639,11 +646,17 @@ public final class SpellBarStrip {
     }
 
     private void clickSlot(int index, int button) {
-        if (this.view.isItem()) {
-            return;
-        }
         AbilityTree tree = this.host.tree();
         if (button == 1) {
+            SpellBarView.Slot slot = this.view.slot(index);
+            if (slot.spell() != null) {
+                int inventorySlot = inventorySlotOf(slot.itemKey());
+                if (inventorySlot >= 0) {
+                    ModNetwork.sendToServer(new SpellPlaceMessage(inventorySlot, slot.spellId(), SpellcraftItemData.UNASSIGNED, 0));
+                    click();
+                }
+                return;
+            }
             this.view.send(index, "");
             click();
             return;
@@ -661,6 +674,7 @@ public final class SpellBarStrip {
         }
         List<Choice> choices = new ArrayList<>();
         choices.add(new Choice("", SpellcraftGui.tr("picker.empty"), null, SpellcraftGui.GREY));
+        choices.addAll(spellChoices(tree));
         for (Skill skill : tree.skills) {
             if (skill instanceof SpecializedSkill specialized && specialized.isUnlocked()) {
                 choices.add(new Choice(specialized.getId(), SpellcraftGui.abilityName(tree, specialized.getId()), specialized.getId(),
@@ -671,6 +685,55 @@ public final class SpellBarStrip {
         this.popupSlot = index;
         this.popupScroll = 0;
         click();
+    }
+
+    /** A chooser pick: a spell of an equipped focus or wand goes onto the slot, anything else sets the default bar. */
+    private void pick(int index, String value) {
+        if (value.startsWith(SPELL_CHOICE)) {
+            String[] parts = value.substring(SPELL_CHOICE.length()).split(":");
+            ModNetwork.sendToServer(new SpellPlaceMessage(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), index, 0));
+            return;
+        }
+        this.view.send(index, value);
+    }
+
+    /**
+     * The saved spells of the focus or wand in the off hand (the one item whose spells reach the bar), listed first in
+     * the slot chooser so a spell is placed the same way an ability is.
+     */
+    private static List<Choice> spellChoices(AbilityTree tree) {
+        List<Choice> choices = new ArrayList<>();
+        Player player = Minecraft.getInstance().player;
+        if (player == null) {
+            return choices;
+        }
+        ItemStack stack = player.getInventory().getItem(Inventory.SLOT_OFFHAND);
+        if (!SpellcraftRoller.canCarry(stack) || !SpellcraftItemData.has(stack)) {
+            return choices;
+        }
+        Function<String, String> specOf = SpellcraftRules.specOf(tree);
+        for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
+            String spec = specOf.apply(spell.trigger());
+            String label = spell.assigned() ? SpellcraftGui.tr("picker.spell_on", spell.name(), spell.slot() + 1) : SpellcraftGui.tr("picker.spell", spell.name());
+            choices.add(new Choice(SPELL_CHOICE + Inventory.SLOT_OFFHAND + ":" + spell.id(), label, spec != null ? spec : spell.trigger(),
+                    SpellcraftGui.ARCANE_GLOW));
+        }
+        return choices;
+    }
+
+    private static int inventorySlotOf(String itemKey) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null || itemKey == null || itemKey.isEmpty()) {
+            return -1;
+        }
+        Inventory inventory = player.getInventory();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (SpellcraftItemData.has(stack) && itemKey.equals(SpellcraftItemData.key(stack))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {

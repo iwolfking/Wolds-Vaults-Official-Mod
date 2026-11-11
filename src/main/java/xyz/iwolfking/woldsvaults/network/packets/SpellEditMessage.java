@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.network.packets;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 
 import java.util.ArrayList;
@@ -41,7 +42,11 @@ public record SpellEditMessage(int inventorySlot, int spellId, String name, List
         context.get().enqueueWork(() -> {
             ServerPlayer player = context.get().getSender();
             if (player != null) {
-                FocusAugments.editSpell(player, message.inventorySlot, message.spellId, message.name, message.tokens, message.delete);
+                try {
+                    FocusAugments.editSpell(player, message.inventorySlot, message.spellId, message.name, message.tokens, message.delete);
+                } catch (RuntimeException e) {
+                    WoldsVaults.LOGGER.error("Spellcraft: saving spell {} failed", message.spellId, e);
+                }
             }
         });
         context.get().setPacketHandled(true);
