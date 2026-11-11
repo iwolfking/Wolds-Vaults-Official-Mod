@@ -31,6 +31,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.effect.mobeffects.lib.ComboEffect;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
@@ -78,6 +79,10 @@ public class ConcentrateAbility extends InstantManaAbility {
 
     @Override
     protected ActionResult doAction(SkillContext context) {
+        BuffGlyphs.Factors glyphs = BuffGlyphs.atCast(this);
+        int amplitude = BuffGlyphs.scale(this.baseAmplitude, glyphs.intensity());
+        float scaleChance = Math.min(Math.max(1.0F, this.amplitudeScaleChance), this.amplitudeScaleChance * glyphs.intensity());
+        int effectDuration = BuffGlyphs.scale(this.baseEffectDuration, glyphs.duration());
         return context.getSource().as(ServerPlayer.class).map(serverPlayer -> {
 
             ServerLevel level = (ServerLevel) serverPlayer.level;
@@ -136,7 +141,7 @@ public class ConcentrateAbility extends InstantManaAbility {
 
                         int currentAmp = currentEffectInstance.getAmplifier();
 
-                        float currentAmplitudeScaleChance = amplitudeScaleChance / (1.0F + (0.1F * currentAmp));
+                        float currentAmplitudeScaleChance = scaleChance / (1.0F + (0.1F * currentAmp));
 
                         if (currentAmplitudeScaleChance > 1.0F) {
                             for (float i = 1.0F; currentAmplitudeScaleChance >= 1.0F; i += 1.0F) {
@@ -149,7 +154,7 @@ public class ConcentrateAbility extends InstantManaAbility {
                             currentAmp += 1;
                         }
 
-                        int incomingDuration = (int) EffectDurationHelper.adjustEffectDuration(serverPlayer, baseEffectDuration);
+                        int incomingDuration = (int) EffectDurationHelper.adjustEffectDuration(serverPlayer, effectDuration);
                         int currentDuration = currentEffectInstance.getDuration();
 
                         if (currentDuration < MAX_EFFECT_DURATION) {
@@ -172,11 +177,11 @@ public class ConcentrateAbility extends InstantManaAbility {
 
                     } else {
                         CHAIN_PROCS.computeIfAbsent(serverPlayer.getUUID(), id -> new HashMap<>()).put(effect, 1);
-                        int initialDuration = Math.min(MAX_EFFECT_DURATION, (int) EffectDurationHelper.adjustEffectDuration(serverPlayer, baseEffectDuration));
+                        int initialDuration = Math.min(MAX_EFFECT_DURATION, (int) EffectDurationHelper.adjustEffectDuration(serverPlayer, effectDuration));
                         serverPlayer.addEffect(new MobEffectInstance(
                                 effect,
                                 initialDuration,
-                                baseAmplitude,
+                                amplitude,
                                 false,
                                 true
                         ));

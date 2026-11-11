@@ -26,6 +26,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.abilities.flexible.FlexibleAbility;
 import xyz.iwolfking.woldsvaults.api.util.ManaSustain;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
@@ -100,7 +101,7 @@ public class UltimateShieldAbility extends ToggleManaAbility {
             float currentTickCost = Math.min(
                     this.baseManaDrainPerTick + (elapsedSeconds * this.manaDrainRampPerSecond),
                     this.maxManaDrainPerTick
-            );
+            ) * BuffGlyphs.drain(this);
 
             float mana = Mana.get(player);
             if (mana < currentTickCost && !ManaSustain.shouldStayOn(player, currentTickCost)) {
@@ -140,7 +141,7 @@ public class UltimateShieldAbility extends ToggleManaAbility {
                 if (player.hasEffect(ability.getEffect())) {
                     float percentageDamageAbsorbed = Mth.clamp(ability.getPercentageDamageAbsorbed(), 0.0F, 1.0F);
 
-                    float manaCostPerDamage = ability.getManaPerDamageScalar();
+                    float manaCostPerDamage = ability.getManaPerDamageScalar() / BuffGlyphs.intensity(ability);
 
                     manaCostPerDamage = Math.max(manaCostPerDamage, 1.0E-5F);
                     float manaUsed = Math.min(event.getAmount() * percentageDamageAbsorbed * manaCostPerDamage, Mana.get(player));

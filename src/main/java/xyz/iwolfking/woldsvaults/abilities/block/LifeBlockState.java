@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 
 import java.util.ArrayDeque;
 import java.util.Iterator;
@@ -52,7 +53,8 @@ public final class LifeBlockState {
 
     public static void raise(ServerPlayer player, LifeBlockAbility ability) {
         BlockProgress<LifeBlockAbility> block = new BlockProgress<>(ability,
-                player.getMaxHealth() * ability.getBlockMultiplier(), player.server.getTickCount());
+                player.getMaxHealth() * ability.getBlockMultiplier(), player.server.getTickCount(),
+                BuffGlyphs.castDuration(ability));
         BLOCKS.put(player.getUUID(), block);
         block.showProgress(player, "message.woldsvaults.life_block.progress", ChatFormatting.RED);
     }
@@ -83,7 +85,7 @@ public final class LifeBlockState {
             end(player, previous);
         }
         int clearTicks = block.clearTicks(player);
-        int buffTicks = ability.getBuffTicks(clearTicks);
+        int buffTicks = block.buffTicks(clearTicks);
         float before = player.getAbsorptionAmount();
         float shield = player.getMaxHealth() * ability.getAbsorption();
         player.setAbsorptionAmount(Math.max(before, shield));

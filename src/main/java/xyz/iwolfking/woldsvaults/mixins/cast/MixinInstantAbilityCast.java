@@ -12,13 +12,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.augments.cast.DeferredGlyphs;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.augments.effect.DeferredReach;
 
 /**
  * Opens a cast context for every instant ability a player casts, covering the mana check, the hits
  * and the payment, so per-cast effects can tell the hits of one cast apart from the next. A cast run
- * as a spell step carries that step's frozen glyphs on its tag; a Necromancy cast that went through
- * sets the glyphs its minions follow.
+ * as a spell step carries that step's frozen glyphs on its tag; a cast that went through starts its
+ * buff activation (Intensify, Extend) and, for Necromancy, sets the glyphs its minions follow.
  */
 @Mixin(value = InstantAbility.class, remap = false)
 public class MixinInstantAbilityCast {
@@ -34,8 +35,11 @@ public class MixinInstantAbilityCast {
         CastTag tag = new CastTag(player, self);
         tag.setGlyphs(DeferredGlyphs.fromScope(player, parent == null ? null : parent.getId()));
         Ability.ActionResult result = CastContext.run(tag, () -> original.call(context));
-        if (result.isSuccess() && self instanceof NecromancyAbility) {
-            DeferredReach.noteMinionCast(player, tag.glyphs());
+        if (result.isSuccess()) {
+            BuffGlyphs.onInstantCast(player, self, tag.glyphs());
+            if (self instanceof NecromancyAbility) {
+                DeferredReach.noteMinionCast(player, tag.glyphs());
+            }
         }
         return result;
     }
