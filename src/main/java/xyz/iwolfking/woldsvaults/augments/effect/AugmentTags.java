@@ -10,9 +10,11 @@ import javax.annotation.Nullable;
 
 /**
  * The glyph state a projectile carries in its persistent data: damage and area multipliers, size, Low Gravity, the
- * Ethereal and Orbit durations, Homing's range and turn rate, the ability spec that cast it (to tell its own hits from
- * procs) and its Shotgun volley member. Child projectiles a tagged projectile spawns during its own tick (Scatter
- * javelin splits, ricochets) copy it, so glyphs follow the whole cast.
+ * Ethereal and Orbit durations, the game tick its orbit ends on, Homing's range and turn rate, the ability spec that cast
+ * it (to tell its own hits from procs) and its Shotgun volley member. Homing is kept next to Orbit so a child that leaves
+ * the orbit still homes. Child projectiles a tagged projectile spawns during its own tick (Scatter javelin splits,
+ * ricochets, Volley bounces) copy it, so glyphs follow the whole cast and an inherited orbit keeps its end tick; a
+ * child marked with {@link #leaveOrbit} copies everything except the orbit.
  */
 public final class AugmentTags {
     public static final String DAMAGE = "woldsvaults:augment_damage";
@@ -23,10 +25,12 @@ public final class AugmentTags {
     public static final String HOMING_RANGE = "woldsvaults:augment_homing_range";
     public static final String HOMING_TURN = "woldsvaults:augment_homing_turn";
     public static final String ORBIT = "woldsvaults:augment_orbit";
+    public static final String ORBIT_END = "woldsvaults:augment_orbit_end";
+    public static final String NO_ORBIT = "woldsvaults:augment_no_orbit";
     public static final String SPEC = "woldsvaults:augment_spec";
     public static final String SHOT_GROUP = "woldsvaults:augment_shot_group";
     public static final String SHOT_MEMBER = "woldsvaults:augment_shot_member";
-    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING_RANGE, HOMING_TURN, ORBIT, SPEC, SHOT_GROUP, SHOT_MEMBER};
+    private static final String[] KEYS = {DAMAGE, AREA, SCALE, GRAVITY, ETHEREAL, HOMING_RANGE, HOMING_TURN, ORBIT, ORBIT_END, SPEC, SHOT_GROUP, SHOT_MEMBER};
 
     private AugmentTags() {
     }
@@ -57,7 +61,8 @@ public final class AugmentTags {
         }
         if (modifiers.orbit()) {
             data.putFloat(ORBIT, modifiers.orbitSeconds());
-        } else if (modifiers.homing()) {
+        }
+        if (modifiers.homingRange() > 0) {
             data.putFloat(HOMING_RANGE, modifiers.homingRange());
             data.putFloat(HOMING_TURN, modifiers.homingTurn());
         }
@@ -81,6 +86,15 @@ public final class AugmentTags {
                 target.put(key, source.get(key).copy());
             }
         }
+        if (target.getBoolean(NO_ORBIT)) {
+            target.remove(ORBIT);
+            target.remove(ORBIT_END);
+        }
+    }
+
+    /** Marks a projectile about to be spawned so the tags it inherits from its parent leave out the orbit. */
+    public static void leaveOrbit(Entity entity) {
+        entity.getPersistentData().putBoolean(NO_ORBIT, true);
     }
 
     @Nullable

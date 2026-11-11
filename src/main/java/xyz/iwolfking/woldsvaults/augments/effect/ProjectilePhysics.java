@@ -30,7 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * share of the gravity the projectile's own class applies each tick (a code constant per VH entity), so it falls
  * {@code 1 - roll} as fast and never rises; a class missing from the table logs an error once and gets none. Ethereal projectiles ignore block hits; arrows also get the no-physics flag while
  * inside a block, never near their owner (a no-physics javelin touching its owner is picked up into a null item,
- * which crashes the tick). Ethereal projectiles are removed after their glyph's rolled lifetime.
+ * which crashes the tick). Ethereal projectiles are removed after their glyph's rolled lifetime, unless they are still
+ * orbiting; the orbit's end then detonates them.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectilePhysics {
@@ -77,7 +78,7 @@ public final class ProjectilePhysics {
                 }
             }
             if (physics.ethereal) {
-                if (physics.age > physics.etherealTicks) {
+                if (physics.age > physics.etherealTicks && !ProjectileSteering.isOrbiting(projectile)) {
                     projectile.discard();
                     TRACKED.remove(projectile);
                     continue;

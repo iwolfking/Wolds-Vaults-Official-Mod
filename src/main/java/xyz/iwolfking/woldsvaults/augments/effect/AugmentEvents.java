@@ -122,9 +122,9 @@ public final class AugmentEvents {
         if (AugmentTags.gravity(projectile) > 0 || AugmentTags.etherealSeconds(projectile) > 0) {
             ProjectilePhysics.track(projectile, AugmentTags.gravity(projectile), AugmentTags.etherealSeconds(projectile));
         }
-        if (AugmentTags.orbitSeconds(projectile) > 0) {
-            ProjectileSteering.orbit(projectile, owner, AugmentTags.orbitSeconds(projectile));
-        } else if (AugmentTags.homingRange(projectile) > 0) {
+        boolean orbiting = AugmentTags.orbitSeconds(projectile) > 0
+                && ProjectileSteering.orbit(projectile, owner, AugmentTags.orbitSeconds(projectile));
+        if (!orbiting && AugmentTags.homingRange(projectile) > 0) {
             ProjectileSteering.home(projectile, owner, AugmentTags.homingRange(projectile), AugmentTags.homingTurn(projectile));
         }
     }
