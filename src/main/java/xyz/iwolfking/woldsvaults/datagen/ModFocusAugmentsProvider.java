@@ -186,39 +186,39 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(k("duration", UP, 1.0F), kBase("intensity", DOWN, 0.98F, -0.2F), k("drain", UP, -0.5F)),
                 List.of(fixed("mana", COST, 1.1F)),
                 2, List.of(70, 30), 2, 5, 9, false);
-        glyph(table, AugmentType.CHAINING, "modifier", "unique", "power", 0, 0, List.of(List.of("instant", "damage", "direct")), List.of("linger"),
+        glyph(table, AugmentType.CHAINING, "modifier", "unique", "unique", 0, 0, List.of(List.of("instant", "damage", "direct")), List.of("linger"),
                 List.of(), List.of(),
                 potency("chains", "none", List.of(tier(0, 0.0F, 0.0F)), List.of()),
                 List.of(),
                 List.of(),
                 1, List.of(100), 1, 10, 10, true);
-        gearGlyph(table, AugmentType.RIME, "power", List.of("Nova_Slow"), potency("vulnerability level", "level", List.of(tier(0, 1.0F, 6.0F)), List.of()),
+        gearGlyph(table, AugmentType.RIME, "unique", List.of("Nova_Slow"), potency("vulnerability level", "level", List.of(tier(0, 1.0F, 6.0F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.WARP_HASTE, "flow", List.of("Dash_Warp"), potency("warp cooldown", "neg_pct", List.of(tier(0, 0.1F, 0.5F)), List.of()),
+        gearGlyph(table, AugmentType.WARP_HASTE, "unique", List.of("Dash_Warp"), potency("warp cooldown", "neg_pct", List.of(tier(0, 0.1F, 0.5F)), List.of()),
                 List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
-        gearGlyph(table, AugmentType.WARP_VELOCITY, "path", List.of("Dash_Warp"), potency("warp arrow speed", "pct", List.of(tier(0, 0.1F, 0.5F)), List.of()),
+        gearGlyph(table, AugmentType.WARP_VELOCITY, "unique", List.of("Dash_Warp"), potency("warp arrow speed", "pct", List.of(tier(0, 0.1F, 0.5F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.STEEL_CORE, "power", List.of("Fireball_Base", "Fireball_Volley"),
+        gearGlyph(table, AugmentType.STEEL_CORE, "unique", List.of("Fireball_Base", "Fireball_Volley"),
                 potency("centre bonus", "pct", List.of(tier(0, ModVaultGearTiersProvider.STEEL_INFERNO_CENTRE_MIN, (float) AncientGearModifiers.STEEL_INFERNO_CENTRE_MAX)),
                         List.of(linked("radius", ModVaultGearTiersProvider.STEEL_INFERNO_RADIUS_MIN, (float) AncientGearModifiers.STEEL_INFERNO_RADIUS_MAX))),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.TWINFIRE, "chaos", List.of("Fireball_Base"), potency("second fireball chance", "pct_plain", List.of(tier(0, 0.65F, 0.86F)),
+        gearGlyph(table, AugmentType.TWINFIRE, "unique", List.of("Fireball_Base"), potency("second fireball chance", "pct_plain", List.of(tier(0, 0.65F, 0.86F)),
                 List.of()), List.of(), List.of());
-        gearGlyph(table, AugmentType.DEEP_CHILL, "power", List.of("Ice_Bolt_Blast"), potency("hypothermia", "level", List.of(tier(0, 2.0F, 8.0F)), List.of()),
+        gearGlyph(table, AugmentType.DEEP_CHILL, "unique", List.of("Ice_Bolt_Blast"), potency("hypothermia", "level", List.of(tier(0, 2.0F, 8.0F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.IMPLOSION, "power", List.of("Javelin_Base", "Javelin_Piercing", "Javelin_Scatter", "Javelin_Sight"),
+        gearGlyph(table, AugmentType.IMPLOSION, "unique", List.of("Javelin_Base", "Javelin_Piercing", "Javelin_Scatter", "Javelin_Sight"),
                 potency("implode damage", "pct", List.of(tier(0, 0.5F, 0.9F)), List.of()), List.of(), List.of());
-        gearGlyph(table, AugmentType.ENTROPIC_BIND, "power", List.of("Empower_Slowness_Aura"), potency("poison level", "level", List.of(tier(0, 1.0F, 16.0F)),
+        gearGlyph(table, AugmentType.ENTROPIC_BIND, "unique", List.of("Empower_Slowness_Aura"), potency("poison level", "level", List.of(tier(0, 1.0F, 16.0F)),
                 List.of()), List.of(), List.of());
-        gearGlyph(table, AugmentType.WIDE_BLAST, "form", List.of("Fireball_Base"), potency("fireball area", "pct", List.of(tier(0, 0.1F, 0.24F)), List.of()),
+        gearGlyph(table, AugmentType.WIDE_BLAST, "unique", List.of("Fireball_Base"), potency("fireball area", "pct", List.of(tier(0, 0.1F, 0.24F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.NARROW_STORM, "form", List.of("Storm_Arrow_Base"), potency("storm area", "neg_pct", List.of(tier(0, 0.6F, 0.8F)), List.of()),
+        gearGlyph(table, AugmentType.NARROW_STORM, "unique", List.of("Storm_Arrow_Base"), potency("storm area", "neg_pct", List.of(tier(0, 0.6F, 0.8F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.SWIFT_STORM, "flow", List.of("Storm_Arrow_Base"), potency("storm cooldown", "neg_pct", List.of(tier(0, 0.5F, 0.75F)),
+        gearGlyph(table, AugmentType.SWIFT_STORM, "unique", List.of("Storm_Arrow_Base"), potency("storm cooldown", "neg_pct", List.of(tier(0, 0.5F, 0.75F)),
                 List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
-        gearGlyph(table, AugmentType.DREAD, "form", List.of("Taunt_Repel"), potency("fear area", "pct", List.of(tier(0, 0.2F, 1.33F)), List.of()),
+        gearGlyph(table, AugmentType.DREAD, "unique", List.of("Taunt_Repel"), potency("fear area", "pct", List.of(tier(0, 0.2F, 1.33F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.QUICK_MEND, "flow", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
+        gearGlyph(table, AugmentType.QUICK_MEND, "unique", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
                 List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
         checkRoles(table);
 

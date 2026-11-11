@@ -60,7 +60,8 @@ public final class SpellcraftGui {
 
     private static final String LANG = "woldsvaults.spellcraft.";
     private static final Map<String, Integer> CATEGORY_COLORS = Map.of(
-            "power", 0xFFE0564A, "flow", 0xFF4AC6E0, "path", 0xFF5FD068, "form", 0xFFE8B84A, "chaos", 0xFFB46CF0);
+            "power", 0xFFE0564A, "flow", 0xFF4AC6E0, "path", 0xFF5FD068, "form", 0xFFE8B84A, "chaos", 0xFFB46CF0,
+            "unique", 0xFFF0912E);
     private static final Map<AugmentType, ResourceLocation> RUNES = new EnumMap<>(AugmentType.class);
     private static final Set<String> MISSING_ICONS = new HashSet<>();
 

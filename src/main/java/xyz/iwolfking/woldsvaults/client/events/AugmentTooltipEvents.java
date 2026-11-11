@@ -18,6 +18,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -29,6 +30,7 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftGui;
 import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftTooltipRow;
 import xyz.iwolfking.woldsvaults.client.spellcraft.ClientGlyphViews;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphLines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,56 @@ import java.util.function.Function;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public class AugmentTooltipEvents {
+
+    /**
+     * One row per converted gear affix on any item: the glyph's rune, "Grants glyph: name" in the glyph's category
+     * colour, its rolled potency and the abilities it is locked to. On a focus or wand the line belongs to that item's
+     * spells; on other gear it is lent to every focus and wand and augments plain casts.
+     */
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void onGatherGrants(RenderTooltipEvent.GatherComponents event) {
+        ItemStack stack = event.getItemStack();
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (config == null) {
+            return;
+        }
+        List<SpellcraftItemData.Line> grants = GearGlyphLines.lines(stack);
+        if (grants.isEmpty()) {
+            return;
+        }
+        boolean arcana = SpellcraftRoller.canCarry(stack);
+        int[] width = {0};
+        List<Either<FormattedText, TooltipComponent>> rows = new ArrayList<>();
+        for (SpellcraftItemData.Line line : grants) {
+            AugmentType type = line.type();
+            String name = SpellcraftGui.tr("tooltip.grants", type.displayName());
+            String detail = SpellcraftGui.potency(config, type, line.potency());
+            String specs = specNames(config, type);
+            String extra = specs.isEmpty() ? detail : SpellcraftGui.tr("tooltip.grants_detail", detail, specs);
+            rows.add(Either.right(new SpellcraftTooltipRow(SpellcraftTooltipRow.Kind.GRANT, name, "", extra,
+                    List.of(new SpellcraftTooltipRow.Rune(type, false)), List.of(), SpellcraftGui.categoryColor(config, type), false, 0, 0, width)));
+        }
+        rows.add(Either.left(colored(SpellcraftGui.tr(arcana ? "tooltip.grants_arcana" : "tooltip.grants_auto"), SpellcraftGui.DARK)));
+        event.getTooltipElements().addAll(rows);
+    }
+
+    private static String specNames(FocusAugmentsConfig config, AugmentType type) {
+        List<String> specs = config.glyph(type).specs;
+        if (specs == null || specs.isEmpty()) {
+            return "";
+        }
+        List<String> names = new ArrayList<>();
+        for (String spec : specs) {
+            String display = AugmentAbilities.displayName(spec);
+            if (!names.contains(display)) {
+                names.add(display);
+            }
+        }
+        if (names.size() > 2) {
+            return SpellcraftGui.tr("tooltip.grants_more", names.get(0), names.size() - 1);
+        }
+        return String.join(", ", names);
+    }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onGatherComponents(RenderTooltipEvent.GatherComponents event) {

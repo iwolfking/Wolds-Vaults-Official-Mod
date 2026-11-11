@@ -491,6 +491,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.tooltip.spells", "Spells: ");
         add("woldsvaults.spellcraft.tooltip.no_spells", "none yet");
         add("woldsvaults.spellcraft.tooltip.hold_alt", "Hold Alt for glyphs and spells");
+        add("woldsvaults.spellcraft.tooltip.grants", "Grants glyph: %s");
+        add("woldsvaults.spellcraft.tooltip.grants_detail", "%s, %s");
+        add("woldsvaults.spellcraft.tooltip.grants_more", "%s +%s more");
+        add("woldsvaults.spellcraft.tooltip.grants_auto", "Augments plain casts; any focus or wand can place it");
+        add("woldsvaults.spellcraft.tooltip.grants_arcana", "Only this item's spells can place it");
         add("woldsvaults.spellcraft.tooltip.legend", "Depth %s     most per spell, arcana cost");
         add("woldsvaults.spellcraft.tooltip.glyphs", "Glyphs");
         add("woldsvaults.spellcraft.tooltip.spells_header", "Spells");

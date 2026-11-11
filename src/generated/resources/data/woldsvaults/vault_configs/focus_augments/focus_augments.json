@@ -1215,7 +1215,7 @@
     "chaining": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1256,7 +1256,7 @@
     "rime": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1293,7 +1293,7 @@
     "warp_haste": {
       "kind": "modifier",
       "class": "unique",
-      "category": "flow",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1337,7 +1337,7 @@
     "warp_velocity": {
       "kind": "modifier",
       "class": "unique",
-      "category": "path",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1374,7 +1374,7 @@
     "steel_core": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1418,7 +1418,7 @@
     "twinfire": {
       "kind": "modifier",
       "class": "unique",
-      "category": "chaos",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1455,7 +1455,7 @@
     "deep_chill": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1492,7 +1492,7 @@
     "implosion": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1532,7 +1532,7 @@
     "entropic_bind": {
       "kind": "modifier",
       "class": "unique",
-      "category": "power",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1569,7 +1569,7 @@
     "wide_blast": {
       "kind": "modifier",
       "class": "unique",
-      "category": "form",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1606,7 +1606,7 @@
     "narrow_storm": {
       "kind": "modifier",
       "class": "unique",
-      "category": "form",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1643,7 +1643,7 @@
     "swift_storm": {
       "kind": "modifier",
       "class": "unique",
-      "category": "flow",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1687,7 +1687,7 @@
     "dread": {
       "kind": "modifier",
       "class": "unique",
-      "category": "form",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
@@ -1724,7 +1724,7 @@
     "quick_mend": {
       "kind": "modifier",
       "class": "unique",
-      "category": "flow",
+      "category": "unique",
       "minLevel": 0,
       "weight": 0,
       "requires": [
