@@ -1,6 +1,36 @@
 {
   "ops": [
     {
+      "op": "remove",
+      "path": [
+        "pools",
+        "default",
+        {
+          "value": "mana_flat"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "deluxe_stat",
+        {
+          "value": "deluxe_mana_flat"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "scaling",
+        {
+          "value": "amp_mana_flat"
+        }
+      ]
+    },
+    {
       "op": "scale",
       "path": [
         "values",
