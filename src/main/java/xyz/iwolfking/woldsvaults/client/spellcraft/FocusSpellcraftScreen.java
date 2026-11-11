@@ -29,6 +29,7 @@ import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
@@ -1081,7 +1082,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                 List<ViewLine> all = pouchGlyphs(config);
                 if (row < all.size()) {
                     ViewLine line = all.get(row);
-                    glyphLines(config, line.type(), line.potency(), line.quality(), lines);
+                    glyphLines(config, line.type(), line.potency(), line.quality(), GlyphRelevance.ALL, lines);
                     lines.add(colored(SpellcraftGui.tr("screen.uses_left", Math.max(0, usesLeft(line)), line.limit()), SpellcraftGui.WHITE));
                     if (SpellModel.isUnique(config, line.type())) {
                         lines.add(colored(SpellcraftGui.tr("screen.unique_cost", config.rules.uniqueMixCost), SpellcraftGui.ARCANA));
@@ -1130,7 +1131,8 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     SpellModel model = check == null ? null : check.models().get(draft.id > 0 ? draft.id : Integer.MAX_VALUE);
                     SpellModel.Glyph glyph = model == null ? null : model.glyphAt(cell.index());
                     ViewLine line = view(config).get(type);
-                    glyphLines(config, type, line == null ? 0.0F : line.potency(), line == null ? 0.0F : line.quality(), lines);
+                    GlyphRelevance.Filter relevance = model == null ? GlyphRelevance.ALL : GlyphRelevance.forToken(config, model, cell.index());
+                    glyphLines(config, type, line == null ? 0.0F : line.potency(), line == null ? 0.0F : line.quality(), relevance, lines);
                     if (glyph != null && !glyph.active()) {
                         lines.add(colored(SpellcraftGui.inactiveReason(glyph), SpellcraftGui.BAD));
                     }
@@ -1138,9 +1140,9 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     lines.add(colored(SpellcraftGui.abilityName(tree(), token), SpellcraftGui.NAME_GOLD));
                     SpellModel model = check == null ? null : check.models().get(draft.id > 0 ? draft.id : Integer.MAX_VALUE);
                     SpellModel.Cast cast = model == null ? null : castOf(model.steps(), token);
-                    String summary = cast == null ? "" : SpellcraftGui.poolSummary(model.stepPool(cast));
+                    String summary = cast == null ? "" : SpellcraftGui.poolSummary(model.stepPool(cast), GlyphRelevance.of(config, model, cast));
                     if (!summary.isEmpty()) {
-                        lines.add(colored(SpellcraftGui.tr("bar.stat.glyphs") + summary, SpellcraftGui.ARCANE_GLOW));
+                        lines.add(colored(SpellcraftGui.tr("bar.stat.glyphs"), SpellcraftGui.GREY).copy().append(SpellcraftGui.tagged(summary)));
                     }
                 }
                 int payload = payloadStart(draft);
@@ -1181,13 +1183,14 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         return lines;
     }
 
-    private void glyphLines(FocusAugmentsConfig config, AugmentType type, float potency, float quality, List<Component> lines) {
+    private void glyphLines(FocusAugmentsConfig config, AugmentType type, float potency, float quality, GlyphRelevance.Filter relevance,
+                            List<Component> lines) {
         FocusAugmentsConfig.Glyph glyph = config.glyph(type);
         lines.add(colored(type.displayName(), SpellcraftGui.categoryColor(config, type)));
         lines.add(SpellcraftGui.describe(config, type, potency, quality));
-        String side = SpellcraftGui.sideEffects(config, type, potency);
+        String side = SpellcraftGui.sideEffects(config, type, potency, relevance);
         if (!side.isEmpty()) {
-            lines.add(colored(side, SpellcraftGui.GREY));
+            lines.add(SpellcraftGui.tagged(side));
         }
         List<String> fits = new ArrayList<>();
         if (glyph.specs != null && !glyph.specs.isEmpty()) {
