@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -275,6 +276,9 @@ public final class RiptideDash {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onContactHurt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         LivingEntity target = event.getEntityLiving();
         if (target.level.isClientSide || !isContact(target) || !(event.getSource().getEntity() instanceof ServerPlayer player)) {
             return;

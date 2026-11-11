@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.event.ActiveFlags;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 public class WoldEventHelper {
     public static boolean isNormalAttack() {
@@ -15,6 +16,7 @@ public class WoldEventHelper {
                 && !ActiveFlags.IS_SMITE_ATTACKING.isSet()
                 && !ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
                 && !ActiveFlags.IS_NECROMANCY_MINION_ATTACKING.isSet()
+                && !SpellChainDamage.active()
                 ;
     }
 }

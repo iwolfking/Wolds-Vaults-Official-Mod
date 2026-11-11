@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.cast.CastOrigin;
 import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
 import xyz.iwolfking.woldsvaults.mixins.accessors.ChainLightningProjectileAccessor;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import javax.annotation.Nullable;
 
@@ -156,6 +157,9 @@ public final class AugmentEvents {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         Entity direct = event.getSource().getDirectEntity();
         Entity attacker = event.getSource().getEntity();
         float multiplier = 1.0F;

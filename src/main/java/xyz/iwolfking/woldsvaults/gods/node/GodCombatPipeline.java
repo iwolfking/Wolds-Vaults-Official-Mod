@@ -14,6 +14,7 @@ import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -56,7 +57,7 @@ public final class GodCombatPipeline {
         float before = event.getAmount();
         GodDamageContext damage = new GodDamageContext(dealer instanceof LivingEntity living ? living : null,
                 target, damageSource, before, GlobalDamageMultiplierRegistry.isPercentageBased(damageSource));
-        if (attacker != null && !WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
+        if (attacker != null && !WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet() && !SpellChainDamage.active()) {
             dispatch(stages, attacker, damage, true);
         }
         if (defender != null) {

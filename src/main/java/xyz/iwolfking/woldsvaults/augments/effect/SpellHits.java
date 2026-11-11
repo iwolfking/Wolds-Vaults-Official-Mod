@@ -150,6 +150,23 @@ public final class SpellHits {
         return false;
     }
 
+    /**
+     * Whether this hurt is a DIRECT own hit of {@code spec} (one target the ability or its projectile struck), counting
+     * only sources {@code carriers} delivers when given. Chaining starts from these hits only.
+     */
+    public static boolean isOwnDirectHit(@Nullable String spec, DamageSource source, @Nullable Set<Carrier> carriers) {
+        List<Source> sources = spec == null ? null : TABLE.get(spec);
+        if (sources == null) {
+            return false;
+        }
+        for (Source candidate : sources) {
+            if (candidate.kind() == Kind.DIRECT && (carriers == null || carriers.contains(candidate.carrier())) && matches(candidate, source)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** {@link #isOwnHit} without the log of skipped hits. */
     public static boolean matchesOwnHit(@Nullable String spec, DamageSource source) {
         return matchesOwnHit(spec, source, null);
