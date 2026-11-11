@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public final class AncientGearModifiers {
     public static final String CONFIG_NAME = "unique_ancient";
+    public static final double STEEL_INFERNO_RADIUS_MAX = 0.65D;
+    public static final double STEEL_INFERNO_CENTRE_MAX = 2.25D;
 
     private AncientGearModifiers() {
     }
@@ -250,7 +252,7 @@ public final class AncientGearModifiers {
         config.prefix("the_vault:added_ability_level", "ModAPLvl", "the_vault:mod_added_ability_level_fireball", tags("focusAbilityPower", "focusAbilityPowerFireball"),
                 tier(0, -1, 60, obj("abilityKey", "Fireball_Base", "levelChange", 3)));
         config.suffix("the_vault:steel_inferno", "ModSteelInferno", "the_vault:u_steel_inferno", tags(),
-                tier(0, -1, 5, obj("radiusMultiplier", obj("min", 0.55D, "max", 0.65D, "step", 0.01D), "centreBonus", obj("min", 1.75D, "max", 2.25D, "step", 0.01D))));
+                tier(0, -1, 5, obj("radiusMultiplier", obj("min", 0.55D, "max", STEEL_INFERNO_RADIUS_MAX, "step", 0.01D), "centreBonus", obj("min", 1.75D, "max", STEEL_INFERNO_CENTRE_MAX, "step", 0.01D))));
         config.prefix("the_vault:cooldown_reduction", "ModCooldownReduction", "the_vault:mod_cooldown_reduction", tags("focusCooldown"),
                 tier(0, -1, 100, obj("min", 0.84D, "max", 1.11D, "step", 0.01D)));
         config.prefix("the_vault:damage_baby", "uDamageBaby", "the_vault:mod_damage_baby", tags("focusDamageToddler"),

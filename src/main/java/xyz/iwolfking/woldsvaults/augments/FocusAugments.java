@@ -17,6 +17,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.UniqueSetRoller;
 import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphSources;
 import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphView;
 
@@ -36,6 +38,8 @@ public final class FocusAugments {
     public static void init() {
         AbilityCastTracker.register();
         AugmentEvents.register();
+        GearGlyphs.init();
+        SpellcraftRoller.setUniqueSets(new UniqueSetRoller());
     }
 
     @Nullable

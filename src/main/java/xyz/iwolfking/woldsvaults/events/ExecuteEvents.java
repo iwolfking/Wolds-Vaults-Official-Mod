@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -60,6 +61,9 @@ public final class ExecuteEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void execute(LivingDamageEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         LivingEntity target = event.getEntityLiving();
         Float luckyHitBonus = LUCKY_HIT_BONUS.remove(target);
         if (!(event.getSource().getEntity() instanceof Player player) || target instanceof Player || !(target.level instanceof ServerLevel level)) {

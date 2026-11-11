@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.PostMultiplierFlatAdds;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaPowerDump;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -113,6 +114,9 @@ public final class GlobalDamageMultiplierRegistry {
      */
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void applyGlobalMultiplier(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         PostMultiplierFlatAdds.apply(event);
         DamageSource source = event.getSource();
         Entity attacker = source.getEntity();

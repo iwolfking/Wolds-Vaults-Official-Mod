@@ -1,19 +1,15 @@
 package xyz.iwolfking.woldsvaults.modifiers.gear.unique;
 
 import iskallia.vault.entity.entity.VaultFireball;
-import iskallia.vault.snapshot.AttributeSnapshotHelper;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.projectiles.VaultMeteor;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
 
 import javax.annotation.Nullable;
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -42,19 +38,15 @@ public final class SteelInferno {
         }
     }
 
-    /** The explosion state for {@code fireball} exploding at {@code pos}: meteors are marked and never get Steel Inferno. */
+    /**
+     * The explosion state for {@code fireball} exploding at {@code pos}: meteors are marked and never get Steel Inferno;
+     * other fireballs take the Steel Core glyph of the cast that threw them, if it had one.
+     */
     public static Explosion forFireball(VaultFireball fireball, Vec3 pos) {
         if (fireball instanceof VaultMeteor) {
             return new Explosion(pos, null, true);
         }
-        Entity owner = fireball.getOwner();
-        SteelInfernoAttribute attribute = null;
-        if (owner instanceof ServerPlayer player && AttributeSnapshotHelper.canHaveSnapshot(player)) {
-            attribute = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValueList(ModGearAttributes.STEEL_INFERNO).stream()
-                    .max(Comparator.comparing(SteelInfernoAttribute::getCentreBonus))
-                    .orElse(null);
-        }
-        return new Explosion(pos, attribute, false);
+        return new Explosion(pos, GearGlyphs.steelCore(fireball), false);
     }
 
     /** Squared distance from {@code pos} to the nearest point of {@code entity}'s hitbox. */

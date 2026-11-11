@@ -31,6 +31,7 @@ public final class SpellcraftItemData {
     public static final int UNASSIGNED = -1;
     private static final String LEGACY_BAR = "bar";
     private static final String LEGACY_SPELL_PREFIX = "s:";
+    private static final String UNIQUE_SET = "set";
     private static final Set<Long> WARNED = Collections.synchronizedSet(new HashSet<>());
     private static int revision;
 
@@ -254,6 +255,18 @@ public final class SpellcraftItemData {
         root.put("spells", new ListTag());
         root.putInt("nextSpell", 1);
         root.remove(LEGACY_BAR);
+        root.remove(UNIQUE_SET);
+    }
+
+    /** The unique set (unique id and rarity row) the item's implicits were last rolled from, or "" when none. */
+    public static String uniqueSet(ItemStack stack) {
+        CompoundTag root = root(stack);
+        return root == null ? "" : root.getString(UNIQUE_SET);
+    }
+
+    /** Records the unique set the implicits were just rolled from, so they are not converted again. */
+    public static void markUniqueSet(ItemStack stack, String set) {
+        rootForWrite(stack).putString(UNIQUE_SET, set);
     }
 
     /**
