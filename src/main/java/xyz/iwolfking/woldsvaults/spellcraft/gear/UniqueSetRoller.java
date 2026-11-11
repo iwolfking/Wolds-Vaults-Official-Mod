@@ -9,6 +9,7 @@ import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import javax.annotation.Nullable;
@@ -64,12 +65,37 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
         int oldDepth = SpellcraftItemData.depth(stack);
         int oldLines = SpellcraftItemData.lines(stack).size();
         Rolled rolled = rollSet(config, stack, data.getItemLevel(), plan.set(), plan.row(), plan.rolls(), random);
-        SpellcraftItemData.replaceImplicits(stack, rolled.budget(), rolled.depth(), rolled.lines());
+        int savedDepth = deepestSpell(config, stack);
+        int depth = Math.max(rolled.depth(), savedDepth);
+        SpellcraftItemData.replaceImplicits(stack, rolled.budget(), depth, rolled.lines());
         SpellcraftItemData.markUniqueSet(stack, plan.mark());
         WoldsVaults.LOGGER.info("Spellcraft: unique {} (item {}) converted to its {} glyph set: arcana {} -> {}, depth {} -> {}, {} stored lines -> {}; "
                         + "its {} spells are kept", plan.uniqueId(), SpellcraftItemData.key(stack), plan.row(), oldBudget, rolled.budget(), oldDepth,
-                rolled.depth(), oldLines, rolled.lines().size(), SpellcraftItemData.spells(stack).size());
+                depth, oldLines, rolled.lines().size(), SpellcraftItemData.spells(stack).size());
+        if (depth > rolled.depth()) {
+            WoldsVaults.LOGGER.info("Spellcraft: unique {} (item {}) keeps depth {} instead of the rolled {} so its saved spells stay castable",
+                    plan.uniqueId(), SpellcraftItemData.key(stack), depth, rolled.depth());
+        }
         return true;
+    }
+
+    /**
+     * The most depth-counting glyphs any saved spell on the item holds (unique glyphs don't count toward depth), so a
+     * converted unique never turns a saved spell into a depth error.
+     */
+    private static int deepestSpell(FocusAugmentsConfig config, ItemStack stack) {
+        int deepest = 0;
+        for (SpellcraftItemData.Spell spell : SpellcraftItemData.spells(stack)) {
+            int count = 0;
+            for (String token : spell.tokens()) {
+                AugmentType type = AugmentType.byId(token);
+                if (type != null && !SpellModel.isUnique(config, type)) {
+                    count++;
+                }
+            }
+            deepest = Math.max(deepest, count);
+        }
+        return deepest;
     }
 
     @Nullable
