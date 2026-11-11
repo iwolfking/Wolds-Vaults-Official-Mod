@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -20,6 +21,7 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.accessors.AccessorProjectile;
 import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,13 +31,14 @@ import java.util.WeakHashMap;
 /**
  * Size Up and Size Down on VH ability projectiles. The hitbox follows Forge's size event; clients learn the scale
  * when they start tracking the projectile and draw it scaled. Vanilla projectiles find entities with a thin ray, so an
- * enlarged projectile also hits any entity its enlarged box swept through this tick, through the projectile's own
+ * enlarged projectile also hits any entity its enlarged box swept through since the last check (from the position seen
+ * then, never from {@code xo}, which is still the world origin before a new projectile's first tick), through the projectile's own
  * impact event and hit handling, run in the projectile's cast context as its own tick's hits are. Those hits can spawn
  * more sized projectiles, so the tick walks a snapshot. Ball of Lightning damages by its own synced radius, so its radius is scaled instead.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSizing {
-    private static final Map<Projectile, Set<Entity>> ENLARGED = new WeakHashMap<>();
+    private static final Map<Projectile, Tracked> ENLARGED = new WeakHashMap<>();
 
     private ProjectileSizing() {
     }
@@ -47,7 +50,7 @@ public final class ProjectileSizing {
         }
         projectile.refreshDimensions();
         if (scale > 1.0F) {
-            ENLARGED.put(projectile, new HashSet<>());
+            ENLARGED.put(projectile, new Tracked());
         }
     }
 
@@ -73,14 +76,26 @@ public final class ProjectileSizing {
         if (event.phase != TickEvent.Phase.END || ENLARGED.isEmpty()) {
             return;
         }
-        for (Map.Entry<Projectile, Set<Entity>> entry : new ArrayList<>(ENLARGED.entrySet())) {
+        for (Map.Entry<Projectile, Tracked> entry : new ArrayList<>(ENLARGED.entrySet())) {
             Projectile projectile = entry.getKey();
+            Tracked tracked = entry.getValue();
             if (projectile.isRemoved()) {
                 ENLARGED.remove(projectile);
-            } else if (projectile.getDeltaMovement().lengthSqr() > 1.0E-4) {
-                hitTouchingEntities(projectile, entry.getValue());
+                continue;
+            }
+            Vec3 last = tracked.last;
+            tracked.last = projectile.position();
+            if (projectile.getDeltaMovement().lengthSqr() > 1.0E-4) {
+                hitTouchingEntities(projectile, tracked.hit, last);
             }
         }
+    }
+
+    /** An enlarged projectile's entities already hit and its position at the previous check (null before the first). */
+    private static final class Tracked {
+        private final Set<Entity> hit = new HashSet<>();
+        @Nullable
+        private Vec3 last;
     }
 
     @SubscribeEvent
@@ -88,10 +103,9 @@ public final class ProjectileSizing {
         ENLARGED.clear();
     }
 
-    private static void hitTouchingEntities(Projectile projectile, Set<Entity> alreadyHit) {
+    private static void hitTouchingEntities(Projectile projectile, Set<Entity> alreadyHit, @Nullable Vec3 last) {
         AABB box = projectile.getBoundingBox();
-        AABB swept = box.minmax(box.move(projectile.xo - projectile.getX(), projectile.yo - projectile.getY(),
-                projectile.zo - projectile.getZ()));
+        AABB swept = last == null ? box : box.minmax(box.move(last.subtract(projectile.position())));
         AccessorProjectile access = (AccessorProjectile) projectile;
         for (Entity target : projectile.level.getEntities(projectile, swept,
                 e -> !e.isSpectator() && e.isAlive() && e.isPickable() && !alreadyHit.contains(e))) {
