@@ -1134,7 +1134,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     GlyphRelevance.Filter relevance = model == null ? GlyphRelevance.ALL : GlyphRelevance.forToken(config, model, cell.index());
                     glyphLines(config, type, line == null ? 0.0F : line.potency(), line == null ? 0.0F : line.quality(), relevance, lines);
                     if (glyph != null && !glyph.active()) {
-                        lines.add(colored(SpellcraftGui.inactiveReason(glyph), SpellcraftGui.BAD));
+                        lines.add(colored(SpellcraftGui.inactiveReason(config, glyph), SpellcraftGui.BAD));
                     }
                 } else {
                     lines.add(colored(SpellcraftGui.abilityName(tree(), token), SpellcraftGui.NAME_GOLD));
@@ -1146,7 +1146,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     }
                 }
                 int payload = payloadStart(draft);
-                if (payload >= 0 && cell.index() >= payload) {
+                if (payload >= 0 && cell.index() >= payload && (type == null || !config.glyph(type).spellWide())) {
                     lines.add(colored(SpellcraftGui.tr("screen.in_payload"), PAYLOAD));
                 }
                 lines.add(new TextComponent(SpellcraftGui.tr("screen.cell_hint")).withStyle(ChatFormatting.DARK_GRAY));

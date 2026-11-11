@@ -83,6 +83,7 @@ public final class SpellcraftGui {
     private static final Set<String> MISSING_ICONS = new HashSet<>();
     private static final Set<AugmentType> MISSING_DESCRIPTIONS = EnumSet.noneOf(AugmentType.class);
     private static final Set<String> UNKNOWN_STATS = new HashSet<>();
+    private static boolean noConfigWarned;
     private static final Map<String, String> STAT_TAGS = Map.ofEntries(
             Map.entry("damage", "<#E0564A>"), Map.entry("area", "<#5FD068>"), Map.entry("cooldown", "<#4AC6E0>"),
             Map.entry("haste", "<#4AC6E0>"), Map.entry("mana", "<#6FA8FF>"), Map.entry("efficiency", "<#6FA8FF>"),
@@ -298,18 +299,29 @@ public final class SpellcraftGui {
     }
 
     /** A line's potency in its table format (percent, seconds, blocks), labelled from the table. */
-    /** Why a glyph does nothing right now, for tooltips. */
-    public static String inactiveReason(xyz.iwolfking.woldsvaults.augments.spell.SpellModel.Glyph glyph) {
+    /** Why a glyph does nothing right now, for tooltips; a dormant spell-wide glyph fits no step of the spell. */
+    public static String inactiveReason(@Nullable FocusAugmentsConfig config, xyz.iwolfking.woldsvaults.augments.spell.SpellModel.Glyph glyph) {
         if (glyph.dependent()) {
             return tr("glyph_state.dependent");
         }
         return switch (glyph.state()) {
             case ACTIVE -> "";
-            case DORMANT -> tr("glyph_state.dormant");
+            case DORMANT -> tr(spellWide(config, glyph.type()) ? "glyph_state.dormant_spell" : "glyph_state.dormant");
             case INACTIVE_SOURCE -> tr("glyph_state.source", glyph.type().displayName());
             case INACTIVE_USES -> tr("glyph_state.uses", glyph.type().displayName());
             case INACTIVE_BUDGET -> tr("glyph_state.budget");
         };
+    }
+
+    private static boolean spellWide(@Nullable FocusAugmentsConfig config, AugmentType type) {
+        if (config == null) {
+            if (!noConfigWarned) {
+                noConfigWarned = true;
+                WoldsVaults.LOGGER.error("Spellcraft UI: no focus augments table; a dormant {} is described as not fitting its step", type.id());
+            }
+            return false;
+        }
+        return config.glyph(type).spellWide();
     }
 
     /**
