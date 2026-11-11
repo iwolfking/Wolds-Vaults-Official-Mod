@@ -1,11 +1,15 @@
 package xyz.iwolfking.woldsvaults.spellcraft.gear;
 
 import com.mojang.datafixers.util.Pair;
+import iskallia.vault.config.gear.EtchingTierConfig;
+import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.etching.EtchingHelper;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.Throuple;
 import net.minecraft.resources.ResourceLocation;
@@ -35,6 +39,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -96,6 +101,60 @@ public final class EtchingGlyphs {
         current = new Index(config, Collections.unmodifiableMap(byAttribute), removed);
         index = current;
         return current;
+    }
+
+    /**
+     * The etching's own description filled with the value a glyph of this potency and quality stands for, or null when
+     * the type is not an etching glyph or its etching config is missing (logged once). Used for glyph tooltips, so an
+     * etching glyph reads exactly like its etching.
+     */
+    @Nullable
+    public static String description(AugmentType type, float potency, float quality) {
+        Index current = index();
+        if (current == null) {
+            return null;
+        }
+        Entry entry = null;
+        for (Entry candidate : current.byAttribute().values()) {
+            if (candidate.type() == type) {
+                entry = candidate;
+                break;
+            }
+        }
+        if (entry == null) {
+            return null;
+        }
+        VaultEtchingConfig.EtchingEntry etching = etchingConfig(entry.config().attribute);
+        if (etching == null) {
+            reportOnce("description:" + entry.config().attribute, "Spellcraft: no etching config describes " + entry.config().attribute
+                    + "; glyph " + type.id() + " shows its potency instead of the etching text");
+            return null;
+        }
+        Object value = value(current.config(), entry, new GlyphGrants.Grant(potency, quality));
+        return EtchingHelper.formatDescription(etching.getDescription(), Optional.ofNullable(value));
+    }
+
+    @Nullable
+    private static VaultEtchingConfig.EtchingEntry etchingConfig(String attribute) {
+        if (ModConfigs.ETCHINGS == null) {
+            return null;
+        }
+        ResourceLocation id = new ResourceLocation(attribute);
+        VaultEtchingConfig.EtchingEntry direct = ModConfigs.ETCHINGS.getEtchingConfig(id);
+        if (direct != null) {
+            return direct;
+        }
+        for (VaultEtchingConfig.EtchingEntry entry : ModConfigs.ETCHINGS.getEtchingConfigs()) {
+            if (entry.getAttributes() == null) {
+                continue;
+            }
+            for (EtchingTierConfig.EtchingModifierTierGroup group : entry.getAttributes()) {
+                if (id.equals(group.getAttribute())) {
+                    return entry;
+                }
+            }
+        }
+        return null;
     }
 
     /** The glyph an item's etching grants, or null when it has no etching or its etching grants none (client tooltips). */
@@ -327,7 +386,10 @@ public final class EtchingGlyphs {
     }
 
     private static Object number(FocusAugmentsConfig.EtchingPart part, float value) {
-        return part.isInt() ? Integer.valueOf(Math.round(value)) : Float.valueOf(value);
+        if (part.isInt()) {
+            return Integer.valueOf(Math.round(value));
+        }
+        return Float.valueOf(value);
     }
 
     @Nullable
