@@ -1,16 +1,19 @@
 package xyz.iwolfking.woldsvaults.augments.cast;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GlyphGrants;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 /**
  * The glyph state of one spell step, frozen when the step's cast opens: whose cast it is, the ability spec, the step's
- * modifiers (Echo power and Charge already folded into damage) and its Shotgun volley member. It rides on the cast's
+ * modifiers (Echo power and Charge already folded into damage, unique glyph grants included) and its Shotgun volley
+ * member. It rides on the cast's
  * tag onto everything the cast leaves behind (scheduled work, entities, block entities, minions), so what the ability
  * does later still gets the step's glyphs.
  */
@@ -19,6 +22,7 @@ public record DeferredGlyphs(UUID owner, String spec, CastModifiers modifiers, @
     private static final String SPEC = "spec";
     private static final String SHOT_GROUP = "shot_group";
     private static final String SHOT_MEMBER = "shot_member";
+    private static final String GRANTS = "grants";
     private static final String[] FLOATS = {"damage", "area", "speed", "scale", "intensity", "duration", "drain", "heal_mana",
             "duration_upside", "homing_range", "homing_turn", "orbit", "gravity", "ethereal", "echo", "charge"};
 
@@ -51,6 +55,9 @@ public record DeferredGlyphs(UUID owner, String spec, CastModifiers modifiers, @
             tag.putFloat(FLOATS[i], values[i]);
         }
         tag.putInt("shotgun_copies", m.shotgunCopies());
+        if (!m.grants().isEmpty()) {
+            tag.put(GRANTS, m.grants().write());
+        }
         if (this.shot != null) {
             tag.putLong(SHOT_GROUP, this.shot.group());
             tag.putInt(SHOT_MEMBER, this.shot.member());
@@ -76,7 +83,8 @@ public record DeferredGlyphs(UUID owner, String spec, CastModifiers modifiers, @
             v[i] = tag.getFloat(FLOATS[i]);
         }
         CastModifiers modifiers = new CastModifiers(v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12],
-                v[13], tag.getInt("shotgun_copies"), v[14], v[15]);
+                v[13], tag.getInt("shotgun_copies"), v[14], v[15],
+                tag.contains(GRANTS, Tag.TAG_COMPOUND) ? GlyphGrants.read(tag.getCompound(GRANTS)) : GlyphGrants.NONE);
         ShotgunHits.Shot shot = tag.contains(SHOT_GROUP) ? new ShotgunHits.Shot(tag.getLong(SHOT_GROUP), tag.getInt(SHOT_MEMBER)) : null;
         return new DeferredGlyphs(tag.getUUID(OWNER), tag.getString(SPEC), modifiers, shot);
     }
