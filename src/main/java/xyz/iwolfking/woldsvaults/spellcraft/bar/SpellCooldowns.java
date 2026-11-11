@@ -85,7 +85,7 @@ public final class SpellCooldowns {
             player.level.playSound(null, player.blockPosition(), ModSounds.COOLDOWN_RESET, SoundSource.MASTER, 0.5F, 1.0F);
             return;
         }
-        int ticks = spellCooldownTicks(config, player, tree, model.castGroups(), model.cooldownFactor(), model.hasteMultiplier());
+        int ticks = spellCooldownTicks(config, player, tree, model.castGroups(), model.cooldownBase(), model.glyphHaste());
         int remaining = roll ? CooldownRefundHelper.adjustInitialCooldown(player, ticks) : ticks;
         for (String group : model.groups()) {
             Ability ability = ability(tree, group);
@@ -95,9 +95,12 @@ public final class SpellCooldowns {
         }
     }
 
-    /** An augmented spell's cooldown in ticks at the player's current haste. */
+    /**
+     * An augmented spell's cooldown in ticks at the player's current haste: the chain (already divided by the player's
+     * capped haste) times the base-cooldown cut, times the player's factor over the spell's factor. At least one tick.
+     */
     public static int spellCooldownTicks(FocusAugmentsConfig config, ServerPlayer player, AbilityTree tree, Collection<String> groups,
-                                         float cooldownFactor, float hasteMultiplier) {
+                                         float cooldownBase, float glyphHaste) {
         List<Integer> adjusted = new ArrayList<>();
         for (String group : groups) {
             Ability ability = ability(tree, group);
@@ -113,10 +116,17 @@ public final class SpellCooldowns {
         for (int i = 1; i < adjusted.size(); i++) {
             chain += config.rules.chainCooldownShare * adjusted.get(i);
         }
-        Float plain = SpellHaste.factor(player, 1.0F);
-        Float spell = SpellHaste.factor(player, hasteMultiplier);
-        double ticks = chain * cooldownFactor * (plain != null && spell != null ? plain / spell : 1.0);
-        return Math.max(Math.round(config.rules.minCooldownSeconds * 20.0F), (int) Math.round(ticks));
+        return glyphedTicks(chain, cooldownBase, SpellHaste.factor(player, 1.0F),
+                SpellHaste.spellFactor(player, glyphHaste, config.rules.glyphHasteHeadroom), glyphHaste);
+    }
+
+    /**
+     * The chain with the spell's glyphs applied; shared with the client screens. Without the haste table the glyph haste
+     * divides the chain directly.
+     */
+    public static int glyphedTicks(double chain, float cooldownBase, @Nullable Float playerFactor, @Nullable Float spellFactor, float glyphHaste) {
+        double ratio = playerFactor != null && spellFactor != null ? playerFactor / spellFactor : 1.0 / Math.max(0.01F, glyphHaste);
+        return Math.max(1, (int) Math.round(chain * cooldownBase * ratio));
     }
 
     /** A group holding up a cast and its remaining ticks (delay included). */

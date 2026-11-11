@@ -52,8 +52,8 @@ public final class SpellModel {
     private final int casts;
     private final int nesting;
     private final float manaFactor;
-    private final float cooldownFactor;
-    private final float hasteMultiplier;
+    private final float cooldownBase;
+    private final float glyphHaste;
     private final GlyphStacking.Pool spellPool;
     private final Map<Step, GlyphStacking.Pool> stepPools;
     private final List<FocusAugmentsConfig.Combo> combos;
@@ -136,8 +136,10 @@ public final class SpellModel {
         this.casts = casts;
         this.nesting = builder.maxNesting;
         this.manaFactor = manaFactor;
-        this.cooldownFactor = builder.spellPool.total("cooldown");
-        this.hasteMultiplier = builder.spellPool.total("haste");
+        GlyphStacking.Stat cooldown = builder.spellPool.stat("cooldown");
+        this.cooldownBase = cooldown == null ? 1.0F : cooldown.favourable();
+        float penalty = cooldown == null ? 1.0F : cooldown.total() / cooldown.favourable();
+        this.glyphHaste = builder.spellPool.total("haste") / penalty;
         this.spellPool = builder.spellPool;
         this.stepPools = stepPools;
         this.combos = Collections.unmodifiableList(builder.appliedCombos);
@@ -218,13 +220,17 @@ public final class SpellModel {
         return this.manaFactor;
     }
 
-    public float cooldownFactor() {
-        return this.cooldownFactor;
+    /** The base-cooldown cut from favourable cooldown glyphs (the unique cooldown glyphs); applied before haste. */
+    public float cooldownBase() {
+        return this.cooldownBase;
     }
 
-    /** The multiplier on the player's haste factor for this spell (Quicken up, Discount down); capped by spell haste. */
-    public float hasteMultiplier() {
-        return this.hasteMultiplier;
+    /**
+     * The spell's glyph haste: Quicken over every penalty (cooldown costs and haste downsides such as Discount). It
+     * multiplies the player's capped haste factor, and the result is capped again (see {@code SpellHaste.spellFactor}).
+     */
+    public float glyphHaste() {
+        return this.glyphHaste;
     }
 
     public List<FocusAugmentsConfig.Combo> combos() {

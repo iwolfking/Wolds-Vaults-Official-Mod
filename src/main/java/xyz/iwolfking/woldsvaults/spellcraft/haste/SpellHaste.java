@@ -62,6 +62,26 @@ public final class SpellHaste {
         return factor(raw(entity), multiplier, cap(entity, config));
     }
 
+    /**
+     * A spell's haste factor: the player's capped factor times the spell's glyph haste, capped at {@code 1 + cap} times
+     * the headroom. Raw haste past the cap is spent before the glyphs see it, so penalties always apply and Quicken
+     * offsets them at any haste.
+     */
+    public static float spellFactor(float playerFactor, float glyphHaste, float cap, float headroom) {
+        return Math.min(playerFactor * Math.max(0.01F, glyphHaste), Math.max(playerFactor, (1.0F + cap) * headroom));
+    }
+
+    /** A spell's haste factor for this player, or null when the haste table is missing. */
+    @Nullable
+    public static Float spellFactor(LivingEntity entity, float glyphHaste, float headroom) {
+        SpellHasteConfig config = config();
+        if (config == null) {
+            return null;
+        }
+        float cap = cap(entity, config);
+        return spellFactor(factor(raw(entity), 1.0F, cap), glyphHaste, cap, headroom);
+    }
+
     /** The share of a cooldown the factor removes, the form VH's cooldown code subtracts; negative for slowed casting. */
     public static float reduction(float factor) {
         return 1.0F - 1.0F / factor;

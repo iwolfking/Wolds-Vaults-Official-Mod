@@ -5,7 +5,7 @@
     "abilityStepCost": 7,
     "chainCooldownShare": 0.25,
     "manaFactorFloor": 0.5,
-    "minCooldownSeconds": 0.5,
+    "glyphHasteHeadroom": 1.0,
     "maxGlyphsPerSpell": 12,
     "maxSpellsPerItem": 6,
     "maxCastsPerTrigger": 16,
@@ -253,7 +253,7 @@
       "costMin": 5,
       "costMax": 11,
       "noEscalation": false,
-      "description": "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%"
+      "description": "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap"
     },
     "discount": {
       "kind": "modifier",

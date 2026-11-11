@@ -25,7 +25,7 @@ import java.util.List;
  * Mana and cooldown numbers for the client screens, from the client's ability tree and attribute snapshot. Mana is VH's
  * cost after the per-ability mana attributes (Idona's Power Dump is server-only and not shown). An augmented spell's
  * cooldown follows {@code SpellCooldowns.spellCooldownTicks}: the longest ability cooldown plus the chain share of the
- * others, times the glyph cooldown factor and the Quicken/Discount haste ratio, floored at the table minimum.
+ * others, times the base-cooldown cut and the ratio of the player's haste factor to the spell's, at least one tick.
  */
 public final class ClientSpellStats {
     private ClientSpellStats() {
@@ -87,7 +87,7 @@ public final class ClientSpellStats {
             }
         }
         int plain = chain(config, tree, model.groups());
-        int augmented = spellCooldown(config, tree, model.groups(), model.cooldownFactor(), model.hasteMultiplier());
+        int augmented = spellCooldown(config, tree, model.groups(), model.cooldownBase(), model.glyphHaste());
         return new Numbers(mana, mana < 0.0F ? mana : mana * model.manaFactor(), plain, augmented);
     }
 
@@ -110,17 +110,16 @@ public final class ClientSpellStats {
         return (int) Math.round(chain);
     }
 
-    private static int spellCooldown(FocusAugmentsConfig config, AbilityTree tree, Collection<String> groups, float cooldownFactor,
-                                     float hasteMultiplier) {
+    private static int spellCooldown(FocusAugmentsConfig config, AbilityTree tree, Collection<String> groups, float cooldownBase,
+                                     float glyphHaste) {
         LocalPlayer player = player();
         double chain = chain(config, tree, groups);
         if (chain <= 0 || player == null) {
             return 0;
         }
         Float plain = ModConfigs.SPELL_HASTE == null ? null : SpellHaste.factor(player, 1.0F);
-        Float spell = ModConfigs.SPELL_HASTE == null ? null : SpellHaste.factor(player, hasteMultiplier);
-        double ticks = chain * cooldownFactor * (plain != null && spell != null ? plain / spell : 1.0);
-        return Math.max(Math.round(config.rules.minCooldownSeconds * 20.0F), (int) Math.round(ticks));
+        Float spell = ModConfigs.SPELL_HASTE == null ? null : SpellHaste.spellFactor(player, glyphHaste, config.rules.glyphHasteHeadroom);
+        return SpellCooldowns.glyphedTicks(chain, cooldownBase, plain, spell, glyphHaste);
     }
 
     /** The player's haste as a percentage (+100 for a factor of 2), or null when the haste table isn't loaded. */

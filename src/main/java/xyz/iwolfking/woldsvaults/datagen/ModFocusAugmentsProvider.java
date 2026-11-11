@@ -57,7 +57,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         rules.abilityStepCost = 7;
         rules.chainCooldownShare = 0.25F;
         rules.manaFactorFloor = 0.5F;
-        rules.minCooldownSeconds = 0.5F;
+        rules.glyphHasteHeadroom = 1.0F;
         rules.maxGlyphsPerSpell = 12;
         rules.maxSpellsPerItem = 6;
         rules.maxCastsPerTrigger = 16;
@@ -230,7 +230,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         etchingGlyphs(table);
         describe(table, AugmentType.AMPLIFY_AREA, "<gray>Increases area by <#5FD068>%.0fpvalue%");
         describe(table, AugmentType.STRENGTHEN, "<gray>Increases damage by <#E0564A>%.0fpvalue%");
-        describe(table, AugmentType.QUICKEN, "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%");
+        describe(table, AugmentType.QUICKEN, "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap");
         describe(table, AugmentType.DISCOUNT, "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%");
         describe(table, AugmentType.DELAY, "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds");
         describe(table, AugmentType.ACCELERATE, "<gray>Increases projectile speed by <yellow>%.0fpvalue%");

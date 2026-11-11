@@ -47,6 +47,7 @@ public final class GlyphStacking {
         private float pool;
         private float perCopy = 1.0F;
         private float special = 1.0F;
+        private float relief = 1.0F;
 
         private Stat(String name) {
             this.name = name;
@@ -68,6 +69,22 @@ public final class GlyphStacking {
             return this.special;
         }
 
+        /** The product of the favourable factors among the multiplying (non-pooled) effects. */
+        public float relief() {
+            return this.relief;
+        }
+
+        /**
+         * The favourable part of the total: the pooled upsides and every favourable multiplying factor. On cooldown this
+         * is the base-cooldown cut (the unique cooldown glyphs); the rest of the total is the penalty.
+         */
+        public float favourable() {
+            if (lowerIsBetter(this.name)) {
+                return this.relief / (1.0F + this.pool);
+            }
+            return (1.0F + this.pool) * this.relief;
+        }
+
         public float total() {
             if (lowerIsBetter(this.name)) {
                 return this.perCopy * this.special / (1.0F + this.pool);
@@ -87,7 +104,12 @@ public final class GlyphStacking {
                 Stat stat = this.stats.computeIfAbsent(effect.stat, Stat::new);
                 if (pooled(glyph, effect)) {
                     stat.pool += lowerIsBetter(effect.stat) ? 1.0F / factor - 1.0F : factor - 1.0F;
-                } else if ("special".equals(glyph.glyphClass) || "unique".equals(glyph.glyphClass)) {
+                    continue;
+                }
+                if (favourable(effect.stat, factor)) {
+                    stat.relief *= factor;
+                }
+                if ("special".equals(glyph.glyphClass) || "unique".equals(glyph.glyphClass)) {
                     stat.special *= factor;
                 } else {
                     stat.perCopy *= factor;

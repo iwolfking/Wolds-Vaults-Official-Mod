@@ -149,7 +149,24 @@ public final class SpellHastePatches {
         return node;
     }
 
-    /** Every gear card paying cooldown reduction: each pool roll scaled, the card renamed. */
+    /**
+     * Evolution cards keep upstream's numbers as haste (1% at tier 5): the deck's adds and multipliers already lifted one
+     * of them past the whole haste cap at x3.
+     */
+    private static boolean evolution(JsonObject card) {
+        JsonArray groups = card.getAsJsonArray("groups");
+        if (groups == null) {
+            return false;
+        }
+        for (JsonElement group : groups) {
+            if ("Evolution".equals(group.getAsString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Every gear card paying cooldown reduction: each pool roll scaled (evolution cards excepted), the card renamed. */
     private static void cards(Patch cards) {
         JsonObject values = seeded("card/modifiers.json").getAsJsonObject().getAsJsonObject("values");
         for (Map.Entry<String, JsonElement> entry : values.entrySet()) {
@@ -158,7 +175,7 @@ public final class SpellHastePatches {
                 continue;
             }
             JsonArray pool = card.getAsJsonArray("pool");
-            for (int roll = 0; roll < pool.size(); roll++) {
+            for (int roll = 0; roll < pool.size() && !evolution(card); roll++) {
                 cards.at("values", entry.getKey(), "pool", roll).scale("min", ATTRIBUTE_FACTOR).scale("max", ATTRIBUTE_FACTOR);
             }
             String name = card.getAsJsonObject("name").get("text").getAsString();

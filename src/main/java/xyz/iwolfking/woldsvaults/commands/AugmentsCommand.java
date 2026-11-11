@@ -96,7 +96,7 @@ public final class AugmentsCommand {
             String slot = spell.assigned() ? "slot " + (spell.slot() + 1) : "off the bar";
             line(source, "  #" + spell.id() + " " + spell.name() + " [" + slot + ", priority " + SpellcraftRules.priority(config, spell) + "]: "
                     + String.join(" ", spell.tokens()) + "  (" + Math.round(model.arcana()) + " arcana, mana x" + String.format("%.2f", model.manaFactor())
-                    + ", cd x" + String.format("%.2f", model.cooldownFactor()) + ", haste x" + String.format("%.2f", model.hasteMultiplier()) + ", "
+                    + ", cd base x" + String.format("%.2f", model.cooldownBase()) + ", glyph haste x" + String.format("%.2f", model.glyphHaste()) + ", "
                     + model.casts() + " casts)", ChatFormatting.DARK_PURPLE);
             for (SpellModel.Glyph glyph : model.glyphs()) {
                 if (!glyph.active()) {

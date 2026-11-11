@@ -39,7 +39,7 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public int abilityStepCost;
         @Expose public float chainCooldownShare;
         @Expose public float manaFactorFloor;
-        @Expose public float minCooldownSeconds;
+        @Expose public float glyphHasteHeadroom;
         @Expose public int maxGlyphsPerSpell;
         @Expose public int maxSpellsPerItem;
         @Expose public int maxCastsPerTrigger;
@@ -332,7 +332,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             return "the cost noise table is empty";
         }
         if (this.rules.maxGlyphsPerSpell < 1 || this.rules.maxSpellsPerItem < 1 || this.rules.maxCastsPerTrigger < 1
-                || this.rules.maxBundleNesting < 0 || this.rules.manaFactorFloor <= 0 || this.rules.maxNameLength < 1) {
+                || this.rules.maxBundleNesting < 0 || this.rules.manaFactorFloor <= 0 || this.rules.maxNameLength < 1
+                || this.rules.glyphHasteHeadroom < 1.0F) {
             return "a spell rule is out of range";
         }
         if (this.rules.priorities < 1 || this.rules.defaultPriority < 1 || this.rules.defaultPriority > this.rules.priorities
