@@ -6,6 +6,7 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.data.AttributeGearData;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.Throuple;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -95,6 +96,22 @@ public final class EtchingGlyphs {
         current = new Index(config, Collections.unmodifiableMap(byAttribute), removed);
         index = current;
         return current;
+    }
+
+    /** The glyph an item's etching grants, or null when it has no etching or its etching grants none (client tooltips). */
+    @Nullable
+    public static AugmentType glyphOf(ItemStack stack) {
+        Index current = index();
+        if (current == null || current.byAttribute().isEmpty() || stack.isEmpty() || !VaultGearData.hasData(stack)
+                || !(AttributeGearData.read(stack) instanceof VaultGearData data)) {
+            return null;
+        }
+        ResourceLocation etching = data.getFirstValue(ModGearAttributes.ETCHING).orElse(null);
+        if (etching == null) {
+            return null;
+        }
+        Entry entry = current.byAttribute().get(etching.toString());
+        return entry == null ? null : entry.type();
     }
 
     /** The {@link GlyphLines} provider: every converted etching on the stack is a transferable auto line, whatever the source. */

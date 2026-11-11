@@ -2,11 +2,16 @@ package xyz.iwolfking.woldsvaults.client.events;
 
 import java.util.Set;
 import java.util.HashSet;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.data.VaultGearData;
 import xyz.iwolfking.woldsvaults.client.spellcraft.GlyphAffixLine;
 import com.mojang.datafixers.util.Either;
 import iskallia.vault.client.data.ClientAbilityData;
+import iskallia.vault.gear.etching.EtchingHelper;
+import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -15,6 +20,7 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,11 +40,14 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftGui;
 import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftTooltipRow;
 import xyz.iwolfking.woldsvaults.client.spellcraft.ClientGlyphViews;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphLines;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import iskallia.vault.util.TextUtil;
+import javax.annotation.Nullable;
 
 /**
  * The spellcraft block at the bottom of a focus's or wand's tooltip. Normally four lines: arcana used of the budget with
@@ -52,15 +61,16 @@ public class AugmentTooltipEvents {
     private static final Set<String> MISSING_AFFIX_LINES = new HashSet<>();
 
     /**
-     * A gear affix that grants a glyph keeps its own tooltip line and gets the glyph's rune drawn to its right. The line
-     * is found by its text (the same {@code getDisplay} call VH's tooltip makes); if it can't be found, the line is added
-     * at the end and a warning is logged once per affix.
+     * A gear affix or etching that grants a glyph keeps its own tooltip line and gets the glyph's rune drawn to its
+     * right. The line is found by its text (the same calls VH's tooltip makes: an affix's {@code getDisplay}, the
+     * etching's formatted description); if it can't be found, the line is added at the end and a warning is logged once.
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onGatherGrants(RenderTooltipEvent.GatherComponents event) {
         ItemStack stack = event.getItemStack();
         List<GearGlyphLines.Grant> grants = GearGlyphLines.grants(stack);
-        if (grants.isEmpty()) {
+        AugmentType etchingGlyph = EtchingGlyphs.glyphOf(stack);
+        if (grants.isEmpty() && etchingGlyph == null) {
             return;
         }
         VaultGearData data = VaultGearData.read(stack);
@@ -68,30 +78,50 @@ public class AugmentTooltipEvents {
         for (GearGlyphLines.Grant grant : grants) {
             Component plain = grant.modifier().getDisplay(data, grant.affixType(), stack, false).orElse(null);
             Component detailed = grant.modifier().getDisplay(data, grant.affixType(), stack, true).orElse(null);
-            if (plain == null) {
-                continue;
-            }
-            boolean placed = false;
-            for (int i = 0; i < elements.size() && !placed; i++) {
-                FormattedText text = elements.get(i).left().orElse(null);
-                if (text == null) {
-                    continue;
-                }
-                String shown = text.getString();
-                if (shown.equals(plain.getString()) || (detailed != null && shown.equals(detailed.getString()))) {
-                    Component line = text instanceof Component component ? component : new TextComponent(shown);
-                    elements.set(i, Either.right(new GlyphAffixLine(line, grant.glyph())));
-                    placed = true;
-                }
-            }
-            if (!placed) {
-                if (MISSING_AFFIX_LINES.add(grant.glyph().id() + "|" + plain.getString())) {
-                    WoldsVaults.LOGGER.warn("Spellcraft: no tooltip line matches the glyph-granting affix '{}' on {}; the glyph line is added at the end",
-                            plain.getString(), stack.getItem());
-                }
-                elements.add(Either.right(new GlyphAffixLine(plain, grant.glyph())));
+            if (plain != null) {
+                attachRune(elements, plain, detailed, grant.glyph(), stack);
             }
         }
+        if (etchingGlyph != null) {
+            Component description = etchingDescription(stack, data);
+            if (description != null) {
+                attachRune(elements, description, null, etchingGlyph, stack);
+            }
+        }
+    }
+
+    private static void attachRune(List<Either<FormattedText, TooltipComponent>> elements, Component plain, @Nullable Component detailed,
+                                   AugmentType glyph, ItemStack stack) {
+        String plainText = plain.getString();
+        String detailedText = detailed == null ? null : detailed.getString();
+        for (int i = 0; i < elements.size(); i++) {
+            FormattedText text = elements.get(i).left().orElse(null);
+            if (text == null) {
+                continue;
+            }
+            String shown = text.getString();
+            if (shown.equals(plainText) || shown.equals(detailedText)) {
+                Component line = text instanceof Component component ? component : new TextComponent(shown);
+                elements.set(i, Either.right(new GlyphAffixLine(line, glyph)));
+                return;
+            }
+        }
+        if (MISSING_AFFIX_LINES.add(glyph.id() + "|" + plainText)) {
+            WoldsVaults.LOGGER.warn("Spellcraft: no tooltip line matches the glyph-granting line '{}' on {}; the glyph line is added at the end",
+                    plainText, stack.getItem());
+        }
+        elements.add(Either.right(new GlyphAffixLine(plain, glyph)));
+    }
+
+    @Nullable
+    private static Component etchingDescription(ItemStack stack, VaultGearData data) {
+        ResourceLocation id = data.getFirstValue(ModGearAttributes.ETCHING).orElse(null);
+        VaultEtchingConfig.EtchingEntry config = id == null || ModConfigs.ETCHINGS == null ? null : ModConfigs.ETCHINGS.getEtchingConfig(id);
+        if (config == null) {
+            return null;
+        }
+        return TextUtil.applyColorTags(EtchingHelper.formatDescription(config.getDescription(), EtchingHelper.getEtching(stack)))
+                .withStyle(ChatFormatting.DARK_GRAY);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
