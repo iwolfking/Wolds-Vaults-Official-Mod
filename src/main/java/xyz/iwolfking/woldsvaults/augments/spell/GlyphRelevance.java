@@ -6,6 +6,7 @@ import xyz.iwolfking.woldsvaults.augments.effect.SpellHits;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,9 +34,18 @@ public final class GlyphRelevance {
     private GlyphRelevance() {
     }
 
-    /** The filter for the step that owns the glyph at {@code token}, or for the spell alone when no step owns it. */
+    /**
+     * The filter for the steps the glyph at {@code token} modifies (a stat applies when it applies on any of them; a
+     * spell-wide glyph modifies every step it fits), or for the spell alone when no step holds it.
+     */
     public static Filter forToken(FocusAugmentsConfig config, SpellModel model, int token) {
-        return of(config, model, ownerOf(model.steps(), token));
+        List<SpellModel.Step> owners = new ArrayList<>();
+        ownersOf(model.steps(), token, owners);
+        if (owners.size() <= 1) {
+            return of(config, model, owners.isEmpty() ? null : owners.get(0));
+        }
+        List<Filter> filters = owners.stream().map(step -> of(config, model, step)).toList();
+        return (stat, pooled) -> filters.stream().anyMatch(filter -> filter.applies(stat, pooled));
     }
 
     /**
@@ -97,24 +107,19 @@ public final class GlyphRelevance {
         };
     }
 
-    /** The step whose glyphs hold the glyph at {@code token}: an ability step, a Bundled Spell (its orb), or null. */
-    @Nullable
-    public static SpellModel.Step ownerOf(List<SpellModel.Step> steps, int token) {
+    /** Adds every step whose glyphs hold the glyph at {@code token}: ability steps and Bundled Spells (their orbs). */
+    public static void ownersOf(List<SpellModel.Step> steps, int token, List<SpellModel.Step> owners) {
         for (SpellModel.Step step : steps) {
             if (step instanceof SpellModel.Cast cast && holds(cast.glyphs(), token)) {
-                return cast;
+                owners.add(cast);
             }
             if (step instanceof SpellModel.Bundle bundle) {
                 if (bundle.glyph().token() == token || holds(bundle.glyphs(), token)) {
-                    return bundle;
+                    owners.add(bundle);
                 }
-                SpellModel.Step inner = ownerOf(bundle.payload(), token);
-                if (inner != null) {
-                    return inner;
-                }
+                ownersOf(bundle.payload(), token, owners);
             }
         }
-        return null;
     }
 
     private static boolean holds(List<SpellModel.Glyph> glyphs, int token) {

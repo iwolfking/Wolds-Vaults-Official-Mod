@@ -372,7 +372,7 @@ public final class SpellBarStrip {
                 if (slot.model() != null) {
                     for (var glyph : slot.model().glyphs()) {
                         if (!glyph.active()) {
-                            lines.add(colored(SpellcraftGui.tr("bar.inactive_glyph", glyph.type().displayName(), SpellcraftGui.inactiveReason(glyph)),
+                            lines.add(colored(SpellcraftGui.tr("bar.inactive_glyph", glyph.type().displayName(), SpellcraftGui.inactiveReason(config, glyph)),
                                     SpellcraftGui.DARK));
                         }
                     }

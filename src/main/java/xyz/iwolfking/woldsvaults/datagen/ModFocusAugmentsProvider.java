@@ -95,7 +95,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(k("mana", COST, 0.4F / 1.2F)),
                 3, List.of(60, 30, 10), 3, 4, 8, false);
         glyph(table, AugmentType.STRENGTHEN, "modifier", "common", "power", 15, 8, List.of(List.of("instant", "damage")), List.of(), List.of(),
-                List.of("intensify"),
+                List.of(),
                 potency("damage", "pct", List.of(tier(0, 0.096F, 0.168F), tier(35, 0.132F, 0.228F), tier(70, 0.18F, 0.3F)), List.of()),
                 List.of(k("damage", UP, 1.0F), k("area", DOWN, -0.3F / 1.2F)),
                 List.of(k("mana", COST, 0.6F / 1.2F)),
@@ -183,7 +183,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of(fixed("mana", COST, 1.25F), fixed("cooldown", COST, 1.15F)),
                 1, List.of(100), 1, 12, 19, false);
         glyph(table, AugmentType.INTENSIFY, "modifier", "common", "power", 20, 8, List.of(List.of("instant", "intensify"), List.of("toggle", "intensify")),
-                List.of(), List.of(), List.of("strengthen"),
+                List.of(), List.of(), List.of(),
                 potency("intensity", "pct", List.of(tier(0, 0.1F, 0.14F), tier(35, 0.12F, 0.16F), tier(70, 0.14F, 0.18F)), List.of()),
                 List.of(k("intensity", UP, 1.0F), fixed("duration", DOWN, 0.85F), k("drain", DOWN, 1.5F), k("heal_mana", DOWN, 1.5F)),
                 List.of(fixed("mana", COST, 1.15F)),
@@ -229,24 +229,26 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         gearGlyph(table, AugmentType.QUICK_MEND, "unique", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
                 List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
         etchingGlyphs(table);
-        describe(table, AugmentType.AMPLIFY_AREA, "<gray>Increases area by <#5FD068>%.0fpvalue%");
-        describe(table, AugmentType.STRENGTHEN, "<gray>Increases damage by <#E0564A>%.0fpvalue%");
+        spellWide(table, AugmentType.AMPLIFY_AREA, AugmentType.STRENGTHEN, AugmentType.ACCELERATE, AugmentType.SIZE_UP, AugmentType.SIZE_DOWN,
+                AugmentType.CHARGE, AugmentType.INTENSIFY, AugmentType.EXTEND);
+        describe(table, AugmentType.AMPLIFY_AREA, "<gray>Increases area by <#5FD068>%.0fpvalue% <gray>on every ability in the spell it fits");
+        describe(table, AugmentType.STRENGTHEN, "<gray>Increases damage by <#E0564A>%.0fpvalue% <gray>on every ability in the spell it fits");
         describe(table, AugmentType.QUICKEN, "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap");
         describe(table, AugmentType.DISCOUNT, "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%");
         describe(table, AugmentType.DELAY, "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds");
-        describe(table, AugmentType.ACCELERATE, "<gray>Increases projectile speed by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.ACCELERATE, "<gray>Increases projectile speed by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits");
         describe(table, AugmentType.HOMING, "<gray>Projectiles home onto targets, turning <yellow>%.0fvalue<gray> degrees per second");
         describe(table, AugmentType.ORBIT, "<gray>Projectiles orbit you for <yellow>%.1fvalue <gray>seconds");
         describe(table, AugmentType.LOW_GRAVITY, "<gray>Projectiles fall <yellow>%.0fpvalue% <gray>slower");
         describe(table, AugmentType.ETHEREAL, "<gray>Projectiles pass through walls for <yellow>%.1fvalue <gray>seconds");
-        describe(table, AugmentType.SIZE_UP, "<gray>Increases projectile size by <yellow>%.0fpvalue%");
-        describe(table, AugmentType.SIZE_DOWN, "<gray>Reduces projectile size by <yellow>%.0fpvalue%<gray>, hitting harder and flying faster");
+        describe(table, AugmentType.SIZE_UP, "<gray>Increases projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits");
+        describe(table, AugmentType.SIZE_DOWN, "<gray>Reduces projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits, hitting harder and flying faster");
         describe(table, AugmentType.ECHO, "<gray>Recasts the ability after a short delay at <#E0564A>%.0fpvalue% <gray>power");
         describe(table, AugmentType.SHOTGUN, "<gray>Fires an extra copy dealing <#E0564A>%.0fpvalue% <gray>damage");
-        describe(table, AugmentType.CHARGE, "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage");
+        describe(table, AugmentType.CHARGE, "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage with every ability in the spell it fits");
         describe(table, AugmentType.BUNDLED_SPELL, "<gray>Throws the rest of the spell as an orb that flies for <yellow>%.1fvalue <gray>seconds");
-        describe(table, AugmentType.INTENSIFY, "<gray>Increases the buff's strength by <gold>%.0fpvalue%");
-        describe(table, AugmentType.EXTEND, "<gray>Increases the buff's duration by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.INTENSIFY, "<gray>Increases buff strength by <gold>%.0fpvalue% <gray>on every ability in the spell it fits");
+        describe(table, AugmentType.EXTEND, "<gray>Increases buff duration by <yellow>%.0fpvalue% <gray>on every ability in the spell it fits");
         describe(table, AugmentType.CHAINING, "<gray>Direct hits now proc <yellow>Chaining <gray>to nearby mobs");
         describe(table, AugmentType.RIME, "<gray>Frost Nova applies level <yellow>%.0fvalue <gray>Vulnerability");
         describe(table, AugmentType.WARP_HASTE, "<gray>Reduces Warp's cooldown by <#4AC6E0>%.0fpvalue%");
@@ -477,7 +479,18 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         glyph.costMin = costMin;
         glyph.costMax = costMax;
         glyph.noEscalation = noEscalation;
+        glyph.scope = FocusAugmentsConfig.Glyph.SCOPE_STEP;
         table.glyphs.put(type.id(), glyph);
+    }
+
+    /**
+     * Marks the pure stat glyphs spell-wide (user ruling 2026-11-11): their step effects reach every live step of the
+     * spell they fit, wherever they sit.
+     */
+    private static void spellWide(FocusAugmentsConfig table, AugmentType... types) {
+        for (AugmentType type : types) {
+            table.glyph(type).scope = FocusAugmentsConfig.Glyph.SCOPE_SPELL;
+        }
     }
 
     /**

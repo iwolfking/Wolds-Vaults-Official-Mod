@@ -31,12 +31,15 @@ import java.util.function.Function;
  * <p>
  * Grammar: the first token is the trigger ability; a modifier glyph changes the nearest ability or orb before it;
  * Delay pauses; Bundled Spell throws an orb, modified by the glyphs right after it, whose payload is everything from the
- * next ability on; any other ability token is a chained step.
+ * next ability on; any other ability token is a chained step. A spell-wide glyph (the table's {@code scope}) ignores
+ * where it sits: its step effects reach every live ability step and active orb of the spell it fits, payload steps
+ * included, and its spell effects, uses and arcana count once.
  * <p>
  * Glyph states: a glyph with no line in the view, a copy beyond the view line's per-spell limit, one that doesn't fit
- * its step and one greyed by the item's budget pass all do nothing and cost nothing. An inactive Bundled Spell takes its
- * orb glyphs and its whole payload with it; an inactive Delay doesn't pause. Only structural problems are errors when
- * casting; while editing, glyphs placed new beyond what the view backs are errors too.
+ * its step (a spell-wide glyph: no step of the spell) and one greyed by the item's budget pass all do nothing and cost
+ * nothing. An inactive Bundled Spell takes its orb glyphs and its whole payload with it, but not the spell-wide glyphs
+ * placed after it; an inactive Delay doesn't pause. Only structural problems are errors when casting; while editing,
+ * glyphs placed new beyond what the view backs are errors too.
  */
 public final class SpellModel {
     private final List<Step> steps;
@@ -97,7 +100,10 @@ public final class SpellModel {
     public sealed interface Step permits Cast, Pause, Bundle {
     }
 
-    /** An ability step: the ability group, its current specialization id, the glyphs on it, and whether it casts. */
+    /**
+     * An ability step: the ability group, its current specialization id, the glyphs that modify it (those placed on it
+     * and every spell-wide glyph that fits it), and whether it casts.
+     */
     public record Cast(String group, @Nullable String spec, List<Glyph> glyphs, boolean live) implements Step {
         public int count(AugmentType type) {
             return (int) this.glyphs.stream().filter(glyph -> glyph.type() == type && glyph.active()).count();
@@ -111,7 +117,7 @@ public final class SpellModel {
     public record Pause(Glyph glyph) implements Step {
     }
 
-    /** A Bundled Spell: its own glyph, the glyphs that modify the orb, and its payload. */
+    /** A Bundled Spell: its own glyph, the glyphs that modify the orb (spell-wide ones included), and its payload. */
     public record Bundle(Glyph glyph, List<Glyph> glyphs, List<Step> payload) implements Step {
         public int count(AugmentType type) {
             return (int) this.glyphs.stream().filter(glyph -> glyph.type() == type && glyph.active()).count();
@@ -290,6 +296,7 @@ public final class SpellModel {
             builder.accept(i, tokens.get(i));
         }
         builder.finishBundles();
+        builder.bindSpellWide();
         int limit = Math.min(depth, config.rules.maxGlyphsPerSpell);
         if (builder.depthCount > limit) {
             builder.errors.add("this item holds at most " + limit + " glyphs per spell");
@@ -455,6 +462,8 @@ public final class SpellModel {
         State inactiveBundle;
         final GlyphStacking.Pool spellPool = new GlyphStacking.Pool();
         final List<Bundle> openBundles = new ArrayList<>();
+        final List<Glyph> spellWide = new ArrayList<>();
+        final Set<Integer> spellWideNew = new LinkedHashSet<>();
 
         Builder(FocusAugmentsConfig config, GlyphView view, Function<String, String> specOf, Mode mode, Map<Integer, State> forced,
                 Map<AugmentType, Integer> saved) {
@@ -503,6 +512,13 @@ public final class SpellModel {
                 openBundle(finish(new Glyph(type, potency, quality, cost, state, false, index)), spec);
                 return;
             }
+            if (spec.spellWide()) {
+                this.spellWide.add(new Glyph(type, potency, quality, cost, state, false, index));
+                if (isNew) {
+                    this.spellWideNew.add(index);
+                }
+                return;
+            }
             if (this.target == null) {
                 this.errors.add(this.awaitingStep ? type.displayName() + " follows a Delay; put it before the Delay, or after the next ability"
                         : type.displayName() + " has no ability or orb before it to modify");
@@ -535,18 +551,67 @@ public final class SpellModel {
         }
 
         Glyph finish(Glyph glyph) {
-            Glyph result = glyph;
-            if (result.active()) {
-                State forcedState = this.forced.get(result.token());
-                if (forcedState != null && forcedState != State.ACTIVE) {
-                    result = new Glyph(result.type(), result.potency(), result.quality(), result.cost(), forcedState, false, result.token());
-                }
-            }
+            Glyph result = force(glyph);
             if (result.active() && this.inactiveBundle != null) {
                 result = new Glyph(result.type(), result.potency(), result.quality(), result.cost(), this.inactiveBundle, true, result.token());
             }
             record(result);
             return result;
+        }
+
+        Glyph force(Glyph glyph) {
+            if (glyph.active()) {
+                State forcedState = this.forced.get(glyph.token());
+                if (forcedState != null && forcedState != State.ACTIVE) {
+                    return new Glyph(glyph.type(), glyph.potency(), glyph.quality(), glyph.cost(), forcedState, false, glyph.token());
+                }
+            }
+            return glyph;
+        }
+
+        /**
+         * Binds the spell-wide glyphs once every step is read: each joins the glyphs of every live ability step and
+         * active orb it fits, and goes dormant when it fits none.
+         */
+        void bindSpellWide() {
+            if (this.spellWide.isEmpty()) {
+                return;
+            }
+            List<Target> targets = new ArrayList<>();
+            collectTargets(this.root, targets);
+            for (Glyph placed : this.spellWide) {
+                AugmentType type = placed.type();
+                List<Target> fitting = targets.stream().filter(target -> type.fits(this.config, target.traits(), target.spec())).toList();
+                Glyph glyph = placed;
+                if (fitting.isEmpty()) {
+                    refuse(this.spellWideNew.contains(placed.token()), type.displayName() + " fits no ability or orb in the spell");
+                    if (glyph.active()) {
+                        glyph = new Glyph(type, glyph.potency(), glyph.quality(), glyph.cost(), State.DORMANT, false, glyph.token());
+                    }
+                }
+                glyph = force(glyph);
+                record(glyph);
+                for (Target target : fitting) {
+                    target.glyphs().add(glyph);
+                }
+                applySpellEffects(this.config.glyph(type), glyph);
+            }
+        }
+
+        private void collectTargets(List<Step> steps, List<Target> targets) {
+            for (Step step : steps) {
+                if (step instanceof Cast cast && cast.live()) {
+                    targets.add(new Target(cast.glyphs(), traits(this.config, cast.spec()), cast.spec()));
+                } else if (step instanceof Bundle bundle) {
+                    if (bundle.glyph().active()) {
+                        targets.add(new Target(bundle.glyphs(), Set.of(AugmentType.BUNDLE_TRAIT), null));
+                    }
+                    collectTargets(bundle.payload(), targets);
+                }
+            }
+        }
+
+        private record Target(List<Glyph> glyphs, Set<String> traits, @Nullable String spec) {
         }
 
         void record(Glyph glyph) {

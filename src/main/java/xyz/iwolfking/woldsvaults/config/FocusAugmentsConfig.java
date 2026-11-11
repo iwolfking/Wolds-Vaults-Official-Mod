@@ -82,9 +82,14 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
      * {@code requires} is a list of trait sets; a modifier fits a target when the target has every trait of one set (a
      * Bundled Spell orb has the single trait {@code bundle}), none of the {@code forbids} traits, and, when
      * {@code specs} is not empty, is one of those specializations. {@code excludes} lists glyphs it never shares a step
-     * with. Step effects change the modified step; spell effects change the whole slot.
+     * with. Step effects change the modified step; spell effects change the whole slot. {@code scope} decides which
+     * steps take the step effects: {@code step}, the ability or orb the glyph follows; {@code spell}, every live
+     * ability step and orb of the spell it fits, wherever it sits.
      */
     public static class Glyph {
+        public static final String SCOPE_STEP = "step";
+        public static final String SCOPE_SPELL = "spell";
+
         @Expose public String kind;
         @Expose @SerializedName("class") public String glyphClass;
         @Expose public String category;
@@ -104,6 +109,12 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public int costMax;
         @Expose public boolean noEscalation;
         @Expose public String description;
+        @Expose public String scope;
+
+        /** Whether the step effects reach every step of the spell the glyph fits, not only the step it follows. */
+        public boolean spellWide() {
+            return SCOPE_SPELL.equals(this.scope);
+        }
     }
 
     /** The rolled main value: a range per item-level tier, plus values rolled at the same quality. */
@@ -357,6 +368,13 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
                 return "glyph " + type.id() + " " + problem;
             }
         }
+        for (AugmentType type : AugmentType.values()) {
+            for (String other : this.glyphs.get(type.id()).excludes) {
+                if (this.glyph(AugmentType.byId(other)).spellWide()) {
+                    return "glyph " + type.id() + " excludes the spell-wide glyph " + other;
+                }
+            }
+        }
         if (this.glyphs.size() != AugmentType.values().length) {
             return "it has entries for glyphs that do not exist";
         }
@@ -566,6 +584,12 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             if (AugmentType.byId(other) == null) {
                 return "excludes an unknown glyph " + other;
             }
+        }
+        if (!Glyph.SCOPE_STEP.equals(glyph.scope) && !Glyph.SCOPE_SPELL.equals(glyph.scope)) {
+            return "has an unknown scope " + glyph.scope;
+        }
+        if (glyph.spellWide() && (!"modifier".equals(glyph.kind) || !glyph.excludes.isEmpty())) {
+            return "is spell-wide but is not a modifier or excludes other glyphs";
         }
         return null;
     }

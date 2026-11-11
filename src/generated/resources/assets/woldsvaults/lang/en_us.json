@@ -1942,6 +1942,7 @@
   "woldsvaults.spellcraft.glyph_state.budget": "over the item's arcana budget",
   "woldsvaults.spellcraft.glyph_state.dependent": "the Bundled Spell it rides on is inactive",
   "woldsvaults.spellcraft.glyph_state.dormant": "doesn't fit this step",
+  "woldsvaults.spellcraft.glyph_state.dormant_spell": "fits no ability or orb in this spell",
   "woldsvaults.spellcraft.glyph_state.source": "needs %s from an equipped item",
   "woldsvaults.spellcraft.glyph_state.uses": "the best %s allows fewer copies",
   "woldsvaults.spellcraft.picker.empty": "Empty",

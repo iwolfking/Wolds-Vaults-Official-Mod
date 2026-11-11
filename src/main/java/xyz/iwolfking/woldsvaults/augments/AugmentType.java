@@ -9,8 +9,9 @@ import java.util.Set;
 
 /**
  * The glyphs a focus or wand can roll. Modifiers change the nearest ability, or Bundled Spell orb, before them in a
- * spell; Delay pauses the spell; Bundled Spell throws the rest of the spell as an orb. What each one does per point of
- * potency, and what it fits, is in the focus augments table.
+ * spell, and the spell-wide ones every step of the spell they fit; Delay pauses the spell; Bundled Spell throws the rest
+ * of the spell as an orb. What each one does per point of potency, what it fits and its scope are in the focus augments
+ * table.
  */
 public enum AugmentType {
     AMPLIFY_AREA("Amplify Area"),

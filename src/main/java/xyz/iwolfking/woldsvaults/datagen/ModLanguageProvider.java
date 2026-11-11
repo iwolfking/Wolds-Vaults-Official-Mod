@@ -430,6 +430,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.bar.inactive_glyph", "%s inactive: %s");
         add("woldsvaults.spellcraft.bar.over_budget", "%s is over its arcana budget: %s glyphs inactive");
         add("woldsvaults.spellcraft.glyph_state.dormant", "doesn't fit this step");
+        add("woldsvaults.spellcraft.glyph_state.dormant_spell", "fits no ability or orb in this spell");
         add("woldsvaults.spellcraft.glyph_state.source", "needs %s from an equipped item");
         add("woldsvaults.spellcraft.glyph_state.uses", "the best %s allows fewer copies");
         add("woldsvaults.spellcraft.glyph_state.budget", "over the item's arcana budget");

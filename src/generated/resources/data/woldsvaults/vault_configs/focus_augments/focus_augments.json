@@ -114,7 +114,8 @@
       "costMin": 4,
       "costMax": 8,
       "noEscalation": false,
-      "description": "<gray>Increases area by <#5FD068>%.0fpvalue%"
+      "description": "<gray>Increases area by <#5FD068>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
     },
     "strengthen": {
       "kind": "modifier",
@@ -130,9 +131,7 @@
       ],
       "forbids": [],
       "specs": [],
-      "excludes": [
-        "intensify"
-      ],
+      "excludes": [],
       "potency": {
         "label": "damage",
         "format": "pct",
@@ -184,7 +183,8 @@
       "costMin": 5,
       "costMax": 11,
       "noEscalation": false,
-      "description": "<gray>Increases damage by <#E0564A>%.0fpvalue%"
+      "description": "<gray>Increases damage by <#E0564A>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
     },
     "quicken": {
       "kind": "modifier",
@@ -254,7 +254,8 @@
       "costMin": 5,
       "costMax": 11,
       "noEscalation": false,
-      "description": "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap"
+      "description": "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap",
+      "scope": "step"
     },
     "discount": {
       "kind": "modifier",
@@ -315,7 +316,8 @@
       "costMin": 4,
       "costMax": 8,
       "noEscalation": false,
-      "description": "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%"
+      "description": "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%",
+      "scope": "step"
     },
     "delay": {
       "kind": "delay",
@@ -358,7 +360,8 @@
       "costMin": 1,
       "costMax": 1,
       "noEscalation": true,
-      "description": "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds"
+      "description": "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds",
+      "scope": "step"
     },
     "accelerate": {
       "kind": "modifier",
@@ -433,7 +436,8 @@
       "costMin": 2,
       "costMax": 6,
       "noEscalation": false,
-      "description": "<gray>Increases projectile speed by <yellow>%.0fpvalue%"
+      "description": "<gray>Increases projectile speed by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits",
+      "scope": "spell"
     },
     "homing": {
       "kind": "modifier",
@@ -508,7 +512,8 @@
       "costMin": 7,
       "costMax": 12,
       "noEscalation": false,
-      "description": "<gray>Projectiles home onto targets, turning <yellow>%.0fvalue<gray> degrees per second"
+      "description": "<gray>Projectiles home onto targets, turning <yellow>%.0fvalue<gray> degrees per second",
+      "scope": "step"
     },
     "orbit": {
       "kind": "modifier",
@@ -569,7 +574,8 @@
       "costMin": 7,
       "costMax": 12,
       "noEscalation": false,
-      "description": "<gray>Projectiles orbit you for <yellow>%.1fvalue <gray>seconds"
+      "description": "<gray>Projectiles orbit you for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
     },
     "low_gravity": {
       "kind": "modifier",
@@ -623,7 +629,8 @@
       "costMin": 1,
       "costMax": 4,
       "noEscalation": false,
-      "description": "<gray>Projectiles fall <yellow>%.0fpvalue% <gray>slower"
+      "description": "<gray>Projectiles fall <yellow>%.0fpvalue% <gray>slower",
+      "scope": "step"
     },
     "ethereal": {
       "kind": "modifier",
@@ -681,7 +688,8 @@
       "costMin": 11,
       "costMax": 16,
       "noEscalation": false,
-      "description": "<gray>Projectiles pass through walls for <yellow>%.1fvalue <gray>seconds"
+      "description": "<gray>Projectiles pass through walls for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
     },
     "size_up": {
       "kind": "modifier",
@@ -759,7 +767,8 @@
       "costMin": 4,
       "costMax": 8,
       "noEscalation": false,
-      "description": "<gray>Increases projectile size by <yellow>%.0fpvalue%"
+      "description": "<gray>Increases projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits",
+      "scope": "spell"
     },
     "size_down": {
       "kind": "modifier",
@@ -838,7 +847,8 @@
       "costMin": 4,
       "costMax": 8,
       "noEscalation": false,
-      "description": "<gray>Reduces projectile size by <yellow>%.0fpvalue%<gray>, hitting harder and flying faster"
+      "description": "<gray>Reduces projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits, hitting harder and flying faster",
+      "scope": "spell"
     },
     "echo": {
       "kind": "modifier",
@@ -888,7 +898,8 @@
       "costMin": 14,
       "costMax": 22,
       "noEscalation": false,
-      "description": "<gray>Recasts the ability after a short delay at <#E0564A>%.0fpvalue% <gray>power"
+      "description": "<gray>Recasts the ability after a short delay at <#E0564A>%.0fpvalue% <gray>power",
+      "scope": "step"
     },
     "shotgun": {
       "kind": "modifier",
@@ -956,7 +967,8 @@
       "costMin": 12,
       "costMax": 19,
       "noEscalation": false,
-      "description": "<gray>Fires an extra copy dealing <#E0564A>%.0fpvalue% <gray>damage"
+      "description": "<gray>Fires an extra copy dealing <#E0564A>%.0fpvalue% <gray>damage",
+      "scope": "step"
     },
     "charge": {
       "kind": "modifier",
@@ -1024,7 +1036,8 @@
       "costMin": 12,
       "costMax": 18,
       "noEscalation": false,
-      "description": "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage"
+      "description": "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage with every ability in the spell it fits",
+      "scope": "spell"
     },
     "bundled_spell": {
       "kind": "bundle",
@@ -1069,7 +1082,8 @@
       "costMin": 12,
       "costMax": 19,
       "noEscalation": false,
-      "description": "<gray>Throws the rest of the spell as an orb that flies for <yellow>%.1fvalue <gray>seconds"
+      "description": "<gray>Throws the rest of the spell as an orb that flies for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
     },
     "intensify": {
       "kind": "modifier",
@@ -1089,9 +1103,7 @@
       ],
       "forbids": [],
       "specs": [],
-      "excludes": [
-        "strengthen"
-      ],
+      "excludes": [],
       "potency": {
         "label": "intensity",
         "format": "pct",
@@ -1152,7 +1164,8 @@
       "costMin": 6,
       "costMax": 10,
       "noEscalation": false,
-      "description": "<gray>Increases the buff's strength by <gold>%.0fpvalue%"
+      "description": "<gray>Increases buff strength by <gold>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
     },
     "extend": {
       "kind": "modifier",
@@ -1229,7 +1242,8 @@
       "costMin": 5,
       "costMax": 9,
       "noEscalation": false,
-      "description": "<gray>Increases the buff's duration by <yellow>%.0fpvalue%"
+      "description": "<gray>Increases buff duration by <yellow>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
     },
     "chaining": {
       "kind": "modifier",
@@ -1271,7 +1285,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Direct hits now proc <yellow>Chaining <gray>to nearby mobs"
+      "description": "<gray>Direct hits now proc <yellow>Chaining <gray>to nearby mobs",
+      "scope": "step"
     },
     "rime": {
       "kind": "modifier",
@@ -1309,7 +1324,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Frost Nova applies level <yellow>%.0fvalue <gray>Vulnerability"
+      "description": "<gray>Frost Nova applies level <yellow>%.0fvalue <gray>Vulnerability",
+      "scope": "step"
     },
     "warp_haste": {
       "kind": "modifier",
@@ -1354,7 +1370,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Reduces Warp's cooldown by <#4AC6E0>%.0fpvalue%"
+      "description": "<gray>Reduces Warp's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
     },
     "warp_velocity": {
       "kind": "modifier",
@@ -1392,7 +1409,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Increases Warp's arrow speed by <yellow>%.0fpvalue%"
+      "description": "<gray>Increases Warp's arrow speed by <yellow>%.0fpvalue%",
+      "scope": "step"
     },
     "steel_core": {
       "kind": "modifier",
@@ -1437,7 +1455,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Fireball's explosion is tighter, dealing up to <#E0564A>%.2fvalue<gray>x damage at its centre"
+      "description": "<gray>Fireball's explosion is tighter, dealing up to <#E0564A>%.2fvalue<gray>x damage at its centre",
+      "scope": "step"
     },
     "twinfire": {
       "kind": "modifier",
@@ -1475,7 +1494,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Fireball has a <yellow>%.0fpvalue% <gray>chance to fire a second fireball"
+      "description": "<gray>Fireball has a <yellow>%.0fpvalue% <gray>chance to fire a second fireball",
+      "scope": "step"
     },
     "deep_chill": {
       "kind": "modifier",
@@ -1513,7 +1533,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Glacial Blast applies level <yellow>%.0fvalue <#2FE1FA>Hypothermia"
+      "description": "<gray>Glacial Blast applies level <yellow>%.0fvalue <#2FE1FA>Hypothermia",
+      "scope": "step"
     },
     "implosion": {
       "kind": "modifier",
@@ -1554,7 +1575,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Javelins implode on impact, dealing <#E0564A>%.0fpvalue% <gray>of their damage"
+      "description": "<gray>Javelins implode on impact, dealing <#E0564A>%.0fpvalue% <gray>of their damage",
+      "scope": "step"
     },
     "entropic_bind": {
       "kind": "modifier",
@@ -1592,7 +1614,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Slowness Aura poisons mobs at level <yellow>%.0fvalue"
+      "description": "<gray>Slowness Aura poisons mobs at level <yellow>%.0fvalue",
+      "scope": "step"
     },
     "wide_blast": {
       "kind": "modifier",
@@ -1630,7 +1653,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%"
+      "description": "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
     },
     "narrow_storm": {
       "kind": "modifier",
@@ -1668,7 +1692,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%"
+      "description": "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
     },
     "swift_storm": {
       "kind": "modifier",
@@ -1713,7 +1738,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%"
+      "description": "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
     },
     "dread": {
       "kind": "modifier",
@@ -1751,7 +1777,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Increases Repel's fear area by <#5FD068>%.0fpvalue%"
+      "description": "<gray>Increases Repel's fear area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
     },
     "quick_mend": {
       "kind": "modifier",
@@ -1796,7 +1823,8 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Reduces Group Heal's cooldown by <#4AC6E0>%.0fpvalue%"
+      "description": "<gray>Reduces Group Heal's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
     },
     "glacial_nova": {
       "kind": "modifier",
@@ -1833,7 +1861,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "nova_recast": {
       "kind": "modifier",
@@ -1872,7 +1901,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "low_mana_nova": {
       "kind": "modifier",
@@ -1915,7 +1945,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "glacial_damage": {
       "kind": "modifier",
@@ -1952,7 +1983,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "shattering_bolt": {
       "kind": "modifier",
@@ -1996,7 +2028,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "frozen_barrage": {
       "kind": "modifier",
@@ -2034,7 +2067,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "piercing_bolt": {
       "kind": "modifier",
@@ -2074,7 +2108,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "blizzard_damage": {
       "kind": "modifier",
@@ -2112,7 +2147,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "blizzard_vulnerability": {
       "kind": "modifier",
@@ -2156,7 +2192,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "stunning_smite": {
       "kind": "modifier",
@@ -2195,7 +2232,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "echoing_smite": {
       "kind": "modifier",
@@ -2234,7 +2272,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "second_strike": {
       "kind": "modifier",
@@ -2274,7 +2313,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "grand_orb": {
       "kind": "modifier",
@@ -2311,7 +2351,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "orb_refund": {
       "kind": "modifier",
@@ -2348,7 +2389,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "tristorm_orbs": {
       "kind": "modifier",
@@ -2385,7 +2427,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "arcane_pierce": {
       "kind": "modifier",
@@ -2422,7 +2465,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "rail_pierce": {
       "kind": "modifier",
@@ -2459,7 +2503,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "wide_rail": {
       "kind": "modifier",
@@ -2496,7 +2541,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "prism_anchor": {
       "kind": "modifier",
@@ -2533,7 +2579,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "prism_split": {
       "kind": "modifier",
@@ -2570,7 +2617,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "scatter_pierce": {
       "kind": "modifier",
@@ -2607,7 +2655,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "piercing_ricochet": {
       "kind": "modifier",
@@ -2644,7 +2693,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "scatter_mana": {
       "kind": "modifier",
@@ -2681,7 +2731,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "aftershock": {
       "kind": "modifier",
@@ -2720,7 +2771,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "arcane_wrath": {
       "kind": "modifier",
@@ -2757,7 +2809,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "vulnerable_totem": {
       "kind": "modifier",
@@ -2800,7 +2853,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "shockwave": {
       "kind": "modifier",
@@ -2843,7 +2897,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "bash_force": {
       "kind": "modifier",
@@ -2880,7 +2935,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "heal_cleanse": {
       "kind": "modifier",
@@ -2917,7 +2973,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "rampaging_luck": {
       "kind": "modifier",
@@ -2954,7 +3011,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "tap_damage": {
       "kind": "modifier",
@@ -2991,7 +3049,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "lucky_tap": {
       "kind": "modifier",
@@ -3034,7 +3093,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "imploding_reversal": {
       "kind": "modifier",
@@ -3071,7 +3131,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "nova_shield": {
       "kind": "modifier",
@@ -3108,7 +3169,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "nova_dash": {
       "kind": "modifier",
@@ -3145,7 +3207,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "spirit_nova": {
       "kind": "modifier",
@@ -3182,7 +3245,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "concentrated_drain": {
       "kind": "modifier",
@@ -3219,7 +3283,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "greedball": {
       "kind": "modifier",
@@ -3256,7 +3321,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "volley_mitosis": {
       "kind": "modifier",
@@ -3293,7 +3359,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "colossus_titan": {
       "kind": "modifier",
@@ -3330,7 +3397,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "ninja_getaway": {
       "kind": "modifier",
@@ -3367,7 +3435,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "chemical_barrage": {
       "kind": "modifier",
@@ -3404,7 +3473,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "imploding_barrier": {
       "kind": "modifier",
@@ -3441,7 +3511,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     },
     "ravenous_fangs": {
       "kind": "modifier",
@@ -3478,7 +3549,8 @@
       "capPerSpell": 1,
       "costMin": 10,
       "costMax": 10,
-      "noEscalation": true
+      "noEscalation": true,
+      "scope": "step"
     }
   },
   "combos": [
