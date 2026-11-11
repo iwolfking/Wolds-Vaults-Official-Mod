@@ -333,6 +333,14 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
                 .set("description", "<gray>Proccing <#6DF5A3>Lucky Hit <gray>reduces the remaining cooldown of <yellow>%svalue/ability <gray>by <yellow>"
                         + share + "%<gray>, at most once per ability cast")
                 .set("typeGroups", jsonArray("HELMET"));
+        Node etchings = patch("gear/etchings.json").at("ETCHINGS");
+        etchings.remove("the_vault:etching_ice_bolt_lucky");
+        etchings.at("the_vault:etching_arcane_rail_size")
+                .set("description", "<gray>Arcane Rail hits everything within <yellow>%.1fvalue <gray>blocks of its beam");
+        etchings.at("the_vault:etching_arcane_rail_size", "attributes", 0, "tiers", 0, "value").set("min", ModFocusAugmentsProvider.RAIL_SIZE_MIN);
+        etchings.at("the_vault:etching_totem_player_damage_effect")
+                .set("description", "<gray>While the <yellow>Wrath Totem<gray> buff is on you, your hits apply <yellow>%dvalueC <gray>stack(s) of "
+                        + "<yellow>%svalueA/effect <gray>for <yellow>%tvalueB <gray>second(s)");
     }
 
     private void deckCores() {

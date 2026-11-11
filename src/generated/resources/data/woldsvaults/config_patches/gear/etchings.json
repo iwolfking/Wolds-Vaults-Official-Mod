@@ -19,6 +19,45 @@
       "value": [
         "HELMET"
       ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_ice_bolt_lucky"
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_arcane_rail_size",
+        "description"
+      ],
+      "value": "<gray>Arcane Rail hits everything within <yellow>%.1fvalue <gray>blocks of its beam"
+    },
+    {
+      "op": "set",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_arcane_rail_size",
+        "attributes",
+        0,
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 1.1
+    },
+    {
+      "op": "set",
+      "path": [
+        "ETCHINGS",
+        "the_vault:etching_totem_player_damage_effect",
+        "description"
+      ],
+      "value": "<gray>While the <yellow>Wrath Totem<gray> buff is on you, your hits apply <yellow>%dvalueC <gray>stack(s) of <yellow>%svalueA/effect <gray>for <yellow>%tvalueB <gray>second(s)"
     }
   ]
 }

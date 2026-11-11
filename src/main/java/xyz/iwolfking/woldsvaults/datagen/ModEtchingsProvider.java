@@ -166,15 +166,15 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(0);
             });
 
-            builder.addEtching(WoldsVaults.id("imploding_barrier"), "Imploding Barrier",  "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%dvalue<gray> chance to cast <aqua>Implode<gray> when hit", 3111119, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("imploding_barrier"), "Imploding Barrier",  "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%.0fpvalue%<gray> chance to cast <aqua>Implode<gray> when hit", 3111119, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("Defensive");
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("imploding_barrier"), "ModEtching", WoldsVaults.id("imploding_barrier_etching"), tierBasicListBuilder -> {
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 5, 10, 1, new FloatAttributeGenerator.Range(0.03F, 0.07F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(5, 7, 10, 1, new FloatAttributeGenerator.Range(0.07F, 0.09F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new FloatAttributeGenerator.Range(0.1F, 0.12F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new FloatAttributeGenerator.Range(0.12F, 0.15F, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 5, 10, 1, new FloatAttributeGenerator.Range(0.03F, 0.07F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(5, 7, 10, 1, new FloatAttributeGenerator.Range(0.07F, 0.09F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new FloatAttributeGenerator.Range(0.1F, 0.12F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new FloatAttributeGenerator.Range(0.12F, 0.15F, 0.01F)));
                 }).minGreedTier(0);
             });
 

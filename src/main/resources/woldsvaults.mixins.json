@@ -418,6 +418,7 @@
     "vaulthunters.custom.MixinNovaSpeedAbility",
     "vaulthunters.spellcraft.MixinArcaneNovaOnHitHelperChainScope",
     "vaulthunters.spellcraft.MixinAreaOfEffectHelperGlyphs",
+    "vaulthunters.spellcraft.MixinEtchingHelperGlyphs",
     "vaulthunters.spellcraft.MixinCooldownHelperGlyphs",
     "vaulthunters.spellcraft.MixinDashWarpAbilityGlyphs",
     "vaulthunters.spellcraft.MixinDiceTrinketChainScope",

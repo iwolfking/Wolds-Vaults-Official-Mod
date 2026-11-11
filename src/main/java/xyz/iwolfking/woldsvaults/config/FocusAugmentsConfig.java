@@ -30,6 +30,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
     @Expose public List<String> disabledAbilities;
     @Expose public List<GearGlyph> gearGlyphs;
     @Expose public Map<String, UniqueSet> uniqueSets;
+    @Expose public List<EtchingGlyph> etchingGlyphs;
+    @Expose public List<String> removedEtchings;
 
     /** Spell-wide rules: cost escalation, chained abilities, floors and hard limits. */
     public static class Rules {
@@ -220,6 +222,44 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
     }
 
     /**
+     * An etching that grants a unique glyph instead of acting on its own (the etching's effect runs from the glyph). Its
+     * value is read part by part in the order of the attribute's value ({@code parts}, one for a plain value, two for a
+     * pair, three for a throuple): the {@code potency} part becomes the glyph's potency ({@code offset + value * scale}),
+     * a {@code linked} part places the line's quality in the glyph's linked value of that name, and a {@code choice} part
+     * is one of {@code choices} (with more than one, the line's quality picks it). A {@code flag} etching grants potency
+     * {@code offset + scale}.
+     */
+    public static class EtchingGlyph {
+        @Expose public String attribute;
+        @Expose public String glyph;
+        @Expose public float scale;
+        @Expose public float offset;
+        @Expose public List<EtchingPart> parts;
+        @Expose public List<String> choices;
+
+        /** The glyph potency of a rolled value. */
+        public float potency(float value) {
+            return this.offset + value * this.scale;
+        }
+
+        /** The rolled value a glyph potency stands for (the inverse of {@link #potency}). */
+        public float value(float potency) {
+            return this.scale == 0.0F ? 0.0F : (potency - this.offset) / this.scale;
+        }
+    }
+
+    /** One part of an etching's value: its role ({@code potency}, {@code linked}, {@code choice}, {@code flag}), number type ({@code int}, {@code float}) and linked value name. */
+    public static class EtchingPart {
+        @Expose public String role;
+        @Expose public String type;
+        @Expose public String linked;
+
+        public boolean isInt() {
+            return "int".equals(this.type);
+        }
+    }
+
+    /**
      * A unique focus's or wand's fixed glyph set. Budget and depth roll from {@code rarityRow} ({@code ancientRarityRow}
      * for an ancient), with the wand rules for wands; the lines are every {@code always} glyph plus a draw of
      * {@code drawMin}-{@code drawMax} distinct glyphs from {@code draw} at equal odds.
@@ -339,6 +379,10 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         if (gear != null) {
             return gear;
         }
+        String etchings = validateEtchingGlyphs();
+        if (etchings != null) {
+            return etchings;
+        }
         String sets = validateUniqueSets();
         if (sets != null) {
             return sets;
@@ -371,6 +415,59 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             if (entry.scale < 0.0F || (entry.orientation != null && !List.of("higher", "lower").contains(entry.orientation))) {
                 return "gear glyph " + entry.attribute + " has an invalid scale or orientation";
             }
+        }
+        return null;
+    }
+
+    @Nullable
+    private String validateEtchingGlyphs() {
+        if (this.etchingGlyphs == null) {
+            return null;
+        }
+        for (EtchingGlyph entry : this.etchingGlyphs) {
+            AugmentType type = entry.glyph == null ? null : AugmentType.byId(entry.glyph);
+            String name = "etching glyph " + entry.attribute;
+            if (entry.attribute == null || type == null || entry.parts == null || entry.parts.isEmpty() || entry.parts.size() > 3) {
+                return name + " names no attribute, an unknown glyph " + entry.glyph + " or no value parts";
+            }
+            Glyph glyph = this.glyphs.get(type.id());
+            if (!"unique".equals(glyph.glyphClass)) {
+                return name + " grants " + type.id() + ", which is not a unique glyph";
+            }
+            int potency = 0;
+            int quality = 0;
+            for (EtchingPart part : entry.parts) {
+                if (part.role == null || !List.of("potency", "linked", "choice", "flag").contains(part.role)) {
+                    return name + " has a part with an unknown role " + part.role;
+                }
+                if (("potency".equals(part.role) || "linked".equals(part.role)) && !List.of("int", "float").contains(part.type)) {
+                    return name + " has a number part without an int or float type";
+                }
+                if ("potency".equals(part.role) || "flag".equals(part.role)) {
+                    potency++;
+                }
+                if ("linked".equals(part.role)) {
+                    quality++;
+                    if (part.linked == null || glyph.potency.linked == null
+                            || glyph.potency.linked.stream().noneMatch(linked -> part.linked.equals(linked.name))) {
+                        return name + " links " + part.linked + ", which " + type.id() + " has no linked value for";
+                    }
+                }
+                if ("choice".equals(part.role)) {
+                    if (entry.choices == null || entry.choices.isEmpty()) {
+                        return name + " has a choice part but no choices";
+                    }
+                    if (entry.choices.size() > 1) {
+                        quality++;
+                    }
+                }
+            }
+            if (potency != 1 || quality > 1 || entry.scale == 0.0F) {
+                return name + " needs exactly one potency or flag part, at most one quality part and a non-zero scale";
+            }
+        }
+        if (this.removedEtchings == null) {
+            return "the removed etchings list is missing";
         }
         return null;
     }
