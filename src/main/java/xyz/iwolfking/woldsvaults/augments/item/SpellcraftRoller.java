@@ -103,22 +103,11 @@ public final class SpellcraftRoller {
             WoldsVaults.LOGGER.error("Spellcraft: no focus roll for rarity {}; {} rolls no spellcraft implicits", rarity, stack.getItem());
             return;
         }
-        float rollMin = rolls.budgetRollMin != null ? rolls.budgetRollMin : focus.budgetRollMin;
-        float rollMax = rolls.budgetRollMax != null ? rolls.budgetRollMax : focus.budgetRollMax;
-        float budget = (focus.budgetBase + focus.budgetPerLevel * level) * rolls.budget * between(random, rollMin, rollMax);
+        float budget = budget(config, stack, level, rolls, random);
         int lineCount = rolls.linesMin + random.nextInt(rolls.linesMax - rolls.linesMin + 1);
-        FocusAugmentsConfig.DepthTier depthTier = FocusAugmentsConfig.depthTier(focus.depth, level);
-        FocusAugmentsConfig.DepthTier bonus = focus.depthBonus.get(rarity);
-        if (bonus != null && level >= bonus.minLevel) {
-            depthTier = bonus;
-        }
-        int depth = depthTier == null ? 1 : depthTier.min + random.nextInt(depthTier.max - depthTier.min + 1);
+        int depth = depth(config, stack, level, rarity, random);
         if (isWand(stack)) {
-            budget *= config.wand.budgetFactor;
             lineCount = Math.max(config.wand.minLines, lineCount + config.wand.linesDelta);
-            depth = Math.min(depth, config.wand.maxDepth);
-        } else if (rolls.focusBudgetMult != null) {
-            budget *= rolls.focusBudgetMult;
         }
         List<AugmentType> pool = new ArrayList<>();
         for (AugmentType type : AugmentType.values()) {
@@ -136,9 +125,45 @@ public final class SpellcraftRoller {
         SpellcraftItemData.writeImplicits(stack, random.nextLong(), Math.max(0, Math.round(budget)), Math.max(1, depth), lines);
     }
 
-    private static SpellcraftItemData.Line rollLine(FocusAugmentsConfig config, AugmentType type, int level, Random random) {
+    /**
+     * The arcana budget a carrier of this level rolls on a rarity row: base plus per level, times the row's budget and a
+     * roll, then the wand factor for wands or the row's focus multiplier for focuses.
+     */
+    public static float budget(FocusAugmentsConfig config, ItemStack stack, int level, FocusAugmentsConfig.RarityRolls rolls, Random random) {
+        FocusAugmentsConfig.FocusRolls focus = config.focus;
+        float rollMin = rolls.budgetRollMin != null ? rolls.budgetRollMin : focus.budgetRollMin;
+        float rollMax = rolls.budgetRollMax != null ? rolls.budgetRollMax : focus.budgetRollMax;
+        float budget = (focus.budgetBase + focus.budgetPerLevel * level) * rolls.budget * between(random, rollMin, rollMax);
+        if (isWand(stack)) {
+            budget *= config.wand.budgetFactor;
+        } else if (rolls.focusBudgetMult != null) {
+            budget *= rolls.focusBudgetMult;
+        }
+        return budget;
+    }
+
+    /** The depth a carrier of this level rolls on a rarity row: the level tier, or the row's bonus tier once reached; wands cap it. */
+    public static int depth(FocusAugmentsConfig config, ItemStack stack, int level, String rarity, Random random) {
+        FocusAugmentsConfig.DepthTier depthTier = FocusAugmentsConfig.depthTier(config.focus.depth, level);
+        FocusAugmentsConfig.DepthTier bonus = config.focus.depthBonus.get(rarity);
+        if (bonus != null && level >= bonus.minLevel) {
+            depthTier = bonus;
+        }
+        int depth = depthTier == null ? 1 : depthTier.min + random.nextInt(depthTier.max - depthTier.min + 1);
+        return isWand(stack) ? Math.min(depth, config.wand.maxDepth) : depth;
+    }
+
+    /**
+     * One rolled line of a glyph at an item level: potency within the level's tier at a random quality, a cost that
+     * follows the quality plus noise, and uses from the glyph's weights. A level below every tier rolls in the lowest
+     * tier (unique sets grant their glyphs whatever the level).
+     */
+    public static SpellcraftItemData.Line rollLine(FocusAugmentsConfig config, AugmentType type, int level, Random random) {
         FocusAugmentsConfig.Glyph glyph = config.glyph(type);
         FocusAugmentsConfig.PotencyTier tier = FocusAugmentsConfig.potencyTier(glyph, level);
+        if (tier == null) {
+            tier = lowestTier(glyph);
+        }
         float quality = random.nextFloat();
         float potency = tier.min + (tier.max - tier.min) * quality;
         int cost = Math.round(glyph.costMin + (glyph.costMax - glyph.costMin) * quality);
@@ -147,6 +172,16 @@ public final class SpellcraftRoller {
         }
         int uses = 1 + weighted(glyph.useWeights, random);
         return new SpellcraftItemData.Line(type, potency, quality, Math.max(1, cost), uses);
+    }
+
+    private static FocusAugmentsConfig.PotencyTier lowestTier(FocusAugmentsConfig.Glyph glyph) {
+        FocusAugmentsConfig.PotencyTier lowest = glyph.potency.tiers.get(0);
+        for (FocusAugmentsConfig.PotencyTier tier : glyph.potency.tiers) {
+            if (tier.minLevel < lowest.minLevel) {
+                lowest = tier;
+            }
+        }
+        return lowest;
     }
 
     private static AugmentType draw(FocusAugmentsConfig config, List<AugmentType> pool, Random random) {
