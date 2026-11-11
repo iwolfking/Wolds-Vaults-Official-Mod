@@ -16,8 +16,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellcraftRules;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
@@ -48,13 +51,14 @@ import java.util.function.Function;
  * priorities on their item.
  */
 public final class SpellBarStrip {
-    private static final int MANA_COLOR = 0xFF6FA8FF;
-    private static final int COOLDOWN_COLOR = 0xFFFFC46A;
-    private static final int DAMAGE_COLOR = 0xFFFF7A5C;
-    private static final int AREA_COLOR = 0xFF7EE787;
-    private static final int VELOCITY_COLOR = 0xFF5FD8E8;
-    private static final int DURATION_COLOR = 0xFFF59AD0;
-    private static final int EXTRA_COLOR = 0xFFD9C98A;
+    private static final int MANA_COLOR = SpellcraftGui.STAT_MANA;
+    private static final int COOLDOWN_COLOR = SpellcraftGui.STAT_COOLDOWN;
+    private static final int DAMAGE_COLOR = SpellcraftGui.STAT_DAMAGE;
+    private static final int AREA_COLOR = SpellcraftGui.STAT_AREA;
+    private static final int VELOCITY_COLOR = SpellcraftGui.STAT_YELLOW;
+    private static final int DURATION_COLOR = SpellcraftGui.STAT_YELLOW;
+    private static final int EXTRA_COLOR = SpellcraftGui.STAT_PLAIN;
+    private static final int TIER_COLOR = SpellcraftGui.STAT_YELLOW;
     public static final int HEIGHT = 24;
     public static final int BAND = 27;
     public static final int PICK = 20;
@@ -346,11 +350,7 @@ public final class SpellBarStrip {
             }
             case SPELL -> {
                 lines.add(colored(slot.spellName(), slot.implicit() ? IMPLICIT_RING : SpellcraftGui.ARCANE_GLOW));
-                List<String> parts = new ArrayList<>();
-                for (String group : slot.groups()) {
-                    parts.add(SpellcraftGui.groupName(tree, group) + tierSuffix(tree, group));
-                }
-                lines.add(colored(SpellcraftGui.tr("bar.augmented", String.join(" + ", parts)), SpellcraftGui.GREY));
+                lines.add(augmentedTitle(tree, slot.groups()));
                 if (slot.implicit()) {
                     lines.add(colored(SpellcraftGui.tr("bar.implicit"), IMPLICIT_RING));
                 } else if (!slot.sourceName().isEmpty()) {
@@ -420,6 +420,27 @@ public final class SpellBarStrip {
         return lines;
     }
 
+    /**
+     * "Augmented: Ice Bolt 21 + Nova 9": the prefix and the separators grey, each ability name gold as in plain ability
+     * tooltips, each tier yellow.
+     */
+    private static Component augmentedTitle(AbilityTree tree, List<String> groups) {
+        MutableComponent names = new TextComponent("");
+        for (int i = 0; i < groups.size(); i++) {
+            String group = groups.get(i);
+            if (i > 0) {
+                names.append(colored(" + ", SpellcraftGui.GREY));
+            }
+            names.append(colored(SpellcraftGui.groupName(tree, group), SpellcraftGui.NAME_GOLD));
+            String tier = tierSuffix(tree, group);
+            if (!tier.isEmpty()) {
+                names.append(colored(tier, TIER_COLOR));
+            }
+        }
+        return new TranslatableComponent("woldsvaults.spellcraft.bar.augmented", names)
+                .withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftGui.GREY & 0xFFFFFF)));
+    }
+
     /** Adds {@code text} split into lines of at most {@link #WRAP} px, so long reasons stay inside narrow screens. */
     private static void wrapped(List<Component> lines, String text, int color) {
         Minecraft.getInstance().font.getSplitter().splitLines(text, WRAP, net.minecraft.network.chat.Style.EMPTY)
@@ -442,7 +463,7 @@ public final class SpellBarStrip {
         lines.add(labelled(SpellcraftGui.tr("bar.cooldown_label"), cooldown, COOLDOWN_COLOR));
         Integer haste = ClientSpellStats.hastePercent();
         if (haste != null && haste != 0) {
-            lines.add(labelled(SpellcraftGui.tr("bar.haste_label"), (haste > 0 ? "+" : "") + haste + "%", SpellcraftGui.ARCANE_GLOW));
+            lines.add(labelled(SpellcraftGui.tr("bar.haste_label"), (haste > 0 ? "+" : "") + haste + "%", COOLDOWN_COLOR));
         }
         return lines;
     }
@@ -472,7 +493,7 @@ public final class SpellBarStrip {
                         SpellcraftGui.tr("fmt.blocks_per_second", ClientAbilityStats.compact(orb.velocity())), VELOCITY_COLOR));
                 lines.add(labelled(inner + SpellcraftGui.tr("bar.stat.flight"),
                         SpellcraftGui.tr("fmt.seconds", SpellcraftGui.trim(orb.flightSeconds())), DURATION_COLOR));
-                glyphLine(orb.glyphs(), inner, lines);
+                glyphLine(orb.glyphs(), orb.relevance(), inner, lines);
             }
         }
         if (stats.total() != null) {
@@ -481,7 +502,10 @@ public final class SpellBarStrip {
         return lines;
     }
 
-    /** One step's stats, one per line: damage (and total, splinter, splash), radius, velocity, duration, then VH's other numbers. */
+    /**
+     * One step's stats, one per line: damage (and total, splinter, splash), the ability's main effects after its buff
+     * glyphs, radius, velocity, duration, then VH's other numbers.
+     */
     private static List<Component> statLines(ClientAbilityStats.Step step, String indent) {
         List<Component> lines = new ArrayList<>();
         if (step.hit() != null) {
@@ -510,6 +534,9 @@ public final class SpellBarStrip {
         if (step.splash() != null) {
             lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.splash"), ClientAbilityStats.hit(step.splash()), DAMAGE_COLOR));
         }
+        for (ClientAbilityStats.Extra main : step.mains()) {
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat." + main.key()), main.value(), main.color()));
+        }
         if (step.radius() >= 0.0F) {
             lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.radius"),
                     SpellcraftGui.tr("fmt.blocks", ClientAbilityStats.compact(step.radius())), AREA_COLOR));
@@ -527,19 +554,22 @@ public final class SpellBarStrip {
                     SpellcraftGui.tr("fmt.seconds", SpellcraftGui.seconds(step.durationTicks())), DURATION_COLOR));
         }
         for (ClientAbilityStats.Extra extra : step.extras()) {
-            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat." + extra.key()), extra.value(), EXTRA_COLOR));
+            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat." + extra.key()), extra.value(), extra.color()));
         }
         if (step.glyphs() != null) {
-            glyphLine(step.glyphs(), indent, lines);
+            glyphLine(step.glyphs(), step.relevance(), indent, lines);
         }
         return lines;
     }
 
-    /** The step's stacked glyph stats ("+48% dmg, +22% area; 0.86x area"), when any glyph moves a stat. */
-    private static void glyphLine(GlyphStacking.Pool pool, String indent, List<Component> lines) {
-        String summary = SpellcraftGui.poolSummary(pool);
+    /**
+     * The step's stacked glyph stats ("+48% dmg, +22% area; 0.86x area"), numbers coloured by stat, listing only the stats
+     * that apply to the step; nothing when no glyph moves one.
+     */
+    private static void glyphLine(GlyphStacking.Pool pool, GlyphRelevance.Filter relevance, String indent, List<Component> lines) {
+        String summary = SpellcraftGui.poolSummary(pool, relevance);
         if (!summary.isEmpty()) {
-            lines.add(labelled(indent + SpellcraftGui.tr("bar.stat.glyphs"), summary, SpellcraftGui.ARCANE_GLOW));
+            lines.add(colored(indent + SpellcraftGui.tr("bar.stat.glyphs"), SpellcraftGui.GREY).copy().append(SpellcraftGui.tagged(summary)));
         }
     }
 

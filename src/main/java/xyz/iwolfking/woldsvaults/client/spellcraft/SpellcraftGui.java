@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
+import xyz.iwolfking.woldsvaults.augments.spell.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.augments.spell.GlyphStacking;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
@@ -65,6 +66,14 @@ public final class SpellcraftGui {
     public static final int BORDER = 0xFF101010;
     public static final int BAR_TICK = 0x60FFFFFF;
     public static final int OVER_TINT = 0x80FF3030;
+    public static final int STAT_DAMAGE = 0xFFE0564A;
+    public static final int STAT_AREA = 0xFF5FD068;
+    public static final int STAT_COOLDOWN = 0xFF4AC6E0;
+    public static final int STAT_MANA = 0xFF6FA8FF;
+    public static final int STAT_INTENSITY = 0xFFFFAA00;
+    public static final int STAT_YELLOW = 0xFFFFFF55;
+    public static final int STAT_PLAIN = 0xFFD9C98A;
+    public static final String LABEL_TAG = "<gray>";
 
     private static final String LANG = "woldsvaults.spellcraft.";
     private static final Map<String, Integer> CATEGORY_COLORS = Map.of(
@@ -73,6 +82,12 @@ public final class SpellcraftGui {
     private static final Map<AugmentType, ResourceLocation> RUNES = new EnumMap<>(AugmentType.class);
     private static final Set<String> MISSING_ICONS = new HashSet<>();
     private static final Set<AugmentType> MISSING_DESCRIPTIONS = EnumSet.noneOf(AugmentType.class);
+    private static final Set<String> UNKNOWN_STATS = new HashSet<>();
+    private static final Map<String, String> STAT_TAGS = Map.ofEntries(
+            Map.entry("damage", "<#E0564A>"), Map.entry("area", "<#5FD068>"), Map.entry("cooldown", "<#4AC6E0>"),
+            Map.entry("haste", "<#4AC6E0>"), Map.entry("mana", "<#6FA8FF>"), Map.entry("efficiency", "<#6FA8FF>"),
+            Map.entry("heal_mana", "<#6FA8FF>"), Map.entry("intensity", "<gold>"), Map.entry("speed", "<yellow>"),
+            Map.entry("scale", "<yellow>"), Map.entry("duration", "<yellow>"), Map.entry("drain", "<yellow>"));
 
     static {
         for (AugmentType type : AugmentType.values()) {
@@ -361,11 +376,17 @@ public final class SpellcraftGui {
     }
 
     /**
-     * The glyph's side effects at a potency, e.g. "+18% dmg, 0.93x area, 1.13x mana": every step and spell effect
-     * except the potency's own stat (the effect with k = +-1 and no base). Common upsides, which add into the step's
-     * pool, read as a percentage; everything that multiplies reads as a factor.
+     * The glyph's side effects at a potency, e.g. "+18% dmg, 0.93x area, 1.13x mana", every number coloured by its stat
+     * and every label grey (VH colour tags, for {@link #tagged}): each step and spell effect except the potency's own
+     * stat (the effect with k = +-1 and no base). Common upsides, which add into the step's pool, read as a percentage;
+     * everything that multiplies reads as a factor. Without an ability, every effect is listed.
      */
     public static String sideEffects(FocusAugmentsConfig config, AugmentType type, float p) {
+        return sideEffects(config, type, p, GlyphRelevance.ALL);
+    }
+
+    /** The glyph's side effects that apply where {@code relevance} says, coloured as {@link #sideEffects}. */
+    public static String sideEffects(FocusAugmentsConfig config, AugmentType type, float p, GlyphRelevance.Filter relevance) {
         FocusAugmentsConfig.Glyph glyph = config.glyph(type);
         List<String> parts = new ArrayList<>();
         List<FocusAugmentsConfig.Effect> effects = new ArrayList<>(glyph.step);
@@ -374,45 +395,72 @@ public final class SpellcraftGui {
             if (effect.k != null && effect.base == null && Math.abs(Math.abs(effect.k) - 1.0F) < 1.0E-6F) {
                 continue;
             }
+            boolean pooled = GlyphStacking.pooled(glyph, effect);
+            if (!relevance.applies(effect.stat, pooled)) {
+                continue;
+            }
             float factor = effect.factor(p);
             String stat = statName(effect.stat);
             if (effect.k == null && effect.fixed == null && effect.perUse != null) {
                 stat = tr("stat.per_use", stat);
             }
-            String part = GlyphStacking.pooled(glyph, effect) ? percent(factor - 1.0F, stat) : times(factor, stat);
+            String tag = statTag(effect.stat);
+            String part = pooled ? percent(factor - 1.0F, stat, tag) : times(factor, stat, tag);
             if (part != null) {
                 parts.add(part);
             }
         }
-        return capitalize(String.join(", ", parts));
+        return capitalize(String.join(LABEL_TAG + ", ", parts));
     }
 
     /**
-     * A step's stacked glyph stats, e.g. "+48% dmg, +22% area; 0.86x area": first each stat's pool of common upsides,
-     * then each stat's multiplied part (downsides, costs and special factors). Empty when no glyph moves a stat.
+     * A step's stacked glyph stats, e.g. "+48% dmg, +22% area; 0.86x area", coloured as {@link #sideEffects}: first each
+     * stat's pool of common upsides, then each stat's multiplied part (downsides, costs and special factors), each only
+     * where {@code relevance} says it applies. Empty when no glyph moves a stat that applies.
      */
-    public static String poolSummary(GlyphStacking.Pool pool) {
+    public static String poolSummary(GlyphStacking.Pool pool, GlyphRelevance.Filter relevance) {
         List<String> pooled = new ArrayList<>();
         List<String> multiplied = new ArrayList<>();
         for (GlyphStacking.Stat stat : pool.stats().values()) {
             String name = statName(stat.name());
-            if (stat.pool() != 0.0F) {
+            String tag = statTag(stat.name());
+            if (stat.pool() != 0.0F && relevance.applies(stat.name(), true)) {
                 float change = GlyphStacking.lowerIsBetter(stat.name()) ? 1.0F / (1.0F + stat.pool()) - 1.0F : stat.pool();
-                String part = percent(change, name);
+                String part = percent(change, name, tag);
                 if (part != null) {
                     pooled.add(part);
                 }
             }
-            String part = times(stat.perCopy() * stat.special(), name);
-            if (part != null) {
-                multiplied.add(part);
+            if (relevance.applies(stat.name(), false)) {
+                String part = times(stat.perCopy() * stat.special(), name, tag);
+                if (part != null) {
+                    multiplied.add(part);
+                }
             }
         }
+        String separator = LABEL_TAG + ", ";
         if (pooled.isEmpty() || multiplied.isEmpty()) {
             pooled.addAll(multiplied);
-            return String.join(", ", pooled);
+            return String.join(separator, pooled);
         }
-        return String.join(", ", pooled) + "; " + String.join(", ", multiplied);
+        return String.join(separator, pooled) + LABEL_TAG + "; " + String.join(separator, multiplied);
+    }
+
+    /** Text with VH colour tags as a component; untagged text starts grey. */
+    public static MutableComponent tagged(String text) {
+        return TextUtil.applyColorTags(LABEL_TAG + text);
+    }
+
+    /** The colour tag of a glyph stat's numbers, matching the glyph descriptions and the spell bar's stat lines. */
+    public static String statTag(String stat) {
+        String tag = STAT_TAGS.get(stat);
+        if (tag == null) {
+            if (UNKNOWN_STATS.add(stat)) {
+                WoldsVaults.LOGGER.warn("Spellcraft UI: glyph stat '{}' has no colour; its numbers show yellow", stat);
+            }
+            return "<yellow>";
+        }
+        return tag;
     }
 
     private static String statName(String stat) {
@@ -420,15 +468,15 @@ public final class SpellcraftGui {
     }
 
     @Nullable
-    private static String percent(float change, String name) {
+    private static String percent(float change, String name, String tag) {
         int pct = Math.round(change * 100.0F);
-        return pct == 0 ? null : (pct > 0 ? "+" : "") + pct + "% " + name;
+        return pct == 0 ? null : tag + (pct > 0 ? "+" : "") + pct + "%" + LABEL_TAG + " " + name;
     }
 
     @Nullable
-    private static String times(float factor, String name) {
+    private static String times(float factor, String name, String tag) {
         String text = trim(factor);
-        return "1".equals(text) ? null : text + "x " + name;
+        return "1".equals(text) ? null : tag + text + "x" + LABEL_TAG + " " + name;
     }
 
     public static String trim(float value) {

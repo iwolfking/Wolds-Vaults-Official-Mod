@@ -167,7 +167,7 @@ public class AugmentTooltipEvents {
                         false, line.cost(), 0, width)));
                 String side = SpellcraftGui.sideEffects(config, line.type(), line.potency());
                 if (!side.isEmpty()) {
-                    block.add(Either.left(colored("     " + side, SpellcraftGui.DARK)));
+                    block.add(Either.left(colored("     ", SpellcraftGui.DARK).append(SpellcraftGui.tagged(side))));
                 }
             }
             block.add(Either.left(colored(SpellcraftGui.tr("tooltip.spells_header"), SpellcraftGui.WHITE)));
