@@ -29,7 +29,10 @@ import javax.annotation.Nullable;
  * are tagged (and steered, resized, re-weighted); a tagged projectile's area reads and hits during its own tick count
  * as the cast's, and the children it spawns then inherit its tags. Damage is multiplied only for the ability's own hits
  * ({@link SpellHits}: its damage source and VH attack flags) made during the cast, by a tagged projectile, or while one
- * is ticking, so procs, lucky-hit extras and other damage of the same player are untouched.
+ * is ticking, so procs, lucky-hit extras and other damage of the same player are untouched. What the ability does
+ * later (scheduled work, entities, block entities, damage over time, minions) takes the step's glyphs through the
+ * deferred scope ({@link DeferredReach}): its own hits through that carrier, and area reads there when the ability
+ * deals hits through it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class AugmentEvents {
@@ -51,11 +54,19 @@ public final class AugmentEvents {
         if (data.getStat() == PlayerStat.AREA_OF_EFFECT) {
             CastModifiers scope = scopeFor(entity);
             Projectile ticking = scope == null ? tickingProjectileOf(entity) : null;
-            float factor = scope != null ? scope.area() : ticking != null ? AugmentTags.area(ticking) : 1.0F;
+            float factor = scope != null ? scope.area() : ticking != null ? AugmentTags.area(ticking) : deferredArea(entity);
             if (factor != 1.0F) {
                 data.setValue(data.getValue() * factor);
             }
         }
+    }
+
+    private static float deferredArea(Entity entity) {
+        DeferredReach.Reach reach = DeferredReach.current(entity);
+        if (reach == null || !SpellHits.hasSourceVia(reach.glyphs().spec(), reach.carriers())) {
+            return 1.0F;
+        }
+        return reach.glyphs().modifiers().area();
     }
 
     @Nullable
@@ -164,6 +175,14 @@ public final class AugmentEvents {
                     spec = AugmentTags.spec(ticking);
                 }
             }
+        }
+        if (spec == null) {
+            DeferredReach.Reach reach = DeferredReach.forHit(event.getSource());
+            if (reach != null && reach.glyphs().modifiers().damage() != 1.0F
+                    && SpellHits.isOwnDeferredHit(reach.glyphs().spec(), event.getSource(), reach.carriers())) {
+                event.setAmount(event.getAmount() * reach.glyphs().modifiers().damage());
+            }
+            return;
         }
         if (multiplier != 1.0F && SpellHits.isOwnHit(spec, event.getSource())) {
             event.setAmount(event.getAmount() * multiplier);

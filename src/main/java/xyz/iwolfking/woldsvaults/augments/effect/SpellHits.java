@@ -49,7 +49,12 @@ public final class SpellHits {
     private SpellHits() {
     }
 
-    /** What delivers a hit relative to the cast. CAST and PROJECTILE are reached by the cast scope and projectile tags today. */
+    /**
+     * What delivers a hit relative to the cast. CAST and PROJECTILE are reached by the cast scope and projectile tags;
+     * the others by the cast's deferred glyphs, each only through its own carrier (a scheduled task reaches SCHEDULED
+     * sources, an entity's tick ENTITY and MINION sources, a block entity's tick BLOCK_ENTITY sources, a damage-over-time
+     * tick DOT sources, an ability's own later window EVENT sources, a minion's hit MINION sources).
+     */
     public enum Carrier {
         CAST,
         PROJECTILE,
@@ -64,6 +69,16 @@ public final class SpellHits {
         /** Whether the hit happens after the cast's own call and outside a tagged projectile's tick. */
         public boolean deferred() {
             return this != CAST && this != PROJECTILE;
+        }
+
+        /** The hit sources a deferred carrier delivers, or null for the cast itself (any source). */
+        @Nullable
+        public Set<Carrier> reaches() {
+            return switch (this) {
+                case CAST, PROJECTILE -> null;
+                case ENTITY -> EnumSet.of(ENTITY, MINION);
+                default -> EnumSet.of(this);
+            };
         }
     }
 
@@ -112,8 +127,35 @@ public final class SpellHits {
         return false;
     }
 
+    /**
+     * Whether this hurt, dealt later through a deferred carrier, is one of {@code spec}'s own hits: like {@link #isOwnHit}
+     * but only sources {@code carriers} delivers count. Procs that share an own hit's signature but run through another
+     * carrier (Chain Lightning's delayed strike is scheduled, its own hit is a projectile's) stay out.
+     */
+    public static boolean isOwnDeferredHit(@Nullable String spec, DamageSource source, Set<Carrier> carriers) {
+        return matchesOwnHit(spec, source, carriers);
+    }
+
+    /** Whether {@code spec} has any hit source one of {@code carriers} delivers (so area reads there are its own). */
+    public static boolean hasSourceVia(@Nullable String spec, Set<Carrier> carriers) {
+        List<Source> sources = spec == null ? null : TABLE.get(spec);
+        if (sources == null) {
+            return false;
+        }
+        for (Source candidate : sources) {
+            if (carriers.contains(candidate.carrier())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** {@link #isOwnHit} without the log of skipped hits. */
     public static boolean matchesOwnHit(@Nullable String spec, DamageSource source) {
+        return matchesOwnHit(spec, source, null);
+    }
+
+    private static boolean matchesOwnHit(@Nullable String spec, DamageSource source, @Nullable Set<Carrier> carriers) {
         if (spec == null) {
             return false;
         }
@@ -125,7 +167,7 @@ public final class SpellHits {
             return false;
         }
         for (Source candidate : sources) {
-            if (matches(candidate, source)) {
+            if ((carriers == null || carriers.contains(candidate.carrier())) && matches(candidate, source)) {
                 return true;
             }
         }

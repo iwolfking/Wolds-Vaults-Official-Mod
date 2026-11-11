@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.augments.cast;
 
 import iskallia.vault.init.ModSounds;
+import iskallia.vault.skill.ability.effect.NecromancyAbility;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
 import iskallia.vault.skill.ability.effect.spi.core.InstantManaAbility;
 import iskallia.vault.skill.tree.AbilityTree;
@@ -16,6 +17,7 @@ import xyz.iwolfking.woldsvaults.augments.AugmentAbility;
 import xyz.iwolfking.woldsvaults.augments.CastResult;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.bundle.BundleLauncher;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.augments.effect.RailBolts;
 import xyz.iwolfking.woldsvaults.augments.effect.ToggleDiscounts;
 import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
@@ -30,7 +32,8 @@ import java.util.function.Supplier;
 
 /**
  * Casts an augmented spell slot. The trigger step is a real key press on the player's ability, charged for the whole
- * slot (every ability's mana times the spell's mana factor, and the slot cooldown); if it doesn't go through, nothing
+ * slot (every ability's mana times the spell's mana factor and its heal steps' heal mana factors, and the slot
+ * cooldown); if it doesn't go through, nothing
  * else casts. A toggle trigger runs the rest of the spell only when it switches on. Every later step is free: chained abilities, Delays, Bundled Spell payloads where the orb lands, Echo
  * (on-cast effects fire) and Shotgun copies (they don't). The table is re-read at every step.
  */
@@ -57,13 +60,28 @@ public final class AugmentCaster {
                 otherMana += ManaCostHelper.adjustManaCost(player, mana, mana.getManaCost());
             }
         }
-        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor(), slot, chargeShare >= 1.0F);
+        CastScope.Billing billing = CastScope.Billing.trigger(trigger.spec(), otherMana, model.manaFactor() * healManaFactor(config, model),
+                slot, chargeShare >= 1.0F);
         Ability triggerAbility = SpellCooldowns.ability(tree, trigger.group());
         if (triggerAbility != null && !triggerAbility.isActive() && !SlotBilling.canPayUnbilledTrigger(player, triggerAbility, billing)) {
             player.level.playSound(null, player.blockPosition(), ModSounds.ABILITY_OUT_OF_MANA, SoundSource.PLAYERS, 1.0F, 1.0F);
             return;
         }
         run(player, model.steps(), 0, null, 1.0F, billing, chargeShare, model);
+    }
+
+    /**
+     * Intensify on a heal costs spell mana instead of duration: the slot's mana factor times each heal step's heal mana
+     * factor.
+     */
+    private static float healManaFactor(FocusAugmentsConfig config, SpellModel model) {
+        float factor = 1.0F;
+        for (SpellModel.Step step : model.steps()) {
+            if (step instanceof SpellModel.Cast cast && cast.live() && BuffGlyphs.billsHealMana(cast.spec())) {
+                factor *= CastModifiers.of(config, cast.glyphs()).healMana();
+            }
+        }
+        return factor;
     }
 
     /** A Bundled Spell landed: run its payload at the landing point, free. */
@@ -144,7 +162,7 @@ public final class AugmentCaster {
                 && ability.findAbility(player).filter(Ability::isActive).isPresent()) {
             ToggleDiscounts.start(player, ability.id(), 1.0F - model.manaFactor());
         }
-        if (base.echoPower() > 0.0F && ability.has(AbilityTrait.INSTANT)) {
+        if (base.echoPower() > 0.0F && ability.has(AbilityTrait.INSTANT) && !echoesMinionHits(player, ability)) {
             CastModifiers echoed = base.withDamageFactor(base.echoPower());
             int delay = Math.max(1, Math.round(config.tuning.echoDelaySeconds * 20.0F));
             SpellScheduler.schedule(player, delay, later -> {
@@ -164,6 +182,11 @@ public final class AugmentCaster {
             });
         }
         return result;
+    }
+
+    /** Echo on Necromancy follows each minion hit instead of recasting the curse. */
+    private static boolean echoesMinionHits(ServerPlayer player, AugmentAbility ability) {
+        return ability.findAbility(player).filter(NecromancyAbility.class::isInstance).isPresent();
     }
 
     private static void castCopies(FocusAugmentsConfig config, ServerPlayer player, AugmentAbility ability, CastModifiers modifiers,

@@ -6,6 +6,7 @@ import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 
 import java.util.Set;
 import java.util.UUID;
@@ -13,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Bloodlust's movement speed per stack. VH's speed effect hard-codes 1% per stack and never reads the ability's
- * {@code speedPerStack}; the effect asks here instead: the player's learned Bloodlust tier value times
- * {@link #speedFactor}.
+ * {@code speedPerStack}; the effect asks here instead: the player's learned Bloodlust tier value times the Intensify
+ * factor of the toggle's activation.
  */
 public final class BloodlustSpeed {
     private static final Set<UUID> MISSING_WARNED = ConcurrentHashMap.newKeySet();
@@ -35,12 +36,7 @@ public final class BloodlustSpeed {
             }
             return fallback;
         }
-        return ability.getSpeedPerStack() * speedFactor(player);
-    }
-
-    /** The multiplier on Bloodlust's speed per stack for this player, the hook for spell glyphs that scale it; 1 today. */
-    public static float speedFactor(ServerPlayer player) {
-        return 1.0F;
+        return ability.getSpeedPerStack() * BuffGlyphs.intensity(ability);
     }
 
     private static RampageBloodlustAbility learned(ServerPlayer player) {

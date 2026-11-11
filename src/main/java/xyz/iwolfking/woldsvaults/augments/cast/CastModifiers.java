@@ -11,15 +11,16 @@ import java.util.function.Function;
 /**
  * What the glyphs on one step (an ability or a Bundled Spell orb) do, from their rolled potencies: multipliers on
  * damage, area, projectile speed and size, buff intensity and duration, toggle drain and heal mana (stacked by
- * {@link GlyphStacking}); Homing (lock-on range from the table, rolled turn rate in degrees per second), Orbit and
+ * {@link GlyphStacking}), the duration upside alone (a toggle's timed part takes Extend but not Intensify's duration
+ * cost); Homing (lock-on range from the table, rolled turn rate in degrees per second), Orbit and
  * Ethereal durations; Low Gravity; Shotgun copies and their per-copy damage; Echo power; and Charge's full-charge
  * bonus. Dormant glyphs are left out.
  */
 public record CastModifiers(float damage, float area, float speed, float scale, float intensity, float duration, float drain,
-                            float healMana, float homingRange, float homingTurn, float orbitSeconds, float gravityReduction,
+                            float healMana, float durationUpside, float homingRange, float homingTurn, float orbitSeconds, float gravityReduction,
                             float etherealSeconds, int shotgunCopies, float echoPower, float chargeBonus) {
 
-    public static final CastModifiers NONE = new CastModifiers(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+    public static final CastModifiers NONE = new CastModifiers(1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
 
     public static CastModifiers of(FocusAugmentsConfig config, List<SpellModel.Glyph> glyphs) {
         return of(config::glyph, config.tuning, glyphs);
@@ -64,8 +65,10 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
             }
         }
         float scale = Math.max(tuning.sizeDownMinScale, Math.min(tuning.sizeUpMaxScale, pool.total("scale")));
+        GlyphStacking.Stat duration = pool.stat("duration");
+        float durationUpside = duration == null ? 1.0F : 1.0F + Math.max(0.0F, duration.pool());
         return new CastModifiers(pool.total("damage") * shotgunDamage, pool.total("area"), pool.total("speed"), scale,
-                pool.total("intensity"), pool.total("duration"), pool.total("drain"), pool.total("heal_mana"), homingRange, homingTurn,
+                pool.total("intensity"), pool.total("duration"), pool.total("drain"), pool.total("heal_mana"), durationUpside, homingRange, homingTurn,
                 orbit, gravity, ethereal, copies, echo, charge);
     }
 
@@ -95,7 +98,7 @@ public record CastModifiers(float damage, float area, float speed, float scale, 
 
     /** The same modifiers with every hit scaled by an outside factor (Echo power, a Charge bonus, a payload's copies). */
     public CastModifiers withDamageFactor(float factor) {
-        return new CastModifiers(damage * factor, area, speed, scale, intensity, duration, drain, healMana, homingRange, homingTurn,
+        return new CastModifiers(damage * factor, area, speed, scale, intensity, duration, drain, healMana, durationUpside, homingRange, homingTurn,
                 orbitSeconds, gravityReduction, etherealSeconds, shotgunCopies, echoPower, chargeBonus);
     }
 

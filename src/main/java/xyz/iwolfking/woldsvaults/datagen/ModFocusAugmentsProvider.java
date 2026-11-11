@@ -273,7 +273,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         traits.put("Shield_Bash", List.of("INSTANT", "AREA", "MANA", "DAMAGE"));
         traits.put("Shield_Bash_Earthshatter", List.of("INSTANT", "AREA", "MANA", "DAMAGE"));
         traits.put("Shield_Bash_Battering_Ram", List.of("INSTANT", "AREA", "MANA", "DAMAGE"));
-        traits.put("Mana_Shield_Retribution", List.of("INSTANT", "MANA", "DAMAGE", "LINGER"));
+        traits.put("Mana_Shield_Retribution", List.of("INSTANT", "AREA", "MANA", "DAMAGE", "LINGER"));
         traits.put("Mana_Shield_Implode", List.of("INSTANT", "AREA", "DAMAGE", "PAYLOAD"));
         traits.put("Implode_Life_Tap", List.of("INSTANT", "AREA", "DAMAGE", "PAYLOAD"));
         traits.put("Taunt_Base", List.of("INSTANT", "AREA", "MANA", "INTENSIFY", "EXTEND"));
@@ -310,7 +310,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         traits.put("Earthquake_Base", List.of("INSTANT", "AREA", "MANA", "DAMAGE", "PAYLOAD"));
         traits.put("Earthquake_Singularity", List.of("INSTANT", "AREA", "MANA", "DAMAGE", "PAYLOAD"));
         traits.put("Earthquake_Tremor", List.of("INSTANT", "AREA", "MANA", "DAMAGE", "PAYLOAD"));
-        traits.put("Earthquake_Landmine", List.of("INSTANT", "MANA", "DAMAGE", "LINGER", "PAYLOAD"));
+        traits.put("Earthquake_Landmine", List.of("INSTANT", "AREA", "MANA", "DAMAGE", "LINGER", "PAYLOAD"));
         traits.put("Chain_Lightning_Base", List.of("INSTANT", "PATH", "MANA", "DAMAGE", "PAYLOAD"));
         traits.put("Chain_Lightning_Orbs", List.of("INSTANT", "AREA", "PROJECTILE", "MANA", "DAMAGE", "PAYLOAD"));
         traits.put("Chain_Lightning_Charged_Bolts", List.of("INSTANT", "PATH", "MANA", "DAMAGE"));
