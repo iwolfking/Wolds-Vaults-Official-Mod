@@ -491,7 +491,7 @@
     },
     "woldsvaults:fireball_volley_mitosis": {
       "name": "Fireball Volley Mitosis",
-      "description": "<#870018>Fireball Volley<gray> creates <yellow>%dvalue<gray> additional fireball on first bounce",
+      "description": "<#870018>Fireball Volley<gray> spawns <yellow>%dvalue<gray> extra fireball{value>1=s} on its first bounce",
       "color": 8847384,
       "minGreedTier": 0,
       "typeGroups": [

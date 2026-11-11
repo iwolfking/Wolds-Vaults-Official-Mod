@@ -17,9 +17,11 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.special.GlacialBlastModification
 import xyz.iwolfking.woldsvaults.modifiers.gear.special.ImplodingJavelinModification;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Spellcraft glyphs (redesign/spellcraft/SPEC.md): each glyph's potency tiers, side effects, uses, per-spell cap and
@@ -193,7 +195,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 2, List.of(70, 30), 2, 5, 9, false);
         glyph(table, AugmentType.CHAINING, "modifier", "unique", "unique", 0, 0, List.of(List.of("instant", "damage", "direct")), List.of("linger"),
                 List.of(), List.of(),
-                potency("chains", "none", List.of(tier(0, 0.0F, 0.0F)), List.of()),
+                potency("procs chaining", "none", List.of(tier(0, 0.0F, 0.0F)), List.of()),
                 List.of(),
                 List.of(),
                 1, List.of(100), 1, 10, 10, true);
@@ -226,6 +228,39 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         gearGlyph(table, AugmentType.QUICK_MEND, "unique", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
                 List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
         etchingGlyphs(table);
+        describe(table, AugmentType.AMPLIFY_AREA, "<gray>Increases area by <#5FD068>%.0fpvalue%");
+        describe(table, AugmentType.STRENGTHEN, "<gray>Increases damage by <#E0564A>%.0fpvalue%");
+        describe(table, AugmentType.QUICKEN, "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%");
+        describe(table, AugmentType.DISCOUNT, "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%");
+        describe(table, AugmentType.DELAY, "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds");
+        describe(table, AugmentType.ACCELERATE, "<gray>Increases projectile speed by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.HOMING, "<gray>Projectiles home onto targets, turning <yellow>%.0fvalue<gray> degrees per second");
+        describe(table, AugmentType.ORBIT, "<gray>Projectiles orbit you for <yellow>%.1fvalue <gray>seconds");
+        describe(table, AugmentType.LOW_GRAVITY, "<gray>Projectiles fall <yellow>%.0fpvalue% <gray>slower");
+        describe(table, AugmentType.ETHEREAL, "<gray>Projectiles pass through walls for <yellow>%.1fvalue <gray>seconds");
+        describe(table, AugmentType.SIZE_UP, "<gray>Increases projectile size by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.SIZE_DOWN, "<gray>Reduces projectile size by <yellow>%.0fpvalue%<gray>, hitting harder and flying faster");
+        describe(table, AugmentType.ECHO, "<gray>Recasts the ability after a short delay at <#E0564A>%.0fpvalue% <gray>power");
+        describe(table, AugmentType.SHOTGUN, "<gray>Fires an extra copy dealing <#E0564A>%.0fpvalue% <gray>damage");
+        describe(table, AugmentType.CHARGE, "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage");
+        describe(table, AugmentType.BUNDLED_SPELL, "<gray>Throws the rest of the spell as an orb that flies for <yellow>%.1fvalue <gray>seconds");
+        describe(table, AugmentType.INTENSIFY, "<gray>Increases the buff's strength by <gold>%.0fpvalue%");
+        describe(table, AugmentType.EXTEND, "<gray>Increases the buff's duration by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.CHAINING, "<gray>Direct hits now proc <yellow>Chaining <gray>to nearby mobs");
+        describe(table, AugmentType.RIME, "<gray>Frost Nova applies level <yellow>%.0fvalue <gray>Vulnerability");
+        describe(table, AugmentType.WARP_HASTE, "<gray>Reduces Warp's cooldown by <#4AC6E0>%.0fpvalue%");
+        describe(table, AugmentType.WARP_VELOCITY, "<gray>Increases Warp's arrow speed by <yellow>%.0fpvalue%");
+        describe(table, AugmentType.STEEL_CORE, "<gray>Fireball's explosion is tighter, dealing up to <#E0564A>%.2fvalue<gray>x damage at its centre");
+        describe(table, AugmentType.TWINFIRE, "<gray>Fireball has a <yellow>%.0fpvalue% <gray>chance to fire a second fireball");
+        describe(table, AugmentType.DEEP_CHILL, "<gray>Glacial Blast applies level <yellow>%.0fvalue <#2FE1FA>Hypothermia");
+        describe(table, AugmentType.IMPLOSION, "<gray>Javelins implode on impact, dealing <#E0564A>%.0fpvalue% <gray>of their damage");
+        describe(table, AugmentType.ENTROPIC_BIND, "<gray>Slowness Aura poisons mobs at level <yellow>%.0fvalue");
+        describe(table, AugmentType.WIDE_BLAST, "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%");
+        describe(table, AugmentType.NARROW_STORM, "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%");
+        describe(table, AugmentType.SWIFT_STORM, "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%");
+        describe(table, AugmentType.DREAD, "<gray>Increases Repel's fear area by <#5FD068>%.0fpvalue%");
+        describe(table, AugmentType.QUICK_MEND, "<gray>Reduces Group Heal's cooldown by <#4AC6E0>%.0fpvalue%");
+        checkDescriptions(table);
         checkRoles(table);
 
         String special = ModGearAttributes.ABILITY_SPECIAL_MODIFICATION.getRegistryName().toString();
@@ -557,6 +592,22 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
      * (a positive k on damage, a negative k on mana), a downside or cost against it. For k effects the sign of k
      * decides; fixed and per-use effects are checked by their factor.
      */
+    private static void describe(FocusAugmentsConfig table, AugmentType type, String description) {
+        table.glyph(type).description = description;
+    }
+
+    /** Every glyph that is not an etching glyph needs a description template (etching glyphs show their etching's text). */
+    private static void checkDescriptions(FocusAugmentsConfig table) {
+        Set<String> etchings = new HashSet<>();
+        table.etchingGlyphs.forEach(entry -> etchings.add(entry.glyph));
+        for (AugmentType type : AugmentType.values()) {
+            FocusAugmentsConfig.Glyph glyph = table.glyph(type);
+            if (glyph != null && !etchings.contains(type.id()) && (glyph.description == null || glyph.description.isBlank())) {
+                throw new IllegalStateException("Glyph " + type.id() + " has no description template");
+            }
+        }
+    }
+
     private static void checkRoles(FocusAugmentsConfig table) {
         for (Map.Entry<String, FocusAugmentsConfig.Glyph> entry : table.glyphs.entrySet()) {
             List<FocusAugmentsConfig.Effect> effects = new ArrayList<>(entry.getValue().step);

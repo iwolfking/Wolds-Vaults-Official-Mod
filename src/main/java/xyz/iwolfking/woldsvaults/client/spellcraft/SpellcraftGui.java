@@ -5,16 +5,20 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.client.atlas.TextureAtlasRegion;
 import iskallia.vault.client.gui.framework.ScreenTextures;
 import iskallia.vault.client.gui.helper.FontHelper;
+import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModTextureAtlases;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
@@ -25,12 +29,16 @@ import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import iskallia.vault.util.TextUtil;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
 
 /**
  * Shared drawing for the spellcraft screens, the skill menu's spell bar and the focus tooltip: the H-menu window,
@@ -64,6 +72,7 @@ public final class SpellcraftGui {
             "unique", 0xFFF0912E);
     private static final Map<AugmentType, ResourceLocation> RUNES = new EnumMap<>(AugmentType.class);
     private static final Set<String> MISSING_ICONS = new HashSet<>();
+    private static final Set<AugmentType> MISSING_DESCRIPTIONS = EnumSet.noneOf(AugmentType.class);
 
     static {
         for (AugmentType type : AugmentType.values()) {
@@ -288,7 +297,56 @@ public final class SpellcraftGui {
         };
     }
 
+    /**
+     * A glyph's description at a potency and quality, coloured with VH's tags: an etching glyph shows its etching's own
+     * text; every other glyph fills its table template. Without either (logged once) it falls back to the potency text.
+     */
+    public static MutableComponent describe(FocusAugmentsConfig config, AugmentType type, float potency, float quality) {
+        String text = EtchingGlyphs.description(type, potency, quality);
+        if (text == null) {
+            String template = config.glyph(type).description;
+            if (template != null && !template.isBlank()) {
+                text = EtchingHelper.formatDescription(template, Optional.of(potency));
+            }
+        }
+        if (text == null) {
+            if (MISSING_DESCRIPTIONS.add(type)) {
+                WoldsVaults.LOGGER.error("Spellcraft: glyph {} has no description; its tooltip shows the potency text", type.id());
+            }
+            return new TextComponent(potency(config, type, potency)).withStyle(ChatFormatting.GRAY);
+        }
+        return TextUtil.applyColorTags(capitalize(text));
+    }
+
+    /** The text with its first letter upper-cased, skipping leading colour tags, signs and digits. */
+    public static String capitalize(String text) {
+        int i = 0;
+        while (i < text.length()) {
+            char c = text.charAt(i);
+            if (c == '<') {
+                int close = text.indexOf('>', i);
+                if (close < 0) {
+                    break;
+                }
+                i = close + 1;
+                continue;
+            }
+            if (Character.isLetter(c)) {
+                return text.substring(0, i) + Character.toUpperCase(c) + text.substring(i + 1);
+            }
+            if (Character.isDigit(c) || c == '+' || c == '-' || c == ' ' || c == '%' || c == '.') {
+                return text;
+            }
+            i++;
+        }
+        return text;
+    }
+
     public static String potency(FocusAugmentsConfig config, AugmentType type, float p) {
+        return capitalize(rawPotency(config, type, p));
+    }
+
+    private static String rawPotency(FocusAugmentsConfig config, AugmentType type, float p) {
         FocusAugmentsConfig.Potency potency = config.glyph(type).potency;
         return switch (potency.format) {
             case "pct" -> "+" + Math.round(p * 100) + "% " + potency.label;
@@ -326,7 +384,7 @@ public final class SpellcraftGui {
                 parts.add(part);
             }
         }
-        return String.join(", ", parts);
+        return capitalize(String.join(", ", parts));
     }
 
     /**

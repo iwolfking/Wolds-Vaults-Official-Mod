@@ -143,7 +143,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(0);
             });
 
-            builder.addEtching(WoldsVaults.id("fireball_volley_mitosis"), "Fireball Volley Mitosis",  "<#870018>Fireball Volley<gray> creates <yellow>%dvalue<gray> additional fireball on first bounce", 8847384, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("fireball_volley_mitosis"), "Fireball Volley Mitosis",  "<#870018>Fireball Volley<gray> spawns <yellow>%dvalue<gray> extra fireball{value>1=s} on its first bounce", 8847384, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("Offensive");
                 });

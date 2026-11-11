@@ -102,6 +102,7 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public int costMin;
         @Expose public int costMax;
         @Expose public boolean noEscalation;
+        @Expose public String description;
     }
 
     /** The rolled main value: a range per item-level tier, plus values rolled at the same quality. */

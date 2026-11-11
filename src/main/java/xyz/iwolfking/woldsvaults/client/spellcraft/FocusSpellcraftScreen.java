@@ -24,6 +24,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -1080,7 +1081,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                 List<ViewLine> all = pouchGlyphs(config);
                 if (row < all.size()) {
                     ViewLine line = all.get(row);
-                    glyphLines(config, line.type(), line.potency(), lines);
+                    glyphLines(config, line.type(), line.potency(), line.quality(), lines);
                     lines.add(colored(SpellcraftGui.tr("screen.uses_left", Math.max(0, usesLeft(line)), line.limit()), SpellcraftGui.WHITE));
                     if (SpellModel.isUnique(config, line.type())) {
                         lines.add(colored(SpellcraftGui.tr("screen.unique_cost", config.rules.uniqueMixCost), SpellcraftGui.ARCANA));
@@ -1129,7 +1130,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
                     SpellModel model = check == null ? null : check.models().get(draft.id > 0 ? draft.id : Integer.MAX_VALUE);
                     SpellModel.Glyph glyph = model == null ? null : model.glyphAt(cell.index());
                     ViewLine line = view(config).get(type);
-                    glyphLines(config, type, line == null ? 0.0F : line.potency(), lines);
+                    glyphLines(config, type, line == null ? 0.0F : line.potency(), line == null ? 0.0F : line.quality(), lines);
                     if (glyph != null && !glyph.active()) {
                         lines.add(colored(SpellcraftGui.inactiveReason(glyph), SpellcraftGui.BAD));
                     }
@@ -1177,22 +1178,36 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         return lines;
     }
 
-    private void glyphLines(FocusAugmentsConfig config, AugmentType type, float potency, List<Component> lines) {
+    private void glyphLines(FocusAugmentsConfig config, AugmentType type, float potency, float quality, List<Component> lines) {
+        FocusAugmentsConfig.Glyph glyph = config.glyph(type);
         lines.add(colored(type.displayName(), SpellcraftGui.categoryColor(config, type)));
-        lines.add(colored(SpellcraftGui.potency(config, type, potency), SpellcraftGui.WHITE));
+        lines.add(SpellcraftGui.describe(config, type, potency, quality));
         String side = SpellcraftGui.sideEffects(config, type, potency);
         if (!side.isEmpty()) {
             lines.add(colored(side, SpellcraftGui.GREY));
         }
         List<String> fits = new ArrayList<>();
-        for (List<String> set : config.glyph(type).requires) {
-            fits.add(String.join("+", set));
+        if (glyph.specs != null && !glyph.specs.isEmpty()) {
+            for (String spec : glyph.specs) {
+                String name = AugmentAbilities.displayName(spec);
+                if (!fits.contains(name)) {
+                    fits.add(name);
+                }
+            }
+        } else {
+            for (List<String> set : glyph.requires) {
+                List<String> words = new ArrayList<>();
+                set.forEach(trait -> words.add(SpellcraftGui.capitalize(trait)));
+                fits.add(String.join(" + ", words));
+            }
         }
         if (!fits.isEmpty()) {
             lines.add(colored(SpellcraftGui.tr("screen.fits", String.join(", ", fits)), SpellcraftGui.GREY));
         }
-        if (!config.glyph(type).forbids.isEmpty()) {
-            lines.add(colored(SpellcraftGui.tr("screen.forbids", String.join(", ", config.glyph(type).forbids)), SpellcraftGui.GREY));
+        if (!glyph.forbids.isEmpty()) {
+            List<String> words = new ArrayList<>();
+            glyph.forbids.forEach(trait -> words.add(SpellcraftGui.capitalize(trait)));
+            lines.add(colored(SpellcraftGui.tr("screen.forbids", String.join(", ", words)), SpellcraftGui.GREY));
         }
     }
 
