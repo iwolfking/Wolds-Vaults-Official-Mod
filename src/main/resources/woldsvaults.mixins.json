@@ -770,6 +770,7 @@
     "MixinItemCooldownsRiptide",
     "MixinLivingEntityRiptide",
     "MixinPlayerRiptideContact",
+    "MixinPlayerMeleeFlag",
     "MixinServerItemCooldownsRiptide",
     "vaulthunters.custom.MixinAttributeSnapshotCalculatorSets",
     "vaulthunters.accessors.VaultGearModifierReaderAccessor",

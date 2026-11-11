@@ -205,13 +205,31 @@ public class LivingEntityEvents {
         }
     }
 
+    /**
+     * A plain weapon hit by this player: inside {@code Player.attack}, dealt directly by the player, and not a proc
+     * nested in the swing (AoE, chaining, effect, DoT, reflect, totem, ability power, echo, reaving, fang, scepter cast,
+     * derived, Lightning Fiend).
+     */
+    private static boolean weaponHit(LivingHurtEvent event, ServerPlayer player) {
+        if (!WoldActiveFlags.IS_MELEE_ATTACKING.isSet() || event.getSource().getDirectEntity() != player) {
+            return false;
+        }
+        return !(ActiveFlags.IS_AP_ATTACKING.isSet() || ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
+                || ActiveFlags.IS_EFFECT_ATTACKING.isSet() || ActiveFlags.IS_DOT_ATTACKING.isSet() || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
+                || ActiveFlags.IS_TOTEM_ATTACKING.isSet() || ActiveFlags.IS_THORNS_REFLECTING.isSet()
+                || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet() || WoldActiveFlags.IS_ECHOING_ATTACKING.isSet()
+                || WoldActiveFlags.IS_REAVING_ATTACKING.isSet() || WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()
+                || WoldActiveFlags.IS_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.isSet()
+                || WoldActiveFlags.IS_DERIVED_ATTACKING.isSet());
+    }
+
     @SubscribeEvent
     public static void onScepterHitSparkles(LivingHurtEvent event) {
         if (SpellChainDamage.active()) {
             return;
         }
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
-        if (ActiveFlags.IS_AP_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) return;
+        if (!weaponHit(event, player)) return;
 
         ItemStack heldItem = player.getMainHandItem();
         GearDataCache gearDataCache = GearDataCache.of(heldItem);
