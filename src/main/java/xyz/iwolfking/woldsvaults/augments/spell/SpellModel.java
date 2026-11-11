@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.augments.spell;
 
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
+
 import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
@@ -292,10 +294,27 @@ public final class SpellModel {
             builder.errors.add("one press would make " + potential + " casts; at most " + config.rules.maxCastsPerTrigger + " are allowed");
         }
         int casts = countCasts(builder.root, 1L, cap, false);
-        float manaFactor = Math.max(config.rules.manaFactorFloor, builder.spellPool.mana());
         Map<Step, GlyphStacking.Pool> stepPools = new IdentityHashMap<>();
         collectPools(config, builder.root, stepPools);
+        float manaFactor = Math.max(config.rules.manaFactorFloor, builder.spellPool.mana()) * healManaFactor(builder.root, stepPools);
         return new SpellModel(builder, arcana(config, builder), casts, manaFactor, stepPools);
+    }
+
+    /**
+     * Intensify on a heal costs spell mana instead of duration (ruling R20): the product of every live heal step's heal
+     * mana total, applied after the mana floor so billing and every display agree.
+     */
+    private static float healManaFactor(List<Step> steps, Map<Step, GlyphStacking.Pool> stepPools) {
+        float factor = 1.0F;
+        for (Step step : steps) {
+            if (step instanceof Cast cast && cast.live() && BuffGlyphs.billsHealMana(cast.spec())) {
+                GlyphStacking.Pool pool = stepPools.get(cast);
+                if (pool != null) {
+                    factor *= pool.total("heal_mana");
+                }
+            }
+        }
+        return factor;
     }
 
     private static void collectPools(FocusAugmentsConfig config, List<Step> steps, Map<Step, GlyphStacking.Pool> pools) {
