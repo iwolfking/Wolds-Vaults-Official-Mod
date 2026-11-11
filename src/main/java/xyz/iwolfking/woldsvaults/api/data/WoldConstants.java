@@ -27,7 +27,8 @@ public class WoldConstants {
     public static final UUID SECOND_CHANCE_HEALTH_REDUCTION_UUID = UUID.fromString("377c9fce-a8bd-4a3a-8123-180b5d633a23");
 
     //Caps
-    public static final float DODGE_PERCENT_CAP = 0.95F;
+    public static final float DODGE_PERCENT_CAP = 0.75F;
+    public static final float RESISTANCE_HARD_CAP = 0.95F;
 
     //Constant Strings
     public static final String TRASH_SLOT_RESEARCH = "Trash Slot";

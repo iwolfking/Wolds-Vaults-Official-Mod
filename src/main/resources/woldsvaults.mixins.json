@@ -571,6 +571,7 @@
     "vaulthunters.fixes.MixinSpiritEntity",
     "vaulthunters.fixes.MixinSpiritExtractorTileEntity",
     "vaulthunters.fixes.MixinStatisticsElementContainerScreenData",
+    "vaulthunters.fixes.MixinStatUtils",
     "vaulthunters.fixes.MixinTauntAbility",
     "vaulthunters.fixes.MixinThemeBlockRetriever",
     "vaulthunters.fixes.MixinThornsHelper",
@@ -789,7 +790,9 @@
     "vaulthunters.gods.MixinVaultEndScreenGodXp",
     "vaulthunters.objectives.MixinClientCrystalData",
     "jei.MixinSubtypeRegistration",
-    "vaulthunters.custom.MixinStatisticsElementContainerScreen"
+    "vaulthunters.custom.MixinStatisticsElementContainerScreen",
+    "vaulthunters.custom.MixinStatLabelElementBuilder",
+    "vaulthunters.custom.MixinStatListPlayerContainerElement"
   ],
   "injectors": {
     "defaultRequire": 1
