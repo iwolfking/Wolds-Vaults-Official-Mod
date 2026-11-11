@@ -616,6 +616,7 @@
     "vaulthunters.fixes.MixinUnboxingStationTileEntity",
     "vaulthunters.fixes.MixinUniqueGearCommand",
     "vaulthunters.fixes.MixinVaultBlizzardShard",
+    "vaulthunters.fixes.MixinIceBoltEntityClientHit",
     "vaulthunters.fixes.MixinVaultChestTileEntity",
     "vaulthunters.fixes.MixinVaultGearModifierHelper",
     "vaulthunters.fixes.MixinVaultGearRarity",
