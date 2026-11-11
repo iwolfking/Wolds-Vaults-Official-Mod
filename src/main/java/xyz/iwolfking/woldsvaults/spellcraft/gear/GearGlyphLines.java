@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.spellcraft.gear;
 
+import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
@@ -72,6 +74,41 @@ public final class GearGlyphLines {
             }
         }
         return lines;
+    }
+
+    /** A converted affix modifier on a gear item, with its affix type and the glyph it grants. */
+    public record Grant(VaultGearModifier<?> modifier, VaultGearModifier.AffixType affixType, AugmentType glyph) {
+    }
+
+    /** Every converted affix modifier on a gear item, in tooltip order, for the client tooltip. */
+    public static List<Grant> grants(ItemStack stack) {
+        FocusAugmentsConfig config = FocusAugments.config();
+        if (config == null || stack.isEmpty() || !AttributeGearData.hasData(stack)) {
+            return List.of();
+        }
+        AttributeGearData raw = AttributeGearData.read(stack);
+        if (!(raw instanceof VaultGearData data)) {
+            return List.of();
+        }
+        List<FocusAugmentsConfig.GearGlyph> entries = GearGlyphs.entries(config);
+        List<Grant> grants = new ArrayList<>();
+        for (VaultGearModifier.AffixType affixType : VaultGearModifier.AffixType.values()) {
+            for (VaultGearModifier<?> modifier : data.getModifiers(affixType)) {
+                for (FocusAugmentsConfig.GearGlyph entry : entries) {
+                    VaultGearAttribute<?> attribute = attribute(entry.attribute);
+                    AugmentType type = AugmentType.byId(entry.glyph);
+                    if (attribute == null || type == null || modifier.getAttribute() != attribute) {
+                        continue;
+                    }
+                    Object value = modifier.getValue();
+                    if (value instanceof SteelInfernoAttribute || number(entry, value) != null) {
+                        grants.add(new Grant(modifier, affixType, type));
+                        break;
+                    }
+                }
+            }
+        }
+        return grants;
     }
 
     @Nullable

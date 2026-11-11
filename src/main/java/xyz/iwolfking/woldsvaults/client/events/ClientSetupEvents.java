@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
+import xyz.iwolfking.woldsvaults.client.spellcraft.GlyphAffixLine;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,5 +60,6 @@ public class ClientSetupEvents {
     private static void registerClientTooltips() {
         MinecraftForgeClient.registerTooltipComponentFactory(LayoutTooltipComponent.class, LayoutTooltipClientComponent::new);
         MinecraftForgeClient.registerTooltipComponentFactory(SpellcraftTooltipRow.class, SpellcraftTooltipRow.Client::new);
+        MinecraftForgeClient.registerTooltipComponentFactory(GlyphAffixLine.class, GlyphAffixLine.Client::new);
     }
 }

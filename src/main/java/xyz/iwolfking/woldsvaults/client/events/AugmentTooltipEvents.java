@@ -1,5 +1,10 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
+import java.util.Set;
+import java.util.HashSet;
+import net.minecraft.network.chat.Component;
+import iskallia.vault.gear.data.VaultGearData;
+import xyz.iwolfking.woldsvaults.client.spellcraft.GlyphAffixLine;
 import com.mojang.datafixers.util.Either;
 import iskallia.vault.client.data.ClientAbilityData;
 import iskallia.vault.skill.tree.AbilityTree;
@@ -18,7 +23,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -45,55 +49,49 @@ import java.util.function.Function;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public class AugmentTooltipEvents {
+    private static final Set<String> MISSING_AFFIX_LINES = new HashSet<>();
 
     /**
-     * One row per converted gear affix on any item: the glyph's rune, "Grants glyph: name" in the glyph's category
-     * colour, its rolled potency and the abilities it is locked to. On a focus or wand the line belongs to that item's
-     * spells; on other gear it is lent to every focus and wand and augments plain casts.
+     * A gear affix that grants a glyph keeps its own tooltip line and gets the glyph's rune drawn to its right. The line
+     * is found by its text (the same {@code getDisplay} call VH's tooltip makes); if it can't be found, the line is added
+     * at the end and a warning is logged once per affix.
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onGatherGrants(RenderTooltipEvent.GatherComponents event) {
         ItemStack stack = event.getItemStack();
-        FocusAugmentsConfig config = FocusAugments.config();
-        if (config == null) {
-            return;
-        }
-        List<SpellcraftItemData.Line> grants = GearGlyphLines.lines(stack);
+        List<GearGlyphLines.Grant> grants = GearGlyphLines.grants(stack);
         if (grants.isEmpty()) {
             return;
         }
-        boolean arcana = SpellcraftRoller.canCarry(stack);
-        int[] width = {0};
-        List<Either<FormattedText, TooltipComponent>> rows = new ArrayList<>();
-        for (SpellcraftItemData.Line line : grants) {
-            AugmentType type = line.type();
-            String name = SpellcraftGui.tr("tooltip.grants", type.displayName());
-            String detail = SpellcraftGui.potency(config, type, line.potency());
-            String specs = specNames(config, type);
-            String extra = specs.isEmpty() ? detail : SpellcraftGui.tr("tooltip.grants_detail", detail, specs);
-            rows.add(Either.right(new SpellcraftTooltipRow(SpellcraftTooltipRow.Kind.GRANT, name, "", extra,
-                    List.of(new SpellcraftTooltipRow.Rune(type, false)), List.of(), SpellcraftGui.categoryColor(config, type), false, 0, 0, width)));
-        }
-        rows.add(Either.left(colored(SpellcraftGui.tr(arcana ? "tooltip.grants_arcana" : "tooltip.grants_auto"), SpellcraftGui.DARK)));
-        event.getTooltipElements().addAll(rows);
-    }
-
-    private static String specNames(FocusAugmentsConfig config, AugmentType type) {
-        List<String> specs = config.glyph(type).specs;
-        if (specs == null || specs.isEmpty()) {
-            return "";
-        }
-        List<String> names = new ArrayList<>();
-        for (String spec : specs) {
-            String display = AugmentAbilities.displayName(spec);
-            if (!names.contains(display)) {
-                names.add(display);
+        VaultGearData data = VaultGearData.read(stack);
+        List<Either<FormattedText, TooltipComponent>> elements = event.getTooltipElements();
+        for (GearGlyphLines.Grant grant : grants) {
+            Component plain = grant.modifier().getDisplay(data, grant.affixType(), stack, false).orElse(null);
+            Component detailed = grant.modifier().getDisplay(data, grant.affixType(), stack, true).orElse(null);
+            if (plain == null) {
+                continue;
+            }
+            boolean placed = false;
+            for (int i = 0; i < elements.size() && !placed; i++) {
+                FormattedText text = elements.get(i).left().orElse(null);
+                if (text == null) {
+                    continue;
+                }
+                String shown = text.getString();
+                if (shown.equals(plain.getString()) || (detailed != null && shown.equals(detailed.getString()))) {
+                    Component line = text instanceof Component component ? component : new TextComponent(shown);
+                    elements.set(i, Either.right(new GlyphAffixLine(line, grant.glyph())));
+                    placed = true;
+                }
+            }
+            if (!placed) {
+                if (MISSING_AFFIX_LINES.add(grant.glyph().id() + "|" + plain.getString())) {
+                    WoldsVaults.LOGGER.warn("Spellcraft: no tooltip line matches the glyph-granting affix '{}' on {}; the glyph line is added at the end",
+                            plain.getString(), stack.getItem());
+                }
+                elements.add(Either.right(new GlyphAffixLine(plain, grant.glyph())));
             }
         }
-        if (names.size() > 2) {
-            return SpellcraftGui.tr("tooltip.grants_more", names.get(0), names.size() - 1);
-        }
-        return String.join(", ", names);
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)

@@ -22,8 +22,7 @@ public record SpellcraftTooltipRow(Kind kind, String text, String right, String 
         RUNES,
         GLYPH,
         SPELL,
-        SPELL_ROW,
-        GRANT
+        SPELL_ROW
     }
 
     /** A rune in a row; dimmed when its line is spent. */
@@ -43,7 +42,6 @@ public record SpellcraftTooltipRow(Kind kind, String text, String right, String 
             case GLYPH -> INDENT + font.width(this.text + " " + this.extra) + 8 + font.width(this.right) + 10 + font.width(costText());
             case SPELL -> INDENT + font.width(this.text) + 8 + 10 + font.width(costText());
             case SPELL_ROW -> INDENT + (this.runes.size() + this.icons.size()) * RUNE_PITCH + 5 + font.width(this.text);
-            case GRANT -> INDENT + font.width(this.text + " " + this.extra);
         };
     }
 
@@ -122,12 +120,6 @@ public record SpellcraftTooltipRow(Kind kind, String text, String right, String 
                         tx += RUNE_PITCH;
                     }
                     font.drawShadow(pose, r.text(), tx + 5, y, SpellcraftGui.GREY);
-                }
-                case GRANT -> {
-                    SpellcraftGui.rune(pose, r.runes().get(0).type(), x, y - 1, RUNE, r.dim());
-                    int tx = x + INDENT;
-                    font.drawShadow(pose, r.text() + " ", tx, y, r.color());
-                    font.drawShadow(pose, r.extra(), tx + font.width(r.text() + " "), y, SpellcraftGui.GREY);
                 }
             }
             pose.popPose();
