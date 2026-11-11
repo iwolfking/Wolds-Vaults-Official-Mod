@@ -420,6 +420,7 @@
     "vaulthunters.custom.MixinTransmogTableScreen",
     "vaulthunters.custom.MixinTreasureContainerBlock",
     "vaulthunters.custom.MixinTreasureKeyAnvilRecipe",
+    "vaulthunters.custom.MixinTreasurePedestalBlock",
     "vaulthunters.custom.MixinTrinketHelper",
     "vaulthunters.custom.MixinTrinketItem",
     "vaulthunters.custom.MixinUnboxingStationTileEntity",
