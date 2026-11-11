@@ -78,6 +78,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         tuning.homingAimConeDegrees = 25.0F;
         tuning.orbitRadius = 2.5F;
         tuning.orbitHeight = 1.2F;
+        tuning.orbitVolleyExplosionGapTicks = 10;
         tuning.bundleSpeed = 0.8F;
         tuning.railRange = 128.0F;
         tuning.sizeUpMaxScale = 3.0F;

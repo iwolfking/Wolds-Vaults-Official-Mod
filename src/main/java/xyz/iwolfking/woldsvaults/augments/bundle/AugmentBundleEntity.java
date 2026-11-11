@@ -30,8 +30,8 @@ import java.util.List;
 
 /**
  * The Bundled Spell projectile: flies straight for its rolled flight time and, on hitting an entity or block, casts its payload (the rest of the
- * recipe) at the landing point. Its size, hitbox included, is synced to clients; an ethereal bundle passes through
- * blocks and lands only on entities. It is never saved with the world, since its payload lives only in memory.
+ * recipe) at the landing point. An orbiting orb lives at least until its orbit ends and lands where it is then. Its
+ * size, hitbox included, is synced to clients; an ethereal bundle passes through blocks and lands only on entities. It is never saved with the world, since its payload lives only in memory.
  */
 public class AugmentBundleEntity extends Projectile {
     private static final EntityDataAccessor<Float> SCALE = SynchedEntityData.defineId(AugmentBundleEntity.class, EntityDataSerializers.FLOAT);
@@ -128,6 +128,16 @@ public class AugmentBundleEntity extends Projectile {
     protected void onHitBlock(BlockHitResult hit) {
         Vec3 face = Vec3.atLowerCornerOf(hit.getDirection().getNormal()).scale(0.25);
         land(hit.getLocation().add(face));
+    }
+
+    /** Keeps the orb alive for at least {@code ticks} more ticks. */
+    public void holdFor(int ticks) {
+        this.lifetimeTicks = Math.max(this.lifetimeTicks, this.age + ticks);
+    }
+
+    /** Lands the orb where it is now, casting its payload there. */
+    public void landHere() {
+        land(position());
     }
 
     private void land(Vec3 position) {

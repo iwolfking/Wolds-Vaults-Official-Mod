@@ -20,4 +20,14 @@ public interface LightningOrbEntityAccessor {
     static EntityDataAccessor<Float> woldsvaults$getSpeed() {
         throw new AssertionError();
     }
+
+    @Accessor("DURATION")
+    static EntityDataAccessor<Integer> woldsvaults$getDuration() {
+        throw new AssertionError();
+    }
+
+    @Accessor("AGE")
+    static EntityDataAccessor<Integer> woldsvaults$getAge() {
+        throw new AssertionError();
+    }
 }

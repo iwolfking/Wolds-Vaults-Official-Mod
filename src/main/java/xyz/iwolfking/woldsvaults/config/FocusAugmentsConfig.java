@@ -66,6 +66,7 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public float homingAimConeDegrees;
         @Expose public float orbitRadius;
         @Expose public float orbitHeight;
+        @Expose public int orbitVolleyExplosionGapTicks;
         @Expose public float bundleSpeed;
         @Expose public float railRange;
         @Expose public float sizeUpMaxScale;
@@ -341,7 +342,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         }
         if (this.tuning.sizeUpMaxScale < 1 || this.tuning.sizeDownMinScale <= 0 || this.tuning.sizeDownMinScale > 1
                 || this.tuning.chargeSeconds <= 0 || this.tuning.homingRange <= 0 || this.tuning.homingAimRange <= 0
-                || this.tuning.homingAimConeDegrees <= 0 || this.tuning.chargeMoveFactor <= 0 || this.tuning.chargeMoveFactor > 1) {
+                || this.tuning.homingAimConeDegrees <= 0 || this.tuning.chargeMoveFactor <= 0 || this.tuning.chargeMoveFactor > 1
+                || this.tuning.orbitVolleyExplosionGapTicks < 1) {
             return "a tuning value is out of range";
         }
         for (AugmentType type : AugmentType.values()) {

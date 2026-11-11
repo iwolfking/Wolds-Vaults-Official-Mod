@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.accessors.AccessorProjectile;
 import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
@@ -29,7 +30,8 @@ import java.util.WeakHashMap;
  * Size Up and Size Down on VH ability projectiles. The hitbox follows Forge's size event; clients learn the scale
  * when they start tracking the projectile and draw it scaled. Vanilla projectiles find entities with a thin ray, so an
  * enlarged projectile also hits any entity its enlarged box swept through this tick, through the projectile's own
- * impact event and hit handling. Those hits can spawn more sized projectiles, so the tick walks a snapshot. Ball of Lightning damages by its own synced radius, so its radius is scaled instead.
+ * impact event and hit handling, run in the projectile's cast context as its own tick's hits are. Those hits can spawn
+ * more sized projectiles, so the tick walks a snapshot. Ball of Lightning damages by its own synced radius, so its radius is scaled instead.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSizing {
@@ -104,7 +106,7 @@ public final class ProjectileSizing {
             if (!ForgeEventFactory.onProjectileImpact(projectile, hit)) {
                 TickingEntity.push(projectile);
                 try {
-                    access.woldsvaults$onHit(hit);
+                    CastContext.runTask(CastContext.tagOf(projectile), SpellHits.Carrier.ENTITY, () -> access.woldsvaults$onHit(hit));
                 } finally {
                     TickingEntity.pop();
                 }

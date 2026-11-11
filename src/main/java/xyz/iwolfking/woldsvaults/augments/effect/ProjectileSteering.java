@@ -1,29 +1,61 @@
 package xyz.iwolfking.woldsvaults.augments.effect;
 
+import iskallia.vault.entity.entity.IceBoltEntity;
 import iskallia.vault.entity.entity.LightningOrbEntity;
+import iskallia.vault.entity.entity.ToxicGrenadeEntity;
+import iskallia.vault.entity.entity.VaultBlizzardShard;
+import iskallia.vault.entity.entity.VaultDecoyProjectile;
+import iskallia.vault.entity.entity.VaultFireball;
+import iskallia.vault.entity.entity.VaultGrenade;
+import iskallia.vault.entity.entity.VaultStormArrow;
+import iskallia.vault.entity.entity.VaultThrownJavelin;
+import iskallia.vault.skill.ability.effect.ChainLightningAbility;
+import iskallia.vault.skill.ability.effect.NecromancyAbility;
 import iskallia.vault.util.EntityHelper;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.lib.HomingJavelin;
+import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
+import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
+import xyz.iwolfking.woldsvaults.augments.bundle.AugmentBundleEntity;
 import xyz.iwolfking.woldsvaults.augments.cast.AimOverride;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.mixins.accessors.AccessorProjectile;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.LightningOrbEntityAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ToxicGrenadeEntityAccessor;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultDecoyProjectileInvoker;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGrenadeAccessor;
 import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 /**
@@ -33,7 +65,14 @@ import java.util.function.Predicate;
  * Homing flies straight until an enemy is within the table's lock-on range, then turns toward it at its rolled rate
  * (degrees per second). The enemy nearest the owner's crosshair when the projectile was fired is preferred whenever it
  * is in range; otherwise the nearest enemy is chased. Lock-on needs no line of sight, so split children at a wall still
- * find mobs past it.
+ * find mobs past it. Steered projectiles send their position and motion to clients every tick.
+ * <p>
+ * An orbit ends on an absolute game tick kept in the projectile's tags, so copies it spawns (bounces, ricochets, splits)
+ * orbit only for the time left; a copy made after the end does not orbit. The projectile's own timers (grenade fuses,
+ * Ball of Lightning duration, Volley duration, Bundled Spell flight; Taunt decoy and Blizzard shard through their
+ * mixins) are held until the orbit ends. At the end, or when an orbiting projectile gets stuck, it detonates by type
+ * inside its cast's context: fireballs explode, grenades explode, ice bolts run their impact area, decoys spawn their
+ * decoy, Bundled Spell orbs land their payload, and the rest are removed. Orbiting grenades explode on contact.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ProjectileSteering {
@@ -41,20 +80,54 @@ public final class ProjectileSteering {
     private static final double RESEND_COS = Math.cos(Math.toRadians(2.0));
     private static final int RESEND_TICKS = 10;
     private static final List<Steered> STEERED = new ArrayList<>();
+    private static final Map<Projectile, Steered> ORBITING = new WeakHashMap<>();
+    private static final Set<Class<?>> UNDETONATED_WARNED = ConcurrentHashMap.newKeySet();
 
     private ProjectileSteering() {
     }
 
-    public static void orbit(Projectile projectile, ServerPlayer owner, float seconds) {
+    /**
+     * Starts orbiting {@code projectile} around {@code owner} until its orbit's end tick: the one in its tags when it
+     * inherited an orbit, else {@code seconds} from now (stored in its tags when it carries the Orbit tag). Returns
+     * false, steering nothing, when that end has already passed.
+     */
+    public static boolean orbit(Projectile projectile, ServerPlayer owner, float seconds) {
+        long now = projectile.level.getGameTime();
+        CompoundTag data = projectile.getPersistentData();
+        long end;
+        if (data.contains(AugmentTags.ORBIT_END)) {
+            end = data.getLong(AugmentTags.ORBIT_END);
+        } else {
+            end = now + Math.max(1, Math.round(seconds * 20.0F));
+            if (data.contains(AugmentTags.ORBIT)) {
+                data.putLong(AugmentTags.ORBIT_END, end);
+            }
+        }
+        if (end <= now) {
+            return false;
+        }
         long orbiting = STEERED.stream().filter(s -> s.orbit && s.owner == owner).count();
-        STEERED.add(new Steered(projectile, owner, true, orbiting * GOLDEN_ANGLE, 0, 0, Math.max(1, Math.round(seconds * 20.0F))));
+        Steered steered = new Steered(projectile, owner, true, orbiting * GOLDEN_ANGLE, 0, 0, end);
+        STEERED.add(steered);
+        ORBITING.put(projectile, steered);
+        holdTimers(projectile, (int) Math.min(Integer.MAX_VALUE / 2, end - now));
+        return true;
+    }
+
+    /** Whether the server-side {@code entity} is orbiting right now (its orbit has not ended or been dropped). */
+    public static boolean isOrbiting(Entity entity) {
+        if (entity.level.isClientSide() || !(entity instanceof Projectile projectile)) {
+            return false;
+        }
+        Steered steered = ORBITING.get(projectile);
+        return steered != null && steered.projectile == entity;
     }
 
     public static void home(Projectile projectile, ServerPlayer owner, float range, float turnRate) {
         if (isNativelyHoming(projectile)) {
             return;
         }
-        Steered steered = new Steered(projectile, owner, false, 0, range, turnRate, 0);
+        Steered steered = new Steered(projectile, owner, false, 0, range, turnRate, 0L);
         FocusAugmentsConfig config = FocusAugments.config();
         if (config != null) {
             steered.preferred = cursorTarget(owner, config, e -> canTarget(projectile, owner, e)).orElse(null);
@@ -98,33 +171,138 @@ public final class ProjectileSteering {
         FocusAugmentsConfig config = FocusAugments.config();
         if (config == null) {
             STEERED.clear();
+            ORBITING.clear();
             return;
         }
         for (Steered steered : new ArrayList<>(STEERED)) {
             Projectile projectile = steered.projectile;
             if (projectile.isRemoved() || steered.owner.isRemoved() || steered.owner.level != projectile.level
-                    || steered.isStuck() || (!steered.orbit && isNativelyHoming(projectile))) {
-                STEERED.remove(steered);
+                    || (!steered.orbit && isNativelyHoming(projectile))) {
+                drop(steered);
+                continue;
+            }
+            boolean stuck = steered.isStuck();
+            if (steered.orbit && (stuck || projectile.level.getGameTime() >= steered.orbitEnd)) {
+                drop(steered);
+                detonate(projectile);
+                continue;
+            }
+            if (stuck) {
+                drop(steered);
                 continue;
             }
             steered.age++;
             if (steered.orbit) {
-                if (steered.age > steered.orbitTicks) {
-                    projectile.discard();
-                    STEERED.remove(steered);
-                    continue;
-                }
                 steerOrbit(steered, config);
             } else {
                 steerHoming(steered, config);
             }
             projectile.hurtMarked = true;
+            projectile.hasImpulse = true;
+        }
+    }
+
+    /** An orbiting grenade explodes on contact: its fuse is cut to now, so its own tick explodes it this tick. */
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onProjectileImpact(ProjectileImpactEvent event) {
+        Projectile projectile = event.getProjectile();
+        if (event.getRayTraceResult().getType() == HitResult.Type.MISS || !isOrbiting(projectile)) {
+            return;
+        }
+        EntityDataAccessor<Integer> fuse = fuseOf(projectile);
+        if (fuse != null) {
+            projectile.getEntityData().set(fuse, Math.max(1, projectile.tickCount));
+            event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public static void onServerStopped(ServerStoppedEvent event) {
         STEERED.clear();
+        ORBITING.clear();
+    }
+
+    private static void drop(Steered steered) {
+        STEERED.remove(steered);
+        if (steered.orbit) {
+            ORBITING.remove(steered.projectile);
+        }
+    }
+
+    private static EntityDataAccessor<Integer> fuseOf(Projectile projectile) {
+        if (projectile instanceof VaultGrenade) {
+            return VaultGrenadeAccessor.woldsvaults$duration();
+        }
+        if (projectile instanceof ToxicGrenadeEntity) {
+            return ToxicGrenadeEntityAccessor.woldsvaults$duration();
+        }
+        return null;
+    }
+
+    /** Holds the projectile's own lifetime timers for {@code remaining} more ticks, one tick past the orbit's end. */
+    private static void holdTimers(Projectile projectile, int remaining) {
+        EntityDataAccessor<Integer> fuse = fuseOf(projectile);
+        if (fuse != null) {
+            int fuseTicks = projectile.getEntityData().get(fuse);
+            if (fuseTicks > 0 && fuseTicks <= projectile.tickCount + remaining) {
+                projectile.getEntityData().set(fuse, projectile.tickCount + remaining + 1);
+            }
+        } else if (projectile instanceof LightningOrbEntity orb) {
+            int until = orb.getEntityData().get(LightningOrbEntityAccessor.woldsvaults$getAge()) + remaining + 1;
+            if (orb.getEntityData().get(LightningOrbEntityAccessor.woldsvaults$getDuration()) < until) {
+                orb.getEntityData().set(LightningOrbEntityAccessor.woldsvaults$getDuration(), until);
+            }
+        } else if (projectile instanceof VaultFireball fireball && fireball.getFireballType() == VaultFireball.FireballType.BOUNCING
+                && fireball.getDuration() > 0) {
+            int seconds = (fireball.tickCount + remaining) / 20 + 1;
+            if (fireball.getDuration() < seconds) {
+                fireball.setDuration(seconds);
+            }
+        } else if (projectile instanceof AugmentBundleEntity bundle) {
+            bundle.holdFor(remaining + 1);
+        }
+    }
+
+    /** Detonates an orbiting projectile whose orbit ended, inside its cast's context, so its glyphs still apply. */
+    private static void detonate(Projectile projectile) {
+        TickingEntity.push(projectile);
+        try {
+            CastContext.runTask(CastContext.tagOf(projectile), SpellHits.Carrier.ENTITY, () -> detonateByType(projectile));
+        } finally {
+            TickingEntity.pop();
+        }
+        if (!projectile.isRemoved()) {
+            projectile.discard();
+        }
+    }
+
+    private static void detonateByType(Projectile projectile) {
+        if (projectile instanceof VaultFireball fireball) {
+            ElementHelper.runWithElements(((IWoldAbilityEnhancements) fireball).getElementTypes(), () -> fireball.explode(fireball.position()));
+        } else if (projectile instanceof VaultGrenade) {
+            ((VaultGrenadeAccessor) projectile).woldsvaults$explode();
+        } else if (projectile instanceof ToxicGrenadeEntity) {
+            ((ToxicGrenadeEntityAccessor) projectile).woldsvaults$explode();
+        } else if (projectile instanceof IceBoltEntity) {
+            Vec3 motion = projectile.getDeltaMovement();
+            Direction facing = Direction.getNearest(motion.x, motion.y, motion.z);
+            ((AccessorProjectile) projectile).woldsvaults$onHit(BlockHitResult.miss(projectile.position(), facing, projectile.blockPosition()));
+        } else if (projectile instanceof VaultDecoyProjectile && projectile.level instanceof ServerLevel level) {
+            ((VaultDecoyProjectileInvoker) projectile).woldsvaults$spawnDecoy(level, projectile.position());
+        } else if (projectile instanceof AugmentBundleEntity bundle) {
+            bundle.landHere();
+        } else if (!endsByRemoval(projectile) && UNDETONATED_WARNED.add(projectile.getClass())) {
+            WoldsVaults.LOGGER.warn("Orbit: no detonation is known for projectile class {}; it is removed at its orbit end instead.",
+                    projectile.getClass().getName());
+        }
+    }
+
+    /** Projectiles that only act on contact, so the end of their orbit simply removes them. */
+    private static boolean endsByRemoval(Projectile projectile) {
+        return projectile instanceof LightningOrbEntity || projectile instanceof VaultBlizzardShard
+                || projectile instanceof VaultThrownJavelin || projectile instanceof VaultStormArrow
+                || projectile instanceof ChainLightningAbility.ChainLightningProjectile
+                || projectile instanceof NecromancyAbility.NecromancyBolt;
     }
 
     private static void steerOrbit(Steered steered, FocusAugmentsConfig config) {
@@ -212,7 +390,7 @@ public final class ProjectileSteering {
         final double speed;
         final double range;
         final double turnRate;
-        final int orbitTicks;
+        final long orbitEnd;
         int age;
         Vec3 lastPosition;
         int stillTicks;
@@ -222,10 +400,10 @@ public final class ProjectileSteering {
         float sentSpeed;
         int sentAge;
 
-        Steered(Projectile projectile, ServerPlayer owner, boolean orbit, double angleOffset, double range, double turnRate, int orbitTicks) {
+        Steered(Projectile projectile, ServerPlayer owner, boolean orbit, double angleOffset, double range, double turnRate, long orbitEnd) {
             this.range = range;
             this.turnRate = turnRate;
-            this.orbitTicks = orbitTicks;
+            this.orbitEnd = orbitEnd;
             this.projectile = projectile;
             this.owner = owner;
             this.orbit = orbit;

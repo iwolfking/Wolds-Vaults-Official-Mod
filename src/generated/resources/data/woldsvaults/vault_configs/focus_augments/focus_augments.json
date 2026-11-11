@@ -38,6 +38,7 @@
     "homingAimConeDegrees": 25.0,
     "orbitRadius": 2.5,
     "orbitHeight": 1.2,
+    "orbitVolleyExplosionGapTicks": 10,
     "bundleSpeed": 0.8,
     "railRange": 128.0,
     "sizeUpMaxScale": 3.0,
