@@ -31,7 +31,20 @@ public enum AugmentType {
     BUNDLED_SPELL("Bundled Spell"),
     INTENSIFY("Intensify"),
     EXTEND("Extend"),
-    CHAINING("Chaining");
+    CHAINING("Chaining"),
+    RIME("Rime"),
+    WARP_HASTE("Warp Haste"),
+    WARP_VELOCITY("Warp Velocity"),
+    STEEL_CORE("Steel Core"),
+    TWINFIRE("Twinfire"),
+    DEEP_CHILL("Deep Chill"),
+    IMPLOSION("Implosion"),
+    ENTROPIC_BIND("Entropic Bind"),
+    WIDE_BLAST("Wide Blast"),
+    NARROW_STORM("Narrow Storm"),
+    SWIFT_STORM("Swift Storm"),
+    DREAD("Dread"),
+    QUICK_MEND("Quick Mend");
 
     public static final String BUNDLE_TRAIT = "bundle";
 

@@ -28,6 +28,8 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
     @Expose public WandRolls wand;
     @Expose public Map<String, List<String>> abilityTraits;
     @Expose public List<String> disabledAbilities;
+    @Expose public List<GearGlyph> gearGlyphs;
+    @Expose public Map<String, UniqueSet> uniqueSets;
 
     /** Spell-wide rules: cost escalation, chained abilities, floors and hard limits. */
     public static class Rules {
@@ -187,6 +189,57 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public int maxDepth;
     }
 
+    /**
+     * A gear affix that grants a unique glyph instead of acting on its own. {@code attribute} is the gear attribute id;
+     * {@code key} the ability key of a keyed ability attribute or the special modification id of an
+     * {@code ability_special_modification}, null for a plain attribute. The glyph's potency is the affix's rolled value,
+     * negated when {@code orientation} is {@code lower} (the affix is stronger the lower it rolls), times {@code scale};
+     * a flag attribute grants potency {@code scale}.
+     */
+    public static class GearGlyph {
+        @Expose public String attribute;
+        @Expose public String key;
+        @Expose public String glyph;
+        @Expose public float scale;
+        @Expose public String orientation;
+
+        public boolean lower() {
+            return "lower".equals(this.orientation);
+        }
+
+        /** The glyph potency of a rolled affix value. */
+        public float potency(float value) {
+            return (lower() ? -value : value) * this.scale;
+        }
+
+        /** The affix value a glyph potency stands for (the inverse of {@link #potency}). */
+        public float value(float potency) {
+            float value = this.scale == 0.0F ? 0.0F : potency / this.scale;
+            return lower() ? -value : value;
+        }
+    }
+
+    /**
+     * A unique focus's or wand's fixed glyph set. Budget and depth roll from {@code rarityRow} ({@code ancientRarityRow}
+     * for an ancient), with the wand rules for wands; the lines are every {@code always} glyph plus a draw of
+     * {@code drawMin}-{@code drawMax} distinct glyphs from {@code draw} at equal odds.
+     */
+    public static class UniqueSet {
+        @Expose public String rarityRow;
+        @Expose public String ancientRarityRow;
+        @Expose public List<SetGlyph> always;
+        @Expose public List<String> draw;
+        @Expose public int drawMin;
+        @Expose public int drawMax;
+    }
+
+    /** A signature glyph of a unique set; {@code uses} and {@code cap}, when set, replace the rolled uses and the type's cap. */
+    public static class SetGlyph {
+        @Expose public String glyph;
+        @Expose public Integer uses;
+        @Expose public Integer cap;
+    }
+
     @Override
     public String getName() {
         return "focus_augments";
@@ -282,6 +335,14 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         if (this.wand.minLines < 0 || this.wand.maxDepth < 1 || this.wand.budgetFactor < 0) {
             return "the wand rolls are invalid";
         }
+        String gear = validateGearGlyphs();
+        if (gear != null) {
+            return gear;
+        }
+        String sets = validateUniqueSets();
+        if (sets != null) {
+            return sets;
+        }
         for (Map.Entry<String, List<String>> ability : this.abilityTraits.entrySet()) {
             for (String trait : ability.getValue()) {
                 try {
@@ -289,6 +350,60 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
                 } catch (IllegalArgumentException e) {
                     return "ability " + ability.getKey() + " has an unknown trait " + trait;
                 }
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private String validateGearGlyphs() {
+        if (this.gearGlyphs == null) {
+            return null;
+        }
+        for (GearGlyph entry : this.gearGlyphs) {
+            AugmentType type = entry.glyph == null ? null : AugmentType.byId(entry.glyph);
+            if (entry.attribute == null || type == null) {
+                return "gear glyph " + entry.attribute + " names no attribute or an unknown glyph " + entry.glyph;
+            }
+            if (!"unique".equals(this.glyphs.get(type.id()).glyphClass)) {
+                return "gear glyph " + entry.attribute + " grants " + type.id() + ", which is not a unique glyph";
+            }
+            if (entry.scale < 0.0F || (entry.orientation != null && !List.of("higher", "lower").contains(entry.orientation))) {
+                return "gear glyph " + entry.attribute + " has an invalid scale or orientation";
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private String validateUniqueSets() {
+        if (this.uniqueSets == null) {
+            return null;
+        }
+        for (Map.Entry<String, UniqueSet> entry : this.uniqueSets.entrySet()) {
+            UniqueSet set = entry.getValue();
+            String name = "unique set " + entry.getKey();
+            if (set.always == null || set.draw == null || set.rarityRow == null || set.ancientRarityRow == null) {
+                return name + " is missing a field";
+            }
+            if (this.focus != null && this.focus.rarities != null
+                    && (!this.focus.rarities.containsKey(set.rarityRow) || !this.focus.rarities.containsKey(set.ancientRarityRow))) {
+                return name + " names a rarity row the focus rolls lack";
+            }
+            if (set.drawMin < 0 || set.drawMax < set.drawMin || set.drawMax > set.draw.size()) {
+                return name + " draws " + set.drawMin + "-" + set.drawMax + " from a list of " + set.draw.size();
+            }
+            for (SetGlyph always : set.always) {
+                if (always.glyph == null || AugmentType.byId(always.glyph) == null || (always.uses != null && always.uses < 1)
+                        || (always.cap != null && always.cap < 1)) {
+                    return name + " has an invalid signature glyph " + always.glyph;
+                }
+                if (set.draw.contains(always.glyph)) {
+                    return name + " both always grants and draws " + always.glyph;
+                }
+            }
+            if (set.draw.stream().anyMatch(id -> AugmentType.byId(id) == null) || set.draw.stream().distinct().count() != set.draw.size()) {
+                return name + " draws an unknown or repeated glyph";
             }
         }
         return null;

@@ -31,6 +31,9 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
 import java.util.List;
 
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
+    public static final float STEEL_INFERNO_RADIUS_MIN = 0.5F;
+    public static final float STEEL_INFERNO_CENTRE_MIN = 1.5F;
+
     public ModVaultGearTiersProvider(DataGenerator generator) {
         super(generator);
     }
@@ -1142,7 +1145,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(ModGearAttributes.STEEL_INFERNO, "ModSteelInferno", "u_steel_inferno", List.of(), vaultGearModifierTiersBuilder -> {
-                            addSteelInferno(vaultGearModifierTiersBuilder, 0, -1, 5, 0.5F, 0.6F, 0.01F, 1.5F, 2.0F, 0.01F);
+                            addSteelInferno(vaultGearModifierTiersBuilder, 0, -1, 5, STEEL_INFERNO_RADIUS_MIN, 0.6F, 0.01F, STEEL_INFERNO_CENTRE_MIN, 2.0F, 0.01F);
                         });
                 vaultGearAttributeGroupBuilder.addModifier(woldsIdentifier(iskallia.vault.init.ModGearAttributes.ABILITY_SPECIAL_MODIFICATION, "ModImplodingJavelinDamage", "u_imploding_javelin_damage",
                         vaultGearModifierTiersBuilder -> vaultGearModifierTiersBuilder.add(0, -1, 1, "Javelin_Base", ImplodingJavelinModification.ID, new FloatRangeConfig(14076214, 6082075, 0.5F, 0.8F, 0.01F))));
