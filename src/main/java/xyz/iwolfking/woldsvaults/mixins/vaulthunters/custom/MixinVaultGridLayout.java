@@ -11,7 +11,6 @@ import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.WorldManager;
-import iskallia.vault.core.world.data.tile.PartialBlockState;
 import iskallia.vault.core.world.data.tile.PartialTile;
 import iskallia.vault.core.world.generator.layout.VaultGridLayout;
 import iskallia.vault.core.world.processor.Palette;
@@ -24,20 +23,25 @@ import iskallia.vault.core.world.template.data.TemplateEntry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VaultGenUtils;
+import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.config.ThemePaletteRegistryConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.modifiers.vault.PaletteInjectionModifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(value = VaultGridLayout.class, remap = false)
 public abstract class MixinVaultGridLayout {
+
+    @Unique
+    private static final Map<Vault, CachedPalettes> WOLDS_VAULTS$PALETTE_CACHE = new ConcurrentHashMap<>();
 
     @WrapOperation(
             method = "getRoom",
@@ -49,7 +53,6 @@ public abstract class MixinVaultGridLayout {
             Processor<T>[] processors,
             Operation<PlacementSettings> original, @Local(name = "entry") TemplateEntry entry, @Local(argsOnly = true) Vault vault, @Local(argsOnly = true) RegionPos regionPos
     ) {
-
         TemplateKey templateKey = entry.getTemplate();
         ResourceLocation key = templateKey != null ? templateKey.getId() : null;
         if (key == null) {
@@ -61,23 +64,42 @@ public abstract class MixinVaultGridLayout {
             return original.call(instance, processors);
         }
 
+        CachedPalettes cachedPalettes = WOLDS_VAULTS$PALETTE_CACHE.computeIfAbsent(vault, v -> {
+            Set<ResourceLocation> pregen = new HashSet<>();
+            Set<ResourceLocation> postgen = new HashSet<>();
+
+            VaultModifierUtils.getModifiersOfType(v, PaletteInjectionModifier.class).forEach(modifier -> {
+                pregen.addAll(modifier.properties().getPregenPalettes());
+                postgen.addAll(modifier.properties().getPostgenPalettes());
+            });
+
+            WoldLogger.debug("Cached {} pregen and {} postgen palettes for vault run.", pregen.size(), postgen.size());
+            return new CachedPalettes(pregen, postgen);
+        });
+        Set<ResourceLocation> modifierPregen = cachedPalettes.pregen();
+        Set<ResourceLocation> modifierPostgen = cachedPalettes.postgen();
+
         ResourceLocation themeId = vault.get(Vault.WORLD).get(WorldManager.THEME);
-        if (themeId == null) {
-            return original.call(instance, processors);
+        ThemePaletteRegistryConfig.ThemePaletteMapEntry themePaletteMapEntry = themeId != null ?
+                ModConfigs.THEME_PALETTE_REGISTRY.THEME_TO_PALETTE_MAP.getOrDefault(themeId, null) : null;
+
+        boolean canApplyThemeFull = themePaletteMapEntry != null &&
+                !themePaletteMapEntry.FULL_PALETTE_ENTRIES.isEmpty() &&
+                ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s)) &&
+                !(VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms);
+
+        List<ResourceLocation> combinedPregen = new ArrayList<>();
+        if (canApplyThemeFull) {
+            combinedPregen.addAll(themePaletteMapEntry.FULL_PALETTE_ENTRIES);
         }
 
-        ThemePaletteRegistryConfig.ThemePaletteMapEntry themePaletteMapEntry = ModConfigs.THEME_PALETTE_REGISTRY.THEME_TO_PALETTE_MAP.getOrDefault(themeId, null);
-        if (themePaletteMapEntry == null) {
-            return original.call(instance, processors);
+        boolean canApplyModifierPregen = !(VaultGenUtils.isInscriptionRoom(vault, regionPos) && (themePaletteMapEntry != null && !themePaletteMapEntry.affectsInscriptionRooms));
+        if (canApplyModifierPregen) {
+            combinedPregen.addAll(modifierPregen);
         }
 
-        // Main Theme Palette Application
-        if (!themePaletteMapEntry.FULL_PALETTE_ENTRIES.isEmpty() && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
-            if (VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
-                return original.call(instance, processors);
-            }
-
-            for (ResourceLocation paletteId : themePaletteMapEntry.FULL_PALETTE_ENTRIES) {
+        if (!combinedPregen.isEmpty()) {
+            for (ResourceLocation paletteId : combinedPregen) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
                 if (paletteKey == null) {
                     continue;
@@ -120,12 +142,11 @@ public abstract class MixinVaultGridLayout {
                                     if (originalRefId.getPath().contains("ore_placeholder")) {
                                         ResourceLocation mineRefId;
                                         if(originalRefId.getPath().equals("generic/ore_placeholder")) {
-                                            mineRefId =  ResourceLocUtils.replace(originalRefId, "generic/ore_placeholder", "mine/ore_placeholder_alternate");
+                                            mineRefId = ResourceLocUtils.replace(originalRefId, "generic/ore_placeholder", "mine/ore_placeholder_alternate");
                                         }
                                         else {
                                             mineRefId = ResourceLocUtils.replace(originalRefId, "generic/", "mine/");
                                         }
-
 
                                         if (VaultRegistry.PALETTE.getKey(mineRefId) != null) {
                                             ReferenceTileProcessor mineProcessor = new ReferenceTileProcessor(new WeightedList<>());
@@ -142,29 +163,35 @@ public abstract class MixinVaultGridLayout {
             }
         }
 
-        // Palettes that should apply at the end of the processor list
-        if (!themePaletteMapEntry.POST_PROCESSING_PALETTES.isEmpty()) {
-            if (!themePaletteMapEntry.applyPostProcesorsToNormalRooms && ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().noneMatch(s -> key.getPath().contains(s))) {
-                return original.call(instance, processors);
-            }
+        boolean canApplyThemePost = themePaletteMapEntry != null &&
+                !themePaletteMapEntry.POST_PROCESSING_PALETTES.isEmpty() &&
+                (themePaletteMapEntry.applyPostProcesorsToNormalRooms || ModConfigs.THEME_PALETTE_REGISTRY.EXCLUDED_ROOM_POOLS.stream().anyMatch(s -> key.getPath().contains(s))) &&
+                !(VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms);
 
-            if (VaultGenUtils.isInscriptionRoom(vault, regionPos) && !themePaletteMapEntry.affectsInscriptionRooms) {
-                return original.call(instance, processors);
-            }
+        List<ResourceLocation> combinedPostgen = new ArrayList<>();
+        if (canApplyThemePost) {
+            combinedPostgen.addAll(themePaletteMapEntry.POST_PROCESSING_PALETTES);
+        }
 
-            for (ResourceLocation paletteId : themePaletteMapEntry.POST_PROCESSING_PALETTES) {
+        boolean canApplyModifierPostgen = !(VaultGenUtils.isInscriptionRoom(vault, regionPos) && (themePaletteMapEntry != null && !themePaletteMapEntry.affectsInscriptionRooms));
+        if (canApplyModifierPostgen) {
+            combinedPostgen.addAll(modifierPostgen);
+        }
+
+        if (!combinedPostgen.isEmpty()) {
+            for (ResourceLocation paletteId : combinedPostgen) {
                 PaletteKey paletteKey = VaultRegistry.PALETTE.getKey(paletteId);
                 if (paletteKey == null) {
                     continue;
                 }
 
                 Palette palette = paletteKey.get(Version.latest());
-
                 palette.getTileProcessors().forEach(instance::addProcessor);
             }
-
         }
 
         return original.call(instance, processors);
     }
+
+    private record CachedPalettes(Set<ResourceLocation> pregen, Set<ResourceLocation> postgen) {}
 }

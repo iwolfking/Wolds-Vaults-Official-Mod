@@ -54,5 +54,6 @@ public class MixinVaultModifierTypeRegistry {
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_additional_magic_damage_on_hit"), VaultModifierType.of(MobAdditionalMagicDamageOnHitModifier.class, MobAdditionalMagicDamageOnHitModifier.Properties.class, MobAdditionalMagicDamageOnHitModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_additional_void_damage_on_hit"), VaultModifierType.of(MobAdditionalVoidDamageOnHitModifier.class, MobAdditionalVoidDamageOnHitModifier.Properties.class, MobAdditionalVoidDamageOnHitModifier::new));
         MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/mob_mana_steal_on_hit"), VaultModifierType.of(MobManaStealOnHitModifier.class, MobManaStealOnHitModifier.Properties.class, MobManaStealOnHitModifier::new));
+        MODIFIER_TYPE_REGISTRY.put(WoldsVaults.id("modifier_type/palette_injection"), VaultModifierType.of(PaletteInjectionModifier.class, PaletteInjectionModifier.Properties.class, PaletteInjectionModifier::new));
     }
 }

@@ -18,6 +18,7 @@ public class ModKeybinds {
     public static KeyMapping configureTrinket;
     public static KeyMapping toggleCharmBlessing;
     public static KeyMapping openTrinketPouch;
+    public static KeyMapping depositBackpack;
 
     public static void registerKeyBinds() {
         isFeatherFixed = registerKeyMapping("is_feather_fixed", -1);
@@ -27,6 +28,7 @@ public class ModKeybinds {
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
         toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", GLFW.GLFW_KEY_J, KeyConflictContext.IN_GAME);
         openTrinketPouch = registerKeyMapping("open_trinket_pouch", GLFW.GLFW_KEY_T, KeyConflictContext.IN_GAME, KeyModifier.CONTROL);
+        depositBackpack = registerKeyMapping("deposit_backpack", GLFW.GLFW_KEY_D, KeyConflictContext.GUI, KeyModifier.SHIFT);
         SpellBarKeys.register();
     }
 

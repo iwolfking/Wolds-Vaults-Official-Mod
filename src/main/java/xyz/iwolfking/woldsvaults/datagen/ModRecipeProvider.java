@@ -12,6 +12,8 @@ import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.world.generator.theme.Theme;
 import iskallia.vault.item.AugmentItem;
+import iskallia.vault.item.BasicMobEggItem;
+import iskallia.vault.item.RandomTierMobEggItem;
 import me.dinnerbeef.compressium.Compressium;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.pigment.PigmentStack;
@@ -46,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 import vazkii.botania.data.recipes.NbtOutputResult;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ItemHelper;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.ApparatusRecipeBuilder;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.recipe.VaultAugmentInfusionRecipeBuilder;
@@ -67,9 +70,7 @@ import xyz.iwolfking.woldsvaults.recipes.lib.NbtAwareRecipe;
 import xyz.iwolfking.woldsvaults.recipes.lib.UncheckedRecipe;
 
 import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import net.minecraft.world.item.Items;
@@ -1229,6 +1230,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 DynamicRitualRecipeBuilder.spawnEggInfusion(entityType.getRegistryName(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName()).duration(10).addIngredient(iskallia.vault.init.ModItems.ETERNAL_SOUL).addIngredient(iskallia.vault.init.ModItems.WUTODIC_MASS).addIngredient(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addIngredient(ModItems.CHROMA_CORE).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_spawn_egg"));
             }
         });
+
+        Arrays.asList(ItemHelper.getItemsOfClassFrom(BasicMobEggItem.class, () -> new BasicMobEggItem[]{}, iskallia.vault.init.ModSpawnEggItems.class)).forEach(basicMobEggItem -> {
+            if(basicMobEggItem instanceof RandomTierMobEggItem) {
+                return;
+            }
+
+            EntityType<?> entityType = basicMobEggItem.getType(basicMobEggItem.getDefaultInstance().getTag());
+            DynamicRitualRecipeBuilder.spawnEggInfusion(entityType.getRegistryName(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "velara"), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "craft"), Ingredient.of(iskallia.vault.init.ModItems.MYSTERY_HOSTILE_EGG), ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName()).duration(10).addIngredient(iskallia.vault.init.ModItems.ETERNAL_SOUL).addIngredient(iskallia.vault.init.ModItems.WUTODIC_MASS).addIngredient(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addIngredient(ModItems.CHROMA_CORE).save(pFinishedRecipeConsumer, WoldsVaults.id("infuse_" + entityType.getRegistryName().getPath() + "_vault_egg"));
+        });
+
 
         VaultAugmentInfusionRecipeBuilder.builder().addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.MYSTICAL_POWDER).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).addPedestalItem(iskallia.vault.init.ModItems.ETERNAL_SOUL).manaCost(1000).save(pFinishedRecipeConsumer, WoldsVaults.id("augment_infusion"));
 

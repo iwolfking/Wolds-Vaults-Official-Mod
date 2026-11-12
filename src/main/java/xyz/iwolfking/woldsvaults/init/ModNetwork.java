@@ -31,9 +31,7 @@ import xyz.iwolfking.woldsvaults.network.packets.ClientboundTrinketPouchStatePac
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundRenameTrinketPouchPresetPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSwitchWorkstationPacket;
-import xyz.iwolfking.woldsvaults.integration.appliedenergistics.packet.ServerboundDepositBackpackToMEPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
-import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDepositBackpackToRSGridPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
@@ -43,6 +41,7 @@ import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
 import xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage;
 import xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage;
+import xyz.iwolfking.woldsvaults.network.packets.DepositBackpackPacket;
 
 public class ModNetwork {
     private static int id = 0;
@@ -88,9 +87,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, LightningLashFxMessage.class, LightningLashFxMessage::encode, LightningLashFxMessage::decode, LightningLashFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LightningChargeMessage.class, LightningChargeMessage::encode, LightningChargeMessage::decode, LightningChargeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
-        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToMEPacket.class, ServerboundDepositBackpackToMEPacket::encode, ServerboundDepositBackpackToMEPacket::decode, ServerboundDepositBackpackToMEPacket::handle);
+        CHANNEL.registerMessage(id++, DepositBackpackPacket.class, DepositBackpackPacket::encode, DepositBackpackPacket::decode, DepositBackpackPacket::handle);
         CHANNEL.registerMessage(id++, ClientboundBackpackContentsRefreshPacket.class, ClientboundBackpackContentsRefreshPacket::encode, ClientboundBackpackContentsRefreshPacket::decode, ClientboundBackpackContentsRefreshPacket::handle);
-        CHANNEL.registerMessage(id++, ServerboundDepositBackpackToRSGridPacket.class, ServerboundDepositBackpackToRSGridPacket::encode, ServerboundDepositBackpackToRSGridPacket::decode, ServerboundDepositBackpackToRSGridPacket::handle);
         CHANNEL.registerMessage(id++, ProjectileScaleMessage.class, ProjectileScaleMessage::encode, ProjectileScaleMessage::decode, ProjectileScaleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, OrbSteerMessage.class, OrbSteerMessage::encode, OrbSteerMessage::decode, OrbSteerMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, SpellBarSyncMessage.class, SpellBarSyncMessage::encode, SpellBarSyncMessage::decode, SpellBarSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));

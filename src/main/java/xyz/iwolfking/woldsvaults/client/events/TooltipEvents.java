@@ -8,7 +8,9 @@ import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.VaultCrystalItem;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.research.StageManager;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -19,10 +21,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositUpgradeWrapper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
+import xyz.iwolfking.woldsvaults.api.util.client.ClientBackpackUtil;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.extraction.jobs.AncientCrystalFlag;
@@ -58,6 +65,24 @@ public class TooltipEvents {
                 ? new TranslatableComponent("item.woldsvaults.trinket_pouch.unbound")
                 : new TranslatableComponent("item.woldsvaults.trinket_pouch.shortcut", ModKeybinds.openTrinketPouch.getTranslatedKeyMessage()))
                 .withStyle(ChatFormatting.DARK_GRAY));
+    }
+
+    @SubscribeEvent
+    public static void onBackpackTooltip(ItemTooltipEvent event) {
+        if (event.getItemStack().getItem() instanceof BackpackItem) {
+            if(StageManager.RESEARCH_TREE.isResearched(WoldConstants.DELOOT_RESEARCH)) {
+                if(ClientBackpackUtil.isSupportedDelootingScreen(Minecraft.getInstance().screen)) {
+                    if(BackpackUtils.hasUpgradeOfType(DepositUpgradeWrapper.class, event.getItemStack())) {
+                        event.getToolTip().add(
+                                new TextComponent("Press ").withStyle(ChatFormatting.GRAY)
+                                        .append(ModKeybinds.depositBackpack.getTranslatedKeyMessage().copy().withStyle(ChatFormatting.YELLOW))
+                                        .append(new TextComponent(" to quick deposit").withStyle(ChatFormatting.GRAY))
+                                );
+                    }
+
+                }
+            }
+        }
     }
 
     @SubscribeEvent

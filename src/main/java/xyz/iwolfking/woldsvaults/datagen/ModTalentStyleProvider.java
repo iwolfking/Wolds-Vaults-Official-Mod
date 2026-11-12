@@ -27,7 +27,7 @@ public class ModTalentStyleProvider extends WoldsTalentStyleProvider {
                 new TalentData("Speed", "the_vault:gui/skills/speed"),
                 new TalentData("Haste", "the_vault:gui/skills/haste"),
                 new TalentData("Trap_Disarm", "the_vault:gui/skills/trap_disarm"),
-                new EmptySpace(DEFAULT_X_SPACING),
+                new TalentData("Dual_Striker", "woldsvaults:gui/skills/dual_striker"),
                 new TalentData("Stoneskin", "the_vault:gui/skills/stone_skin"),
                 new TalentData("Heart_Fragments", "the_vault:gui/skills/well_fit"),
                 new TalentData("Medic", "woldsvaults:gui/skills/medic"),

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mrcrayfish.configured.api.util.ConfigScreenHelper;
 import iskallia.vault.client.gui.screen.accessibility.InventoryHudEditScreen;
 import iskallia.vault.item.gear.TrinketItem;
+import iskallia.vault.research.StageManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -26,6 +27,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
@@ -34,6 +36,8 @@ import xyz.iwolfking.woldsvaults.client.screens.PouchScreen;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.menu.PouchMenu;
+import xyz.iwolfking.woldsvaults.mixins.accessors.AbstractContainerScreenAccessor;
+import xyz.iwolfking.woldsvaults.network.packets.DepositBackpackPacket;
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundOpenTrinketPouchPacket;
 import top.theillusivec4.curios.common.inventory.CurioSlot;
 
@@ -82,7 +86,26 @@ public class KeyInputEvents {
                 ModNetwork.sendToServer(new ServerboundOpenTrinketPouchPacket(player.containerMenu.containerId, PouchMenu.EQUIPPED));
             }
         }
+
+        if(ModKeybinds.depositBackpack.consumeClick()) {
+            if (!(Minecraft.getInstance().screen instanceof AbstractContainerScreen<?> screen)) {
+                return;
+            }
+
+            Slot hoveredSlot = ((AbstractContainerScreenAccessor) screen)
+                    .getHoveredSlot();
+
+            if (hoveredSlot == null || !hoveredSlot.hasItem()) {
+                return;
+            }
+
+            int menuSlot = screen.getMenu().slots.indexOf(hoveredSlot);
+
+            ModNetwork.CHANNEL.sendToServer(new DepositBackpackPacket(menuSlot)
+            );
+        }
     }
+
 
     @SubscribeEvent
     public static void onGuiMouseClicked(ScreenEvent.MouseClickedEvent.Pre event) {
@@ -131,7 +154,35 @@ public class KeyInputEvents {
         if (minecraft.player == null || !(minecraft.screen instanceof AbstractContainerScreen<?> containerScreen)) {
             return;
         }
-        InputConstants.Key pressedKey = InputConstants.getKey(event.getKeyCode(), event.getScanCode());
+
+        InputConstants.Key pressedKey =
+                InputConstants.getKey(event.getKeyCode(), event.getScanCode());
+
+        if (ModKeybinds.depositBackpack.isActiveAndMatches(pressedKey)) {
+            if(!StageManager.RESEARCH_TREE.isResearched(WoldConstants.DELOOT_RESEARCH)) {
+                return;
+            }
+
+            Slot hoveredSlot = containerScreen.getSlotUnderMouse();
+
+            if (hoveredSlot == null) {
+                return;
+            }
+
+            int menuSlot = containerScreen.getMenu().slots.indexOf(hoveredSlot);
+
+            if(hoveredSlot.getItem().isEmpty()) {
+                menuSlot = -1;
+            }
+
+            ModNetwork.CHANNEL.sendToServer(
+                    new DepositBackpackPacket(menuSlot)
+            );
+
+            event.setCanceled(true);
+            return;
+        }
+
         if (!ModKeybinds.configureTrinket.isActiveAndMatches(pressedKey)) {
             return;
         }

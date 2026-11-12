@@ -1261,11 +1261,6 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                             vaultGearModifierTiersBuilder.add(0, -1, 10, -2.1,  -2.0, 0.01);
                             vaultGearModifierTiersBuilder.add(50,-1, 10, -1.99, -1.9, 0.01);
                         });
-                vaultGearAttributeGroupBuilder
-                        .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE,  "BaseReducedRange", "base_reduced_range", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,  -1, 10, -0.50,-0.30,0.01);
-                            vaultGearModifierTiersBuilder.add(50, -1, 10, -0.29,-0.10,0.01);
-                        });
             });
 
             builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
@@ -1477,10 +1472,6 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED,  "BaseAttackSpeed",  "base_attack_speed",  List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(100,-1, 10, -1.95, -1.85, 0.01);
-                        });
-                vaultGearAttributeGroupBuilder
-                        .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE,  "BaseReducedRange", "base_reduced_range", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, -0.15,0,0.01);
                         });
             });
 

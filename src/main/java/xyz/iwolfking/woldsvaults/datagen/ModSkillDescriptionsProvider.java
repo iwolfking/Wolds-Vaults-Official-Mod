@@ -88,6 +88,19 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
         });
 
         add("wolds_talents", builder -> {
+            builder.addDescription("Dual_Striker", description -> {
+                description.add(JsonDescription.text("Boosts your stats while dual wielding weaponry."));
+                description.add(JsonDescription.text(".\n\n1 "));
+                description.add(JsonDescription.text("+15% Attack Damage, +5% Movement Speed, +15% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n2 "));
+                description.add(JsonDescription.text("+22.5% Attack Damage, +7.5% Movement Speed, +22.5% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n3 "));
+                description.add(JsonDescription.text("+30% Attack Damage, +10% Movement Speed, +30% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n4 "));
+                description.add(JsonDescription.text("+37.5% Attack Damage, +12.5% Movement Speed, +37.5% Attack Speed", "#f99b21"));
+                description.add(JsonDescription.text("\n\n"));
+                TalentDescriptionsHelper.appendOverlevelDescription("Dual Striker", "add", "+2.5% Damage, +1% Movement Speed, +2.5% Attack Speed", "#f99b21", description);
+            });
             builder.addDescription("Potent_Elixir", description -> {
                 description.add(JsonDescription.text("Increases the "));
                 description.add(JsonDescription.text("Potency ", "#5ae09c"));
@@ -701,7 +714,19 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .addDescription("Just Dire Things", jsonElements -> modDesc("Just Dire Things", innerDesc -> {
                             disabledInVaults().forEach(innerDesc::add);
                             innerDesc.add(JsonDescription.simple("Just Dire Things is a collection of various cool items, blocks, and utilities."));
-                        }))
+                            innerDesc.add(JsonDescription.simple("\n\nThis mod includes nifty little blocks like Auto Clickers, Inventory Holders, Block Placer and Breakers, and various other utilities."));
+                            innerDesc.add(JsonDescription.simple("\nAlso includes some fun toys like a Portal Gun and other interesting ways of getting around!"));
+                }).forEach(jsonElements::add))
+               .addDescription("Delooting Pro", jsonElements -> modDesc("Delooting Pro", innerDesc -> {
+                            innerDesc.add(JsonDescription.simple("Wow, looks like you are a certified real delooting wiz now!"));
+                            innerDesc.add(JsonDescription.simple("\n\nYou can now use a keybind to quickly deposit your Backpacks with Deposit Upgrade's installed into supported inventories like your Applied Energistics 2, Refined Storage, or Sophisticated Storage storage!"));
+                            innerDesc.add(JsonDescription.simple("\nSimply hover over your bag while in one of the appropriate menus and press the keybind! Need to empty the bag on your back? No problem, just point at any empty slot in your inventory instead."));
+               }).forEach(jsonElements::add))
+               .addDescription("Trash Slot", jsonElements -> modDesc("Trash Slot", innerDesc -> {
+                            innerDesc.add(JsonDescription.simple("You really know how to take out the trash!"));
+                            innerDesc.add(JsonDescription.simple("\n\nYou now have a trash slot in your inventory you can use to quickly remove cruft! The last item that went in will stay there in case you made a mistake!"));
+                            innerDesc.add(JsonDescription.simple("\nDon't like to drag your trash around? You can also delete them in style using a keybind! DEL (who would have thought!) by default will quickly delete the item you have hovered, while SHIFT-DEL will delete all items of the same type. \n\nNifty!"));
+               }).forEach(jsonElements::add))
                 .build());
     }
 

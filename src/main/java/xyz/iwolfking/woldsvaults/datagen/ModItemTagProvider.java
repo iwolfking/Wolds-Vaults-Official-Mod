@@ -1,14 +1,22 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.item.BasicItem;
+import iskallia.vault.item.BasicMobEggItem;
 import iskallia.vault.item.ItemVaultCrystalSeal;
+import iskallia.vault.item.RandomTierMobEggItem;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.ItemHelper;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModTags;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
@@ -20,6 +28,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ModItemTagProvider extends ItemTagsProvider {
+    public static final TagKey<Item> SPAWN_EGG = ItemTags.create(VaultMod.id("spawnegg"));
+
     public ModItemTagProvider(DataGenerator pGenerator, BlockTagsProvider pBlockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
         super(pGenerator, pBlockTagsProvider, WoldsVaults.MOD_ID, existingFileHelper);
     }
@@ -27,6 +37,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags() {
+        tag(SPAWN_EGG).add(ItemHelper.getItemsOfClassFrom(BasicMobEggItem.class, () -> new BasicMobEggItem[]{}, iskallia.vault.init.ModSpawnEggItems.class));
         tag(iskallia.vault.init.ModItems.CRYSTAL_SEALS_TAG)
                 .add(getItemsOfClass(ItemVaultCrystalSeal.class, () -> new ItemVaultCrystalSeal[]{}));
         tag(iskallia.vault.init.ModItems.CRYSTAL_CAPSTONES_TAG)

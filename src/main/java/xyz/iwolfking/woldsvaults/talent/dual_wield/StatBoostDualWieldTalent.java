@@ -6,6 +6,7 @@ import iskallia.vault.core.net.BitBuffer;
 import iskallia.vault.gear.VaultGearHelper;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.TickingSkill;
 import iskallia.vault.skill.talent.GearAttributeSkill;
