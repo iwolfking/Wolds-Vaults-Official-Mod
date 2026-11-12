@@ -30,12 +30,6 @@ base {
     archivesName = "wolds-vaults-official-mod"
 }
 
-// Pack checkout runData seeds its base Vault Hunters configs from: -PwvPackDir=<path> or WV_PACK_DIR. Only runData needs it.
-ext.wvPackDir = {
-    def explicit = project.findProperty('wvPackDir') ?: System.getenv('WV_PACK_DIR')
-    return explicit ? new File(explicit.toString()) : null
-}()
-
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
@@ -506,39 +500,4 @@ tasks.jarJar.finalizedBy(tasks.deleteSlimJar)
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.register('requireWvPackDir') {
-    group = 'build setup'
-    description = 'Fails runData early when no pack checkout was given.'
-    doLast {
-        if (wvPackDir == null || !new File(wvPackDir, 'config/the_vault').isDirectory()) {
-            throw new GradleException("runData needs the Wold's Vaults pack checkout: pass -PwvPackDir=<pack repo root> " +
-                    'or set WV_PACK_DIR (got ' + wvPackDir + ').')
-        }
-        def describe = { List<String> gitArgs ->
-            def out = new ByteArrayOutputStream()
-            def result = project.exec {
-                commandLine(['git', '-C', wvPackDir.absolutePath] + gitArgs)
-                standardOutput = out
-                errorOutput = new ByteArrayOutputStream()
-                ignoreExitValue = true
-            }
-            return result.exitValue == 0 ? out.toString().trim() : 'unknown'
-        }
-        logger.lifecycle("runData seeds from ${wvPackDir} (branch ${describe(['branch', '--show-current'])}, " +
-                "commit ${describe(['log', '-1', '--format=%h'])})")
-    }
-}
-
-tasks.register('seedRunDataConfigs', Sync) {
-    group = 'build setup'
-    description = 'Mirrors the pack config/the_vault into run-data so datagen reads the base Vault Hunters configs.'
-    dependsOn 'requireWvPackDir'
-    from(wvPackDir != null ? new File(wvPackDir, 'config/the_vault') : file('run-data/no-pack-dir'))
-    into file('run-data/config/the_vault')
-}
-
-tasks.matching { it.name == 'runData' }.configureEach {
-    dependsOn 'seedRunDataConfigs'
 }

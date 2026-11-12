@@ -285,8 +285,6 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         kitsune.at(0, "value").set("min", 0.015).set("max", 0.025).set("step", 0.005);
         kitsune.at(1, "value").set("min", 0.03).set("max", 0.05).set("step", 0.005);
 
-        patch("gear_model_roll_rarities.json").at("ARMOR_MODEL_ROLLS", "OMEGA").remove(value(null));
-
         for (String gear : UNSHIPPED_GEAR_TABLES) {
             patch("gear_modifiers/" + gear + ".json").create(emptyGearTable());
         }
