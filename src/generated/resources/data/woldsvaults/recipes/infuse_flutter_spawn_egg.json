@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "alexsmobs:sacrifices/flutter",
+  "entitytosacrifice": "alexsmobs:sacrifices/flutter",
+  "entity_to_sacrifice": {
+    "tag": "alexsmobs:sacrifices/flutter",
+    "display_name": "entity.alexsmobs.flutter"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

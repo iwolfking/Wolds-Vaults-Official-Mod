@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/husk",
+  "entitytosacrifice": "minecraft:sacrifices/husk",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/husk",
+    "display_name": "entity.minecraft.husk"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

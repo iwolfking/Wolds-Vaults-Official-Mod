@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 import xyz.iwolfking.woldsvaults.integration.occultism.init.OccultismRecipeSerializers;
+import xyz.iwolfking.woldsvaults.integration.occultism.util.OccultismEntityTagHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class DynamicRitualRecipeBuilder {
     public static DynamicRitualRecipeBuilder spawnEggInfusion(ResourceLocation entityTypeId, ResourceLocation pentacleId, ResourceLocation ritualType, Ingredient activationItem, ResourceLocation ritualDummy) {
         return new DynamicRitualRecipeBuilder(
                 entityTypeId, pentacleId, ritualType, activationItem, ritualDummy,
-                "entity_to_sacrifice", ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName(), OccultismRecipeSerializers.SPAWN_EGG_RITUAL
+                "entitytosacrifice", ModRitualDummyItems.SPAWN_EGG_INFUSION.getRegistryName(), OccultismRecipeSerializers.SPAWN_EGG_RITUAL
         );
     }
 
@@ -141,9 +142,14 @@ public class DynamicRitualRecipeBuilder {
 
         @Override
         public void serializeRecipeData(JsonObject json) {
-            if(this.jsonKey.equals("entity_to_sacrifice")) {
-                json.addProperty(this.jsonKey, OccultismTagRegistry.getOrCreateEntityTag(this.customId).location().toString());
-
+            if(this.jsonKey.equals("entitytosacrifice")) {
+                ResourceLocation sacrificeTag = OccultismTagRegistry.getOrCreateEntityTag(this.customId).location();
+                json.addProperty(this.jsonKey, sacrificeTag.toString());
+                JsonObject sacrificeObj = new JsonObject();
+                sacrificeObj.addProperty("tag", sacrificeTag.toString());
+                ResourceLocation entityId = OccultismEntityTagHelper.convertSacrificeTagToEntityId(sacrificeTag);
+                sacrificeObj.addProperty("display_name", "entity." + entityId.getNamespace() + "." + entityId.getPath());
+                json.add("entity_to_sacrifice", sacrificeObj);
             }
             else {
                 json.addProperty(this.jsonKey, this.customId.toString());

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/rabbit",
+  "entitytosacrifice": "minecraft:sacrifices/rabbit",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/rabbit",
+    "display_name": "entity.minecraft.rabbit"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

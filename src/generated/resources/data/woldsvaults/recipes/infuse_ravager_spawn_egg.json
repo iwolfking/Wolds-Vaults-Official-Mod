@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/ravager",
+  "entitytosacrifice": "minecraft:sacrifices/ravager",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/ravager",
+    "display_name": "entity.minecraft.ravager"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/t1_plastic_horde",
+  "entitytosacrifice": "the_vault:sacrifices/t1_plastic_horde",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/t1_plastic_horde",
+    "display_name": "entity.the_vault.t1_plastic_horde"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

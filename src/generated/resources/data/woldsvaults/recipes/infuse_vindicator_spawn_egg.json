@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/vindicator",
+  "entitytosacrifice": "minecraft:sacrifices/vindicator",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/vindicator",
+    "display_name": "entity.minecraft.vindicator"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

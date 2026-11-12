@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "thermal:sacrifices/blitz",
+  "entitytosacrifice": "thermal:sacrifices/blitz",
+  "entity_to_sacrifice": {
+    "tag": "thermal:sacrifices/blitz",
+    "display_name": "entity.thermal.blitz"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

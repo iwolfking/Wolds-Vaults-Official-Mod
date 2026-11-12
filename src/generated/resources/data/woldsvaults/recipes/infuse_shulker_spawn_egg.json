@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/shulker",
+  "entitytosacrifice": "minecraft:sacrifices/shulker",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/shulker",
+    "display_name": "entity.minecraft.shulker"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

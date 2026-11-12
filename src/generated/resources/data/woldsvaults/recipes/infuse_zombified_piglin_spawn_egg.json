@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/zombified_piglin",
+  "entitytosacrifice": "minecraft:sacrifices/zombified_piglin",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/zombified_piglin",
+    "display_name": "entity.minecraft.zombified_piglin"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

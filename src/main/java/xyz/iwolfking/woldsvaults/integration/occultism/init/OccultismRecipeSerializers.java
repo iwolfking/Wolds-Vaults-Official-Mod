@@ -42,7 +42,7 @@ public class OccultismRecipeSerializers {
 
     public static final RegistryObject<RecipeSerializer<?>> SPAWN_EGG_RITUAL =
             SERIALIZERS.register("spawn_egg_ritual", () -> new DynamicResultRitualRecipe.Serializer(
-                    "entity_to_sacrifice",
+                    "entitytosacrifice",
                     OccultismRecipeSerializers.SPAWN_EGG_RITUAL,
                     (resourceLocation, itemStack) -> {
                         ResourceLocation entityId = OccultismEntityTagHelper.convertSacrificeTagToEntityId(resourceLocation);

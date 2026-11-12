@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/piglin_brute",
+  "entitytosacrifice": "minecraft:sacrifices/piglin_brute",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/piglin_brute",
+    "display_name": "entity.minecraft.piglin_brute"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

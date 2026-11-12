@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/dolphin",
+  "entitytosacrifice": "minecraft:sacrifices/dolphin",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/dolphin",
+    "display_name": "entity.minecraft.dolphin"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

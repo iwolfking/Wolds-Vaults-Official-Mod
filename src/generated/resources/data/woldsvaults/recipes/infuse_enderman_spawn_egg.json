@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/enderman",
+  "entitytosacrifice": "minecraft:sacrifices/enderman",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/enderman",
+    "display_name": "entity.minecraft.enderman"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

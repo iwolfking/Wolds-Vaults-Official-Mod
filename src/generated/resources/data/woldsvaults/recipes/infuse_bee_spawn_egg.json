@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/bee",
+  "entitytosacrifice": "minecraft:sacrifices/bee",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/bee",
+    "display_name": "entity.minecraft.bee"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

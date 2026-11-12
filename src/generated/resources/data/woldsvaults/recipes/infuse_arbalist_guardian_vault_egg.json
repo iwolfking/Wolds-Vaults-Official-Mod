@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/arbalist_guardian",
+  "entitytosacrifice": "the_vault:sacrifices/arbalist_guardian",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/arbalist_guardian",
+    "display_name": "entity.the_vault.arbalist_guardian"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

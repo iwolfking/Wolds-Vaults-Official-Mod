@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "ars_nouveau:sacrifices/starbuncle",
+  "entitytosacrifice": "ars_nouveau:sacrifices/starbuncle",
+  "entity_to_sacrifice": {
+    "tag": "ars_nouveau:sacrifices/starbuncle",
+    "display_name": "entity.ars_nouveau.starbuncle"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/tropical_fish",
+  "entitytosacrifice": "minecraft:sacrifices/tropical_fish",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/tropical_fish",
+    "display_name": "entity.minecraft.tropical_fish"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

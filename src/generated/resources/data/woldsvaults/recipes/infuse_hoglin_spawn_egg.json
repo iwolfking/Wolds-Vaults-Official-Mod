@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/hoglin",
+  "entitytosacrifice": "minecraft:sacrifices/hoglin",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/hoglin",
+    "display_name": "entity.minecraft.hoglin"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

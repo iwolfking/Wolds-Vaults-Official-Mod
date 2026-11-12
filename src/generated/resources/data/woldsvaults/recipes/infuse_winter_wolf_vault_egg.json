@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/winter_wolf",
+  "entitytosacrifice": "the_vault:sacrifices/winter_wolf",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/winter_wolf",
+    "display_name": "entity.the_vault.winter_wolf"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,
