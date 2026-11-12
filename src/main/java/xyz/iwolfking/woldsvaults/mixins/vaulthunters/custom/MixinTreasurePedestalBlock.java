@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = TreasurePedestalBlock.class, remap = false)
 public class MixinTreasurePedestalBlock {
-    @WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/TreasurePedestalTileEntity;isVaultPedestal()Z"))
+    @WrapOperation(method = "use", at = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/TreasurePedestalTileEntity;isVaultPedestal()Z"), remap = true)
     private boolean alwaysReturnTrueIfInVault(TreasurePedestalTileEntity instance, Operation<Boolean> original) {
         if(instance.getLevel() != null && ServerVaults.isInVault(instance.getLevel())) {
             return true;
