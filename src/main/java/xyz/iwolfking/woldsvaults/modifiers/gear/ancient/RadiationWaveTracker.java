@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 /**
  * Irradiates mobs near a player wearing the ancient Plague Steppers. Exposure is cumulative - Slowness I
@@ -56,7 +57,7 @@ public class RadiationWaveTracker {
                 continue;
             }
             AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
-            float radius = snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.RADIATION_WAVE, VaultGearAttributeTypeMerger.floatSum());
+            float radius = snapshot.getAttributeValue(ModGearAttributes.RADIATION_WAVE, VaultGearAttributeTypeMerger.floatSum());
             if (radius <= 0.0F) {
                 continue;
             }

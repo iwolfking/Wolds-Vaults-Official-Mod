@@ -35,6 +35,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.init.ModConfigs;
+import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.expertise.type.LegendaryExpertise;
+import iskallia.vault.skill.tree.ExpertiseTree;
+import iskallia.vault.world.data.PlayerExpertisesData;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.UUID;
+import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.woldsvaults.models.MythicCharms;
 
 /**
  * Roll tables, identify logic and piety rescaling for mythic god charms. Identification stores each
@@ -91,22 +103,22 @@ public final class MythicCharmRolls {
     }
 
     private static Roll effectLevel(String effectId, float perUnit) {
-        return new Roll("effect:" + effectId, iskallia.vault.init.ModGearAttributes.EFFECT,
+        return new Roll("effect:" + effectId, ModGearAttributes.EFFECT,
                 perUnit, perUnit, 0.0F, Kind.EFFECT, "", effectId);
     }
 
     private static Roll abilityGroupLevel(float perUnit) {
-        return new Roll("ability_group:" + OFFENSIVE_ABILITY_GROUP, iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL,
+        return new Roll("ability_group:" + OFFENSIVE_ABILITY_GROUP, ModGearAttributes.ABILITY_LEVEL,
                 perUnit, perUnit, 0.0F, Kind.ABILITY_GROUP, "", OFFENSIVE_ABILITY_GROUP);
     }
 
     private static Roll talentLevel(String talentId, float perUnit, String group) {
-        return new Roll("talent:" + talentId, iskallia.vault.init.ModGearAttributes.TALENT_LEVEL,
+        return new Roll("talent:" + talentId, ModGearAttributes.TALENT_LEVEL,
                 perUnit, perUnit, 0.0F, Kind.TALENT, group, talentId);
     }
 
     private static Roll avoidance(float min, float max, float step) {
-        return new Roll("effect_avoidance", iskallia.vault.init.ModGearAttributes.EFFECT_LIST_AVOIDANCE,
+        return new Roll("effect_avoidance", ModGearAttributes.EFFECT_LIST_AVOIDANCE,
                 min, max, step, Kind.AVOIDANCE, "", "");
     }
 
@@ -130,7 +142,7 @@ public final class MythicCharmRolls {
                     temporal());
             case WENDARR -> List.of(
                     multi(xyz.iwolfking.woldsvaults.init.ModGearAttributes.MOVEMENT_SPEED_MULTIPLIER),
-                    pct(iskallia.vault.init.ModGearAttributes.FRUIT_EFFECTIVENESS, 0.0075F, 0.015F, 0.0001F),
+                    pct(ModGearAttributes.FRUIT_EFFECTIVENESS, 0.0075F, 0.015F, 0.0001F),
                     multi(xyz.iwolfking.woldsvaults.init.ModGearAttributes.AIR_MOVEMENT_SPEED_MULTIPLIER));
             case TENOS -> List.of(
                     multi(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ITEM_QUANTITY_MULTIPLIER),
@@ -142,30 +154,30 @@ public final class MythicCharmRolls {
     private static List<Roll> prefixes(VaultGod god) {
         return switch (god) {
             case IDONA -> List.of(
-                    pct(iskallia.vault.init.ModGearAttributes.DAMAGE_INCREASE, 0.01F, 0.02F, 0.0025F),
-                    pct(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENT, 0.01F, 0.02F, 0.0025F),
-                    pct(iskallia.vault.init.ModGearAttributes.AREA_OF_EFFECT, 0.005F, 0.01F, 0.0025F),
-                    pctDouble(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED_PERCENT, 0.0025F, 0.005F, 0.0025F),
-                    pct(iskallia.vault.init.ModGearAttributes.THORNS_DAMAGE_FLAT, 2.0F, 5.0F, 0.5F),
-                    pct(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY, 0.04F, 0.08F, 0.01F));
+                    pct(ModGearAttributes.DAMAGE_INCREASE, 0.01F, 0.02F, 0.0025F),
+                    pct(ModGearAttributes.ABILITY_POWER_PERCENT, 0.01F, 0.02F, 0.0025F),
+                    pct(ModGearAttributes.AREA_OF_EFFECT, 0.005F, 0.01F, 0.0025F),
+                    pctDouble(ModGearAttributes.ATTACK_SPEED_PERCENT, 0.0025F, 0.005F, 0.0025F),
+                    pct(ModGearAttributes.THORNS_DAMAGE_FLAT, 2.0F, 5.0F, 0.5F),
+                    pct(ModGearAttributes.SOUL_QUANTITY, 0.04F, 0.08F, 0.01F));
             case VELARA -> List.of(
-                    flatInt(iskallia.vault.init.ModGearAttributes.ARMOR, 0.4F, 0.8F, 0.2F),
-                    pct(iskallia.vault.init.ModGearAttributes.HEALTH, 0.25F, 0.5F, 0.25F),
+                    flatInt(ModGearAttributes.ARMOR, 0.4F, 0.8F, 0.2F),
+                    pct(ModGearAttributes.HEALTH, 0.25F, 0.5F, 0.25F),
                     avoidance(0.001F, 0.002F, 0.00025F),
-                    pct(iskallia.vault.init.ModGearAttributes.HEALING_EFFECTIVENESS, 0.01F, 0.015F, 0.0025F),
-                    pctGrouped(iskallia.vault.init.ModGearAttributes.BLOCK, 0.002F, 0.004F, 0.001F, "velara_avoid"),
+                    pct(ModGearAttributes.HEALING_EFFECTIVENESS, 0.01F, 0.015F, 0.0025F),
+                    pctGrouped(ModGearAttributes.BLOCK, 0.002F, 0.004F, 0.001F, "velara_avoid"),
                     pctGrouped(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT, 0.001F, 0.002F, 0.0005F, "velara_avoid"));
             case WENDARR -> List.of(
-                    pct(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, 0.009F, 0.018F, 0.003F),
-                    pct(iskallia.vault.init.ModGearAttributes.EFFECT_DURATION, 0.0075F, 0.015F, 0.0025F),
-                    pct(iskallia.vault.init.ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.02F, 0.03F, 0.005F),
+                    pct(ModGearAttributes.COOLDOWN_REDUCTION, 0.009F, 0.018F, 0.003F),
+                    pct(ModGearAttributes.EFFECT_DURATION, 0.0075F, 0.015F, 0.0025F),
+                    pct(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.02F, 0.03F, 0.005F),
                     pct(xyz.iwolfking.woldsvaults.init.ModGearAttributes.FRUIT_SAVER, 0.0002F, 0.0003F, 0.00005F));
             case TENOS -> List.of(
-                    pct(iskallia.vault.init.ModGearAttributes.ITEM_QUANTITY, 0.02F, 0.03F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.ITEM_RARITY, 0.02F, 0.03F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.AREA_OF_EFFECT, 0.005F, 0.01F, 0.0025F),
-                    pct(iskallia.vault.init.ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.02F, 0.03F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE_PERCENTILE, 0.003F, 0.006F, 0.001F),
+                    pct(ModGearAttributes.ITEM_QUANTITY, 0.02F, 0.03F, 0.005F),
+                    pct(ModGearAttributes.ITEM_RARITY, 0.02F, 0.03F, 0.005F),
+                    pct(ModGearAttributes.AREA_OF_EFFECT, 0.005F, 0.01F, 0.0025F),
+                    pct(ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, 0.02F, 0.03F, 0.005F),
+                    pct(ModGearAttributes.MANA_ADDITIVE_PERCENTILE, 0.003F, 0.006F, 0.001F),
                     multi(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRAP_DISARM_MULTIPLIER));
         };
     }
@@ -173,24 +185,24 @@ public final class MythicCharmRolls {
     private static List<Roll> suffixes(VaultGod god) {
         return switch (god) {
             case IDONA -> List.of(
-                    pct(iskallia.vault.init.ModGearAttributes.DAMAGE_DWELLER, 0.02F, 0.04F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.DAMAGE_ASSASSIN, 0.02F, 0.04F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, 0.02F, 0.04F, 0.005F),
-                    pct(iskallia.vault.init.ModGearAttributes.DAMAGE_TANK, 0.02F, 0.04F, 0.005F),
+                    pct(ModGearAttributes.DAMAGE_DWELLER, 0.02F, 0.04F, 0.005F),
+                    pct(ModGearAttributes.DAMAGE_ASSASSIN, 0.02F, 0.04F, 0.005F),
+                    pct(ModGearAttributes.DAMAGE_CHAMPION, 0.02F, 0.04F, 0.005F),
+                    pct(ModGearAttributes.DAMAGE_TANK, 0.02F, 0.04F, 0.005F),
                     pct(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DAMAGE_BOSS, 0.001F, 0.002F, 0.00025F),
                     abilityGroupLevel(1.0F / 50.0F));
             case VELARA -> List.of(
                     effectLevel("minecraft:regeneration", 1.0F / 25.0F),
-                    pct(iskallia.vault.init.ModGearAttributes.HEALTH_PERCENTILE, 0.003F, 0.006F, 0.001F),
-                    pct(iskallia.vault.init.ModGearAttributes.ARMOR_PERCENTILE, 0.003F, 0.006F, 0.001F),
-                    pct(iskallia.vault.init.ModGearAttributes.RESISTANCE, 0.002F, 0.004F, 0.001F),
-                    pct(iskallia.vault.init.ModGearAttributes.LEECH, 0.0002F, 0.0004F, 0.0001F));
+                    pct(ModGearAttributes.HEALTH_PERCENTILE, 0.003F, 0.006F, 0.001F),
+                    pct(ModGearAttributes.ARMOR_PERCENTILE, 0.003F, 0.006F, 0.001F),
+                    pct(ModGearAttributes.RESISTANCE, 0.002F, 0.004F, 0.001F),
+                    pct(ModGearAttributes.LEECH, 0.0002F, 0.0004F, 0.0001F));
             case WENDARR -> List.of(
                     talentLevel("Quickening", 1.0F / 25.0F, "wendarr_talent"),
                     talentLevel("Ethereal", 1.0F / 25.0F, "wendarr_talent"),
                     pct(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TEMPORAL_SHARD_DURATION, 0.00025F, 0.0005F, 0.00005F),
                     level(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ADDITIONAL_STACKING_STACKS, 1.0F / 15.0F),
-                    pct(iskallia.vault.init.ModGearAttributes.FRUIT_EFFECTIVENESS, 0.0025F, 0.005F, 0.0025F));
+                    pct(ModGearAttributes.FRUIT_EFFECTIVENESS, 0.0025F, 0.005F, 0.0025F));
             case TENOS -> List.of(
                     effectLevel("minecraft:luck", 1.0F / 50.0F),
                     effectLevel("minecraft:haste", 1.0F / 50.0F),
@@ -222,12 +234,12 @@ public final class MythicCharmRolls {
     public static void initialize(ItemStack stack, @Nullable Player player, int unitsOverride) {
         Random random = new Random();
         VaultGearData data = VaultGearData.read(stack);
-        VaultGod god = data.getFirstValue(iskallia.vault.init.ModGearAttributes.CHARM_VAULT_GOD)
+        VaultGod god = data.getFirstValue(ModGearAttributes.CHARM_VAULT_GOD)
                 .orElseGet(() -> VaultGod.values()[random.nextInt(VaultGod.values().length)]);
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.CHARM_VAULT_GOD, god);
+        data.createOrReplaceAttributeValue(ModGearAttributes.CHARM_VAULT_GOD, god);
         data.setRarity(VaultGearRarity.valueOf("MYTHIC"));
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_MODEL,
-                xyz.iwolfking.woldsvaults.models.MythicCharms.of(god).getId());
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_MODEL,
+                MythicCharms.of(god).getId());
         data.write(stack);
         int units = unitsOverride >= 0 ? unitsOverride
                 : (player != null ? GodPiety.scaleUnits(player, god) : 0);
@@ -264,7 +276,7 @@ public final class MythicCharmRolls {
     }
 
     /** Refills the blessing clock the first time the charm is seen in a given vault. */
-    public static void resetTemporalForVault(ItemStack stack, java.util.UUID vaultId) {
+    public static void resetTemporalForVault(ItemStack stack, UUID vaultId) {
         CompoundTag tag = stack.getOrCreateTag();
         if (tag.getInt(TEMPORAL_TOTAL_TAG) <= 0) {
             return;
@@ -317,7 +329,7 @@ public final class MythicCharmRolls {
         switch (roll.kind()) {
             case FLOAT: {
                 float perUnit = qualityValue(roll, stored.quality()) * legendaryMultiplier;
-                if (roll.attribute() == iskallia.vault.init.ModGearAttributes.THORNS_DAMAGE_FLAT) {
+                if (roll.attribute() == ModGearAttributes.THORNS_DAMAGE_FLAT) {
                     return " (+" + format.format(perUnit) + " per 10 Piety)";
                 }
                 return " (+" + format.format(perUnit * 100.0F) + "% per 10 Piety)";
@@ -402,7 +414,7 @@ public final class MythicCharmRolls {
         }
         if (drawn < count) {
             WoldLogger.error("Mythic charm drew only {}/{} {} affixes; the {} roll table is too small.",
-                    drawn, count, slot.name().toLowerCase(java.util.Locale.ROOT), god.getName());
+                    drawn, count, slot.name().toLowerCase(Locale.ROOT), god.getName());
         }
     }
 
@@ -420,11 +432,11 @@ public final class MythicCharmRolls {
     /** Upgrades one prefix or suffix draw to a maxed legendary, on the base gear chance. */
     private static void applyLegendary(VaultGearData data, @Nullable Player player, VaultGod god,
                                        List<StoredRoll> rolls, Random random) {
-        boolean forced = data.get(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY,
-                iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger.anyTrue());
+        boolean forced = data.get(ModGearAttributes.IS_LEGENDARY,
+                VaultGearAttributeTypeMerger.anyTrue());
         if (!forced) {
-            boolean loot = data.getFirstValue(iskallia.vault.init.ModGearAttributes.IS_LOOT).orElse(false);
-            float chance = iskallia.vault.init.ModConfigs.VAULT_GEAR_COMMON.getLegendaryModifierChance()
+            boolean loot = data.getFirstValue(ModGearAttributes.IS_LOOT).orElse(false);
+            float chance = ModConfigs.VAULT_GEAR_COMMON.getLegendaryModifierChance()
                     + legendaryExpertiseChance(player);
             if (!loot || random.nextFloat() >= chance) {
                 return;
@@ -452,11 +464,11 @@ public final class MythicCharmRolls {
             return 0.0F;
         }
         float extra = 0.0F;
-        iskallia.vault.skill.tree.ExpertiseTree expertises = iskallia.vault.world.data.PlayerExpertisesData
+        ExpertiseTree expertises = PlayerExpertisesData
                 .get(serverPlayer.getLevel()).getExpertises(serverPlayer);
-        for (iskallia.vault.skill.expertise.type.LegendaryExpertise expertise
-                : expertises.getAll(iskallia.vault.skill.expertise.type.LegendaryExpertise.class,
-                iskallia.vault.skill.base.Skill::isUnlocked)) {
+        for (LegendaryExpertise expertise
+                : expertises.getAll(LegendaryExpertise.class,
+                Skill::isUnlocked)) {
             extra += expertise.getExtraLegendaryChance();
         }
         return extra;
@@ -479,7 +491,7 @@ public final class MythicCharmRolls {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void materialize(ItemStack stack, int units) {
         VaultGearData data = VaultGearData.read(stack);
-        VaultGod god = data.getFirstValue(iskallia.vault.init.ModGearAttributes.CHARM_VAULT_GOD).orElse(null);
+        VaultGod god = data.getFirstValue(ModGearAttributes.CHARM_VAULT_GOD).orElse(null);
         if (god == null) {
             return;
         }
@@ -498,7 +510,7 @@ public final class MythicCharmRolls {
                 }
                 newTemporalTotal = time;
                 VaultGearModifier<RandomGodVaultModifierAttribute> temporal = new VaultGearModifier<>(
-                        iskallia.vault.init.ModGearAttributes.RANDOM_VAULT_GOD_MODIFIER,
+                        ModGearAttributes.RANDOM_VAULT_GOD_MODIFIER,
                         new RandomGodVaultModifierAttribute(modifierId, 1, time, god));
                 if (stored.legendary()) {
                     temporal.addCategory(VaultGearModifier.AffixCategory.LEGENDARY);
@@ -521,8 +533,8 @@ public final class MythicCharmRolls {
             }
             data.addModifier(stored.slot(), modifier);
         }
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.PREFIXES, PREFIX_COUNT);
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.SUFFIXES, SUFFIX_COUNT);
+        data.createOrReplaceAttributeValue(ModGearAttributes.PREFIXES, PREFIX_COUNT);
+        data.createOrReplaceAttributeValue(ModGearAttributes.SUFFIXES, SUFFIX_COUNT);
         data.write(stack);
         CompoundTag tag = stack.getOrCreateTag();
         int oldTemporalTotal = tag.getInt(TEMPORAL_TOTAL_TAG);
@@ -592,7 +604,7 @@ public final class MythicCharmRolls {
 
     @Nullable
     private static MobEffect resolveEffect(String id) {
-        return net.minecraftforge.registries.ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(id));
+        return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(id));
     }
 
     @Nullable
@@ -626,12 +638,12 @@ public final class MythicCharmRolls {
     }
 
     /** The modifier one draw materializes to at {@code units}; empty when it is dormant, temporal or unknown. */
-    public static java.util.Optional<VaultGearModifier<?>> materializeDraw(VaultGod god, StoredRoll draw, int units) {
+    public static Optional<VaultGearModifier<?>> materializeDraw(VaultGod god, StoredRoll draw, int units) {
         if (isTemporal(draw.key())) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
         Roll roll = lookup(god, draw);
-        return roll == null ? java.util.Optional.empty() : java.util.Optional.ofNullable(buildModifier(roll, draw, units + 1));
+        return roll == null ? Optional.empty() : Optional.ofNullable(buildModifier(roll, draw, units + 1));
     }
 
     /**
@@ -655,7 +667,7 @@ public final class MythicCharmRolls {
             }
             String slotKey = draw.slot().name() + "|" + (isTemporal(draw.key()) ? "temporal" : draw.key());
             if (!keys.add(slotKey)) {
-                issues.add(draw.slot().name().toLowerCase(java.util.Locale.ROOT) + " " + draw.key()
+                issues.add(draw.slot().name().toLowerCase(Locale.ROOT) + " " + draw.key()
                         + " is drawn twice; identification draws each roll once");
             }
             if (draw.legendary()) {

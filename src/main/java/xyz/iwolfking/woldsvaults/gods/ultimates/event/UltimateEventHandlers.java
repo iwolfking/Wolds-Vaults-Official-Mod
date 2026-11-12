@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeState;
 import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceState;
 import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorState;
 import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateSpecializationManager;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Server-side lifecycle for the god ultimates: the shared tick loop, the periodic re-specialization, the
@@ -111,7 +112,7 @@ public final class UltimateEventHandlers {
         }
     }
 
-    private static void clearAll(net.minecraft.world.entity.player.Player player) {
+    private static void clearAll(Player player) {
         CopeDeGraceState.clear(player);
         SaviorState.clear(player);
         BulletTimeState.end(player);

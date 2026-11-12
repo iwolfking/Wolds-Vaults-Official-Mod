@@ -20,6 +20,7 @@ import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionKills;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionManager;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionSpawner;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionState;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 /** Testing and diagnostics for the Vault Champion: spawn one, and read or add rage. */
 public class VaultChampionCommand {
@@ -32,7 +33,7 @@ public class VaultChampionCommand {
                                 .executes(VaultChampionCommand::addRage))));
     }
 
-    private static int spawn(CommandContext<CommandSourceStack> context) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+    private static int spawn(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Vault vault = VaultUtils.getVault(player.level).orElse(null);
         if (vault == null || !(player.level instanceof ServerLevel level)) {
@@ -62,7 +63,7 @@ public class VaultChampionCommand {
         return 1;
     }
 
-    private static int readRage(CommandContext<CommandSourceStack> context) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+    private static int readRage(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Vault vault = VaultUtils.getVault(player.level).orElse(null);
         if (vault == null) {
@@ -83,7 +84,7 @@ public class VaultChampionCommand {
         return 1;
     }
 
-    private static int addRage(CommandContext<CommandSourceStack> context) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+    private static int addRage(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         Vault vault = VaultUtils.getVault(player.level).orElse(null);
         if (vault == null) {

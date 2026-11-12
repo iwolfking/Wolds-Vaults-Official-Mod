@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.network.chat.Style;
 
 /**
  * The focus spellcraft screen, opened by right-clicking a focus or wand in the inventory. Bands: the title (item,
@@ -842,7 +843,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
         if (!errors.isEmpty()) {
             List<String> wrapped = new ArrayList<>();
             for (String error : errors) {
-                this.font.getSplitter().splitLines(error, rw, net.minecraft.network.chat.Style.EMPTY)
+                this.font.getSplitter().splitLines(error, rw, Style.EMPTY)
                         .forEach(line -> wrapped.add(line.getString()));
             }
             int room = status;

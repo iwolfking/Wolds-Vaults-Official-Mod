@@ -11,6 +11,7 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.fx.RiptideFx;
 
 /**
  * Clientbound Tidebreaker riptide visuals: a shock cone pulse, a lightning arc from the dashing player to a mob,
@@ -115,7 +116,7 @@ public class RiptideFxMessage {
     public static void handle(RiptideFxMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.fx.RiptideFx.accept(message)));
+                () -> () -> RiptideFx.accept(message)));
         context.setPacketHandled(true);
     }
 

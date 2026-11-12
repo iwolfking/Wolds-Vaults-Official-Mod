@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Random;
 
 /**
  * A snapshot of one extraction site room's walkable space, read from the world a few block planes per tick, and the
@@ -589,7 +590,7 @@ public final class RoomGrid {
     }
 
     /** A random cache chest cell (feet position, world coordinates), or null when the room has none. */
-    public BlockPos randomChestSpot(java.util.Random random) {
+    public BlockPos randomChestSpot(Random random) {
         if (this.chestCandidates.length == 0) {
             return null;
         }

@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import iskallia.vault.core.event.common.GodAltarEvent;
 
 /**
  * Awards god alignment XP for completed in-vault god altars. Altars pay whether or not the player has made
@@ -69,7 +70,7 @@ public final class GodAltarXpHandler {
         return multiplier;
     }
 
-    private static void onAltar(iskallia.vault.core.event.common.GodAltarEvent.Data data) {
+    private static void onAltar(GodAltarEvent.Data data) {
         if (!data.isCompleted()) {
             return;
         }

@@ -17,6 +17,10 @@ import xyz.iwolfking.woldsvaults.items.gear.MythicVaultCharmItem;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 
 /**
  * Aspect of Treasure Lite: opening a chest adds a stack worth the charm's rolled percentage of item
@@ -37,9 +41,9 @@ public final class AspectOfTreasureLite {
     }
 
     private static void register() {
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onDamageTaken);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onLogout);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onServerStopping);
+        MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onDamageTaken);
+        MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onLogout);
+        MinecraftForge.EVENT_BUS.addListener(AspectOfTreasureLite::onServerStopping);
         CommonEvents.PLAYER_STAT.of(PlayerStat.ITEM_QUANTITY).register(AspectOfTreasureLite.class, data -> {
             if (data.getEntity() instanceof ServerPlayer player) {
                 data.setValue(data.getValue() + bonus(player));
@@ -74,7 +78,7 @@ public final class AspectOfTreasureLite {
     private static float perStack(ServerPlayer player) {
         return AttributeSnapshotHelper.getInstance().getSnapshot(player)
                 .getAttributeValue(ModGearAttributes.ASPECT_OF_TREASURE_LITE,
-                        iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger.floatSum());
+                        VaultGearAttributeTypeMerger.floatSum());
     }
 
     private static int stackCap(ServerPlayer player) {
@@ -94,11 +98,11 @@ public final class AspectOfTreasureLite {
         }
     }
 
-    private static void onLogout(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
+    private static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         STACKS.remove(event.getPlayer().getUUID());
     }
 
-    private static void onServerStopping(net.minecraftforge.event.server.ServerStoppingEvent event) {
+    private static void onServerStopping(ServerStoppingEvent event) {
         STACKS.clear();
     }
 }

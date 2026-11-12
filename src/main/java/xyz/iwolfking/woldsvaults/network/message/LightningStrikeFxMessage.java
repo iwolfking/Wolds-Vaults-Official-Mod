@@ -7,6 +7,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.LightningDashRenderer;
 
 /** A Thunderstrike (Lightning Fiend 6-piece) for nearby clients to draw: where it lands and how far it reaches. */
 public class LightningStrikeFxMessage {
@@ -36,7 +37,7 @@ public class LightningStrikeFxMessage {
     public static void handle(LightningStrikeFxMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.LightningDashRenderer.addStrike(message.at, message.radius, message.seed)));
+                () -> () -> LightningDashRenderer.addStrike(message.at, message.radius, message.seed)));
         context.setPacketHandled(true);
     }
 }

@@ -114,6 +114,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Endlessly-cycling objective: clear a batch of mini-objectives, arm and kill an escalating
@@ -143,7 +144,7 @@ import java.util.function.Consumer;
 public class HyperVaultObjective extends Objective {
 
     private static final HyperObjectiveConfig INERT = HyperObjectiveConfig.inert();
-    private static final java.util.concurrent.atomic.AtomicBoolean WARNED = new java.util.concurrent.atomic.AtomicBoolean();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     /** The installed tuning knobs, or an inert table (logged once) before the hyper table is installed; never null. */
     public static HyperObjectiveConfig cfg() {

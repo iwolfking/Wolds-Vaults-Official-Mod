@@ -26,6 +26,13 @@ import xyz.iwolfking.woldsvaults.spellcraft.pool.ViewLine;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import iskallia.vault.gear.GearRollHelper;
+import iskallia.vault.gear.VaultGearRarity;
+import iskallia.vault.gear.VaultGearState;
+import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.init.ModItems;
+import java.util.Locale;
+import net.minecraft.commands.SharedSuggestionProvider;
 
 /**
  * {@code /wvspellcraft}: test tools for the spell bar and focus spellcraft, next to the screens. {@code show} prints the
@@ -67,8 +74,8 @@ public final class AugmentsCommand {
                 .then(Commands.literal("givefocus").requires(source -> source.hasPermission(2))
                         .then(Commands.argument("level", IntegerArgumentType.integer(0, 100))
                                 .then(Commands.argument("rarity", StringArgumentType.word())
-                                        .suggests((context, builder) -> net.minecraft.commands.SharedSuggestionProvider.suggest(
-                                                Arrays.stream(iskallia.vault.gear.VaultGearRarity.values()).map(Enum::name), builder))
+                                        .suggests((context, builder) -> SharedSuggestionProvider.suggest(
+                                                Arrays.stream(VaultGearRarity.values()).map(Enum::name), builder))
                                         .executes(context -> giveFocus(context, false))
                                         .then(Commands.literal("wand").executes(context -> giveFocus(context, true)))))));
     }
@@ -101,7 +108,7 @@ public final class AugmentsCommand {
             for (SpellModel.Glyph glyph : model.glyphs()) {
                 if (!glyph.active()) {
                     line(source, "     token " + (glyph.token() + 1) + " " + glyph.type().id() + ": "
-                            + glyph.state().name().toLowerCase(java.util.Locale.ROOT) + (glyph.dependent() ? " (rides on an inactive Bundled Spell)" : ""),
+                            + glyph.state().name().toLowerCase(Locale.ROOT) + (glyph.dependent() ? " (rides on an inactive Bundled Spell)" : ""),
                             ChatFormatting.DARK_GRAY);
                 }
             }
@@ -200,21 +207,21 @@ public final class AugmentsCommand {
      */
     private static int giveFocus(CommandContext<CommandSourceStack> context, boolean wand) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
-        String name = StringArgumentType.getString(context, "rarity").toUpperCase(java.util.Locale.ROOT);
-        iskallia.vault.gear.VaultGearRarity rarity;
+        String name = StringArgumentType.getString(context, "rarity").toUpperCase(Locale.ROOT);
+        VaultGearRarity rarity;
         try {
-            rarity = iskallia.vault.gear.VaultGearRarity.valueOf(name);
+            rarity = VaultGearRarity.valueOf(name);
         } catch (IllegalArgumentException e) {
             context.getSource().sendFailure(new TextComponent("Unknown rarity " + name));
             return 0;
         }
-        ItemStack stack = new ItemStack(wand ? iskallia.vault.init.ModItems.WAND : iskallia.vault.init.ModItems.FOCUS);
-        iskallia.vault.gear.data.VaultGearData data = iskallia.vault.gear.data.VaultGearData.read(stack);
+        ItemStack stack = new ItemStack(wand ? ModItems.WAND : ModItems.FOCUS);
+        VaultGearData data = VaultGearData.read(stack);
         data.setItemLevel(IntegerArgumentType.getInteger(context, "level"));
         data.setRarity(rarity);
-        data.setState(iskallia.vault.gear.VaultGearState.UNIDENTIFIED);
+        data.setState(VaultGearState.UNIDENTIFIED);
         data.write(stack);
-        iskallia.vault.gear.GearRollHelper.initializeGear(stack, player);
+        GearRollHelper.initializeGear(stack, player);
         if (!SpellcraftItemData.has(stack)) {
             SpellcraftRoller.roll(stack, player.getRandom());
         }

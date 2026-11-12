@@ -34,6 +34,10 @@ import xyz.iwolfking.woldsvaults.init.ModItems;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import iskallia.vault.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrificeData;
 
 /** Operator debug access to god alignment state: {@code /wvgods}. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -110,7 +114,7 @@ public final class GodDebugCommand {
         event.getDispatcher().register(root);
     }
 
-    private static com.mojang.brigadier.builder.RequiredArgumentBuilder<CommandSourceStack, String> godArgument() {
+    private static RequiredArgumentBuilder<CommandSourceStack, String> godArgument() {
         return Commands.argument("god", StringArgumentType.word())
                 .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                         Arrays.stream(VaultGod.values()).map(VaultGod::getName), builder));
@@ -120,7 +124,7 @@ public final class GodDebugCommand {
         String name = StringArgumentType.getString(context, "god");
         VaultGod god = VaultGod.fromName(name);
         if (god == null) {
-            throw new com.mojang.brigadier.exceptions.SimpleCommandExceptionType(
+            throw new SimpleCommandExceptionType(
                     new TextComponent("Unknown vault god: " + name)).create();
         }
         return god;
@@ -246,7 +250,7 @@ public final class GodDebugCommand {
     private static int grantSacrifice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "player");
         VaultGod god = god(context);
-        xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrificeData.get(player.getLevel())
+        GodSacrificeData.get(player.getLevel())
                 .clearProgress(player.getUUID(), god);
         GodAlignmentData alignment = GodAlignmentData.get(player.getServer());
         alignment.completeSacrifice(player, god);
@@ -265,10 +269,10 @@ public final class GodDebugCommand {
         VaultGearData data = VaultGearData.read(stack);
         data.setState(VaultGearState.IDENTIFIED);
         data.setItemLevel(0);
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.CHARM_VAULT_GOD, god);
-        data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LOOT, Boolean.TRUE);
+        data.createOrReplaceAttributeValue(ModGearAttributes.CHARM_VAULT_GOD, god);
+        data.createOrReplaceAttributeValue(ModGearAttributes.IS_LOOT, Boolean.TRUE);
         if (forceLegendary) {
-            data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.IS_LEGENDARY, Boolean.TRUE);
+            data.createOrReplaceAttributeValue(ModGearAttributes.IS_LEGENDARY, Boolean.TRUE);
         }
         data.write(stack);
         int unitsOverride = pietyOverride >= 0 ? pietyOverride / GodPiety.PIETY_PER_UNIT : -1;

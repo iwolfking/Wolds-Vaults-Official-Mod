@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import java.util.HashSet;
 import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.regex.Matcher;
 
 public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
     private static final Set<String> MISSING_BONES = new HashSet<>();
@@ -121,7 +122,7 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
                 case ExtractorMotion.PUMP -> bone.setPositionY(
                         bone.getPositionY() + ExtractorMotion.pumpY(seconds, ramp));
                 case ExtractorMotion.CHASE_KEY -> {
-                    java.util.regex.Matcher m = ExtractorMotion.CHASE.matcher(bone.getName());
+                    Matcher m = ExtractorMotion.CHASE.matcher(bone.getName());
                     if (m.find()) {
                         float k = ExtractorMotion.chaseScale(seconds, ramp,
                                 Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)));

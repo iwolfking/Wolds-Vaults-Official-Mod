@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import net.minecraftforge.network.PacketDistributor;
 
 /** Throttles marking the SavedData dirty and pushing counter changes to clients. */
 public class MilestoneFlusher {
@@ -46,7 +47,7 @@ public class MilestoneFlusher {
             }
             LAST_STATUS.put(player.getUUID(), status);
             NetworkHandler.INSTANCE.send(
-                    net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player), status);
+                    PacketDistributor.PLAYER.with(() -> player), status);
         }
     }
 
@@ -72,7 +73,7 @@ public class MilestoneFlusher {
                 claimed.put(id, data.getClaimedTiers(playerId, id));
             }
             NetworkHandler.INSTANCE.send(
-                    net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                    PacketDistributor.PLAYER.with(() -> player),
                     new MilestoneSyncMessage(false, changed, claimed, data.getPinned(playerId)));
         });
     }
@@ -82,7 +83,7 @@ public class MilestoneFlusher {
         MilestoneData data = MilestoneData.get(player.server);
         data.clearPendingSync(player.getUUID());
         NetworkHandler.INSTANCE.send(
-                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player),
+                PacketDistributor.PLAYER.with(() -> player),
                 new MilestoneSyncMessage(true, new HashMap<>(data.getAllValues(player.getUUID())),
                         new HashMap<>(data.getAllClaimedTiers(player.getUUID())), data.getPinned(player.getUUID())));
         MilestoneStatusMessage.sendTo(player);

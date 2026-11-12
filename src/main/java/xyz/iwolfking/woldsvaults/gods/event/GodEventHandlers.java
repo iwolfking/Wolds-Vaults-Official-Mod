@@ -17,6 +17,9 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
+import net.minecraft.Util;
+import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls;
 
 /**
  * Lifecycle glue for the god core: invalidates the active-god and gate caches, tears down node state
@@ -52,20 +55,20 @@ public final class GodEventHandlers {
     }
 
     /** Whether the only difference between the stacks is a charm's blessing countdown tag. */
-    private static boolean isBlessingCountdownOnly(net.minecraft.world.item.ItemStack from,
-                                                   net.minecraft.world.item.ItemStack to) {
+    private static boolean isBlessingCountdownOnly(ItemStack from,
+                                                   ItemStack to) {
         if (from.getItem() != to.getItem() || from.getCount() != to.getCount()) {
             return false;
         }
-        net.minecraft.world.item.ItemStack before = from.copy();
-        net.minecraft.world.item.ItemStack after = to.copy();
+        ItemStack before = from.copy();
+        ItemStack after = to.copy();
         if (before.getTag() != null) {
-            before.getTag().remove(xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls.TEMPORAL_REMAINING_TAG);
+            before.getTag().remove(MythicCharmRolls.TEMPORAL_REMAINING_TAG);
         }
         if (after.getTag() != null) {
-            after.getTag().remove(xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls.TEMPORAL_REMAINING_TAG);
+            after.getTag().remove(MythicCharmRolls.TEMPORAL_REMAINING_TAG);
         }
-        return net.minecraft.world.item.ItemStack.matches(before, after);
+        return ItemStack.matches(before, after);
     }
 
     @SubscribeEvent
@@ -115,7 +118,7 @@ public final class GodEventHandlers {
     public static void announceLevelUp(GodLevelUpEvent event) {
         event.getPlayer().sendMessage(new TranslatableComponent("message.woldsvaults.god_level_up",
                 event.getGod().getHoverChatComponent(),
-                event.getNewLevel()).withStyle(ChatFormatting.GOLD), net.minecraft.Util.NIL_UUID);
+                event.getNewLevel()).withStyle(ChatFormatting.GOLD), Util.NIL_UUID);
     }
 
     @SubscribeEvent

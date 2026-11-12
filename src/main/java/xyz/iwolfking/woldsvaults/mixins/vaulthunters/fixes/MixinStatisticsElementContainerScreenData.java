@@ -37,6 +37,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementB
 
 import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import iskallia.vault.init.ModConfigs;
 
 @Mixin(value = StatisticsElementContainerScreenData.class, remap = false)
 public class MixinStatisticsElementContainerScreenData {
@@ -110,7 +111,7 @@ public class MixinStatisticsElementContainerScreenData {
     private void woldsvaults$replaceDamageIncrease(List<StatLabelElementBuilder<?>> rows) {
         Player owner = this.player;
         StatLabelElementBuilder<Float> replacement = new StatLabelElementBuilder<>(() -> DAMAGE_INCREASE_LABEL,
-                () -> List.of(iskallia.vault.init.ModConfigs.MENU_PLAYER_STAT_DESCRIPTIONS.getModGearAttributeDescriptionFor(ModGearAttributes.DAMAGE_INCREASE.getRegistryName())),
+                () -> List.of(ModConfigs.MENU_PLAYER_STAT_DESCRIPTIONS.getModGearAttributeDescriptionFor(ModGearAttributes.DAMAGE_INCREASE.getRegistryName())),
                 () -> StatDisplayValues.damageIncrease(owner),
                 value -> ModGearAttributes.DAMAGE_INCREASE.getReader().getValueDisplay(value),
                 TextColor.fromRgb(0));

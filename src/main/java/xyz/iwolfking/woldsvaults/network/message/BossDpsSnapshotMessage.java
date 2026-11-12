@@ -8,6 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.hyper.ClientBossDps;
 
 /**
  * One player's hyperboss fight statistics, pushed clientbound by the DPS tracker a few times a
@@ -85,7 +86,7 @@ public class BossDpsSnapshotMessage {
     public static void handle(BossDpsSnapshotMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.hyper.ClientBossDps.update(message.snapshot)));
+                () -> () -> ClientBossDps.update(message.snapshot)));
         context.setPacketHandled(true);
     }
 }

@@ -27,6 +27,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 /**
  * Server-side lifecycle for the mythic charm's toggleable temporal blessing: activating adds the
@@ -129,11 +132,11 @@ public final class CharmTemporalManager {
      * expiry sweep to remove. Writes live contexts only; {@code Modifiers#getContext} copies.
      */
     private static void expireVaultEntry(ServerPlayer player, ActiveBlessing active) {
-        net.minecraft.server.MinecraftServer server = player.getServer();
+        MinecraftServer server = player.getServer();
         if (server == null) {
             return;
         }
-        for (net.minecraft.server.level.ServerLevel level : server.getAllLevels()) {
+        for (ServerLevel level : server.getAllLevels()) {
             Vault vault = ServerVaults.get(level).orElse(null);
             if (vault == null || !vault.has(Vault.ID) || !vault.get(Vault.ID).equals(active.vaultId())) {
                 continue;
@@ -155,7 +158,7 @@ public final class CharmTemporalManager {
         if (event.phase != TickEvent.Phase.END || ACTIVE.isEmpty()) {
             return;
         }
-        net.minecraft.server.MinecraftServer server = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer();
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
             return;
         }

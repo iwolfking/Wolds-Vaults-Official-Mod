@@ -39,6 +39,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.skill.prestige.helper.PrestigeHelper;
+import iskallia.vault.world.data.ServerVaults;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * The mythic god charm: implicits and suffixes on top of the prefixes, wider piety roll tables and a
@@ -120,9 +125,9 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
     @Override
     public void vaultGearTick(ItemStack stack, ServerPlayer player) {
         VaultGearData data = VaultGearData.read(stack);
-        if (!data.hasAttribute(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE)
-                && !data.hasAttribute(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE_POOL)) {
-            data.createOrReplaceAttributeValue(iskallia.vault.init.ModGearAttributes.GEAR_ROLL_TYPE, MYTHIC_ROLL_TYPE);
+        if (!data.hasAttribute(ModGearAttributes.GEAR_ROLL_TYPE)
+                && !data.hasAttribute(ModGearAttributes.GEAR_ROLL_TYPE_POOL)) {
+            data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, MYTHIC_ROLL_TYPE);
             data.write(stack);
         }
         super.vaultGearTick(stack, player);
@@ -145,10 +150,10 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         if (slotContext.entity() instanceof ServerPlayer serverPlayer
                 && serverPlayer.getLevel().getGameTime() % 10L == 0L) {
             MythicCharmRolls.rescale(stack, serverPlayer);
-            iskallia.vault.world.data.ServerVaults.get(serverPlayer.getLevel())
-                    .filter(vault -> vault.has(iskallia.vault.core.vault.Vault.ID))
+            ServerVaults.get(serverPlayer.getLevel())
+                    .filter(vault -> vault.has(Vault.ID))
                     .ifPresent(vault -> MythicCharmRolls.resetTemporalForVault(stack,
-                            vault.get(iskallia.vault.core.vault.Vault.ID)));
+                            vault.get(Vault.ID)));
         }
     }
 
@@ -159,7 +164,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         if (data.getState() != VaultGearState.IDENTIFIED) {
             return false;
         }
-        if (iskallia.vault.skill.prestige.helper.PrestigeHelper.getPrestige(player)
+        if (PrestigeHelper.getPrestige(player)
                 .getAll(NoVaultUsesPrestigePower.class, Skill::isUnlocked).stream()
                 .anyMatch(power -> BASE_CHARM_ID.equals(power.getItemId()))) {
             return true;
@@ -247,9 +252,9 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
             }
             tooltip.add(TextComponent.EMPTY);
         }
-        int maxPrefixes = data.getFirstValue(iskallia.vault.init.ModGearAttributes.PREFIXES).orElse(0);
+        int maxPrefixes = data.getFirstValue(ModGearAttributes.PREFIXES).orElse(0);
         List<VaultGearModifier<?>> prefixes = data.getModifiers(VaultGearModifier.AffixType.PREFIX);
-        int maxSuffixes = data.getFirstValue(iskallia.vault.init.ModGearAttributes.SUFFIXES).orElse(0);
+        int maxSuffixes = data.getFirstValue(ModGearAttributes.SUFFIXES).orElse(0);
         List<VaultGearModifier<?>> suffixes = data.getModifiers(VaultGearModifier.AffixType.SUFFIX);
         if (maxPrefixes > 0 || !prefixes.isEmpty()) {
             this.addHintedAffixGroup(data, VaultGearModifier.AffixType.PREFIX, stack, tooltip, detail, shiftDown);
@@ -272,7 +277,7 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
                                      List<Component> tooltip, boolean displayDetails, boolean shiftDown) {
         List<VaultGearModifier<?>> affixes = data.getModifiers(type);
         if (displayDetails) {
-            tooltip.add(new net.minecraft.network.chat.TranslatableComponent("tooltip.the_vault.affix_group",
+            tooltip.add(new TranslatableComponent("tooltip.the_vault.affix_group",
                     type.getPlural()).withStyle(ChatFormatting.GRAY));
         }
         List<String> hints = shiftDown ? MythicCharmRolls.rollHints(stack, type) : List.of();
@@ -291,8 +296,8 @@ public class MythicVaultCharmItem extends VaultCharmItem implements VaultGearToo
         }
         if (displayDetails && type != VaultGearModifier.AffixType.IMPLICIT) {
             int emptyAffixes = data.getFirstValue(type == VaultGearModifier.AffixType.PREFIX
-                    ? iskallia.vault.init.ModGearAttributes.PREFIXES
-                    : iskallia.vault.init.ModGearAttributes.SUFFIXES).orElse(0);
+                    ? ModGearAttributes.PREFIXES
+                    : ModGearAttributes.SUFFIXES).orElse(0);
             for (int i = 0; i < emptyAffixes - affixes.size(); i++) {
                 tooltip.add(this.addTooltipEmptyAffixes(type));
             }

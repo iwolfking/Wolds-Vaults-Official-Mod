@@ -39,6 +39,15 @@ import java.util.*;
 import static iskallia.vault.init.ModItems.GEAR_GROUP;
 import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
 import xyz.iwolfking.woldsvaults.items.ArmoryUpgradeItem;
+import iskallia.vault.core.vault.influence.VaultGod;
+import java.util.LinkedHashMap;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
+import xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem;
+import xyz.iwolfking.woldsvaults.items.ExtractorItem;
+import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
+import xyz.iwolfking.woldsvaults.items.FabricationPatternItem;
+import xyz.iwolfking.woldsvaults.items.GodNeuralizerItem;
+import xyz.iwolfking.woldsvaults.items.PowerCellItem;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
@@ -180,10 +189,10 @@ public class ModItems {
     public static BasicItem VAULT_DECO_SCROLL;
     public static BasicItem ARCANE_ESSENCE;
     public static BasicItem ARCANE_SHARD;
-    public static xyz.iwolfking.woldsvaults.items.ExtractorItem EXTRACTOR;
-    public static xyz.iwolfking.woldsvaults.items.PowerCellItem POWER_CELL;
-    public static final EnumMap<xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType, xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem> EXTRACTOR_BLUEPRINTS = new EnumMap<>(xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType.class);
-    public static final EnumMap<xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType, xyz.iwolfking.woldsvaults.items.ExtractorPartItem> EXTRACTOR_PARTS = new EnumMap<>(xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType.class);
+    public static ExtractorItem EXTRACTOR;
+    public static PowerCellItem POWER_CELL;
+    public static final EnumMap<ExtractorPartType, ExtractorBlueprintItem> EXTRACTOR_BLUEPRINTS = new EnumMap<>(ExtractorPartType.class);
+    public static final EnumMap<ExtractorPartType, ExtractorPartItem> EXTRACTOR_PARTS = new EnumMap<>(ExtractorPartType.class);
     public static BasicItem EXTRAORDINARY_POG_PRISM;
     public static BasicItem HEART_OF_CHAOS;
     public static BasicItem GEM_REAGENT_ASHIUM;
@@ -200,10 +209,10 @@ public class ModItems {
     public static BasicItem YELLOW_VAULT_ESSENCE;
     public static BasicItem GREEN_VAULT_ESSENCE;
     public static BasicItem RED_VAULT_ESSENCE;
-    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem IDONA_GOD_NEURALIZER;
-    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem VELARA_GOD_NEURALIZER;
-    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem TENOS_GOD_NEURALIZER;
-    public static xyz.iwolfking.woldsvaults.items.GodNeuralizerItem WENDARR_GOD_NEURALIZER;
+    public static GodNeuralizerItem IDONA_GOD_NEURALIZER;
+    public static GodNeuralizerItem VELARA_GOD_NEURALIZER;
+    public static GodNeuralizerItem TENOS_GOD_NEURALIZER;
+    public static GodNeuralizerItem WENDARR_GOD_NEURALIZER;
     public static PoltergeistPlum POLTERGEIST_PLUM;
 
     public static BasicItem TOME_OF_TENOS;
@@ -265,10 +274,10 @@ public class ModItems {
     public static TimeTrialTrophyItem TIME_TRIAL_TROPHY;
 
     public static BucketItem PRISMATIC_GLUE_BUCKET = (BucketItem) new BucketItem(ModFluids.PRISMATIC_GLUE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ModCreativeTabs.WOLDS_VAULTS)).setRegistryName(WoldsVaults.id("prismatic_glue_bucket"));
-    public static xyz.iwolfking.woldsvaults.items.FabricationPatternItem BLANK_FABRICATION_PATTERN;
-    public static xyz.iwolfking.woldsvaults.items.FabricationPatternItem FABRICATION_PATTERN;
+    public static FabricationPatternItem BLANK_FABRICATION_PATTERN;
+    public static FabricationPatternItem FABRICATION_PATTERN;
     /** The Vault Fabricator's products, keyed like {@code extractor_costs.json} COMPONENTS. */
-    public static final java.util.LinkedHashMap<String, BasicItem> EXTRACTOR_COMPONENTS = new java.util.LinkedHashMap<>();
+    public static final LinkedHashMap<String, BasicItem> EXTRACTOR_COMPONENTS = new LinkedHashMap<>();
     public static final String[][] EXTRACTOR_COMPONENT_IDS = {
             {"blast_chamber", "blast_chamber"}, {"vpu", "vault_processing_unit"}, {"field_emitter", "field_emitter"},
             {"heat_exchanger", "heat_exchanger"}, {"servo_actuator", "servo_actuator"}, {"spine", "structural_spine"},
@@ -590,17 +599,17 @@ public class ModItems {
         EXTRAORDINARY_POG_PRISM = new BasicItem(WoldsVaults.id("extraordinary_pog_prism"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         ARCANE_ESSENCE = new BasicItem(WoldsVaults.id("arcane_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         ARCANE_SHARD = new BasicItem(WoldsVaults.id("arcane_shard"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
-        EXTRACTOR = new xyz.iwolfking.woldsvaults.items.ExtractorItem(WoldsVaults.id("extractor"));
-        POWER_CELL = new xyz.iwolfking.woldsvaults.items.PowerCellItem(WoldsVaults.id("power_cell"));
-        for (xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType type : xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType.values()) {
-            EXTRACTOR_BLUEPRINTS.put(type, new xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem(WoldsVaults.id(type.getId() + "_blueprint"),
+        EXTRACTOR = new ExtractorItem(WoldsVaults.id("extractor"));
+        POWER_CELL = new PowerCellItem(WoldsVaults.id("power_cell"));
+        for (ExtractorPartType type : ExtractorPartType.values()) {
+            EXTRACTOR_BLUEPRINTS.put(type, new ExtractorBlueprintItem(WoldsVaults.id(type.getId() + "_blueprint"),
                     new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1), type));
-            EXTRACTOR_PARTS.put(type, new xyz.iwolfking.woldsvaults.items.ExtractorPartItem(WoldsVaults.id("extractor_" + type.getId()),
+            EXTRACTOR_PARTS.put(type, new ExtractorPartItem(WoldsVaults.id("extractor_" + type.getId()),
                     new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1), type));
         }
-        BLANK_FABRICATION_PATTERN = new xyz.iwolfking.woldsvaults.items.FabricationPatternItem(WoldsVaults.id("blank_fabrication_pattern"),
+        BLANK_FABRICATION_PATTERN = new FabricationPatternItem(WoldsVaults.id("blank_fabrication_pattern"),
                 new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16), false);
-        FABRICATION_PATTERN = new xyz.iwolfking.woldsvaults.items.FabricationPatternItem(WoldsVaults.id("fabrication_pattern"),
+        FABRICATION_PATTERN = new FabricationPatternItem(WoldsVaults.id("fabrication_pattern"),
                 new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16), true);
         for (String[] component : EXTRACTOR_COMPONENT_IDS) {
             EXTRACTOR_COMPONENTS.put(component[0], new BasicItem(WoldsVaults.id(component[1]), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS)));
@@ -613,10 +622,10 @@ public class ModItems {
         BLUE_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("blue_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         GREEN_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("green_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         RED_VAULT_ESSENCE = new BasicItem(WoldsVaults.id("red_vault_essence"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
-        IDONA_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("idona_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.IDONA);
-        VELARA_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("velara_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.VELARA);
-        TENOS_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("tenos_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.TENOS);
-        WENDARR_GOD_NEURALIZER = new xyz.iwolfking.woldsvaults.items.GodNeuralizerItem(WoldsVaults.id("wendarr_god_neuralizer"), iskallia.vault.core.vault.influence.VaultGod.WENDARR);
+        IDONA_GOD_NEURALIZER = new GodNeuralizerItem(WoldsVaults.id("idona_god_neuralizer"), VaultGod.IDONA);
+        VELARA_GOD_NEURALIZER = new GodNeuralizerItem(WoldsVaults.id("velara_god_neuralizer"), VaultGod.VELARA);
+        TENOS_GOD_NEURALIZER = new GodNeuralizerItem(WoldsVaults.id("tenos_god_neuralizer"), VaultGod.TENOS);
+        WENDARR_GOD_NEURALIZER = new GodNeuralizerItem(WoldsVaults.id("wendarr_god_neuralizer"), VaultGod.WENDARR);
 
         POGOMINIUM_INGOT = new BasicItem(WoldsVaults.id("pogominium_ingot"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));
         INFUSED_DRIFTWOOD = new BasicItem(WoldsVaults.id("infused_driftwood"), new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS));

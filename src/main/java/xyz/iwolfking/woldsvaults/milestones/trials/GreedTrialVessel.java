@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.network.chat.TextComponent;
 
 /**
  * The vessel half of the rank-up trials, driven from {@code MixinRebirthObjective}: one phase whose
@@ -110,7 +111,7 @@ public final class GreedTrialVessel {
             } else {
                 GreedTrials.forfeit(vault, player);
             }
-            player.displayClientMessage(new net.minecraft.network.chat.TextComponent(
+            player.displayClientMessage(new TextComponent(
                             won ? "The Vessel yields. Extracting..." : "Out of time.")
                     .withStyle(won ? ChatFormatting.GOLD : ChatFormatting.RED), false);
         }

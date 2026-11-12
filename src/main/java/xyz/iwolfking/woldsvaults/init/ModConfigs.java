@@ -17,6 +17,13 @@ import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.EnumMap;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
+import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
+import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
+import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
+import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -39,13 +46,13 @@ public class ModConfigs {
     public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
     public static HyperObjectiveConfig HYPER_OBJECTIVE;
     public static ExtractionObjectiveConfig EXTRACTION_OBJECTIVE = ExtractionObjectiveConfig.inert();
-    public static xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig MULTI_CELL_ROOMS = xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig.inert();
-    public static xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig EXTRACTOR_PARTS = xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.inert();
-    public static xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig EXTRACTOR_COSTS = xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.inert();
-    public static xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
-    public static xyz.iwolfking.woldsvaults.config.GearSetConfig GEAR_SETS;
-    public static xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig FOCUS_AUGMENTS;
-    public static xyz.iwolfking.woldsvaults.config.SpellHasteConfig SPELL_HASTE;
+    public static MultiCellRoomsConfig MULTI_CELL_ROOMS = MultiCellRoomsConfig.inert();
+    public static ExtractorPartsConfig EXTRACTOR_PARTS = ExtractorPartsConfig.inert();
+    public static ExtractorCostsConfig EXTRACTOR_COSTS = ExtractorCostsConfig.inert();
+    public static ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
+    public static GearSetConfig GEAR_SETS;
+    public static FocusAugmentsConfig FOCUS_AUGMENTS;
+    public static SpellHasteConfig SPELL_HASTE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;

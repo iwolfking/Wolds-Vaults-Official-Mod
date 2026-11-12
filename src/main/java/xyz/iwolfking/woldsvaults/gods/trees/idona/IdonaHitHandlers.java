@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodCombatPipeline;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
+import net.minecraft.world.effect.MobEffect;
 
 /**
  * Idona nodes whose multiplier depends on the hit itself: {@link CombatContributor}s on the
@@ -57,7 +58,7 @@ public final class IdonaHitHandlers {
     }
 
     /** Marks a living target as a glacial prison survivor when the shatter effect leaves it. */
-    private static void markIfSurvived(LivingEntity entity, net.minecraft.world.effect.MobEffect effect) {
+    private static void markIfSurvived(LivingEntity entity, MobEffect effect) {
         if (entity == null || effect != ModEffects.GLACIAL_SHATTER || entity.level.isClientSide() || !entity.isAlive()) {
             return;
         }

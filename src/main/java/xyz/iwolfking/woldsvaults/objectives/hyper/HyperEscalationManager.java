@@ -39,6 +39,7 @@ import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
 
 /**
  * Everything that happens because a hyperboss died: the HYPER stack, crate tiers, the chaos
@@ -309,7 +310,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         if (remaining <= 0 && !GreedTrialHyper.isCycleTargetMet(vault)) {
             removeExitPillar();
             cycleManager.rollBatch();
-            xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery.openObjectiveWindow(vault, objective);
+            TrialMastery.openObjectiveWindow(vault, objective);
         }
     }
 

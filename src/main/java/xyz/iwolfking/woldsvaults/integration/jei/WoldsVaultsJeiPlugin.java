@@ -89,6 +89,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
+import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerScreen;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -143,8 +145,8 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
      */
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGuiScreenHandler(xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerScreen.class, screen -> null);
-        registration.addGuiScreenHandler(iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen.class, screen -> null);
+        registration.addGuiScreenHandler(ExtractorAssemblerScreen.class, screen -> null);
+        registration.addGuiScreenHandler(AbilitiesElementContainerScreen.class, screen -> null);
     }
 
     @Override

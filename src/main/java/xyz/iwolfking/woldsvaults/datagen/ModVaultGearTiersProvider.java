@@ -29,6 +29,8 @@ import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
 
 import java.util.List;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
+import java.util.function.Consumer;
 
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
     public static final float STEEL_INFERNO_RADIUS_MIN = 0.5F;
@@ -1906,8 +1908,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
     }
 
     /** A unique-table row whose identifier is in the woldsvaults namespace. */
-    private static VaultGearTierConfig.ModifierTierGroup woldsIdentifier(iskallia.vault.gear.attribute.VaultGearAttribute<?> attribute, String modifierGroup, String identifierPath,
-                                                                          java.util.function.Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
+    private static VaultGearTierConfig.ModifierTierGroup woldsIdentifier(VaultGearAttribute<?> attribute, String modifierGroup, String identifierPath,
+                                                                          Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
         VaultGearTierConfig.ModifierTierGroup group = new VaultGearTierConfig.ModifierTierGroup(attribute.getRegistryName(), modifierGroup, WoldsVaults.id(identifierPath));
         AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder builder = new AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder();
         tiers.accept(builder);
@@ -1916,8 +1918,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
     }
 
     /** A unique-table row scoped to one woldsvaults unique, which {@code UniqueRollTables} resolves before the plain identifier. */
-    private static VaultGearTierConfig.ModifierTierGroup scoped(iskallia.vault.gear.attribute.VaultGearAttribute<?> attribute, String modifierGroup, String uniquePath, String identifierPath,
-                                                                 java.util.function.Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
+    private static VaultGearTierConfig.ModifierTierGroup scoped(VaultGearAttribute<?> attribute, String modifierGroup, String uniquePath, String identifierPath,
+                                                                 Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
         VaultGearTierConfig.ModifierTierGroup group = new VaultGearTierConfig.ModifierTierGroup(attribute.getRegistryName(), modifierGroup,
                 UniqueRollTables.scoped(WoldsVaults.id(uniquePath), VaultMod.id(identifierPath)));
         AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder builder = new AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder();

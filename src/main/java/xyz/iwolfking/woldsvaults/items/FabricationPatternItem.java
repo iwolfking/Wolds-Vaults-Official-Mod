@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * A Vault Fabricator pattern. The blank card is crafted; placing it in a Fabricator and choosing a component
@@ -28,7 +29,7 @@ public class FabricationPatternItem extends BasicItem {
 
     private final boolean encoded;
 
-    public FabricationPatternItem(net.minecraft.resources.ResourceLocation id, Properties properties, boolean encoded) {
+    public FabricationPatternItem(ResourceLocation id, Properties properties, boolean encoded) {
         super(id, properties);
         this.encoded = encoded;
     }

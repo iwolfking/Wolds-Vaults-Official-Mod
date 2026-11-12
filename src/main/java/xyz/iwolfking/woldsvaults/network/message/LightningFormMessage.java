@@ -6,6 +6,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 
 /** Tells a player they became lightning (Lightning Fiend 6-piece): for how long, and the cooldowns of its dashes and clicks. */
 public class LightningFormMessage {
@@ -35,7 +36,7 @@ public class LightningFormMessage {
     public static void handle(LightningFormMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.start(message.ticks, message.dashCooldownTicks, message.lashCooldownTicks, message.rodCooldownTicks)));
+                () -> () -> ClientLightningForm.start(message.ticks, message.dashCooldownTicks, message.lashCooldownTicks, message.rodCooldownTicks)));
         context.setPacketHandled(true);
     }
 }

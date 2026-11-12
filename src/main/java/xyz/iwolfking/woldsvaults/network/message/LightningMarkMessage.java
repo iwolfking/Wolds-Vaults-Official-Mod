@@ -6,6 +6,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 
 /** Tells a player which enemy their Lightning Rod has marked (Lightning Fiend 6-piece), or -1 once it lapses. */
 public class LightningMarkMessage {
@@ -26,7 +27,7 @@ public class LightningMarkMessage {
     public static void handle(LightningMarkMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.mark(message.entityId)));
+                () -> () -> ClientLightningForm.mark(message.entityId)));
         context.setPacketHandled(true);
     }
 }

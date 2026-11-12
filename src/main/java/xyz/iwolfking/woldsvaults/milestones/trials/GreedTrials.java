@@ -37,6 +37,8 @@ import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 /**
  * Server-side entry and exit for greed rank-up trials. The vault is built in memory from a
@@ -241,7 +243,7 @@ public final class GreedTrials {
         if (vault == null || !vault.has(Vault.ID)) {
             return 0;
         }
-        net.minecraft.server.MinecraftServer server = net.minecraftforge.server.ServerLifecycleHooks.getCurrentServer();
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
             return 0;
         }

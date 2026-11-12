@@ -6,6 +6,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.champion.ClientChampionHud;
 
 /**
  * The Vault Champion's HUD state, pushed clientbound to every runner in the vault. The bar draws the
@@ -39,7 +40,7 @@ public class ChampionHudMessage {
     public static void handle(ChampionHudMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.champion.ClientChampionHud.update(message.active,
+                () -> () -> ClientChampionHud.update(message.active,
                         message.dealt, message.pool, message.damageMultiplier)));
         context.setPacketHandled(true);
     }

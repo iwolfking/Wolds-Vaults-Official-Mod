@@ -40,6 +40,9 @@ import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryNavMessage;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
 import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
+import xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage;
+import xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage;
 
 public class ModNetwork {
     private static int id = 0;
@@ -94,9 +97,9 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SpellSlotKeyMessage.class, SpellSlotKeyMessage::encode, SpellSlotKeyMessage::decode, SpellSlotKeyMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, SpellBarEditMessage.class, SpellBarEditMessage::encode, SpellBarEditMessage::decode, SpellBarEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, SpellEditMessage.class, SpellEditMessage::encode, SpellEditMessage::decode, SpellEditMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage.class, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::encode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::decode, xyz.iwolfking.woldsvaults.network.packets.StatMirrorMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage.class, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::encode, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::decode, xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        CHANNEL.registerMessage(id++, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage.class, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::encode, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::decode, xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, StatMirrorMessage.class, StatMirrorMessage::encode, StatMirrorMessage::decode, StatMirrorMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, GlyphViewSyncMessage.class, GlyphViewSyncMessage::encode, GlyphViewSyncMessage::decode, GlyphViewSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, SpellPlaceMessage.class, SpellPlaceMessage::encode, SpellPlaceMessage::decode, SpellPlaceMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ServerboundStatSyncRequestMessage.class, ServerboundStatSyncRequestMessage::encode, ServerboundStatSyncRequestMessage::decode, ServerboundStatSyncRequestMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ClientboundStatSyncMessage.class, ClientboundStatSyncMessage::encode, ClientboundStatSyncMessage::decode, ClientboundStatSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }

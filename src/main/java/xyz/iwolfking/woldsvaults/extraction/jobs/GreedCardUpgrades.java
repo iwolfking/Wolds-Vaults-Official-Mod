@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Random;
 
 /**
  * The Greed Infuser's card rules. A greed card entry embeds its whole modifier config rather than an id, so a card's
@@ -157,7 +158,7 @@ public final class GreedCardUpgrades {
     }
 
     /** A fresh tier-1 greed card of the given class with a random direction and colour, for testing; empty when the class has no pool. */
-    public static ItemStack createCard(String cls, java.util.Random random) {
+    public static ItemStack createCard(String cls, Random random) {
         WeightedList<String> pool = ModConfigs.CARD_MODIFIERS.getPools().get(poolFor(cls));
         String id = pool == null ? null : pool.getRandom(random).orElse(null);
         CardEntry.Config config = id == null ? null : ModConfigs.CARD_MODIFIERS.getValues().get(id);

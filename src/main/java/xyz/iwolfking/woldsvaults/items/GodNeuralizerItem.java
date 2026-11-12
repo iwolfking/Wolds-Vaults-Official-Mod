@@ -24,6 +24,8 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import net.minecraft.world.item.Item;
+import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
 
 /**
  * A god-attuned neuralizer: consumed on use to reset that god's tree, refunding every spent point.
@@ -33,8 +35,8 @@ public class GodNeuralizerItem extends BasicItem {
     private final VaultGod god;
 
     public GodNeuralizerItem(ResourceLocation id, VaultGod god) {
-        super(id, new net.minecraft.world.item.Item.Properties()
-                .tab(xyz.iwolfking.woldsvaults.init.ModCreativeTabs.WOLDS_VAULTS).stacksTo(16));
+        super(id, new Item.Properties()
+                .tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(16));
         this.god = god;
     }
 

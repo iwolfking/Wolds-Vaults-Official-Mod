@@ -655,7 +655,7 @@ public class CorruptedVaultHelper {
 
             CorruptedVaultHelper.playActivationEffects(world, pos);
 
-            if (data.getPlayer() instanceof net.minecraft.server.level.ServerPlayer pillarPlayer) {
+            if (data.getPlayer() instanceof ServerPlayer pillarPlayer) {
                 Milestones.advance(pillarPlayer, MilestoneIds.ETERNAL_DARKNESS, 1L);
             }
 

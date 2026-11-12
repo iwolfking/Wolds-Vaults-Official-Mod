@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultTrueDamage;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 /**
  * Startup and lifecycle for the Vault Champion. The damage pool accumulates from a final-stage sub-stage,
@@ -81,7 +82,7 @@ public final class VaultChampionEvents {
     }
 
     @SubscribeEvent
-    public static void onKill(net.minecraftforge.event.entity.living.LivingDeathEvent event) {
+    public static void onKill(LivingDeathEvent event) {
         if (event.getEntityLiving().level instanceof ServerLevel level) {
             VaultChampionRage.onKill(event.getEntityLiving(), event, level);
         }

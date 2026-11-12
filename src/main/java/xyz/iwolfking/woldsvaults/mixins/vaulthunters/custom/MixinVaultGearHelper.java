@@ -65,7 +65,7 @@ public class MixinVaultGearHelper {
             return;
         }
         GearDataCache cache = GearDataCache.of(stack);
-        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE)) {
+        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
             return;
         }
         Style style = defaultName.getStyle().withColor(TextColor.fromRgb(AncientUniqueHelper.ANCIENT_COLOR));
@@ -83,7 +83,7 @@ public class MixinVaultGearHelper {
             return;
         }
         GearSetHelper.setOf(stack).flatMap(GearSetHelper.config()::getSet).ifPresent(set -> {
-            boolean ancient = cache.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE);
+            boolean ancient = cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE);
             Style style = Style.EMPTY.withColor(TextColor.fromRgb(ancient ? set.ancientColorRgb() : set.colorRgb()));
             String name = cache.getGearName();
             cir.setReturnValue(name == null ? defaultName.copy().setStyle(style) : new TextComponent(name).setStyle(style));

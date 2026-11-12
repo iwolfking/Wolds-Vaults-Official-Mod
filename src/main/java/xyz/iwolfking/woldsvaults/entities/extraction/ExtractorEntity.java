@@ -74,6 +74,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 
 @SuppressWarnings({"deprecated", "removal"})
 public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTarget {
@@ -244,7 +249,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.entityData.set(DATA_VARIANTS, sanitizeVariants(variants));
     }
 
-    private static final java.util.Set<String> KNOWN_VARIANT_BONES = new java.util.HashSet<>(java.util.Arrays.asList(ALL_VARIANT_BONES));
+    private static final Set<String> KNOWN_VARIANT_BONES = new HashSet<>(Arrays.asList(ALL_VARIANT_BONES));
 
     /**
      * Drops bone names the current rig does not know (extractors built before the art rework carry
@@ -255,8 +260,8 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         if (variants == null || variants.isEmpty()) {
             return DEFAULT_VARIANT_BONES;
         }
-        java.util.List<String> kept = new java.util.ArrayList<>();
-        java.util.List<String> dropped = new java.util.ArrayList<>();
+        List<String> kept = new ArrayList<>();
+        List<String> dropped = new ArrayList<>();
         for (String raw : variants.split(",")) {
             String bone = raw.trim();
             if (bone.isEmpty()) {
@@ -318,7 +323,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         if (!(source.getEntity() instanceof LivingEntity attacker) || attacker instanceof Player) {
             return false;
         }
-        if (attacker.getTags().contains(xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager.TAG_RAM)) {
+        if (attacker.getTags().contains(ExtractionSpawnManager.TAG_RAM)) {
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
             return true;
         }

@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.nbt.NbtUtils;
 
 /** Which players Savior has already revived, one per person per vault; entries are dropped when their vault ends. */
 public class UltimateReviveData extends SavedData {
@@ -61,7 +62,7 @@ public class UltimateReviveData extends SavedData {
             Set<UUID> revived = new HashSet<>();
             ListTag players = entry.getList("players", Tag.TAG_INT_ARRAY);
             for (int j = 0; j < players.size(); j++) {
-                revived.add(net.minecraft.nbt.NbtUtils.loadUUID(players.get(j)));
+                revived.add(NbtUtils.loadUUID(players.get(j)));
             }
             this.revivedByVault.put(entry.getUUID("vault"), revived);
         }
@@ -75,7 +76,7 @@ public class UltimateReviveData extends SavedData {
             CompoundTag entry = new CompoundTag();
             entry.putUUID("vault", vaultId);
             ListTag players = new ListTag();
-            revived.forEach(playerId -> players.add(net.minecraft.nbt.NbtUtils.createUUID(playerId)));
+            revived.forEach(playerId -> players.add(NbtUtils.createUUID(playerId)));
             entry.put("players", players);
             vaults.add(entry);
         });

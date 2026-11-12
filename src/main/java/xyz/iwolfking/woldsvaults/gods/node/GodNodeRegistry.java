@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Locale;
 
 /**
  * The loaded god trees, rebuilt from config on every config load. Effect ids are globally unique
@@ -131,7 +132,7 @@ public final class GodNodeRegistry {
         if (effect == null) {
             throw GodTreeConfigException.fail(god.getName() + " effect '" + effectId + "' was read before the "
                     + "god node registry finished loading, or is missing from god_node_effects_"
-                    + god.getName().toLowerCase(java.util.Locale.ROOT) + ".json");
+                    + god.getName().toLowerCase(Locale.ROOT) + ".json");
         }
         return effect.params(type);
     }

@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorState;
 import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateReviveData;
 
 import java.util.UUID;
+import iskallia.vault.core.event.common.VaultEndEvent;
 
 /**
  * One-time wiring for the ultimates: the two final-damage sub-stages and the vault-end hook that retires spent
@@ -34,7 +35,7 @@ public final class UltimateSetup {
         });
     }
 
-    private static void onVaultEnd(iskallia.vault.core.event.common.VaultEndEvent.Data data) {
+    private static void onVaultEnd(VaultEndEvent.Data data) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         UUID vaultId = data.getVault() == null ? null : data.getVault().get(Vault.ID);
         if (server == null || vaultId == null) {

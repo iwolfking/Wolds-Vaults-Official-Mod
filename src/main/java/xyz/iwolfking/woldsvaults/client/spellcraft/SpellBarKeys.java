@@ -14,6 +14,15 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellSlotKeyMessage;
+import iskallia.vault.client.data.ClientAbilityData;
+import iskallia.vault.init.ModKeybinds;
+import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.tree.AbilityTree;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import xyz.iwolfking.woldsvaults.mixins.accessors.OptionsKeyMappingsAccessor;
+import xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror;
 
 /**
  * The 16 spell slot keys (unbound by default, category "Spell Bar"). Each sends a press when it goes down and a
@@ -86,11 +95,11 @@ public final class SpellBarKeys {
      * back after it had already ended); every server sync still overwrites the local count.
      */
     private static void tickClientCooldowns() {
-        iskallia.vault.skill.tree.AbilityTree tree = iskallia.vault.client.data.ClientAbilityData.getTree();
+        AbilityTree tree = ClientAbilityData.getTree();
         if (tree == null) {
             return;
         }
-        tree.iterate(iskallia.vault.skill.ability.effect.spi.core.Ability.class, ability -> ability.getCooldown().ifPresent(cooldown -> {
+        tree.iterate(Ability.class, ability -> ability.getCooldown().ifPresent(cooldown -> {
             cooldown.decrement();
             if (cooldown.getRemainingTicks() <= 0 && cooldown.getRemainingDelayTicks() <= 0) {
                 ability.setCooldownFromSync(0, 0, 0);
@@ -104,10 +113,10 @@ public final class SpellBarKeys {
      */
     private static void hideQuickfireKeys(Minecraft minecraft) {
         quickfireHidden = true;
-        java.util.List<KeyMapping> kept = new java.util.ArrayList<>();
+        List<KeyMapping> kept = new ArrayList<>();
         int hidden = 0;
         for (KeyMapping mapping : minecraft.options.keyMappings) {
-            if (iskallia.vault.init.ModKeybinds.QUICKFIRE_CATEGORY.equals(mapping.getCategory())) {
+            if (ModKeybinds.QUICKFIRE_CATEGORY.equals(mapping.getCategory())) {
                 mapping.setKey(InputConstants.UNKNOWN);
                 hidden++;
             } else {
@@ -116,15 +125,15 @@ public final class SpellBarKeys {
         }
         if (hidden > 0) {
             KeyMapping.resetMapping();
-            ((xyz.iwolfking.woldsvaults.mixins.accessors.OptionsKeyMappingsAccessor) minecraft.options)
+            ((OptionsKeyMappingsAccessor) minecraft.options)
                     .woldsvaults$setKeyMappings(kept.toArray(new KeyMapping[0]));
         }
     }
 
     @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
-        xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.clearClient();
-        java.util.Arrays.fill(DOWN, false);
+        StatMirror.clearClient();
+        Arrays.fill(DOWN, false);
         ClientSpellBar.reset();
         ClientGlyphViews.reset();
     }

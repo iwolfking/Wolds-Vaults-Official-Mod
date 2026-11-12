@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 
 /**
  * Wendarr's ultimate behaviour: the attack- and movement-speed buffs, the dodge roll, and the stretched
@@ -90,7 +91,7 @@ public final class BulletTimeState {
                 .ifPresent(vault -> VaultClockRate.removeRateFactor(vault, UltimateIds.BULLET_TIME_CLOCK_FACTOR));
     }
 
-    private static void addModifier(Player player, net.minecraft.world.entity.ai.attributes.Attribute attribute,
+    private static void addModifier(Player player, Attribute attribute,
                                     UUID id, String name, float amount) {
         AttributeInstance instance = player.getAttribute(attribute);
         if (instance == null) {

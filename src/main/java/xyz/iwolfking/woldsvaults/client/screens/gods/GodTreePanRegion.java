@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Locale;
 
 /** The pannable star chart of one god's tree, a region of {@link GodTreeScreen}. Pan and zoom persist per god. */
 public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
@@ -125,7 +126,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
             SkillStyle style = this.tree.getStyle(node.id());
             if (style == null) {
                 WoldLogger.error("God tree node {} has no style entry in god_tree_{}_gui_styles.json; "
-                        + "it cannot be drawn.", node.id(), this.god.getName().toLowerCase(java.util.Locale.ROOT));
+                        + "it cannot be drawn.", node.id(), this.god.getName().toLowerCase(Locale.ROOT));
                 continue;
             }
             boolean unlocked = this.view.isTreeNodePurchased(this.god, node.id());
@@ -221,7 +222,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         }
         if (this.tree != null) {
             for (GodTreeModel.Label label : this.tree.getLabels()) {
-                float half = Minecraft.getInstance().font.width(label.text().toUpperCase(java.util.Locale.ROOT)) / 2.0F;
+                float half = Minecraft.getInstance().font.width(label.text().toUpperCase(Locale.ROOT)) / 2.0F;
                 minX = Math.min(minX, label.x() - half);
                 minY = Math.min(minY, label.y());
                 maxX = Math.max(maxX, label.x() + half);
@@ -544,7 +545,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
     }
 
     private void renderBackgroundStars(PoseStack renderStack, float tick) {
-        RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         Matrix4f pose = renderStack.last().pose();
@@ -584,7 +585,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         Minecraft minecraft = Minecraft.getInstance();
         int color = (GodTreeTheme.accentDim(this.god) & 0xFFFFFF) | 0xAA000000;
         for (GodTreeModel.Label label : this.tree.getLabels()) {
-            String text = label.text().toUpperCase(java.util.Locale.ROOT);
+            String text = label.text().toUpperCase(Locale.ROOT);
             int width = minecraft.font.width(text);
             minecraft.font.draw(renderStack, text, label.x() - width / 2.0F, label.y(), color);
         }

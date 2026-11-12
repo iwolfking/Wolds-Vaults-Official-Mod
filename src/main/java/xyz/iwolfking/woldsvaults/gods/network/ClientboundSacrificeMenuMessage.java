@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.screens.gods.SacrificeAltarScreen;
 
 /** Clientbound snapshot of the player's sacrificial-altar state, per god, with the current gate's progress. */
 public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrificeMenuMessage> {
@@ -85,7 +86,7 @@ public class ClientboundSacrificeMenuMessage extends Message<ClientboundSacrific
     @Override
     public void onMessage(ClientboundSacrificeMenuMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.screens.gods.SacrificeAltarScreen.openOrRefresh(message)));
+                () -> () -> SacrificeAltarScreen.openOrRefresh(message)));
         context.get().setPacketHandled(true);
     }
 }

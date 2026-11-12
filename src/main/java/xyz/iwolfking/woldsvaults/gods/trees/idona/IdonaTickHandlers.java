@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.gods.combat.PlayerFuryHelper;
 
 /**
  * Idona nodes whose damage multiplier tracks slowly-changing player or vault state, recomputed on
@@ -185,7 +186,7 @@ public final class IdonaTickHandlers {
 
         @Override
         public void onDeactivated(ServerPlayer player, String effectId) {
-            xyz.iwolfking.woldsvaults.gods.combat.PlayerFuryHelper.clear(player);
+            PlayerFuryHelper.clear(player);
         }
     }
 

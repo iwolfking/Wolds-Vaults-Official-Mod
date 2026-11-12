@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.client.Minecraft;
 
 /**
  * A branching lightning arc that snakes out of its source and crawls to its target over the first ticks, then
@@ -123,7 +124,7 @@ final class LightningArcEffect implements RiptideFx.Effect {
 
     @Override
     public void renderGlow(VertexConsumer consumer, Matrix4f pose, Vec3 camera, float partialTick) {
-        ClientLevel level = net.minecraft.client.Minecraft.getInstance().level;
+        ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;
         }

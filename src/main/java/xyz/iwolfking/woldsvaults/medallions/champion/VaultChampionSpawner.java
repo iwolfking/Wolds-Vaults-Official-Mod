@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 
 /**
  * Builds a Vault Champion and puts it in the world. It is pre-tagged {@code vault_scaled} so the automatic
@@ -186,7 +187,7 @@ public final class VaultChampionSpawner {
         return difficulty == null ? VaultDifficulty.NORMAL : difficulty;
     }
 
-    private static void setBase(TheVesselEntity champion, net.minecraft.world.entity.ai.attributes.Attribute attribute,
+    private static void setBase(TheVesselEntity champion, Attribute attribute,
                                 double value) {
         AttributeInstance instance = champion.getAttribute(attribute);
         if (instance == null) {
@@ -198,13 +199,13 @@ public final class VaultChampionSpawner {
     }
 
     private static double baseValue(TheVesselEntity champion,
-                                    net.minecraft.world.entity.ai.attributes.Attribute attribute) {
+                                    Attribute attribute) {
         AttributeInstance instance = champion.getAttribute(attribute);
         return instance == null ? 0.0D : instance.getBaseValue();
     }
 
     private static double attributeOf(TheVesselEntity champion,
-                                      net.minecraft.world.entity.ai.attributes.Attribute attribute) {
+                                      Attribute attribute) {
         AttributeInstance instance = champion.getAttribute(attribute);
         return instance == null ? 0.0D : instance.getValue();
     }

@@ -8,6 +8,7 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import org.lwjgl.glfw.GLFW;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.spellcraft.SpellBarKeys;
 
 public class ModKeybinds {
     public static KeyMapping isFeatherFixed;
@@ -26,7 +27,7 @@ public class ModKeybinds {
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
         toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", GLFW.GLFW_KEY_J, KeyConflictContext.IN_GAME);
         openTrinketPouch = registerKeyMapping("open_trinket_pouch", GLFW.GLFW_KEY_T, KeyConflictContext.IN_GAME, KeyModifier.CONTROL);
-        xyz.iwolfking.woldsvaults.client.spellcraft.SpellBarKeys.register();
+        SpellBarKeys.register();
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

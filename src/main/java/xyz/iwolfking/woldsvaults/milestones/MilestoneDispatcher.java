@@ -37,6 +37,10 @@ import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 import java.util.Optional;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.function.Consumer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 /** Owns every {@code CommonEvents} listener the milestone engine needs, one per event. */
 public class MilestoneDispatcher {
@@ -75,7 +79,7 @@ public class MilestoneDispatcher {
             if (!(data.getAttacker() instanceof ServerPlayer player)) {
                 return;
             }
-            for (net.minecraft.world.entity.Mob mob : data.getAttackedMobs()) {
+            for (Mob mob : data.getAttackedMobs()) {
                 mob.getPersistentData().putUUID(CHAIN_ATTACKER_TAG, player.getUUID());
             }
         });
@@ -216,7 +220,7 @@ public class MilestoneDispatcher {
         if (vaultState == null) {
             return;
         }
-        if (state.getBlock() == xyz.iwolfking.woldsvaults.init.ModBlocks.NULLITE_ORE) {
+        if (state.getBlock() == ModBlocks.NULLITE_ORE) {
             Milestones.advance(player, MilestoneIds.NULLIFIED, 1L);
         }
         if (!MilestoneGroups.isOre(state)) {
@@ -339,7 +343,7 @@ public class MilestoneDispatcher {
         MilestoneData.get(player.server).flush();
     }
 
-    public static void forEachRunner(Vault vault, java.util.function.Consumer<ServerPlayer> action) {
+    public static void forEachRunner(Vault vault, Consumer<ServerPlayer> action) {
         if (vault == null) {
             return;
         }
@@ -356,7 +360,7 @@ public class MilestoneDispatcher {
         return ServerVaults.get(level).orElse(null);
     }
 
-    static boolean isDungeonBoss(net.minecraft.world.entity.Entity entity) {
+    static boolean isDungeonBoss(Entity entity) {
         return ModConfigs.ENTITY_GROUPS.isInGroup(DUNGEON_BOSS_GROUP, entity);
     }
 

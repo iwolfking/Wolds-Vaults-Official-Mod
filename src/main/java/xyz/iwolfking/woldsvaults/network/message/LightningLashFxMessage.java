@@ -9,6 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.LightningLashRenderer;
 
 /**
  * An Arc Lash (Lightning Fiend 6-piece) for nearby clients to draw: where its bolts leave from, which way each flies
@@ -66,7 +67,7 @@ public class LightningLashFxMessage {
         NetworkEvent.Context context = contextSupplier.get();
         if (message.speed > 0.0F) {
             context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                    () -> () -> xyz.iwolfking.woldsvaults.client.lightning.LightningLashRenderer.add(message.origin, message.directions, message.lengths, message.speed, message.seed)));
+                    () -> () -> LightningLashRenderer.add(message.origin, message.directions, message.lengths, message.speed, message.seed)));
         }
         context.setPacketHandled(true);
     }

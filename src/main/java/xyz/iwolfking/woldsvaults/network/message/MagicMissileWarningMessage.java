@@ -6,6 +6,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning;
 
 /**
  * Clientbound heartbeat of the hyperboss Magic Missile charge: remaining charge ticks and the full
@@ -32,7 +33,7 @@ public class MagicMissileWarningMessage {
     public static void handle(MagicMissileWarningMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.hyper.ClientMagicMissileWarning.update(
+                () -> () -> ClientMagicMissileWarning.update(
                         message.remainingTicks, message.windowTicks)));
         context.setPacketHandled(true);
     }

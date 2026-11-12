@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.world.item.Items;
 
 /**
  * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot, routes deposits
@@ -149,9 +150,9 @@ public final class SacrificeAltarLogic {
         if (tile.getOwnerUuid() == null || level.getGameTime() % 5L != 0L) {
             return;
         }
-        if ((tile.getDemandedItem() != null && tile.getDemandedItem() != net.minecraft.world.item.Items.AIR)
+        if ((tile.getDemandedItem() != null && tile.getDemandedItem() != Items.AIR)
                 || tile.getRemainingAmount() > 0) {
-            tile.syncFromSavedData(net.minecraft.world.item.Items.AIR, 0, 1.0D);
+            tile.syncFromSavedData(Items.AIR, 0, 1.0D);
         }
         vacuumNeededItems(level, pos, tile);
         if (((SacrificeAltarEdge) tile).woldsvaults$observePower(level.hasNeighborSignal(pos))) {

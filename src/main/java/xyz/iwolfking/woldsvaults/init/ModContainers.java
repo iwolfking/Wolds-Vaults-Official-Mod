@@ -20,6 +20,7 @@ import iskallia.vault.skill.tree.TalentTree;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryGodContainer;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryMenu;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryTreeContainer;
+import xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorContainer;
 
 public class ModContainers {
 
@@ -36,7 +37,7 @@ public class ModContainers {
     public static MenuType<SuppressorContainer> SUPPRESSOR_CONTAINER;
     public static MenuType<ExtractorAssemblerContainer> EXTRACTOR_ASSEMBLER_CONTAINER;
     public static MenuType<ExtractorForgeContainer> EXTRACTOR_FORGE_CONTAINER;
-    public static MenuType<xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorContainer> VAULT_FABRICATOR_CONTAINER;
+    public static MenuType<VaultFabricatorContainer> VAULT_FABRICATOR_CONTAINER;
     public static MenuType<ExtractorCardMenu> EXTRACTOR_CARD_CONTAINER;
     public static MenuType<PouchMenu> TRINKET_POUCH_CONTAINER;
     public static MenuType<ArmoryMenu> ARMORY_CONTAINER;
@@ -81,7 +82,7 @@ public class ModContainers {
         GOD_TREE_CONTAINER = IForgeMenuType.create((windowId, inventory, data) -> new GodTreeContainer(windowId, inventory.player));
         EXTRACTOR_ASSEMBLER_CONTAINER = IForgeMenuType.create(ExtractorAssemblerContainer::create);
         EXTRACTOR_FORGE_CONTAINER = IForgeMenuType.create(ExtractorForgeContainer::create);
-        VAULT_FABRICATOR_CONTAINER = IForgeMenuType.create(xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorContainer::create);
+        VAULT_FABRICATOR_CONTAINER = IForgeMenuType.create(VaultFabricatorContainer::create);
         EXTRACTOR_CARD_CONTAINER = IForgeMenuType.create(ExtractorCardMenu::create);
         ARMORY_CONTAINER = IForgeMenuType.create(ArmoryMenu::client);
         ARMORY_ABILITIES_CONTAINER = IForgeMenuType.create((windowId, inventory, buf) ->

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.network.chat.Style;
 
 public class ExtractorItem extends Item {
     public static final String TAG_ROOT = "Extractor";
@@ -375,7 +376,7 @@ public class ExtractorItem extends Item {
             return super.getName(stack);
         }
         String series = getFrameSeries(stack);
-        return new TextComponent(ExtractorTooltips.extractorName(series)).withStyle(net.minecraft.network.chat.Style.EMPTY.withColor(ExtractorTooltips.seriesColor(series)));
+        return new TextComponent(ExtractorTooltips.extractorName(series)).withStyle(Style.EMPTY.withColor(ExtractorTooltips.seriesColor(series)));
     }
 
     @Override

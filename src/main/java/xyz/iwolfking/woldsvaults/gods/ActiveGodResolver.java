@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Which god tree is active for a player: the god of the charm in the curios {@code charm} slot, empty
@@ -29,7 +30,7 @@ public final class ActiveGodResolver {
     }
 
     /** Whether a curio slot going from {@code from} to {@code to} can have changed the active god. */
-    public static boolean mayChangeActiveGod(net.minecraft.world.item.ItemStack from, net.minecraft.world.item.ItemStack to) {
+    public static boolean mayChangeActiveGod(ItemStack from, ItemStack to) {
         if (from.getItem() != to.getItem()) {
             return true;
         }

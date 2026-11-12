@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.ArrayList;
+import xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror;
 
 /**
  * The spell bar service. Players cast slots: a slot key (or VH's cast key, for the selected slot) casts the slot's
@@ -317,7 +319,7 @@ public final class SpellBars {
             return;
         }
         AbilityTree tree = SpellCooldowns.tree(player);
-        for (Map.Entry<Integer, Integer> entry : new java.util.ArrayList<>(held.entrySet())) {
+        for (Map.Entry<Integer, Integer> entry : new ArrayList<>(held.entrySet())) {
             EffectiveBar.Slot slot = bar.slot(entry.getKey());
             if (slot.kind() == EffectiveBar.Kind.EMPTY || !repeats(player, slot)) {
                 held.remove(entry.getKey());
@@ -383,7 +385,7 @@ public final class SpellBars {
         }
         recastHeld(player);
         if (player.tickCount % STAT_SYNC_TICKS == 0) {
-            xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.sync(player);
+            StatMirror.sync(player);
         }
         if (player.tickCount % REFRESH_TICKS != 0) {
             return;
@@ -408,7 +410,7 @@ public final class SpellBars {
     @SubscribeEvent
     public static void onLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         HELD.remove(event.getPlayer().getUUID());
-        xyz.iwolfking.woldsvaults.spellcraft.haste.StatMirror.forget(event.getPlayer().getUUID());
+        StatMirror.forget(event.getPlayer().getUUID());
         STATES.remove(event.getPlayer().getUUID());
     }
 

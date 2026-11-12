@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Public entry point for the milestone engine: tier evaluation, reputation awards, persistence
@@ -21,9 +22,9 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  */
 public class Milestones {
     private static final ThreadLocal<Boolean> EVALUATING_VETERAN = ThreadLocal.withInitial(() -> Boolean.FALSE);
-    private static final Map<UUID, Integer> LAST_LUCKY_HIT = new java.util.concurrent.ConcurrentHashMap<>();
-    private static final Map<UUID, Long> LAST_GATE_FALLBACK_LOG = new java.util.concurrent.ConcurrentHashMap<>();
-    private static final Map<UUID, Long> LAST_UNRANKED_LOG = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<UUID, Integer> LAST_LUCKY_HIT = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> LAST_GATE_FALLBACK_LOG = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> LAST_UNRANKED_LOG = new ConcurrentHashMap<>();
     private static final long GATE_FALLBACK_LOG_INTERVAL_MS = 30_000L;
 
     /** Milestones the in-vault gate skips; every challenge crystal milestone is exempt as well. */

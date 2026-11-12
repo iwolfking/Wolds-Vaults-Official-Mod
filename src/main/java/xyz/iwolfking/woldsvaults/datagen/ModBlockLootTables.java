@@ -47,6 +47,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation, LootTable.Builder>> {
 
@@ -60,7 +61,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK);
         dropSelf(ModBlocks.EXTRACTOR_FORGE_BLOCK);
         dropSelf(ModBlocks.VAULT_FABRICATOR_BLOCK);
-        xyz.iwolfking.woldsvaults.init.ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> add(fluid.block, noDrop()));
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> add(fluid.block, noDrop()));
         add(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK, noDrop());
         add(ModBlocks.EXTRACTION_FORGE_PART_BLOCK, noDrop());
         add(ModBlocks.MOBILE_FLUID_TANK, noDrop());

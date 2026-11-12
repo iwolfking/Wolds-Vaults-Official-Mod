@@ -6,6 +6,7 @@ import net.minecraft.world.level.Level;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import iskallia.vault.core.vault.VaultUtils;
 
 /**
  * Per-vault, per-player rage and Champion bookkeeping, keyed by vault id and discarded when the vault
@@ -121,6 +122,6 @@ public final class VaultChampionState {
     }
 
     public static Vault vaultOf(Level level) {
-        return iskallia.vault.core.vault.VaultUtils.getVault(level).orElse(null);
+        return VaultUtils.getVault(level).orElse(null);
     }
 }

@@ -70,6 +70,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import net.minecraft.server.level.ServerPlayer;
 
 public class HauntedBraziersObjective extends MonolithObjective {
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("haunted_braziers", Objective.class).with(Version.v1_12, HauntedBraziersObjective::new);
@@ -126,7 +127,7 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
                         this.playActivationEffects(world, pos, overStacking);
                         this.set(COUNT, this.get(COUNT) + 1);
-                        if (data.getPlayer() instanceof net.minecraft.server.level.ServerPlayer brazierPlayer) {
+                        if (data.getPlayer() instanceof ServerPlayer brazierPlayer) {
                             Milestones.advance(brazierPlayer, MilestoneIds.LIGHT_THE_FLAME, 1L);
                         }
                         if (!overStacking) {

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Locale;
+import xyz.iwolfking.vhapi.init.ModConfigs;
 
 /**
  * Datagen-only reader over one god's {@link GodNodeEffectDefaults} table plus the formatters the god node
@@ -98,7 +99,7 @@ public final class GodNodeText {
      * overrides are read here from the seeded configs first, as VHAPI reads them at game load.
      */
     public static double luckyHitCap() {
-        xyz.iwolfking.vhapi.init.ModConfigs.ATTRIBUTE_CAP_CONFIG = new AttributeCapConfig().readConfig();
+        ModConfigs.ATTRIBUTE_CAP_CONFIG = new AttributeCapConfig().readConfig();
         return Math.min(AttributeLimitHelper.getLuckyHitChanceLimit(null), 1.0F);
     }
 

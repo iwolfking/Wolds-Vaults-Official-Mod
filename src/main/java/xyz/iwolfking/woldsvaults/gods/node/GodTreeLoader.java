@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 /** Turns one god's three config files into a {@link GodTreeModel}; every failure is fatal and names an id. */
 public final class GodTreeLoader {
@@ -25,7 +26,7 @@ public final class GodTreeLoader {
         List<GodTreeModel.Edge> edges = new ArrayList<>();
         Map<String, Set<String>> adjacency = new LinkedHashMap<>();
         loadEdges(god, tree, nodes, edges, adjacency);
-        adjacency.replaceAll((id, neighbours) -> java.util.Collections.unmodifiableSet(neighbours));
+        adjacency.replaceAll((id, neighbours) -> Collections.unmodifiableSet(neighbours));
 
         List<GodTreeModel.Label> labels = new ArrayList<>();
         for (GodTreeConfig.LabelEntry label : tree.getLabels()) {

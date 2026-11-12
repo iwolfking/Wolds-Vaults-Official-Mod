@@ -42,6 +42,7 @@ import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import java.util.ArrayList;
 import java.util.Collections;
+import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class TooltipEvents {
@@ -88,7 +89,7 @@ public class TooltipEvents {
             return;
         }
         GearDataCache cache = GearDataCache.of(stack);
-        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE)) {
+        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
             return;
         }
         List<Component> tooltip = event.getToolTip();

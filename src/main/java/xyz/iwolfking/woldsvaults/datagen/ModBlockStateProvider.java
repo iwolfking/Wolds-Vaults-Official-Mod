@@ -20,6 +20,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private final ModelFile EMPTY = models().getExistingFile(modLoc("block/base/nothing"));
@@ -281,7 +282,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void generateExtractionFluids() {
-        xyz.iwolfking.woldsvaults.init.ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleBlock(fluid.block,
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleBlock(fluid.block,
                 models().getBuilder(fluid.key + "_block").texture("particle", modLoc("block/fluid/" + fluid.key))));
     }
 

@@ -39,6 +39,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import net.minecraft.network.chat.Style;
 
 /**
  * The spell bar window (skill menu and focus screen): a picker for the default bar and the equipped bar, the 16 slots
@@ -443,7 +444,7 @@ public final class SpellBarStrip {
 
     /** Adds {@code text} split into lines of at most {@link #WRAP} px, so long reasons stay inside narrow screens. */
     private static void wrapped(List<Component> lines, String text, int color) {
-        Minecraft.getInstance().font.getSplitter().splitLines(text, WRAP, net.minecraft.network.chat.Style.EMPTY)
+        Minecraft.getInstance().font.getSplitter().splitLines(text, WRAP, Style.EMPTY)
                 .forEach(line -> lines.add(colored(line.getString(), color)));
     }
 

@@ -26,6 +26,7 @@ import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -108,7 +109,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         ModItems.EXTRACTOR_COMPONENTS.values().forEach(item -> fabricatorItem(item));
         fabricatorItem(ModItems.BLANK_FABRICATION_PATTERN);
         fabricatorItem(ModItems.FABRICATION_PATTERN);
-        xyz.iwolfking.woldsvaults.init.ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleItem(fluid.bucket));
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleItem(fluid.bucket));
         simpleItem(ModItems.MOB_BINDING_STONE);
         simpleItem(ModItems.GREED_TREE_RESET_ITEM);
         simpleItem(ModItems.EXQUISITE_BOX);

@@ -63,6 +63,7 @@ import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("woldsvaults")
@@ -140,7 +141,7 @@ public class WoldsVaults {
             LOGGER.debug("Initializing FMLCommonSetup events!");
         }
         ModNetwork.init();
-        event.enqueueWork(xyz.iwolfking.woldsvaults.augments.FocusAugments::init);
+        event.enqueueWork(FocusAugments::init);
         LivingEntityEvents.init();
         event.enqueueWork(RampageListenerFix::init);
         FuryIncome.init();

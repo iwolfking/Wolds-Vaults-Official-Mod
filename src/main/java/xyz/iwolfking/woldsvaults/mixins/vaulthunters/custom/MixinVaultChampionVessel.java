@@ -121,7 +121,7 @@ public abstract class MixinVaultChampionVessel {
 
     /** A flat second hit that nothing reduces; it can still be dodged or blocked on its own roll. */
     @Inject(method = "doHurtTarget", at = @At("RETURN"), remap = true)
-    private void woldsvaults$championTrueDamage(net.minecraft.world.entity.Entity target,
+    private void woldsvaults$championTrueDamage(Entity target,
                                                 CallbackInfoReturnable<Boolean> cir) {
         TheVesselEntity self = (TheVesselEntity) (Object) this;
         if (!cir.getReturnValue() || !(target instanceof Player player) || !VaultChampion.isChampion(self)) {

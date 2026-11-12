@@ -9,6 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 
 /**
  * A lightning dash starting: who is dashing, their path (feet positions, start to end) and how many ticks it takes.
@@ -58,7 +59,7 @@ public class LightningDashFxMessage {
         NetworkEvent.Context context = contextSupplier.get();
         if (!message.path.isEmpty() && message.ticks > 0) {
             context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                    () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.dash(message.entityId, message.path, message.ticks, message.seed)));
+                    () -> () -> ClientLightningForm.dash(message.entityId, message.path, message.ticks, message.seed)));
         }
         context.setPacketHandled(true);
     }

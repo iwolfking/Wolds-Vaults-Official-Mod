@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
+import java.util.UUID;
 
 /**
  * Stops anything taking a Vault Champion's quarry: while the hunted player is alive, {@code setTarget}
@@ -23,7 +24,7 @@ public abstract class MixinMobVaultChampionTarget {
         if (!(self instanceof TheVesselEntity champion) || !VaultChampion.isChampion(champion)) {
             return;
         }
-        java.util.UUID hunted = VaultChampion.getHuntTarget(champion);
+        UUID hunted = VaultChampion.getHuntTarget(champion);
         if (hunted == null) {
             return;
         }

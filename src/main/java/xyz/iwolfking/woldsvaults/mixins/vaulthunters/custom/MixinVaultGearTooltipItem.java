@@ -89,7 +89,7 @@ public interface MixinVaultGearTooltipItem{
     default void addTooltipRarity(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state) {
         switch (state) {
             case UNIDENTIFIED -> data.getFirstValue(ModGearAttributes.GEAR_ROLL_TYPE)
-                    .flatMap(iskallia.vault.init.ModConfigs.VAULT_GEAR_TYPE_CONFIG::getRollPool)
+                    .flatMap(ModConfigs.VAULT_GEAR_TYPE_CONFIG::getRollPool)
                     .ifPresent(pool -> tooltip.add(new TranslatableComponent("tooltip.the_vault.roll")
                             .append(new TextComponent(pool.getName()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(pool.getColor()))))));
             case IDENTIFIED -> {

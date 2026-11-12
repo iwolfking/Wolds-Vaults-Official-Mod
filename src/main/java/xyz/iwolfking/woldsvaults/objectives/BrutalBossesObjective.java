@@ -50,6 +50,7 @@ import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.IntSupplier;
+import net.minecraft.server.level.ServerPlayer;
 
 public class BrutalBossesObjective extends ObeliskObjective {
 
@@ -185,7 +186,7 @@ public class BrutalBossesObjective extends ObeliskObjective {
                         wave.modify(Wave.COUNT, (x) -> {
                             return x + 1;
                         });
-                        if (event.getSource().getEntity() instanceof net.minecraft.server.level.ServerPlayer bossKiller) {
+                        if (event.getSource().getEntity() instanceof ServerPlayer bossKiller) {
                             Milestones.advance(bossKiller, MilestoneIds.BRUTALIZED, 1L);
                         }
                         MobModifier modifier = InfernalMobsCore.getMobModifiers(event.getEntityLiving());

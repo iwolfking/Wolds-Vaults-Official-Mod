@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Locale;
 
 /**
  * Builds the mythic god charm a build file's {@code mythic_charm} spec describes. The charm is made the way the god
@@ -80,7 +81,7 @@ public final class MythicCharmCodec {
             String key = Json.string(entry, "key", entryPath);
             if (!MythicCharmRolls.knowsKey(god, slot, key)) {
                 throw new BuildException(entryPath + ".key: a " + god.getName() + " mythic charm has no "
-                        + slot.name().toLowerCase(java.util.Locale.ROOT) + " roll '" + key + "'");
+                        + slot.name().toLowerCase(Locale.ROOT) + " roll '" + key + "'");
             }
             Integer quality = Json.optInt(entry, "q", entryPath);
             if (quality == null) {

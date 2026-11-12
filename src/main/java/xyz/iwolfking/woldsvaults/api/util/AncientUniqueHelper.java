@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 
 public class AncientUniqueHelper {
     public static final int ANCIENT_COLOR = 16746803;
@@ -250,7 +251,7 @@ public class AncientUniqueHelper {
     public static ItemStack rollUnidentifiedAncient(Random random, boolean includeSetPieces) {
         List<ResourceLocation> candidates = getAncientCapableUniques();
         if (!includeSetPieces) {
-            candidates.removeIf(xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper::isSetPiece);
+            candidates.removeIf(GearSetHelper::isSetPiece);
         }
         if (candidates.isEmpty()) {
             WoldLogger.error("No loaded unique has an ancient name; cannot roll an unidentified ancient unique. Is the unique gear config loaded?");

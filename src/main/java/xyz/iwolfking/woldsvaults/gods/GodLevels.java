@@ -6,6 +6,7 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices;
 
 /**
  * The god alignment progression curve: XP thresholds, god point grants (from levels and from raw
@@ -110,7 +111,7 @@ public final class GodLevels {
      */
     public static int gatedLevel(long xp, int sacrificesCompleted) {
         int xpLevel = levelForXp(xp);
-        if (sacrificesCompleted >= xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT) {
+        if (sacrificesCompleted >= GodSacrifices.GATE_COUNT) {
             return xpLevel;
         }
         return Math.min(xpLevel, Math.max(sacrificesCompleted - 1, 0));
@@ -121,7 +122,7 @@ public final class GodLevels {
         if (level <= 0) {
             return 0;
         }
-        return Math.min(level + 1, xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices.GATE_COUNT);
+        return Math.min(level + 1, GodSacrifices.GATE_COUNT);
     }
 
     /** The reputation with a god at which their constellation is charted and its first god point granted. */

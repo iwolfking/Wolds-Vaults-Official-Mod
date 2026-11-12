@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.world.level.Level;
 
 /**
  * Slots 0–6 take one part (or identified blueprint, for previewing) each in {@link ExtractorPartType#CORE_PARTS}
@@ -67,7 +68,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         this.inventory = createInventoryHandler(this::onContentsChanged);
     }
 
-    public static void tick(net.minecraft.world.level.Level level, BlockPos pos, BlockState state, ExtractorAssemblerTileEntity tile) {
+    public static void tick(Level level, BlockPos pos, BlockState state, ExtractorAssemblerTileEntity tile) {
         if (tile.workingTicks > 0) {
             tile.workingTicks--;
             if (tile.workingTicks == 0) {
@@ -179,7 +180,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
     }
 
     @Override
-    public void load(net.minecraft.nbt.CompoundTag tag) {
+    public void load(CompoundTag tag) {
         super.load(tag);
         if (this.inventory.getSlots() < SLOT_COUNT) {
             List<ItemStack> saved = new ArrayList<>();
@@ -196,7 +197,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
     }
 
     @Override
-    public void saveAdditional(net.minecraft.nbt.CompoundTag tag) {
+    public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("Working", this.workingTicks);
     }

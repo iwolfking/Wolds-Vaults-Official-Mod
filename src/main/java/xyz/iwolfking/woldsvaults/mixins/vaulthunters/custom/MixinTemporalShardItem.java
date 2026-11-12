@@ -27,6 +27,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrShards;
 import xyz.iwolfking.woldsvaults.modifiers.vault.PlayerNoTemporalShardModifier;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmStats;
 
 @Mixin(value = TemporalShardItem.class, remap = false)
 public abstract class MixinTemporalShardItem implements IdentifiableItem{
@@ -49,7 +50,7 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
         if (WendarrNodes.isActive(serverPlayer, WendarrNodes.CLOCK_ARTIFICIER)) {
             multiplier *= WendarrShards.clockArtificierMultiplier();
         }
-        multiplier *= 1.0F + xyz.iwolfking.woldsvaults.gods.charms.MythicCharmStats.snapshotSum(serverPlayer,
+        multiplier *= 1.0F + MythicCharmStats.snapshotSum(serverPlayer,
                 xyz.iwolfking.woldsvaults.init.ModGearAttributes.TEMPORAL_SHARD_DURATION);
         return Math.round(duration * multiplier);
     }

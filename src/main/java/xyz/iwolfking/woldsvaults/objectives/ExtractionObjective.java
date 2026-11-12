@@ -107,11 +107,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Locale;
+import net.minecraft.network.chat.Component;
 
 public class ExtractionObjective extends Objective {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/extraction/hud.png");
     private static final int PAD = 2;
-    private static final java.util.Map<String, int[][]> PIP_UVS = java.util.Map.of(
+    private static final Map<String, int[][]> PIP_UVS = Map.of(
             "velara", new int[][]{{169, 138}, {186, 138}, {203, 138}},
             "tenos", new int[][]{{220, 138}, {237, 138}, {0, 155}},
             "wendarr", new int[][]{{17, 155}, {34, 155}, {51, 155}},
@@ -387,7 +389,7 @@ public class ExtractionObjective extends Objective {
         int requiredTicks = defaultJob == null ? 2400 : defaultJob.baseDurationTicks;
         ExtractionSite[] sites = new ExtractionSite[chosen.size()];
         for (int i = 0; i < chosen.size(); i++) {
-            String god = gods.get(i % gods.size()).getName().toLowerCase(java.util.Locale.ROOT);
+            String god = gods.get(i % gods.size()).getName().toLowerCase(Locale.ROOT);
             sites[i] = new ExtractionSite(chosen.get(i)[0], chosen.get(i)[1], span, god, requiredTicks);
         }
         this.set(SITES, sites);
@@ -1490,7 +1492,7 @@ public class ExtractionObjective extends Objective {
         return false;
     }
 
-    private static void broadcast(Vault vault, net.minecraft.network.chat.Component message) {
+    private static void broadcast(Vault vault, Component message) {
         if (vault == null) {
             return;
         }

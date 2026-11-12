@@ -41,6 +41,8 @@ import java.util.Set;
 import iskallia.vault.util.TextUtil;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import com.mojang.blaze3d.platform.InputConstants;
+import xyz.iwolfking.woldsvaults.augments.spell.SpellModel;
 
 /**
  * Shared drawing for the spellcraft screens, the skill menu's spell bar and the focus tooltip: the H-menu window,
@@ -261,7 +263,7 @@ public final class SpellcraftGui {
         if (key == null || key.isUnbound()) {
             return "";
         }
-        String label = key.getKey().getType() == com.mojang.blaze3d.platform.InputConstants.Type.MOUSE
+        String label = key.getKey().getType() == InputConstants.Type.MOUSE
                 ? "M" + (key.getKey().getValue() + 1)
                 : key.getTranslatedKeyMessage().getString();
         return font.plainSubstrByWidth(label, room);
@@ -301,7 +303,7 @@ public final class SpellcraftGui {
 
     /** A line's potency in its table format (percent, seconds, blocks), labelled from the table. */
     /** Why a glyph does nothing right now, for tooltips; a dormant spell-wide glyph fits no step of the spell. */
-    public static String inactiveReason(@Nullable FocusAugmentsConfig config, xyz.iwolfking.woldsvaults.augments.spell.SpellModel.Glyph glyph) {
+    public static String inactiveReason(@Nullable FocusAugmentsConfig config, SpellModel.Glyph glyph) {
         if (glyph.dependent()) {
             return tr("glyph_state.dependent");
         }

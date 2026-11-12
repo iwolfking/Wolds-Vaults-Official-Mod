@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 
 /**
  * The Lightning Fiend set's lightning, driven from the thrown trident: channeling strikes that hit harder and chain
@@ -240,7 +241,7 @@ public final class LightningFiend {
             return inForm(serverPlayer);
         }
         return player.level.isClientSide && Boolean.TRUE.equals(DistExecutor.unsafeCallWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.isLightning(player)));
+                () -> () -> ClientLightningForm.isLightning(player)));
     }
 
     /**

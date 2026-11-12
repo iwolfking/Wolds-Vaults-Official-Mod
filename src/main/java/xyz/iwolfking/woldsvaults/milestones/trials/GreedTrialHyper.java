@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.ChatFormatting;
 
 /** Where the hyper objective differs for a rank-up trial; outside one, the live value passes through. */
 public final class GreedTrialHyper {
@@ -143,7 +144,7 @@ public final class GreedTrialHyper {
         }
         objective.set(HyperVaultObjective.EXTRACTIONS, updated);
         HyperVaultObjective.broadcast(vault, "Trial complete — extracting in " + (transitionTicks / 20) + " seconds!",
-                net.minecraft.ChatFormatting.GOLD);
+                ChatFormatting.GOLD);
     }
 
     /** Pays the trial out for a completed runner. Does nothing outside a trial vault. */

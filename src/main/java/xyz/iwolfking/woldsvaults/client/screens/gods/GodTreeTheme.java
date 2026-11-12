@@ -8,6 +8,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import java.util.Locale;
 
 /**
  * Palette and shared assets for the god constellation screens. Star frame sheets are 256x256 with 64px
@@ -70,11 +71,11 @@ public final class GodTreeTheme {
     }
 
     public static ResourceLocation starSheet(VaultGod god) {
-        return WoldsVaults.id("textures/gui/gods/stars_" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
+        return WoldsVaults.id("textures/gui/gods/stars_" + god.getName().toLowerCase(Locale.ROOT) + ".png");
     }
 
     public static ResourceLocation idolSheet(VaultGod god) {
-        return WoldsVaults.id("textures/gui/gods/idols/" + god.getName().toLowerCase(java.util.Locale.ROOT) + ".png");
+        return WoldsVaults.id("textures/gui/gods/idols/" + god.getName().toLowerCase(Locale.ROOT) + ".png");
     }
 
     /** The grey star sheet, for a transfer-slot star dormant under the active god. */

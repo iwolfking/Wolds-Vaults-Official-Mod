@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinSpawner;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
+import java.util.function.ToDoubleFunction;
 
 /**
  * Rage: the per-player, per-vault counter that decides when a Vault Champion turns up. It rises on chests,
@@ -66,7 +67,7 @@ public final class VaultChampionRage {
         return 0.0D;
     }
 
-    private static void award(ServerPlayer player, java.util.function.ToDoubleFunction<GreedChampionConfig> amount) {
+    private static void award(ServerPlayer player, ToDoubleFunction<GreedChampionConfig> amount) {
         if (player == null || player.level.isClientSide) {
             return;
         }

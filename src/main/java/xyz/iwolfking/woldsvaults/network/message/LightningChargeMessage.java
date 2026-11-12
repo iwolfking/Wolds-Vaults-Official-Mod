@@ -6,6 +6,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 
 /** Tells a lightning player their Thunderstrike charge, the charge cap and the strike's multiplier at full charge. */
 public class LightningChargeMessage {
@@ -32,7 +33,7 @@ public class LightningChargeMessage {
     public static void handle(LightningChargeMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm.charge(message.charge, message.chargeMax, message.maxMultiplier)));
+                () -> () -> ClientLightningForm.charge(message.charge, message.chargeMax, message.maxMultiplier)));
         context.setPacketHandled(true);
     }
 }

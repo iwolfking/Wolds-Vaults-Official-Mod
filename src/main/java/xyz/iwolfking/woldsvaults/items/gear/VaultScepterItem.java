@@ -59,6 +59,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 
 public class VaultScepterItem extends SwordItem implements VaultGearItem, DyeableLeatherItem {
     public static final int BEAM_CHARGE_TICKS = 40;
@@ -343,7 +344,7 @@ public class VaultScepterItem extends SwordItem implements VaultGearItem, Dyeabl
                 ElementHelper.runWithElements(elementalTypes, () -> {
                     ActiveFlags.IS_AP_ATTACKING.push();
                     try {
-                        xyz.iwolfking.woldsvaults.events.WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.runWithFlag(() ->
+                        WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.runWithFlag(() ->
                                 target.hurt(DamageSource.indirectMagic(player, player), playerAP * apScaling * damageMultiplier));
                     } finally {
                         ActiveFlags.IS_AP_ATTACKING.pop();

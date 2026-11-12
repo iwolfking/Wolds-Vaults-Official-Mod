@@ -54,6 +54,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.Arrays;
+import xyz.iwolfking.woldsvaults.entities.extraction.RigTarget;
 
 /**
  * The wave director: one wave state per drilling site room, run from the main rig's tier while it drills. Spread
@@ -471,7 +473,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         LivingEntity best = null;
         int bestDistance = Integer.MAX_VALUE;
         for (LivingEntity candidate : objective.liveRigs(world, state.site)) {
-            int candidatePad = ((xyz.iwolfking.woldsvaults.entities.extraction.RigTarget) candidate).getPadIndex();
+            int candidatePad = ((RigTarget) candidate).getPadIndex();
             int distance = grid == null || !grid.isReady() ? Integer.MAX_VALUE - 1 : grid.caveDistance(cave, candidatePad, false);
             if (distance >= 0 && distance < bestDistance) {
                 bestDistance = distance;
@@ -682,7 +684,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         int fewest = Integer.MAX_VALUE;
         Collections.shuffle(rigs, world.getRandom());
         for (LivingEntity rig : rigs) {
-            int pad = ((xyz.iwolfking.woldsvaults.entities.extraction.RigTarget) rig).getPadIndex();
+            int pad = ((RigTarget) rig).getPadIndex();
             int onIt = (int) state.rams.values().stream().filter(p -> p == pad).count();
             if (onIt >= cfg.maxPerTarget) {
                 continue;
@@ -847,7 +849,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         LivingEntity best = null;
         double bestScore = Double.MAX_VALUE;
         for (LivingEntity rig : objective.liveRigs(world, site)) {
-            int pad = ((xyz.iwolfking.woldsvaults.entities.extraction.RigTarget) rig).getPadIndex();
+            int pad = ((RigTarget) rig).getPadIndex();
             int distance = cell >= 0 ? grid.distance(pad, wide, cell) : -1;
             double score = distance >= 0 ? distance : 1000.0D + Math.sqrt(rig.distanceToSqr(mob));
             if (score < bestScore) {
@@ -945,9 +947,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         WoldLogger.info("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
                 state.siteIndex, caves, pads, state.live.size(), state.rams.size(), state.dropped, state.nudges);
-        java.util.Arrays.fill(state.spawnedPerCave, 0);
-        java.util.Arrays.fill(state.arrivedPerPad, 0);
-        java.util.Arrays.fill(state.walkTicksPerPad, 0L);
+        Arrays.fill(state.spawnedPerCave, 0);
+        Arrays.fill(state.arrivedPerPad, 0);
+        Arrays.fill(state.walkTicksPerPad, 0L);
         state.dropped = 0;
         state.nudges = 0;
     }

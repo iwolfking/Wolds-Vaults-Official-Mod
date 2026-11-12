@@ -37,6 +37,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import net.minecraft.nbt.CompoundTag;
+import xyz.iwolfking.woldsvaults.extraction.costs.CostLedger;
+import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
+import xyz.iwolfking.woldsvaults.items.FabricationPatternItem;
 
 public class ExtractionCommand {
     private static final Random RANDOM = new Random();
@@ -128,7 +132,7 @@ public class ExtractionCommand {
             source.sendFailure(new TextComponent("Unknown component '" + component + "'. Known: " + String.join(", ", ModConfigs.EXTRACTOR_COSTS.COMPONENTS.keySet())));
             return 0;
         }
-        player.getInventory().placeItemBackInInventory(xyz.iwolfking.woldsvaults.items.FabricationPatternItem.encode(component));
+        player.getInventory().placeItemBackInInventory(FabricationPatternItem.encode(component));
         source.sendSuccess(new TextComponent("Gave a Fabrication Pattern for " + component + "."), false);
         return 1;
     }
@@ -137,16 +141,16 @@ public class ExtractionCommand {
     private static int payHeld(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ItemStack held = player.getMainHandItem();
-        net.minecraft.nbt.CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
+        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
         if (ledger == null) {
             source.sendFailure(new TextComponent("Hold an identified extractor blueprint in your main hand."));
             return 0;
         }
-        net.minecraft.nbt.CompoundTag paid = new net.minecraft.nbt.CompoundTag();
-        for (xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts.CostLine line : xyz.iwolfking.woldsvaults.extraction.costs.CostLedger.lines(ledger)) {
+        CompoundTag paid = new CompoundTag();
+        for (ExtractorCosts.CostLine line : CostLedger.lines(ledger)) {
             paid.putLong(line.key(), line.amount());
         }
-        ledger.put(xyz.iwolfking.woldsvaults.extraction.costs.CostLedger.PAID, paid);
+        ledger.put(CostLedger.PAID, paid);
         source.sendSuccess(new TextComponent("Paid the held blueprint's fabrication cost (dev)."), false);
         return 1;
     }
@@ -155,13 +159,13 @@ public class ExtractionCommand {
     private static int showHeldCost(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ItemStack held = player.getMainHandItem();
-        net.minecraft.nbt.CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
+        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
         if (ledger == null) {
             source.sendFailure(new TextComponent("Hold an identified extractor blueprint in your main hand."));
             return 0;
         }
-        for (xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts.CostLine line : xyz.iwolfking.woldsvaults.extraction.costs.CostLedger.lines(ledger)) {
-            long paid = xyz.iwolfking.woldsvaults.extraction.costs.CostLedger.paid(ledger, line);
+        for (ExtractorCosts.CostLine line : CostLedger.lines(ledger)) {
+            long paid = CostLedger.paid(ledger, line);
             source.sendSuccess(new TextComponent(String.format("%s: %,d / %,d%s", line.displayName().getString(), paid, line.amount(), line.fluid() ? " mB" : "")), false);
         }
         return 1;

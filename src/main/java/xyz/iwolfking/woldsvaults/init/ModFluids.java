@@ -10,6 +10,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.fluids.PrismaticGlueFluid;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import net.minecraft.world.level.material.MaterialColor;
+import xyz.iwolfking.woldsvaults.fluids.ExtractionFluid;
 
 public class ModFluids {
     public static final DeferredRegister<Fluid> REGISTRY = DeferredRegister.create(ForgeRegistries.FLUIDS, WoldsVaults.MOD_ID);
@@ -23,15 +27,15 @@ public class ModFluids {
             REGISTRY.register("flowing_molten_trinket", () ->
                     new ForgeFlowingFluid.Flowing(ModFluids.MOLTEN_TRINKET_PROPERTIES));
 
-    public static final java.util.Map<String, xyz.iwolfking.woldsvaults.fluids.ExtractionFluid> EXTRACTION_FLUIDS = new java.util.LinkedHashMap<>();
-    public static final xyz.iwolfking.woldsvaults.fluids.ExtractionFluid MOLTEN_PAINITE = extraction("molten_painite", true, net.minecraft.world.level.material.MaterialColor.COLOR_RED);
-    public static final xyz.iwolfking.woldsvaults.fluids.ExtractionFluid MOLTEN_ECHO = extraction("molten_echo", true, net.minecraft.world.level.material.MaterialColor.COLOR_PURPLE);
-    public static final xyz.iwolfking.woldsvaults.fluids.ExtractionFluid MOLTEN_LARIMAR = extraction("molten_larimar", true, net.minecraft.world.level.material.MaterialColor.COLOR_CYAN);
-    public static final xyz.iwolfking.woldsvaults.fluids.ExtractionFluid MOLTEN_ALEXANDRITE = extraction("molten_alexandrite", true, net.minecraft.world.level.material.MaterialColor.COLOR_MAGENTA);
-    public static final xyz.iwolfking.woldsvaults.fluids.ExtractionFluid COOLANT = extraction("coolant", false, net.minecraft.world.level.material.MaterialColor.COLOR_LIGHT_BLUE);
+    public static final Map<String, ExtractionFluid> EXTRACTION_FLUIDS = new LinkedHashMap<>();
+    public static final ExtractionFluid MOLTEN_PAINITE = extraction("molten_painite", true, MaterialColor.COLOR_RED);
+    public static final ExtractionFluid MOLTEN_ECHO = extraction("molten_echo", true, MaterialColor.COLOR_PURPLE);
+    public static final ExtractionFluid MOLTEN_LARIMAR = extraction("molten_larimar", true, MaterialColor.COLOR_CYAN);
+    public static final ExtractionFluid MOLTEN_ALEXANDRITE = extraction("molten_alexandrite", true, MaterialColor.COLOR_MAGENTA);
+    public static final ExtractionFluid COOLANT = extraction("coolant", false, MaterialColor.COLOR_LIGHT_BLUE);
 
-    private static xyz.iwolfking.woldsvaults.fluids.ExtractionFluid extraction(String key, boolean molten, net.minecraft.world.level.material.MaterialColor color) {
-        xyz.iwolfking.woldsvaults.fluids.ExtractionFluid fluid = new xyz.iwolfking.woldsvaults.fluids.ExtractionFluid(REGISTRY, key, molten, color);
+    private static ExtractionFluid extraction(String key, boolean molten, MaterialColor color) {
+        ExtractionFluid fluid = new ExtractionFluid(REGISTRY, key, molten, color);
         EXTRACTION_FLUIDS.put(key, fluid);
         return fluid;
     }

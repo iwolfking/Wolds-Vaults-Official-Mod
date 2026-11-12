@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 
 import java.util.Optional;
+import java.util.Arrays;
 
 /**
  * Per-player chests-per-minute over a sliding window, feeding Looting Engine. It is advanced lazily
@@ -54,7 +55,7 @@ public final class ChestRateTracker {
                 return;
             }
             if (elapsed >= WINDOW_SECONDS) {
-                java.util.Arrays.fill(this.buckets, 0);
+                Arrays.fill(this.buckets, 0);
             } else {
                 for (long i = 1; i <= elapsed; i++) {
                     this.buckets[(int) ((this.lastSecond + i) % WINDOW_SECONDS)] = 0;

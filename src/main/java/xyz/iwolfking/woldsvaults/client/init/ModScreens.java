@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryTalentsScreen;
 import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryExpertisesScreen;
 import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryPrestigeScreen;
 import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryGodTreeScreen;
+import xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorScreen;
 
 @OnlyIn(Dist.CLIENT)
 public class ModScreens {
@@ -33,7 +34,7 @@ public class ModScreens {
         MenuScreens.register(ModContainers.GOD_TREE_CONTAINER, GodTreeScreen::new);
         MenuScreens.register(ModContainers.EXTRACTOR_ASSEMBLER_CONTAINER, ExtractorAssemblerScreen::new);
         MenuScreens.register(ModContainers.EXTRACTOR_FORGE_CONTAINER, ExtractorForgeScreen::new);
-        MenuScreens.register(ModContainers.VAULT_FABRICATOR_CONTAINER, xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorScreen::new);
+        MenuScreens.register(ModContainers.VAULT_FABRICATOR_CONTAINER, VaultFabricatorScreen::new);
         MenuScreens.register(ModContainers.EXTRACTOR_CARD_CONTAINER, ExtractorCardScreen::new);
         MenuScreens.register(ModContainers.TRINKET_POUCH_CONTAINER, PouchScreen::new);
         MenuScreens.register(ModContainers.SUPPRESSOR_CONTAINER, SuppressorScreen::new);

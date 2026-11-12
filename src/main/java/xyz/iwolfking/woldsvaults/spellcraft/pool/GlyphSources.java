@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 
 /**
  * A player's glyph sources: the equipped items VH itself counts for the attribute snapshot (intended slot, not broken,
@@ -196,7 +197,7 @@ public final class GlyphSources {
                 }
             }
         });
-        FocusAugmentsConfig config = xyz.iwolfking.woldsvaults.augments.FocusAugments.config();
+        FocusAugmentsConfig config = FocusAugments.config();
         Map<String, List<SpellcraftItemData.Line>> own = new LinkedHashMap<>();
         List<GlyphCandidate> shared = new ArrayList<>();
         List<GlyphCandidate> auto = new ArrayList<>();

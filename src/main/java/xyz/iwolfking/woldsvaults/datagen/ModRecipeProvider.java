@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import net.minecraft.world.item.Items;
 
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -192,7 +193,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(ModItems.BLANK_FABRICATION_PATTERN, 2)
-                .requires(net.minecraft.world.item.Items.PAPER)
+                .requires(Items.PAPER)
                 .requires(iskallia.vault.init.ModItems.VAULT_ESSENCE)
                 .requires(iskallia.vault.init.ModItems.LARIMAR_GEM)
                 .unlockedBy("has_vault_essence", has(iskallia.vault.init.ModItems.VAULT_ESSENCE))

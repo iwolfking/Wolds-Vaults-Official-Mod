@@ -14,6 +14,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
+import net.minecraft.world.level.material.Fluid;
 
 /**
  * One of the extractor crafting fluids (Molten Painite, Molten Echo, Molten Larimar, Molten Alexandrite,
@@ -28,7 +29,7 @@ public class ExtractionFluid {
     public final BucketItem bucket;
     private ForgeFlowingFluid.Properties properties;
 
-    public ExtractionFluid(DeferredRegister<net.minecraft.world.level.material.Fluid> registry, String key, boolean molten, MaterialColor color) {
+    public ExtractionFluid(DeferredRegister<Fluid> registry, String key, boolean molten, MaterialColor color) {
         this.key = key;
         this.source = registry.register(key, () -> new ForgeFlowingFluid.Source(this.properties));
         this.flowing = registry.register("flowing_" + key, () -> new ForgeFlowingFluid.Flowing(this.properties));

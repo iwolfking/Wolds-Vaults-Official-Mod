@@ -9,6 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.client.lightning.LightningDashRenderer;
 
 /** Short arcs of lightning for nearby clients to draw (Lightning Rod): points in pairs, start then end. */
 public class LightningArcFxMessage {
@@ -46,7 +47,7 @@ public class LightningArcFxMessage {
     public static void handle(LightningArcFxMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> xyz.iwolfking.woldsvaults.client.lightning.LightningDashRenderer.addArcs(message.points, message.seed)));
+                () -> () -> LightningDashRenderer.addArcs(message.points, message.seed)));
         context.setPacketHandled(true);
     }
 }
