@@ -6,13 +6,13 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Each player's default spell bar (ability group per slot, empty string for an empty slot), the selected slot the
@@ -56,7 +56,7 @@ public class SpellBarData extends SavedData {
             try {
                 data.bars.put(UUID.fromString(key), bar);
             } catch (IllegalArgumentException e) {
-                WoldsVaults.LOGGER.error("Spell bars: skipped a saved bar with an invalid player id {}", key);
+                WoldLogger.error("Spell bars: skipped a saved bar with an invalid player id {}", key);
             }
         }
         return data;

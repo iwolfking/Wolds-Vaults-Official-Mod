@@ -34,11 +34,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.mixins.accessors.AbstractArrowAccessor;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.ThrownTridentAttackDamage;
 
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(ThrownTrident.class)
 public abstract class MixinThrownTrident extends AbstractArrow implements ThrownTridentAttackDamage {
@@ -199,7 +199,7 @@ public abstract class MixinThrownTrident extends AbstractArrow implements Thrown
             attackDamage = LightningFiend.attackDamage(owner);
             if (!woldsVaults$warnedThrowAttackDamage) {
                 woldsVaults$warnedThrowAttackDamage = true;
-                WoldsVaults.LOGGER.warn("A vault trident hit without a recorded throw attack damage; using the owner's current attack damage {}.", attackDamage);
+                WoldLogger.error("A vault trident hit without a recorded throw attack damage; using the owner's current attack damage {}.", attackDamage);
             }
         }
         return attackDamage;
@@ -208,7 +208,7 @@ public abstract class MixinThrownTrident extends AbstractArrow implements Thrown
     /** A vault trident with no living owner hits for its own attack damage roll. */
     @Unique
     private static float woldsVaults$ownerlessDamage(float tridentDamage) {
-        WoldsVaults.LOGGER.warn("A vault trident hit with no living owner; using its own attack damage roll {}.", tridentDamage);
+        WoldLogger.warn("A vault trident hit with no living owner; using its own attack damage roll {}.", tridentDamage);
         return tridentDamage;
     }
 

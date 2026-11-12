@@ -6,8 +6,8 @@ import iskallia.vault.core.vault.player.Runner;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Where the hyper objective differs for a rank-up trial; outside one, the live value passes through. */
 public final class GreedTrialHyper {
@@ -138,7 +138,7 @@ public final class GreedTrialHyper {
             started++;
         }
         if (started == 0) {
-            WoldsVaults.LOGGER.warn("Hyper trial cycle target met but no runner was left to extract.");
+            WoldLogger.error("Hyper trial cycle target met but no runner was left to extract.");
             return;
         }
         objective.set(HyperVaultObjective.EXTRACTIONS, updated);
@@ -153,7 +153,7 @@ public final class GreedTrialHyper {
         }
         ServerPlayer player = runner.getPlayer().orElse(null);
         if (player == null) {
-            WoldsVaults.LOGGER.warn("A hyper trial runner completed while offline — the rank-up could not be paid.");
+            WoldLogger.error("A hyper trial runner completed while offline — the rank-up could not be paid.");
             return;
         }
         GreedTrials.award(vault, player);

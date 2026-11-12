@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.integration.create;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Create attribute filter entry matching a spellcraft focus or wand that rolled a given glyph line. Stored by glyph id.
@@ -75,7 +75,7 @@ public class SpellcraftGlyphAttribute implements ItemAttribute {
         String id = tag.getString("glyph");
         AugmentType glyph = AugmentType.byId(id);
         if (glyph == null && REPORTED_UNKNOWN.add(id)) {
-            WoldsVaults.LOGGER.error("Spellcraft filter: unknown glyph id '{}' in a Create attribute filter; that entry matches nothing", id);
+            WoldLogger.error("Spellcraft filter: unknown glyph id '{}' in a Create attribute filter; that entry matches nothing", id);
         }
         return new SpellcraftGlyphAttribute(id, glyph);
     }

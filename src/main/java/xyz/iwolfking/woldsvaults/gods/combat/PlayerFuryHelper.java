@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Fury: the per-player resource behind Ultra Rampaging. It accrues and decays whether or not a
@@ -38,7 +39,7 @@ public final class PlayerFuryHelper {
     public static float add(ServerPlayer player, float amount) {
         if (amount <= 0.0F) {
             if (amount < 0.0F) {
-                WoldsVaults.LOGGER.error("Refusing negative Fury gain {} for {}; income sources must be positive.",
+                WoldLogger.error("Refusing negative Fury gain {} for {}; income sources must be positive.",
                         amount, player.getGameProfile().getName());
             }
             return get(player);

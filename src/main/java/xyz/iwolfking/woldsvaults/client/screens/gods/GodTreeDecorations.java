@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public final class GodTreeDecorations {
     private static final ResourceLocation SETTINGS = WoldsVaults.id("god_tree/decorations.json");
@@ -67,7 +68,7 @@ public final class GodTreeDecorations {
             }
             Sprite sprite = d.glow() ? new Sprite(0.0F, 0.0F, 1.0F, 1.0F, 1.0F) : sprites.sprites().get(d.sprite());
             if (sprite == null) {
-                GodTreeLog.warnOnce("decoration_sprite:" + d.sprite(), "God tree decoration sprite {} is not in decoration_sprites.json; skipping it.", d.sprite());
+                GodTreeLog.errorOnce("decoration_sprite:" + d.sprite(), "God tree decoration sprite {} is not in decoration_sprites.json; skipping it.", d.sprite());
                 continue;
             }
             float halfW = d.size() / 2.0F;
@@ -120,7 +121,7 @@ public final class GodTreeDecorations {
                 try {
                     yield Integer.parseInt(name.startsWith("#") ? name.substring(1) : name, 16) & 0xFFFFFF;
                 } catch (NumberFormatException e) {
-                    GodTreeLog.warnOnce("decoration_color:" + name, "God tree decoration colour {} is not a colour name or hex value; using white.", name);
+                    GodTreeLog.errorOnce("decoration_color:" + name, "God tree decoration colour {} is not a colour name or hex value; using white.", name);
                     yield 0xFFFFFF;
                 }
             }
@@ -146,7 +147,7 @@ public final class GodTreeDecorations {
                     decorations.put(god, list);
                 }
             } catch (IOException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("God tree decorations {} could not be read; trees draw without them", SETTINGS, e);
+                WoldLogger.error("God tree decorations {} could not be read; trees draw without them", SETTINGS, e);
             }
         }
         return decorations;
@@ -182,7 +183,7 @@ public final class GodTreeDecorations {
                     sprites.put(entry.getKey(), new Sprite(x / width, y / height, (x + w) / width, (y + h) / height, h / w));
                 }
             } catch (IOException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("God tree decoration sprites {} could not be read; sprite decorations are skipped", SPRITES, e);
+                WoldLogger.error("God tree decoration sprites {} could not be read; sprite decorations are skipped", SPRITES, e);
             }
             sheet = new Sheet(texture, sprites);
         }

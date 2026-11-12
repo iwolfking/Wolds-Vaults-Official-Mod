@@ -30,13 +30,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Server-side entry and exit for greed rank-up trials. The vault is built in memory from a
@@ -141,7 +141,7 @@ public final class GreedTrials {
         try {
             vault = VaultFactory.create(Version.latest(), crystal, player);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Building the rank {} greed trial vault for {} failed!",
+            WoldLogger.error("Building the rank {} greed trial vault for {} failed!",
                     trial.getTargetRank(), player.getGameProfile().getName(), e);
             refuse(player, "The trial could not be prepared. Check the server log.");
             return;
@@ -153,7 +153,7 @@ public final class GreedTrials {
             if (logic instanceof ClassicListenersLogic classic) {
                 classic.set(ClassicListenersLogic.MAX_PLAYERS, 1);
             } else {
-                WoldsVaults.LOGGER.warn("Greed trial vault has no ClassicListenersLogic — the solo-only gate is not applied.");
+                WoldLogger.error("Greed trial vault has no ClassicListenersLogic — the solo-only gate is not applied.");
             }
         });
         vault.ifPresent(Vault.CLOCK, clock -> {
@@ -165,7 +165,7 @@ public final class GreedTrials {
         GreedTrialData.get(player.server).mark(vault.get(Vault.ID), trial.getTargetRank());
         VirtualWorld world = ServerVaults.getWorld(vault).orElse(null);
         if (world == null) {
-            WoldsVaults.LOGGER.error("Greed trial vault {} has no virtual world — the player was not sent in.", vault.get(Vault.ID));
+            WoldLogger.error("Greed trial vault {} has no virtual world — the player was not sent in.", vault.get(Vault.ID));
             refuse(player, "The trial world could not be opened. Check the server log.");
             return;
         }
@@ -202,12 +202,12 @@ public final class GreedTrials {
         UUID vaultId = vault.get(Vault.ID);
         int rank = GreedTrialData.get(player.server).getTargetRank(vaultId);
         if (rank <= 0) {
-            WoldsVaults.LOGGER.error("Greed trial award requested for vault {} which is not marked as a trial — nothing paid.", vaultId);
+            WoldLogger.error("Greed trial award requested for vault {} which is not marked as a trial — nothing paid.", vaultId);
             return;
         }
         UUID owner = vault.getOptional(Vault.OWNER).orElse(null);
         if (owner != null && !owner.equals(player.getUUID())) {
-            WoldsVaults.LOGGER.info("Skipping greed trial payout for {}: the trial belongs to {}.",
+            WoldLogger.info("Skipping greed trial payout for {}: the trial belongs to {}.",
                     player.getGameProfile().getName(), owner);
             return;
         }
@@ -215,7 +215,7 @@ public final class GreedTrials {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(player.server);
         int current = treeData.getGreedTier(player);
         if (current + 1 != rank) {
-            WoldsVaults.LOGGER.warn("Greed trial for rank {} finished while {} sits at rank {}; setting the rank to {} anyway.",
+            WoldLogger.error("Greed trial for rank {} finished while {} sits at rank {}; setting the rank to {} anyway.",
                     rank, player.getGameProfile().getName(), current, rank);
         }
         treeData.setGreedTier(player, rank);

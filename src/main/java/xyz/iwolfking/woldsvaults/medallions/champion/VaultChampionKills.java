@@ -16,7 +16,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
@@ -24,6 +23,7 @@ import xyz.iwolfking.woldsvaults.network.message.ChampionHudMessage;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Champion's damage pool, the bar that draws it, and what happens when it empties. The Vessel cannot
@@ -119,7 +119,7 @@ public final class VaultChampionKills {
             }
         }
         if (tier == null) {
-            WoldsVaults.LOGGER.warn("A Vault Champion was defeated with no medallion rank stamped on it - no rewards "
+            WoldLogger.error("A Vault Champion was defeated with no medallion rank stamped on it - no rewards "
                     + "were paid.");
             return;
         }

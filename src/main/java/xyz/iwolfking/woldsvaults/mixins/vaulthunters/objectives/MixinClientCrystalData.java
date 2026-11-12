@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionCrystal;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
@@ -30,6 +29,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PoolCrystalThemeA
 
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = CrystalData.class, remap = false)
 public abstract class MixinClientCrystalData {
@@ -51,7 +51,7 @@ public abstract class MixinClientCrystalData {
                 return ObjectiveDifficulty.crateTiers(candidate.getKey());
             }
         }
-        WoldsVaults.LOGGER.warn("Crystal tooltip could not match a sigil config to its id; showing the per-sigil file's crate tiers");
+        WoldLogger.error("Crystal tooltip could not match a sigil config to its id; showing the per-sigil file's crate tiers");
         return original.call(entry);
     }
 

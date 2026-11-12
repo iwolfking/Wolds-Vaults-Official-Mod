@@ -10,12 +10,12 @@ import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CustomEntitySpawnerAccessor;
 
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Stops an orphaned custom entity spawner from filling the log.
@@ -37,7 +37,7 @@ public abstract class MixinCustomEntitySpawnerTileEntity {
     private static void woldsvaults$warnOnceAndClear(Logger logger, String message, Operation<Void> original,
                                                      Level level, BlockPos blockPos, CustomEntitySpawnerTileEntity te) {
         if (WOLDSVAULTS$WARNED.add(te)) {
-            WoldsVaults.LOGGER.warn(
+            WoldLogger.error(
                     "Custom Entity Spawner at {} wants spawn group '{}', which is not in custom_entity_spawner.json; "
                             + "it can never spawn, so it is being removed and this warning is silenced for it.",
                     blockPos, ((CustomEntitySpawnerAccessor) te).getSpawnerGroupName());

@@ -7,7 +7,6 @@ import iskallia.vault.config.Config;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Set gear, generated as {@code vault_configs/gear/sets/gear_sets.json}: which uniques form each set, and what each piece-count tier grants.
@@ -168,7 +168,7 @@ public class GearSetConfig extends Config implements WoldsTable {
         try {
             return Integer.parseInt(hex.startsWith("#") ? hex.substring(1) : hex, 16);
         } catch (NumberFormatException e) {
-            WoldsVaults.LOGGER.error("gear_sets.json: colour {} is not a hex colour; using #{}.", hex, Integer.toHexString(fallback));
+            WoldLogger.error("gear_sets.json: colour {} is not a hex colour; using #{}.", hex, Integer.toHexString(fallback));
             return fallback;
         }
     }
@@ -183,19 +183,19 @@ public class GearSetConfig extends Config implements WoldsTable {
             this.sets.forEach((id, set) -> {
                 ResourceLocation setId = ResourceLocation.tryParse(id);
                 if (setId == null || set == null || set.pieces == null || set.tiers == null) {
-                    WoldsVaults.LOGGER.error("gear_sets.json: set {} is malformed (needs a valid id, pieces and tiers); skipping it.", id);
+                    WoldLogger.error("gear_sets.json: set {} is malformed (needs a valid id, pieces and tiers); skipping it.", id);
                     return;
                 }
                 byId.put(setId, set);
                 for (String piece : set.pieces) {
                     ResourceLocation pieceId = ResourceLocation.tryParse(piece);
                     if (pieceId == null) {
-                        WoldsVaults.LOGGER.error("gear_sets.json: set {} lists an invalid piece id {}; skipping that piece.", id, piece);
+                        WoldLogger.error("gear_sets.json: set {} lists an invalid piece id {}; skipping that piece.", id, piece);
                         continue;
                     }
                     ResourceLocation previous = byPiece.put(pieceId, setId);
                     if (previous != null) {
-                        WoldsVaults.LOGGER.error("gear_sets.json: {} is listed in both {} and {}; it counts for {} only.", pieceId, previous, setId, setId);
+                        WoldLogger.error("gear_sets.json: {} is listed in both {} and {}; it counts for {} only.", pieceId, previous, setId, setId);
                     }
                 }
             });
@@ -237,7 +237,7 @@ public class GearSetConfig extends Config implements WoldsTable {
             ResourceLocation attributeId = grant.attribute == null ? null : ResourceLocation.tryParse(grant.attribute);
             VaultGearAttribute<?> attribute = attributeId == null ? null : VaultGearAttributeRegistry.getAttribute(attributeId);
             if (attribute == null || grant.value == null || !grant.value.isJsonPrimitive()) {
-                WoldsVaults.LOGGER.error("gear_sets.json: set {} tier {} grants {} = {}, which is not a registered attribute with a plain value; skipping it.", setId, tier.pieces, grant.attribute, grant.value);
+                WoldLogger.error("gear_sets.json: set {} tier {} grants {} = {}, which is not a registered attribute with a plain value; skipping it.", setId, tier.pieces, grant.attribute, grant.value);
                 continue;
             }
             JsonPrimitive primitive = grant.value.getAsJsonPrimitive();
@@ -246,7 +246,7 @@ public class GearSetConfig extends Config implements WoldsTable {
             try {
                 value = attribute.getType().cast(raw);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("gear_sets.json: set {} tier {} grant {} = {} does not fit the attribute's type; skipping it.", setId, tier.pieces, grant.attribute, grant.value);
+                WoldLogger.error("gear_sets.json: set {} tier {} grant {} = {} does not fit the attribute's type; skipping it.", setId, tier.pieces, grant.attribute, grant.value);
                 continue;
             }
             resolved.add(new ResolvedGrant(attribute, value));

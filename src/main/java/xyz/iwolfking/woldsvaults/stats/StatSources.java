@@ -21,7 +21,6 @@ import iskallia.vault.util.calc.StunChanceHelper;
 import iskallia.vault.util.calc.ThornsHelper;
 import iskallia.vault.util.calc.TrapDisarmChanceHelper;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 
 import java.util.Collections;
@@ -30,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.ToDoubleFunction;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Statistics tab values that can depend on server-only state: stat listeners that only run for a server player
@@ -98,7 +98,7 @@ public final class StatSources {
                 }
             } catch (RuntimeException e) {
                 if (FAILED.add(source.getKey())) {
-                    WoldsVaults.LOGGER.error("Stat sync: source {} failed for {}; the screen keeps its local value", source.getKey(),
+                    WoldLogger.error("Stat sync: source {} failed for {}; the screen keeps its local value", source.getKey(),
                             player.getGameProfile().getName(), e);
                 }
             }

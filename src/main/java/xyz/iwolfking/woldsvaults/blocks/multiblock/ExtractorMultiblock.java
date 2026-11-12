@@ -5,13 +5,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.ExtractorControllerBlock;
 import xyz.iwolfking.woldsvaults.blocks.ExtractorStructureBlock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorStructureTileEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Controller-plus-filler multiblocks. The controller sits at the bottom centre of a
@@ -97,7 +97,7 @@ public final class ExtractorMultiblock {
             if (level.getBlockEntity(cell.world()) instanceof ExtractorStructureTileEntity tile) {
                 tile.setControllerPos(controller);
             } else {
-                WoldsVaults.LOGGER.error("Extractor station filler at {} has no tile entity after placement; the machine at {} is incomplete.", cell.world(), controller);
+                WoldLogger.error("Extractor station filler at {} has no tile entity after placement; the machine at {} is incomplete.", cell.world(), controller);
             }
         }
     }

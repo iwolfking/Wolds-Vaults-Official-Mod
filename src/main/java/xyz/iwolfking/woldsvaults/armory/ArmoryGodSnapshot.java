@@ -5,7 +5,6 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.item.gear.VaultCharmItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.builds.state.PlayerStateCodec;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeView;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A saved armory page's god standing as a read-only {@link GodTreeView}: per god the saved experience, sacrifices,
@@ -64,7 +64,7 @@ public final class ArmoryGodSnapshot implements GodTreeView {
         }
         if (!pietyStandInLogged) {
             pietyStandInLogged = true;
-            WoldsVaults.LOGGER.warn("Armory: saved builds do not record tree bonus piety; the Gods view shows piety from "
+            WoldLogger.warn("Armory: saved builds do not record tree bonus piety; the Gods view shows piety from "
                     + "saved reputation and god level only");
         }
         Map<VaultGod, GodPage> gods = new EnumMap<>(VaultGod.class);
@@ -98,14 +98,14 @@ public final class ArmoryGodSnapshot implements GodTreeView {
         Map<String, Integer> ledger = new LinkedHashMap<>();
         GodTreeModel tree = GodNodeRegistry.tree(god).orElse(null);
         if (tree == null && !nodes.isEmpty()) {
-            WoldsVaults.LOGGER.warn("Armory: the {} god tree is not loaded; its {} saved stars count no points",
+            WoldLogger.error("Armory: the {} god tree is not loaded; its {} saved stars count no points",
                     god.getName(), nodes.size());
         }
         if (tree != null) {
             for (String id : nodes) {
                 GodNode node = tree.getNode(id);
                 if (node == null) {
-                    WoldsVaults.LOGGER.warn("Armory: saved {} star {} does not exist in this game; shown unlearned",
+                    WoldLogger.warn("Armory: saved {} star {} does not exist in this game; shown unlearned",
                             god.getName(), id);
                     continue;
                 }

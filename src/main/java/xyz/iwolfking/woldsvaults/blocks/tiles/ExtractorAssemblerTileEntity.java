@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerContainer;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Slots 0–6 take one part (or identified blueprint, for previewing) each in {@link ExtractorPartType#CORE_PARTS}
@@ -153,7 +153,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         ExtractorItem.setDurability(docked, max);
         this.workingTicks = WORK_CYCLE_TICKS;
         this.markDirtyAndDispatch();
-        WoldsVaults.LOGGER.info("{} repaired an extractor from {} to {} durability at {}.", player.getName().getString(), before, max, this.getBlockPos());
+        WoldLogger.info("{} repaired an extractor from {} to {} durability at {}.", player.getName().getString(), before, max, this.getBlockPos());
         tell(player, "Repaired " + (max - before) + " durability.");
     }
 
@@ -421,7 +421,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         ItemStack docked = this.getDocked();
         if (docked.isEmpty()) {
             if (!stack.isEmpty()) {
-                WoldsVaults.LOGGER.error("Tried to install {} on hardpoint {} of the assembler at {} with nothing docked; ignored.", stack, hardpoint, this.getBlockPos());
+                WoldLogger.error("Tried to install {} on hardpoint {} of the assembler at {} with nothing docked; ignored.", stack, hardpoint, this.getBlockPos());
             }
             return;
         }
@@ -519,7 +519,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         this.workingTicks = WORK_CYCLE_TICKS;
         this.invalidateGhosts();
         this.markDirtyAndDispatch();
-        WoldsVaults.LOGGER.info("{} assembled an extractor from {} parts and {} attachments at {}.", player.getName().getString(), parts.size(), attachments.size(), this.getBlockPos());
+        WoldLogger.info("{} assembled an extractor from {} parts and {} attachments at {}.", player.getName().getString(), parts.size(), attachments.size(), this.getBlockPos());
         tell(player, "Extractor assembled.");
     }
 

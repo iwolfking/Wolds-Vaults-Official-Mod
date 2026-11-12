@@ -20,8 +20,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 
 /**
@@ -65,7 +65,7 @@ public final class GreedAssassinSpawner {
         EntityType<?> assassinType = randomAssassinType(level);
         Entity created = assassinType.create(level);
         if (!(created instanceof LivingEntity assassin)) {
-            WoldsVaults.LOGGER.error("Greed assassin type {} did not create a living entity - skipping this spawn.",
+            WoldLogger.error("Greed assassin type {} did not create a living entity - skipping this spawn.",
                     assassinType.getRegistryName());
             return false;
         }

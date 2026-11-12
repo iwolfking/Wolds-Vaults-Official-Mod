@@ -6,7 +6,6 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.item.gear.FocusItem;
 import iskallia.vault.item.gear.WandItem;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
@@ -14,6 +13,7 @@ import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Rolls a focus's or wand's spellcraft implicits when it is identified: arcana from item level and rarity, glyph lines
@@ -100,7 +100,7 @@ public final class SpellcraftRoller {
         FocusAugmentsConfig.FocusRolls focus = config.focus;
         FocusAugmentsConfig.RarityRolls rolls = focus.rarities.get(rarity);
         if (rolls == null) {
-            WoldsVaults.LOGGER.error("Spellcraft: no focus roll for rarity {}; {} rolls no spellcraft implicits", rarity, stack.getItem());
+            WoldLogger.error("Spellcraft: no focus roll for rarity {}; {} rolls no spellcraft implicits", rarity, stack.getItem());
             return;
         }
         float budget = budget(config, stack, level, rolls, random);

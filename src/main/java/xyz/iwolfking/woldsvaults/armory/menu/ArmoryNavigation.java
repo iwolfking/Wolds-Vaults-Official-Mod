@@ -5,13 +5,13 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraftforge.network.NetworkHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
 import xyz.iwolfking.woldsvaults.armory.service.ArmoryService;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Opens armory tabs on the server and pushes the open page's state to the client. */
 public final class ArmoryNavigation {
@@ -24,7 +24,7 @@ public final class ArmoryNavigation {
      */
     public static void open(ServerPlayer player, BlockPos pos, int page, ArmoryTab tab) {
         if (!(player.getLevel().getBlockEntity(pos) instanceof ArmoryBlockEntity armory)) {
-            WoldsVaults.LOGGER.warn("Armory: {} asked to open an armory at {} but none is there", player.getGameProfile().getName(), pos);
+            WoldLogger.warn("Armory: {} asked to open an armory at {} but none is there", player.getGameProfile().getName(), pos);
             return;
         }
         if (player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > 64.0) {

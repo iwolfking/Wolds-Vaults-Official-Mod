@@ -38,6 +38,7 @@ import xyz.iwolfking.woldsvaults.models.crystal.UnhingedCrystalModel;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.ChanceCatalystModifierSettable;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = CrystalData.class, remap = false)
 public abstract class MixinCrystalData extends CrystalEntry implements ISerializable<CompoundTag, JsonObject>, GreedMedallionCrystal, AncientCrystalFlag
@@ -146,7 +147,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
         }
         Optional<GreedMedallionTier> tier = GreedMedallionTier.byRankIndex(this.woldsvaults$medallionRank);
         if (tier.isEmpty()) {
-            xyz.iwolfking.woldsvaults.WoldsVaults.LOGGER.error(
+            WoldLogger.error(
                     "Crystal carries greed medallion rank {} which matches no tier; the vault will run without medallion effects.",
                     this.woldsvaults$medallionRank);
             return;

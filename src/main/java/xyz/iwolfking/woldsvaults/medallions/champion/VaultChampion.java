@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.medallions.champion;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -11,6 +10,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Identity for the Vault Champion, a {@code TheVesselEntity} carrying the {@code greed_champion} tag
@@ -84,7 +84,7 @@ public final class VaultChampion {
             return config;
         }
         if (WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("The Vault Champion was read before the greed/champion/greed_champion table was installed; "
+            WoldLogger.error("The Vault Champion was read before the greed/champion/greed_champion table was installed; "
                     + "no Champion can spawn until it is");
         }
         return INERT;

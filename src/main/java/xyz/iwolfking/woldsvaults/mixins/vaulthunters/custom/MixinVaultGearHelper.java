@@ -33,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 
@@ -44,6 +43,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = VaultGearHelper.class, remap = false)
 public class MixinVaultGearHelper {
@@ -102,7 +102,7 @@ public class MixinVaultGearHelper {
         }
         UUID identifier = data.getIdentifier();
         if (identifier == null) {
-            WoldsVaults.LOGGER.error("health_boost skipped on gear with no identifier; cannot derive a stable attribute modifier id");
+            WoldLogger.error("health_boost skipped on gear with no identifier; cannot derive a stable attribute modifier id");
             return original;
         }
         AttributeModifier modifier = new AttributeModifier(seededId(identifier, Attributes.MAX_HEALTH, AttributeModifier.Operation.MULTIPLY_TOTAL), "VaultGear %s".formatted(Attributes.MAX_HEALTH.getDescriptionId()), boost, AttributeModifier.Operation.MULTIPLY_TOTAL);

@@ -4,7 +4,6 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Minor-transfer slots: each god's slots carry that god's own learned minor stars to whichever god is
@@ -85,7 +85,7 @@ public final class MinorTransferSlots {
     public static Result assign(ServerPlayer player, VaultGod god, int slot, @Nullable String effectId) {
         MinecraftServer server = player.getServer();
         if (server == null) {
-            WoldsVaults.LOGGER.warn("Transfer slot assignment for {} had no server attached; ignoring it.",
+            WoldLogger.error("Transfer slot assignment for {} had no server attached; ignoring it.",
                     player.getGameProfile().getName());
             return Result.UNCHANGED;
         }

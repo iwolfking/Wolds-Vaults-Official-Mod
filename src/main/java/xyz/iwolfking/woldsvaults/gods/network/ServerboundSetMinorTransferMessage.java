@@ -5,10 +5,10 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.MinorTransferSlots;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Serverbound request to put a learned minor star into a minor-transfer slot, or clear one (empty effect
@@ -51,7 +51,7 @@ public class ServerboundSetMinorTransferMessage extends Message<ServerboundSetMi
             }
             MinorTransferSlots.Result result = MinorTransferSlots.assign(player, message.god, message.slot, message.effectId);
             if (result != MinorTransferSlots.Result.OK && result != MinorTransferSlots.Result.UNCHANGED) {
-                WoldsVaults.LOGGER.warn("Refused {}'s transfer slot request ({} slot {} <- '{}'): {}.",
+                WoldLogger.warn("Refused {}'s transfer slot request ({} slot {} <- '{}'): {}.",
                         player.getGameProfile().getName(), message.god.getName(), message.slot + 1,
                         message.effectId, result);
             }

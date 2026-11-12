@@ -4,11 +4,11 @@ import com.blakebr0.cucumber.network.message.Message;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Serverbound request for one god node effect's live preview. An effect with no formula, or a resolver
@@ -49,7 +49,7 @@ public class ServerboundRequestGodNodePreviewMessage extends Message<Serverbound
                 try {
                     preview = GodNodePreviews.resolve(player, message.effectId).orElse(null);
                 } catch (RuntimeException e) {
-                    WoldsVaults.LOGGER.error("God node preview for '{}' failed for {}; answering it as static.",
+                    WoldLogger.error("God node preview for '{}' failed for {}; answering it as static.",
                             message.effectId, player.getGameProfile().getName(), e);
                 }
             }

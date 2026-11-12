@@ -31,7 +31,6 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorTargetGoal;
@@ -54,6 +53,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The wave director: one wave state per drilling site room, run from the main rig's tier while it drills. Spread
@@ -155,14 +155,14 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         ExtractionObjectiveConfig.TierEntry tier = waves.tierFor(extractor.getPower());
         if (tier == null) {
-            WoldsVaults.LOGGER.error("Extraction WAVES has no tier for power {} (site {}); no waves will spawn there.", extractor.getPower(), index);
+            WoldLogger.error("Extraction WAVES has no tier for power {} (site {}); no waves will spawn there.", extractor.getPower(), index);
             return null;
         }
         double floor = floorFactor(waves.statFloor, extractor.getPower());
         state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePedestals(site).size());
         state.nextRamTick = waves.ram.firstTicks;
         this.states.put(index, state);
-        WoldsVaults.LOGGER.info("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}).",
+        WoldLogger.info("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}).",
                 index, tier.name, extractor.getPower(), String.format("%.2f", floor),
                 String.format("%.2f", GreedMedallionEffects.mobStatMultiplier(vault)));
         return state;
@@ -206,7 +206,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         return GreedMedallionTier.byRankIndex(medallionRank)
                 .map(tier -> GreedMedallionEffects.multiplier(tier.getMobHealthDamageBonus()))
                 .orElseGet(() -> {
-                    WoldsVaults.LOGGER.error("Extraction stat floor anchor names medallion rank {}, which does not exist; treating it as no floor.", medallionRank);
+                    WoldLogger.error("Extraction stat floor anchor names medallion rank {}, which does not exist; treating it as no floor.", medallionRank);
                     return 1.0D;
                 });
     }
@@ -398,7 +398,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             return grid.caveHomes(cave);
         }
         if (this.fallbackLogged.add(state.siteIndex)) {
-            WoldsVaults.LOGGER.error("Extraction site {} has no room grid yet; caves use the authored pad groups instead of the baked fields.", state.siteIndex);
+            WoldLogger.error("Extraction site {} has no room grid yet; caves use the authored pad groups instead of the baked fields.", state.siteIndex);
         }
         return objective.authoredCaveHomes(cave);
     }
@@ -439,7 +439,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
 
     private void spawnPacket(RoomWaveState state, PendingPacket packet, ExtractionObjectiveConfig.WavesEntry waves) {
         if (packet.group.pool.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extraction tier '{}' asked for {} '{}' mobs but its pool is empty; skipping them.", state.tier.name, packet.count, packet.group.tag);
+            WoldLogger.error("Extraction tier '{}' asked for {} '{}' mobs but its pool is empty; skipping them.", state.tier.name, packet.count, packet.group.tag);
             return;
         }
         int pad = packet.pad >= 0 ? packet.pad : this.homePad(state, packet.cave);
@@ -508,18 +508,18 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
                                   Consumer<LivingEntity> beforeAdd, Consumer<LivingEntity> afterScale, LivingEntity rig, List<BlockPos> used) {
         ResourceLocation id = pool.getRandom(world.getRandom()).orElse(null);
         if (id == null || !ForgeRegistries.ENTITIES.containsKey(id)) {
-            WoldsVaults.LOGGER.error("Extraction wave pool rolled unknown entity id {}; skipping this spawn.", id);
+            WoldLogger.error("Extraction wave pool rolled unknown entity id {}; skipping this spawn.", id);
             return null;
         }
         EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
         BlockPos pos = findSpawnPos(anchor, type, searchRadius, used);
         if (pos == null) {
-            WoldsVaults.LOGGER.error("Extraction wave found no clear spawn spot near cave anchor {} for {}; skipping this spawn.", anchor, id);
+            WoldLogger.error("Extraction wave found no clear spawn spot near cave anchor {} for {}; skipping this spawn.", anchor, id);
             return null;
         }
         Entity created = type.create(world);
         if (!(created instanceof LivingEntity living)) {
-            WoldsVaults.LOGGER.error("Extraction wave entity {} is not a living entity; skipping this spawn.", id);
+            WoldLogger.error("Extraction wave entity {} is not a living entity; skipping this spawn.", id);
             return null;
         }
         used.add(pos);
@@ -534,7 +534,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             mob.spawnAnim();
             ForgeEventFactory.doSpecialSpawn(mob, world, (float) mob.getX(), (float) mob.getY(), (float) mob.getZ(), null, MobSpawnType.SPAWNER);
         } else {
-            WoldsVaults.LOGGER.error("Extraction wave entity {} is not a Mob; vault modifiers will not be applied to it.", id);
+            WoldLogger.error("Extraction wave entity {} is not a Mob; vault modifiers will not be applied to it.", id);
         }
         world.addWithUUID(living);
         EntityScaler.scale(vault, living);
@@ -567,7 +567,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private static boolean raiseToFloor(LivingEntity living, Attribute attribute, double ratio) {
         AttributeInstance instance = living.getAttribute(attribute);
         if (instance == null) {
-            WoldsVaults.LOGGER.error("Extraction wave mob {} has no {} attribute; the stat floor skipped it.", living.getType().getRegistryName(), attribute.getDescriptionId());
+            WoldLogger.error("Extraction wave mob {} has no {} attribute; the stat floor skipped it.", living.getType().getRegistryName(), attribute.getDescriptionId());
             return false;
         }
         double before = instance.getValue();
@@ -575,7 +575,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         instance.setBaseValue(base * ratio);
         if (instance.getValue() <= before) {
             instance.setBaseValue(base);
-            WoldsVaults.LOGGER.error("Extraction stat floor could not raise {} on {} (base {} x{} left the final value at {}); reverted.",
+            WoldLogger.error("Extraction stat floor could not raise {} on {} (base {} x{} left the final value at {}); reverted.",
                     attribute.getDescriptionId(), living.getType().getRegistryName(), base, ratio, before);
             return false;
         }
@@ -585,7 +585,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private static void setAttributeBase(LivingEntity living, Attribute attribute, double value) {
         AttributeInstance instance = living.getAttribute(attribute);
         if (instance == null) {
-            WoldsVaults.LOGGER.error("Extraction wave mob {} has no {} attribute; it keeps its default.", living.getType().getRegistryName(), attribute.getDescriptionId());
+            WoldLogger.error("Extraction wave mob {} has no {} attribute; it keeps its default.", living.getType().getRegistryName(), attribute.getDescriptionId());
             return;
         }
         instance.setBaseValue(value);
@@ -594,7 +594,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private void spawnBoss(RoomWaveState state, int cave, ExtractionObjectiveConfig.WavesEntry waves) {
         ExtractionObjectiveConfig.BossEntry cfg = waves.boss;
         if (cfg.pool.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extraction tier '{}' asked for a brutal boss but WAVES.boss.pool is empty; skipping it.", state.tier.name);
+            WoldLogger.error("Extraction tier '{}' asked for a brutal boss but WAVES.boss.pool is empty; skipping it.", state.tier.name);
             return;
         }
         if (!this.underCaps(state, waves)) {
@@ -618,7 +618,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             setAttributeBase(living, Attributes.KNOCKBACK_RESISTANCE, cfg.knockbackResistance);
             AttributeInstance speed = living.getAttribute(Attributes.MOVEMENT_SPEED);
             if (speed == null) {
-                WoldsVaults.LOGGER.error("Extraction brutal boss {} has no movement speed attribute; it keeps its default speed.", living.getType().getRegistryName());
+                WoldLogger.error("Extraction brutal boss {} has no movement speed attribute; it keeps its default speed.", living.getType().getRegistryName());
             } else if (cfg.speedMultiplier > 0.0F && cfg.speedMultiplier != 1.0F) {
                 speed.removeModifier(BOSS_SPEED_MODIFIER);
                 speed.addPermanentModifier(new AttributeModifier(BOSS_SPEED_MODIFIER, "Extraction brutal boss speed",
@@ -641,7 +641,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("Extraction site {} could not place a brutal boss at any of {} cave anchors; the wave goes on without it.", state.siteIndex, tries.size());
+        WoldLogger.error("Extraction site {} could not place a brutal boss at any of {} cave anchors; the wave goes on without it.", state.siteIndex, tries.size());
     }
 
     private void spawnCarrier(RoomWaveState state, int cave, ExtractionObjectiveConfig.CarrierEntry carrierCfg) {
@@ -716,7 +716,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             }
         }
         if (cave < 0) {
-            WoldsVaults.LOGGER.error("Extraction site {} found no cave feeding pad {} for a battering ram; using a random cave.", state.siteIndex, targetPad);
+            WoldLogger.error("Extraction site {} found no cave feeding pad {} for a battering ram; using a random cave.", state.siteIndex, targetPad);
             cave = this.nextBagCave(state);
             if (cave < 0) {
                 return;
@@ -724,7 +724,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         ResourceLocation id = new ResourceLocation(cfg.entity);
         if (!ForgeRegistries.ENTITIES.containsKey(id)) {
-            WoldsVaults.LOGGER.error("Extraction battering ram entity {} is not registered; no ram spawns.", id);
+            WoldLogger.error("Extraction battering ram entity {} is not registered; no ram spawns.", id);
             return;
         }
         WeightedList<ResourceLocation> pool = new WeightedList<>();
@@ -741,7 +741,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         state.rams.put(ram.getUUID(), targetPad);
         state.spawnedPerCave[cave]++;
         world.playSound(null, anchor, SoundEvents.RAID_HORN, SoundSource.HOSTILE, 4.0F, 0.5F);
-        WoldsVaults.LOGGER.info("Extraction site {} sent a battering ram ({} HP) from cave {} at pad {}.", state.siteIndex,
+        WoldLogger.info("Extraction site {} sent a battering ram ({} HP) from cave {} at pad {}.", state.siteIndex,
                 String.format("%.0f", ram.getMaxHealth()), cave, targetPad);
     }
 
@@ -751,9 +751,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         double ramRaw = this.rawHealth(cfg.entity);
         AttributeInstance health = ram.getAttribute(Attributes.MAX_HEALTH);
         if (health == null) {
-            WoldsVaults.LOGGER.error("Battering ram {} has no max health attribute; it keeps its scaled HP.", cfg.entity);
+            WoldLogger.error("Battering ram {} has no max health attribute; it keeps its scaled HP.", cfg.entity);
         } else if (referenceRaw <= 0.0D || ramRaw <= 0.0D) {
-            WoldsVaults.LOGGER.error("Battering ram HP reference {} (raw {}) or ram (raw {}) has no vault health roll; the ram uses its own scaled HP x{} instead.",
+            WoldLogger.error("Battering ram HP reference {} (raw {}) or ram (raw {}) has no vault health roll; the ram uses its own scaled HP x{} instead.",
                     cfg.hpReference, referenceRaw, ramRaw, cfg.hpEliteMultiple);
             health.setBaseValue(health.getBaseValue() * cfg.hpEliteMultiple);
         } else {
@@ -763,7 +763,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         setAttributeBase(ram, Attributes.KNOCKBACK_RESISTANCE, 1.0D);
         AttributeInstance speed = ram.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed == null) {
-            WoldsVaults.LOGGER.error("Battering ram {} has no movement speed attribute; it keeps its default speed.", cfg.entity);
+            WoldLogger.error("Battering ram {} has no movement speed attribute; it keeps its default speed.", cfg.entity);
         } else {
             speed.removeModifier(RAM_SPEED_MODIFIER);
             speed.addPermanentModifier(new AttributeModifier(RAM_SPEED_MODIFIER, "Extraction battering ram speed",
@@ -786,7 +786,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             VaultMobsConfig.scale(vault.get(Vault.OWNER), living, level);
             return living.getMaxHealth();
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Rolling vault health for {} failed.", entityId, e);
+            WoldLogger.error("Rolling vault health for {} failed.", entityId, e);
             return -1.0D;
         } finally {
             living.discard();
@@ -796,7 +796,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private static void multiplyAttribute(LivingEntity entity, Attribute attribute, float multiplier) {
         AttributeInstance instance = entity.getAttribute(attribute);
         if (instance == null) {
-            WoldsVaults.LOGGER.error("Power cell carrier {} has no {} attribute; its multiplier was skipped.", entity.getName().getString(), attribute.getDescriptionId());
+            WoldLogger.error("Power cell carrier {} has no {} attribute; its multiplier was skipped.", entity.getName().getString(), attribute.getDescriptionId());
             return;
         }
         instance.setBaseValue(instance.getBaseValue() * multiplier);
@@ -833,7 +833,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             boolean wide = mob.getBbWidth() > 1.0F;
             mob.goalSelector.addGoal(0, new LaneFollowGoal(mob, siteIndex, () -> objective.gridFor(siteIndex), wide, this));
         } else if (this.fallbackLogged.add(1000 + mob.getType().hashCode())) {
-            WoldsVaults.LOGGER.info("Extraction wave mob type {} has no ground navigation; it skips lane pathing.", mob.getType().getRegistryName());
+            WoldLogger.info("Extraction wave mob type {} has no ground navigation; it skips lane pathing.", mob.getType().getRegistryName());
         }
         mob.addTag(TAG_TARGETED);
         this.goalled.add(mob.getUUID());
@@ -943,7 +943,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             pads.append(pad == 0 ? "" : " ").append("pad").append(pad).append('=').append(n)
                     .append(n > 0 ? String.format(" (%.1fs walk)", state.walkTicksPerPad[pad] / 20.0D / n) : "");
         }
-        WoldsVaults.LOGGER.info("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
+        WoldLogger.info("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
                 state.siteIndex, caves, pads, state.live.size(), state.rams.size(), state.dropped, state.nudges);
         java.util.Arrays.fill(state.spawnedPerCave, 0);
         java.util.Arrays.fill(state.arrivedPerPad, 0);

@@ -1,11 +1,11 @@
 package xyz.iwolfking.woldsvaults.gods;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The god alignment progression curve: XP thresholds, god point grants (from levels and from raw
@@ -158,7 +158,7 @@ public final class GodLevels {
     private static GodLevelsConfig config() {
         GodLevelsConfig config = ModConfigs.GOD_LEVELS;
         if (config == null && WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("God levels were read before the gods/levels/god_levels table was installed; "
+            WoldLogger.error("God levels were read before the gods/levels/god_levels table was installed; "
                     + "every god level reads as 0 until it is");
         }
         return config;

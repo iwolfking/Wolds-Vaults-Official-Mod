@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Setup entry point for the Idona god tree. Handler types come up earlier, elsewhere. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -26,7 +27,7 @@ public final class IdonaTree {
             PietyBonusSource.register(new GodPietySource(IdonaNodes.GOD, IdonaNodes.PIOUS_DEVOTION));
             IdonaStatHooks.register();
             IdonaState.registerVaultHooks();
-            WoldsVaults.LOGGER.info("Registered {} Idona god tree nodes",
+            WoldLogger.info("Registered {} Idona god tree nodes",
                     GodNodeRegistry.tree(VaultGod.IDONA).map(tree -> tree.getNodes().size()).orElse(0));
         });
     }

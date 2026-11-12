@@ -23,7 +23,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.Util;
 import net.minecraft.world.phys.Vec2;
 import iskallia.vault.config.entry.SkillStyle;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNode;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
@@ -39,6 +38,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** The pannable star chart of one god's tree, a region of {@link GodTreeScreen}. Pan and zoom persist per god. */
 public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
@@ -124,7 +124,7 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
         for (GodNode node : this.tree.getNodes()) {
             SkillStyle style = this.tree.getStyle(node.id());
             if (style == null) {
-                WoldsVaults.LOGGER.error("God tree node {} has no style entry in god_tree_{}_gui_styles.json; "
+                WoldLogger.error("God tree node {} has no style entry in god_tree_{}_gui_styles.json; "
                         + "it cannot be drawn.", node.id(), this.god.getName().toLowerCase(java.util.Locale.ROOT));
                 continue;
             }

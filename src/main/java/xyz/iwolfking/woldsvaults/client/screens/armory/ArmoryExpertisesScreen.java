@@ -19,13 +19,13 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Read-only Expertises tab of an armory page: VH's expertise screen fed the saved tree, with no learn button. */
 @OnlyIn(Dist.CLIENT)
@@ -92,7 +92,7 @@ public class ArmoryExpertisesScreen extends ExpertisesElementContainerScreen {
 
         @Override
         protected void sendUpgradeMessage() {
-            WoldsVaults.LOGGER.warn("Armory: blocked an expertise learn from the read-only armory view");
+            WoldLogger.warn("Armory: blocked an expertise learn from the read-only armory view");
         }
 
         @Override

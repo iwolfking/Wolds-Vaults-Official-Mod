@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * World SavedData for the Greed Cauldron: each player's selected god and, per god, the item counts fed
@@ -134,7 +134,7 @@ public class GodSacrificeData extends SavedData {
                 CompoundTag godTag = godList.getCompound(j);
                 VaultGod god = VaultGod.fromName(godTag.getString("god"));
                 if (god == null) {
-                    WoldsVaults.LOGGER.error("Dropping sacrifice progress for unknown god '{}'.", godTag.getString("god"));
+                    WoldLogger.error("Dropping sacrifice progress for unknown god '{}'.", godTag.getString("god"));
                     continue;
                 }
                 Map<ResourceLocation, Integer> deposits = new LinkedHashMap<>();

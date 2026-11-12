@@ -15,7 +15,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -28,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The server-side heartbeat of the Vault Champion: rage decay, the spawn roll, the leash, hunt-target
@@ -103,7 +103,7 @@ public final class VaultChampionManager {
             }
         }
         if (!missing.isEmpty()) {
-            WoldsVaults.LOGGER.error("greed_medallions.json lets medallion ranks {} summon a Vault Champion but "
+            WoldLogger.error("greed_medallions.json lets medallion ranks {} summon a Vault Champion but "
                     + "gods/greed_champion.json has no stat block for them - those ranks build rage and never spawn "
                     + "anything. Add a ranks entry for each, or raise gates.vaultChampionHunts.", missing);
         }
@@ -147,7 +147,7 @@ public final class VaultChampionManager {
     private static void adopt(Vault vault, UUID vaultId, TheVesselEntity champion, Set<UUID> tracked) {
         UUID stampedVault = VaultChampion.getVaultId(champion);
         if (stampedVault != null && !stampedVault.equals(vaultId)) {
-            WoldsVaults.LOGGER.warn("Discarding a Vault Champion stamped for vault {} that turned up in vault {}.",
+            WoldLogger.warn("Discarding a Vault Champion stamped for vault {} that turned up in vault {}.",
                     stampedVault, vaultId);
             champion.discard();
             return;
@@ -155,7 +155,7 @@ public final class VaultChampionManager {
         UUID summoner = VaultChampion.getSummoner(champion);
         if (summoner == null || VaultChampion.getTier(champion).isEmpty()
                 || VaultChampionKills.poolOf(champion) <= 0.0D) {
-            WoldsVaults.LOGGER.error("Discarding an unmanageable Vault Champion in vault {}: it carries no summoner, "
+            WoldLogger.error("Discarding an unmanageable Vault Champion in vault {}: it carries no summoner, "
                     + "no medallion rank or no damage pool, so it could never be defeated.", vaultId);
             champion.discard();
             return;
@@ -165,7 +165,7 @@ public final class VaultChampionManager {
             return;
         }
         if (state.getLiveChampion() != null) {
-            WoldsVaults.LOGGER.warn("Discarding a duplicate Vault Champion in vault {}: {} already has a live one.",
+            WoldLogger.warn("Discarding a duplicate Vault Champion in vault {}: {} already has a live one.",
                     vaultId, summoner);
             champion.discard();
             return;
@@ -174,7 +174,7 @@ public final class VaultChampionManager {
         tracked.add(champion.getUUID());
         VaultChampionSpawner.applySize(champion, VaultChampion.config().getScaling().sizeMultiplier);
         VaultChampionKills.syncBar(vault, champion);
-        WoldsVaults.LOGGER.info("Re-adopted a Vault Champion in vault {} summoned by {}: {} of {} damage already "
+        WoldLogger.info("Re-adopted a Vault Champion in vault {} summoned by {}: {} of {} damage already "
                         + "dealt to it.", vaultId, summoner, (long) VaultChampionKills.dealtOf(champion),
                 (long) VaultChampionKills.poolOf(champion));
     }
@@ -200,11 +200,11 @@ public final class VaultChampionManager {
         if (!(entity instanceof TheVesselEntity champion) || !champion.isAlive()) {
             int missing = state.noteChampionMissing(interval);
             if (missing == interval) {
-                WoldsVaults.LOGGER.debug("Vault Champion {} is not loaded; holding its record until it is.",
+                WoldLogger.debug("Vault Champion {} is not loaded; holding its record until it is.",
                         championId);
             }
             if (missing >= MISSING_GRACE_TICKS) {
-                WoldsVaults.LOGGER.warn("Vault Champion {} has not been loaded for {} ticks - dropping its record. "
+                WoldLogger.warn("Vault Champion {} has not been loaded for {} ticks - dropping its record. "
                         + "It is re-adopted if the entity turns up again.", championId, missing);
                 VaultChampionKills.closeBar(vault);
                 state.setLiveChampion(null);
@@ -265,7 +265,7 @@ public final class VaultChampionManager {
         int orphaned = champion.getPersistentData().getInt(ORPHAN_KEY) + config.getHunt().managerIntervalTicks;
         champion.getPersistentData().putInt(ORPHAN_KEY, orphaned);
         if (orphaned >= config.getHunt().orphanTicks) {
-            WoldsVaults.LOGGER.debug("Discarding a Vault Champion with no runner left to hunt.");
+            WoldLogger.debug("Discarding a Vault Champion with no runner left to hunt.");
             champion.discard();
         }
     }
@@ -315,7 +315,7 @@ public final class VaultChampionManager {
         double chance = base * (state.getRage() / threshold);
         if (level.random.nextDouble() < chance) {
             state.setArmed(true);
-            WoldsVaults.LOGGER.debug("Vault Champion spawn armed for {} at {} rage.", playerId, (long) state.getRage());
+            WoldLogger.debug("Vault Champion spawn armed for {} at {} rage.", playerId, (long) state.getRage());
         }
     }
 
@@ -375,7 +375,7 @@ public final class VaultChampionManager {
         for (VaultChampionState.PlayerState state : VaultChampionState.players(vaultId).values()) {
             UUID championId = state.getLiveChampion();
             if (championId != null && !discarded.contains(championId) && discardIfPresent(server, championId)) {
-                WoldsVaults.LOGGER.warn("Vault Champion {} had to be discarded by id: no loaded level resolved back "
+                WoldLogger.warn("Vault Champion {} had to be discarded by id: no loaded level resolved back "
                         + "to vault {} for the sweep.", championId, vaultId);
             }
         }

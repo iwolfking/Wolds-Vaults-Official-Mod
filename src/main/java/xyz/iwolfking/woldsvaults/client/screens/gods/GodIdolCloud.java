@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import xyz.iwolfking.woldsvaults.client.init.ModShaders;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public final class GodIdolCloud {
     private static final ResourceLocation SETTINGS = WoldsVaults.id("god_tree/idol_cloud.json");
@@ -134,7 +135,7 @@ public final class GodIdolCloud {
                  Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
                 json = JsonParser.parseReader(reader).getAsJsonObject();
             } catch (IOException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("God idol cloud {} could not be read; using the tuning page's defaults", SETTINGS, e);
+                WoldLogger.error("God idol cloud {} could not be read; using the tuning page's defaults", SETTINGS, e);
             }
             settings = settings(json);
         }

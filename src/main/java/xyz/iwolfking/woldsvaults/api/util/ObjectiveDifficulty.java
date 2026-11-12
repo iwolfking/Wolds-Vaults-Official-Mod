@@ -11,7 +11,6 @@ import iskallia.vault.task.counter.TargetTaskCounter;
 import iskallia.vault.task.counter.TaskCounter;
 import iskallia.vault.task.renderer.BingoRenderer;
 import iskallia.vault.task.renderer.TaskRenderer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TargetTaskCounterConfigAccessor;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The one number every objective scales from: D = (1 + sigil difficulty) x (1 + medallion objective bonus),
@@ -41,7 +41,7 @@ public final class ObjectiveDifficulty {
     private static ObjectiveDifficultyConfig config() {
         ObjectiveDifficultyConfig config = xyz.iwolfking.woldsvaults.init.ModConfigs.OBJECTIVE_DIFFICULTY;
         if (config == null && WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Objective difficulty was read before the objectives/difficulty/objective_difficulty table "
+            WoldLogger.error("Objective difficulty was read before the objectives/difficulty/objective_difficulty table "
                     + "was installed; objectives do not scale with difficulty until it is");
         }
         return config;
@@ -54,7 +54,7 @@ public final class ObjectiveDifficulty {
         }
         Optional<SigilDefinitionsConfig.SigilDefinition> definition = ModConfigs.SIGIL_DEFINITIONS.get(sigil.toLowerCase());
         if (definition.isEmpty()) {
-            WoldsVaults.LOGGER.warn("Sigil '{}' has no entry in sigils/definitions.json, counting its difficulty as 0", sigil);
+            WoldLogger.error("Sigil '{}' has no entry in sigils/definitions.json, counting its difficulty as 0", sigil);
             return 0.0D;
         }
         return Math.max(0.0D, definition.get().getDifficulty());
@@ -100,7 +100,7 @@ public final class ObjectiveDifficulty {
             return IntRoll.ofConstant(scale(constant.getCount(), factor));
         }
         if (!(roll instanceof IntRoll.Uniform)) {
-            WoldsVaults.LOGGER.warn("Scaling a {} roll as a uniform {}..{} roll", roll.getClass().getSimpleName(), roll.getMin(), roll.getMax());
+            WoldLogger.warn("Scaling a {} roll as a uniform {}..{} roll", roll.getClass().getSimpleName(), roll.getMin(), roll.getMax());
         }
         return IntRoll.ofUniform(scale(roll.getMin(), factor), scale(roll.getMax(), factor));
     }
@@ -169,7 +169,7 @@ public final class ObjectiveDifficulty {
             }
         }
         if (goals.size() < floor) {
-            WoldsVaults.LOGGER.warn("Scavenger goal floor {} at difficulty {} could not be reached, {} goals rolled", floor, multiplier, goals.size());
+            WoldLogger.warn("Scavenger goal floor {} at difficulty {} could not be reached, {} goals rolled", floor, multiplier, goals.size());
         }
         scaleScavengerGoals(goals, multiplier, objective);
         return goals;
@@ -222,7 +222,7 @@ public final class ObjectiveDifficulty {
     public static double current() {
         Double multiplier = CURRENT.get();
         if (multiplier == null) {
-            WoldsVaults.LOGGER.error("Objective difficulty read outside a crystal configure call, using 1.0");
+            WoldLogger.warn("Objective difficulty read outside a crystal configure call, using 1.0");
             return 1.0D;
         }
         return multiplier;

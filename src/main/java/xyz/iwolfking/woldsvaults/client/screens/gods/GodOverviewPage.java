@@ -117,7 +117,7 @@ public final class GodOverviewPage {
         int openings = GodIdolCloud.openings().size();
         int granted = GodLevels.maxMinorTransferSlots();
         if (granted > openings) {
-            GodTreeLog.warnOnce("transfer_slots", "god_levels grants {} transfer slots but the idol cloud has {} openings; the page shows {}.", granted, openings, openings);
+            GodTreeLog.errorOnce("transfer_slots", "god_levels grants {} transfer slots but the idol cloud has {} openings; the page shows {}.", granted, openings, openings);
         }
         return Math.min(openings, granted);
     }

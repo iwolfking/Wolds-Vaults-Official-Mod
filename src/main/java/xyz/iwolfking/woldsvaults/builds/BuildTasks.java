@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Runs build follow-up work a few server ticks later, after curio and pouch ticks have seen the new items. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -42,7 +43,7 @@ public final class BuildTasks {
             try {
                 action.run();
             } catch (RuntimeException | LinkageError e) {
-                WoldsVaults.LOGGER.error("[wvbuilds] A delayed build task failed", e);
+                WoldLogger.error("[wvbuilds] A delayed build task failed", e);
             }
         }
     }

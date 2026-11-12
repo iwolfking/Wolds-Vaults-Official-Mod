@@ -18,7 +18,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.network.ClientboundSacrificeMenuMessage;
@@ -27,6 +26,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Server logic for the Greed Cauldron's sacrificial-altar role: builds the menu snapshot, routes deposits
@@ -249,7 +249,7 @@ public final class SacrificeAltarLogic {
         level.playSound(null, pos, SoundEvents.BEACON_ACTIVATE, SoundSource.BLOCKS, 1.0F, 0.8F);
         owner.displayClientMessage(new TextComponent(god.getName() + " accepts your " + gate.label() + ".")
                 .withStyle(ChatFormatting.GOLD), false);
-        WoldsVaults.LOGGER.info("{} completed the {} sacrifice for {}.",
+        WoldLogger.info("{} completed the {} sacrifice for {}.",
                 owner.getGameProfile().getName(), gate.label(), god.getName());
         refreshMenu(owner);
     }

@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.GreedShopHelper;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = ServerboundGreedTraderResetMessage.class, remap = false)
 public class MixinServerboundGreedTraderResetMessage {
@@ -33,7 +33,7 @@ public class MixinServerboundGreedTraderResetMessage {
             PlayerGreedTraderData traderData = PlayerGreedTraderData.get(sender.getLevel());
             int resetCost = traderData.getResetCost(sender.getUUID());
             if (!GreedShopHelper.consumeGreedyTickets(sender, resetCost)) {
-                WoldsVaults.LOGGER.debug("Refused greed shop reroll for {}: {} greedy tickets required, {} held",
+                WoldLogger.debug("Refused greed shop reroll for {}: {} greedy tickets required, {} held",
                         sender.getGameProfile().getName(), resetCost, GreedShopHelper.countGreedyTickets(sender));
                 traderData.syncToClient(sender);
                 return;

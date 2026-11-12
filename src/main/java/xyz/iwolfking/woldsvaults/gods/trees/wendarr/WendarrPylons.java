@@ -9,9 +9,9 @@ import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.NumericTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Pylon Whisperer: scales the magnitude fields, not the durations, of the buff config on pylons the
@@ -58,7 +58,7 @@ public final class WendarrPylons {
             }
             return scaled ? PylonBuff.Config.fromNBT(nbt) : null;
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Pylon Whisperer could not rebuild pylon buff config {}; the pylon applied unchanged.",
+            WoldLogger.error("Pylon Whisperer could not rebuild pylon buff config {}; the pylon applied unchanged.",
                     config.getClass().getName(), e);
             return null;
         }

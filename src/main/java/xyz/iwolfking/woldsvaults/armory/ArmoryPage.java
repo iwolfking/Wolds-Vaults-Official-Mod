@@ -5,13 +5,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * One armory build page: the saved trees, the slot marks, the saved layout ({@code expected}: a ghost copy, or
@@ -176,7 +176,7 @@ public final class ArmoryPage {
             }
             ItemStack ghost = ItemStack.of(item);
             if (ghost.isEmpty()) {
-                WoldsVaults.LOGGER.warn("Armory: saved item {} for slot {} no longer exists; the slot is now unset",
+                WoldLogger.warn("Armory: saved item {} for slot {} no longer exists; the slot is now unset",
                         item.getString("id"), key);
                 continue;
             }

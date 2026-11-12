@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.api.util.VaultMapTierCache;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapGod;
@@ -19,6 +18,7 @@ import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.maps.MapGodVaultState;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Carries the map tier (0-5) on the crystal through {@code CrystalData} copy/read/write, and stashes it
@@ -109,7 +109,7 @@ public class MixinCrystalMapTier implements DuckMapTier, DuckMapGod {
         }
         VaultGod god = VaultGod.fromName(this.woldsvaults$mapGod);
         if (god == null) {
-            WoldsVaults.LOGGER.error("Crystal carries map god '{}' which matches no vault god; the vault will award no god experience.",
+            WoldLogger.error("Crystal carries map god '{}' which matches no vault god; the vault will award no god experience.",
                     this.woldsvaults$mapGod);
             return;
         }

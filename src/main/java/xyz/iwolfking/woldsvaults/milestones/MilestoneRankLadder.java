@@ -1,12 +1,12 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The greed rank ladder. Its shape is structure and fixed here, since greed medallion registry ids are built from
@@ -130,7 +130,7 @@ public class MilestoneRankLadder {
     private static int[] loadedThresholds() {
         int[] loaded = thresholds;
         if (loaded == null && WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("The greed rank ladder was read before the greed/ranks/greed_ranks table was installed; "
+            WoldLogger.error("The greed rank ladder was read before the greed/ranks/greed_ranks table was installed; "
                     + "no rank past the first can be reached until it is");
         }
         return loaded;

@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
@@ -22,6 +21,7 @@ import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Save, Stow and Load. Each action first builds its whole move list (and, for Load, the tree plan), checks it
@@ -52,7 +52,7 @@ public final class ArmoryService {
             LoadPlan plan = planLoad(player, armory, page);
             return new Preview(plan.refusals, plan.notes);
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Armory: Load preview failed for {}", player.getGameProfile().getName(), e);
+            WoldLogger.error("Armory: Load preview failed for {}", player.getGameProfile().getName(), e);
             return new Preview(List.of("Load check failed: " + e.getClass().getSimpleName()), List.of());
         }
     }
@@ -130,7 +130,7 @@ public final class ArmoryService {
                 continue;
             }
             if (!PlayerSlots.set(player, key, ItemStack.EMPTY)) {
-                WoldsVaults.LOGGER.warn("Armory: could not take {} out of {}'s {} during Stow; left in place",
+                WoldLogger.warn("Armory: could not take {} out of {}'s {} during Stow; left in place",
                         current.getHoverName().getString(), player.getGameProfile().getName(), key);
                 continue;
             }
@@ -153,7 +153,7 @@ public final class ArmoryService {
         try {
             plan = planLoad(player, armory, pageIndex);
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Armory: Load check failed for {}; nothing moved", player.getGameProfile().getName(), e);
+            WoldLogger.error("Armory: Load check failed for {}; nothing moved", player.getGameProfile().getName(), e);
             refuse(player, "Load", List.of("Load check failed (" + e.getClass().getSimpleName() + "); nothing moved"));
             return;
         }
@@ -167,7 +167,7 @@ public final class ArmoryService {
         for (Move move : plan.moves) {
             ItemStack outgoing = PlayerSlots.get(player, move.key()).copy();
             if (!PlayerSlots.set(player, move.key(), move.incoming().copy())) {
-                WoldsVaults.LOGGER.warn("Armory: {}'s {} refused {} during Load; it stays on the page",
+                WoldLogger.warn("Armory: {}'s {} refused {} during Load; it stays on the page",
                         player.getGameProfile().getName(), move.key(), move.incoming().getHoverName().getString());
                 plan.notes.add("Skipped " + move.incoming().getHoverName().getString() + ": the slot refused it");
                 continue;
@@ -191,7 +191,7 @@ public final class ArmoryService {
                 trees = TreePlanner.plan(player, page.build(), armory.hasSkillsUpgrade(), armory.hasGodsUpgrade(),
                         TreePlanner.Budget.of(player));
                 if (!trees.ok()) {
-                    WoldsVaults.LOGGER.error("Armory: after the creative raises {}'s trees still do not fit: {}",
+                    WoldLogger.error("Armory: after the creative raises {}'s trees still do not fit: {}",
                             player.getGameProfile().getName(), trees.refusals);
                     refuse(player, "Load", trees.refusals);
                     trees = null;
@@ -201,7 +201,7 @@ public final class ArmoryService {
                 try {
                     trees.commit(player);
                 } catch (RuntimeException | LinkageError e) {
-                    WoldsVaults.LOGGER.error("Armory: applying the trees failed part way for {}", player.getGameProfile().getName(), e);
+                    WoldLogger.error("Armory: applying the trees failed part way for {}", player.getGameProfile().getName(), e);
                     tell(player, ChatFormatting.RED, "Applying the saved trees failed part way; check your trees. Gear was loaded.");
                 }
             }
@@ -314,7 +314,7 @@ public final class ArmoryService {
     private static void toExcessOrPlayer(ServerPlayer player, ArmoryBlockEntity armory, ItemStack stack) {
         ItemStack rest = ItemHandlerHelper.insertItemStacked(armory.excess(), stack, false);
         if (!rest.isEmpty()) {
-            WoldsVaults.LOGGER.error("Armory: excess was full despite the check; {} went to {} instead",
+            WoldLogger.error("Armory: excess was full despite the check; {} went to {} instead",
                     rest.getHoverName().getString(), player.getGameProfile().getName());
             if (!player.getInventory().add(rest)) {
                 player.drop(rest, false);

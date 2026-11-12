@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Every Velara node that changes damage the player takes, on {@link FinalDamageStage}. The syphon
@@ -112,7 +113,7 @@ public final class VelaraDamage {
             shepherd.hurt(source, delivered);
         } catch (RuntimeException e) {
             landed = false;
-            WoldsVaults.LOGGER.error("Sacrifice failed to syphon {} damage onto {}; the hit stays with its original target.",
+            WoldLogger.error("Sacrifice failed to syphon {} damage onto {}; the hit stays with its original target.",
                     delivered, shepherd.getGameProfile().getName(), e);
         } finally {
             shepherd.invulnerableTime = savedInvulnerable;

@@ -7,11 +7,11 @@ import iskallia.vault.item.crystal.theme.CrystalTheme;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = CrystalEntry.class, remap = false)
 public class MixinCrystalEntry {
@@ -40,7 +40,7 @@ public class MixinCrystalEntry {
         }
 
         if (themeIndex < 0 || modifiersIndex < 0) {
-            WoldsVaults.LOGGER.error("Crystal configure order fallback: theme index {} or modifiers index {} not found, configuring in base order", themeIndex, modifiersIndex);
+            WoldLogger.error("Crystal configure order fallback: theme index {} or modifiers index {} not found, configuring in base order", themeIndex, modifiersIndex);
             return children;
         }
         if (themeIndex > modifiersIndex) {

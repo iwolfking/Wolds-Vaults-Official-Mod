@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Inverts the greed effect rebuild: gear attribute and stat boost node modifiers are removed. */
 @Mixin(value = GreedEffectManager.class, remap = false)
@@ -22,7 +22,7 @@ public abstract class MixinGreedEffectManagerNodesDisabled {
         ci.cancel();
         MinecraftServer server = player.getServer();
         if (server == null || ModConfigs.GREED_NODES == null) {
-            WoldsVaults.LOGGER.error("Skipping greed node effect strip for {}: server {} greed node config {}.",
+            WoldLogger.error("Skipping greed node effect strip for {}: server {} greed node config {}.",
                     player.getGameProfile().getName(), server, ModConfigs.GREED_NODES);
             return;
         }

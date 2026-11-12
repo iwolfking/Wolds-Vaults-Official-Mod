@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A player's glyph sources: the equipped items VH itself counts for the attribute snapshot (intended slot, not broken,
@@ -249,7 +250,7 @@ public final class GlyphSources {
 
     private static void report(String key, String message) {
         if (REPORTED.add(key.toLowerCase(Locale.ROOT))) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 

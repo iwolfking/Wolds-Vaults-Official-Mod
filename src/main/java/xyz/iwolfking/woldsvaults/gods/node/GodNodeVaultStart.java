@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The one dispatcher for {@link VaultContributor}: every god node that changes the vault being
@@ -50,7 +51,7 @@ public final class GodNodeVaultStart {
             try {
                 handler.onVaultStart(context, vault);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("God vault contributor {} threw for {}; its contribution to this vault was "
+                WoldLogger.error("God vault contributor {} threw for {}; its contribution to this vault was "
                         + "skipped.", effect.id(), player.getGameProfile().getName(), e);
             }
         }
@@ -62,7 +63,7 @@ public final class GodNodeVaultStart {
         }
         ServerPlayer player = listener.getPlayer().orElse(null);
         if (player == null) {
-            WoldsVaults.LOGGER.warn("A listener joined a vault with no resolvable player; god vault "
+            WoldLogger.error("A listener joined a vault with no resolvable player; god vault "
                     + "contributors did not run for them, so any vault-start node they own is inert this run.");
             return;
         }
@@ -75,7 +76,7 @@ public final class GodNodeVaultStart {
     private static boolean claim(Vault vault, UUID playerId) {
         UUID vaultId = vault.has(Vault.ID) ? vault.get(Vault.ID) : null;
         if (vaultId == null) {
-            WoldsVaults.LOGGER.warn("A runner joined a vault with no id; god vault contributors ran for them "
+            WoldLogger.error("A runner joined a vault with no id; god vault contributors ran for them "
                     + "without the once-per-vault guard.");
             return true;
         }

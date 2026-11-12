@@ -164,7 +164,7 @@ public class HyperEscalationManager extends ObjectiveManager<HyperVaultObjective
         return VaultModifierRegistry.getOpt(VaultMod.id("inert"))
                 .map(modifier -> " (" + modifier.getDisplayDescriptionFormatted(1) + ")")
                 .orElseGet(() -> {
-                    WoldsVaults.LOGGER.error("HYPER cycle broadcast: vault modifier the_vault:inert is not registered; announcing it without its effect");
+                    WoldLogger.error("HYPER cycle broadcast: vault modifier the_vault:inert is not registered; announcing it without its effect");
                     return "";
                 });
     }

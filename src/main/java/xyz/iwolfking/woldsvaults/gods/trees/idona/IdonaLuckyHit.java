@@ -14,10 +14,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Overcrit and Luckiest Hit, called from mixins on the base lucky-hit pipeline. */
 public final class IdonaLuckyHit {
@@ -88,7 +88,7 @@ public final class IdonaLuckyHit {
             try {
                 talent.onLuckyHit(event);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("Luckiest Hit failed to re-apply {}; its second application was skipped.",
+                WoldLogger.error("Luckiest Hit failed to re-apply {}; its second application was skipped.",
                         talent.getClass().getSimpleName(), e);
             }
         }

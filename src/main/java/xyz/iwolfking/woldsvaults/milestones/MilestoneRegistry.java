@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.milestones;
 
 import iskallia.vault.core.vault.stat.VaultChestType;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Which milestones exist, what each one counts, and what every tier of it costs and pays. The
@@ -128,7 +128,7 @@ public class MilestoneRegistry {
 
     private static boolean loaded() {
         if (config == null && WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Greed milestones were read before the greed/milestones/greed_milestones table was installed; "
+            WoldLogger.error("Greed milestones were read before the greed/milestones/greed_milestones table was installed; "
                     + "no milestone can complete until it is");
         }
         return config != null;
@@ -190,7 +190,7 @@ public class MilestoneRegistry {
     private static void register(String id, MilestoneCategory category, MilestoneCounter counter, String challengeCrystalId) {
         GreedMilestonesConfig.Entry entry = config.getMilestone(id);
         if (entry == null) {
-            WoldsVaults.LOGGER.error("Milestone '{}' has no entry in the greed/milestones/greed_milestones table; it is not registered", id);
+            WoldLogger.error("Milestone '{}' has no entry in the greed/milestones/greed_milestones table; it is not registered", id);
             return;
         }
         register(new MilestoneDefinition(id, category, counter, entry.thresholds(), entry.reputation(),
@@ -282,7 +282,7 @@ public class MilestoneRegistry {
 
         MilestoneDefinition seenItAll = BY_ID.get(MilestoneIds.SEEN_IT_ALL);
         if (seenItAll != null && seenItAll.getFinalThreshold() != SEEN_IT_ALL_TYPES.size()) {
-            WoldsVaults.LOGGER.error("Milestone '{}' is configured to finish at {} objective types but {} are counted in code; it cannot be completed as configured",
+            WoldLogger.error("Milestone '{}' is configured to finish at {} objective types but {} are counted in code; it cannot be completed as configured",
                     MilestoneIds.SEEN_IT_ALL, seenItAll.getFinalThreshold(), SEEN_IT_ALL_TYPES.size());
         }
 

@@ -7,13 +7,13 @@ import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.world.data.DownedPlayerManager;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.ultimates.DownedPlayerManagerInvoker;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Velara's ultimate: a vault-wide shockwave that heals, shields and protects every runner in the vault and
@@ -85,7 +85,7 @@ public class SaviorAbility extends GodUltimateAbility {
             try {
                 DownedPlayerManagerInvoker.woldsvaults$completeRevive(caster, target);
             } catch (RuntimeException | LinkageError e) {
-                WoldsVaults.LOGGER.error("Savior could not revive {}: the DownedPlayerManager invoker is unavailable. "
+                WoldLogger.error("Savior could not revive {}: the DownedPlayerManager invoker is unavailable. "
                         + "The heal, absorption and resistance still applied.", target.getGameProfile().getName(), e);
                 return;
             }

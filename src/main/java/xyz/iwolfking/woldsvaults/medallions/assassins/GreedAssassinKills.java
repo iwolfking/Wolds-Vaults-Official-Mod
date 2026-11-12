@@ -12,10 +12,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The payout for killing a greed assassin: coins worth half the medallion's base value plus Assassin Assassinator
@@ -34,7 +34,7 @@ public final class GreedAssassinKills {
         Milestones.advance(player, MilestoneIds.ASSASSIN_ASSASSINATOR, 1L);
         GreedMedallionTier tier = GreedAssassins.getTier(killed).orElse(null);
         if (tier == null) {
-            WoldsVaults.LOGGER.warn("Greed assassin died with no medallion tier on it and in no medallion vault - dropping no coins.");
+            WoldLogger.error("Greed assassin died with no medallion tier on it and in no medallion vault - dropping no coins.");
             return;
         }
         int coinCount = Math.max(1, tier.getBaseGreedCoins() / 2);

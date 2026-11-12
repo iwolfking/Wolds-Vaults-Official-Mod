@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.milestones;
 
 import iskallia.vault.config.greed.GreedChallengeEntry;
 import iskallia.vault.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The unlock rule for Mr. Greedy's challenge crystals: the greed tier must clear both the rank
@@ -31,7 +31,7 @@ public final class GreedChallengeOffers {
             }
             int requiredRank = MilestoneRegistry.getChallengeRequiredRank(entry.getChallengeCrystalId());
             if (requiredRank > 0 && entry.getMinTier() > requiredRank) {
-                WoldsVaults.LOGGER.warn("Challenge crystal '{}' is gated at minTier {} in greed_trader.json but its milestone is tagged rank {}; it stays locked until rank {}",
+                WoldLogger.error("Challenge crystal '{}' is gated at minTier {} in greed_trader.json but its milestone is tagged rank {}; it stays locked until rank {}",
                         entry.getChallengeCrystalId(), entry.getMinTier(), requiredRank, entry.getMinTier());
             }
         }
@@ -54,7 +54,7 @@ public final class GreedChallengeOffers {
             return false;
         }
         if (ModConfigs.GREED_TRADER == null) {
-            WoldsVaults.LOGGER.warn("Greed trader config is not loaded; treating challenge '{}' as locked", challengeCrystalId);
+            WoldLogger.error("Greed trader config is not loaded; treating challenge '{}' as locked", challengeCrystalId);
             return false;
         }
         return isUnlocked(ModConfigs.GREED_TRADER.getChallengeEntryById(challengeCrystalId), rank);

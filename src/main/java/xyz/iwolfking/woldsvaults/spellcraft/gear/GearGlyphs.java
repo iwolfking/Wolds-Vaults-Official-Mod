@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Gear effects that became glyph grants (loadout spec sec. 6, 9.4). The table's {@code gearGlyphs} section names each
@@ -324,7 +325,7 @@ public final class GearGlyphs {
 
     private static void reportOnce(String key, String message) {
         if (REPORTED.add(key)) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 

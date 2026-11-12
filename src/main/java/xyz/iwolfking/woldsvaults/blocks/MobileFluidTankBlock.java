@@ -26,13 +26,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.tiles.MobileFluidTankTileEntity;
 import xyz.iwolfking.woldsvaults.items.MobileFluidTankItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The placed Mobile Extractor Fluid Tank. Buckets fill and empty it by hand, pipes drain it from any face, and it drops
@@ -97,7 +97,7 @@ public class MobileFluidTankBlock extends Block implements EntityBlock {
         if (blockEntity instanceof MobileFluidTankTileEntity tank) {
             return List.of(tank.toItem());
         }
-        WoldsVaults.LOGGER.error("A Mobile Extractor Fluid Tank broke without its block entity; it dropped empty.");
+        WoldLogger.error("A Mobile Extractor Fluid Tank broke without its block entity; it dropped empty.");
         return List.of(new ItemStack(this));
     }
 }

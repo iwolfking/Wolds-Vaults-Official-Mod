@@ -5,12 +5,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.projectiles.VaultMeteor;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Per-explosion state for player fireball explosions ({@code VaultFireball.explode}), which runs its hits in
@@ -63,7 +63,7 @@ public final class SteelInferno {
         Explosion explosion = CURRENT.get();
         if (explosion == null) {
             if (WARNED_NO_SCOPE.compareAndSet(false, true)) {
-                WoldsVaults.LOGGER.warn("Fireball explosion hit ran outside its explode scope; it keeps vanilla i-frames and no Steel Inferno falloff.");
+                WoldLogger.error("Fireball explosion hit ran outside its explode scope; it keeps vanilla i-frames and no Steel Inferno falloff.");
             }
             return false;
         }
@@ -79,7 +79,7 @@ public final class SteelInferno {
         float radius = explosion.radius();
         if (radius <= 0.0F) {
             if (WARNED_NO_RADIUS.compareAndSet(false, true)) {
-                WoldsVaults.LOGGER.warn("Steel Inferno explosion had no radius recorded; dealing flat damage without the centre bonus.");
+                WoldLogger.error("Steel Inferno explosion had no radius recorded; dealing flat damage without the centre bonus.");
             }
             return damage;
         }

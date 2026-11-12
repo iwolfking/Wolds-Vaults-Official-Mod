@@ -7,7 +7,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.cast.AugmentCaster;
 import xyz.iwolfking.woldsvaults.augments.cast.SpellCharge;
 import xyz.iwolfking.woldsvaults.augments.effect.AugmentEvents;
@@ -28,6 +27,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphView;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Spellcraft: focuses and wands roll arcana, glyph lines and depth; their owner builds augmented spells from the glyphs
@@ -170,7 +170,7 @@ public final class FocusAugments {
     public static void placeSpell(ServerPlayer player, int inventorySlot, int spellId, int barSlot, int prio) {
         FocusAugmentsConfig config = config();
         if (config == null) {
-            WoldsVaults.LOGGER.error("Spellcraft: no focus augments table; spell {} was not moved", spellId);
+            WoldLogger.error("Spellcraft: no focus augments table; spell {} was not moved", spellId);
             return;
         }
         ItemStack stack = carrier(player, inventorySlot);
@@ -220,7 +220,7 @@ public final class FocusAugments {
 
     /** A refused edit or placement: shown in chat (the action bar is hidden behind the focus screen) and logged. */
     private static void refuse(ServerPlayer player, String message) {
-        WoldsVaults.LOGGER.warn("Spellcraft: refused a spell edit by {}: {}", player.getGameProfile().getName(), message);
+        WoldLogger.warn("Spellcraft: refused a spell edit by {}: {}", player.getGameProfile().getName(), message);
         player.displayClientMessage(new TextComponent(message).withStyle(ChatFormatting.LIGHT_PURPLE), false);
     }
 }

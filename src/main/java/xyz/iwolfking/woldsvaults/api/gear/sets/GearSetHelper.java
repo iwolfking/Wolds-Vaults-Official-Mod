@@ -8,7 +8,6 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
@@ -21,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Shared set-gear logic: which set an item belongs to, which pieces a player's attribute snapshot counts, and the
@@ -43,7 +43,7 @@ public final class GearSetHelper {
             return config;
         }
         if (WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Set gear was read before the gear/sets/gear_sets table was installed; nothing counts as a set piece until it is");
+            WoldLogger.error("Set gear was read before the gear/sets/gear_sets table was installed; nothing counts as a set piece until it is");
         }
         return INERT;
     }

@@ -5,10 +5,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftRoller;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(LocalPlayer.class)
 public abstract class MixinLocalPlayerSpellChargeSlow {
@@ -30,7 +30,7 @@ public abstract class MixinLocalPlayerSpellChargeSlow {
         if (config == null) {
             if (!woldsvaults$loggedMissingTable) {
                 woldsvaults$loggedMissingTable = true;
-                WoldsVaults.LOGGER.error("Spellcraft: no focus augments table on the client; charging a spell uses the vanilla item-use slow");
+                WoldLogger.error("Spellcraft: no focus augments table on the client; charging a spell uses the vanilla item-use slow");
             }
             return slow;
         }

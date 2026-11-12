@@ -3,11 +3,11 @@ package xyz.iwolfking.woldsvaults.gods.combat;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.time.TickClock;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Vault clock rate: how many game ticks one vault second lasts, with named factors multiplying that
@@ -28,7 +28,7 @@ public final class VaultClockRate {
             return false;
         }
         if (factor < MIN_FACTOR) {
-            WoldsVaults.LOGGER.error("Clock rate factor {} for key {} is below the {} floor; clamping.", factor, key, MIN_FACTOR);
+            WoldLogger.error("Clock rate factor {} for key {} is below the {} floor; clamping.", factor, key, MIN_FACTOR);
             factor = MIN_FACTOR;
         }
         state.factors.put(key, factor);
@@ -92,7 +92,7 @@ public final class VaultClockRate {
                 ticks++;
             }
             if (this.accumulator >= 1.0F) {
-                WoldsVaults.LOGGER.error("Vault clock rate released more than {} ticks in one pass; discarding the remainder.",
+                WoldLogger.error("Vault clock rate released more than {} ticks in one pass; discarding the remainder.",
                         MAX_TICKS_PER_PASS);
                 this.accumulator = 0.0F;
             }

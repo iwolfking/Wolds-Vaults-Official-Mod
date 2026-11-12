@@ -16,12 +16,12 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;
 
 import java.beans.Introspector;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The H screen's stat lists as text, captured on the client at Save and replayed on the armory's Gear tab. The
@@ -66,7 +66,7 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
                 row.put("description", description);
                 list.add(row);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.warn("Armory: one H-screen stat row could not be recorded and is left out ({})", e.toString());
+                WoldLogger.error("Armory: one H-screen stat row could not be recorded and is left out ({})", e.toString());
             }
         }
         return list;
@@ -83,7 +83,7 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
             try {
                 value = Component.Serializer.fromJson(row.getString("value"));
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.warn("Armory: saved stat value for {} could not be read; shown as '?'", label);
+                WoldLogger.warn("Armory: saved stat value for {} could not be read; shown as '?'", label);
                 value = null;
             }
             MutableComponent shown = value == null ? new TextComponent("?") : value;

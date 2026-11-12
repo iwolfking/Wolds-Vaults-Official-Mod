@@ -185,7 +185,7 @@ public final class HyperModifierPolicy {
      */
     public static boolean isBlocked(Vault vault, VaultModifier<?> modifier) {
         if (GreedTrialHyper.isBannedInTrial(vault, modifier.getId())) {
-            WoldsVaults.LOGGER.info("Skipped rolling {} — banned in this rank-up trial.", modifier.getId());
+            WoldLogger.info("Skipped rolling {} — banned in this rank-up trial.", modifier.getId());
             return true;
         }
         return isStackCapped(vault, modifier);

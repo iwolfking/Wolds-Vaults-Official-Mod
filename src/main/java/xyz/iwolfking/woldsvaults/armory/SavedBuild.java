@@ -19,7 +19,6 @@ import iskallia.vault.skill.tree.SkillTree;
 import iskallia.vault.skill.tree.TalentTree;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.builds.state.PlayerStateCodec;
 
 import javax.annotation.Nullable;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The tree half of a saved page: the {@link PlayerStateCodec#capture} JSON of the player at Save, plus the H-screen
@@ -86,7 +86,7 @@ public final class SavedBuild {
             JsonObject state = JsonParser.parseString(tag.getString("state")).getAsJsonObject();
             return new SavedBuild(state, tag.getCompound("stats"), tag.getString("saver"), tag.getLong("time"));
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Armory: a saved build could not be read and is dropped ({})", e.toString());
+            WoldLogger.error("Armory: a saved build could not be read and is dropped ({})", e.toString());
             return null;
         }
     }
@@ -173,7 +173,7 @@ public final class SavedBuild {
                     tiered.learn(force, true);
                 }
             } else {
-                WoldsVaults.LOGGER.warn("Armory: saved ability {} is not an ability specialization in this game; shown unlearned",
+                WoldLogger.warn("Armory: saved ability {} is not an ability specialization in this game; shown unlearned",
                         entry.getKey());
             }
         }
@@ -205,7 +205,7 @@ public final class SavedBuild {
         for (Map.Entry<String, Integer> entry : tiers.entrySet()) {
             Skill skill = tree.getForId(entry.getKey()).orElse(null);
             if (skill == null || skill.getParent() instanceof TieredSkill) {
-                WoldsVaults.LOGGER.warn("Armory: saved {} {} does not exist in this game; shown unlearned", what, entry.getKey());
+                WoldLogger.warn("Armory: saved {} {} does not exist in this game; shown unlearned", what, entry.getKey());
                 continue;
             }
             if (skill.getParent() instanceof GroupedSkill grouped) {

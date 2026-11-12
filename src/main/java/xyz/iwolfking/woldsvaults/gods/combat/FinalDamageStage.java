@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The single final damage stage: one {@link LivingDamageEvent} handler at
@@ -34,7 +35,7 @@ public final class FinalDamageStage {
     /** Registers or replaces a sub-stage; lower {@code order} runs earlier. */
     public static void register(ResourceLocation id, int order, SubStage stage) {
         if (SUB_STAGES.put(id, new Entry(id, order, stage)) != null) {
-            WoldsVaults.LOGGER.warn("Final damage sub-stage {} was registered twice; the later registration wins.", id);
+            WoldLogger.error("Final damage sub-stage {} was registered twice; the later registration wins.", id);
         }
         reorder();
     }
@@ -71,7 +72,7 @@ public final class FinalDamageStage {
             try {
                 result = entry.stage().apply(event, result);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("Final damage sub-stage {} threw; its contribution was skipped.", entry.id(), e);
+                WoldLogger.error("Final damage sub-stage {} threw; its contribution was skipped.", entry.id(), e);
             }
         }
         if (result != amount) {

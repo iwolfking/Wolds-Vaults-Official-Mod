@@ -10,13 +10,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Bridges the gear attributes the base mod only consumes from equipped gear onto vanilla attributes, as
@@ -128,7 +128,7 @@ public final class GodVanillaAttributes {
         if (instance == null) {
             String attributeName = String.valueOf(target.getRegistryName());
             if (WARNED_MISSING.add(attributeName)) {
-                WoldsVaults.LOGGER.warn("Player has no attribute instance for {}; god tree bridge {} cannot apply.",
+                WoldLogger.error("Player has no attribute instance for {}; god tree bridge {} cannot apply.",
                         attributeName, name);
             }
             return false;

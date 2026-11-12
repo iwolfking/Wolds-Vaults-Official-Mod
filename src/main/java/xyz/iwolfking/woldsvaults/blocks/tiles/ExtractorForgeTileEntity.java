@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorForgeContainer;
 import xyz.iwolfking.woldsvaults.blocks.containers.lib.WideContainerData;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
@@ -40,6 +39,7 @@ import xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem;
 import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Extraction Forge. Slot 0 takes an identified blueprint; Stage moves it into the forge (slot 1, never
@@ -173,7 +173,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.energy.stored = Math.max(0, tag.getInt("Energy"));
         FluidStack legacy = FluidStack.loadFluidStackFromNBT(tag.getCompound("Tank"));
         if (!legacy.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extraction Forge at {} held {} mB of {} in its old tank; the forge no longer has a tank and the fluid was discarded.",
+            WoldLogger.error("Extraction Forge at {} held {} mB of {} in its old tank; the forge no longer has a tank and the fluid was discarded.",
                     this.getBlockPos(), legacy.getAmount(), legacy.getDisplayName().getString());
         }
     }
@@ -200,7 +200,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
 
     private void tickFabrication() {
         if (!this.isStaged()) {
-            WoldsVaults.LOGGER.error("Extraction Forge at {} was fabricating with no staged blueprint; the job was cancelled.", this.getBlockPos());
+            WoldLogger.error("Extraction Forge at {} was fabricating with no staged blueprint; the job was cancelled.", this.getBlockPos());
             this.stopJob();
             return;
         }
@@ -221,12 +221,12 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         PartData part = ExtractorBlueprintItem.getPart(blueprint);
         ExtractorPartItem partItem = ModItems.EXTRACTOR_PARTS.get(item.getPartType());
         if (part == null || partItem == null) {
-            WoldsVaults.LOGGER.error("Extraction Forge at {} finished a job whose blueprint has no part ({}); the blueprint was returned to the slot.",
+            WoldLogger.error("Extraction Forge at {} finished a job whose blueprint has no part ({}); the blueprint was returned to the slot.",
                     this.getBlockPos(), blueprint.getItem().getRegistryName());
             this.inventory.setStackInSlot(BLUEPRINT_SLOT, blueprint);
         } else {
             this.inventory.setStackInSlot(BLUEPRINT_SLOT, ExtractorPartItem.create(partItem, part));
-            WoldsVaults.LOGGER.info("Extraction Forge at {} fabricated {} ({}) in {} ticks at {} FE/t.",
+            WoldLogger.info("Extraction Forge at {} fabricated {} ({}) in {} ticks at {} FE/t.",
                     this.getBlockPos(), part.name, part.describeOrigin(), this.totalTicks, this.fePerTick);
         }
         this.inventory.setStackInSlot(STAGED_SLOT, ItemStack.EMPTY);
@@ -249,11 +249,11 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         ItemStack staged = this.inventory.getStackInSlot(STAGED_SLOT);
         if (!staged.isEmpty() && !(staged.getItem() instanceof ExtractorBlueprintItem)) {
             if (this.inventory.getStackInSlot(BLUEPRINT_SLOT).isEmpty()) {
-                WoldsVaults.LOGGER.error("Extraction Forge at {} had {} in its old output slot; moved it to the blueprint slot.",
+                WoldLogger.error("Extraction Forge at {} had {} in its old output slot; moved it to the blueprint slot.",
                         this.getBlockPos(), staged.getHoverName().getString());
                 this.inventory.setStackInSlot(BLUEPRINT_SLOT, staged);
             } else {
-                WoldsVaults.LOGGER.error("Extraction Forge at {} had {} in its old output slot and the blueprint slot is full; dropped it at the forge.",
+                WoldLogger.error("Extraction Forge at {} had {} in its old output slot and the blueprint slot is full; dropped it at the forge.",
                         this.getBlockPos(), staged.getHoverName().getString());
                 this.spill(staged);
             }
@@ -262,7 +262,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         for (int slot = DEPOSIT_SLOT_START; slot < SLOT_COUNT; slot++) {
             ItemStack stack = this.inventory.getStackInSlot(slot);
             if (!stack.isEmpty()) {
-                WoldsVaults.LOGGER.error("Extraction Forge at {} still held {} x{} in old deposit slot {}; deposits no longer store items, dropped it at the forge.",
+                WoldLogger.error("Extraction Forge at {} still held {} x{} in old deposit slot {}; deposits no longer store items, dropped it at the forge.",
                         this.getBlockPos(), stack.getHoverName().getString(), stack.getCount(), slot);
                 this.spill(stack);
                 this.inventory.setStackInSlot(slot, ItemStack.EMPTY);
@@ -291,7 +291,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         if (taken < stack.getCount()) {
             ItemStack left = stack.copy();
             left.setCount(stack.getCount() - taken);
-            WoldsVaults.LOGGER.error("Extraction Forge at {} was handed {} x{} but the ledger took only {}; dropped the rest at the forge.",
+            WoldLogger.error("Extraction Forge at {} was handed {} x{} but the ledger took only {}; dropped the rest at the forge.",
                     this.getBlockPos(), stack.getHoverName().getString(), stack.getCount(), taken);
             this.spill(left);
         }
@@ -379,7 +379,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.inventory.setStackInSlot(BLUEPRINT_SLOT, ItemStack.EMPTY);
         this.markDirtyAndDispatch();
         PartData part = ExtractorBlueprintItem.getPart(blueprint);
-        WoldsVaults.LOGGER.info("{} staged {} at the Extraction Forge at {}.", player.getName().getString(), part.name, this.getBlockPos());
+        WoldLogger.info("{} staged {} at the Extraction Forge at {}.", player.getName().getString(), part.name, this.getBlockPos());
     }
 
     /** Null when Fabricate may fire, else the reason it may not. */
@@ -398,7 +398,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
             return "Take the item out of the blueprint slot first.";
         }
         if (forgeConfig().energyCapacity <= 0) {
-            WoldsVaults.LOGGER.error("Extraction Forge at {} cannot fabricate: the FORGE block of extractor_costs did not load.", this.getBlockPos());
+            WoldLogger.error("Extraction Forge at {} cannot fabricate: the FORGE block of extractor_costs did not load.", this.getBlockPos());
             return "The forge's power table did not load; see the log.";
         }
         return null;
@@ -420,7 +420,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.progress = 0;
         this.fabricating = true;
         this.markDirtyAndDispatch();
-        WoldsVaults.LOGGER.info("{} started fabricating at the Extraction Forge at {}: Q{}, {} ticks at {} FE/t.",
+        WoldLogger.info("{} started fabricating at the Extraction Forge at {}: Q{}, {} ticks at {} FE/t.",
                 player.getName().getString(), this.getBlockPos(), quality, this.totalTicks, this.fePerTick);
     }
 

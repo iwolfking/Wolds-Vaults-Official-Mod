@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.function.Function;
 import iskallia.vault.util.TextUtil;
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The spellcraft block at the bottom of a focus's or wand's tooltip. Normally four lines: arcana used of the budget with
@@ -107,7 +108,7 @@ public class AugmentTooltipEvents {
             }
         }
         if (MISSING_AFFIX_LINES.add(glyph.id() + "|" + plainText)) {
-            WoldsVaults.LOGGER.warn("Spellcraft: no tooltip line matches the glyph-granting line '{}' on {}; the glyph line is added at the end",
+            WoldLogger.error("Spellcraft: no tooltip line matches the glyph-granting line '{}' on {}; the glyph line is added at the end",
                     plainText, stack.getItem());
         }
         elements.add(Either.right(new GlyphAffixLine(plain, glyph)));

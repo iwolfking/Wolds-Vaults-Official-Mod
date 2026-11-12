@@ -28,7 +28,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryTreeContainer;
@@ -45,6 +44,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Shared logic of the four read-only armory tree screens (Abilities, Talents, Expertises, Prestige): the armory
@@ -77,7 +77,7 @@ public final class ArmoryTreeView {
         if (menu instanceof ArmoryTreeContainer<?> container) {
             return new ArmoryTreeView(container.info(), container.savedPoints());
         }
-        WoldsVaults.LOGGER.error("Armory: a tree screen opened on {}, which is not an armory tree menu", menu.getClass().getName());
+        WoldLogger.error("Armory: a tree screen opened on {}, which is not an armory tree menu", menu.getClass().getName());
         throw new IllegalStateException("Armory tree screen on a non-armory menu");
     }
 
@@ -122,7 +122,7 @@ public final class ArmoryTreeView {
             }
         }
         if (!strip) {
-            WoldsVaults.LOGGER.warn("Armory: the {} view found no VH tab strip to replace", this.info.tab());
+            WoldLogger.error("Armory: the {} view found no VH tab strip to replace", this.info.tab());
         }
         found.forEach(remove);
         add.accept(ArmoryTabs.topStrip(Spatials.positionXYZ(15, -28, 1), this.info)
@@ -250,7 +250,7 @@ public final class ArmoryTreeView {
     public static Map<String, Integer> tiers(@Nullable SkillTree tree) {
         Map<String, Integer> out = new HashMap<>();
         if (tree == null) {
-            WoldsVaults.LOGGER.warn("Armory: no live tree to compare the saved view against; every saved node is tagged");
+            WoldLogger.warn("Armory: no live tree to compare the saved view against; every saved node is tagged");
             return out;
         }
         tree.iterate(TieredSkill.class, tiered -> {

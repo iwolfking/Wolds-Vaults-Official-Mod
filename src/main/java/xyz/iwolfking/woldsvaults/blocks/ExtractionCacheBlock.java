@@ -26,12 +26,12 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.ExtractionObjective;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractionCacheTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ExtractionCacheBlock extends Block implements EntityBlock, IAllowZone {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -95,12 +95,12 @@ public class ExtractionCacheBlock extends Block implements EntityBlock, IAllowZo
             return removed;
         }
         if (!(level instanceof VirtualWorld world)) {
-            WoldsVaults.LOGGER.error("Extraction cache at {} was broken by {} outside a vault world ({}); no power cell rolled.", pos, player.getName().getString(), level.dimension().location());
+            WoldLogger.error("Extraction cache at {} was broken by {} outside a vault world ({}); no power cell rolled.", pos, player.getName().getString(), level.dimension().location());
             return removed;
         }
         VaultUtils.getVault(level).flatMap(ExtractionObjective::get).ifPresentOrElse(
                 objective -> objective.onCacheBroken(world, pos, player),
-                () -> WoldsVaults.LOGGER.error("Extraction cache at {} was broken by {} in a vault without an extraction objective; no power cell rolled.", pos, player.getName().getString()));
+                () -> WoldLogger.error("Extraction cache at {} was broken by {} in a vault without an extraction objective; no power cell rolled.", pos, player.getName().getString()));
         return removed;
     }
 }

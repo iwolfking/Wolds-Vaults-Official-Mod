@@ -17,7 +17,6 @@ import iskallia.vault.item.crystal.properties.CapacityCrystalProperties;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Builds the Ancient Crystals payout: pre-filled level-locked vault crystals carrying strong and random modifier
@@ -78,7 +78,7 @@ public final class AncientCrystals {
             float bonus = (cfg.powerPerCapacity > 0.0F ? power / cfg.powerPerCapacity : 0.0F) + (cfg.rarityPerCapacity > 0.0F ? rarity / cfg.rarityPerCapacity : 0.0F);
             capacity.setVolume(Math.round((base + bonus + extractor.getPlacerCapacityFlat()) * extractor.getPlacerCapacityMultiplier()));
         } else {
-            WoldsVaults.LOGGER.error("A fresh vault crystal has no capacity properties; the ancient crystal keeps the default capacity.");
+            WoldLogger.error("A fresh vault crystal has no capacity properties; the ancient crystal keeps the default capacity.");
         }
 
         DefaultCrystalModifiers modifiers = new DefaultCrystalModifiers();
@@ -116,7 +116,7 @@ public final class AncientCrystals {
         if ((Object) data instanceof AncientCrystalFlag flag) {
             flag.woldsvaults$setAncient(true);
         } else {
-            WoldsVaults.LOGGER.error("CrystalData does not carry the ancient flag mixin; the ancient crystal will accept maps and sigils.");
+            WoldLogger.error("CrystalData does not carry the ancient flag mixin; the ancient crystal will accept maps and sigils.");
         }
         data.write(stack);
         return stack;
@@ -126,7 +126,7 @@ public final class AncientCrystals {
         if (vault != null && vault.has(Vault.LEVEL)) {
             return vault.get(Vault.LEVEL).get(VaultLevel.VALUE);
         }
-        WoldsVaults.LOGGER.error("Ancient crystal payout could not read the vault's level; the crystal was made at level 100.");
+        WoldLogger.error("Ancient crystal payout could not read the vault's level; the crystal was made at level 100.");
         return 100;
     }
 
@@ -195,7 +195,7 @@ public final class AncientCrystals {
                 ? Optional.empty()
                 : Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.OBJECTIVES.get(poolId)).flatMap(list -> list.getForLevel(level));
         if (entry.isEmpty()) {
-            WoldsVaults.LOGGER.error("Objective pool '{}' has nothing at level {}; the ancient crystal's objective will roll at vault start.", cfg.objectivePool, level);
+            WoldLogger.error("Objective pool '{}' has nothing at level {}; the ancient crystal's objective will roll at vault start.", cfg.objectivePool, level);
             return null;
         }
         WeightedList<CrystalObjective> allowed = new WeightedList<>();
@@ -206,7 +206,7 @@ public final class AncientCrystals {
             }
         });
         if (allowed.isEmpty()) {
-            WoldsVaults.LOGGER.error("Every objective in pool '{}' at level {} is excluded; the ancient crystal's objective will roll at vault start.", cfg.objectivePool, level);
+            WoldLogger.error("Every objective in pool '{}' at level {} is excluded; the ancient crystal's objective will roll at vault start.", cfg.objectivePool, level);
             return null;
         }
         return allowed.getRandom(random).orElse(null);
@@ -219,7 +219,7 @@ public final class AncientCrystals {
             total += Math.max(0.0F, sigil.weight);
         }
         if (total <= 0.0D) {
-            WoldsVaults.LOGGER.error("extraction_objective.json ANCIENT_CRYSTAL lists no sigils; the ancient crystal has none.");
+            WoldLogger.error("extraction_objective.json ANCIENT_CRYSTAL lists no sigils; the ancient crystal has none.");
             return null;
         }
         double pick = random.nextDouble() * total;
@@ -240,7 +240,7 @@ public final class AncientCrystals {
 
     private static void report(String key, String message) {
         if (REPORTED.add(key)) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 }

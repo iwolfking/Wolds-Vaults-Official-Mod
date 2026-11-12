@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.util.VaultGodAffinityHelper;
@@ -37,6 +36,7 @@ import xyz.iwolfking.woldsvaults.client.screens.stats.StatScreenLayout;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = StatisticsElementContainerScreenData.class, remap = false)
 public class MixinStatisticsElementContainerScreenData {
@@ -102,7 +102,7 @@ public class MixinStatisticsElementContainerScreenData {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("Statistics tab: no {} row to replace with the combat-accurate value; added instead", key);
+        WoldLogger.error("Statistics tab: no {} row to replace with the combat-accurate value; added instead", key);
         rows.add(replacement);
     }
 
@@ -120,7 +120,7 @@ public class MixinStatisticsElementContainerScreenData {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("Statistics tab: no {} row to replace with the Purist-inclusive value; added instead", DAMAGE_INCREASE_LABEL);
+        WoldLogger.error("Statistics tab: no {} row to replace with the Purist-inclusive value; added instead", DAMAGE_INCREASE_LABEL);
         rows.add(replacement);
     }
 

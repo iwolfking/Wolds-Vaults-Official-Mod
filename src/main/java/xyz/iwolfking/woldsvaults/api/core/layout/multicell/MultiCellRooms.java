@@ -11,7 +11,6 @@ import iskallia.vault.core.world.template.PlacementSettings;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Per-vault registry of multi-cell rooms. Footprints are registered while the vault initialises (objectives,
@@ -135,7 +135,7 @@ public final class MultiCellRooms {
             }
         }
         if (!fits(vault, layout, anchorX, anchorZ, span)) {
-            WoldsVaults.LOGGER.error("Multi-cell room {}x{} {} from {} does not fit at cell ({}, {}) in vault {}; it was not placed.",
+            WoldLogger.error("Multi-cell room {}x{} {} from {} does not fit at cell ({}, {}) in vault {}; it was not placed.",
                     span, span, pool, source, anchorX, anchorZ, vault.get(Vault.ID));
             return Optional.empty();
         }
@@ -144,7 +144,7 @@ public final class MultiCellRooms {
         Mirror mirror = ((hash >>> 2) & 1L) == 0L ? Mirror.NONE : Mirror.FRONT_BACK;
         MultiCellFootprint footprint = new MultiCellFootprint(anchorX, anchorZ, span, pool, rotation, mirror, configurator, source);
         FOOTPRINTS.computeIfAbsent(vault.get(Vault.ID), id -> new CopyOnWriteArrayList<>()).add(footprint);
-        WoldsVaults.LOGGER.info("Registered multi-cell room {} in vault {}", footprint, vault.get(Vault.ID));
+        WoldLogger.info("Registered multi-cell room {} in vault {}", footprint, vault.get(Vault.ID));
         return Optional.of(footprint);
     }
 

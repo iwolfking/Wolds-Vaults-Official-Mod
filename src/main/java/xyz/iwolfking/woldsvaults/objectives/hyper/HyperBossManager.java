@@ -586,7 +586,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
                 }
             }
             if (!this.waveBosses.isEmpty()) {
-                WoldsVaults.LOGGER.info("Recovered {} live brutal wave bosses after a reload; the wave cap counts them.",
+                WoldLogger.info("Recovered {} live brutal wave bosses after a reload; the wave cap counts them.",
                         this.waveBosses.size());
             }
         }
@@ -685,7 +685,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             return;
         }
         if (count < rolled) {
-            WoldsVaults.LOGGER.info("Hyper brutal wave ({}) trimmed from {} to {}: the arena is near the {}-boss cap.",
+            WoldLogger.info("Hyper brutal wave ({}) trimmed from {} to {}: the arena is near the {}-boss cap.",
                     reason, rolled, count, cap);
         }
         int spawned = 0;

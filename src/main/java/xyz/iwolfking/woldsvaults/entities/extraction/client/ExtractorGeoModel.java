@@ -9,6 +9,7 @@ import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 
 import java.util.HashSet;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
     private static final Set<String> MISSING_BONES = new HashSet<>();
@@ -69,7 +70,7 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
                 this.setBoneHidden(chassis + MOUNT_SUFFIX + i, i < mount);
             }
         } else if (mount > 0) {
-            WoldsVaults.LOGGER.error("Extractor has {} attachment(s) but no chassis bone; the empty mounts will show through.", mount);
+            WoldLogger.error("Extractor has {} attachment(s) but no chassis bone; the empty mounts will show through.", mount);
         }
         this.applyMotion((float) (animationEvent.getAnimationTick() / 20.0D), entity.getDrillRamp());
     }
@@ -139,7 +140,7 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
         IBone bone = this.getAnimationProcessor().getBone(name);
         if (bone == null) {
             if (MISSING_BONES.add(name)) {
-                WoldsVaults.LOGGER.error("Extractor rig has no bone named '{}'; that part variant cannot be toggled.", name);
+                WoldLogger.error("Extractor rig has no bone named '{}'; that part variant cannot be toggled.", name);
             }
             return;
         }

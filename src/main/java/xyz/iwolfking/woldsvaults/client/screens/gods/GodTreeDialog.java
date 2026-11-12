@@ -25,7 +25,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.GodCarryover;
@@ -46,6 +45,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The right-hand pane of the gods tab: the selected node's name, standing, description and unlock
@@ -219,7 +219,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
         }
         if (!replaced) {
             if (WARNED_FORMULAS.add(effectId)) {
-                WoldsVaults.LOGGER.warn("God node '{}' answered a live preview for formula '{}' but its description "
+                WoldLogger.error("God node '{}' answered a live preview for formula '{}' but its description "
                         + "does not contain that text; showing the value after the description instead.",
                         effectId, preview.formulaText());
             }

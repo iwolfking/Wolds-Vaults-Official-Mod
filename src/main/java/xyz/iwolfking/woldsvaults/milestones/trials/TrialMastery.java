@@ -3,8 +3,8 @@ package xyz.iwolfking.woldsvaults.milestones.trials;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.time.TickClock;
 import net.minecraft.ChatFormatting;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The rank-up trial's reward for beating its objective splits.
@@ -82,7 +82,7 @@ public final class TrialMastery {
         }
         int window = objectiveWindowTicks(vault);
         if (window <= 0) {
-            WoldsVaults.LOGGER.warn("Trial Mastery has no objective window for the rank {} trial; awarding nothing.",
+            WoldLogger.error("Trial Mastery has no objective window for the rank {} trial; awarding nothing.",
                     trial.getTargetRank());
             return;
         }
@@ -97,7 +97,7 @@ public final class TrialMastery {
         }
         int total = Math.min(MAX_BONUS_BASIS, getBonusBasis(vault) + award);
         objective.set(HyperVaultObjective.MASTERY_BONUS, total);
-        WoldsVaults.LOGGER.info(
+        WoldLogger.info(
                 "Trial Mastery: objective window {}s of {}s spent -> +{}% this cycle, +{}% total damage.",
                 spent / 20, window / 20, format(award), format(total));
         HyperVaultObjective.broadcast(vault, "Trial Mastery +" + format(award) + "% damage (total +"

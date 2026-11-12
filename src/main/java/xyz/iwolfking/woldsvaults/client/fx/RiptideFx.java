@@ -27,6 +27,7 @@ import xyz.iwolfking.woldsvaults.network.message.RiptideFxMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Client side of the Tidebreaker riptide visuals: turns {@link RiptideFxMessage}s into shock cone pulses, lightning
@@ -77,7 +78,7 @@ public final class RiptideFx {
             case RiptideFxMessage.AURA -> aura(level, message);
             case RiptideFxMessage.BURST -> impactBurst(level, message.getFirst(), message.getAhead() * 0.6F, message.getBehind() * 0.6F, message.isChilled());
             case RiptideFxMessage.HOVER -> hover(level, message);
-            default -> WoldsVaults.LOGGER.error("Unknown riptide fx kind {}; message ignored.", message.getKind());
+            default -> WoldLogger.error("Unknown riptide fx kind {}; message ignored.", message.getKind());
         }
     }
 
@@ -259,7 +260,7 @@ public final class RiptideFx {
             ticking = true;
             EFFECTS.removeIf(effect -> !effect.tick(level));
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Riptide fx tick failed; dropping {} active effects instead of crashing.", EFFECTS.size(), e);
+            WoldLogger.error("Riptide fx tick failed; dropping {} active effects instead of crashing.", EFFECTS.size(), e);
             EFFECTS.clear();
             PENDING.clear();
             HoverStance.clear();
@@ -297,7 +298,7 @@ public final class RiptideFx {
                 source.endBatch(RenderType.lightning());
             }
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Riptide fx render failed; dropping {} active effects instead of crashing.", EFFECTS.size(), e);
+            WoldLogger.error("Riptide fx render failed; dropping {} active effects instead of crashing.", EFFECTS.size(), e);
             EFFECTS.clear();
         }
     }

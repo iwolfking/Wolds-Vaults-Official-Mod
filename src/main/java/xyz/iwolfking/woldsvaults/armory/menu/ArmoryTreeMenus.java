@@ -14,7 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.network.NetworkHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
@@ -22,6 +21,7 @@ import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 
 import javax.annotation.Nullable;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Read-only tree view menus (Abilities, Talents, Expertises, Prestige, Gods) for a saved armory page. */
 public final class ArmoryTreeMenus {
@@ -72,7 +72,7 @@ public final class ArmoryTreeMenus {
                 default -> unavailable(player, info, "it is not a tree tab");
             }
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("Armory: building the {} view of page {} failed", info.tab(), info.page() + 1, e);
+            WoldLogger.error("Armory: building the {} view of page {} failed", info.tab(), info.page() + 1, e);
             player.displayClientMessage(new TextComponent("This armory view could not be opened."), true);
         }
     }
@@ -86,7 +86,7 @@ public final class ArmoryTreeMenus {
 
     private static int spent(@Nullable SkillTree tree) {
         if (tree == null) {
-            WoldsVaults.LOGGER.warn("Armory: a tree config is not loaded; its points are left out of the saved count");
+            WoldLogger.error("Armory: a tree config is not loaded; its points are left out of the saved count");
             return 0;
         }
         return tree.getSpentLearnPoints();
@@ -100,7 +100,7 @@ public final class ArmoryTreeMenus {
     }
 
     private static void unavailable(ServerPlayer player, ArmoryViewInfo info, String reason) {
-        WoldsVaults.LOGGER.warn("Armory: the {} view of page {} cannot open: {}", info.tab(), info.page() + 1, reason);
+        WoldLogger.warn("Armory: the {} view of page {} cannot open: {}", info.tab(), info.page() + 1, reason);
         player.displayClientMessage(new TextComponent("This armory view is not available."), true);
     }
 }

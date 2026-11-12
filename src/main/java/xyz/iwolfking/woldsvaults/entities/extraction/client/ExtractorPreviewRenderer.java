@@ -13,12 +13,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.core.util.Color;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Draws the real extractor rig inside a screen. The rig is rendered up to three times per frame: the parts that
@@ -82,7 +82,7 @@ public class ExtractorPreviewRenderer extends ExtractorGeoRenderer {
             this.entity = ModEntities.EXTRACTOR.create(mc.level);
             if (this.entity == null && !warnedNoEntity) {
                 warnedNoEntity = true;
-                WoldsVaults.LOGGER.error("Could not create a display extractor for the Assembler screen; the diagram stays empty.");
+                WoldLogger.error("Could not create a display extractor for the Assembler screen; the diagram stays empty.");
             }
         }
         return this.entity;

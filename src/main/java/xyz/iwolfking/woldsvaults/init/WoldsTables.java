@@ -6,7 +6,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.vhapi.api.LoaderRegistry;
 import xyz.iwolfking.vhapi.api.events.VaultConfigEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
@@ -37,6 +36,7 @@ import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Wold's Vaults' generated balance tables. Each one is written by a datagen provider into
@@ -112,7 +112,7 @@ public final class WoldsTables {
         ModConfigs.SPELL_HASTE = require(SPELL_HASTE, "spell_haste");
         ModConfigs.FOCUS_AUGMENTS = require(FOCUS_AUGMENTS, "focus_augments");
         ModConfigs.STAT_SCREEN = require(STAT_SCREEN, "player_stats");
-        WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
+        WoldLogger.info("Installed the generated Wold's Vaults tables");
     }
 
     /**
@@ -129,7 +129,7 @@ public final class WoldsTables {
             GodTreeGuiStylesConfig style = require(GOD_TREE_STYLES, name);
             GodNodeEffectsConfig effect = require(GOD_NODE_EFFECTS, name);
             if (tree == null || style == null || effect == null) {
-                WoldsVaults.LOGGER.error("God trees were not installed because {}'s tables are incomplete", name);
+                WoldLogger.error("God trees were not installed because {}'s tables are incomplete", name);
                 return;
             }
             trees.put(god, tree);
@@ -139,7 +139,7 @@ public final class WoldsTables {
         try {
             GodNodeRegistry.load(trees, styles, effects);
         } catch (GodTreeConfigException e) {
-            WoldsVaults.LOGGER.error("The generated god tree tables were rejected; the previously installed trees stay in place", e);
+            WoldLogger.error("The generated god tree tables were rejected; the previously installed trees stay in place", e);
             iskallia.vault.init.ModConfigs.INVALID_CONFIGS.add("woldsvaults gods/* - " + e.getMessage());
             return;
         }
@@ -188,13 +188,13 @@ public final class WoldsTables {
     private static <T extends Config & WoldsTable> T require(WoldsTableLoader<T> loader, String name) {
         T table = loader.table(name);
         if (table == null) {
-            WoldsVaults.LOGGER.error("Generated table woldsvaults:{}/{} is missing; its feature stays unloaded",
+            WoldLogger.error("Generated table woldsvaults:{}/{} is missing; its feature stays unloaded",
                     loader.directory, name);
             return null;
         }
         String problem = table.validate();
         if (problem != null) {
-            WoldsVaults.LOGGER.error("Generated table woldsvaults:{}/{} is unusable ({}); its feature stays unloaded",
+            WoldLogger.error("Generated table woldsvaults:{}/{} is unusable ({}); its feature stays unloaded",
                     loader.directory, name, problem);
             return null;
         }

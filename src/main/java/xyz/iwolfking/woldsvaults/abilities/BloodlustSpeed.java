@@ -5,12 +5,12 @@ import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Bloodlust's movement speed per stack. VH's speed effect hard-codes 1% per stack and never reads the ability's
@@ -31,7 +31,7 @@ public final class BloodlustSpeed {
         RampageBloodlustAbility ability = learned(player);
         if (ability == null) {
             if (MISSING_WARNED.add(player.getUUID())) {
-                WoldsVaults.LOGGER.error("Bloodlust speed: {} has the speed effect but no learned Bloodlust tier; using the effect's own {} per stack.",
+                WoldLogger.error("Bloodlust speed: {} has the speed effect but no learned Bloodlust tier; using the effect's own {} per stack.",
                         player.getGameProfile().getName(), fallback);
             }
             return fallback;

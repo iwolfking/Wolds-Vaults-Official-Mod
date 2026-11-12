@@ -57,6 +57,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Homing and Orbit: steers projectiles a cast spawned by setting their motion each server tick; the projectile's own
@@ -292,7 +293,7 @@ public final class ProjectileSteering {
         } else if (projectile instanceof AugmentBundleEntity bundle) {
             bundle.landHere();
         } else if (!endsByRemoval(projectile) && UNDETONATED_WARNED.add(projectile.getClass())) {
-            WoldsVaults.LOGGER.warn("Orbit: no detonation is known for projectile class {}; it is removed at its orbit end instead.",
+            WoldLogger.error("Orbit: no detonation is known for projectile class {}; it is removed at its orbit end instead.",
                     projectile.getClass().getName());
         }
     }

@@ -35,7 +35,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.ExtractorItem;
@@ -44,6 +43,7 @@ import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A thumper: one of the two secondary rigs of an extraction site room. It stands on a thumper pad, takes its pools as
@@ -261,7 +261,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         }
         VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get)
                 .ifPresentOrElse(objective -> objective.onThumperWrecked(this),
-                        () -> WoldsVaults.LOGGER.error("Thumper {} was wrecked outside an extraction objective; no penalty was charged.", this.getUUID()));
+                        () -> WoldLogger.error("Thumper {} was wrecked outside an extraction objective; no penalty was charged.", this.getUUID()));
     }
 
     /** Shield and health regeneration; the objective calls it only while the main rig drills with energy. */
@@ -289,7 +289,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         }
         VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get)
                 .ifPresentOrElse(objective -> objective.interactThumper(this, player, player.getItemInHand(hand)),
-                        () -> WoldsVaults.LOGGER.error("Thumper {} was used outside an extraction objective.", this.getUUID()));
+                        () -> WoldLogger.error("Thumper {} was used outside an extraction objective.", this.getUUID()));
         return InteractionResult.CONSUME;
     }
 
@@ -308,7 +308,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.level.playSound(null, this.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.25F, 0.5F);
         }
         if (this.tickCount % 100 == 0 && VaultUtils.getVault(this.level).isEmpty()) {
-            WoldsVaults.LOGGER.info("Thumper entity {} found itself outside a vault and self-destructed.", this.getUUID());
+            WoldLogger.info("Thumper entity {} found itself outside a vault and self-destructed.", this.getUUID());
             this.discard();
         }
     }

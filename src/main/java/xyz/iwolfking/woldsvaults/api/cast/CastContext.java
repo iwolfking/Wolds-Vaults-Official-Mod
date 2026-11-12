@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Tracks which ability cast is running. A cast pushes its {@link CastTag} for its own call; entities
@@ -77,7 +78,7 @@ public final class CastContext {
     public static void pop(CastTag tag) {
         Deque<Frame> stack = STACK.get();
         if (stack.peek() == null || stack.peek().tag() != tag) {
-            WoldsVaults.LOGGER.error("Cast context out of order: popping cast {} but the top is {}; clearing the stack.",
+            WoldLogger.error("Cast context out of order: popping cast {} but the top is {}; clearing the stack.",
                     tag.castId(), stack.peek() == null ? "empty" : stack.peek().tag().castId());
             stack.clear();
             return;
@@ -174,7 +175,7 @@ public final class CastContext {
         Skill skill = PlayerAbilitiesData.get(level).getAbilities(owner).getForId(glyphs.spec())
                 .filter(TieredSkill.class::isInstance).map(TieredSkill.class::cast).map(TieredSkill::getChild).orElse(null);
         if (skill == null) {
-            WoldsVaults.LOGGER.error("Deferred glyphs: {} at {} was placed by {} but {} has no such ability now; the glyphs are dropped.",
+            WoldLogger.error("Deferred glyphs: {} at {} was placed by {} but {} has no such ability now; the glyphs are dropped.",
                     blockEntity.getClass().getSimpleName(), blockEntity.getBlockPos(), glyphs.spec(), owner.getScoreboardName());
             data.remove(GLYPHS_KEY);
             return null;
@@ -212,7 +213,7 @@ public final class CastContext {
         Entity direct = source.getDirectEntity();
         String key = direct == null ? source.getMsgId() : direct.getType().toString();
         if (UNTAGGED_WARNED.add(key)) {
-            WoldsVaults.LOGGER.warn("Ability hit from {} carried no cast tag; per-cast effects (Power Dump, Lucky Reset) fall back to none for it.", key);
+            WoldLogger.error("Ability hit from {} carried no cast tag; per-cast effects (Power Dump, Lucky Reset) fall back to none for it.", key);
         }
     }
 

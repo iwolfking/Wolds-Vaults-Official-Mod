@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Etchings that grant unique glyphs (the table's {@code etchingGlyphs}). An etching on any equipped source is a
@@ -403,7 +404,7 @@ public final class EtchingGlyphs {
 
     private static void reportOnce(String key, String message) {
         if (REPORTED.add(key)) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 

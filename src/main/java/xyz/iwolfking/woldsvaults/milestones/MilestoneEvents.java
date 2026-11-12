@@ -29,6 +29,7 @@ import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Forge-bus half of the milestone dispatcher. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -64,7 +65,7 @@ public class MilestoneEvents {
             return;
         }
         treeData.setGreedTier(player, MilestoneRankLadder.FIRST_RANK);
-        WoldsVaults.LOGGER.info("Healed greed rank for {}: the Herald was already beaten but the rank was still 0, set to {}",
+        WoldLogger.info("Healed greed rank for {}: the Herald was already beaten but the rank was still 0, set to {}",
                 player.getGameProfile().getName(), MilestoneRankLadder.FIRST_RANK);
     }
 
@@ -78,7 +79,7 @@ public class MilestoneEvents {
             if (level <= recorded) {
                 continue;
             }
-            WoldsVaults.LOGGER.info("Healed god milestone '{}' for {}: counter was {} but {} is level {}",
+            WoldLogger.info("Healed god milestone '{}' for {}: counter was {} but {} is level {}",
                     milestone, player.getGameProfile().getName(), recorded, god.getName(), level);
             Milestones.reach(player, milestone, level);
         }

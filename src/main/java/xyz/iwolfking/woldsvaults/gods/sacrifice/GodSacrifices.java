@@ -3,12 +3,12 @@ package xyz.iwolfking.woldsvaults.gods.sacrifice;
 import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The god sacrifice gate tables: eleven gates per god, Initiation then Level 1 through Level 10, each
@@ -43,7 +43,7 @@ public final class GodSacrifices {
             for (Gate gate : godGates.getValue()) {
                 for (Entry entry : gate.entries()) {
                     if (!ForgeRegistries.ITEMS.containsKey(entry.item())) {
-                        WoldsVaults.LOGGER.error("God sacrifice gate '{}' for {} asks for {} x{}, which is not a registered item; that gate cannot be completed.",
+                        WoldLogger.error("God sacrifice gate '{}' for {} asks for {} x{}, which is not a registered item; that gate cannot be completed.",
                                 gate.label(), godGates.getKey().getName(), entry.item(), entry.count());
                     }
                 }

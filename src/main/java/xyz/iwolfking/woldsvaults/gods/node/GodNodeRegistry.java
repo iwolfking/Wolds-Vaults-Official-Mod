@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.node;
 
 import iskallia.vault.core.vault.influence.VaultGod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
@@ -15,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The loaded god trees, rebuilt from config on every config load. Effect ids are globally unique
@@ -74,7 +74,7 @@ public final class GodNodeRegistry {
         effects = Collections.unmodifiableMap(loadedEffects);
         handlers = Collections.unmodifiableMap(loadedHandlers);
         byCapability = Collections.unmodifiableMap(capabilities);
-        WoldsVaults.LOGGER.info("Loaded {} god tree nodes and {} node effects across {} trees",
+        WoldLogger.info("Loaded {} god tree nodes and {} node effects across {} trees",
                 nodeCount, loadedEffects.size(), loadedTrees.size());
     }
 

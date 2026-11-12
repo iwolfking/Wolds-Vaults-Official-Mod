@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.accessors.ModelAccessor;
 
 import java.lang.reflect.Array;
@@ -24,6 +23,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Lightning Fiend set armor geometry (from the Blockbench build in handoff/lightning_fiend/blockbench). MainLayer
@@ -93,7 +93,7 @@ public class LightningFiendArmorLayers extends ArmorLayers {
                     parts.addAll(((Map<String, ModelPart>) childrenField.get(entry.getValue())).entrySet());
                 }
             } catch (ReflectiveOperationException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("Lightning Fiend armor: couldn't remove its overlapping faces, so they may flicker.", e);
+                WoldLogger.error("Lightning Fiend armor: couldn't remove its overlapping faces, so they may flicker.", e);
             }
         }
 

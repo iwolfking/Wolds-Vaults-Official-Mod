@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The ember-toned unidentified sprites shown for gear that dropped already flagged ancient. One special model per
@@ -42,7 +43,7 @@ public final class ModAncientGearModels {
         ResourceLocation id = item.getRegistryName();
         if (id == null || !GEAR_TYPES.contains(id.getPath())) {
             if (id != null && LOGGED_MISSING.add(id)) {
-                WoldsVaults.LOGGER.error("No unidentified-ancient sprite exists for gear item {}; it keeps the normal unidentified sprite.", id);
+                WoldLogger.error("No unidentified-ancient sprite exists for gear item {}; it keeps the normal unidentified sprite.", id);
             }
             return null;
         }

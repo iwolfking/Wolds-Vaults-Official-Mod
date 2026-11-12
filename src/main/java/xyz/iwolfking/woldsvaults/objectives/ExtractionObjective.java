@@ -106,6 +106,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ExtractionObjective extends Objective {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/extraction/hud.png");
@@ -285,7 +286,7 @@ public class ExtractionObjective extends Objective {
         for (ExtractionSite site : this.get(SITES)) {
             if (site.has(ExtractionSite.ENTITY) && extractor.getUUID().equals(site.get(ExtractionSite.ENTITY))) {
                 if (!site.isArmed()) {
-                    WoldsVaults.LOGGER.error("Extractor {} asked to start but its site is in state {}, not armed.", extractor.getUUID(), site.get(ExtractionSite.STATE));
+                    WoldLogger.error("Extractor {} asked to start but its site is in state {}, not armed.", extractor.getUUID(), site.get(ExtractionSite.STATE));
                     return false;
                 }
                 site.set(ExtractionSite.STATE, ExtractionSite.STATE_DRILLING);
@@ -293,7 +294,7 @@ public class ExtractionObjective extends Objective {
                 return true;
             }
         }
-        WoldsVaults.LOGGER.error("Armed extractor {} asked to start but no extraction site is keyed to it.", extractor.getUUID());
+        WoldLogger.error("Armed extractor {} asked to start but no extraction site is keyed to it.", extractor.getUUID());
         return false;
     }
 
@@ -307,7 +308,7 @@ public class ExtractionObjective extends Objective {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("Armed extractor {} was collected but no extraction site was keyed to it.", extractor.getUUID());
+        WoldLogger.error("Armed extractor {} was collected but no extraction site was keyed to it.", extractor.getUUID());
     }
 
     private static ItemStack createCellStack(Vault vault) {
@@ -326,13 +327,13 @@ public class ExtractionObjective extends Objective {
         ExtractionObjectiveConfig.SitesEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.SITES;
         VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
         if (!(generator instanceof GridGenerator gridGenerator)) {
-            WoldsVaults.LOGGER.error("Extraction objective needs a GridGenerator vault but got {}; no sites can be placed!",
+            WoldLogger.error("Extraction objective needs a GridGenerator vault but got {}; no sites can be placed!",
                     generator == null ? "null" : generator.getClass().getName());
             return;
         }
         Object layoutObj = gridGenerator.get(GridGenerator.LAYOUT);
         if (!(layoutObj instanceof VaultGridLayout layout)) {
-            WoldsVaults.LOGGER.error("Extraction objective needs a VaultGridLayout but got {}; no sites can be placed!",
+            WoldLogger.error("Extraction objective needs a VaultGridLayout but got {}; no sites can be placed!",
                     layoutObj == null ? "null" : layoutObj.getClass().getName());
             return;
         }
@@ -342,7 +343,7 @@ public class ExtractionObjective extends Objective {
         this.set(CELL_Z, cellZ);
         int span = ModConfigs.MULTI_CELL_ROOMS.spanOfPool(ROOM_POOL);
         if (span <= 1) {
-            WoldsVaults.LOGGER.error("Extraction room pool {} is not listed in the multi-cell room table; sites fall back to single-cell rooms.", ROOM_POOL);
+            WoldLogger.error("Extraction room pool {} is not listed in the multi-cell room table; sites fall back to single-cell rooms.", ROOM_POOL);
             span = 1;
         }
         int radius = Math.max(2, VaultUtils.getVaultRadius(layout, vault));
@@ -371,12 +372,12 @@ public class ExtractionObjective extends Objective {
         Random random = new Random(vault.get(Vault.SEED) ^ 0x455854524143L);
         List<int[]> chosen = choose(ringCandidates, cfg.count, separation, random);
         if (chosen.size() < cfg.count) {
-            WoldsVaults.LOGGER.error("Extraction site ring {}..{} only fit {} of {} sites in this layout; relaxing to the whole vault.",
+            WoldLogger.error("Extraction site ring {}..{} only fit {} of {} sites in this layout; relaxing to the whole vault.",
                     cfg.ringMinRooms, cfg.ringMaxRooms, chosen.size(), cfg.count);
             chosen = choose(anyCandidates, cfg.count, separation, random);
         }
         if (chosen.size() < cfg.count) {
-            WoldsVaults.LOGGER.error("Extraction site separation {} rooms could not be satisfied either; placing {} sites that only avoid overlapping.",
+            WoldLogger.error("Extraction site separation {} rooms could not be satisfied either; placing {} sites that only avoid overlapping.",
                     cfg.minSeparationRooms, cfg.count);
             chosen = choose(anyCandidates, cfg.count, noOverlap, random);
         }
@@ -399,12 +400,12 @@ public class ExtractionObjective extends Objective {
     private void registerSiteRooms(Vault vault) {
         VaultGenerator generator = vault.get(Vault.WORLD).get(WorldManager.GENERATOR);
         if (!(generator instanceof GridGenerator gridGenerator) || !(gridGenerator.get(GridGenerator.LAYOUT) instanceof VaultGridLayout layout)) {
-            WoldsVaults.LOGGER.error("Extraction site rooms need a grid vault layout; none were registered.");
+            WoldLogger.error("Extraction site rooms need a grid vault layout; none were registered.");
             return;
         }
         for (ExtractionSite site : this.get(SITES)) {
             if (site.getSpan() <= 1) {
-                WoldsVaults.LOGGER.error("Extraction site at ({}, {}) was saved as a single-cell site; it keeps no room of its own.",
+                WoldLogger.error("Extraction site at ({}, {}) was saved as a single-cell site; it keeps no room of its own.",
                         site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z));
                 continue;
             }
@@ -420,7 +421,7 @@ public class ExtractionObjective extends Objective {
         MultiCellFootprint footprint = this.vault == null ? null
                 : MultiCellRooms.at(this.vault, site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z));
         if (footprint == null && this.roomFallbackLogged.add(siteIndex)) {
-            WoldsVaults.LOGGER.error("Extraction site {} has no registered multi-cell room; using single-cell site geometry instead.", siteIndex);
+            WoldLogger.error("Extraction site {} has no registered multi-cell room; using single-cell site geometry instead.", siteIndex);
         }
         return footprint;
     }
@@ -466,7 +467,7 @@ public class ExtractionObjective extends Objective {
         ResourceLocation paletteId = WoldsVaults.id("extraction/" + site.get(ExtractionSite.GOD));
         PaletteKey palette = VaultRegistry.PALETTE.getKey(paletteId);
         if (palette == null) {
-            WoldsVaults.LOGGER.error("Extraction palette '{}' is missing; the site room will keep its authored stand-in blocks!", paletteId);
+            WoldLogger.error("Extraction palette '{}' is missing; the site room will keep its authored stand-in blocks!", paletteId);
             return;
         }
         settings.addProcessor(palette.get(Version.latest()));
@@ -618,7 +619,7 @@ public class ExtractionObjective extends Objective {
     /** Deploys the given armed extractor item at whichever site pedestal the clicked block belongs to. */
     public InteractionResult tryDeploy(Vault vault, Player player, ItemStack stack, BlockPos clickedPos) {
         if (!(player.level instanceof VirtualWorld world)) {
-            WoldsVaults.LOGGER.error("Extractor deployment attempted outside a vault world by {}.", player.getName().getString());
+            WoldLogger.error("Extractor deployment attempted outside a vault world by {}.", player.getName().getString());
             return InteractionResult.FAIL;
         }
         ExtractionSite target = null;
@@ -652,7 +653,7 @@ public class ExtractionObjective extends Objective {
         String jobId = ExtractorItem.getData(stack).getString("Job");
         ExtractionObjectiveConfig.JobEntry job = ModConfigs.EXTRACTION_OBJECTIVE.getJob(jobId);
         if (job == null) {
-            WoldsVaults.LOGGER.error("Extractor item carries unknown job '{}'; it cannot be deployed.", jobId);
+            WoldLogger.error("Extractor item carries unknown job '{}'; it cannot be deployed.", jobId);
             player.displayClientMessage(new TextComponent("This extractor's drill head is not configured (job '" + jobId + "').").withStyle(ChatFormatting.RED), true);
             return InteractionResult.FAIL;
         }
@@ -699,12 +700,12 @@ public class ExtractionObjective extends Objective {
                 cardTarget = placerClass;
                 cardSlots = ModConfigs.EXTRACTION_OBJECTIVE.GREED_INFUSER.slotsFor(power, job.minPower);
             } else {
-                WoldsVaults.LOGGER.error("Job '{}' requires arming but payout type '{}' has no insert screen; the rig is placed armed with nothing to insert.", jobId, job.payout.type);
+                WoldLogger.error("Job '{}' requires arming but payout type '{}' has no insert screen; the rig is placed armed with nothing to insert.", jobId, job.payout.type);
             }
         }
         ExtractorEntity extractor = ModEntities.EXTRACTOR.create(world);
         if (extractor == null) {
-            WoldsVaults.LOGGER.error("Extractor entity could not be created; deployment aborted.");
+            WoldLogger.error("Extractor entity could not be created; deployment aborted.");
             return InteractionResult.FAIL;
         }
         target.set(ExtractionSite.POINT, targetPoint);
@@ -770,7 +771,7 @@ public class ExtractionObjective extends Objective {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("Extractor {} left the vault but no extraction site was keyed to it; the placed HUD may linger.", extractor.getUUID());
+        WoldLogger.error("Extractor {} left the vault but no extraction site was keyed to it; the placed HUD may linger.", extractor.getUUID());
     }
 
     /** A player broke a cache chest in one of this objective's site rooms: rolls its power cell and forgets the spot. */
@@ -793,7 +794,7 @@ public class ExtractionObjective extends Objective {
                 return;
             }
         }
-        WoldsVaults.LOGGER.error("A cache chest at {} was broken but no extraction site tracks it; no power cell was rolled.", pos);
+        WoldLogger.error("A cache chest at {} was broken but no extraction site tracks it; no power cell was rolled.", pos);
     }
 
     private InteractionResult placeThumper(VirtualWorld world, Player player, ItemStack stack, ExtractionSite site, int siteIndex, int slot) {
@@ -830,7 +831,7 @@ public class ExtractionObjective extends Objective {
         }
         ThumperEntity thumper = ModEntities.THUMPER.create(world);
         if (thumper == null) {
-            WoldsVaults.LOGGER.error("Thumper entity could not be created; placement aborted.");
+            WoldLogger.error("Thumper entity could not be created; placement aborted.");
             return InteractionResult.FAIL;
         }
         Vec3 pad = this.sitePedestals(site).get(slot + 1);
@@ -856,7 +857,7 @@ public class ExtractionObjective extends Objective {
         int index = thumper.getSiteIndex();
         int slot = thumper.getPadIndex() - 1;
         if (index < 0 || index >= sites.length || slot < 0 || slot >= ExtractionSite.THUMPER_SLOTS || this.world == null) {
-            WoldsVaults.LOGGER.error("Thumper {} claims site {} pad {}, which does not exist.", thumper.getUUID(), index, thumper.getPadIndex());
+            WoldLogger.error("Thumper {} claims site {} pad {}, which does not exist.", thumper.getUUID(), index, thumper.getPadIndex());
             return;
         }
         ExtractionSite site = sites[index];
@@ -923,7 +924,7 @@ public class ExtractionObjective extends Objective {
         int index = thumper.getSiteIndex();
         int slot = thumper.getPadIndex() - 1;
         if (index < 0 || index >= sites.length || slot < 0 || slot >= ExtractionSite.THUMPER_SLOTS || this.world == null) {
-            WoldsVaults.LOGGER.error("Wrecked thumper {} claims site {} pad {}, which does not exist; no penalty was charged.", thumper.getUUID(), index, thumper.getPadIndex());
+            WoldLogger.error("Wrecked thumper {} claims site {} pad {}, which does not exist; no penalty was charged.", thumper.getUUID(), index, thumper.getPadIndex());
             return;
         }
         ExtractionSite site = sites[index];
@@ -933,10 +934,10 @@ public class ExtractionObjective extends Objective {
         ExtractionObjectiveConfig.ThumperEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.THUMPER;
         ExtractorEntity main = this.getLiveExtractor(this.world, site);
         if (main == null) {
-            WoldsVaults.LOGGER.error("Thumper {} of site {} was wrecked with no live main rig; its durability penalty was not charged.", thumper.getUUID(), index);
+            WoldLogger.error("Thumper {} of site {} was wrecked with no live main rig; its durability penalty was not charged.", thumper.getUUID(), index);
         } else {
             float loss = main.chargeDestructionPenalty(cfg.destructionPenaltyFraction);
-            WoldsVaults.LOGGER.info("Thumper {} of site {} wrecked; main rig loses {} durability.", slot + 1, index, String.format("%.1f", loss));
+            WoldLogger.info("Thumper {} of site {} wrecked; main rig loses {} durability.", slot + 1, index, String.format("%.1f", loss));
         }
         float rate = Math.max(0.0F, 1.0F - cfg.progressLossPerThumper * site.thumpersWrecked());
         broadcast(this.vault, new TextComponent(String.format("A thumper was destroyed! Extraction slowed to %d%%.", Math.round(rate * 100.0F))).withStyle(ChatFormatting.RED));
@@ -997,7 +998,7 @@ public class ExtractionObjective extends Objective {
                 if (thumper == null) {
                     Vec3 pad = this.sitePedestals(site).get(slot + 1);
                     if (world.isLoaded(new BlockPos(pad)) && this.missingThumperTicks.merge(missingKey, 1, Integer::sum) >= 200) {
-                        WoldsVaults.LOGGER.error("Thumper slot {} of site {} has had no entity for 10 s with its pad loaded; clearing the slot.", slot + 1, i);
+                        WoldLogger.error("Thumper slot {} of site {} has had no entity for 10 s with its pad loaded; clearing the slot.", slot + 1, i);
                         this.missingThumperTicks.remove(missingKey);
                         this.removeThumper(world, site, slot);
                     }
@@ -1027,7 +1028,7 @@ public class ExtractionObjective extends Objective {
             int size = 47 * site.getSpan();
             grid = new RoomGrid(index, this.siteRoomOrigin(site), size, 47, size, this.sitePedestals(site), this.caveAnchors(site));
             this.grids.put(index, grid);
-            WoldsVaults.LOGGER.info("Extraction site {} is reading its {}x47x{} room for lane pathing.", index, size, size);
+            WoldLogger.info("Extraction site {} is reading its {}x47x{} room for lane pathing.", index, size, size);
         }
         return grid;
     }
@@ -1044,7 +1045,7 @@ public class ExtractionObjective extends Objective {
         this.cacheTimers.put(index, 0);
         if (grid.chestSpotCount() == 0) {
             if (this.cacheEmptyLogged.add(index)) {
-                WoldsVaults.LOGGER.error("Extraction site {} room has no cache chest spots; no caches will spawn there.", index);
+                WoldLogger.error("Extraction site {} room has no cache chest spots; no caches will spawn there.", index);
             }
             return;
         }
@@ -1076,7 +1077,7 @@ public class ExtractionObjective extends Objective {
                 }
             }
             if (centre == null) {
-                WoldsVaults.LOGGER.error("Extraction site {} found no cache pile centre clear of players and other piles in 16 tries; this batch is skipped.", index);
+                WoldLogger.error("Extraction site {} found no cache pile centre clear of players and other piles in 16 tries; this batch is skipped.", index);
             } else {
                 List<BlockPos> spots = grid.chestSpotsNear(centre, cfg.clusterRadius);
                 Collections.shuffle(spots, random);
@@ -1103,7 +1104,7 @@ public class ExtractionObjective extends Objective {
             }
         }
         if (placed < wanted) {
-            WoldsVaults.LOGGER.debug("Extraction site {} placed {} of {} cache chests this batch.", index, placed, wanted);
+            WoldLogger.debug("Extraction site {} placed {} of {} cache chests this batch.", index, placed, wanted);
         }
         this.storeCaches(site, standing);
     }
@@ -1156,7 +1157,7 @@ public class ExtractionObjective extends Objective {
         }
         boolean ok = world.getBlockState(pos).is(ModBlocks.EXTRACTION_CACHE);
         if (!ok) {
-            WoldsVaults.LOGGER.error("Cache chest placement at {} was refused by the world (zone or mixin); skipping that spot.", pos);
+            WoldLogger.error("Cache chest placement at {} was refused by the world (zone or mixin); skipping that spot.", pos);
         }
         return ok;
     }
@@ -1177,7 +1178,7 @@ public class ExtractionObjective extends Objective {
         site.set(ExtractionSite.CACHE_CHESTS, new long[0]);
         this.markDirty(SITES);
         if (removed > 0) {
-            WoldsVaults.LOGGER.info("Extraction site {} fight ended; removed {} unmined cache chests.", this.indexOf(site), removed);
+            WoldLogger.info("Extraction site {} fight ended; removed {} unmined cache chests.", this.indexOf(site), removed);
         }
     }
 
@@ -1263,7 +1264,7 @@ public class ExtractionObjective extends Objective {
             }
         }
         this.loadedRooms.put(siteIndex, chunks);
-        WoldsVaults.LOGGER.info("Extraction site {} is active; holding its {} room chunks loaded.", siteIndex, chunks.size());
+        WoldLogger.info("Extraction site {} is active; holding its {} room chunks loaded.", siteIndex, chunks.size());
     }
 
     private void unloadRoom(VirtualWorld world, int siteIndex) {
@@ -1274,7 +1275,7 @@ public class ExtractionObjective extends Objective {
         for (ChunkPos chunk : chunks) {
             world.getChunkSource().removeRegionTicket(ROOM_TICKET, chunk, ROOM_TICKET_DISTANCE, chunk);
         }
-        WoldsVaults.LOGGER.info("Extraction site {} went quiet; released its {} room chunks.", siteIndex, chunks.size());
+        WoldLogger.info("Extraction site {} went quiet; released its {} room chunks.", siteIndex, chunks.size());
     }
 
     /**
@@ -1312,7 +1313,7 @@ public class ExtractionObjective extends Objective {
             boolean mainLive = this.getLiveExtractor(world, site) != null;
             VaultGod god = VaultGod.fromName(site.get(ExtractionSite.GOD));
             if (god == null && this.sparkleFallbackLogged.add(1000 + i)) {
-                WoldsVaults.LOGGER.error("Extraction site {} names god '{}', which does not exist; its main pad sparkles white.", i, site.get(ExtractionSite.GOD));
+                WoldLogger.error("Extraction site {} names god '{}', which does not exist; its main pad sparkles white.", i, site.get(ExtractionSite.GOD));
             }
             Vector3f godColour = rgb(god == null ? 0xFFFFFF : god.getColor());
             DustColorTransitionOptions mainDust = new DustColorTransitionOptions(godColour, rgb(0xFFFFFF), 1.6F);
@@ -1365,7 +1366,7 @@ public class ExtractionObjective extends Objective {
             }
         }
         if (this.sparkleFallbackLogged.add(siteIndex)) {
-            WoldsVaults.LOGGER.error("Extraction site {} has no solid pedestal block within 3 below {}; sparkling at the nominal pedestal height instead.", siteIndex, probe);
+            WoldLogger.error("Extraction site {} has no solid pedestal block within 3 below {}; sparkling at the nominal pedestal height instead.", siteIndex, probe);
         }
         return nominalY;
     }
@@ -1381,7 +1382,7 @@ public class ExtractionObjective extends Objective {
         }
         ExtractionObjectiveConfig.JobEntry job = ModConfigs.EXTRACTION_OBJECTIVE.getJob(extractor.getJobId());
         if (job == null) {
-            WoldsVaults.LOGGER.error("Deployed extractor at site ({}, {}) has unknown job '{}'; it cannot progress.",
+            WoldLogger.error("Deployed extractor at site ({}, {}) has unknown job '{}'; it cannot progress.",
                     site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z), extractor.getJobId());
             return;
         }
@@ -1468,7 +1469,7 @@ public class ExtractionObjective extends Objective {
             RegionPos region = RegionPos.of(site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z), this.get(CELL_X), this.get(CELL_Z));
             Optional<DiscoveredRoomStat.RoomDiscovery> discovery = DiscoveredRoomStat.resolveRoom(vault, gridGenerator, layout, region);
             if (discovery.isEmpty()) {
-                WoldsVaults.LOGGER.error("Extraction site room at region ({}, {}) could not be resolved for map pre-discovery.",
+                WoldLogger.error("Extraction site room at region ({}, {}) could not be resolved for map pre-discovery.",
                         site.get(ExtractionSite.REGION_X), site.get(ExtractionSite.REGION_Z));
                 continue;
             }
@@ -1502,7 +1503,7 @@ public class ExtractionObjective extends Objective {
         try {
             body.run();
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Extraction handler '{}' failed!", what, e);
+            WoldLogger.error("Extraction handler '{}' failed!", what, e);
         }
     }
 
@@ -1714,7 +1715,7 @@ public class ExtractionObjective extends Objective {
         int[][] rows = PIP_UVS.get(god);
         if (rows == null) {
             if (UNKNOWN_PIP_GODS.add(god)) {
-                WoldsVaults.LOGGER.error("Extraction HUD has no pip sprites for god '{}'; drawing the idona set instead.", god);
+                WoldLogger.error("Extraction HUD has no pip sprites for god '{}'; drawing the idona set instead.", god);
             }
             rows = PIP_UVS.get("idona");
         }

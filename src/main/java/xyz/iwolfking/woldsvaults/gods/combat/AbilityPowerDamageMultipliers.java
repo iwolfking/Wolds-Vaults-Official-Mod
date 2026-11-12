@@ -2,12 +2,12 @@ package xyz.iwolfking.woldsvaults.gods.combat;
 
 import iskallia.vault.util.damage.PlayerDamageHelper;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.DamageMultiplierInvoker;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.PlayerDamageHelperApplyInvoker;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Registers {@code PlayerDamageHelper} multipliers on its ability-power side, which its own factories never do. */
 public final class AbilityPowerDamageMultipliers {
@@ -32,7 +32,7 @@ public final class AbilityPowerDamageMultipliers {
                                                             boolean showOnClient, int tickDuration,
                                                             Consumer<ServerPlayer> onTimeout) {
         if (player.getServer() == null) {
-            WoldsVaults.LOGGER.error("Cannot register AP damage multiplier {} for {}: no server on the player.",
+            WoldLogger.error("Cannot register AP damage multiplier {} for {}: no server on the player.",
                     id, player.getGameProfile().getName());
             return null;
         }

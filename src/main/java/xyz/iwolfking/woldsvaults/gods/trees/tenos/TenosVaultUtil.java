@@ -9,12 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public final class TenosVaultUtil {
     private static final Set<ResourceLocation> MISSING_MODIFIERS = ConcurrentHashMap.newKeySet();
@@ -26,7 +26,7 @@ public final class TenosVaultUtil {
     public static VaultModifier<?> resolveModifier(ResourceLocation modifier, String node) {
         VaultModifier<?> resolved = VaultModifierRegistry.get(modifier);
         if (resolved == null && MISSING_MODIFIERS.add(modifier)) {
-            WoldsVaults.LOGGER.error("{} could not find vault modifier {}; the node does nothing. "
+            WoldLogger.error("{} could not find vault modifier {}; the node does nothing. "
                     + "Check vault_modifiers.json.", node, modifier);
         }
         return resolved;

@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.augments;
 
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.skill.base.Skill;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 
 import javax.annotation.Nullable;
@@ -12,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The abilities recipes know, built from the focus augments table's trait list and rebuilt whenever a new table is
@@ -38,7 +38,7 @@ public final class AugmentAbilities {
                     traits.add(AbilityTrait.valueOf(trait.toUpperCase(Locale.ROOT)));
                 }
                 if (!traits.contains(AbilityTrait.INSTANT) && !traits.contains(AbilityTrait.TOGGLE) && !traits.contains(AbilityTrait.HOLD)) {
-                    WoldsVaults.LOGGER.error("focus_augments.json: ability {} has no cast kind (INSTANT, TOGGLE or HOLD); recipes can't use it", entry.getKey());
+                    WoldLogger.error("focus_augments.json: ability {} has no cast kind (INSTANT, TOGGLE or HOLD); recipes can't use it", entry.getKey());
                     continue;
                 }
                 built.put(entry.getKey(), new AugmentAbility(entry.getKey(), traits));

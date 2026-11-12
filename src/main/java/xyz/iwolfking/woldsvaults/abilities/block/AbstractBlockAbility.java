@@ -10,9 +10,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public abstract class AbstractBlockAbility extends InstantManaAbility {
     public static final float MIN_BLOCK = 1.0F;
@@ -160,7 +160,7 @@ public abstract class AbstractBlockAbility extends InstantManaAbility {
     protected float jsonFloat(JsonObject json, String key, float fallback) {
         Optional<Float> value = Adapters.FLOAT.readJson(json.get(key));
         if (value.isEmpty()) {
-            WoldsVaults.LOGGER.warn("{} config has no {}; using {}.", this.getClass().getSimpleName(), key, fallback);
+            WoldLogger.error("{} config has no {}; using {}.", this.getClass().getSimpleName(), key, fallback);
         }
         return value.orElse(fallback);
     }
@@ -169,7 +169,7 @@ public abstract class AbstractBlockAbility extends InstantManaAbility {
     protected int jsonInt(JsonObject json, String key, int fallback) {
         Optional<Integer> value = Adapters.INT.readJson(json.get(key));
         if (value.isEmpty()) {
-            WoldsVaults.LOGGER.warn("{} config has no {}; using {}.", this.getClass().getSimpleName(), key, fallback);
+            WoldLogger.error("{} config has no {}; using {}.", this.getClass().getSimpleName(), key, fallback);
         }
         return value.orElse(fallback);
     }

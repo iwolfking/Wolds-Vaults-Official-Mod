@@ -17,11 +17,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 
 import java.util.List;
 import net.minecraft.world.entity.Entity;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = NovaAbility.class, remap = false)
 public abstract class MixinNovaAbility {
@@ -50,7 +50,7 @@ public abstract class MixinNovaAbility {
         float strongestMult = Float.NEGATIVE_INFINITY;
         for (VaultGearAttributeInstance<T> copy : copies) {
             if (!(copy.getValue() instanceof Pair<?, ?> pair) || !(pair.getFirst() instanceof Float mult) || !(pair.getSecond() instanceof Float threshold)) {
-                WoldsVaults.LOGGER.error("Nova low-mana etching copy has an unexpected value {}; keeping every copy", copy.getValue());
+                WoldLogger.error("Nova low-mana etching copy has an unexpected value {}; keeping every copy", copy.getValue());
                 return copies;
             }
             if (max > 0.0F && current / max < threshold && mult > strongestMult) {

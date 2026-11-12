@@ -15,7 +15,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.gods.event.GodLevelUpEvent;
 import xyz.iwolfking.woldsvaults.gods.network.GodAlignmentSyncMessage;
@@ -36,6 +35,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * World SavedData holding every player's alignment with each Vault God: accumulated XP (level derives
@@ -83,7 +83,7 @@ public class GodAlignmentData extends SavedData {
     public static int piety(Player player, VaultGod god) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            WoldsVaults.LOGGER.warn("GodAlignmentData.piety called with no server available for {}; returning 0.",
+            WoldLogger.error("GodAlignmentData.piety called with no server available for {}; returning 0.",
                     player.getGameProfile().getName());
             return 0;
         }
@@ -165,7 +165,7 @@ public class GodAlignmentData extends SavedData {
         GodState state = this.getState(playerId, god);
         return MinorTransferSlots.liveTransfers(god, state, this.getMinorTransferSlots(playerId, god), id -> {
             if (WARNED_STALE_TRANSFERS.add(playerId + "/" + god.getName() + "/" + id)) {
-                WoldsVaults.LOGGER.warn("Ignoring {}'s {} transfer slot entry '{}': it is not a learned minor star of "
+                WoldLogger.warn("Ignoring {}'s {} transfer slot entry '{}': it is not a learned minor star of "
                         + "that god. It will be dropped the next time those slots are written.", playerId, god.getName(), id);
             }
         });
@@ -248,7 +248,7 @@ public class GodAlignmentData extends SavedData {
         player.displayClientMessage(new TextComponent(god.getName()
                 + " does not know your name yet - make the Initiation offering at the Greed Cauldron.")
                 .withStyle(god.getChatColor()), true);
-        WoldsVaults.LOGGER.info("Dropped {} {} XP for {}: the Initiation offering has not been made.",
+        WoldLogger.info("Dropped {} {} XP for {}: the Initiation offering has not been made.",
                 amount, god.getName(), player.getGameProfile().getName());
     }
 
@@ -264,7 +264,7 @@ public class GodAlignmentData extends SavedData {
     private static long applyGodExperienceScaling(ServerPlayer player, VaultGod god, long amount) {
         double multiplier = 1.0D;
         if (player.getServer() == null) {
-            WoldsVaults.LOGGER.debug("God XP awarded with no server attached; skipping God's Disciple scaling.");
+            WoldLogger.debug("God XP awarded with no server attached; skipping God's Disciple scaling.");
         } else {
             float bonus = 0.0F;
             for (GodExperiencePrestigePower power : PrestigePowerHelper.getPrestigePowersOfType(player, GodExperiencePrestigePower.class)) {
@@ -421,7 +421,7 @@ public class GodAlignmentData extends SavedData {
                 CompoundTag godTag = godList.getCompound(j);
                 VaultGod god = VaultGod.fromName(godTag.getString("god"));
                 if (god == null) {
-                    WoldsVaults.LOGGER.error("Dropping god alignment state for unknown god '{}' on player {}.",
+                    WoldLogger.error("Dropping god alignment state for unknown god '{}' on player {}.",
                             godTag.getString("god"), playerId);
                     continue;
                 }
@@ -451,7 +451,7 @@ public class GodAlignmentData extends SavedData {
             }
         }
         this.setDirty();
-        WoldsVaults.LOGGER.info("Migrated god alignment data from version {} to {}: {} god sacrifice counts "
+        WoldLogger.info("Migrated god alignment data from version {} to {}: {} god sacrifice counts "
                 + "credited one gate so the Initiation no longer grants a level of its own.",
                 version, DATA_VERSION, migrated);
     }

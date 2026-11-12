@@ -4,10 +4,10 @@ import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.util.calc.ItemRarityHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem;
 
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Stamps rarity and quality onto every extractor blueprint a chest generates, from the opening player's
@@ -30,7 +30,7 @@ public final class BlueprintDrops {
             for (ItemStack stack : data.getLoot()) {
                 if (stack.getItem() instanceof ExtractorBlueprintItem && !ExtractorBlueprintItem.hasQuality(stack)) {
                     ExtractorBlueprintItem.stamp(stack, points, RANDOM);
-                    WoldsVaults.LOGGER.info("Stamped {} at {} item-rarity points: {} Q{}", stack.getItem().getRegistryName(),
+                    WoldLogger.info("Stamped {} at {} item-rarity points: {} Q{}", stack.getItem().getRegistryName(),
                             (int) points, ExtractorBlueprintItem.getBlueprintRarity(stack), ExtractorBlueprintItem.getQuality(stack));
                 }
             }

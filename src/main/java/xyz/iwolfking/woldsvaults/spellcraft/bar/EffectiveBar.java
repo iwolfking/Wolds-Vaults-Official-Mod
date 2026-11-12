@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.spellcraft.bar;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -26,6 +25,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The bar a player actually casts. Every equipped arcana item lays its assigned spells over their slots; the lowest
@@ -115,7 +115,7 @@ public final class EffectiveBar {
                 }
                 if (!model.isValid()) {
                     if (DROPPED.add(item.key() + ":" + spell.id() + ":" + model.errors().get(0))) {
-                        WoldsVaults.LOGGER.warn("Spellcraft: spell '{}' on {} is assigned to slot {} but can't be cast, so it is off the bar: {}",
+                        WoldLogger.warn("Spellcraft: spell '{}' on {} is assigned to slot {} but can't be cast, so it is off the bar: {}",
                                 spell.name(), item.name(), spell.slot() + 1, model.errors().get(0));
                     }
                     continue;

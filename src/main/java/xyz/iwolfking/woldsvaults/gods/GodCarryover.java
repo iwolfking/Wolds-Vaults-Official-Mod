@@ -6,7 +6,6 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Folds god tree gear attributes into the attribute snapshot: the active tree and non-active gods'
@@ -83,7 +83,7 @@ public final class GodCarryover {
     private static void warnUnscalable(VaultGearAttribute<?> attribute) {
         String name = String.valueOf(attribute.getRegistryName());
         if (WARNED_UNSCALABLE.add(name)) {
-            WoldsVaults.LOGGER.warn("Skipping god carryover for attribute {}: its value is not numeric, so scaling it "
+            WoldLogger.error("Skipping god carryover for attribute {}: its value is not numeric, so scaling it "
                     + "to {}% would silently apply it in full.", name, (int) (FOREIGN_TREE_SCALE * 100));
         }
     }

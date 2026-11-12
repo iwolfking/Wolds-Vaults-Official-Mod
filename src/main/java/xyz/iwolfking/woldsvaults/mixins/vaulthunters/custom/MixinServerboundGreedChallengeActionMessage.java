@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.GreedChallengeOffers;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Gates and narrates what Mr. Greedy hands over. Taking a challenge re-tests the crystal against the
@@ -46,7 +46,7 @@ public class MixinServerboundGreedChallengeActionMessage {
             woldsvaults$refuse(player, required > 0
                     ? "That challenge unlocks at greed rank " + required + "."
                     : "That challenge is not unlocked at your greed rank.");
-            WoldsVaults.LOGGER.warn("Refused greed challenge accept of '{}' from {}: not unlocked at greed rank {}",
+            WoldLogger.warn("Refused greed challenge accept of '{}' from {}: not unlocked at greed rank {}",
                     crystalId, player.getGameProfile().getName(), tree.getGreedTier());
             ci.cancel();
             return;
@@ -86,7 +86,7 @@ public class MixinServerboundGreedChallengeActionMessage {
             return false;
         }
         woldsvaults$refuse(player, "That challenge crystal is unavailable; nothing was taken.");
-        WoldsVaults.LOGGER.error("Refused greed challenge {} of '{}' from {}: challenge_crystal.json has no such "
+        WoldLogger.error("Refused greed challenge {} of '{}' from {}: challenge_crystal.json has no such "
                 + "challenge, so no crystal could be built", action, crystalId, player.getGameProfile().getName());
         return true;
     }

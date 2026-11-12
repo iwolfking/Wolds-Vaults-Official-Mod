@@ -10,7 +10,6 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.modification.GearModification;
 import iskallia.vault.init.ModGearModifications;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -20,6 +19,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The numbers behind god-experience vault maps: the god a map is bound to, how big its bonus-XP
@@ -124,7 +124,7 @@ public final class MapGodXp {
             if (god != null) {
                 return Optional.of(god);
             }
-            WoldsVaults.LOGGER.error("Vault map carries unknown god '{}'; falling back to its uuid-derived god.", stored.get());
+            WoldLogger.error("Vault map carries unknown god '{}'; falling back to its uuid-derived god.", stored.get());
         }
         return AttributeGearData.readUUID(stack).map(MapGodXp::godFromUuid);
     }
@@ -165,7 +165,7 @@ public final class MapGodXp {
     private static int bingoLines(Vault vault) {
         Optional<Objectives> objectives = vault.getOptional(Vault.OBJECTIVES);
         if (objectives.isEmpty()) {
-            WoldsVaults.LOGGER.warn("Mapped vault has no objectives when counting bingo lines for god xp; counting zero.");
+            WoldLogger.error("Mapped vault has no objectives when counting bingo lines for god xp; counting zero.");
             return 0;
         }
         Objectives all = objectives.get();

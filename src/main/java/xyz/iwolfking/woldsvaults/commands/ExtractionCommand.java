@@ -32,11 +32,11 @@ import xyz.iwolfking.woldsvaults.objectives.ExtractionCrystalObjective;
 
 import net.minecraft.ChatFormatting;
 import javax.annotation.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ExtractionCommand {
     private static final Random RANDOM = new Random();
@@ -243,7 +243,7 @@ public class ExtractionCommand {
                 return rarity;
             }
         }
-        WoldsVaults.LOGGER.error("Series '{}' is listed under no rarity in extractor_parts.json SERIES_BY_RARITY; the command falls back to scrappy.", series);
+        WoldLogger.error("Series '{}' is listed under no rarity in extractor_parts.json SERIES_BY_RARITY; the command falls back to scrappy.", series);
         return VaultGearRarity.SCRAPPY;
     }
 

@@ -7,11 +7,11 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A snapshot of one extraction site room's walkable space, read from the world a few block planes per tick, and the
@@ -104,7 +104,7 @@ public final class RoomGrid {
         while (!this.ready && !this.failed) {
             this.tickBuild(level, chestMobMargin, chestPadClearance);
         }
-        WoldsVaults.LOGGER.info("Extraction site {} room grid built in one tick ({} ms).", this.siteIndex, (System.nanoTime() - start) / 1_000_000L);
+        WoldLogger.info("Extraction site {} room grid built in one tick ({} ms).", this.siteIndex, (System.nanoTime() - start) / 1_000_000L);
     }
 
     private void readPlanes(Level level, int fromX, int toX) {
@@ -192,7 +192,7 @@ public final class RoomGrid {
                 int narrow = this.caveCells[cave] < 0 ? -1 : this.fields.get(pad).getOrDefault(this.caveCells[cave], -1);
                 int broad = this.caveWideCells[cave] < 0 ? -1 : this.wideFields.get(pad).getOrDefault(this.caveWideCells[cave], -1);
                 if (narrow < 0 || broad < 0) {
-                    WoldsVaults.LOGGER.error("Extraction site {} room grid: cave {} at {} cannot reach pad {} ({} field); that cave is dropped from the spawn rotation.",
+                    WoldLogger.error("Extraction site {} room grid: cave {} at {} cannot reach pad {} ({} field); that cave is dropped from the spawn rotation.",
                             this.siteIndex, cave, anchor, pad, narrow < 0 ? "narrow" : "2-wide");
                     this.badCaves.add(cave);
                     continue;
@@ -216,11 +216,11 @@ public final class RoomGrid {
                 widest = Math.max(widest, value);
             }
         }
-        WoldsVaults.LOGGER.info("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots, {} of {} caves usable ({} ms).",
+        WoldLogger.info("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots, {} of {} caves usable ({} ms).",
                 this.siteIndex, this.lane.size(), this.wide.size(), widest, this.chestCandidates.length,
                 this.caves.size() - this.badCaves.size(), this.caves.size(), (System.nanoTime() - start) / 1_000_000L);
         if (this.lane.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extraction site {} room grid found no lane cells at all; wave mobs there fall back to vanilla pathing.", this.siteIndex);
+            WoldLogger.error("Extraction site {} room grid found no lane cells at all; wave mobs there fall back to vanilla pathing.", this.siteIndex);
         }
     }
 
@@ -256,7 +256,7 @@ public final class RoomGrid {
             }
         }
         if (distance.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extraction site {} room grid: pad {} at {} has no {} lane cells around it; mobs cannot path to it.",
+            WoldLogger.error("Extraction site {} room grid: pad {} at {} has no {} lane cells around it; mobs cannot path to it.",
                     this.siteIndex, pad, centre, wideOnly ? "2-wide" : "narrow");
         }
         while (!queue.isEmpty()) {

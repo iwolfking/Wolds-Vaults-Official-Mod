@@ -17,12 +17,12 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
 
 import java.util.List;
 import java.util.Map;
 import xyz.iwolfking.woldsvaults.client.init.ModShaders;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * GPU renderer for {@link GodNodeEffects}. Each (node type, phase) canvas owns a two-channel float texture and
@@ -90,7 +90,7 @@ public final class GodNodeEffectsGpu {
         if (accum == null || tone == null) {
             if (!shadersWarned) {
                 shadersWarned = true;
-                WoldsVaults.LOGGER.error("God node effects: GPU path unavailable, shader node_effect_accum or"
+                WoldLogger.error("God node effects: GPU path unavailable, shader node_effect_accum or"
                         + " node_effect_tone is not loaded; using the CPU path");
             }
             return false;
@@ -264,7 +264,7 @@ public final class GodNodeEffectsGpu {
             GlStateManager._glDeleteFramebuffers(framebuffer);
             GlStateManager._deleteTexture(texture);
             if (format + 1 < FORMATS.length) {
-                WoldsVaults.LOGGER.warn("God node effects: {} framebuffer incomplete (status 0x{}); trying {}, which sums"
+                WoldLogger.warn("God node effects: {} framebuffer incomplete (status 0x{}); trying {}, which sums"
                                 + " light at half precision", FORMAT_NAMES[format], Integer.toHexString(status),
                         FORMAT_NAMES[format + 1]);
             } else {
@@ -303,9 +303,9 @@ public final class GodNodeEffectsGpu {
     private static void fail(String reason, Throwable cause) {
         failure = reason;
         if (cause == null) {
-            WoldsVaults.LOGGER.error("God node effects: GPU path unavailable, {}; using the CPU path", reason);
+            WoldLogger.error("God node effects: GPU path unavailable, {}; using the CPU path", reason);
         } else {
-            WoldsVaults.LOGGER.error("God node effects: GPU path unavailable, {}; using the CPU path", reason, cause);
+            WoldLogger.error("God node effects: GPU path unavailable, {}; using the CPU path", reason, cause);
         }
     }
 

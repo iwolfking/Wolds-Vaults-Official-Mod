@@ -5,11 +5,11 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.calc.CooldownHelper;
 import net.minecraft.world.entity.LivingEntity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Spell haste. VH's cooldown reduction attribute, its Cufflinks percentile and the cooldown reduction player stat now
@@ -29,7 +29,7 @@ public final class SpellHaste {
         SpellHasteConfig config = ModConfigs.SPELL_HASTE;
         if (config == null && !missingLogged) {
             missingLogged = true;
-            WoldsVaults.LOGGER.error("Spell haste table is not installed; cooldowns fall back to Vault Hunters' cooldown reduction");
+            WoldLogger.error("Spell haste table is not installed; cooldowns fall back to Vault Hunters' cooldown reduction");
         }
         return config;
     }

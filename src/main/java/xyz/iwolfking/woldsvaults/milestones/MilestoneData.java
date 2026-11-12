@@ -7,10 +7,10 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** World-level store for milestone progress; persistence is throttled by {@link MilestoneFlusher}. */
 public class MilestoneData extends SavedData {
@@ -147,7 +147,7 @@ public class MilestoneData extends SavedData {
         this.pinned.clear();
         int version = tag.contains("dataVersion") ? tag.getInt("dataVersion") : 0;
         if (version > DATA_VERSION) {
-            WoldsVaults.LOGGER.error("Milestone save is version {} but this build understands {}; loading it as-is. "
+            WoldLogger.error("Milestone save is version {} but this build understands {}; loading it as-is. "
                     + "Progress written by a newer build may not survive being saved back.", version, DATA_VERSION);
         }
         Set<String> unknown = new LinkedHashSet<>();
@@ -199,7 +199,7 @@ public class MilestoneData extends SavedData {
             }
         }
         if (!unknown.isEmpty() && !MilestoneRegistry.getAll().isEmpty()) {
-            WoldsVaults.LOGGER.warn("Milestone save holds {} id(s) no milestone is registered for: {}. They are kept "
+            WoldLogger.warn("Milestone save holds {} id(s) no milestone is registered for: {}. They are kept "
                     + "as-is and count toward nothing; if a milestone was renamed, its progress is under the old id.",
                     unknown.size(), unknown);
         }

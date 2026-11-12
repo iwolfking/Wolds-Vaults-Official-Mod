@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Measures the damage each player actually lands on a hyperboss and feeds the boss DPS HUD module.
@@ -361,7 +362,7 @@ public final class HyperBossDpsTracker {
                 : "";
         String preArmor = attempt == null || Float.isNaN(attempt.preArmor) ? "?" : DamageNumberFormat.format(attempt.preArmor);
         for (Credit credit : credits) {
-            WoldsVaults.LOGGER.info(
+            WoldLogger.info(
                     "Hyperboss DPS hit [{}] {}: attempted {}{} -> after hurt bands {} -> after armor {} -> health removed {}{} | boss {} ({}) | 5s dps {} | fight total {} in {} hits",
                     credit.playerName(), credit.label(), attempted, iframeNote, preArmor,
                     DamageNumberFormat.format(finalAmount), DamageNumberFormat.format(dealt),
@@ -372,7 +373,7 @@ public final class HyperBossDpsTracker {
                     DamageNumberFormat.format(credit.fight().total), credit.fight().hits);
         }
         if (credits.isEmpty()) {
-            WoldsVaults.LOGGER.info("Hyperboss DPS hit with no fighter to credit: {} removed {} (source {})",
+            WoldLogger.info("Hyperboss DPS hit with no fighter to credit: {} removed {} (source {})",
                     attempted, DamageNumberFormat.format(dealt), source.getMsgId());
         }
     }
@@ -390,7 +391,7 @@ public final class HyperBossDpsTracker {
             }
             credit.fight().dirty = true;
             if (logging()) {
-                WoldsVaults.LOGGER.info("Hyperboss DPS blocked [{}] {}: attempted {} landed nothing: {}",
+                WoldLogger.info("Hyperboss DPS blocked [{}] {}: attempted {} landed nothing: {}",
                         credit.playerName(), credit.label(), DamageNumberFormat.format(attempt.attempted), reason);
             }
         }
@@ -405,7 +406,7 @@ public final class HyperBossDpsTracker {
                     entry.getValue().hits,
                     DamageNumberFormat.format(entry.getValue().dealt / Math.max(1, entry.getValue().hits))));
         }
-        WoldsVaults.LOGGER.info(
+        WoldLogger.info(
                 "Hyperboss DPS summary [{}] ({}): fight dps {} | 5s dps {} | total {} over {}s in {} hits | max hit {} | i-frames {} blocked, {} reduced | {} blocked elsewhere | boss {} ({}){}",
                 playerName, reason, DamageNumberFormat.format(fight.fightDps()),
                 DamageNumberFormat.format(fight.windowDps(now)), DamageNumberFormat.format(fight.total),

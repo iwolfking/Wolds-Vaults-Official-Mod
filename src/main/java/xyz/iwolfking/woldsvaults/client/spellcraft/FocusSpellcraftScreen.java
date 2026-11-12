@@ -23,7 +23,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentAbilities;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
@@ -46,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The focus spellcraft screen, opened by right-clicking a focus or wand in the inventory. Bands: the title (item,
@@ -340,7 +340,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
             }
             if (draft.pendingNew && this.ticks - draft.sentAt > SERVER_WAIT) {
                 draft.pendingNew = false;
-                WoldsVaults.LOGGER.error("Spellcraft screen: the server did not store new spell '{}' (inventory slot {}); left as an unsaved draft",
+                WoldLogger.error("Spellcraft screen: the server did not store new spell '{}' (inventory slot {}); left as an unsaved draft",
                         draft.name, this.inventorySlot);
             }
         }
@@ -1437,7 +1437,7 @@ public class FocusSpellcraftScreen extends Screen implements SpellBarStrip.Host 
     /** Opens the screen for the focus or wand in a player inventory slot. */
     public static void open(@Nullable Screen parent, int inventorySlot) {
         if (FocusAugments.config() == null) {
-            WoldsVaults.LOGGER.error("Spellcraft screen: the focus augments table is not loaded on this client; the screen stays closed");
+            WoldLogger.error("Spellcraft screen: the focus augments table is not loaded on this client; the screen stays closed");
             return;
         }
         Minecraft.getInstance().setScreen(new FocusSpellcraftScreen(parent, inventorySlot));

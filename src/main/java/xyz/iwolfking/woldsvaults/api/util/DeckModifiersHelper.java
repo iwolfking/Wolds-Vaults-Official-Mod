@@ -8,7 +8,6 @@ import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.CardDeckItem;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.vhapi.mixin.accessors.DeckModifiersConfigAccessor;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ImplicitDeckModifiersConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.DeckModifierValueAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.deck.CardNeighborTypeDeckModifier;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class DeckModifiersHelper {
     private static final String MYSTERY_IMPLICIT_POOL = "card_deck_implicits";
@@ -65,7 +65,7 @@ public class DeckModifiersHelper {
     private static void weakenMysteryImplicit(DeckModifier<?> modifier) {
         float value = modifier.getModifierValue();
         if (value < 0.0F) {
-            WoldsVaults.LOGGER.error("Mystery implicit {} was not populated before scaling; it keeps full strength.", modifier.getId());
+            WoldLogger.error("Mystery implicit {} was not populated before scaling; it keeps full strength.", modifier.getId());
             return;
         }
         float scaled = modifier instanceof CardNeighborTypeDeckModifier
@@ -82,14 +82,14 @@ public class DeckModifiersHelper {
         WeightedList<String> modifierPool = ((DeckModifiersConfigAccessor) ModConfigs.DECK_MODIFIERS).getPools().get(MYSTERY_IMPLICIT_POOL);
 
         if(modifierPool == null) {
-            WoldsVaults.LOGGER.error("Deck modifier pool {} is missing; the mystery deck rolls with no implicits.", MYSTERY_IMPLICIT_POOL);
+            WoldLogger.error("Deck modifier pool {} is missing; the mystery deck rolls with no implicits.", MYSTERY_IMPLICIT_POOL);
             return false;
         }
 
         List<Map.Entry<String, Double>> poolList = new ArrayList<>(modifierPool.entrySet());
 
         if(poolList.size() < MYSTERY_IMPLICIT_COUNT) {
-            WoldsVaults.LOGGER.error("Deck modifier pool {} holds {} entries, fewer than the {} the mystery deck needs; it rolls with no implicits.", MYSTERY_IMPLICIT_POOL, poolList.size(), MYSTERY_IMPLICIT_COUNT);
+            WoldLogger.error("Deck modifier pool {} holds {} entries, fewer than the {} the mystery deck needs; it rolls with no implicits.", MYSTERY_IMPLICIT_POOL, poolList.size(), MYSTERY_IMPLICIT_COUNT);
             return false;
         }
 
@@ -101,7 +101,7 @@ public class DeckModifiersHelper {
             DeckModifier<?> modifier = createModifierWithId(modifierId);
 
             if(modifier == null) {
-                WoldsVaults.LOGGER.error("Deck modifier {} from pool {} could not be created; the mystery deck loses one implicit.", modifierId, MYSTERY_IMPLICIT_POOL);
+                WoldLogger.error("Deck modifier {} from pool {} could not be created; the mystery deck loses one implicit.", modifierId, MYSTERY_IMPLICIT_POOL);
                 continue;
             }
 
@@ -126,14 +126,14 @@ public class DeckModifiersHelper {
         String deckId = CardDeckItem.getId(stack);
 
         if(deckId == null || !ModConfigs.CARD_DECK.has(deckId)) {
-            WoldsVaults.LOGGER.error("A loot table rolled a card deck with the unknown id {}; it is left for the item tick to fill in.", deckId);
+            WoldLogger.error("A loot table rolled a card deck with the unknown id {}; it is left for the item tick to fill in.", deckId);
             return false;
         }
 
         CardDeck deck = ModConfigs.CARD_DECK.generate(deckId, ChunkRandom.ofNanoTime()).orElse(null);
 
         if(deck == null) {
-            WoldsVaults.LOGGER.error("The card deck config could not generate the {} deck; the rolled stack is left for the item tick to fill in.", deckId);
+            WoldLogger.error("The card deck config could not generate the {} deck; the rolled stack is left for the item tick to fill in.", deckId);
             return false;
         }
 
@@ -147,7 +147,7 @@ public class DeckModifiersHelper {
                 DeckModifier<?> modifier = cloneModifier(implicit);
 
                 if(modifier == null) {
-                    WoldsVaults.LOGGER.error("The implicit modifier of the {} deck could not be cloned; the rolled deck loses it.", deckId);
+                    WoldLogger.error("The implicit modifier of the {} deck could not be cloned; the rolled deck loses it.", deckId);
                 }
                 else {
                     deck.addModifier(modifier, ChunkRandom.ofNanoTime());

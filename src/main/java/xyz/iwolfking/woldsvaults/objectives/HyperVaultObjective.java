@@ -152,7 +152,7 @@ public class HyperVaultObjective extends Objective {
             return config;
         }
         if (WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("The HYPER objective was read before the objectives/hyper/hyper_objective table was installed");
+            WoldLogger.error("The HYPER objective was read before the objectives/hyper/hyper_objective table was installed");
         }
         return INERT;
     }

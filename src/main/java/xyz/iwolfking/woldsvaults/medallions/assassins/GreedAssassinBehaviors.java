@@ -12,13 +12,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The per-tier assassin behaviours. The design sheet fixes none of their magnitudes, so the durations, radii and
@@ -55,7 +55,7 @@ public final class GreedAssassinBehaviors {
      */
     private static void inheritVaultModifiers(Vault vault, LivingEntity assassin) {
         if (!vault.has(Vault.MODIFIERS)) {
-            WoldsVaults.LOGGER.warn("Greed assassin cannot inherit vault modifiers: the vault carries no modifier stack.");
+            WoldLogger.error("Greed assassin cannot inherit vault modifiers: the vault carries no modifier stack.");
             return;
         }
         Modifiers modifiers = vault.get(Vault.MODIFIERS);
@@ -72,7 +72,7 @@ public final class GreedAssassinBehaviors {
             }
         }
         assassin.setHealth(assassin.getMaxHealth());
-        WoldsVaults.LOGGER.debug("Greed assassin inherited {} vault mob attribute modifiers.", applied);
+        WoldLogger.debug("Greed assassin inherited {} vault mob attribute modifiers.", applied);
     }
 
     /** Champion 1+. Draws an exact {@value #INFERNAL_MODIFIER_COUNT} modifiers from the brutal-boss infernal pool. */
@@ -83,7 +83,7 @@ public final class GreedAssassinBehaviors {
         } catch (Throwable throwable) {
             if (!infernalFailureLogged) {
                 infernalFailureLogged = true;
-                WoldsVaults.LOGGER.error("Greed assassins could not be given infernal modifiers; the Champion tier behaviour is inactive for this session.", throwable);
+                WoldLogger.error("Greed assassins could not be given infernal modifiers; the Champion tier behaviour is inactive for this session.", throwable);
             }
         }
     }

@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodNodeEffectsGpu;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Shaders the gods tab loads with the game's own. They are null until the first resource load finishes.
@@ -38,7 +39,7 @@ public final class ModShaders {
             event.registerShader(new ShaderInstance(event.getResourceManager(), WoldsVaults.id("node_effect_tone"),
                     DefaultVertexFormat.POSITION_COLOR_TEX), shader -> nodeEffectTone = shader);
         } catch (IOException | RuntimeException e) {
-            WoldsVaults.LOGGER.error("God node effect shaders could not be loaded; star light falls back to the CPU path", e);
+            WoldLogger.error("God node effect shaders could not be loaded; star light falls back to the CPU path", e);
         }
     }
 }

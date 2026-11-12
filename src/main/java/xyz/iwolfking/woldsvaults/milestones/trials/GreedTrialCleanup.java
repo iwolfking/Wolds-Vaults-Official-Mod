@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Drops trial marks whose vault is gone, every 200 server ticks. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -46,7 +47,7 @@ public final class GreedTrialCleanup {
             if (live.contains(vaultId)) {
                 continue;
             }
-            WoldsVaults.LOGGER.info("Clearing the rank {} greed trial mark for vault {}: the vault is gone, so the trial was not passed.",
+            WoldLogger.info("Clearing the rank {} greed trial mark for vault {}: the vault is gone, so the trial was not passed.",
                     data.getTargetRank(vaultId), vaultId);
             data.clear(vaultId);
         }

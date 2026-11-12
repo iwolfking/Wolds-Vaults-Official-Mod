@@ -23,13 +23,13 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Read-only Prestige tab of an armory page: VH's prestige power screen fed the saved tree, with no learn button.
@@ -88,7 +88,7 @@ public class ArmoryPrestigeScreen extends PrestigePowersElementContainerScreen {
 
         @Override
         protected void sendUpgradeMessage() {
-            WoldsVaults.LOGGER.warn("Armory: blocked a prestige power learn from the read-only armory view");
+            WoldLogger.warn("Armory: blocked a prestige power learn from the read-only armory view");
         }
 
         @Override

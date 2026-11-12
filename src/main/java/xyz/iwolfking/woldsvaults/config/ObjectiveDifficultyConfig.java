@@ -2,11 +2,11 @@ package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.TreeMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * How a vault's difficulty multiplier D = (1 + sigil difficulty) x (1 + medallion objective bonus) is turned
@@ -63,7 +63,7 @@ public class ObjectiveDifficultyConfig extends Config implements WoldsTable {
     public double getExponent(String objective) {
         Double exponent = this.exponents == null ? null : this.exponents.get(objective);
         if (exponent == null) {
-            WoldsVaults.LOGGER.warn("objective_difficulty.json has no exponent for '{}', scaling it linearly", objective);
+            WoldLogger.error("objective_difficulty.json has no exponent for '{}', scaling it linearly", objective);
             return 1.0D;
         }
         return exponent;
@@ -76,7 +76,7 @@ public class ObjectiveDifficultyConfig extends Config implements WoldsTable {
         }
         Double exponent = this.bingoTileClasses == null ? null : this.bingoTileClasses.get(tileClass);
         if (exponent == null) {
-            WoldsVaults.LOGGER.warn("objective_difficulty.json bingo tile class '{}' (tile '{}') has no exponent, scaling it linearly", tileClass, rendererName);
+            WoldLogger.error("objective_difficulty.json bingo tile class '{}' (tile '{}') has no exponent, scaling it linearly", tileClass, rendererName);
             return 1.0D;
         }
         return exponent;
@@ -141,14 +141,14 @@ public class ObjectiveDifficultyConfig extends Config implements WoldsTable {
     private static TreeMap<Double, Integer> toTree(Map<String, Integer> raw, String field) {
         TreeMap<Double, Integer> tree = new TreeMap<>();
         if (raw == null) {
-            WoldsVaults.LOGGER.warn("objective_difficulty.json is missing '{}', treating it as empty", field);
+            WoldLogger.error("objective_difficulty.json is missing '{}', treating it as empty", field);
             return tree;
         }
         raw.forEach((key, value) -> {
             try {
                 tree.put(Double.parseDouble(key), value);
             } catch (NumberFormatException e) {
-                WoldsVaults.LOGGER.warn("objective_difficulty.json '{}' has non-numeric threshold '{}', ignoring it", field, key);
+                WoldLogger.error("objective_difficulty.json '{}' has non-numeric threshold '{}', ignoring it", field, key);
             }
         });
         return tree;

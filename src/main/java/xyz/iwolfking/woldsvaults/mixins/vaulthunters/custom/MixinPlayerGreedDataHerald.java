@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Sets greed tier 1 when the Herald falls, through {@code setGreedTier} and only if the tier is still 0. */
 @Mixin(value = PlayerGreedData.class, remap = false)
@@ -25,7 +25,7 @@ public class MixinPlayerGreedDataHerald {
             return;
         }
         treeData.setGreedTier(serverPlayer, MilestoneRankLadder.FIRST_RANK);
-        WoldsVaults.LOGGER.info("{} beat the Herald; greed rank set to {}",
+        WoldLogger.info("{} beat the Herald; greed rank set to {}",
                 serverPlayer.getGameProfile().getName(), MilestoneRankLadder.FIRST_RANK);
     }
 }

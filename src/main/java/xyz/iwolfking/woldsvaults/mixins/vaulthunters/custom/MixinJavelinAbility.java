@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.flexible.FlexibleAbility;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
@@ -21,6 +20,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.gear.GlyphGrants;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = VaultThrownJavelin.class, remap = false)
 public abstract class MixinJavelinAbility {
@@ -44,7 +44,7 @@ public abstract class MixinJavelinAbility {
             CastTag tag = CastContext.current();
             if (tag == null || !(thrower instanceof ServerPlayer serverThrower) || !tag.isOwnedBy(serverThrower)) {
                 if (woldsvaults$WARNED_NO_CAST.compareAndSet(false, true)) {
-                    WoldsVaults.LOGGER.warn("Imploding Javelin hit found no cast tag for its thrower; the free Implode uses the current mana bar.");
+                    WoldLogger.error("Imploding Javelin hit found no cast tag for its thrower; the free Implode uses the current mana bar.");
                 }
             } else if (tag.manaConsumed() > 0.0F) {
                 mana = tag.manaConsumed();

@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = EtchingHelper.class, remap = false)
 public class MixinEtchingHelper {
@@ -54,7 +54,7 @@ public class MixinEtchingHelper {
             Optional<?> value = data.getFirstValue(attribute);
             if (value.isPresent()) {
                 if (woldsvaults$reportedEtchings.add(etchingId)) {
-                    WoldsVaults.LOGGER.error("Etching {} has no gear attribute of the same id; its tooltip value is read from {} instead.",
+                    WoldLogger.error("Etching {} has no gear attribute of the same id; its tooltip value is read from {} instead.",
                             etchingId, group.getAttribute());
                 }
                 cir.setReturnValue(value);

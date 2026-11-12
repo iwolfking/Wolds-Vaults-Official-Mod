@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Armor textures that animate (the Lightning Fiend set's main layer: crackling lightning and shining spots). Armor is
@@ -55,7 +56,7 @@ public class AnimatedArmorTexture extends AbstractTexture implements Tickable {
         try (Resource resource = resourceManager.getResource(this.frames)) {
             image = NativeImage.read(resource.getInputStream());
         } catch (IOException missing) {
-            WoldsVaults.LOGGER.error("Lightning Fiend armor frame strip {} could not be read; drawing {} unanimated.", this.frames, this.location, missing);
+            WoldLogger.error("Lightning Fiend armor frame strip {} could not be read; drawing {} unanimated.", this.frames, this.location, missing);
             animated = false;
             try (Resource resource = resourceManager.getResource(this.location)) {
                 image = NativeImage.read(resource.getInputStream());

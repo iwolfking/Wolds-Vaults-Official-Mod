@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Setup entry point for the Wendarr god tree. Handler types come up earlier, elsewhere. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -28,7 +29,7 @@ public final class WendarrTree {
             WendarrCombatNodes.register();
             WendarrGardener.register();
             WendarrPylons.register();
-            WoldsVaults.LOGGER.info("Registered {} Wendarr god tree nodes",
+            WoldLogger.info("Registered {} Wendarr god tree nodes",
                     GodNodeRegistry.tree(VaultGod.WENDARR).map(tree -> tree.getNodes().size()).orElse(0));
         });
     }

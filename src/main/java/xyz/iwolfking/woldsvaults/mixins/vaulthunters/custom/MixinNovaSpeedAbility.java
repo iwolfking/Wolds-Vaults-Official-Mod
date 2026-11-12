@@ -9,10 +9,10 @@ import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;
 import java.util.WeakHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = NovaSpeedAbility.class, remap = false)
 public class MixinNovaSpeedAbility {
@@ -31,7 +31,7 @@ public class MixinNovaSpeedAbility {
     @WrapOperation(method = "lambda$doAction$2", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", ordinal = 1, remap = true))
     private boolean woldsvaults$additiveFrozenOrbVulnerable(LivingEntity target, MobEffectInstance incoming, Operation<Boolean> original) {
         if (incoming.getEffect() != ModEffects.VULNERABLE) {
-            WoldsVaults.LOGGER.error("Frozen Orb Vulnerable wrap saw {} instead of Vulnerable; applying it unchanged", incoming.getEffect().getRegistryName());
+            WoldLogger.error("Frozen Orb Vulnerable wrap saw {} instead of Vulnerable; applying it unchanged", incoming.getEffect().getRegistryName());
             return original.call(target, incoming);
         }
         MobEffectInstance existing = target.getEffect(ModEffects.VULNERABLE);

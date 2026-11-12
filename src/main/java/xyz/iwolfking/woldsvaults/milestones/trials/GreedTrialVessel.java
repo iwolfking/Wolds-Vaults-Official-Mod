@@ -16,10 +16,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The vessel half of the rank-up trials, driven from {@code MixinRebirthObjective}: one phase whose
@@ -102,7 +102,7 @@ public final class GreedTrialVessel {
                     .set(StatCollector.COMPLETION, won ? Completion.COMPLETED : Completion.FAILED));
             ServerPlayer player = listener.getPlayer().orElse(null);
             if (player == null) {
-                WoldsVaults.LOGGER.warn("Vessel trial ended for an offline runner — no payout was made.");
+                WoldLogger.error("Vessel trial ended for an offline runner — no payout was made.");
                 continue;
             }
             if (won) {

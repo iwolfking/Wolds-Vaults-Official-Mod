@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModCreativeTabs;
@@ -34,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ExtractorItem extends Item {
     public static final String TAG_ROOT = "Extractor";
@@ -133,7 +133,7 @@ public class ExtractorItem extends Item {
         data.putString("DrillClass", block.drillClass);
         String job = ExtractorStats.jobFor(block.drillClass);
         if (job == null) {
-            WoldsVaults.LOGGER.error("Assembled extractor has drill class '{}' with no job in DRILL_CLASSES; it will not deploy until the config names one.", block.drillClass);
+            WoldLogger.error("Assembled extractor has drill class '{}' with no job in DRILL_CLASSES; it will not deploy until the config names one.", block.drillClass);
             job = "";
         }
         data.putString("Job", job);
@@ -154,7 +154,7 @@ public class ExtractorItem extends Item {
         data.put("Build", build);
         setData(stack, data);
         if (block.frameSeries.isEmpty() || ModConfigs.EXTRACTOR_PARTS.getSeries(block.frameSeries) == null) {
-            WoldsVaults.LOGGER.error("Assembled extractor has no recognisable series ('{}'); it gets no tooltip frame.", block.frameSeries);
+            WoldLogger.error("Assembled extractor has no recognisable series ('{}'); it gets no tooltip frame.", block.frameSeries);
             stack.getOrCreateTag().remove(ExtractorTooltips.FRAME_TAG);
         } else {
             stack.getOrCreateTag().putString(ExtractorTooltips.FRAME_TAG, block.frameSeries);
@@ -243,7 +243,7 @@ public class ExtractorItem extends Item {
         }
         List<PartData> attachments = getBuildAttachments(stack);
         if (attachments.size() != attachmentDurability.length) {
-            WoldsVaults.LOGGER.error("Extractor came back with {} attachment wear values but {} attachments on the item; only the matching ones carried over.",
+            WoldLogger.error("Extractor came back with {} attachment wear values but {} attachments on the item; only the matching ones carried over.",
                     attachmentDurability.length, attachments.size());
         }
         for (int i = 0; i < Math.min(attachments.size(), attachmentDurability.length); i++) {
@@ -358,7 +358,7 @@ public class ExtractorItem extends Item {
         }
         clearDeployment(data);
         setData(stack, data);
-        WoldsVaults.LOGGER.info("Extractor item held by {} re-armed itself: its deployment vault {} is gone or was left behind.",
+        WoldLogger.info("Extractor item held by {} re-armed itself: its deployment vault {} is gone or was left behind.",
                 holder.getName().getString(), deployVault);
         if (holder instanceof Player player) {
             player.displayClientMessage(new TextComponent("Your extractor re-armed itself.").withStyle(ChatFormatting.YELLOW), false);

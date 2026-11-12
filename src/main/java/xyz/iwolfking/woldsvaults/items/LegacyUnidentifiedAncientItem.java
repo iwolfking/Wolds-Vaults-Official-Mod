@@ -15,11 +15,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The retired stackable "unidentified ancient unique". Unidentified ancients are now real unidentified gear
@@ -57,10 +57,10 @@ public class LegacyUnidentifiedAncientItem extends BasicItem {
             }
         }
         if (produced == 0) {
-            WoldsVaults.LOGGER.error("A legacy unidentified ancient unique could not convert because no ancient could be rolled; leaving the stack as is.");
+            WoldLogger.error("A legacy unidentified ancient unique could not convert because no ancient could be rolled; leaving the stack as is.");
             return;
         }
-        WoldsVaults.LOGGER.info("Converted {} legacy unidentified ancient unique(s) held by {} into unidentified ancient gear.", produced, player.getGameProfile().getName());
+        WoldLogger.info("Converted {} legacy unidentified ancient unique(s) held by {} into unidentified ancient gear.", produced, player.getGameProfile().getName());
         if (produced >= count && itemSlot >= 0 && itemSlot < player.getInventory().getContainerSize() && player.getInventory().getItem(itemSlot) == stack) {
             player.getInventory().setItem(itemSlot, first);
             return;

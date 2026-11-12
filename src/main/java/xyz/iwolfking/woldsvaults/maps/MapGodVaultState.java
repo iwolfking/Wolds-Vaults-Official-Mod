@@ -8,13 +8,13 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Persisted god binding of every running mapped vault, dropped when its vault ends. */
 public final class MapGodVaultState {
@@ -60,7 +60,7 @@ public final class MapGodVaultState {
     private static Store store() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server == null) {
-            WoldsVaults.LOGGER.error("Map god binding touched with no server running; the binding is lost.");
+            WoldLogger.error("Map god binding touched with no server running; the binding is lost.");
             return null;
         }
         return Store.get(server);
@@ -83,7 +83,7 @@ public final class MapGodVaultState {
                 CompoundTag entry = list.getCompound(i);
                 VaultGod god = VaultGod.fromName(entry.getString("god"));
                 if (god == null) {
-                    WoldsVaults.LOGGER.error("Saved map god binding names unknown god '{}'; dropping it.", entry.getString("god"));
+                    WoldLogger.error("Saved map god binding names unknown god '{}'; dropping it.", entry.getString("god"));
                     continue;
                 }
                 this.bindings.put(entry.getUUID("vault"),

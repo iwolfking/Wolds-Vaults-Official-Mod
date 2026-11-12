@@ -8,13 +8,13 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkHooks;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryGodSnapshot;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.SlotKeys;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** The read-only Gods view menu for a saved armory page. */
 public final class ArmoryGodMenus {
@@ -35,7 +35,7 @@ public final class ArmoryGodMenus {
         info.write(data);
         snapshot.write(data);
         if (data.readableBytes() > OPEN_DATA_LIMIT) {
-            WoldsVaults.LOGGER.error("Armory: the Gods view of page {} needs {} bytes, over the {} byte menu limit; not opened",
+            WoldLogger.error("Armory: the Gods view of page {} needs {} bytes, over the {} byte menu limit; not opened",
                     info.page() + 1, data.readableBytes(), OPEN_DATA_LIMIT);
             player.displayClientMessage(new TextComponent("This build is too large to show."), true);
             return;

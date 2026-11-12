@@ -34,6 +34,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Light around the god tree's stars: spiral arms, motes swirling in, rays beaming out and a core glow, tuned per node
@@ -551,7 +552,7 @@ public final class GodNodeEffects {
                     }
                 }
             } catch (IOException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("God node effects {} could not be read; stars draw without effects", SETTINGS, e);
+                WoldLogger.error("God node effects {} could not be read; stars draw without effects", SETTINGS, e);
             }
         }
         return looks;
@@ -614,12 +615,12 @@ public final class GodNodeEffects {
             try (Resource resource = Minecraft.getInstance().getResourceManager().getResource(RAMPS);
                  NativeImage image = NativeImage.read(resource.getInputStream())) {
                 if (image.getWidth() < 256) {
-                    WoldsVaults.LOGGER.warn("God star ramps {} is {} px wide, not 256; its last column repeats",
+                    WoldLogger.error("God star ramps {} is {} px wide, not 256; its last column repeats",
                             RAMPS, image.getWidth());
                 }
                 for (VaultGod god : gods) {
                     if (god.ordinal() >= image.getHeight()) {
-                        WoldsVaults.LOGGER.warn("God star ramps {} has no row {} for {}; using the theme colours",
+                        WoldLogger.error("God star ramps {} has no row {} for {}; using the theme colours",
                                 RAMPS, god.ordinal(), god);
                         continue;
                     }
@@ -631,7 +632,7 @@ public final class GodNodeEffects {
                     rows[god.ordinal()] = row;
                 }
             } catch (IOException | RuntimeException e) {
-                WoldsVaults.LOGGER.warn("God star ramps {} could not be read; using the theme colours instead", RAMPS, e);
+                WoldLogger.error("God star ramps {} could not be read; using the theme colours instead", RAMPS, e);
             }
             for (VaultGod god : gods) {
                 if (rows[god.ordinal()] == null) {

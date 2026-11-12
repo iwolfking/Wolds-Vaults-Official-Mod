@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Ultra Rampaging: the damage math Fury drives. The node adds no multiplier of its own; it rewrites
@@ -46,7 +47,7 @@ public final class UltraRampaging {
             return params;
         }
         if (WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Ultra Rampaging read its configuration while effect '{}' {}; Fury does nothing "
+            WoldLogger.error("Ultra Rampaging read its configuration while effect '{}' {}; Fury does nothing "
                     + "until the god effect tables load.", IdonaNodes.ULTRA_RAMPAGING,
                     effect.isPresent() ? "has the wrong params type" : "is absent");
         }

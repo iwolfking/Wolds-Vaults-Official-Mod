@@ -37,12 +37,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Read-only Abilities tab of an armory page: VH's ability screen fed the saved tree, with no learn, unlearn or
@@ -166,7 +166,7 @@ public class ArmoryAbilitiesScreen extends AbilitiesElementContainerScreen {
             Skill skill = this.tree.getForId(this.selected).orElse(null);
             SpecializedSkill group = group(this.tree, this.selected);
             if (!(skill instanceof TieredSkill) || group == null || !(group.getSpecialization() instanceof TieredSkill current)) {
-                WoldsVaults.LOGGER.warn("Armory: ability {} is not a tiered specialization in the saved tree; no dialog shown", this.selected);
+                WoldLogger.warn("Armory: ability {} is not a tiered specialization in the saved tree; no dialog shown", this.selected);
                 return;
             }
             boolean specialization = !isBase(group, this.selected);
@@ -179,7 +179,7 @@ public class ArmoryAbilitiesScreen extends AbilitiesElementContainerScreen {
             if (target.getSpecialization() instanceof TieredSkill targetSpec) {
                 this.description = AbilityDescriptionFactory.create(targetSpec, tier, max, VaultBarOverlay.vaultLevel);
             } else {
-                WoldsVaults.LOGGER.warn("Armory: ability {} has no tiered specialization to describe", this.selected);
+                WoldLogger.warn("Armory: ability {} has no tiered specialization to describe", this.selected);
                 this.description = null;
             }
             this.descriptionComponent = new ScrollableContainer(this::renderArmoryDescription);

@@ -7,7 +7,6 @@ import iskallia.vault.world.data.PlayerReputationData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
@@ -17,6 +16,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeModel;
 
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Serverbound request to buy one node of a god's tree. The server re-validates the node, its access, the
@@ -57,32 +57,32 @@ public class ServerboundUnlockGodNodeMessage extends Message<ServerboundUnlockGo
             }
             int reputation = PlayerReputationData.getReputation(player.getUUID(), message.god);
             if (reputation < GodLevels.chartingReputation()) {
-                WoldsVaults.LOGGER.warn("Refused {} the god node {}: {} reputation with {} is short of the {} that "
+                WoldLogger.warn("Refused {} the god node {}: {} reputation with {} is short of the {} that "
                         + "charts their constellation.", player.getGameProfile().getName(), message.nodeId,
                         reputation, message.god.getName(), GodLevels.chartingReputation());
                 return;
             }
             GodTreeModel tree = GodNodeRegistry.tree(message.god).orElse(null);
             if (tree == null) {
-                WoldsVaults.LOGGER.warn("{} tried to unlock god node {} but the {} tree is not defined.",
+                WoldLogger.error("{} tried to unlock god node {} but the {} tree is not defined.",
                         player.getGameProfile().getName(), message.nodeId, message.god.getName());
                 return;
             }
             GodNode node = tree.getNode(message.nodeId);
             if (node == null) {
-                WoldsVaults.LOGGER.warn("{} tried to unlock unknown god node {} in the {} tree.",
+                WoldLogger.warn("{} tried to unlock unknown god node {} in the {} tree.",
                         player.getGameProfile().getName(), message.nodeId, message.god.getName());
                 return;
             }
             GodAlignmentData data = GodAlignmentData.get(player.getServer());
             if (!tree.isPurchasable(message.nodeId,
                     id -> data.isTreeNodePurchased(player.getUUID(), message.god, id))) {
-                WoldsVaults.LOGGER.debug("Refused {} the god node {}: it is disabled, already owned, or touches "
+                WoldLogger.debug("Refused {} the god node {}: it is disabled, already owned, or touches "
                         + "no node they own.", player.getGameProfile().getName(), message.nodeId);
                 return;
             }
             if (!data.purchaseTreeNode(player, message.god, node.id(), node.ledgerKey(), node.cost())) {
-                WoldsVaults.LOGGER.debug("Refused {} the god node {}: the ledger would not take it, so they hold "
+                WoldLogger.debug("Refused {} the god node {}: the ledger would not take it, so they hold "
                         + "fewer than its {} unspent points.", player.getGameProfile().getName(), message.nodeId,
                         node.cost());
                 return;

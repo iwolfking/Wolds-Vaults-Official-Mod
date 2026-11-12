@@ -17,7 +17,7 @@ import iskallia.vault.core.world.template.context.TemplatePoolContext;
 import iskallia.vault.core.world.template.data.TemplateEntry;
 import iskallia.vault.core.world.template.data.TemplatePool;
 import net.minecraft.core.BlockPos;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Builds the template of a multi-cell room. The pick, its jigsaw children and its processors come from an RNG seeded
@@ -41,7 +41,7 @@ public final class MultiCellPlacer {
         TemplatePoolKey key = VaultRegistry.TEMPLATE_POOL.getKey(footprint.pool());
         TemplatePool pool = key == null ? null : key.get(version);
         if (pool == null) {
-            WoldsVaults.LOGGER.error("Multi-cell room pool {} is missing; {} generates empty and its cells stay bedrock.", footprint.pool(), footprint);
+            WoldLogger.error("Multi-cell room pool {} is missing; {} generates empty and its cells stay bedrock.", footprint.pool(), footprint);
             return EmptyTemplate.INSTANCE;
         }
         RegionPos anchor = footprint.anchorRegion(cellX, cellZ);
@@ -49,7 +49,7 @@ public final class MultiCellPlacer {
         TemplatePoolContext context = TemplatePoolContext.of(vault).setRegion(anchor).setPieceType(VaultLayout.PieceType.ROOM);
         TemplateEntry entry = pool.getRandomFlat(version, random, context).orElse(null);
         if (entry == null) {
-            WoldsVaults.LOGGER.error("Multi-cell room pool {} picked no template; {} generates empty and its cells stay bedrock.", footprint.pool(), footprint);
+            WoldLogger.error("Multi-cell room pool {} picked no template; {} generates empty and its cells stay bedrock.", footprint.pool(), footprint);
             return EmptyTemplate.INSTANCE;
         }
         int pivotX = footprint.span() * cellX / 2;

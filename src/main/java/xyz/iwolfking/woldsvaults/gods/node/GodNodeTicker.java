@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The one periodic pass every god tree shares: once a second it drops the gate cache, runs every
@@ -67,7 +68,7 @@ public final class GodNodeTicker {
             try {
                 treePass.run(server, players);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("God tree pass {} threw; this pass was skipped.",
+                WoldLogger.error("God tree pass {} threw; this pass was skipped.",
                         treePass.getClass().getName(), e);
             }
         }
@@ -116,7 +117,7 @@ public final class GodNodeTicker {
             try {
                 handler.tick(context);
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("God tick contributor {} threw for {}; this pass was skipped.",
+                WoldLogger.error("God tick contributor {} threw for {}; this pass was skipped.",
                         effect.id(), player.getGameProfile().getName(), e);
             }
         }
@@ -137,14 +138,14 @@ public final class GodNodeTicker {
     private static void deactivate(ServerPlayer player, String effectId) {
         TickContributor handler = GodNodeRegistry.handler(effectId, TickContributor.class);
         if (handler == null) {
-            WoldsVaults.LOGGER.warn("God effect {} was live for {} but is no longer a tick contributor; whatever it "
+            WoldLogger.error("God effect {} was live for {} but is no longer a tick contributor; whatever it "
                     + "applied cannot be taken back.", effectId, player.getGameProfile().getName());
             return;
         }
         try {
             handler.onDeactivated(player, effectId);
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("God tick contributor {} threw while deactivating for {}; its state may be left "
+            WoldLogger.error("God tick contributor {} threw while deactivating for {}; its state may be left "
                     + "applied.", effectId, player.getGameProfile().getName(), e);
         }
     }

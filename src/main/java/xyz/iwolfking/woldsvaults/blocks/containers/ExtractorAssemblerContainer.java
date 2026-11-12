@@ -10,12 +10,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorAssemblerTileEntity;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Slot positions are placeholders here: the full-window screen lays every slot out from the window size in
@@ -42,7 +42,7 @@ public class ExtractorAssemblerContainer extends AbstractContainerMenu {
         this.tile = tile;
         this.clientSide = playerInventory.player.level.isClientSide();
         if (tile == null) {
-            WoldsVaults.LOGGER.error("Extractor Assembler container opened at {} without a tile entity; the slots will not work.", this.pos);
+            WoldLogger.error("Extractor Assembler container opened at {} without a tile entity; the slots will not work.", this.pos);
             this.inventory = ExtractorAssemblerTileEntity.createInventoryHandler(null);
         } else {
             this.inventory = tile.getInventory();

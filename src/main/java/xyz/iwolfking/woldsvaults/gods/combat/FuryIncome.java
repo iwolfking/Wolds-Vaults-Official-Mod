@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Every way Fury is earned, plus the drawback it carries. Any hit the player is the true source of
@@ -93,7 +94,7 @@ public final class FuryIncome {
         }
         float maxHealth = player.getMaxHealth();
         if (maxHealth <= 0.0F) {
-            WoldsVaults.LOGGER.error("Skipping Fury for damage taken by {}: max health is {}, which would divide by "
+            WoldLogger.error("Skipping Fury for damage taken by {}: max health is {}, which would divide by "
                     + "zero.", player.getGameProfile().getName(), maxHealth);
             return;
         }

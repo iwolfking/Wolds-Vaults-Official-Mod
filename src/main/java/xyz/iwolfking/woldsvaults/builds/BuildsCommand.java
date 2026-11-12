@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Operator command for build snapshots: {@code /wvbuilds list|info|validate|load|save|restore|backups}. Build names
@@ -169,7 +170,7 @@ public final class BuildsCommand {
             context.getSource().sendFailure(BuildService.message(ChatFormatting.RED, "Build '" + name + "': " + e.getMessage()));
             return 0;
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("[wvbuilds] info {} failed", name, e);
+            WoldLogger.error("[wvbuilds] info {} failed", name, e);
             context.getSource().sendFailure(BuildService.message(ChatFormatting.RED, "Build '" + name
                     + "' could not be read: " + e.getClass().getSimpleName()));
             return 0;

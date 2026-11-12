@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.extraction.parts;
 
 import iskallia.vault.gear.VaultGearRarity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
@@ -11,6 +10,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The composition formula: flat part values sum, attachment and affix percentages multiply the sum,
@@ -169,14 +169,14 @@ public final class ExtractorStats {
         if (slot == ExtractorPartType.DRILL) {
             ExtractorPartsConfig.DrillClassEntry drillClass = cfg.DRILL_CLASSES.get(part.drillClass);
             if (drillClass == null || drillClass.rigBone == null) {
-                WoldsVaults.LOGGER.error("Extractor drill class '{}' has no rig bone; using {}.", part.drillClass, fallback);
+                WoldLogger.error("Extractor drill class '{}' has no rig bone; using {}.", part.drillClass, fallback);
                 return fallback;
             }
             return drillClass.rigBone;
         }
         ExtractorPartsConfig.SeriesEntry series = cfg.getSeries(part.series);
         if (series == null || !series.rigBones.containsKey(slot.getId())) {
-            WoldsVaults.LOGGER.error("Extractor series '{}' has no rig bone for slot '{}'; using {}.", part.series, slot.getId(), fallback);
+            WoldLogger.error("Extractor series '{}' has no rig bone for slot '{}'; using {}.", part.series, slot.getId(), fallback);
             return fallback;
         }
         return series.rigBones.get(slot.getId());
@@ -199,7 +199,7 @@ public final class ExtractorStats {
             }
             ExtractorPartsConfig.AttachmentEntry entry = cfg.ATTACHMENTS.get(attachment.attachmentId);
             if (entry == null || entry.rigBone == null) {
-                WoldsVaults.LOGGER.error("Extractor attachment '{}' has no rig bone; it will not be rendered.", attachment.attachmentId);
+                WoldLogger.error("Extractor attachment '{}' has no rig bone; it will not be rendered.", attachment.attachmentId);
                 continue;
             }
             bones.add("attach_" + entry.rigBone + "_" + suffix);

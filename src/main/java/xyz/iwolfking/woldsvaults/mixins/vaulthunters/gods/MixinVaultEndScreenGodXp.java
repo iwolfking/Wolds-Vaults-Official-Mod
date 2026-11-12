@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.ClientVaultGodXp;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = VaultEndScreen.class, remap = false)
 public abstract class MixinVaultEndScreenGodXp {
@@ -58,7 +58,7 @@ public abstract class MixinVaultEndScreenGodXp {
                     mutable.append(new TextComponent(String.format("  +%,d xp", award.amount()))
                             .setStyle(Style.EMPTY.withColor(award.god().getChatColor()))));
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Failed to append god xp to the vault end screen; showing vanilla xp only.", e);
+            WoldLogger.error("Failed to append god xp to the vault end screen; showing vanilla xp only.", e);
         }
         return xpGainedComponent;
     }

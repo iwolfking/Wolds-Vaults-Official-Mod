@@ -13,7 +13,6 @@ import iskallia.vault.gear.data.AttributeGearData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The glyph lines converted gear affixes grant (loadout spec sec. 6): every value of a {@code gearGlyphs} attribute on
@@ -190,7 +190,7 @@ public final class GearGlyphLines {
 
     private static void reportOnce(String key, String message) {
         if (REPORTED.add(key)) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 }

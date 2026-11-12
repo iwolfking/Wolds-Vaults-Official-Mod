@@ -11,6 +11,7 @@ import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Picks a part item's icon from the variant stored in its {@link PartData}.
@@ -81,7 +82,7 @@ public final class ExtractorIcons {
         };
         int index = order.indexOf(key);
         if (index < 0) {
-            WoldsVaults.LOGGER.error("Extractor {} has unknown variant '{}'; showing the first icon.", type.getId(), key);
+            WoldLogger.error("Extractor {} has unknown variant '{}'; showing the first icon.", type.getId(), key);
             return 1.0F;
         }
         return index + 1.0F;

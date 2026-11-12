@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultMobUtils;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -22,6 +21,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Assassin fury: the per-player, per-vault meter that decides when greed assassins spawn. Kills fill it, weighted by
@@ -136,7 +136,7 @@ public final class GreedAssassinFury {
                                   GreedMedallionsConfig.Fury curve, long now) {
         int wanted = (int) Math.min(Math.floor(state.fury / curve.threshold), curve.maxSquad);
         if (wanted < 1) {
-            WoldsVaults.LOGGER.error("Greed assassin squad armed for {} with only {} fury of a {} threshold - disarming.",
+            WoldLogger.error("Greed assassin squad armed for {} with only {} fury of a {} threshold - disarming.",
                     player.getGameProfile().getName(), (long) state.fury, (long) curve.threshold);
             state.armed = false;
             return;
@@ -148,7 +148,7 @@ public final class GreedAssassinFury {
             }
         }
         if (spawned == 0) {
-            WoldsVaults.LOGGER.warn("No spawn position found for any of {} greed assassins near {} - the squad stays armed "
+            WoldLogger.warn("No spawn position found for any of {} greed assassins near {} - the squad stays armed "
                     + "for their next kill.", wanted, player.getGameProfile().getName());
             return;
         }

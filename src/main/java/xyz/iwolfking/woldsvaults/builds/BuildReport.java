@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.builds;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Everything one build command found: errors that stop it, game rules a load bypassed, fallbacks it used and plain
@@ -35,7 +35,7 @@ public final class BuildReport {
 
     public void error(String message) {
         this.errors.add(message);
-        WoldsVaults.LOGGER.error("[wvbuilds] {} {} for {}: {}", this.action, this.buildName, this.playerName, message);
+        WoldLogger.error("[wvbuilds] {} {} for {}: {}", this.action, this.buildName, this.playerName, message);
     }
 
     public void bypassed(String message) {
@@ -44,7 +44,7 @@ public final class BuildReport {
 
     public void fallback(String message) {
         this.fallbacks.add(message);
-        WoldsVaults.LOGGER.warn("[wvbuilds] {} {} for {} used a fallback: {}", this.action, this.buildName,
+        WoldLogger.error("[wvbuilds] {} {} for {} used a fallback: {}", this.action, this.buildName,
                 this.playerName, message);
     }
 
@@ -65,7 +65,7 @@ public final class BuildReport {
         this.failure = throwable;
         this.error(context + ": " + throwable.getClass().getSimpleName()
                 + (throwable.getMessage() == null ? "" : " - " + throwable.getMessage()));
-        WoldsVaults.LOGGER.error("[wvbuilds] Unexpected failure during {} {} for {}", this.action, this.buildName,
+        WoldLogger.error("[wvbuilds] Unexpected failure during {} {} for {}", this.action, this.buildName,
                 this.playerName, throwable);
     }
 
@@ -126,7 +126,7 @@ public final class BuildReport {
             Files.writeString(file, this.render(), StandardCharsets.UTF_8);
             return file;
         } catch (IOException e) {
-            WoldsVaults.LOGGER.error("[wvbuilds] Could not write the report file {}", file, e);
+            WoldLogger.error("[wvbuilds] Could not write the report file {}", file, e);
             return null;
         }
     }

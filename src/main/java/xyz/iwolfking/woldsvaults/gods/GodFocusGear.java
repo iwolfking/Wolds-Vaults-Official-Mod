@@ -6,11 +6,11 @@ import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.AttributeGearData;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 
 import java.util.List;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Emits a second copy of every rolled attribute on an offhand focus item, doubling its applied stats. */
 public final class GodFocusGear {
@@ -34,7 +34,7 @@ public final class GodFocusGear {
                 try {
                     out.accept(VaultGearAttributeInstance.cast(attribute, value));
                 } catch (ClassCastException e) {
-                    WoldsVaults.LOGGER.error("Skipping focus attribute {} while doubling {}: value {} did not cast.",
+                    WoldLogger.error("Skipping focus attribute {} while doubling {}: value {} did not cast.",
                             attribute.getRegistryName(), stack.getItem().getRegistryName(), value, e);
                 }
             }

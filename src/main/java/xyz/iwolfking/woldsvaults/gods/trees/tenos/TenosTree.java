@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.GodTreeAttributeProviders;
 import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Setup entry point for the Tenos god tree. Handler types come up earlier, elsewhere. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -30,7 +31,7 @@ public final class TenosTree {
             TenosVendoors.register();
             TenosCoinPiles.register();
             TenosGoldPlating.register();
-            WoldsVaults.LOGGER.info("Registered {} Tenos god tree nodes",
+            WoldLogger.info("Registered {} Tenos god tree nodes",
                     GodNodeRegistry.tree(VaultGod.TENOS).map(tree -> tree.getNodes().size()).orElse(0));
         });
     }

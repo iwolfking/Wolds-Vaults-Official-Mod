@@ -15,7 +15,6 @@ import iskallia.vault.world.data.PlayerReputationData;
 import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
@@ -28,6 +27,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Creative Armory's raises: the lowest vault level and god levels at which the saved build fits, god
@@ -179,7 +179,7 @@ public final class CreativeRaise {
             stats.setVaultLevel(server, this.level);
             stats.sync(server);
             statsData.setDirty();
-            WoldsVaults.LOGGER.info("Creative Armory: raised {} to vault level {} (was {})", player.getGameProfile().getName(),
+            WoldLogger.info("Creative Armory: raised {} to vault level {} (was {})", player.getGameProfile().getName(),
                     this.level, before);
         }
         GodAlignmentData data = GodAlignmentData.get(server);
@@ -188,7 +188,7 @@ public final class CreativeRaise {
             int wantRep = this.reputation.getOrDefault(god, rep);
             if (wantRep > rep) {
                 PlayerReputationData.addReputation(player.getUUID(), god, wantRep - rep);
-                WoldsVaults.LOGGER.info("Creative Armory: raised {}'s {} reputation {} -> {}", player.getGameProfile().getName(),
+                WoldLogger.info("Creative Armory: raised {}'s {} reputation {} -> {}", player.getGameProfile().getName(),
                         god.getName(), rep, wantRep);
             }
             GodAlignmentData.GodState state = data.copyState(player.getUUID(), god);
@@ -202,7 +202,7 @@ public final class CreativeRaise {
                     after.xp = oldXp;
                     data.putState(player, god, after);
                 }
-                WoldsVaults.LOGGER.info("Creative Armory: raised {}'s {} level {} -> {}", player.getGameProfile().getName(),
+                WoldLogger.info("Creative Armory: raised {}'s {} level {} -> {}", player.getGameProfile().getName(),
                         god.getName(), current, want);
             }
         }
@@ -224,7 +224,7 @@ public final class CreativeRaise {
             }
             prestige.sync(SkillContext.ofPrestige(player));
             prestigeData.setDirty();
-            WoldsVaults.LOGGER.info("Creative Armory: taught {} {} prestige powers", player.getGameProfile().getName(),
+            WoldLogger.info("Creative Armory: taught {} {} prestige powers", player.getGameProfile().getName(),
                     this.missingPrestige.size());
         }
     }

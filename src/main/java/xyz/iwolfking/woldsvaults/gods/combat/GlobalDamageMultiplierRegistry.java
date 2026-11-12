@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Per-player registry of named global damage multipliers. Every factor multiplies with every other
@@ -48,7 +49,7 @@ public final class GlobalDamageMultiplierRegistry {
     /** Registers or overwrites a factor that expires after {@code durationTicks} server ticks. */
     public static void register(Player player, ResourceLocation key, float factor, int durationTicks) {
         if (factor < 0.0F) {
-            WoldsVaults.LOGGER.error("Refusing to register negative global damage factor {} for key {}; clamping to 0.", factor, key);
+            WoldLogger.error("Refusing to register negative global damage factor {} for key {}; clamping to 0.", factor, key);
             factor = 0.0F;
         }
         FACTORS.computeIfAbsent(player.getUUID(), id -> Collections.synchronizedMap(new LinkedHashMap<>()))

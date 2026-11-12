@@ -22,7 +22,6 @@ import iskallia.vault.world.data.PlayerVaultStatsData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
@@ -46,6 +45,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Dry run and commit of a saved page's trees. Each pool is rebuilt on a fresh config copy and learned through the
@@ -148,7 +148,7 @@ public final class TreePlanner {
                     if (TenosAbilityCaps.isGated(tiered.getId())) {
                         int cap = TenosAbilityCaps.cap(tiered.getId(), player);
                         if (tiered.getUnmodifiedTier() > cap) {
-                            WoldsVaults.LOGGER.warn("Armory: {} loaded {} at tier {}, above the Tenos cap {}",
+                            WoldLogger.warn("Armory: {} loaded {} at tier {}, above the Tenos cap {}",
                                     player.getGameProfile().getName(), tiered.getId(), tiered.getUnmodifiedTier(), cap);
                         }
                     }
@@ -175,7 +175,7 @@ public final class TreePlanner {
         TalentTree talents = ModConfigs.TALENTS.get().map(config -> (TalentTree) config.copy()).orElse(null);
         if (abilities == null || talents == null) {
             plan.refusals.add("The ability or talent config is not loaded");
-            WoldsVaults.LOGGER.error("Armory: ability or talent config missing; Load refused");
+            WoldLogger.error("Armory: ability or talent config missing; Load refused");
             return;
         }
         int needed = needed(build);

@@ -8,11 +8,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Public entry point for the milestone engine: tier evaluation, reputation awards, persistence
@@ -82,7 +82,7 @@ public class Milestones {
         if (definition.getCounter() == expected) {
             return true;
         }
-        WoldsVaults.LOGGER.error("Milestone '{}' declares counter {} but {}() is a {} operation; the call is ignored",
+        WoldLogger.error("Milestone '{}' declares counter {} but {}() is a {} operation; the call is ignored",
                 definition.getId(), definition.getCounter(), operation, expected);
         return false;
     }
@@ -95,7 +95,7 @@ public class Milestones {
             return;
         }
         LAST_UNRANKED_LOG.put(player.getUUID(), now);
-        WoldsVaults.LOGGER.info("Dropping milestone progress for {}: greed rank is 0, so the Herald has not been beaten and the ladder has not been joined.",
+        WoldLogger.info("Dropping milestone progress for {}: greed rank is 0, so the Herald has not been beaten and the ladder has not been joined.",
                 player.getGameProfile().getName());
     }
 
@@ -107,7 +107,7 @@ public class Milestones {
             return;
         }
         LAST_GATE_FALLBACK_LOG.put(player.getUUID(), now);
-        WoldsVaults.LOGGER.info("Milestone vault gate fell back to a dimension lookup for {}: no tracked vault listener, but the player is in vault dimension {}. Progress is being allowed.",
+        WoldLogger.info("Milestone vault gate fell back to a dimension lookup for {}: no tracked vault listener, but the player is in vault dimension {}. Progress is being allowed.",
                 player.getGameProfile().getName(), player.level.dimension().location());
     }
 
@@ -118,7 +118,7 @@ public class Milestones {
         }
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
-            WoldsVaults.LOGGER.warn("Milestone advance for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone advance for unknown id '{}' ignored", milestoneId);
             return;
         }
         if (!counterIs(definition, MilestoneCounter.ACCUMULATE, "advance")) {
@@ -142,7 +142,7 @@ public class Milestones {
         }
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
-            WoldsVaults.LOGGER.warn("Milestone advance for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone advance for unknown id '{}' ignored", milestoneId);
             return;
         }
         if (!counterIs(definition, MilestoneCounter.ACCUMULATE, "advanceFractional")) {
@@ -168,7 +168,7 @@ public class Milestones {
         }
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
-            WoldsVaults.LOGGER.warn("Milestone reach for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone reach for unknown id '{}' ignored", milestoneId);
             return;
         }
         if (!counterIs(definition, MilestoneCounter.HIGHEST, "reach")) {
@@ -192,7 +192,7 @@ public class Milestones {
         }
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
-            WoldsVaults.LOGGER.warn("Milestone token for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone token for unknown id '{}' ignored", milestoneId);
             return;
         }
         if (!counterIs(definition, MilestoneCounter.DISTINCT, "addToken")) {
@@ -328,7 +328,7 @@ public class Milestones {
     /** Collects one milestone's banked reputation, or 0. Refused unless the trader is open. */
     public static int claim(ServerPlayer player, String milestoneId) {
         if (!(player.containerMenu instanceof GreedTraderContainer)) {
-            WoldsVaults.LOGGER.warn("Refused milestone claim '{}' from {}: the greed trader container is not open (menu was {})",
+            WoldLogger.warn("Refused milestone claim '{}' from {}: the greed trader container is not open (menu was {})",
                     milestoneId, player.getGameProfile().getName(), player.containerMenu.getClass().getName());
             return 0;
         }
@@ -340,7 +340,7 @@ public class Milestones {
     /** Claims every milestone with banked reputation. Trader-gated like {@link #claim}. */
     public static int claimAll(ServerPlayer player) {
         if (!(player.containerMenu instanceof GreedTraderContainer)) {
-            WoldsVaults.LOGGER.warn("Refused milestone claim-all from {}: the greed trader container is not open (menu was {})",
+            WoldLogger.warn("Refused milestone claim-all from {}: the greed trader container is not open (menu was {})",
                     player.getGameProfile().getName(), player.containerMenu.getClass().getName());
             return 0;
         }
@@ -356,7 +356,7 @@ public class Milestones {
     public static int claimUnchecked(ServerPlayer player, String milestoneId) {
         MilestoneDefinition definition = MilestoneRegistry.get(milestoneId);
         if (definition == null) {
-            WoldsVaults.LOGGER.warn("Milestone claim for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone claim for unknown id '{}' ignored", milestoneId);
             return 0;
         }
         MilestoneData data = MilestoneData.get(player.server);
@@ -396,7 +396,7 @@ public class Milestones {
     /** Pins a milestone An unknown id returns false. */
     public static boolean pin(ServerPlayer player, String milestoneId) {
         if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
-            WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone pin for unknown id '{}' ignored", milestoneId);
             return false;
         }
         MilestoneData data = MilestoneData.get(player.server);
@@ -409,7 +409,7 @@ public class Milestones {
     /** Unpins a milestone, or clears the pin when the id is null. An unknown id returns false. */
     public static boolean unpin(ServerPlayer player, String milestoneId) {
         if (milestoneId != null && !MilestoneRegistry.contains(milestoneId)) {
-            WoldsVaults.LOGGER.warn("Milestone pin for unknown id '{}' ignored", milestoneId);
+            WoldLogger.error("Milestone pin for unknown id '{}' ignored", milestoneId);
             return false;
         }
         MilestoneData data = MilestoneData.get(player.server);
@@ -497,7 +497,7 @@ public class Milestones {
             return;
         }
         if (companionId == null) {
-            WoldsVaults.LOGGER.warn("Companion max level reached for {} but the stack carries no CompanionUUID; not counted",
+            WoldLogger.error("Companion max level reached for {} but the stack carries no CompanionUUID; not counted",
                     player.getGameProfile().getName());
             return;
         }
@@ -513,7 +513,7 @@ public class Milestones {
     public static void onChallengeCrystalCompleted(ServerPlayer player, String challengeCrystalId) {
         MilestoneDefinition definition = MilestoneRegistry.getByChallengeCrystal(challengeCrystalId);
         if (definition == null) {
-            WoldsVaults.LOGGER.info("Greed challenge crystal '{}' completed by {} but no milestone tracks it",
+            WoldLogger.info("Greed challenge crystal '{}' completed by {} but no milestone tracks it",
                     challengeCrystalId, player.getGameProfile().getName());
             return;
         }

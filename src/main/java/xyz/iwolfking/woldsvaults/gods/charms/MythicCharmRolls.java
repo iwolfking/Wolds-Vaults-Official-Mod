@@ -24,7 +24,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodPiety;
 import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraBadEffects;
 import xyz.iwolfking.woldsvaults.items.gear.MythicVaultCharmItem;
@@ -35,6 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Roll tables, identify logic and piety rescaling for mythic god charms. Identification stores each
@@ -401,7 +401,7 @@ public final class MythicCharmRolls {
             drawn++;
         }
         if (drawn < count) {
-            WoldsVaults.LOGGER.warn("Mythic charm drew only {}/{} {} affixes; the {} roll table is too small.",
+            WoldLogger.error("Mythic charm drew only {}/{} {} affixes; the {} roll table is too small.",
                     drawn, count, slot.name().toLowerCase(java.util.Locale.ROOT), god.getName());
         }
     }
@@ -508,7 +508,7 @@ public final class MythicCharmRolls {
             }
             Roll roll = lookup(god, stored);
             if (roll == null) {
-                WoldsVaults.LOGGER.error("Mythic charm stored roll {} no longer exists in the {} tables; dropping it.",
+                WoldLogger.error("Mythic charm stored roll {} no longer exists in the {} tables; dropping it.",
                         stored.key(), god.getName());
                 continue;
             }
@@ -560,7 +560,7 @@ public final class MythicCharmRolls {
                 int value = thresholdValue(roll, scale, stored.legendary());
                 MobEffect effect = resolveEffect(roll.target());
                 if (effect == null) {
-                    WoldsVaults.LOGGER.error("Mythic charm effect roll {} could not resolve its mob effect; dropping it.", roll.key());
+                    WoldLogger.error("Mythic charm effect roll {} could not resolve its mob effect; dropping it.", roll.key());
                     return null;
                 }
                 return value > 0 ? new VaultGearModifier<>((VaultGearAttribute) roll.attribute(),

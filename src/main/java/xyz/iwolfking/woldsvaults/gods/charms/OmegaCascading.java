@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Mythic charm suffix: adds whole-percent stacks of {@code woldsvaults:omega_cascading} on vault join. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -44,7 +45,7 @@ public final class OmegaCascading {
             }
             VaultModifier<?> modifier = VaultModifierRegistry.getOpt(MODIFIER_ID).orElse(null);
             if (modifier == null) {
-                WoldsVaults.LOGGER.error("Omega Cascading modifier {} is not registered; the charm suffix does nothing. "
+                WoldLogger.error("Omega Cascading modifier {} is not registered; the charm suffix does nothing. "
                         + "Check vault_modifiers.json.", MODIFIER_ID);
                 return;
             }

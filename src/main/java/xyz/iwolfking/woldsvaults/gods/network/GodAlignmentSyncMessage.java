@@ -5,13 +5,13 @@ import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.ClientGodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The player's alignment with all four gods; sent on login and on every mutation of {@link GodAlignmentData}.
@@ -46,7 +46,7 @@ public class GodAlignmentSyncMessage extends Message<GodAlignmentSyncMessage> {
             VaultGod god = buffer.readEnum(VaultGod.class);
             CompoundTag tag = buffer.readNbt();
             if (tag == null) {
-                WoldsVaults.LOGGER.error("God alignment sync carried a null payload for {}; skipping that god.", god.getName());
+                WoldLogger.error("God alignment sync carried a null payload for {}; skipping that god.", god.getName());
                 continue;
             }
             read.put(god, GodAlignmentData.GodState.fromNbt(tag));

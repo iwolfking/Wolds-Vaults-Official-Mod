@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Awards god alignment XP for completed in-vault god altars. Altars pay whether or not the player has made
@@ -74,13 +75,13 @@ public final class GodAltarXpHandler {
         }
         VaultGod god = data.getTask().getGod();
         if (god == null) {
-            WoldsVaults.LOGGER.error("God altar completed with no god on its task at {}; no alignment XP awarded.", data.getPos());
+            WoldLogger.error("God altar completed with no god on its task at {}; no alignment XP awarded.", data.getPos());
             return;
         }
         MinecraftServer server = data.getContext().getServer();
         TaskSource source = data.getContext().getSource();
         if (server == null || !(source instanceof EntityTaskSource entitySource)) {
-            WoldsVaults.LOGGER.error("God altar at {} completed without an entity task source; no alignment XP awarded.", data.getPos());
+            WoldLogger.error("God altar at {} completed without an entity task source; no alignment XP awarded.", data.getPos());
             return;
         }
         Set<ServerPlayer> players = entitySource.getEntities(server, ServerPlayer.class);
@@ -102,7 +103,7 @@ public final class GodAltarXpHandler {
         Integer recorded = PENDING_REPUTATION.remove(player.getUUID());
         int reputation = recorded == null ? fallbackReputation : recorded;
         if (recorded == null) {
-            WoldsVaults.LOGGER.debug("No reputation was recorded for {} at a {} altar; reporting the task's {}.",
+            WoldLogger.debug("No reputation was recorded for {} at a {} altar; reporting the task's {}.",
                     player.getGameProfile().getName(), god.getName(), fallbackReputation);
         }
         String text = reputation > 0

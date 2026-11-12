@@ -15,9 +15,9 @@ import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Tenos' ultimate: reveals every room in a square of vault cells centred on the caster, for the caster alone. */
 public class EyesOfGodAbility extends GodUltimateAbility {
@@ -46,7 +46,7 @@ public class EyesOfGodAbility extends GodUltimateAbility {
         WorldManager world = vault.get(Vault.WORLD);
         if (world == null || !(world.get(WorldManager.GENERATOR) instanceof GridGenerator generator)
                 || !(generator.get(GridGenerator.LAYOUT) instanceof VaultGridLayout layout)) {
-            WoldsVaults.LOGGER.error("Eyes of God found no grid layout in the vault {}; nothing was revealed.",
+            WoldLogger.error("Eyes of God found no grid layout in the vault {}; nothing was revealed.",
                     vault.get(Vault.ID));
             return ActionResult.fail();
         }
@@ -54,7 +54,7 @@ public class EyesOfGodAbility extends GodUltimateAbility {
         StatCollector collector = stats == null ? null : stats.get(player.getUUID());
         DiscoveredRoomStat discovered = collector == null ? null : collector.get(StatCollector.ROOMS_DISCOVERED);
         if (discovered == null) {
-            WoldsVaults.LOGGER.error("Eyes of God found no room-discovery stat for {}; nothing was revealed.",
+            WoldLogger.error("Eyes of God found no room-discovery stat for {}; nothing was revealed.",
                     player.getGameProfile().getName());
             return ActionResult.fail();
         }

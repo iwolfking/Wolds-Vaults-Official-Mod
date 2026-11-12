@@ -29,13 +29,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaState;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class AncientModifierEvents {
     private static final float CLEAVE_DAMAGE_PERCENT = 0.6F;
@@ -151,7 +151,7 @@ public class AncientModifierEvents {
 
         EarthquakeAbility quake = resolveEarthquake(quakeLevel);
         if (quake == null) {
-            WoldsVaults.LOGGER.error("quaking_hit could not resolve ability {} tier {}; no earthquake was cast", EARTHQUAKE_ABILITY_ID, quakeLevel);
+            WoldLogger.error("quaking_hit could not resolve ability {} tier {}; no earthquake was cast", EARTHQUAKE_ABILITY_ID, quakeLevel);
             return;
         }
         quake.triggerExplosion(player, target.position(), true);

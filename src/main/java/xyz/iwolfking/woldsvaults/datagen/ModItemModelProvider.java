@@ -409,7 +409,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     public ItemModelBuilder researchToken(ResourceLocation icon) {
         ResourceLocation texture = VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon));
         if (!existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")) {
-            WoldsVaults.LOGGER.warn("Research icon texture {} does not exist; skipping its token model.", texture);
+            WoldLogger.error("Research icon texture {} does not exist; skipping its token model.", texture);
             return null;
         }
         return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())

@@ -8,7 +8,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
@@ -16,6 +15,7 @@ import xyz.iwolfking.woldsvaults.network.message.RiptideFxMessage;
 
 import java.util.Comparator;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The riptide shock cone: every tick of a dash, mobs inside a cone from {@code shockConeAhead} blocks ahead of the
@@ -67,7 +67,7 @@ public class RiptideShockCone implements RiptideDash.Listener {
         }
         float reference = RiptideDash.lastReference(player);
         if (reference <= 0.0F) {
-            WoldsVaults.LOGGER.debug("Riptide shock cone: {} mobs shocked by {} before any riptide contact; no damage to draw from, skipped.", dash.getPendingShock().size(), player.getScoreboardName());
+            WoldLogger.debug("Riptide shock cone: {} mobs shocked by {} before any riptide contact; no damage to draw from, skipped.", dash.getPendingShock().size(), player.getScoreboardName());
             dash.getPendingShock().clear();
             return;
         }

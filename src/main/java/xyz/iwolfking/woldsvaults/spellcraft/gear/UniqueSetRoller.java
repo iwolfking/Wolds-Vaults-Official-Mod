@@ -4,7 +4,6 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Unique focuses and wands with a fixed glyph set (loadout spec sec. 6.1, table section {@code uniqueSets}). Budget and
@@ -69,11 +69,11 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
         int depth = Math.max(rolled.depth(), savedDepth);
         SpellcraftItemData.replaceImplicits(stack, rolled.budget(), depth, rolled.lines());
         SpellcraftItemData.markUniqueSet(stack, plan.mark());
-        WoldsVaults.LOGGER.info("Spellcraft: unique {} (item {}) converted to its {} glyph set: arcana {} -> {}, depth {} -> {}, {} stored lines -> {}; "
+        WoldLogger.info("Spellcraft: unique {} (item {}) converted to its {} glyph set: arcana {} -> {}, depth {} -> {}, {} stored lines -> {}; "
                         + "its {} spells are kept", plan.uniqueId(), SpellcraftItemData.key(stack), plan.row(), oldBudget, rolled.budget(), oldDepth,
                 depth, oldLines, rolled.lines().size(), SpellcraftItemData.spells(stack).size());
         if (depth > rolled.depth()) {
-            WoldsVaults.LOGGER.info("Spellcraft: unique {} (item {}) keeps depth {} instead of the rolled {} so its saved spells stay castable",
+            WoldLogger.info("Spellcraft: unique {} (item {}) keeps depth {} instead of the rolled {} so its saved spells stay castable",
                     plan.uniqueId(), SpellcraftItemData.key(stack), depth, rolled.depth());
         }
         return true;
@@ -102,26 +102,26 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
     private static Plan plan(FocusAugmentsConfig config, VaultGearData data) {
         ResourceLocation key = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
         if (key == null) {
-            warnOnce("nokey", "Spellcraft: a unique focus or wand has no unique id; it rolls like any carrier");
+            errorOnce("nokey", "Spellcraft: a unique focus or wand has no unique id; it rolls like any carrier");
             return null;
         }
         String uniqueId = key.toString();
         if (config.uniqueSets == null) {
             if (WARNED.add("missing")) {
-                WoldsVaults.LOGGER.error("Spellcraft: the focus augments table has no uniqueSets section; unique focuses and wands roll like any carrier");
+                WoldLogger.error("Spellcraft: the focus augments table has no uniqueSets section; unique focuses and wands roll like any carrier");
             }
             return null;
         }
         FocusAugmentsConfig.UniqueSet set = config.uniqueSets.get(uniqueId);
         if (set == null) {
-            warnOnce("set:" + uniqueId, "Spellcraft: unique " + uniqueId + " has no glyph set; it rolls like any carrier");
+            errorOnce("set:" + uniqueId, "Spellcraft: unique " + uniqueId + " has no glyph set; it rolls like any carrier");
             return null;
         }
         String row = AncientUniqueHelper.isAncient(data) ? set.ancientRarityRow : set.rarityRow;
         FocusAugmentsConfig.RarityRolls rolls = config.focus.rarities.get(row);
         if (rolls == null) {
             if (WARNED.add("row:" + row)) {
-                WoldsVaults.LOGGER.error("Spellcraft: unique set {} rolls on rarity row {}, which the focus rolls lack; it rolls like any carrier",
+                WoldLogger.error("Spellcraft: unique set {} rolls on rarity row {}, which the focus rolls lack; it rolls like any carrier",
                         uniqueId, row);
             }
             return null;
@@ -155,7 +155,7 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
                 continue;
             }
             if (isGearGlyph(config, type)) {
-                warnOnce("affix:" + type.id(), "Spellcraft: a unique set's signature glyph " + type.id()
+                errorOnce("affix:" + type.id(), "Spellcraft: a unique set's signature glyph " + type.id()
                         + " has no granting affix on the item; it is stored as a rolled line instead");
             }
             SpellcraftItemData.Line rolled = SpellcraftRoller.rollLine(config, type, level, random);
@@ -186,9 +186,9 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
         return false;
     }
 
-    private static void warnOnce(String key, String message) {
+    private static void errorOnce(String key, String message) {
         if (WARNED.add(key)) {
-            WoldsVaults.LOGGER.warn(message);
+            WoldLogger.error(message);
         }
     }
 }

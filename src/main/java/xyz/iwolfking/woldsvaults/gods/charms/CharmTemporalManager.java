@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Server-side lifecycle for the mythic charm's toggleable temporal blessing: activating adds the
@@ -78,7 +79,7 @@ public final class CharmTemporalManager {
         }
         VaultModifier<?> modifier = VaultModifierRegistry.getOpt(blessing.getModifier()).orElse(null);
         if (modifier == null) {
-            WoldsVaults.LOGGER.error("Mythic charm blessing references unknown vault modifier {}; cannot activate.",
+            WoldLogger.error("Mythic charm blessing references unknown vault modifier {}; cannot activate.",
                     blessing.getModifier());
             return;
         }
@@ -112,7 +113,7 @@ public final class CharmTemporalManager {
     private static int settle(ServerPlayer player, ActiveBlessing active) {
         ItemStack charm = MythicVaultCharmItem.findByBlessingId(player, active.charmId());
         if (charm.isEmpty()) {
-            WoldsVaults.LOGGER.warn("{} no longer holds the charm backing their blessing; {} ticks went unbanked.",
+            WoldLogger.warn("{} no longer holds the charm backing their blessing; {} ticks went unbanked.",
                     player.getGameProfile().getName(),
                     Math.max(0L, player.getLevel().getGameTime() - active.settledAt()));
             return -1;

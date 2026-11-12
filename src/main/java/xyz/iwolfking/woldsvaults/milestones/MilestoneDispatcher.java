@@ -30,13 +30,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultMapTierCache;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
 
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Owns every {@code CommonEvents} listener the milestone engine needs, one per event. */
 public class MilestoneDispatcher {
@@ -131,7 +131,7 @@ public class MilestoneDispatcher {
             MilestoneFlusher.flushNow(data.getVault());
         });
 
-        WoldsVaults.LOGGER.info("Milestone dispatcher registered {} milestones", MilestoneRegistry.getAll().size());
+        WoldLogger.info("Milestone dispatcher registered {} milestones", MilestoneRegistry.getAll().size());
     }
 
     private static void onChestLooted(ServerPlayer player, BlockState state) {

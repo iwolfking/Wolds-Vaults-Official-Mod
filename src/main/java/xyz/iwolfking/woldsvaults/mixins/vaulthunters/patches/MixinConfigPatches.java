@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.patch.ConfigPatch;
 import xyz.iwolfking.woldsvaults.config.patch.ConfigPatches;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ConfigInvoker;
@@ -19,6 +18,7 @@ import java.io.File;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = Config.class, remap = false)
 public abstract class MixinConfigPatches {
@@ -53,7 +53,7 @@ public abstract class MixinConfigPatches {
         }
         try {
             if (file.exists()) {
-                WoldsVaults.LOGGER.warn("Config {} is created by a Wold's Vaults config patch; ignoring the file on disk", path);
+                WoldLogger.warn("Config {} is created by a Wold's Vaults config patch; ignoring the file on disk", path);
             }
             VaultMod.LOGGER.info("Reading config: " + self.getName() + " (created by a Wold's Vaults config patch)");
             Config config = self.getGson().fromJson(ConfigPatches.created(path, patch.get()), self.getClass());
@@ -67,7 +67,7 @@ public abstract class MixinConfigPatches {
             ModConfigs.CONFIGS.add(config);
             cir.setReturnValue(config);
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Config patch for {} could not create the config; falling back to the base mod's read", path, e);
+            WoldLogger.error("Config patch for {} could not create the config; falling back to the base mod's read", path, e);
         }
     }
 }

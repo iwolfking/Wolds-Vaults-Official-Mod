@@ -370,7 +370,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         MapGodXp.godOf(mapStack).ifPresentOrElse(god -> {
             ((DuckMapGod) (Object) data).setMapGod(god.getName());
             ((DuckMapGod) (Object) data).setMapBonusXp(MapGodXp.bonusPercentOf(mapStack));
-        }, () -> WoldsVaults.LOGGER.error("Vault map has no god binding and no gear uuid to derive one from; its vault will award no god experience."));
+        }, () -> WoldLogger.error("Vault map has no god binding and no gear uuid to derive one from; its vault will award no god experience."));
     }
 
     @Override

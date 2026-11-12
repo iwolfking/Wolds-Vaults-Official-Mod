@@ -25,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.cast.CastModifiers;
 import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.augments.spell.GlyphRelevance;
@@ -43,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * What one press of a slot does at a training dummy, for the spell bar tooltip and the focus screen. The per-ability
@@ -345,7 +345,7 @@ public final class ClientAbilityStats {
     private static void missingLabel(Ability ability, String spec, String label) {
         String id = spec + "." + label;
         if (LOGGED.add(id)) {
-            WoldsVaults.LOGGER.warn("Spellcraft stats: {} ({}) has no VH label '{}'; its main effect line is left out", spec,
+            WoldLogger.error("Spellcraft stats: {} ({}) has no VH label '{}'; its main effect line is left out", spec,
                     ability.getClass().getSimpleName(), label);
         }
     }
@@ -541,7 +541,7 @@ public final class ClientAbilityStats {
         } catch (RuntimeException e) {
             String id = ability.getClass().getSimpleName() + "." + key;
             if (LOGGED.add(id)) {
-                WoldsVaults.LOGGER.error("Spellcraft stats: VH label {} threw while reading; the stat is left out of the tooltip", id, e);
+                WoldLogger.error("Spellcraft stats: VH label {} threw while reading; the stat is left out of the tooltip", id, e);
             }
             return null;
         }
@@ -596,7 +596,7 @@ public final class ClientAbilityStats {
     private static void unreadable(Ability ability, String key, String value) {
         String id = ability.getClass().getSimpleName() + "." + key;
         if (LOGGED.add(id)) {
-            WoldsVaults.LOGGER.error("Spellcraft stats: VH label {} reads '{}', which is not a number; the stat is left out of the tooltip", id, value);
+            WoldLogger.error("Spellcraft stats: VH label {} reads '{}', which is not a number; the stat is left out of the tooltip", id, value);
         }
     }
 

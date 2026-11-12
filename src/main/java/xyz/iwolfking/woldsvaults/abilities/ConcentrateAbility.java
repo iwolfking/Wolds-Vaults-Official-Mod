@@ -28,7 +28,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.tuple.Pair;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AbilityHelper;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
@@ -45,6 +44,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class ConcentrateAbility extends InstantManaAbility {
 
@@ -202,7 +202,7 @@ public class ConcentrateAbility extends InstantManaAbility {
         Map<MobEffect, Integer> procs = CHAIN_PROCS.computeIfAbsent(player.getUUID(), id -> new HashMap<>());
         Integer count = procs.get(effect);
         if (count == null) {
-            WoldsVaults.LOGGER.warn("Concentrate: no chain count for {} on {}, counting this refresh as the chain's first proc", effect.getRegistryName(), player.getScoreboardName());
+            WoldLogger.error("Concentrate: no chain count for {} on {}, counting this refresh as the chain's first proc", effect.getRegistryName(), player.getScoreboardName());
             count = 0;
         }
         if (count >= getMaxChainProcs(player)) {
@@ -223,7 +223,7 @@ public class ConcentrateAbility extends InstantManaAbility {
         int fallback = 10 + AbilityHelper.getAbilityLevel(player, "Concentrate_Base") / 3;
         if (!this.loggedChainProcsFallback) {
             this.loggedChainProcsFallback = true;
-            WoldsVaults.LOGGER.error("Concentrate tier {} has no maxChainProcs; using the fallback 10 + floor(tier / 3) = {}", this.getId(), fallback);
+            WoldLogger.error("Concentrate tier {} has no maxChainProcs; using the fallback 10 + floor(tier / 3) = {}", this.getId(), fallback);
         }
         return fallback;
     }
@@ -408,7 +408,7 @@ public class ConcentrateAbility extends InstantManaAbility {
         this.particleSteps = Adapters.INT.readNbt(nbt.get("particleSteps")).orElse(0);
         this.particleDelay = Adapters.INT.readNbt(nbt.get("particleDelay")).orElse(0);
         this.maxChainProcs = Adapters.INT.readNbt(nbt.get("maxChainProcs")).orElseGet(() -> {
-            WoldsVaults.LOGGER.error("Concentrate tier {} NBT has no maxChainProcs; the cap falls back to 10 + floor(tier / 3)", this.getId());
+            WoldLogger.error("Concentrate tier {} NBT has no maxChainProcs; the cap falls back to 10 + floor(tier / 3)", this.getId());
             return UNSET_MAX_CHAIN_PROCS;
         });
     }
@@ -439,7 +439,7 @@ public class ConcentrateAbility extends InstantManaAbility {
         this.particleSteps = Adapters.INT.readJson(json.get("particleSteps")).orElse(0);
         this.particleDelay = Adapters.INT.readJson(json.get("particleDelay")).orElse(0);
         this.maxChainProcs = Adapters.INT.readJson(json.get("maxChainProcs")).orElseGet(() -> {
-            WoldsVaults.LOGGER.error("Concentrate tier {} config has no maxChainProcs; the cap falls back to 10 + floor(tier / 3)", this.getId());
+            WoldLogger.error("Concentrate tier {} config has no maxChainProcs; the cap falls back to 10 + floor(tier / 3)", this.getId());
             return UNSET_MAX_CHAIN_PROCS;
         });
     }

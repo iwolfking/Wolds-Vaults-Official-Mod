@@ -2,23 +2,21 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import iskallia.vault.client.gui.screen.player.legacy.widget.AbilityWidget;
 import iskallia.vault.client.gui.screen.player.legacy.widget.AbilityWidgetSelectable;
 import iskallia.vault.init.ModKeybinds;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.settings.KeyConflictContext;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Locale;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = AbilityWidgetSelectable.class, remap = false)
 public abstract class MixinAbilityWidgetSelectable {
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     /**
      * Ability groups that join the tree after client setup have no quickfire key, and other mods
@@ -33,6 +31,6 @@ public abstract class MixinAbilityWidgetSelectable {
         }
         String name = "key.the_vault.quickselect." + id.toLowerCase(Locale.ROOT).replace(' ', '_');
         ModKeybinds.abilityQuickfireKey.put(id, new KeyMapping(name, KeyConflictContext.IN_GAME, InputConstants.UNKNOWN, ModKeybinds.QUICKFIRE_CATEGORY));
-        LOGGER.error("No quickfire keybind registered for ability group {}; inserted an unbound placeholder", id);
+        WoldLogger.error("No quickfire keybind registered for ability group {}; inserted an unbound placeholder", id);
     }
 }

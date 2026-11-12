@@ -8,12 +8,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The hyperboss's red outline, so it reads apart from the white-glowing brutal bosses sharing its
@@ -37,7 +37,7 @@ public final class HyperBossGlow {
     public static void mark(LivingEntity boss) {
         MinecraftServer server = boss.getServer();
         if (server == null) {
-            WoldsVaults.LOGGER.error("The hyperboss has no server to reach the scoreboard through; "
+            WoldLogger.error("The hyperboss has no server to reach the scoreboard through; "
                     + "it stays white instead of red.");
             return;
         }
@@ -52,7 +52,7 @@ public final class HyperBossGlow {
         boolean added = scoreboard.addPlayerToTeam(boss.getStringUUID(), team);
         boss.setGlowingTag(true);
         resend(server, team, boss.getStringUUID());
-        WoldsVaults.LOGGER.info(
+        WoldLogger.info(
                 "Hyperboss glow: {} #{} joined team {} (colour {}, {} member(s), newMember={}); glowing tag {}.",
                 boss.getType().getRegistryName(), boss.getId(), TEAM, team.getColor().getName(),
                 team.getPlayers().size(), added, boss.hasGlowingTag());
@@ -96,7 +96,7 @@ public final class HyperBossGlow {
             try {
                 id = UUID.fromString(member);
             } catch (IllegalArgumentException e) {
-                WoldsVaults.LOGGER.warn("Team {} holds member '{}', which is not a uuid; leaving it alone.",
+                WoldLogger.warn("Team {} holds member '{}', which is not a uuid; leaving it alone.",
                         TEAM, member);
                 continue;
             }

@@ -14,7 +14,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
@@ -25,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Idona nodes whose damage multiplier tracks slowly-changing player or vault state, recomputed on
@@ -141,7 +141,7 @@ public final class IdonaTickHandlers {
             }
             double taken = Math.max(0.0D, collector.getDamageTaken());
             if (!Double.isFinite(taken)) {
-                WoldsVaults.LOGGER.error("Banked Anger read a non-finite damage-taken total for {}; treating it as zero.",
+                WoldLogger.error("Banked Anger read a non-finite damage-taken total for {}; treating it as zero.",
                         player.getGameProfile().getName());
                 taken = 0.0D;
             }

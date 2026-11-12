@@ -7,13 +7,13 @@ import iskallia.vault.item.crystal.layout.preset.PoolKeyTemplatePreset;
 import iskallia.vault.item.crystal.layout.preset.StructurePreset;
 import iskallia.vault.item.crystal.layout.preset.TemplatePreset;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns structure-preset entries that name a multi-cell pool (room inscriptions, preset layouts) into registered
@@ -43,7 +43,7 @@ public final class MultiCellPresets {
             RegionPos region = entry.getKey();
             if (!place(vault, layout, preset, region, span, pool, source)) {
                 preset.remove(region);
-                WoldsVaults.LOGGER.error("Multi-cell room {} from {} fits nowhere around cell ({}, {}); that cell keeps an ordinary room instead.",
+                WoldLogger.error("Multi-cell room {} from {} fits nowhere around cell ({}, {}); that cell keeps an ordinary room instead.",
                         pool, source, region.getX(), region.getZ());
             }
         }

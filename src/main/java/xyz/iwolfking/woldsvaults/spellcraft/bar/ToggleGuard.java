@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Switches a toggle off when the spell that switched it on changes. Each activation records the bar slot that holds
@@ -83,7 +84,7 @@ public final class ToggleGuard {
             }
             tree.sync(context);
         });
-        WoldsVaults.LOGGER.debug("Spellcraft: switched off {} for {}: its spell changed", group, player.getGameProfile().getName());
+        WoldLogger.debug("Spellcraft: switched off {} for {}: its spell changed", group, player.getGameProfile().getName());
     }
 
     private static String signature(@Nullable EffectiveBar bar, String group) {

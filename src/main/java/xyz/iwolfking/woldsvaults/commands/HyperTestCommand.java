@@ -14,13 +14,13 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective.Phase;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
 
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Operator test tools for the HYPER objective, run from inside a hyper vault: skip to a later
@@ -143,7 +143,7 @@ public class HyperTestCommand {
                 + objective.getOr(HyperVaultObjective.CHAOS_COUNT, 0) + "/" + HyperVaultObjective.cfg().getChaosCap() + ").";
         source.sendSuccess(new TextComponent(summary).withStyle(ChatFormatting.GOLD), true);
         HyperVaultObjective.broadcast(target.vault(), "[Test] The Vault jumps to HYPER cycle " + cycle + ".", ChatFormatting.LIGHT_PURPLE);
-        WoldsVaults.LOGGER.info("{} used /wvhyper cycle: {}", target.player().getScoreboardName(), summary);
+        WoldLogger.info("{} used /wvhyper cycle: {}", target.player().getScoreboardName(), summary);
         return 1;
     }
 

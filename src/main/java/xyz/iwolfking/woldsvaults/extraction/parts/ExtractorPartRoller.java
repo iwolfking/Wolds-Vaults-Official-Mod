@@ -1,7 +1,6 @@
 package xyz.iwolfking.woldsvaults.extraction.parts;
 
 import iskallia.vault.gear.VaultGearRarity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns a blueprint (part type, rarity, quality) into a finished {@link PartData}: picks the series or
@@ -30,7 +30,7 @@ public final class ExtractorPartRoller {
             total += Math.max(0, cfg.getRarityDropWeight(rarity));
         }
         if (total <= 0) {
-            WoldsVaults.LOGGER.error("extractor_parts.json RARITY_DROP_WEIGHTS sum to zero; falling back to scrappy blueprints.");
+            WoldLogger.error("extractor_parts.json RARITY_DROP_WEIGHTS sum to zero; falling back to scrappy blueprints.");
             return VaultGearRarity.SCRAPPY;
         }
         int pick = random.nextInt(total);
@@ -52,7 +52,7 @@ public final class ExtractorPartRoller {
             }
         }
         if (allowed.isEmpty()) {
-            WoldsVaults.LOGGER.error("No extractor series is configured for rarity {}; check SERIES_BY_RARITY in extractor_parts.json.", rarity);
+            WoldLogger.error("No extractor series is configured for rarity {}; check SERIES_BY_RARITY in extractor_parts.json.", rarity);
             return null;
         }
         return allowed.get(random.nextInt(allowed.size()));
@@ -105,12 +105,12 @@ public final class ExtractorPartRoller {
     public static String rollDrillClass(VaultGearRarity rarity, float quality, Random random) {
         List<String> classes = eligibleDrillClasses(rarity, quality);
         if (classes.isEmpty()) {
-            WoldsVaults.LOGGER.error("No drill class has both a DRILL_CLASSES entry and a PARTS.drill stat row; drills cannot roll.");
+            WoldLogger.error("No drill class has both a DRILL_CLASSES entry and a PARTS.drill stat row; drills cannot roll.");
             return null;
         }
         String pick = classes.get(random.nextInt(classes.size()));
         if (quality < drillMinQuality(pick)) {
-            WoldsVaults.LOGGER.error("Quality {} reaches no drill class's minQuality at rarity {}; fell back to the lowest-gated class '{}'. Check DRILL_CLASSES minQuality in extractor_parts.json.",
+            WoldLogger.error("Quality {} reaches no drill class's minQuality at rarity {}; fell back to the lowest-gated class '{}'. Check DRILL_CLASSES minQuality in extractor_parts.json.",
                     quality, rarity, pick);
         }
         return pick;
@@ -120,7 +120,7 @@ public final class ExtractorPartRoller {
     public static String rollAttachmentId(Random random) {
         List<String> ids = new ArrayList<>(config().ATTACHMENTS.keySet());
         if (ids.isEmpty()) {
-            WoldsVaults.LOGGER.error("extractor_parts.json has no ATTACHMENTS; attachment blueprints cannot roll.");
+            WoldLogger.error("extractor_parts.json has no ATTACHMENTS; attachment blueprints cannot roll.");
             return null;
         }
         return ids.get(random.nextInt(ids.size()));
@@ -159,13 +159,13 @@ public final class ExtractorPartRoller {
         }
         ExtractorPartsConfig.PartRollEntry roll = config().getRoll(type, key);
         if (roll == null) {
-            WoldsVaults.LOGGER.error("extractor_parts.json has no PARTS.{} row for '{}'; the part rolled with no stats.", type.getId(), key);
+            WoldLogger.error("extractor_parts.json has no PARTS.{} row for '{}'; the part rolled with no stats.", type.getId(), key);
             return data;
         }
         for (Map.Entry<String, ExtractorPartsConfig.Range> entry : roll.stats.entrySet()) {
             ExtractorStat stat = ExtractorStat.byId(entry.getKey());
             if (stat == null) {
-                WoldsVaults.LOGGER.error("Unknown extractor stat '{}' in PARTS.{}.{}; skipped.", entry.getKey(), type.getId(), key);
+                WoldLogger.error("Unknown extractor stat '{}' in PARTS.{}.{}; skipped.", entry.getKey(), type.getId(), key);
                 continue;
             }
             float base = entry.getValue().lerp(random.nextFloat());
@@ -174,7 +174,7 @@ public final class ExtractorPartRoller {
         for (Map.Entry<String, ExtractorPartsConfig.Range> entry : roll.multipliers.entrySet()) {
             ExtractorStat stat = ExtractorStat.byId(entry.getKey());
             if (stat == null) {
-                WoldsVaults.LOGGER.error("Unknown extractor multiplier stat '{}' in PARTS.{}.{}; skipped.", entry.getKey(), type.getId(), key);
+                WoldLogger.error("Unknown extractor multiplier stat '{}' in PARTS.{}.{}; skipped.", entry.getKey(), type.getId(), key);
                 continue;
             }
             data.multiply(stat, entry.getValue().lerp(random.nextFloat()));
@@ -204,7 +204,7 @@ public final class ExtractorPartRoller {
         }
         ExtractorPartsConfig.AttachmentEntry entry = config().ATTACHMENTS.get(id);
         if (entry == null) {
-            WoldsVaults.LOGGER.error("Unknown extractor attachment '{}' requested; nothing rolled.", id);
+            WoldLogger.error("Unknown extractor attachment '{}' requested; nothing rolled.", id);
             return null;
         }
         PartData data = new PartData();
@@ -221,11 +221,11 @@ public final class ExtractorPartRoller {
         for (ExtractorPartsConfig.EffectEntry effect : entry.effects) {
             ExtractorStat stat = ExtractorStat.byId(effect.stat);
             if (stat == null) {
-                WoldsVaults.LOGGER.error("Unknown extractor stat '{}' on attachment '{}'; skipped.", effect.stat, id);
+                WoldLogger.error("Unknown extractor stat '{}' on attachment '{}'; skipped.", effect.stat, id);
                 continue;
             }
             if (stat == ExtractorStat.DURABILITY) {
-                WoldsVaults.LOGGER.error("Attachment '{}' has a durability effect; attachments carry their own wear pool and never add to the extractor's, so it was skipped.", id);
+                WoldLogger.error("Attachment '{}' has a durability effect; attachments carry their own wear pool and never add to the extractor's, so it was skipped.", id);
                 continue;
             }
             float value = effect.min + (effect.max - effect.min) * random.nextFloat();
@@ -251,13 +251,13 @@ public final class ExtractorPartRoller {
         for (int i = 0; i < Math.min(count, pools.length); i++) {
             List<ExtractorPartsConfig.AffixEntry> pool = config().AFFIX_POOLS.get(pools[i]);
             if (pool == null || pool.isEmpty()) {
-                WoldsVaults.LOGGER.error("Affix pool '{}' is missing or empty in extractor_parts.json; the {} rolled without it.", pools[i], data.type.getId());
+                WoldLogger.error("Affix pool '{}' is missing or empty in extractor_parts.json; the {} rolled without it.", pools[i], data.type.getId());
                 continue;
             }
             ExtractorPartsConfig.AffixEntry affix = pool.get(random.nextInt(pool.size()));
             ExtractorStat stat = ExtractorStat.byId(affix.stat);
             if (stat == null) {
-                WoldsVaults.LOGGER.error("Affix '{}' names unknown stat '{}'; skipped.", affix.id, affix.stat);
+                WoldLogger.error("Affix '{}' names unknown stat '{}'; skipped.", affix.id, affix.stat);
                 continue;
             }
             float value = affix.min + (affix.max - affix.min) * random.nextFloat();

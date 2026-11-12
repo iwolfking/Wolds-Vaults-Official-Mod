@@ -18,7 +18,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorForgeTileEntity;
 import xyz.iwolfking.woldsvaults.client.screens.IndustrialStyle;
 import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorPreviewRenderer;
@@ -36,6 +35,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Extraction Forge screen in the ornate industrial style. Top: title plate, the blueprint slot on a crest plate, the
@@ -368,7 +368,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             } catch (RuntimeException e) {
                 if (!warnedPreview) {
                     warnedPreview = true;
-                    WoldsVaults.LOGGER.error("Extraction Forge could not create its 3D preview renderer; the preview box stays empty.", e);
+                    WoldLogger.error("Extraction Forge could not create its 3D preview renderer; the preview box stays empty.", e);
                 }
                 return;
             }

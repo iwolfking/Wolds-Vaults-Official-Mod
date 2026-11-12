@@ -123,7 +123,7 @@ public abstract class MixinRunner extends Listener {
 
             ResourceLocation lootTableKey = GreedCrateLoot.tableId(greedCrateLootTier);
             if(!VaultRegistry.LOOT_TABLE.contains(lootTableKey)) {
-                WoldsVaults.LOGGER.error("Greed crate loot table {} is not registered; the {} medallion's crate bonus is lost. It should ship in the jar's generated vault_configs/gen/loot_tables.",
+                WoldLogger.error("Greed crate loot table {} is not registered; the {} medallion's crate bonus is lost. It should ship in the jar's generated vault_configs/gen/loot_tables.",
                         lootTableKey, medallion.getPathName());
                 return;
             }

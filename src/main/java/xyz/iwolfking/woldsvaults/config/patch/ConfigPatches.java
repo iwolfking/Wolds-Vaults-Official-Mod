@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.config.patch;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import net.minecraftforge.data.loading.DatagenModLoader;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -16,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Finds and applies the config patches shipped in the jar under {@value #RESOURCE_ROOT}, keyed by the config's path
@@ -71,7 +71,7 @@ public final class ConfigPatches {
                 return Optional.of(ConfigPatch.fromJson(JsonParser.parseReader(reader).getAsJsonObject()));
             }
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Config patch for {} could not be read; the upstream config loads unpatched", path, e);
+            WoldLogger.error("Config patch for {} could not be read; the upstream config loads unpatched", path, e);
             return Optional.empty();
         }
     }
@@ -80,9 +80,9 @@ public final class ConfigPatches {
     public static JsonElement apply(String path, ConfigPatch patch, JsonElement base) {
         ConfigPatch.Result result = patch.apply(base);
         for (String failure : result.failures()) {
-            WoldsVaults.LOGGER.error("Config patch for {} did not apply {}; the upstream value stays", path, failure);
+            WoldLogger.error("Config patch for {} did not apply {}; the upstream value stays", path, failure);
         }
-        WoldsVaults.LOGGER.info("Applied config patch to {} ({} of {} ops)", path, patch.ops().size() - result.failures().size(), patch.ops().size());
+        WoldLogger.info("Applied config patch to {} ({} of {} ops)", path, patch.ops().size() - result.failures().size(), patch.ops().size());
         return result.json();
     }
 
@@ -102,7 +102,7 @@ public final class ConfigPatches {
         try {
             return deserialize.apply(new StringReader(patched.toString()));
         } catch (Exception e) {
-            WoldsVaults.LOGGER.error("Config patch for {} produced a config the base mod cannot read; loading the unpatched file", path, e);
+            WoldLogger.error("Config patch for {} produced a config the base mod cannot read; loading the unpatched file", path, e);
             return deserialize.apply(new StringReader(base.toString()));
         }
     }

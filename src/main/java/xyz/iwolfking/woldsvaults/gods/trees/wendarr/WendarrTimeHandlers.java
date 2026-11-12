@@ -7,7 +7,6 @@ import iskallia.vault.core.vault.time.modifier.PylonExtension;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.CombatContributor;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
@@ -20,6 +19,7 @@ import xyz.iwolfking.woldsvaults.gods.node.TickContributor;
 import xyz.iwolfking.woldsvaults.gods.node.VaultContributor;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Wendarr nodes that act on the vault clock, and the two that trade vault time for damage.
@@ -35,7 +35,7 @@ public final class WendarrTimeHandlers {
         public void onVaultStart(GodNodeContext context, Vault vault) {
             TickClock clock = vault.get(Vault.CLOCK);
             if (clock == null) {
-                WoldsVaults.LOGGER.error("Extender found no clock on the vault {} joined; its time grant was lost.",
+                WoldLogger.error("Extender found no clock on the vault {} joined; its time grant was lost.",
                         context.player().getGameProfile().getName());
                 return;
             }

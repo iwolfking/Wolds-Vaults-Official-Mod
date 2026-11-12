@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.augments.spell;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.augments.effect.SpellHits;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Which glyph stats do anything on a given step, so tooltips list only the side effects that apply
@@ -66,7 +66,7 @@ public final class GlyphRelevance {
                 }
             }
             if (!GlyphStacking.STEP_STATS.contains(stat)) {
-                warn("stat:" + stat, "Glyph relevance: unknown stat '{}'; it is listed as applying", stat);
+                errorOnce("stat:" + stat, "Glyph relevance: unknown stat '{}'; it is listed as applying", stat);
                 return true;
             }
             if (step instanceof SpellModel.Cast cast) {
@@ -86,7 +86,7 @@ public final class GlyphRelevance {
     /** Whether a step stat applies to an ability step casting {@code spec}. */
     public static boolean castApplies(FocusAugmentsConfig config, @Nullable String spec, String stat, boolean pooled) {
         if (spec == null) {
-            warn("spec:null", "Glyph relevance: an ability step has no specialization; every glyph stat is listed for it");
+            errorOnce("spec:null", "Glyph relevance: an ability step has no specialization; every glyph stat is listed for it");
             return true;
         }
         Set<String> traits = SpellModel.traits(config, spec);
@@ -134,7 +134,7 @@ public final class GlyphRelevance {
     private static boolean hasHits(String spec) {
         List<SpellHits.Source> sources = SpellHits.sources(spec);
         if (sources == null) {
-            warn("hits:" + spec, "Glyph relevance: spell hits has no entry for {}; damage is listed as applying", spec);
+            errorOnce("hits:" + spec, "Glyph relevance: spell hits has no entry for {}; damage is listed as applying", spec);
             return true;
         }
         return !sources.isEmpty();
@@ -164,9 +164,9 @@ public final class GlyphRelevance {
         return false;
     }
 
-    private static void warn(String key, String message, Object... args) {
+    private static void errorOnce(String key, String message, Object... args) {
         if (WARNED.add(key)) {
-            WoldsVaults.LOGGER.warn(message, args);
+            WoldLogger.error(message, args);
         }
     }
 }

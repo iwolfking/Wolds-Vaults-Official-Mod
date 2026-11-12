@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns a part's series or class, rarity and quality into what it costs, from {@code extractor_costs.json}.
@@ -103,7 +103,7 @@ public final class ExtractorCosts {
         ResourceLocation rl = ResourceLocation.tryParse(id);
         Item item = rl == null ? null : ForgeRegistries.ITEMS.getValue(rl);
         if (item == null || (rl != null && !ForgeRegistries.ITEMS.containsKey(rl))) {
-            warnOnce(id, "item");
+            errorOnce(id, "item");
             return null;
         }
         return item;
@@ -113,15 +113,15 @@ public final class ExtractorCosts {
     public static Fluid resolveFluid(String id) {
         ResourceLocation rl = ResourceLocation.tryParse(id);
         if (rl == null || !ForgeRegistries.FLUIDS.containsKey(rl)) {
-            warnOnce(id, "fluid");
+            errorOnce(id, "fluid");
             return null;
         }
         return ForgeRegistries.FLUIDS.getValue(rl);
     }
 
-    private static void warnOnce(String id, String kind) {
+    private static void errorOnce(String id, String kind) {
         if (WARNED.add(kind + ":" + id)) {
-            WoldsVaults.LOGGER.error("extractor_costs.json names the {} '{}', which is not registered; that cost line is skipped.", kind, id);
+            WoldLogger.error("extractor_costs.json names the {} '{}', which is not registered; that cost line is skipped.", kind, id);
         }
     }
 
@@ -132,7 +132,7 @@ public final class ExtractorCosts {
     public static double rarityFactor(VaultGearRarity rarity) {
         Float factor = config().RARITY.get(ExtractorPartsConfig.rarityKey(rarity));
         if (factor == null) {
-            WoldsVaults.LOGGER.error("extractor_costs.json has no RARITY factor for '{}'; using 1.0.", ExtractorPartsConfig.rarityKey(rarity));
+            WoldLogger.error("extractor_costs.json has no RARITY factor for '{}'; using 1.0.", ExtractorPartsConfig.rarityKey(rarity));
             return 1.0D;
         }
         return factor;
@@ -167,7 +167,7 @@ public final class ExtractorCosts {
             rows = cfg.partRecipe(part.type.getId(), part.series);
         }
         if (rows == null) {
-            WoldsVaults.LOGGER.error("extractor_costs.json has no recipe for {} ({}); it costs nothing.", part.name, part.describeOrigin());
+            WoldLogger.error("extractor_costs.json has no recipe for {} ({}); it costs nothing.", part.name, part.describeOrigin());
         }
         return rows;
     }

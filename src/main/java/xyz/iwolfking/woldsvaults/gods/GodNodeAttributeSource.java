@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** The gear attributes a player's unlocked nodes contribute, per god; {@link #NOOP} until registered. */
 public interface GodNodeAttributeSource {
@@ -50,7 +51,7 @@ public interface GodNodeAttributeSource {
 
         private static void install(GodNodeAttributeSource source) {
             if (current != NOOP) {
-                xyz.iwolfking.woldsvaults.WoldsVaults.LOGGER.error(
+                WoldLogger.error(
                         "GodNodeAttributeSource was already registered as {}; replacing it with {}.",
                         current.getClass().getName(), source.getClass().getName());
             }

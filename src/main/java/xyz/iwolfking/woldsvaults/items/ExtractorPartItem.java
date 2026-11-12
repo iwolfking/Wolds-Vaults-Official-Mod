@@ -12,13 +12,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorTooltips;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** A fabricated extractor part or attachment; carries the rolled {@link PartData} it was forged from. */
 public class ExtractorPartItem extends BasicItem {
@@ -39,7 +39,7 @@ public class ExtractorPartItem extends BasicItem {
         if (part.series != null && ModConfigs.EXTRACTOR_PARTS.getSeries(part.series) != null) {
             stack.getOrCreateTag().putString(ExtractorTooltips.FRAME_TAG, part.series);
         } else {
-            WoldsVaults.LOGGER.error("Extractor part '{}' has unknown series '{}'; it gets no tooltip frame.", part.name, part.series);
+            WoldLogger.error("Extractor part '{}' has unknown series '{}'; it gets no tooltip frame.", part.name, part.series);
         }
         return stack;
     }

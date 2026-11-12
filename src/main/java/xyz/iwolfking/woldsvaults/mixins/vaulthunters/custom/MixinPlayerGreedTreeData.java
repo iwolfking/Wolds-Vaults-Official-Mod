@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = PlayerGreedTreeData.class, remap = false)
 public abstract class MixinPlayerGreedTreeData {
@@ -58,13 +58,13 @@ public abstract class MixinPlayerGreedTreeData {
         if (tier == previous + 1) {
             cost = MilestoneRankLadder.getThreshold(tier);
         } else if (tier != previous) {
-            WoldsVaults.LOGGER.info("Greed rank for {} moved from {} to {}, which is not a single-rank climb; "
+            WoldLogger.info("Greed rank for {} moved from {} to {}, which is not a single-rank climb; "
                     + "no reputation was charged and the balance of {} is kept whole",
                     player.getGameProfile().getName(), previous, tier, held);
         }
         int remaining = held - cost;
         if (remaining < 0) {
-            WoldsVaults.LOGGER.error("Greed rank-up to {} for {} costs {} reputation but only {} was held; "
+            WoldLogger.error("Greed rank-up to {} for {} costs {} reputation but only {} was held; "
                     + "the balance is clamped to 0. Rank-ups are meant to be gated by "
                     + "GreedTrialRequirements.hasReputation, so something reached setGreedTier around it",
                     tier, player.getGameProfile().getName(), cost, held);

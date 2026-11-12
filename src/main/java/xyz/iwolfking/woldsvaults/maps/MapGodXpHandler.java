@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.gods.network.ClientboundVaultGodXpMessage;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Pays every runner who leaves a mapped vault completed the full god xp for the map's god. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -66,7 +67,7 @@ public final class MapGodXpHandler {
                 .orElse(null);
         long xp = MapGodXp.award(vault, objectiveKey, binding.difficultyMultiplier(), binding.bonusPercent());
         if (xp <= 0L) {
-            WoldsVaults.LOGGER.warn("Mapped vault {} completed on objective '{}', which has no god xp value; {} was awarded nothing for {}.",
+            WoldLogger.error("Mapped vault {} completed on objective '{}', which has no god xp value; {} was awarded nothing for {}.",
                     vaultId, objectiveKey, player.getGameProfile().getName(), binding.god().getName());
             return;
         }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Resolves unique and ancient unique modifier rolls. A unique's tier table may hold a row scoped to that unique,
@@ -78,7 +79,7 @@ public final class UniqueRollTables {
             if (regularFound == null) {
                 return null;
             }
-            WoldsVaults.LOGGER.warn("Ancient {} has no ancient row for {}; rolled the regular unique value instead.", uniqueKey, identifier);
+            WoldLogger.error("Ancient {} has no ancient row for {}; rolled the regular unique value instead.", uniqueKey, identifier);
             return regular.generateModifier(regularFound, level, random);
         } finally {
             RESOLVING.set(false);
@@ -116,7 +117,7 @@ public final class UniqueRollTables {
         VaultGearTierConfig regular = ModConfigs.VAULT_GEAR_CONFIG.get(VaultGearTierConfig.UNIQUE_ITEM);
         VaultGearTierConfig ancient = ModConfigs.VAULT_GEAR_CONFIG.get(ANCIENT_TABLE);
         if (regular == null) {
-            WoldsVaults.LOGGER.error("The unique tier table is not loaded; skipping the unique roll audit.");
+            WoldLogger.error("The unique tier table is not loaded; skipping the unique roll audit.");
             return;
         }
         List<String> dead = new ArrayList<>();
@@ -132,7 +133,7 @@ public final class UniqueRollTables {
             });
         }
         if (!dead.isEmpty()) {
-            WoldsVaults.LOGGER.error("{} unique modifier identifiers resolve in no tier table and never roll: {}", dead.size(), dead);
+            WoldLogger.error("{} unique modifier identifiers resolve in no tier table and never roll: {}", dead.size(), dead);
         }
     }
 }

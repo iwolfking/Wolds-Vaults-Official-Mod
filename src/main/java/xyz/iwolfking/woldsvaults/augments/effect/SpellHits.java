@@ -6,7 +6,6 @@ import iskallia.vault.entity.entity.IceBoltEntity;
 import iskallia.vault.event.ActiveFlags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 
 import javax.annotation.Nullable;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Which hurt events are an ability's own hits, so damage glyphs multiply those and nothing else (no on-hit procs, no
@@ -121,7 +121,7 @@ public final class SpellHits {
         if (spec != null && TABLE.containsKey(spec)) {
             String key = spec + "|" + signature(source);
             if (SKIP_NOTED.add(key)) {
-                WoldsVaults.LOGGER.info("Spell hits: a {} hit inside {}'s cast is not one of its own hits; damage glyphs skip it.", signature(source), spec);
+                WoldLogger.info("Spell hits: a {} hit inside {}'s cast is not one of its own hits; damage glyphs skip it.", signature(source), spec);
             }
         }
         return false;
@@ -179,7 +179,7 @@ public final class SpellHits {
         List<Source> sources = TABLE.get(spec);
         if (sources == null) {
             if (UNKNOWN_WARNED.add(spec)) {
-                WoldsVaults.LOGGER.error("Spell hits: ability {} has no hit-source entry; damage glyphs skip its hits until it is added to SpellHits.", spec);
+                WoldLogger.error("Spell hits: ability {} has no hit-source entry; damage glyphs skip its hits until it is added to SpellHits.", spec);
             }
             return false;
         }

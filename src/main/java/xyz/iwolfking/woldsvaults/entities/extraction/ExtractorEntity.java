@@ -60,7 +60,6 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import top.theillusivec4.curios.api.CuriosApi;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorCardMenu;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.extraction.jobs.GreedCardUpgrades;
@@ -74,6 +73,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @SuppressWarnings({"deprecated", "removal"})
 public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTarget {
@@ -265,7 +265,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             (KNOWN_VARIANT_BONES.contains(bone) ? kept : dropped).add(bone);
         }
         if (!dropped.isEmpty()) {
-            WoldsVaults.LOGGER.error("Extractor variant bones {} do not exist on the current rig and were dropped{}.", dropped,
+            WoldLogger.error("Extractor variant bones {} do not exist on the current rig and were dropped{}.", dropped,
                     kept.isEmpty() ? "; the default loadout is rendered instead" : "");
         }
         return kept.isEmpty() ? DEFAULT_VARIANT_BONES : String.join(",", kept);
@@ -365,7 +365,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             this.dropCards();
             VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get)
                     .ifPresentOrElse(objective -> objective.onExtractorDestroyed(this),
-                            () -> WoldsVaults.LOGGER.error("Extractor entity {} died outside an extraction objective; site state cannot be updated.", this.getUUID()));
+                            () -> WoldLogger.error("Extractor entity {} died outside an extraction objective; site state cannot be updated.", this.getUUID()));
         }
         super.die(source);
     }
@@ -397,7 +397,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
                 }
             }
         }
-        WoldsVaults.LOGGER.info("No online player holds the extractor item keyed to entity {}; relying on the item's timed self-reset.", entityId);
+        WoldLogger.info("No online player holds the extractor item keyed to entity {}; relying on the item's timed self-reset.", entityId);
     }
 
     @Override
@@ -484,7 +484,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.closeCardMenus();
         VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get)
                 .ifPresentOrElse(objective -> objective.onArmedExtractorCollected(this),
-                        () -> WoldsVaults.LOGGER.error("Armed extractor {} was collected outside an extraction objective; its site state was not reset.", this.getUUID()));
+                        () -> WoldLogger.error("Armed extractor {} was collected outside an extraction objective; its site state was not reset.", this.getUUID()));
         this.discard();
     }
 
@@ -573,7 +573,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
                     .orElse(null);
             return handler == null ? 0 : this.depositFromHandler(handler);
         } catch (Throwable t) {
-            WoldsVaults.LOGGER.error("Sophisticated Backpacks cell sweep failed; only main-inventory cells were deposited.", t);
+            WoldLogger.error("Sophisticated Backpacks cell sweep failed; only main-inventory cells were deposited.", t);
             return 0;
         }
     }
@@ -588,7 +588,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
                 return consumed;
             }).orElse(0);
         } catch (Throwable t) {
-            WoldsVaults.LOGGER.error("Curios cell sweep failed; equipped backpacks were skipped.", t);
+            WoldLogger.error("Curios cell sweep failed; equipped backpacks were skipped.", t);
             return 0;
         }
     }
@@ -637,7 +637,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             }
         }
         if (!this.level.isClientSide() && this.tickCount % 100 == 0 && VaultUtils.getVault(this.level).isEmpty()) {
-            WoldsVaults.LOGGER.info("Extractor entity {} found itself outside a vault and self-destructed.", this.getUUID());
+            WoldLogger.info("Extractor entity {} found itself outside a vault and self-destructed.", this.getUUID());
             this.discard();
         }
     }
@@ -880,7 +880,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     private void recomputeWearPerTick() {
         ExtractionObjectiveConfig.DurabilityEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY;
         if (cfg.wearCoefficient <= 0.0F || !Float.isFinite(cfg.wearCoefficient) || !Float.isFinite(cfg.wearPowerExponent)) {
-            WoldsVaults.LOGGER.error("extraction_objective.json DURABILITY has an unusable wear curve (coefficient {}, exponent {}); extractor {} will take no drilling wear.",
+            WoldLogger.error("extraction_objective.json DURABILITY has an unusable wear curve (coefficient {}, exponent {}); extractor {} will take no drilling wear.",
                     cfg.wearCoefficient, cfg.wearPowerExponent, this.getUUID());
             this.wearPerTick = 0.0F;
             return;
@@ -981,7 +981,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     private void openCardMenu(ServerPlayer player) {
         if (this.cardTargetClass.isEmpty()) {
-            WoldsVaults.LOGGER.error("Armed extractor {} has no greed card target class; its insert screen cannot open.", this.getUUID());
+            WoldLogger.error("Armed extractor {} has no greed card target class; its insert screen cannot open.", this.getUUID());
             player.displayClientMessage(new TextComponent("This Greed Infuser has no card class to upgrade to.").withStyle(ChatFormatting.RED), true);
             return;
         }
@@ -1015,7 +1015,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         }
         Optional<ExtractionObjective> objective = VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get);
         if (objective.isEmpty()) {
-            WoldsVaults.LOGGER.error("Armed extractor {} was started outside an extraction objective; it stays armed.", this.getUUID());
+            WoldLogger.error("Armed extractor {} was started outside an extraction objective; it stays armed.", this.getUUID());
             return false;
         }
         if (!objective.get().startArmedExtractor(this)) {
@@ -1125,7 +1125,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             }
             this.placerCapacityMultiplier = multiplier;
         } catch (Throwable t) {
-            WoldsVaults.LOGGER.error("Could not read the crystal-capacity bonuses of extractor placer {}; ancient crystals from this rig get no placer bonus.", this.owner, t);
+            WoldLogger.error("Could not read the crystal-capacity bonuses of extractor placer {}; ancient crystals from this rig get no placer bonus.", this.owner, t);
             this.placerCapacityFlat = 0;
             this.placerCapacityMultiplier = 1.0F;
         }

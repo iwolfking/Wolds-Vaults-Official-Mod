@@ -4,11 +4,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.GlyphGrants;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The glyph state of one spell step, frozen when the step's cast opens: whose cast it is, the ability spec, the step's
@@ -69,12 +69,12 @@ public record DeferredGlyphs(UUID owner, String spec, CastModifiers modifiers, @
     @Nullable
     public static DeferredGlyphs load(CompoundTag tag) {
         if (!tag.hasUUID(OWNER) || !tag.contains(SPEC)) {
-            WoldsVaults.LOGGER.error("Deferred glyphs: saved state {} has no owner or spec; the glyphs are dropped.", tag);
+            WoldLogger.error("Deferred glyphs: saved state {} has no owner or spec; the glyphs are dropped.", tag);
             return null;
         }
         for (String key : FLOATS) {
             if (!tag.contains(key)) {
-                WoldsVaults.LOGGER.error("Deferred glyphs: saved state for {} lacks {}; the glyphs are dropped.", tag.getString(SPEC), key);
+                WoldLogger.error("Deferred glyphs: saved state for {} lacks {}; the glyphs are dropped.", tag.getString(SPEC), key);
                 return null;
             }
         }

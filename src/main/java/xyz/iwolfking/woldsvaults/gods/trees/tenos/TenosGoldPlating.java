@@ -5,12 +5,12 @@ import iskallia.vault.util.CoinDefinition;
 import iskallia.vault.util.InventoryUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAdder;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Gold Plating: a post-mitigation {@link FinalDamageStage} reduction billing
@@ -51,7 +51,7 @@ public final class TenosGoldPlating {
         List<InventoryUtil.ItemAccess> items = InventoryUtil.findAllItems(player);
         ItemStack price = new ItemStack(ModBlocks.VAULT_GOLD, gold);
         if (!CoinDefinition.hasEnoughCurrency(items, price)) {
-            WoldsVaults.LOGGER.debug("Gold Plating could not charge {} {} gold; the debt is carried over.",
+            WoldLogger.debug("Gold Plating could not charge {} {} gold; the debt is carried over.",
                     player.getGameProfile().getName(), gold);
             return;
         }

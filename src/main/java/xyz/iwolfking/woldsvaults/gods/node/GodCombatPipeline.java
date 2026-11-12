@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The one dispatcher for {@link CombatContributor}: a single pre-mitigation {@link LivingHurtEvent}
@@ -87,7 +88,7 @@ public final class GodCombatPipeline {
                     stage.handler().onIncoming(context, damage);
                 }
             } catch (RuntimeException e) {
-                WoldsVaults.LOGGER.error("God combat contributor {} threw on the {} leg; its contribution to this "
+                WoldLogger.error("God combat contributor {} threw on the {} leg; its contribution to this "
                         + "hit was skipped.", stage.effect().id(), outgoing ? "outgoing" : "incoming", e);
             }
         }
@@ -110,7 +111,7 @@ public final class GodCombatPipeline {
         for (GodEffect effect : current) {
             CombatContributor handler = GodNodeRegistry.handler(effect.id(), CombatContributor.class);
             if (handler == null) {
-                WoldsVaults.LOGGER.error("God effect {} is registered as a combat contributor but its handler is not "
+                WoldLogger.error("God effect {} is registered as a combat contributor but its handler is not "
                         + "one; it will take no part in damage math.", effect.id());
                 continue;
             }

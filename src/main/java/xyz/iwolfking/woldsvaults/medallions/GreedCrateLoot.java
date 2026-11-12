@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.objectives.UnhingedScavengerObjective;
 import xyz.iwolfking.woldsvaults.objectives.ZealotObjective;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The greed crate loot (GCL) system: which bonus loot table a completion crate rolls and how many greed
@@ -130,7 +131,7 @@ public final class GreedCrateLoot {
         for (RuneBossObjective objective : bosses) {
             RuneBossFights fights = objective.getOptional(RuneBossObjective.FIGHTS).orElse(null);
             if (fights == null) {
-                WoldsVaults.LOGGER.warn("Rune boss objective has no fight list; its greed coin bonus falls back to the 1.2x floor.");
+                WoldLogger.error("Rune boss objective has no fight list; its greed coin bonus falls back to the 1.2x floor.");
                 continue;
             }
             for (RuneBossFight fight : fights.getFights()) {

@@ -26,7 +26,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartRoller;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
@@ -37,6 +36,7 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A blueprint for one extractor part type. Drops unidentified with a rarity and a quality stamped from the
@@ -134,7 +134,7 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
         }
         CompoundTag data = stack.getOrCreateTag().getCompound(TAG);
         if (!CostLedger.hasCost(data)) {
-            WoldsVaults.LOGGER.error("Blueprint {} was identified before fabrication costs existed; rolling its cost now.", part.name);
+            WoldLogger.error("Blueprint {} was identified before fabrication costs existed; rolling its cost now.", part.name);
             CostLedger.setCost(data, ExtractorCosts.roll(part, RANDOM));
             stack.getOrCreateTag().put(TAG, data);
         }
@@ -215,14 +215,14 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
             data.putString("Rarity", ExtractorPartsConfig.rarityKey(ExtractorPartRoller.rollDropRarity(RANDOM)));
         }
         if (!data.getBoolean("HasQuality")) {
-            WoldsVaults.LOGGER.error("Extractor blueprint {} was identified without a stamped quality (it never went through a chest); rolling quality as if opened at 0 item rarity.", this.getRegistryName());
+            WoldLogger.error("Extractor blueprint {} was identified without a stamped quality (it never went through a chest); rolling quality as if opened at 0 item rarity.", this.getRegistryName());
             data.putFloat("Quality", ExtractorQuality.roll(0.0D, getBlueprintRarity(stack), RANDOM));
             data.putBoolean("HasQuality", true);
         }
         VaultGearRarity rarity = getBlueprintRarity(stack);
         PartData part = ExtractorPartRoller.roll(this.partType, rarity, data.getFloat("Quality"), null, RANDOM);
         if (part == null) {
-            WoldsVaults.LOGGER.error("Extractor blueprint {} could not roll a part (see errors above); it stays unidentified.", this.getRegistryName());
+            WoldLogger.error("Extractor blueprint {} could not roll a part (see errors above); it stays unidentified.", this.getRegistryName());
             data.putBoolean("Rolling", false);
             data.remove("Preview");
             setData(stack, data);

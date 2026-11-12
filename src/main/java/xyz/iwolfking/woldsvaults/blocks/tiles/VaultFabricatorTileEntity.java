@@ -28,7 +28,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.containers.VaultFabricatorContainer;
 import xyz.iwolfking.woldsvaults.blocks.containers.lib.WideContainerData;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
@@ -40,6 +39,7 @@ import xyz.iwolfking.woldsvaults.items.FabricationPatternItem;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Vault Fabricator: slot 0 holds a Fabrication Pattern, slot 1 is the output and slots 2–26 are the 5×5
@@ -164,7 +164,7 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
         }
         List<String> keys = new ArrayList<>(ModConfigs.EXTRACTOR_COSTS.COMPONENTS.keySet());
         if (keys.isEmpty()) {
-            WoldsVaults.LOGGER.error("extractor_costs.json has no COMPONENTS; the Vault Fabricator at {} has nothing to imprint.", this.getBlockPos());
+            WoldLogger.error("extractor_costs.json has no COMPONENTS; the Vault Fabricator at {} has nothing to imprint.", this.getBlockPos());
             return;
         }
         String current = FabricationPatternItem.componentKey(pattern);

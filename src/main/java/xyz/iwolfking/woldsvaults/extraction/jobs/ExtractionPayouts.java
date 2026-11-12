@@ -17,7 +17,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns a finished job into item stacks. Every count and weight comes from the job's {@code payout}
@@ -59,18 +59,18 @@ public final class ExtractionPayouts {
             case "maps" -> payMaps(payout, spec, count, totalPower, extraPower, itemRarity, vault, pos, random);
             case "charms" -> payCharms(payout, spec, count, extraPower, itemRarity, vault, pos, random);
             case "uniques" -> payUniques(payout, spec, count, extraPower, itemRarity, vault, pos, random);
-            case "cards" -> WoldsVaults.LOGGER.info("Extraction job '{}' upgraded {} greed card(s) in place.", jobId, extractor.upgradeCards());
+            case "cards" -> WoldLogger.info("Extraction job '{}' upgraded {} greed card(s) in place.", jobId, extractor.upgradeCards());
             case "fluid" -> payFluid(jobId, spec, count, extractor);
             case "crystals" -> payout.addAll(AncientCrystals.roll(extractor, vault, random));
-            case "seal" -> WoldsVaults.LOGGER.error(
+            case "seal" -> WoldLogger.error(
                     "Extraction job '{}' uses payout type '{}', which is not implemented yet; the site completed with no payout.", jobId, type);
-            default -> WoldsVaults.LOGGER.error("Extraction job '{}' has unknown payout type '{}'; the site completed with no payout.", jobId, type);
+            default -> WoldLogger.error("Extraction job '{}' has unknown payout type '{}'; the site completed with no payout.", jobId, type);
         }
         int total = 0;
         for (ItemStack stack : payout) {
             total += stack.getCount();
         }
-        WoldsVaults.LOGGER.info("Extraction job '{}' at power {} (quant {}, rarity {}) paid out {} items in {} stacks.", jobId, totalPower, (int) quant, (int) itemRarity, total, payout.size());
+        WoldLogger.info("Extraction job '{}' at power {} (quant {}, rarity {}) paid out {} items in {} stacks.", jobId, totalPower, (int) quant, (int) itemRarity, total, payout.size());
         return payout;
     }
 
@@ -135,7 +135,7 @@ public final class ExtractionPayouts {
     private static void payItems(NonNullList<ItemStack> payout, ExtractionObjectiveConfig.PayoutEntry spec, int count, Vault vault, BlockPos pos) {
         Item item = spec.item == null || spec.item.isEmpty() ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(spec.item));
         if (item == null) {
-            WoldsVaults.LOGGER.error("Extraction payout names unknown item '{}'; nothing was paid.", spec.item);
+            WoldLogger.error("Extraction payout names unknown item '{}'; nothing was paid.", spec.item);
             return;
         }
         int maxStack = new ItemStack(item).getMaxStackSize();
@@ -164,7 +164,7 @@ public final class ExtractionPayouts {
         ResourceLocation id = spec.item == null ? null : ResourceLocation.tryParse(spec.item);
         Fluid fluid = id == null ? null : ForgeRegistries.FLUIDS.getValue(id);
         if (fluid == null || fluid == Fluids.EMPTY) {
-            WoldsVaults.LOGGER.error("Extraction job '{}' names unknown fluid '{}'; the site completed with no fluid.", jobId, spec.item);
+            WoldLogger.error("Extraction job '{}' names unknown fluid '{}'; the site completed with no fluid.", jobId, spec.item);
             return;
         }
         extractor.storeFluid(new FluidStack(fluid, Math.max(0, amount)));
@@ -174,7 +174,7 @@ public final class ExtractionPayouts {
                                 float itemRarity, Vault vault, BlockPos pos, Random random) {
         Item map = ForgeRegistries.ITEMS.getValue(MAP_ITEM);
         if (map == null) {
-            WoldsVaults.LOGGER.error("Vault map item {} is not registered; the maps job paid nothing.", MAP_ITEM);
+            WoldLogger.error("Vault map item {} is not registered; the maps job paid nothing.", MAP_ITEM);
             return;
         }
         int tierMin = 1;
@@ -202,7 +202,7 @@ public final class ExtractionPayouts {
             boolean mythic = "mythic".equals(pickWeighted(weights, random, "omega"));
             Item charm = ForgeRegistries.ITEMS.getValue(mythic ? MYTHIC_CHARM : OMEGA_CHARM);
             if (charm == null) {
-                WoldsVaults.LOGGER.error("Charm item {} is not registered; one charm payout was skipped.", mythic ? MYTHIC_CHARM : OMEGA_CHARM);
+                WoldLogger.error("Charm item {} is not registered; one charm payout was skipped.", mythic ? MYTHIC_CHARM : OMEGA_CHARM);
                 continue;
             }
             ItemStack stack = new ItemStack(charm);
@@ -225,7 +225,7 @@ public final class ExtractionPayouts {
                 continue;
             }
             if (keys.isEmpty()) {
-                WoldsVaults.LOGGER.error("The unique gear registry is empty; one unique payout was skipped.");
+                WoldLogger.error("The unique gear registry is empty; one unique payout was skipped.");
                 continue;
             }
             ResourceLocation key = keys.get(random.nextInt(keys.size()));
@@ -240,12 +240,12 @@ public final class ExtractionPayouts {
     static ItemStack createUnidentifiedUnique(ResourceLocation key, Vault vault, BlockPos pos) {
         UniqueGearConfig.Entry entry = ModConfigs.UNIQUE_GEAR.getEntry(key).orElse(null);
         if (entry == null) {
-            WoldsVaults.LOGGER.error("Unique {} has no registry entry; skipped.", key);
+            WoldLogger.error("Unique {} has no registry entry; skipped.", key);
             return ItemStack.EMPTY;
         }
         ItemStack stack = new ItemStack(entry.getItem());
         if (stack.isEmpty()) {
-            WoldsVaults.LOGGER.error("Unique {} resolved to an empty base item; skipped.", key);
+            WoldLogger.error("Unique {} resolved to an empty base item; skipped.", key);
             return ItemStack.EMPTY;
         }
         VaultGearData data = VaultGearData.read(stack);

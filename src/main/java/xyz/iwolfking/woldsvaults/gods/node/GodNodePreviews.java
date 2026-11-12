@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The god nodes whose description carries a live formula rather than a fixed number, plus the
@@ -101,12 +101,12 @@ public final class GodNodePreviews {
         try {
             String text = entry.formulaText().get();
             if (text == null || text.isBlank()) {
-                WoldsVaults.LOGGER.error("God node preview for '{}' resolved a blank formula; showing it as static.", effectId);
+                WoldLogger.error("God node preview for '{}' resolved a blank formula; showing it as static.", effectId);
                 return null;
             }
             return text;
         } catch (RuntimeException e) {
-            WoldsVaults.LOGGER.error("God node preview for '{}' could not resolve its formula; showing it as static.",
+            WoldLogger.error("God node preview for '{}' could not resolve its formula; showing it as static.",
                     effectId, e);
             return null;
         }

@@ -12,7 +12,6 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.AbilityPowerDamageMultipliers;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
@@ -25,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Copé de Grâce behaviour: the infusion, the per-hit compounding stacks, the post-armour damage it books,
@@ -94,7 +94,7 @@ public final class CopeDeGraceState {
             state.accumulated = ACCUMULATOR_CAP;
             if (!overflowLogged) {
                 overflowLogged = true;
-                WoldsVaults.LOGGER.error("Cope de Grace damage book hit its {} cap; the dash is being clamped.",
+                WoldLogger.error("Cope de Grace damage book hit its {} cap; the dash is being clamped.",
                         ACCUMULATOR_CAP);
             }
         }

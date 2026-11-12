@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.ExtractorControllerBlock;
 import xyz.iwolfking.woldsvaults.blocks.multiblock.ExtractorMultiblock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorAssemblerTileEntity;
@@ -31,6 +30,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Draws the moving, translucent and full-bright pieces of a station on top of its baked shell,
@@ -99,7 +99,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         BakedModel model = Minecraft.getInstance().getModelManager().getModel(part.model());
         if (model == null || model == Minecraft.getInstance().getModelManager().getMissingModel()) {
             if (MISSING_MODELS.add(part.model().toString())) {
-                WoldsVaults.LOGGER.error("Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
+                WoldLogger.error("Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
             }
             return;
         }
@@ -146,7 +146,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
             this.previewEntity = ModEntities.EXTRACTOR.create(tile.getLevel());
             if (this.previewEntity == null) {
                 if (MISSING_MODELS.add("preview-entity")) {
-                    WoldsVaults.LOGGER.error("Could not create a display extractor for the Assembler vitrine.");
+                    WoldLogger.error("Could not create a display extractor for the Assembler vitrine.");
                 }
                 return;
             }

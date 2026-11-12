@@ -40,6 +40,7 @@ import java.util.Random;
 import java.util.Set;
 import iskallia.vault.util.TextUtil;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Shared drawing for the spellcraft screens, the skill menu's spell bar and the focus tooltip: the H-menu window,
@@ -164,7 +165,7 @@ public final class SpellcraftGui {
         ResourceLocation icon = ModConfigs.ABILITIES_GUI.getIconOrFirst(specOrGroup);
         if (icon == null) {
             if (MISSING_ICONS.add(specOrGroup)) {
-                WoldsVaults.LOGGER.error("Spellcraft UI: no ability icon for {}; drawing an empty cell", specOrGroup);
+                WoldLogger.error("Spellcraft UI: no ability icon for {}; drawing an empty cell", specOrGroup);
             }
             return null;
         }
@@ -317,7 +318,7 @@ public final class SpellcraftGui {
         if (config == null) {
             if (!noConfigWarned) {
                 noConfigWarned = true;
-                WoldsVaults.LOGGER.error("Spellcraft UI: no focus augments table; a dormant {} is described as not fitting its step", type.id());
+                WoldLogger.error("Spellcraft UI: no focus augments table; a dormant {} is described as not fitting its step", type.id());
             }
             return false;
         }
@@ -338,7 +339,7 @@ public final class SpellcraftGui {
         }
         if (text == null) {
             if (MISSING_DESCRIPTIONS.add(type)) {
-                WoldsVaults.LOGGER.error("Spellcraft: glyph {} has no description; its tooltip shows the potency text", type.id());
+                WoldLogger.error("Spellcraft: glyph {} has no description; its tooltip shows the potency text", type.id());
             }
             return new TextComponent(potency(config, type, potency)).withStyle(ChatFormatting.GRAY);
         }
@@ -468,7 +469,7 @@ public final class SpellcraftGui {
         String tag = STAT_TAGS.get(stat);
         if (tag == null) {
             if (UNKNOWN_STATS.add(stat)) {
-                WoldsVaults.LOGGER.warn("Spellcraft UI: glyph stat '{}' has no colour; its numbers show yellow", stat);
+                WoldLogger.error("Spellcraft UI: glyph stat '{}' has no colour; its numbers show yellow", stat);
             }
             return "<yellow>";
         }

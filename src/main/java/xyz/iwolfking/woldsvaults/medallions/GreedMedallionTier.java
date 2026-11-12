@@ -1,12 +1,12 @@
 package xyz.iwolfking.woldsvaults.medallions;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The sixteen greed medallion tiers; a tier's rank index follows the greed rank convention (Scavenger 1 = 1
@@ -61,7 +61,7 @@ public enum GreedMedallionTier {
     @Nullable
     public static GreedMedallionsConfig.Fury furyCurve() {
         if (fury == null && FURY_WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Greed assassin fury was read before the greed/medallions/greed_medallions table was "
+            WoldLogger.error("Greed assassin fury was read before the greed/medallions/greed_medallions table was "
                     + "installed; no greed assassins spawn until it is");
         }
         return fury;
@@ -174,7 +174,7 @@ public enum GreedMedallionTier {
     @Nullable
     private static GreedMedallionsConfig.Gates gates() {
         if (gates == null && WARNED.compareAndSet(false, true)) {
-            WoldsVaults.LOGGER.error("Greed medallions were read before the greed/medallions/greed_medallions table was installed; "
+            WoldLogger.error("Greed medallions were read before the greed/medallions/greed_medallions table was installed; "
                     + "medallions add nothing until it is");
         }
         return gates;

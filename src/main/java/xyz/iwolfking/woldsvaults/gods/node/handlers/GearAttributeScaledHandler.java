@@ -3,13 +3,13 @@ package xyz.iwolfking.woldsvaults.gods.node.handlers;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.gods.node.StatContributor;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The shared handler of every node that adds N to a float gear attribute per point invested. The
@@ -77,7 +77,7 @@ public record GearAttributeScaledHandler(GodEffect effect) implements StatContri
     private static void pay(GodNodeContext context, GodStatSink sink, ResourceLocation name, float total) {
         VaultGearAttribute<?> attribute = VaultGearAttributeRegistry.getAttribute(name);
         if (attribute == null) {
-            WoldsVaults.LOGGER.error("God effect {} pays into gear attribute {}, which is no longer registered; "
+            WoldLogger.error("God effect {} pays into gear attribute {}, which is no longer registered; "
                     + "its contribution is dropped.", context.effectId(), name);
             return;
         }

@@ -1,7 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Turns the prestige tree's {@code requiredGreedTier}, a 1..16 rank index, into greed rank wording. */
 public final class PrestigeRankDisplay {
@@ -25,7 +25,7 @@ public final class PrestigeRankDisplay {
         try {
             return rankName(Integer.parseInt(tail));
         } catch (NumberFormatException e) {
-            WoldsVaults.LOGGER.error("Prestige tooltip requirement '{}' did not end in a rank index; leaving it as-is.", line);
+            WoldLogger.error("Prestige tooltip requirement '{}' did not end in a rank index; leaving it as-is.", line);
             return line;
         }
     }
@@ -34,7 +34,7 @@ public final class PrestigeRankDisplay {
         try {
             return rankName(Integer.parseInt(value));
         } catch (NumberFormatException e) {
-            WoldsVaults.LOGGER.error("Prestige dialog requirement value '{}' was not a rank index; leaving it as-is.", value);
+            WoldLogger.error("Prestige dialog requirement value '{}' was not a rank index; leaving it as-is.", value);
             return value;
         }
     }

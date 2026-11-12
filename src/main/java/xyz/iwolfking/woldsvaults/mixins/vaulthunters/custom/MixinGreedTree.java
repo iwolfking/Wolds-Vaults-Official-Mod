@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.milestones.GreedChallengeOffers;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = GreedTree.class, remap = false)
 public abstract class MixinGreedTree {
@@ -47,7 +47,7 @@ public abstract class MixinGreedTree {
         this.challengesPopulated = true;
         GreedTraderConfig config = ModConfigs.GREED_TRADER;
         if (config == null) {
-            WoldsVaults.LOGGER.warn("Greed trader config is not loaded; offering no greed challenges");
+            WoldLogger.error("Greed trader config is not loaded; offering no greed challenges");
             return;
         }
         this.challengeSlots.removeIf(GreedChallengeSlot::isSkipped);
@@ -88,7 +88,7 @@ public abstract class MixinGreedTree {
         if (source.startsWith("xyz.iwolfking.woldsvaults.milestones.Milestones")) {
             return;
         }
-        WoldsVaults.LOGGER.warn("Greed reputation {} was granted by {}, outside the milestone claim path; "
+        WoldLogger.warn("Greed reputation {} was granted by {}, outside the milestone claim path; "
                 + "reputation is only meant to move when a milestone is collected at Mr. Greedy", amount, source);
     }
 

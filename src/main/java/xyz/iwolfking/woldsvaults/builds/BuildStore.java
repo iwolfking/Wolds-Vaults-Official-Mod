@@ -9,7 +9,6 @@ import com.google.gson.stream.JsonToken;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.fml.loading.FMLPaths;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Where build files, backups and reports live: builds in {@code config/woldsvaults/builds/}, backups per player in
@@ -84,7 +84,7 @@ public final class BuildStore {
                         names.add(relative.substring(0, relative.length() - ".json".length()));
                     });
         } catch (IOException e) {
-            WoldsVaults.LOGGER.error("[wvbuilds] Could not list builds under {}", start, e);
+            WoldLogger.error("[wvbuilds] Could not list builds under {}", start, e);
         }
         names.sort(Comparator.naturalOrder());
         return names;
@@ -143,7 +143,7 @@ public final class BuildStore {
             try {
                 Files.move(temp, file, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
             } catch (AtomicMoveNotSupportedException e) {
-                WoldsVaults.LOGGER.warn("[wvbuilds] Atomic move unsupported for {}; replacing the file directly", file);
+                WoldLogger.warn("[wvbuilds] Atomic move unsupported for {}; replacing the file directly", file);
                 Files.move(temp, file, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
@@ -161,7 +161,7 @@ public final class BuildStore {
             try {
                 Files.deleteIfExists(backups.get(i));
             } catch (IOException e) {
-                WoldsVaults.LOGGER.warn("[wvbuilds] Could not trim the old backup {}", backups.get(i), e);
+                WoldLogger.warn("[wvbuilds] Could not trim the old backup {}", backups.get(i), e);
             }
         }
         return file;
@@ -177,7 +177,7 @@ public final class BuildStore {
         try (Stream<Path> files = Files.list(dir)) {
             files.filter(path -> path.getFileName().toString().endsWith(".json")).forEach(backups::add);
         } catch (IOException e) {
-            WoldsVaults.LOGGER.error("[wvbuilds] Could not list backups in {}", dir, e);
+            WoldLogger.error("[wvbuilds] Could not list backups in {}", dir, e);
         }
         backups.sort(Comparator.comparing((Path path) -> path.getFileName().toString()).reversed());
         return backups;

@@ -27,7 +27,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -38,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Builds a Vault Champion and puts it in the world. It is pre-tagged {@code vault_scaled} so the automatic
@@ -59,19 +59,19 @@ public final class VaultChampionSpawner {
         GreedChampionConfig config = VaultChampion.config();
         GreedChampionConfig.Rank stats = config.getRank(tier.getRankIndex());
         if (stats == null) {
-            WoldsVaults.LOGGER.error("Greed medallion rank {} passes the champion gate but greed_champion.json has no "
+            WoldLogger.error("Greed medallion rank {} passes the champion gate but greed_champion.json has no "
                     + "stat block for it - no champion was spawned.", tier.getRankIndex());
             return null;
         }
         BlockPos spawnPos = findSpawnPos(level, summoner.blockPosition(), config.getHunt());
         if (spawnPos == null) {
-            WoldsVaults.LOGGER.warn("No valid Vault Champion spawn position was found near {} - skipping this spawn.",
+            WoldLogger.warn("No valid Vault Champion spawn position was found near {} - skipping this spawn.",
                     summoner.getGameProfile().getName());
             return null;
         }
         TheVesselEntity champion = ModEntities.THE_VESSEL.create(level);
         if (champion == null) {
-            WoldsVaults.LOGGER.error("The Vessel entity type did not create an entity - the Vault Champion cannot spawn.");
+            WoldLogger.error("The Vessel entity type did not create an entity - the Vault Champion cannot spawn.");
             return null;
         }
         champion.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D, 0.0F, 0.0F);
@@ -88,7 +88,7 @@ public final class VaultChampionSpawner {
         champion.setHealth(champion.getMaxHealth());
         applySize(champion, config.getScaling().sizeMultiplier);
         announce(level, vault, spawnPos);
-        WoldsVaults.LOGGER.info("Vault Champion spawned at rank {} for {}: pool {}, attack damage {}, speed {}.",
+        WoldLogger.info("Vault Champion spawned at rank {} for {}: pool {}, attack damage {}, speed {}.",
                 tier.getRankIndex(), summoner.getGameProfile().getName(),
                 VaultChampionKills.poolOf(champion), attributeOf(champion, Attributes.ATTACK_DAMAGE),
                 attributeOf(champion, Attributes.MOVEMENT_SPEED));
@@ -163,11 +163,11 @@ public final class VaultChampionSpawner {
             if (!added.isEmpty()) {
                 added.forEach(maxHealth::removeModifier);
                 champion.setHealth(champion.getMaxHealth());
-                WoldsVaults.LOGGER.debug("Refused {} inherited max-health modifiers on the Vault Champion.",
+                WoldLogger.debug("Refused {} inherited max-health modifiers on the Vault Champion.",
                         added.size());
             }
         }
-        WoldsVaults.LOGGER.debug("Vault Champion inherited {} vault mob attribute modifiers.", applied);
+        WoldLogger.debug("Vault Champion inherited {} vault mob attribute modifiers.", applied);
     }
 
     private static double levelFactor(Vault vault, GreedChampionConfig.Scaling scaling) {
@@ -190,7 +190,7 @@ public final class VaultChampionSpawner {
                                 double value) {
         AttributeInstance instance = champion.getAttribute(attribute);
         if (instance == null) {
-            WoldsVaults.LOGGER.error("The Vessel has no {} attribute; the Vault Champion is using its default instead.",
+            WoldLogger.error("The Vessel has no {} attribute; the Vault Champion is using its default instead.",
                     attribute.getDescriptionId());
             return;
         }

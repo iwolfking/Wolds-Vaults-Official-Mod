@@ -10,7 +10,6 @@ import iskallia.vault.item.CardItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 
 import javax.annotation.Nullable;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The Greed Infuser's card rules. A greed card entry embeds its whole modifier config rather than an id, so a card's
@@ -121,12 +121,12 @@ public final class GreedCardUpgrades {
     public static boolean upgrade(ItemStack stack, String target) {
         CardEntry old = singleGreedEntry(stack);
         if (old == null) {
-            WoldsVaults.LOGGER.error("Greed Infuser was asked to upgrade {} which is not a single greed card; left unchanged.", stack);
+            WoldLogger.error("Greed Infuser was asked to upgrade {} which is not a single greed card; left unchanged.", stack);
             return false;
         }
         CompoundTag own = configTag(old);
         if (own == null) {
-            WoldsVaults.LOGGER.error("Greed card {} has no readable modifier config; left unchanged.", stack);
+            WoldLogger.error("Greed card {} has no readable modifier config; left unchanged.", stack);
             return false;
         }
         String key = directionKey(own);
@@ -139,7 +139,7 @@ public final class GreedCardUpgrades {
             }
         }
         if (targetId == null) {
-            WoldsVaults.LOGGER.error("Card modifier pool '{}' has no card with direction/colour {}; the card was left unchanged.", poolFor(target), key);
+            WoldLogger.error("Card modifier pool '{}' has no card with direction/colour {}; the card was left unchanged.", poolFor(target), key);
             return false;
         }
         CardEntry.Config targetConfig = ModConfigs.CARD_MODIFIERS.getValues().get(targetId);
@@ -162,7 +162,7 @@ public final class GreedCardUpgrades {
         String id = pool == null ? null : pool.getRandom(random).orElse(null);
         CardEntry.Config config = id == null ? null : ModConfigs.CARD_MODIFIERS.getValues().get(id);
         if (config == null) {
-            WoldsVaults.LOGGER.error("Card modifier pool '{}' is missing or empty; no greed card was made.", poolFor(cls));
+            WoldLogger.error("Card modifier pool '{}' is missing or empty; no greed card was made.", poolFor(cls));
             return ItemStack.EMPTY;
         }
         CardEntry entry = config.toEntry();

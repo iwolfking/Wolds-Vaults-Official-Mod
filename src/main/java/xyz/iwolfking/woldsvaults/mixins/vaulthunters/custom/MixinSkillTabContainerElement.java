@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeScreen;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeTheme;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundOpenGodTreeMessage;
@@ -22,6 +21,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundOpenMilestonesMessage;
 
 import java.util.Arrays;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = SkillTabContainerElement.class, remap = false)
 public class MixinSkillTabContainerElement {
@@ -29,7 +29,7 @@ public class MixinSkillTabContainerElement {
     @ModifyVariable(method = "<init>", at = @At("STORE"), name = "icons", remap = false)
     private TextureAtlasRegion[] removeGreedTreeTab(TextureAtlasRegion[] icons) {
         if (icons.length < 2 || icons[icons.length - 1] != ScreenTextures.TAB_ICON_GREED) {
-            WoldsVaults.LOGGER.warn("Player menu tab strip does not end in the greed tab ({} tabs); leaving it untouched",
+            WoldLogger.error("Player menu tab strip does not end in the greed tab ({} tabs); leaving it untouched",
                     icons.length);
             return icons;
         }

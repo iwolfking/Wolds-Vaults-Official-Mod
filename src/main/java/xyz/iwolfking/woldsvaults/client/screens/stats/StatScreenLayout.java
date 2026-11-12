@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.client.screens.stats;
 
 import iskallia.vault.client.gui.screen.player.element.StatLabelElementBuilder;
 import net.minecraft.network.chat.TextColor;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.StatScreenConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;
@@ -16,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Applies the generated Statistics tab layout ({@link StatScreenConfig}) to the H screen's stat rows: value colours
@@ -123,7 +123,7 @@ public final class StatScreenLayout {
 
     private static void report(String key, String message) {
         if (REPORTED.add(key)) {
-            WoldsVaults.LOGGER.error(message);
+            WoldLogger.error(message);
         }
     }
 }

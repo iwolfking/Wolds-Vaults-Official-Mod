@@ -3,10 +3,10 @@ package xyz.iwolfking.woldsvaults.gods.trees.velara;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** The effect list Velara's Immune nodes avoid, shared with the mythic charm roll, and its key. */
 public final class VelaraBadEffects {
@@ -38,7 +38,7 @@ public final class VelaraBadEffects {
         for (String id : IDS) {
             MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(id));
             if (effect == null) {
-                WoldsVaults.LOGGER.error("Velara Immune could not resolve bad effect {}; it is dropped from the avoidance list.", id);
+                WoldLogger.error("Velara Immune could not resolve bad effect {}; it is dropped from the avoidance list.", id);
                 continue;
             }
             effects.add(effect);

@@ -5,7 +5,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.augments.AugmentType;
 
 import javax.annotation.Nullable;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Spellcraft data on a focus or wand, in NBT {@code woldsvaults_spellcraft}: the rolled implicits (arcana budget,
@@ -161,7 +161,7 @@ public final class SpellcraftItemData {
             int id = spell.getInt("id");
             int slot = spell.contains("slot", Tag.TAG_ANY_NUMERIC) ? spell.getByte("slot") : legacySlots.getOrDefault(id, UNASSIGNED);
             if (slot < UNASSIGNED || slot >= SLOTS) {
-                WoldsVaults.LOGGER.error("Spellcraft: spell {} on item {} names slot {}, which does not exist; it stays off the bar", id,
+                WoldLogger.error("Spellcraft: spell {} on item {} names slot {}, which does not exist; it stays off the bar", id,
                         root.getLong("id"), slot);
                 slot = UNASSIGNED;
             }
@@ -202,7 +202,7 @@ public final class SpellcraftItemData {
             }
         }
         if (!dropped.isEmpty() && WARNED.add(root.getLong("id"))) {
-            WoldsVaults.LOGGER.warn("Spellcraft: item {} still holds an old item bar; its spells keep their slots, but these entries have no "
+            WoldLogger.warn("Spellcraft: item {} still holds an old item bar; its spells keep their slots, but these entries have no "
                     + "place any more and are dropped: {}", root.getLong("id"), String.join(", ", dropped));
         }
         return slots;

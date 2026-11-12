@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class AncientUniqueHelper {
     public static final int ANCIENT_COLOR = 16746803;
@@ -152,12 +153,12 @@ public class AncientUniqueHelper {
             return Optional.empty();
         }
         if (!ANCIENT_NAMES.containsKey(uniqueKey)) {
-            WoldsVaults.LOGGER.warn("Ancient unique {} has no ancient name; falling back to the normal unique config.", uniqueKey);
+            WoldLogger.error("Ancient unique {} has no ancient name; falling back to the normal unique config.", uniqueKey);
             return Optional.empty();
         }
         VaultGearTierConfig config = ModConfigs.VAULT_GEAR_CONFIG.get(UniqueRollTables.ANCIENT_TABLE);
         if (config == null) {
-            WoldsVaults.LOGGER.warn("Ancient tier table {} is not registered; falling back to the normal unique config.", UniqueRollTables.ANCIENT_TABLE);
+            WoldLogger.error("Ancient tier table {} is not registered; falling back to the normal unique config.", UniqueRollTables.ANCIENT_TABLE);
             return Optional.empty();
         }
         if (!isConfigUsable(config, uniqueKey)) {
@@ -180,11 +181,11 @@ public class AncientUniqueHelper {
         VaultGearTierConfig.AttributeGroup seals = unique == null ? null
                 : unique.getModifierGroup(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT);
         if (seals == null || seals.isEmpty()) {
-            WoldsVaults.LOGGER.warn("The unique tier table has no seal rows; ancient uniques cannot take seals.");
+            WoldLogger.error("The unique tier table has no seal rows; ancient uniques cannot take seals.");
             return;
         }
         ((VaultGearTierConfigAccessor) ancient).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, seals);
-        WoldsVaults.LOGGER.debug("Gave the ancient tier table the unique table's {} seal row(s).", seals.size());
+        WoldLogger.debug("Gave the ancient tier table the unique table's {} seal row(s).", seals.size());
     }
 
     /** Whether the ancient table resolves at least one of the unique's modifier identifiers; memoised per unique. */
@@ -195,7 +196,7 @@ public class AncientUniqueHelper {
         }
         boolean usable = UniqueRollTables.resolvesAny(config, uniqueKey);
         if (!usable) {
-            WoldsVaults.LOGGER.error("Ancient tier table {} resolves none of {}'s modifier identifiers - the vault_configs overlay did not load. Falling back to the normal unique config.", UniqueRollTables.ANCIENT_TABLE, uniqueKey);
+            WoldLogger.error("Ancient tier table {} resolves none of {}'s modifier identifiers - the vault_configs overlay did not load. Falling back to the normal unique config.", UniqueRollTables.ANCIENT_TABLE, uniqueKey);
         }
         CONFIG_USABLE.put(uniqueKey, usable);
         return usable;
@@ -252,7 +253,7 @@ public class AncientUniqueHelper {
             candidates.removeIf(xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper::isSetPiece);
         }
         if (candidates.isEmpty()) {
-            WoldsVaults.LOGGER.error("No loaded unique has an ancient name; cannot roll an unidentified ancient unique. Is the unique gear config loaded?");
+            WoldLogger.error("No loaded unique has an ancient name; cannot roll an unidentified ancient unique. Is the unique gear config loaded?");
             return ItemStack.EMPTY;
         }
         return createUnidentifiedAncient(candidates.get(random.nextInt(candidates.size())));
@@ -274,10 +275,10 @@ public class AncientUniqueHelper {
 
         VaultGearData rolled = VaultGearData.read(stack);
         if (!isAncient(rolled)) {
-            WoldsVaults.LOGGER.error("Ancient marker was lost while rolling {}; the item will roll as a normal unique.", uniqueKey);
+            WoldLogger.error("Ancient marker was lost while rolling {}; the item will roll as a normal unique.", uniqueKey);
         }
         if (!rolled.getFirstValue(ModGearAttributes.GEAR_NAME).map(name -> name.startsWith("Ancient")).orElse(false)) {
-            WoldsVaults.LOGGER.error("Ancient {} identified without its ancient name; stamping it after the roll.", uniqueKey);
+            WoldLogger.error("Ancient {} identified without its ancient name; stamping it after the roll.", uniqueKey);
             getAncientName(uniqueKey).ifPresent(name -> rolled.createOrReplaceAttributeValue(ModGearAttributes.GEAR_NAME, name));
         }
         rolled.createOrReplaceAttributeValue(ModGearAttributes.IS_LOOT, true);
@@ -288,13 +289,13 @@ public class AncientUniqueHelper {
     private static ItemStack createUniqueBase(ResourceLocation uniqueKey) {
         UniqueGearConfig.Entry entry = ModConfigs.UNIQUE_GEAR.getEntry(uniqueKey).orElse(null);
         if (entry == null) {
-            WoldsVaults.LOGGER.error("Unique {} has an ancient name but no entry in the unique registry; skipping.", uniqueKey);
+            WoldLogger.error("Unique {} has an ancient name but no entry in the unique registry; skipping.", uniqueKey);
             return ItemStack.EMPTY;
         }
         Item item = entry.getItem();
         ItemStack stack = new ItemStack(item);
         if (stack.isEmpty()) {
-            WoldsVaults.LOGGER.error("Unique {} resolved to an empty base item; skipping.", uniqueKey);
+            WoldLogger.error("Unique {} resolved to an empty base item; skipping.", uniqueKey);
             return ItemStack.EMPTY;
         }
         VaultGearData data = VaultGearData.read(stack);
@@ -324,7 +325,7 @@ public class AncientUniqueHelper {
 
     public static float getRelicHunterMultiplier(ServerPlayer player) {
         if (player.getServer() == null) {
-            WoldsVaults.LOGGER.debug("Relic Hunter multiplier requested with no server; treating as no bonus.");
+            WoldLogger.debug("Relic Hunter multiplier requested with no server; treating as no bonus.");
             return 1.0F;
         }
         float bonus = 0.0F;
@@ -356,7 +357,7 @@ public class AncientUniqueHelper {
             return false;
         }
         if (!(player instanceof ServerPlayer serverPlayer)) {
-            WoldsVaults.LOGGER.debug("Skipping ancient roll for {}: identified with no server player, failing closed.", uniqueKey);
+            WoldLogger.debug("Skipping ancient roll for {}: identified with no server player, failing closed.", uniqueKey);
             return false;
         }
         if (!hasAncientProvenance(data)) {

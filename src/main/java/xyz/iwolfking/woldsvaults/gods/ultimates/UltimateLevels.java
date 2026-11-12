@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.gods.ultimates;
 
 import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.server.level.ServerPlayer;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The four per-level ultimate tables and the seam that decides which level an ultimate casts at. Ultimate
@@ -25,7 +25,7 @@ public final class UltimateLevels {
     /** Replaces the ultimate-level source; a null provider is refused and logged. */
     public static void setLevelProvider(LevelProvider provider) {
         if (provider == null) {
-            WoldsVaults.LOGGER.error("Refusing to install a null ultimate level provider; keeping the current one.");
+            WoldLogger.error("Refusing to install a null ultimate level provider; keeping the current one.");
             return;
         }
         levelProvider = provider;
@@ -34,12 +34,12 @@ public final class UltimateLevels {
     public static int resolveLevel(ServerPlayer player, VaultGod god) {
         int level = levelProvider.getUltimateLevel(player, god);
         if (level < 1) {
-            WoldsVaults.LOGGER.error("Ultimate level provider returned {} for {} / {}; falling back to level {}.",
+            WoldLogger.error("Ultimate level provider returned {} for {} / {}; falling back to level {}.",
                     level, player == null ? "null" : player.getGameProfile().getName(), god, DEFAULT_LEVEL);
             return DEFAULT_LEVEL;
         }
         if (level > MAX_LEVEL) {
-            WoldsVaults.LOGGER.error("Ultimate level provider returned {} for {} / {}, above the cap of {}; clamping.",
+            WoldLogger.error("Ultimate level provider returned {} for {} / {}, above the cap of {}; clamping.",
                     level, player == null ? "null" : player.getGameProfile().getName(), god, MAX_LEVEL);
             return MAX_LEVEL;
         }

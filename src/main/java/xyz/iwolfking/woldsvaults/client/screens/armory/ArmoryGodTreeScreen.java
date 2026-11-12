@@ -14,7 +14,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryGodSnapshot;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryGodContainer;
@@ -28,6 +27,7 @@ import xyz.iwolfking.woldsvaults.gods.container.GodTreeContainer;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The armory's Gods tab: the gods screen fed a saved page's {@link ArmoryGodSnapshot}, read-only. The armory top
@@ -64,7 +64,7 @@ public class ArmoryGodTreeScreen extends GodTreeScreen {
         if (container instanceof ArmoryGodContainer armory) {
             return armory.snapshot();
         }
-        WoldsVaults.LOGGER.error("Armory: the Gods view opened on a {} instead of an armory menu; showing an empty build",
+        WoldLogger.error("Armory: the Gods view opened on a {} instead of an armory menu; showing an empty build",
                 container.getClass().getSimpleName());
         return ArmoryGodSnapshot.empty();
     }
@@ -74,7 +74,7 @@ public class ArmoryGodTreeScreen extends GodTreeScreen {
         if (container instanceof ArmoryGodContainer armory) {
             return armory.info();
         }
-        WoldsVaults.LOGGER.error("Armory: the Gods view has no armory header ({}); its tabs are left out",
+        WoldLogger.error("Armory: the Gods view has no armory header ({}); its tabs are left out",
                 container.getClass().getSimpleName());
         return null;
     }

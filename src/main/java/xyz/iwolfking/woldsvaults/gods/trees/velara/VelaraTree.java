@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.gods.PietyBonusSource;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeStatProvider;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Setup entry point for the Velara god tree. Handler types come up earlier, elsewhere. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -35,7 +36,7 @@ public final class VelaraTree {
             VelaraDamage.register();
             GodNodeTicker.registerTreePass(VelaraTicker::pass);
             registerVaultLifecycle();
-            WoldsVaults.LOGGER.info("Registered {} Velara god tree nodes",
+            WoldLogger.info("Registered {} Velara god tree nodes",
                     GodNodeRegistry.tree(VaultGod.VELARA).map(tree -> tree.getNodes().size()).orElse(0));
         });
     }

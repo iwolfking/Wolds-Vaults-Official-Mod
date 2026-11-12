@@ -5,7 +5,7 @@ import iskallia.vault.world.data.PlayerGreedTreeData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The gates a greed medallion has to pass to land on a crystal: one medallion per crystal, and the
@@ -21,21 +21,21 @@ public final class GreedMedallionApplication {
      */
     public static boolean canApply(@Nullable Player player, CrystalData data, GreedMedallionTier tier) {
         if (data == null || tier == null) {
-            WoldsVaults.LOGGER.debug("Greed medallion refused: no crystal data ({}) or no tier ({}).", data, tier);
+            WoldLogger.debug("Greed medallion refused: no crystal data ({}) or no tier ({}).", data, tier);
             return false;
         }
         if (data.getProperties().isUnmodifiable()) {
-            WoldsVaults.LOGGER.debug("Greed medallion {} refused: crystal is unmodifiable.", tier);
+            WoldLogger.debug("Greed medallion {} refused: crystal is unmodifiable.", tier);
             return false;
         }
         if (((GreedMedallionCrystal) data).woldsvaults$hasMedallion()) {
-            WoldsVaults.LOGGER.debug("Greed medallion {} refused: crystal already carries medallion rank {}.",
+            WoldLogger.debug("Greed medallion {} refused: crystal already carries medallion rank {}.",
                     tier, ((GreedMedallionCrystal) data).woldsvaults$getMedallionRank());
             return false;
         }
         int rank = getGreedRank(player);
         if (rank < tier.getRankIndex()) {
-            WoldsVaults.LOGGER.debug("Greed medallion {} refused: greed rank {} is below the required rank {}.",
+            WoldLogger.debug("Greed medallion {} refused: greed rank {} is below the required rank {}.",
                     tier, rank, tier.getRankIndex());
             return false;
         }
@@ -52,7 +52,7 @@ public final class GreedMedallionApplication {
      */
     public static int getGreedRank(@Nullable Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) {
-            WoldsVaults.LOGGER.warn("Greed medallion rank gate could not resolve a server player ({}); refusing the application.",
+            WoldLogger.error("Greed medallion rank gate could not resolve a server player ({}); refusing the application.",
                     player == null ? "null" : player.getClass().getName());
             return 0;
         }

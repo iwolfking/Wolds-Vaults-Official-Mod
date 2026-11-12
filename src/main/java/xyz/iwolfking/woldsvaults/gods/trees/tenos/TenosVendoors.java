@@ -11,6 +11,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.tenos.TreasureDoorPalettesAccessor;
 
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Barter Expert: every standard vendoor room this player opens rolls the richer pedestal table,
@@ -52,7 +53,7 @@ public final class TenosVendoors {
         if (!(door instanceof TreasureDoorPalettesAccessor accessor)) {
             if (!accessorWarned) {
                 accessorWarned = true;
-                WoldsVaults.LOGGER.error("Barter Expert is inert: the TreasureDoorTileEntity palette accessor mixin is "
+                WoldLogger.error("Barter Expert is inert: the TreasureDoorTileEntity palette accessor mixin is "
                         + "not applied, so vendoors keep their vanilla pedestal table.");
             }
             return;
@@ -65,7 +66,7 @@ public final class TenosVendoors {
         if (VaultRegistry.PALETTE.getKey(rich) == null) {
             if (!paletteWarned) {
                 paletteWarned = true;
-                WoldsVaults.LOGGER.error("Barter Expert is inert: palette {} is not registered, so vendoors keep "
+                WoldLogger.error("Barter Expert is inert: palette {} is not registered, so vendoors keep "
                         + "their stock pedestal table.", rich);
             }
             return;

@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Restriction(
         require = {
@@ -72,7 +72,7 @@ public abstract class MixinVhatCanIRollItems {
         if (model.isPresent()) {
             data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_MODEL, model.get());
         } else {
-            WoldsVaults.LOGGER.warn("VHat Can I Roll gear list: no dynamic model registered for {}, showing it without a transmog", id);
+            WoldLogger.warn("VHat Can I Roll gear list: no dynamic model registered for {}, showing it without a transmog", id);
         }
         data.write(stack);
         return stack;

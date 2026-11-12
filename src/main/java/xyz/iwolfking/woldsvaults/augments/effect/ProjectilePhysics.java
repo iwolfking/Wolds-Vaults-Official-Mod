@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Low Gravity and Ethereal for VH ability projectiles, after the entities ticked. Low Gravity gives back the rolled
@@ -114,7 +115,7 @@ public final class ProjectilePhysics {
             return VANILLA_THROWN_GRAVITY;
         }
         if (UNKNOWN_WARNED.add(projectile.getClass())) {
-            WoldsVaults.LOGGER.error("Low Gravity: no gravity entry for projectile class {}; the glyph does nothing on it.", projectile.getClass().getName());
+            WoldLogger.error("Low Gravity: no gravity entry for projectile class {}; the glyph does nothing on it.", projectile.getClass().getName());
         }
         return 0.0;
     }

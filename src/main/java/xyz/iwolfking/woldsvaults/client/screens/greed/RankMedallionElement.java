@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.IntSupplier;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The rank emblem on the main greed screen, blitting the medallion item art unfiltered; ranks past
@@ -76,7 +77,7 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
             cached = probeTextureSize(location);
             TEXTURE_SIZES.put(location, cached);
             if (cached == 0) {
-                WoldsVaults.LOGGER.warn("Greed rank medallion texture {} is missing or unreadable; drawing the fallback badge instead", location);
+                WoldLogger.error("Greed rank medallion texture {} is missing or unreadable; drawing the fallback badge instead", location);
             }
         }
         return cached > 0 ? location : null;

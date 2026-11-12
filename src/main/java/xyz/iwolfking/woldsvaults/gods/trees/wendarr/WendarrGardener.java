@@ -7,11 +7,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /** Gardener: Woldian Gardens drop extra fruit and upgrade fruit to starfruit, on the POST phase. */
 public final class WendarrGardener {
@@ -38,7 +38,7 @@ public final class WendarrGardener {
                 WendarrNodeHandlers.GardenerParams.class);
         Item starFruit = ForgeRegistries.ITEMS.getValue(VaultMod.id("star_fruit"));
         if (starFruit == null) {
-            WoldsVaults.LOGGER.error("Gardener could not resolve the_vault:star_fruit; only the extra-fruit half will apply.");
+            WoldLogger.error("Gardener could not resolve the_vault:star_fruit; only the extra-fruit half will apply.");
         }
         List<ItemStack> extra = new ArrayList<>();
         for (ItemStack stack : loot) {

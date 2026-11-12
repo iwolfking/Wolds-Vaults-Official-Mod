@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The party-wide half of Speed Demon and Quick Search, each under one fixed clock-rate factor key
@@ -119,7 +120,7 @@ public final class WendarrClockNodes {
         }
         VaultModifier<?> modifier = VaultModifierRegistry.get(OMEGA_FORTUNE_SMALL);
         if (modifier == null) {
-            WoldsVaults.LOGGER.error("Quick Search could not find vault modifier {}; the omega room half did nothing.", OMEGA_FORTUNE_SMALL);
+            WoldLogger.error("Quick Search could not find vault modifier {}; the omega room half did nothing.", OMEGA_FORTUNE_SMALL);
             return;
         }
         VaultModifierUtils.addModifier(vault, OMEGA_FORTUNE_SMALL, 1);
