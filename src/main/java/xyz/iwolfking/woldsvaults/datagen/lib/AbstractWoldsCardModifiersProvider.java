@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen.lib;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.card.CardModifiersConfig;
 import iskallia.vault.core.card.CardEntry;
@@ -21,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -44,9 +47,37 @@ public abstract class AbstractWoldsCardModifiersProvider extends AbstractVaultCo
      * A gear-attribute card. Each tier maps to a generator config string, as in the base card config.
      */
     public static <T> CardEntry.Config gearCard(String name, String model, List<String> groups, VaultGearAttribute<T> attribute, int maxTier, Map<Integer, String> tiers) {
-        GearCardModifier.Config<T> config = new GearCardModifier.Config<>(attribute, new LinkedHashMap<>(tiers));
+        GearCardModifier.Config<T> config = new TierConfigGearCard<>(attribute, new LinkedHashMap<>(tiers));
         config.maxTier = maxTier;
         return new CardEntry.Config(new TextComponent(name), new LinkedHashSet<>(), new LinkedHashSet<>(groups), model, new GearCardModifier<>(config), null, null);
+    }
+
+    /**
+     * Writes each pool tier as {@code {"tier": n, "config": {...}}}. GearCardModifier.Config#readJson strips {@code tier}
+     * from the plain form in place, so VHAPI's cached JSON fails on its second read (the join sync) and the whole file
+     * drops out; the {@code config} form is read without changing the JSON.
+     */
+    private static final class TierConfigGearCard<T> extends GearCardModifier.Config<T> {
+        private TierConfigGearCard(VaultGearAttribute<T> attribute, Map<Integer, String> pool) {
+            super(attribute, pool);
+        }
+
+        @Override
+        public Optional<JsonObject> writeJson() {
+            return super.writeJson().map(json -> {
+                JsonArray wrapped = new JsonArray();
+                for (JsonElement element : json.getAsJsonArray("pool")) {
+                    JsonObject entry = element.getAsJsonObject().deepCopy();
+                    JsonElement tier = entry.remove("tier");
+                    JsonObject out = new JsonObject();
+                    out.add("tier", tier);
+                    out.add("config", entry);
+                    wrapped.add(out);
+                }
+                json.add("pool", wrapped);
+                return json;
+            });
+        }
     }
 
     /**

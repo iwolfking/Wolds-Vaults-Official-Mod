@@ -710,7 +710,6 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.ABILITY_POWER);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CHAINING);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CRITICAL_HIT_MITIGATION);
-            vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.DAMAGE_INCREASE);
         });
 
         addToAllNonAxeMainHands(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
