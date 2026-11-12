@@ -7,8 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryGodSnapshot;
@@ -23,14 +21,7 @@ public final class ArmoryGodMenus {
     private static final int OPEN_DATA_LIMIT = 32600;
     private static final String CHARM_KEY = SlotKeys.curio("charm", 0);
 
-    public static MenuType<ArmoryGodContainer> ARMORY_GODS;
-
     private ArmoryGodMenus() {
-    }
-
-    public static void register(RegistryEvent.Register<MenuType<?>> event) {
-        ARMORY_GODS = IForgeMenuType.create(ArmoryGodContainer::client);
-        event.getRegistry().register(ARMORY_GODS.setRegistryName(WoldsVaults.id("armory_gods")));
     }
 
     /**

@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.client.screens.gods;
+package xyz.iwolfking.woldsvaults.client.init;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
+import xyz.iwolfking.woldsvaults.client.screens.gods.GodNodeEffectsGpu;
 
 /**
  * Shaders the gods tab loads with the game's own. They are null until the first resource load finishes.
@@ -17,7 +18,7 @@ import java.io.IOException;
  * nodeEffectTone are the star light's accumulation and tone passes (see GodNodeEffectsGpu).
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public final class GodTreeShaders {
+public final class ModShaders {
     public static ShaderInstance backdropGrade;
     public static ShaderInstance idolCloud;
     public static ShaderInstance nodeEffectAccum;

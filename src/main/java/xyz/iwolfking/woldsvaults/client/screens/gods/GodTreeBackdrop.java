@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import xyz.iwolfking.woldsvaults.client.init.ModShaders;
 
 public final class GodTreeBackdrop {
     private static final String DIR = "textures/gui/gods/backdrop/";
@@ -122,7 +123,7 @@ public final class GodTreeBackdrop {
     }
 
     private static void useGradeShader() {
-        ShaderInstance shader = GodTreeShaders.backdropGrade;
+        ShaderInstance shader = ModShaders.backdropGrade;
         if (shader == null) {
             GodTreeLog.errorOnce("backdrop_grade", "God tree backdrop grade shader did not load; drawing the sky ungraded.");
             RenderSystem.setShader(GameRenderer::getPositionTexShader);

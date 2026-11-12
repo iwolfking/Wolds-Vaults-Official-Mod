@@ -6,7 +6,6 @@ import xyz.iwolfking.woldsvaults.stats.ServerboundStatSyncRequestMessage;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
-import xyz.iwolfking.woldsvaults.armory.network.ArmoryNetwork;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -38,6 +37,9 @@ import xyz.iwolfking.woldsvaults.integration.refinedstorage.packet.ServerboundDe
 import xyz.iwolfking.woldsvaults.network.packets.ServerboundSetTrinketSpeedCapPacket;
 import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryNavMessage;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
+import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
 
 public class ModNetwork {
     private static int id = 0;
@@ -68,7 +70,9 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundRenameTrinketPouchPresetPacket.class, ServerboundRenameTrinketPouchPresetPacket::encode, ServerboundRenameTrinketPouchPresetPacket::decode, ServerboundRenameTrinketPouchPresetPacket::handle);
         CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
         CHANNEL.registerMessage(id++, RiptideFxMessage.class, RiptideFxMessage::encode, RiptideFxMessage::decode, RiptideFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        id = ArmoryNetwork.register(CHANNEL, id);
+        CHANNEL.registerMessage(id++, ServerboundArmoryNavMessage.class, ServerboundArmoryNavMessage::encode, ServerboundArmoryNavMessage::decode, ServerboundArmoryNavMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, ServerboundArmorySaveMessage.class, ServerboundArmorySaveMessage::encode, ServerboundArmorySaveMessage::decode, ServerboundArmorySaveMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, ClientboundArmoryStateMessage.class, ClientboundArmoryStateMessage::encode, ClientboundArmoryStateMessage::decode, ClientboundArmoryStateMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, BossDpsSnapshotMessage.class, BossDpsSnapshotMessage::encode, BossDpsSnapshotMessage::decode, BossDpsSnapshotMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ServerboundResetBossDpsMessage.class, ServerboundResetBossDpsMessage::encode, ServerboundResetBossDpsMessage::decode, ServerboundResetBossDpsMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, LightningFormMessage.class, LightningFormMessage::encode, LightningFormMessage::decode, LightningFormMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));

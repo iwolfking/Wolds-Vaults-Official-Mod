@@ -38,6 +38,7 @@ import java.util.*;
 
 import static iskallia.vault.init.ModItems.GEAR_GROUP;
 import static iskallia.vault.init.ModItems.VAULT_MOD_GROUP;
+import xyz.iwolfking.woldsvaults.items.ArmoryUpgradeItem;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
@@ -238,6 +239,8 @@ public class ModItems {
     public static BasicItem NULLITE_CRYSTAL;
 
     public static TrinketPouchItem TRINKET_POUCH;
+    public static ArmoryUpgradeItem ARMORY_SKILLS_UPGRADE;
+    public static ArmoryUpgradeItem ARMORY_GODS_UPGRADE;
 
     public static FilterNecklaceItem FILTER_NECKLACE;
 
@@ -408,6 +411,8 @@ public class ModItems {
         registry.register(TARGETED_MOD_BOX);
         registry.register(UNIDENTIFIED_GATEWAY_PEARL);
         registry.register(TRINKET_POUCH);
+        registry.register(ARMORY_SKILLS_UPGRADE);
+        registry.register(ARMORY_GODS_UPGRADE);
         registry.register(RUINED_ESSENCE);
         registry.register(OBELISK_RESONATOR);
         registry.register(NULLITE_FRAGMENT);
@@ -649,6 +654,8 @@ public class ModItems {
         LAYOUT_MANIPULATOR = new LayoutModificationItem(ModCreativeTabs.WOLDS_VAULTS, WoldsVaults.id("layout_manipulator"));
 
         TRINKET_POUCH = new TrinketPouchItem(WoldsVaults.id("trinket_pouch"));
+        ARMORY_SKILLS_UPGRADE = new ArmoryUpgradeItem(WoldsVaults.id("armory_skills_upgrade"), "Load also sets abilities, talents and expertises.");
+        ARMORY_GODS_UPGRADE = new ArmoryUpgradeItem(WoldsVaults.id("armory_gods_upgrade"), "Load also sets god constellation stars.");
 
         RUINED_ESSENCE = new DecayingItem(WoldsVaults.id("ruined_essence"), 300);
         OBELISK_RESONATOR = new LocatorItem(WoldsVaults.id("obelisk_resonator"), ModBlocks.FRACTURED_OBELISK, 64);

@@ -37,7 +37,6 @@ import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlock;
 
 import java.util.HashMap;
@@ -56,8 +55,8 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
     private static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
 
     protected void addTables() {
-        add(ArmoryRegistry.ARMORY, this::dropLowerHalf);
-        add(ArmoryRegistry.CREATIVE_ARMORY, this::dropLowerHalf);
+        add(ModBlocks.ARMORY_BLOCK, this::dropLowerHalf);
+        add(ModBlocks.CREATIVE_ARMORY_BLOCK, this::dropLowerHalf);
         dropSelf(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK);
         dropSelf(ModBlocks.EXTRACTOR_FORGE_BLOCK);
         dropSelf(ModBlocks.VAULT_FABRICATOR_BLOCK);

@@ -29,6 +29,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.client.init.ModShaders;
 
 public final class GodIdolCloud {
     private static final ResourceLocation SETTINGS = WoldsVaults.id("god_tree/idol_cloud.json");
@@ -86,7 +87,7 @@ public final class GodIdolCloud {
     }
 
     public static void render(PoseStack poseStack, VaultGod god, int phaseIndex, float x, float y, float size, float alpha) {
-        ShaderInstance shader = GodTreeShaders.idolCloud;
+        ShaderInstance shader = ModShaders.idolCloud;
         if (shader == null) {
             GodTreeLog.errorOnce("idol_cloud", "God idol cloud shader did not load; drawing the idols without their cloud.");
             return;

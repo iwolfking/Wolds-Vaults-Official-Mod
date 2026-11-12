@@ -13,8 +13,6 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
@@ -23,30 +21,11 @@ import xyz.iwolfking.woldsvaults.armory.SavedBuild;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 /** Read-only tree view menus (Abilities, Talents, Expertises, Prestige, Gods) for a saved armory page. */
 public final class ArmoryTreeMenus {
-    public static MenuType<NBTElementContainer<AbilityTree>> ABILITIES;
-    public static MenuType<NBTElementContainer<TalentTree>> TALENTS;
-    public static MenuType<NBTElementContainer<ExpertiseTree>> EXPERTISES;
-    public static MenuType<NBTElementContainer<PrestigeTree>> PRESTIGE;
-
     private ArmoryTreeMenus() {
-    }
-
-    public static void register(RegistryEvent.Register<MenuType<?>> event) {
-        ABILITIES = IForgeMenuType.create((windowId, inventory, buf) ->
-                ArmoryTreeContainer.client(() -> ABILITIES, windowId, inventory, buf, new AbilityTree()));
-        TALENTS = IForgeMenuType.create((windowId, inventory, buf) ->
-                ArmoryTreeContainer.client(() -> TALENTS, windowId, inventory, buf, new TalentTree()));
-        EXPERTISES = IForgeMenuType.create((windowId, inventory, buf) ->
-                ArmoryTreeContainer.client(() -> EXPERTISES, windowId, inventory, buf, new ExpertiseTree()));
-        PRESTIGE = IForgeMenuType.create((windowId, inventory, buf) ->
-                ArmoryTreeContainer.client(() -> PRESTIGE, windowId, inventory, buf, new PrestigeTree()));
-        event.getRegistry().register(ABILITIES.setRegistryName(WoldsVaults.id("armory_abilities")));
-        event.getRegistry().register(TALENTS.setRegistryName(WoldsVaults.id("armory_talents")));
-        event.getRegistry().register(EXPERTISES.setRegistryName(WoldsVaults.id("armory_expertises")));
-        event.getRegistry().register(PRESTIGE.setRegistryName(WoldsVaults.id("armory_prestige")));
     }
 
     /**
@@ -68,7 +47,7 @@ public final class ArmoryTreeMenus {
                         unavailable(player, info, "the ability config is not loaded");
                         return;
                     }
-                    openTree(player, info, ABILITIES, abilities, abilities.getSpentLearnPoints() + spent(shown.displayTalents()));
+                    openTree(player, info, ModContainers.ARMORY_ABILITIES_CONTAINER, abilities, abilities.getSpentLearnPoints() + spent(shown.displayTalents()));
                 }
                 case TALENTS -> {
                     TalentTree talents = shown.displayTalents();
@@ -76,11 +55,11 @@ public final class ArmoryTreeMenus {
                         unavailable(player, info, "the talent config is not loaded");
                         return;
                     }
-                    openTree(player, info, TALENTS, talents, talents.getSpentLearnPoints() + spent(shown.displayAbilities()));
+                    openTree(player, info, ModContainers.ARMORY_TALENTS_CONTAINER, talents, talents.getSpentLearnPoints() + spent(shown.displayAbilities()));
                 }
                 case EXPERTISES -> {
                     ExpertiseTree expertises = shown.displayExpertises();
-                    openTree(player, info, EXPERTISES, expertises, expertises.getSpentLearnPoints());
+                    openTree(player, info, ModContainers.ARMORY_EXPERTISES_CONTAINER, expertises, expertises.getSpentLearnPoints());
                 }
                 case PRESTIGE -> {
                     PrestigeTree prestige = shown.displayPrestige();
@@ -88,7 +67,7 @@ public final class ArmoryTreeMenus {
                         unavailable(player, info, "the prestige power config is not loaded");
                         return;
                     }
-                    openTree(player, info, PRESTIGE, prestige, learnedTiers(prestige));
+                    openTree(player, info, ModContainers.ARMORY_PRESTIGE_CONTAINER, prestige, learnedTiers(prestige));
                 }
                 default -> unavailable(player, info, "it is not a tree tab");
             }

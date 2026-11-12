@@ -17,7 +17,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import top.theillusivec4.curios.api.CuriosApi;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.SlotKeys;
@@ -25,6 +24,7 @@ import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.service.ArmoryService;
 
 import javax.annotation.Nullable;
+import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 /**
  * The armory's container menu for the Gear, Inventory and Excess tabs. Slot order: the 54 page slots
@@ -60,7 +60,7 @@ public class ArmoryMenu extends AbstractElementContainer {
 
     private ArmoryMenu(int windowId, Inventory inventory, ArmoryViewInfo info, @Nullable ArmoryBlockEntity armory,
                        Container pageContainer, IItemHandlerModifiable excess, IItemHandlerModifiable upgrades) {
-        super(ArmoryRegistry.ARMORY_MENU, windowId, inventory.player);
+        super(ModContainers.ARMORY_CONTAINER, windowId, inventory.player);
         this.pos = info.pos();
         this.page = info.page();
         this.tab = info.tab();

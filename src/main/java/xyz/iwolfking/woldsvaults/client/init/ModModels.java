@@ -21,7 +21,6 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlockEntity;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
 import xyz.iwolfking.woldsvaults.entities.astral.client.model.LoginarModel;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
@@ -42,7 +41,8 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GRAVEYARD_LOOT_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TIME_TRIAL_TROPHY_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TRINKET_FUSION_BLOCK, RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(ArmoryRegistry.CREATIVE_ARMORY, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ARMORY_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CREATIVE_ARMORY_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_FORGE_BLOCK, RenderType.cutout());

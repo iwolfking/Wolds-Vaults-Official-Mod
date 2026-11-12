@@ -9,10 +9,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 /**
  * The armory's storage: 8 build pages, the shared 128-slot excess and the two upgrade slots. Nothing is sent in
@@ -39,7 +40,7 @@ public class ArmoryBlockEntity extends BlockEntity {
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return slot == SKILLS_UPGRADE_SLOT ? stack.is(ArmoryRegistry.SKILLS_UPGRADE) : stack.is(ArmoryRegistry.GODS_UPGRADE);
+            return slot == SKILLS_UPGRADE_SLOT ? stack.is(ModItems.ARMORY_SKILLS_UPGRADE) : stack.is(ModItems.ARMORY_GODS_UPGRADE);
         }
 
         @Override
@@ -49,7 +50,7 @@ public class ArmoryBlockEntity extends BlockEntity {
     };
 
     public ArmoryBlockEntity(BlockPos pos, BlockState state) {
-        super(ArmoryRegistry.ARMORY_ENTITY, pos, state);
+        super(ModBlocks.ARMORY_TILE_ENTITY_TYPE, pos, state);
         for (int i = 0; i < PAGES; i++) {
             this.pages[i] = new ArmoryPage();
         }

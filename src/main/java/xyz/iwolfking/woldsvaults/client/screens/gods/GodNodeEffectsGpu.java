@@ -22,6 +22,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
 
 import java.util.List;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.client.init.ModShaders;
 
 /**
  * GPU renderer for {@link GodNodeEffects}. Each (node type, phase) canvas owns a two-channel float texture and
@@ -31,8 +32,8 @@ import java.util.Map;
  * glow. The tone pass draws each star's quad through shaders/core/node_effect_tone.fsh, which reproduces
  * GodNodeEffects#tone from the summed light and a 256 x gods ramp texture built once from GodNodeEffects#ramps().
  */
-final class GodNodeEffectsGpu {
-    static final VertexFormat ACCUM_FORMAT = new VertexFormat(ImmutableMap.<String, VertexFormatElement>builder()
+public final class GodNodeEffectsGpu {
+    public static final VertexFormat ACCUM_FORMAT = new VertexFormat(ImmutableMap.<String, VertexFormatElement>builder()
             .put("Position", DefaultVertexFormat.ELEMENT_POSITION)
             .put("Seg", new VertexFormatElement(0, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.UV, 4))
             .put("Val", new VertexFormatElement(1, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.UV, 4))
@@ -75,7 +76,7 @@ final class GodNodeEffectsGpu {
     }
 
     static boolean isUnavailable() {
-        return failure != null || GodTreeShaders.nodeEffectAccum == null || GodTreeShaders.nodeEffectTone == null;
+        return failure != null || ModShaders.nodeEffectAccum == null || ModShaders.nodeEffectTone == null;
     }
 
     /**
@@ -108,8 +109,8 @@ final class GodNodeEffectsGpu {
         if (failure != null) {
             return false;
         }
-        ShaderInstance accum = GodTreeShaders.nodeEffectAccum;
-        ShaderInstance tone = GodTreeShaders.nodeEffectTone;
+        ShaderInstance accum = ModShaders.nodeEffectAccum;
+        ShaderInstance tone = ModShaders.nodeEffectTone;
         if (accum == null || tone == null) {
             if (!shadersWarned) {
                 shadersWarned = true;

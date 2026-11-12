@@ -28,7 +28,6 @@ import iskallia.vault.util.StringUtils;
 import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
 import java.util.List;
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.JeiPlugin;
@@ -89,6 +88,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -134,7 +134,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     /** Hides the creative Armory, an admin block with no recipe, from the ingredient list. */
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ArmoryRegistry.CREATIVE_ARMORY)));
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ModBlocks.CREATIVE_ARMORY_BLOCK)));
     }
 
     /**

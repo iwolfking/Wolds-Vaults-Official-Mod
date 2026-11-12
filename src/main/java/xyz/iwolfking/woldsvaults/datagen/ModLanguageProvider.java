@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import iskallia.vault.VaultMod;
 import iskallia.vault.config.MysteryEggConfig;
@@ -35,6 +34,8 @@ import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 public class ModLanguageProvider extends LanguageProvider {
 
@@ -741,10 +742,10 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.the_vault.tool.raker", "Raker");
         add("item.the_vault.tool.none", "Stick");
         add(ModBlocks.VAULT_SALVAGER_BLOCK, "Vault Salvager");
-        add(ArmoryRegistry.ARMORY, "Armory");
-        add(ArmoryRegistry.CREATIVE_ARMORY, "Creative Armory");
-        add(ArmoryRegistry.SKILLS_UPGRADE, "Armory Skills Upgrade");
-        add(ArmoryRegistry.GODS_UPGRADE, "Armory Gods Upgrade");
+        add(ModBlocks.ARMORY_BLOCK, "Armory");
+        add(ModBlocks.CREATIVE_ARMORY_BLOCK, "Creative Armory");
+        add(ModItems.ARMORY_SKILLS_UPGRADE, "Armory Skills Upgrade");
+        add(ModItems.ARMORY_GODS_UPGRADE, "Armory Gods Upgrade");
         add(ModBlocks.WUTODIE, "Block of Wutodie Gem");
         add("block.woldsvaults.dungeon_pedestal", "Dungeon Pedestal");
         add("block.woldsvaults.iskallian_leaves", "Woldian Leaves");

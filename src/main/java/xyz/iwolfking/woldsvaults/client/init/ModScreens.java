@@ -10,8 +10,13 @@ import xyz.iwolfking.woldsvaults.client.screens.ScavengerPouchScreen;
 import xyz.iwolfking.woldsvaults.client.screens.gods.GodTreeScreen;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedMilestonesScreen;
 import xyz.iwolfking.woldsvaults.client.screens.SuppressorScreen;
-import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryScreens;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryAbilitiesScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryTalentsScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryExpertisesScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryPrestigeScreen;
+import xyz.iwolfking.woldsvaults.client.screens.armory.ArmoryGodTreeScreen;
 
 @OnlyIn(Dist.CLIENT)
 public class ModScreens {
@@ -32,6 +37,11 @@ public class ModScreens {
         MenuScreens.register(ModContainers.EXTRACTOR_CARD_CONTAINER, ExtractorCardScreen::new);
         MenuScreens.register(ModContainers.TRINKET_POUCH_CONTAINER, PouchScreen::new);
         MenuScreens.register(ModContainers.SUPPRESSOR_CONTAINER, SuppressorScreen::new);
-        ArmoryScreens.register();
+        MenuScreens.register(ModContainers.ARMORY_CONTAINER, ArmoryScreen::new);
+        MenuScreens.register(ModContainers.ARMORY_ABILITIES_CONTAINER, ArmoryAbilitiesScreen::new);
+        MenuScreens.register(ModContainers.ARMORY_TALENTS_CONTAINER, ArmoryTalentsScreen::new);
+        MenuScreens.register(ModContainers.ARMORY_EXPERTISES_CONTAINER, ArmoryExpertisesScreen::new);
+        MenuScreens.register(ModContainers.ARMORY_PRESTIGE_CONTAINER, ArmoryPrestigeScreen::new);
+        MenuScreens.register(ModContainers.ARMORY_GODS_CONTAINER, ArmoryGodTreeScreen::new);
     }
 }

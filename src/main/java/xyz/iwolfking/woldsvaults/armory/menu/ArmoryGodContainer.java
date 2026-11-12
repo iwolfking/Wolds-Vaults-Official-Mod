@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.armory.ArmoryGodSnapshot;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.gods.container.GodTreeContainer;
+import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 /** Slotless menu behind the armory's read-only Gods view; carries the page header and the saved god standing. */
 public class ArmoryGodContainer extends GodTreeContainer {
@@ -15,7 +16,7 @@ public class ArmoryGodContainer extends GodTreeContainer {
     private final ArmoryGodSnapshot snapshot;
 
     public ArmoryGodContainer(int windowId, Player player, ArmoryViewInfo info, ArmoryGodSnapshot snapshot) {
-        super(ArmoryGodMenus.ARMORY_GODS, windowId, player);
+        super(ModContainers.ARMORY_GODS_CONTAINER, windowId, player);
         this.info = info;
         this.snapshot = snapshot;
     }

@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import xyz.iwolfking.woldsvaults.armory.ArmoryRegistry;
 import me.dinnerbeef.compressium.Compressium;
 import net.mcreator.buildingmod.init.DavebuildingmodModBlocks;
 import net.minecraft.data.DataGenerator;
@@ -46,7 +45,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK)
                 .add(ModBlocks.EXTRACTION_FORGE_PART_BLOCK)
                 .add(ModBlocks.VAULT_SALVAGER_BLOCK)
-                .add(ArmoryRegistry.ARMORY)
+                .add(ModBlocks.ARMORY_BLOCK)
                 .add(ModBlocks.NULLITE_ORE)
                 .add(ModBlocks.WUTODIE_SLAB)
                 .add(ModBlocks.WUTODIE_STAIRS)
