@@ -19,12 +19,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeType;
 
@@ -49,7 +44,7 @@ import java.util.Map;
  * <p>
  * The primitives (dots, strokes, glow) are placed by {@link #paint}. They are summed either on the GPU into a float
  * target and tone-mapped by a shader ({@link GodNodeEffectsGpu}, the default), or on the CPU into float buffers and
- * uploaded as a texture (the original path, kept behind {@link #togglePath()} for comparison).
+ * uploaded as a texture (the fallback when the GPU path is unavailable).
  */
 public final class GodNodeEffects {
     private static final ResourceLocation SETTINGS = new ResourceLocation(WoldsVaults.MOD_ID, "god_tree/node_effects.json");
@@ -70,7 +65,6 @@ public final class GodNodeEffects {
 
     private static Map<GodNodeType, Look> looks;
     private static int[][] ramps;
-    private static boolean gpu = true;
 
     record Light(double gain, double toneFloor, int toneSteps) {}
 
@@ -143,40 +137,6 @@ public final class GodNodeEffects {
     private GodNodeEffects() {
     }
 
-    @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static final class ReloadHook {
-        private ReloadHook() {
-        }
-
-        @SubscribeEvent
-        public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
-            event.registerReloadListener((ResourceManagerReloadListener) manager -> {
-                looks = null;
-                ramps = null;
-                if (RenderSystem.isOnRenderThread()) {
-                    GodNodeEffectsGpu.release();
-                } else {
-                    RenderSystem.recordRenderCall(GodNodeEffectsGpu::release);
-                }
-            });
-        }
-    }
-
-    /**
-     * Switches between the GPU and the CPU renderer and logs which one is now active. Temporary, for comparing the
-     * two in game.
-     */
-    public static void togglePath() {
-        gpu = !gpu;
-        if (!gpu) {
-            WoldsVaults.LOGGER.info("God node effects: CPU path active");
-        } else if (GodNodeEffectsGpu.isUnavailable()) {
-            WoldsVaults.LOGGER.info("God node effects: GPU path selected but unavailable (see the earlier warning); CPU path still in use");
-        } else {
-            WoldsVaults.LOGGER.info("God node effects: GPU path active");
-        }
-    }
-
     /**
      * Draws one layer of effects for every star in the given tree-space rectangle. With front false it draws what sits
      * behind the stars (glow, arms, and motes or rays not set over the star) and paints this frame's light; with front
@@ -217,7 +177,7 @@ public final class GodNodeEffects {
             return;
         }
         double seconds = (Util.getMillis() % 86_400_000L) / 1000.0D;
-        if (gpu && GodNodeEffectsGpu.render(poseStack, god, settings, groups, front, seconds)) {
+        if (GodNodeEffectsGpu.render(poseStack, god, settings, groups, front, seconds)) {
             return;
         }
         renderCpu(poseStack, god, settings, groups, front, seconds);

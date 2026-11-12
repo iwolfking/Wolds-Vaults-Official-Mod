@@ -14,11 +14,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -85,17 +80,6 @@ public class RankMedallionElement extends AbstractSpatialElement<RankMedallionEl
             }
         }
         return cached > 0 ? location : null;
-    }
-
-    @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static final class ReloadHook {
-        private ReloadHook() {
-        }
-
-        @SubscribeEvent
-        public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
-            event.registerReloadListener((ResourceManagerReloadListener) manager -> TEXTURE_SIZES.clear());
-        }
     }
 
     private static int probeTextureSize(ResourceLocation location) {

@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.client.renderers;
+package xyz.iwolfking.woldsvaults.client.init;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
@@ -22,11 +22,11 @@ import java.util.Set;
  * unidentified sprite and logs once.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public final class AncientGearModels {
+public final class ModAncientGearModels {
     private static final List<String> GEAR_TYPES = List.of("sword", "axe", "helmet", "chestplate", "leggings", "boots", "shield", "focus", "wand", "magnet", "jewel", "battlestaff", "rang", "trident", "plushie");
     private static final Set<ResourceLocation> LOGGED_MISSING = new HashSet<>();
 
-    private AncientGearModels() {
+    private ModAncientGearModels() {
     }
 
     @SubscribeEvent

@@ -15,9 +15,9 @@ import xyz.iwolfking.woldsvaults.milestones.client.ClientMilestoneData;
 
 /** Drops every client-side greed mirror when the local player disconnects. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public final class GreedClientDisconnectEvents {
+public final class ClientPlayerEvents {
 
-    private GreedClientDisconnectEvents() {
+    private ClientPlayerEvents() {
     }
 
     @SubscribeEvent

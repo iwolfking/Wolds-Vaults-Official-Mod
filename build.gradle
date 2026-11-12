@@ -267,6 +267,7 @@ dependencies {
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
     compileOnly fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
     compileOnly fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
+    compileOnly fg.deobf("curse.maven:modded-item-borders-1170138:6847689") // storage screen item borders
     compileOnly fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
     compileOnly fg.deobf("curse.maven:dungeons-mobs-428883:4344582")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")

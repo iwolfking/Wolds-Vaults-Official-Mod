@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.client.renderers.ModdedItemBordersBridge;
+import com.radimous.moddeditemborders.ModdedItemBorders;
 
 /**
  * Modded Item Borders draws the rarity border at the head of the storage screen's {@code renderSlot}, before the item.
@@ -36,6 +36,6 @@ public abstract class MixinStorageScreenBaseItemBorders {
 
     @Inject(method = "renderStack", at = @At(value = "INVOKE", remap = true, shift = At.Shift.AFTER, target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderAndDecorateItem(Lnet/minecraft/world/item/ItemStack;II)V"))
     private void woldsvaults$drawItemBorderOverItem(PoseStack poseStack, int x, int y, ItemStack stack, boolean quickReplace, String countText, CallbackInfo ci) {
-        ModdedItemBordersBridge.render(poseStack, stack, x, y);
+        ModdedItemBorders.render(poseStack, stack, x, y);
     }
 }

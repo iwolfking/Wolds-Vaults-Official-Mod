@@ -16,11 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.io.IOException;
@@ -64,17 +59,6 @@ public final class GodIdolCloud {
                             Flicker flicker, Wisps wisps, Colour colour) {}
 
     private GodIdolCloud() {
-    }
-
-    @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static final class ReloadHook {
-        private ReloadHook() {
-        }
-
-        @SubscribeEvent
-        public static void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
-            event.registerReloadListener((ResourceManagerReloadListener) manager -> settings = null);
-        }
     }
 
     public static List<Opening> openings() {

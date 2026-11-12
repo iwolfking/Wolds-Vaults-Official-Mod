@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.client.renderers.AncientGearModels;
+import xyz.iwolfking.woldsvaults.client.init.ModAncientGearModels;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 /**
@@ -31,7 +31,7 @@ public class MixinDynamicBakedModelOverrides {
         if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
             return;
         }
-        BakedModel ancient = AncientGearModels.get(stack.getItem());
+        BakedModel ancient = ModAncientGearModels.get(stack.getItem());
         if (ancient != null) {
             cir.setReturnValue(ancient);
         }

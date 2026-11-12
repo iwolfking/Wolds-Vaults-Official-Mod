@@ -303,10 +303,6 @@ public class GodTreePanRegion extends GuiComponent implements GuiEventListener {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == org.lwjgl.glfw.GLFW.GLFW_KEY_F8) {
-            GodNodeEffects.togglePath();
-            return true;
-        }
         float dirX;
         float dirY;
         switch (keyCode) {

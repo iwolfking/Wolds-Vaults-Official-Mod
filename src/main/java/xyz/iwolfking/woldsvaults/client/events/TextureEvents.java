@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.client.init;
+package xyz.iwolfking.woldsvaults.client.events;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
@@ -11,8 +11,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /** Stitches the mythic charm particle sprites, which this jar ships under the base charm particle paths. */
 @Mod.EventBusSubscriber(value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD, modid = WoldsVaults.MOD_ID)
-public final class MythicCharmSprites {
-    private MythicCharmSprites() {
+public final class TextureEvents {
+    private TextureEvents() {
     }
 
     @SubscribeEvent

@@ -75,30 +75,6 @@ public final class GodNodeEffectsGpu {
         }
     }
 
-    static boolean isUnavailable() {
-        return failure != null || ModShaders.nodeEffectAccum == null || ModShaders.nodeEffectTone == null;
-    }
-
-    /**
-     * Frees every canvas target and the ramp texture and clears any earlier failure, so the next frame retries the
-     * GPU path with freshly loaded shaders and ramps. Render thread only.
-     */
-    static void release() {
-        for (int i = 0; i < TARGETS.length; i++) {
-            if (TARGETS[i] != null) {
-                TARGETS[i].delete();
-                TARGETS[i] = null;
-            }
-        }
-        if (rampTexture != null) {
-            rampTexture.close();
-            rampTexture = null;
-        }
-        format = 0;
-        failure = null;
-        shadersWarned = false;
-    }
-
     /**
      * Draws one layer of the effects for the grouped stars, as GodNodeEffects#render describes. Returns false, having
      * drawn nothing, when the GPU path is unavailable; the reason is logged once and the caller falls back to the CPU
