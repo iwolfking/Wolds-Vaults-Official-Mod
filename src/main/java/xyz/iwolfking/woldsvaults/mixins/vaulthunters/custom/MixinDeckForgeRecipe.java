@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.config.ImplicitDeckModifiersConfig;
 import xyz.iwolfking.woldsvaults.expertises.DeckMasterExpertise;
 
 import java.util.*;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 @Mixin(value = DeckForgeRecipe.class, remap = false)
 public class MixinDeckForgeRecipe {
@@ -31,7 +32,7 @@ public class MixinDeckForgeRecipe {
     @Inject(method = "addCraftingDisplayTooltip", at = @At(value = "INVOKE", target = "Liskallia/vault/item/CardDeckItem;appendLayoutPreview(Ljava/lang/String;Ljava/util/List;Z)V"))
     private void addImplicitModifierText(ItemStack result, List<Component> out, CallbackInfo ci) {
         //Special handling for this deck!
-        if(DeckModifiersHelper.MYSTERY_DECK_ID.equals(CardDeckItem.getId(result))) {
+        if(WoldConstants.MYSTERY_DECK_ID.equals(CardDeckItem.getId(result))) {
             out.add(new TextComponent("Two random implicits from other decks"));
         }
 
@@ -96,7 +97,7 @@ public class MixinDeckForgeRecipe {
 
             Optional<DeckModifier<?>> implicitDeckModifier = ImplicitDeckModifiersConfig.getImplicitDeckModifier(CardDeckItem.getId(outputStack));
             //Special handling for this deck!
-            if(DeckModifiersHelper.MYSTERY_DECK_ID.equals(CardDeckItem.getId(outputStack))) {
+            if(WoldConstants.MYSTERY_DECK_ID.equals(CardDeckItem.getId(outputStack))) {
                 modified |= DeckModifiersHelper.applyMysteryImplicits(deck);
             }
             else if(implicitDeckModifier.isPresent()) {

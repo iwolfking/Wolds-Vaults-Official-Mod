@@ -121,6 +121,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -382,6 +383,9 @@ public class LivingEntityEvents {
                 entity.addEffect(new MobEffectInstance(effectOnHitTakenEffectTrinketStack.trinket().getConfig().getEffectInstance()));
             }
         });
+
+        if (source instanceof TrueDamageSource)
+            return;
 
         boolean dodge = entity.getRandom().nextDouble() <= Math.min(WoldAttributeHelper.getDodgeChance(entity), WoldConstants.DODGE_PERCENT_CAP);
 

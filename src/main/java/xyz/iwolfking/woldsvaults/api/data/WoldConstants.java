@@ -32,4 +32,9 @@ public class WoldConstants {
 
     //Constant Strings
     public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
+    public static final String MYSTERY_DECK_ID = "mystery";
+
+    //Health Reduction
+    public static final double HEALTH_REDUCTION_DEFAULT_MULT = 1.0849795594911;
+    public static final double HEALTH_REDUCTION_DEFAULT_MULT_SCALING = 0.827;
 }

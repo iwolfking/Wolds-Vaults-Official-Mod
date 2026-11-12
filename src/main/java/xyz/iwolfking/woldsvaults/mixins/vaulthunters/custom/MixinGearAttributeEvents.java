@@ -51,6 +51,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.chain.ChainLinks;
 
 import java.util.ArrayList;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mixin (value = GearAttributeEvents.class, remap = false)
 public class MixinGearAttributeEvents {
@@ -128,7 +129,7 @@ public class MixinGearAttributeEvents {
     public static void blockAttack(LivingAttackEvent event) {
         LivingEntity attacked = event.getEntityLiving();
         DamageSource damageSource = event.getSource();
-        if (!attacked.getLevel().isClientSide() && !damageSource.isBypassInvul()) {
+        if (!attacked.getLevel().isClientSide() && !damageSource.isBypassInvul() && !(damageSource instanceof TrueDamageSource)) {
             float blockChance = 0.0f;
             if (AttributeSnapshotHelper.canHaveSnapshot(attacked))
                 blockChance = BlockChanceHelper.getBlockChance(attacked);

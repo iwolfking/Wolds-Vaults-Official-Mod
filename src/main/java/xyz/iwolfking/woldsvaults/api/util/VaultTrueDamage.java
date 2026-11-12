@@ -14,8 +14,8 @@ import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.mixins.LivingEntityAccessor;
 
 /**
- * Lands a flat hit nothing in the pack may reduce; dodges, blocks and immunity windows still cancel it
- * outright. The authored amount is restored by the {@code LOWEST} {@link LivingHurtEvent} listener here
+ * Lands a flat hit nothing in the pack may reduce or avoid: dodge, block and Safer Spaces never stop it, while
+ * immunity windows (invulnerability, Immortal) still cancel it outright. The authored amount is restored by the {@code LOWEST} {@link LivingHurtEvent} listener here
  * and again by a {@link FinalDamageStage} floor sub-stage.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)

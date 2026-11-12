@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 /**
  * Builds a card deck from a named spec: a deck template, the card in each slot and the cores. Cards are made the way
@@ -118,7 +119,7 @@ public final class DeckCodec {
      */
     private static void addImplicits(CardDeck deck, String deckId, JsonArray listed, String path, RandomSource random,
                                      BuildReport report) {
-        if (DeckModifiersHelper.MYSTERY_DECK_ID.equals(deckId)) {
+        if (WoldConstants.MYSTERY_DECK_ID.equals(deckId)) {
             if (listed == null) {
                 report.bypassed(path + ": a Mystery deck always has two implicits; the build lists none");
                 return;

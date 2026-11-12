@@ -18,7 +18,6 @@ import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.datagen.gods.GodNodeText;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
-import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.datagen.ExpertisesDescriptionHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.PrestigePowersDescriptionsHelper;
@@ -30,6 +29,7 @@ import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvider {
     public ModSkillDescriptionsProvider(DataGenerator generator) {
@@ -2177,7 +2177,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
     }
 
     private static double fruitHealth(double scaling, int fruits) {
-        return HealthReductionHelper.DEFAULT_MULT * Math.pow(scaling, fruits);
+        return WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT * Math.pow(scaling, fruits);
     }
 
     private static String timeDrain(GodNodeText t) {

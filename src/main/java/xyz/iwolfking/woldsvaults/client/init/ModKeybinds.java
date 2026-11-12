@@ -24,7 +24,7 @@ public class ModKeybinds {
         toggleBetterCombat = registerKeyMapping("toggle_better_combat", GLFW.GLFW_KEY_PERIOD);
         openInventoryHUD = registerKeyMapping("open_inventory_hud", GLFW.GLFW_KEY_O);
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
-        toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", -1);
+        toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", GLFW.GLFW_KEY_J, KeyConflictContext.IN_GAME);
         openTrinketPouch = registerKeyMapping("open_trinket_pouch", GLFW.GLFW_KEY_T, KeyConflictContext.IN_GAME, KeyModifier.CONTROL);
         xyz.iwolfking.woldsvaults.client.spellcraft.SpellBarKeys.register();
     }

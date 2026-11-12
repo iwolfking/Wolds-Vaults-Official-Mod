@@ -19,9 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 public class DeckModifiersHelper {
-    public static final String MYSTERY_DECK_ID = "mystery";
     private static final String MYSTERY_IMPLICIT_POOL = "card_deck_implicits";
     private static final int MYSTERY_IMPLICIT_COUNT = 2;
     private static final float MYSTERY_IMPLICIT_STRENGTH = 0.75F;
@@ -137,7 +137,7 @@ public class DeckModifiersHelper {
             return false;
         }
 
-        if(MYSTERY_DECK_ID.equals(deckId)) {
+        if(WoldConstants.MYSTERY_DECK_ID.equals(deckId)) {
             applyMysteryImplicits(deck);
         }
         else {

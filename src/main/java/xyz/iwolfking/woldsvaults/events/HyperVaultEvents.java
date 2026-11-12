@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperVaultEvents {
@@ -192,7 +193,7 @@ public final class HyperVaultEvents {
             return;
         }
         DamageSource source = event.getSource();
-        if (!source.isBypassArmor() && !source.isMagic()) {
+        if (source instanceof TrueDamageSource || (!source.isBypassArmor() && !source.isMagic())) {
             return;
         }
         if (!(source.getEntity() instanceof VaultBossEntity boss) || source.getDirectEntity() != boss) {

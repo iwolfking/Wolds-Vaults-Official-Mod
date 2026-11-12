@@ -7,11 +7,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.UUID;
 
 import static iskallia.vault.item.ItemVaultFruit.MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 public class HealthReductionHelper {
-
-    public static final double DEFAULT_MULT = 1.0849795594911;
-    public static final double DEFAULT_MULT_SCALING = 0.827;
 
     public static void reducePlayerMaxHealth(ServerPlayer player, double mult, double multScaling, UUID attributeUUID, String attributeName) {
         AttributeInstance attributeInstance = player.getAttribute(Attributes.MAX_HEALTH);
@@ -29,11 +27,11 @@ public class HealthReductionHelper {
     }
 
     public static void reducePlayerMaxHealth(ServerPlayer player) {
-        reducePlayerMaxHealth(player, DEFAULT_MULT, DEFAULT_MULT_SCALING, MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID, "VaultFruitMaxHealthReduction");
+        reducePlayerMaxHealth(player, WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT, WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT_SCALING, MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID, "VaultFruitMaxHealthReduction");
     }
 
     public static void reducePlayerMaxHealth(ServerPlayer player, UUID attributeUUID, String attributeName) {
-        reducePlayerMaxHealth(player, DEFAULT_MULT, DEFAULT_MULT_SCALING, attributeUUID, attributeName);
+        reducePlayerMaxHealth(player, WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT, WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT_SCALING, attributeUUID, attributeName);
     }
 
     public static void restoreReduction(ServerPlayer player, UUID attributeUUID) {

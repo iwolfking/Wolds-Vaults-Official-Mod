@@ -47,8 +47,7 @@ public final class GreedTraderPatches {
                 pool(87, "greed_cards_weak", 20, 30),
                 pool(61, "random_crystals_weak", 15, 20),
                 pool(52, "greed_companion_relics_t1", 50, 90),
-                pool(50, "greed_maps", 35, 50),
-                xpBurger()));
+                pool(50, "greed_maps", 35, 50)));
         tierPools.set("5", rows(
                 offer("random_etching", 200, 15, 25),
                 pool(150, "super_inscriptions", 25, 45),
@@ -58,8 +57,7 @@ public final class GreedTraderPatches {
                 pool(66, "random_crystals_weak", 15, 20),
                 pool(56, "greed_companion_relics_t1", 50, 90),
                 pool(50, "greed_maps", 35, 50),
-                pool(50, "greater_cores_basic", 50, 75),
-                xpBurger()));
+                pool(50, "greater_cores_basic", 50, 75)));
         tierPools.set("6", rows(
                 offer("random_etching", 200, 15, 25),
                 pool(150, "super_inscriptions", 25, 45),
@@ -70,7 +68,6 @@ public final class GreedTraderPatches {
                 pool(59, "greed_companion_relics_t1", 50, 90),
                 pool(50, "greed_maps", 35, 50),
                 pool(50, "greater_cores_basic", 50, 75),
-                xpBurger(),
                 pool(30, "catalyst_t2", 30, 50)));
         tierPools.set("7", rows(
                 offer("random_etching", 200, 20, 30),
@@ -83,7 +80,6 @@ public final class GreedTraderPatches {
                 pool(50, "greed_maps", 35, 50),
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(36, "catalyst_t2", 30, 50),
-                xpBurger(),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.set("8", rows(
                 offer("random_etching", 200, 20, 30),
@@ -97,7 +93,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.set("9", rows(
                 offer("random_etching", 200, 20, 30),
@@ -111,7 +106,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.set("10", rows(
                 offer("random_etching", 200, 25, 35),
@@ -126,7 +120,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(19, "catalyst_t3", 40, 50),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.set("11", rows(
@@ -142,7 +135,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(19, "catalyst_t3", 40, 50),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.set("12", rows(
@@ -158,7 +150,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(19, "catalyst_t3", 40, 50),
                 pool(3, "ancient_uniques", 150, 200)));
         tierPools.add("13", rows(
@@ -174,7 +165,6 @@ public final class GreedTraderPatches {
                 pool(50, "greater_cores_basic", 50, 75),
                 pool(38, "catalyst_t2", 30, 50),
                 pool(30, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(19, "catalyst_t3", 40, 50),
                 pool(6, "ancient_uniques", 150, 200)));
         tierPools.add("14", lateTier(64, 7));
@@ -246,7 +236,6 @@ public final class GreedTraderPatches {
                 pool(50, "greed_maps", 35, 50),
                 pool(40, "catalyst_t2", 30, 50),
                 pool(40, "greater_cores_advanced", 80, 100),
-                xpBurger(),
                 pool(20, "catalyst_t3", 40, 50),
                 pool(ancientUniqueWeight, "ancient_uniques", 150, 200));
     }
@@ -283,17 +272,6 @@ public final class GreedTraderPatches {
         row.addProperty("poolId", poolId);
         row.addProperty("minCoinCost", minCoinCost);
         row.addProperty("maxCoinCost", maxCoinCost);
-        return row;
-    }
-
-    private static JsonObject xpBurger() {
-        JsonObject row = new JsonObject();
-        row.addProperty("type", "xp_burger");
-        row.addProperty("weight", 30);
-        row.addProperty("minAmount", 2000000);
-        row.addProperty("maxAmount", 10000000);
-        row.addProperty("minCoinCost", 40);
-        row.addProperty("maxCoinCost", 60);
         return row;
     }
 

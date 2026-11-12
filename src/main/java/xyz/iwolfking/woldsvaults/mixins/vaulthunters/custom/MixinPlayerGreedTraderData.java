@@ -27,10 +27,6 @@ public abstract class MixinPlayerGreedTraderData {
     }
 
     /**
-     * Narrows {@code random_etching} to ungated etchings, adds {@code powerful_etching} for the gated
-     * ones, and passes the greed tier to {@code xp_burger}. All three take over the return value.
-     */
-    /**
      * A pool entry of type {@code ancient_unique} sells an unidentified ancient rolled exactly like an extractor
      * payout: a random ancient-capable unique's own gear item, flagged ancient. The caller still runs loot
      * initialisation on it, so it takes the buyer's vault level.
@@ -43,6 +39,10 @@ public abstract class MixinPlayerGreedTraderData {
         cir.setReturnValue(AncientUniqueHelper.rollUnidentifiedAncient(random));
     }
 
+    /**
+     * Narrows {@code random_etching} to ungated etchings and adds {@code powerful_etching} for the gated
+     * ones. Both take over the return value.
+     */
     @Inject(method = "rollSingleOffer", at = @At("HEAD"), cancellable = true)
     private void rollReworkedOfferTypes(GreedTraderConfig.TradeEntry entry,
                                         int greedTier,
@@ -55,8 +55,6 @@ public abstract class MixinPlayerGreedTraderData {
                     cir.setReturnValue(GreedShopHelper.rollEtching(entry, greedTier, config, random, false));
             case "powerful_etching" ->
                     cir.setReturnValue(GreedShopHelper.rollEtching(entry, greedTier, config, random, true));
-            case "xp_burger" ->
-                    cir.setReturnValue(GreedShopHelper.rollXpBurger(entry, greedTier, config, random));
             default -> {
             }
         }

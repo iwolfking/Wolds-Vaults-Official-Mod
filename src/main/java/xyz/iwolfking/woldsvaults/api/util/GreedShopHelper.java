@@ -19,13 +19,11 @@ import java.util.Optional;
 import java.util.Random;
 
 /**
- * Server-side greed shop logic: greedy-ticket reroll pricing, ticket accounting, and the etching and Greedy Meal
- * offer rolls.
+ * Server-side greed shop logic: greedy-ticket reroll pricing, ticket accounting, and the etching offer rolls.
  */
 public final class GreedShopHelper {
     private static final int BASE_REROLL_TICKETS = 2;
     private static final int REROLLS_PER_PRICE_STEP = 2;
-    private static final double XP_BURGER_RANK_FACTOR = 1.15D;
 
     private GreedShopHelper() {
     }
@@ -125,23 +123,5 @@ public final class GreedShopHelper {
         return etchingStack
                 .map(stack -> new PlayerGreedTraderData.TradeOffer(stack, config.rollCoinCost(entry, random)))
                 .orElse(null);
-    }
-
-    /**
-     * Rolls the Greedy Meal, scaling the entry's xp band by {@code 1.15^(greedTier - 1)} and clamping to
-     * {@code int}.
-     */
-    public static PlayerGreedTraderData.TradeOffer rollXpBurger(GreedTraderConfig.TradeEntry entry,
-                                                                int greedTier,
-                                                                GreedTraderConfig config,
-                                                                Random random) {
-        int minXp = entry.getMinAmount();
-        int maxXp = entry.getMaxAmount();
-        int baseXp = minXp + random.nextInt(Math.max(1, maxXp - minXp + 1));
-        double scaled = baseXp * Math.pow(XP_BURGER_RANK_FACTOR, Math.max(0, greedTier - 1));
-        ItemStack burgerStack = new ItemStack(iskallia.vault.init.ModItems.GREEDY_MEAL);
-        burgerStack.getOrCreateTag().putInt(PlayerGreedTraderData.XP_BURGER_TAG,
-                (int) Math.min(Integer.MAX_VALUE, Math.floor(scaled)));
-        return new PlayerGreedTraderData.TradeOffer(burgerStack, config.rollCoinCost(entry, random));
     }
 }

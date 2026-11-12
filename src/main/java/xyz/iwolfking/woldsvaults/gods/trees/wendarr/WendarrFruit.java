@@ -8,13 +8,13 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.util.HealthReductionHelper;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 /** The Wendarr fruit family. A call that finds no active node returns its input unchanged. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class WendarrFruit {
-    public static final double DEFAULT_HEALTH_SCALING = HealthReductionHelper.DEFAULT_MULT_SCALING;
+    public static final double DEFAULT_HEALTH_SCALING = WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT_SCALING;
 
     private WendarrFruit() {
     }

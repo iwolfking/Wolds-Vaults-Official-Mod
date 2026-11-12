@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import static iskallia.vault.item.ItemVaultFruit.MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 @Mixin(value = ItemVaultFruit.class, remap = false)
 public abstract class MixinItemVaultFruit extends Item implements IRottenFruit {
@@ -41,7 +42,7 @@ public abstract class MixinItemVaultFruit extends Item implements IRottenFruit {
         if (WendarrFruit.isFruitSaved(player)) {
             return;
         }
-        HealthReductionHelper.reducePlayerMaxHealth(player, HealthReductionHelper.DEFAULT_MULT, WendarrFruit.healthScaling(player),
+        HealthReductionHelper.reducePlayerMaxHealth(player, WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT, WendarrFruit.healthScaling(player),
                 MAX_HEALTH_REDUCTION_ATTRIBUTE_MODIFIER_UUID, "VaultFruitMaxHealthReduction");
     }
 
