@@ -1,0 +1,68 @@
+{
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "arm_l_base",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        6,
+        8,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1.0,
+            13.6875,
+            1.375,
+            14.1875
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            1.0,
+            13.6875,
+            1.375,
+            14.1875
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            0.5,
+            13.6875,
+            1.0,
+            14.1875
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            1.0,
+            13.6875,
+            1.375,
+            14.1875
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            1.0,
+            13.6875,
+            1.375,
+            14.1875
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

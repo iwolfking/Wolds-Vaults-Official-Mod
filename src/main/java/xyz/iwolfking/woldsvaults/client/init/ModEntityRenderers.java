@@ -16,6 +16,8 @@ import xyz.iwolfking.woldsvaults.entities.ghosts.lib.client.GenericWraithRendere
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangRenderer;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.client.WoldBossRenderer;
+import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorGeoRenderer;
+import xyz.iwolfking.woldsvaults.entities.extraction.client.ThumperGeoRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class ModEntityRenderers {
@@ -44,5 +46,8 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.CUSTOM_FANGS, EvokerFangsRenderer::new);
         EntityRenderers.register(ModEntities.VAULT_METEOR, FireballRenderer::new);
         EntityRenderers.register(ModEntities.MAGIC_MISSILE, NoopRenderer::new);
+        EntityRenderers.register(ModEntities.AUGMENT_BUNDLE, NoopRenderer::new);
+        EntityRenderers.register(ModEntities.EXTRACTOR, ExtractorGeoRenderer::new);
+        EntityRenderers.register(ModEntities.THUMPER, ThumperGeoRenderer::new);
     }
 }

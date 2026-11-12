@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "the_vault:vault_essence"
+    },
+    {
+      "item": "the_vault:gem_larimar"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:blank_fabrication_pattern",
+    "count": 2
+  }
+}

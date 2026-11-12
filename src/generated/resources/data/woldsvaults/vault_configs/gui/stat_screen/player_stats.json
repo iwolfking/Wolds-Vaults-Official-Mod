@@ -1,0 +1,266 @@
+{
+  "categories": [
+    "Offensive",
+    "Defensive",
+    "Looting",
+    "Misc"
+  ],
+  "stats": {
+    "the_vault:ability_power": {
+      "category": "Offensive",
+      "color": "ability_power"
+    },
+    "the_vault:ap_scaling_damage": {
+      "category": "Offensive",
+      "color": "ability_power"
+    },
+    "the_vault:area_of_effect": {
+      "category": "Offensive",
+      "color": "areaOfEffect"
+    },
+    "the_vault:damage_assassin": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:attack_damage": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:attack_range": {
+      "category": "Offensive",
+      "color": "range"
+    },
+    "the_vault:attack_speed": {
+      "category": "Offensive",
+      "color": "speed"
+    },
+    "the_vault:reaving_damage": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:on_hit_chain": {
+      "category": "Offensive",
+      "color": "chains"
+    },
+    "the_vault:damage_champion": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:trident_channeling_chance": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:cooldown_reduction": {
+      "category": "Offensive",
+      "color": "cooldown"
+    },
+    "label:Damage Increase": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:double_hit_chance": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:damage_dungeon": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:damage_dweller": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:echoing_chance": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:effect_cloud_chance_additive": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:effect_duration": {
+      "category": "Offensive",
+      "color": "duration"
+    },
+    "the_vault:execution_damage": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:hexing_chance": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:damage_horde": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:echoing_damage": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:thorns_damage_flat_percentile": {
+      "category": "Offensive",
+      "color": "thornsDamage"
+    },
+    "the_vault:mana_additive": {
+      "category": "Offensive",
+      "color": "manaCost"
+    },
+    "the_vault:mana_regen": {
+      "category": "Offensive",
+      "color": "manaCost"
+    },
+    "the_vault:chaining_damage": {
+      "category": "Offensive",
+      "color": "chaining"
+    },
+    "the_vault:shocking_hit_chance": {
+      "category": "Offensive",
+      "color": "shocking"
+    },
+    "the_vault:on_hit_stun": {
+      "category": "Offensive",
+      "color": "stun"
+    },
+    "the_vault:sweeping_hit_chance": {
+      "category": "Offensive",
+      "color": "chance"
+    },
+    "the_vault:damage_tank": {
+      "category": "Offensive",
+      "color": "damage"
+    },
+    "the_vault:thorns_damage_flat": {
+      "category": "Offensive",
+      "color": "thornsDamage"
+    },
+    "the_vault:thorns_scaling_damage": {
+      "category": "Offensive",
+      "color": "thornsDamage"
+    },
+    "the_vault:armor": {
+      "category": "Defensive",
+      "color": "armor"
+    },
+    "the_vault:block": {
+      "category": "Defensive",
+      "color": "absorb"
+    },
+    "the_vault:critical_hit_mitigation": {
+      "category": "Defensive",
+      "color": "resistance"
+    },
+    "the_vault:dodge_percent": {
+      "category": "Defensive",
+      "color": "ethereal"
+    },
+    "the_vault:healing_effectiveness": {
+      "category": "Defensive",
+      "color": "heal"
+    },
+    "the_vault:health": {
+      "category": "Defensive",
+      "color": "health"
+    },
+    "the_vault:knockback_resistance": {
+      "category": "Defensive",
+      "color": "knockback"
+    },
+    "the_vault:resistance": {
+      "category": "Defensive",
+      "color": "resistance"
+    },
+    "the_vault:soul_leech_flat": {
+      "category": "Defensive",
+      "color": "leech"
+    },
+    "the_vault:copiously": {
+      "category": "Looting",
+      "color": "fortune"
+    },
+    "the_vault:dismantle_chance": {
+      "category": "Looting",
+      "color": "blocks"
+    },
+    "the_vault:hit_hearts": {
+      "category": "Looting",
+      "color": "regret"
+    },
+    "the_vault:item_quantity": {
+      "category": "Looting",
+      "color": "itemquantity"
+    },
+    "the_vault:item_rarity": {
+      "category": "Looting",
+      "color": "itemrarity"
+    },
+    "the_vault:lucky_hit_chance": {
+      "category": "Looting",
+      "color": "luckyHit"
+    },
+    "the_vault:soul_chance": {
+      "category": "Looting",
+      "color": "soulchance"
+    },
+    "the_vault:trap_disarming": {
+      "category": "Looting",
+      "color": "chance"
+    },
+    "the_vault:durability_wear_reduction": {
+      "category": "Misc",
+      "color": "durabilityWearReduction"
+    },
+    "the_vault:fruit_effectiveness": {
+      "category": "Misc",
+      "color": "living"
+    },
+    "the_vault:idona_affinity": {
+      "category": "Misc",
+      "color": "idona"
+    },
+    "the_vault:mining_speed": {
+      "category": "Misc",
+      "color": "miningspeed"
+    },
+    "the_vault:mining_speed_percent": {
+      "category": "Misc",
+      "color": "miningspeed"
+    },
+    "the_vault:movement_speed": {
+      "category": "Misc",
+      "color": "speed"
+    },
+    "label:Pickup Range": {
+      "category": "Misc",
+      "color": "distance"
+    },
+    "the_vault:velocity": {
+      "category": "Misc",
+      "color": "force"
+    },
+    "the_vault:reach": {
+      "category": "Misc",
+      "color": "range"
+    },
+    "the_vault:tenos_affinity": {
+      "category": "Misc",
+      "color": "tenos"
+    },
+    "the_vault:velara_affinity": {
+      "category": "Misc",
+      "color": "velara"
+    },
+    "the_vault:wendarr_affinity": {
+      "category": "Misc",
+      "color": "wendarr"
+    }
+  },
+  "prominent": {
+    "Damage": "damage",
+    "Health": "health",
+    "Defense": "resistance",
+    "Eff. HP": "absorb",
+    "Mana": "manaCost",
+    "Greed Tier": "uniqueHighlight"
+  }
+}

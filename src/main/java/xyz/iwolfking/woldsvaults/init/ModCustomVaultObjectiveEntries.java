@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
 public class ModCustomVaultObjectiveEntries {
     public static LazySet<CustomObjectiveRegistryEntry> ENTRIES = new LazySet<>(ModCustomVaultObjectiveEntries::getEntries);
@@ -24,6 +25,7 @@ public class ModCustomVaultObjectiveEntries {
     public static final CustomObjectiveRegistryEntry SURVIVAL = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("survival", "Survival", SurvivalCrystalObjective.class, SurvivalCrystalObjective::new, SurvivalObjective.KEY, SurvivalObjective.class).setCrateItem(() -> ModBlocks.CUSTOM_VAULT_CRATES.get("survival").asItem()).build();
     public static final CustomObjectiveRegistryEntry UNHINGED_COLLECTOR = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("unhinged_scavenger_bingo", "Unhinged Collector", ScalingUnhingedScavengerBingoCrystalObjective.class, ScalingUnhingedScavengerBingoCrystalObjective::new, UnhingedScavengerBingoObjective.KEY, UnhingedScavengerBingoObjective.class).setCrateItem(() -> xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.get("unhinged_scavenger_bingo").asItem()).build();
     public static final CustomObjectiveRegistryEntry HYPER = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("hyper", "Hyper", HyperVaultCrystalObjective.class, HyperVaultCrystalObjective::new, HyperVaultObjective.KEY, HyperVaultObjective.class).setCrateItem(() -> xyz.iwolfking.woldsvaults.init.ModBlocks.CUSTOM_VAULT_CRATES.get("hyper").asItem()).build();
+    public static final CustomObjectiveRegistryEntry EXTRACTION = new CustomObjectiveRegistryEntry.CustomObjectiveBuilder("extraction", "Extraction", ExtractionCrystalObjective.class, ExtractionCrystalObjective::new, ExtractionObjective.KEY, ExtractionObjective.class).setCrateItem(() -> ModBlocks.CUSTOM_VAULT_CRATES.get("extraction").asItem()).build();
 
 
     public static void registerCustomObjectives(RegistryEvent.Register<CustomObjectiveRegistryEntry> event) {
@@ -48,6 +50,7 @@ public class ModCustomVaultObjectiveEntries {
         ENTRIES.add(SURVIVAL);
         ENTRIES.add(UNHINGED_COLLECTOR);
         ENTRIES.add(HYPER);
+        ENTRIES.add(EXTRACTION);
         return ENTRIES.stream().toList();
     }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BPB",
+    "BIB",
+    "BBB"
+  ],
+  "key": {
+    "P": {
+      "item": "the_vault:omega_pog"
+    },
+    "B": {
+      "item": "the_vault:black_chromatic_steel_block"
+    },
+    "I": {
+      "item": "woldsvaults:chromatic_steel_vault_infuser"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:omega_vault_infuser"
+  }
+}

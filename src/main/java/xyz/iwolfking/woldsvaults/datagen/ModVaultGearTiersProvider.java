@@ -6,6 +6,9 @@ import iskallia.vault.config.entry.IntRollRangeEntry;
 import iskallia.vault.config.gear.VaultGearTierConfig;
 import iskallia.vault.gear.attribute.ability.AbilityFloatValueAttribute;
 import iskallia.vault.gear.attribute.ability.AbilityLevelAttribute;
+import iskallia.vault.gear.attribute.ability.special.base.template.config.FloatRangeConfig;
+import iskallia.vault.gear.attribute.custom.effect.EffectCloudAttribute;
+import iskallia.vault.gear.attribute.custom.effect.EffectGearAttribute;
 import iskallia.vault.gear.attribute.talent.TalentLevelAttribute;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
@@ -13,14 +16,26 @@ import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.world.VaultMode;
+import xyz.iwolfking.vhapi.api.datagen.AbstractVaultGearConfigProvider;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.gear.lib.UnusualModifierLib;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsVaultGearConfigProvider;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
+import xyz.iwolfking.woldsvaults.modifiers.gear.special.ImplodingJavelinModification;
+import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
 
 import java.util.List;
+import iskallia.vault.gear.attribute.VaultGearAttribute;
+import java.util.function.Consumer;
 
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
+    public static final float STEEL_INFERNO_RADIUS_MIN = 0.5F;
+    public static final float STEEL_INFERNO_CENTRE_MIN = 1.5F;
+
     public ModVaultGearTiersProvider(DataGenerator generator) {
         super(generator);
     }
@@ -140,15 +155,10 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.36F, 0.5F, 0.01F);
                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.51F, 0.75F, 0.01F);
               });
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.25F, 0.5F, 0.01F);
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 0.51F, 1.0F, 0.01F);
-                   addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.0F, 1.5F, 0.01F);
-              });
-              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.05F, 0.07F, 0.01F);
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.08F, 0.1F, 0.01F);
-                   addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.11F, 0.15F, 0.01F);
+              vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                  addGravityCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 50, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
+                  addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 5.0F, 5.0F, 0.5F);
               });
                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 0, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.03F, 0.05F, 0.01F);
@@ -201,11 +211,8 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_physical_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                     addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 100, xyz.iwolfking.woldsvaults.init.ModEffects.DAMAGE_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE.getRegistryName(), 4, 6, 1, 0.76F, 1.0F, 0.01F);
                 });
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.DAMAGE_BURST_COMBO, "BaseCombo", "base_mana_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addDamageBurstCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.MANA_BURST_COMBO.getRegistryName(), 80, iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE.getRegistryName(), 4, 6, 1, 1.51F, 2.0F, 0.01F);
-                });
-                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_current_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
-                    addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.CURRENT_HEALTH, 4, 6, 1, 0.13F, 0.18F, 0.01F);
+                vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.GRAVITY_COMBO, "BaseCombo", "base_gravity_combo", List.of(), vaultGearModifierTiersBuilder -> {
+                    addGravityCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.GRAVITY_COMBO.getRegistryName(), 80, 4, 6, 1, 6.0F, 6.0F, 0.5F);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEALTH_SCALING_COMBO, "BaseCombo", "base_max_health_burst_combo", List.of(), vaultGearModifierTiersBuilder -> {
                     addHealthScalingCombo(vaultGearModifierTiersBuilder, 80, -1, 40, xyz.iwolfking.woldsvaults.init.ModEffects.HEALTH_BURST_COMBO.getRegistryName(), 80, HealthScalingComboAttribute.DamageType.MAX_HEALTH, 4, 6, 1, 0.09F, 0.1F, 0.01F);
@@ -365,12 +372,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 0.51, 0.7, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.05, 0.1, 0.01);
-                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.11, 0.15, 0.01);
-                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.16, 0.22, 0.01);
-                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.23, 0.27, 0.01);
-                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.28, 0.34, 0.01);
-                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.35, 0.45, 0.01);
+                    vaultGearModifierTiersBuilder.add(0, 62, 10, 0.15, 0.3, 0.01);
+                    vaultGearModifierTiersBuilder.add(22, -1, 10, 0.33, 0.45, 0.01);
+                    vaultGearModifierTiersBuilder.add(43, -1, 10, 0.48, 0.66, 0.01);
+                    vaultGearModifierTiersBuilder.add(70, -1, 10, 0.69, 0.81, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.84, 1.02, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.05, 1.35, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, 79, 10, 0.05, 0.1, 0.01);
@@ -444,7 +451,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.ECHOING_CHANCE, "ModElementType", "mod_echoing_chance", List.of("focusEchoingChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -452,7 +459,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_STUN, "ModElementType", "mod_stun_chance", List.of("focusStunChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(50, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -468,7 +475,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_SKIP_CHANCE, "ModAttackType", "mod_ability_cooldown_skip", List.of("focusAbilitySkip"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -476,7 +483,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
                 vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.HEXING_CHANCE, "ModAttackType", "mod_hexing_chance", List.of("focusHexingChance"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(20, 85, 10, 0.03, 0.06, 0.01);
-                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.6, 0.1, 0.01);
+                    vaultGearModifierTiersBuilder.add(60, -1, 10, 0.07, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(70, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(90, -1, 10, 0.16, 0.2, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.21, 0.25, 0.01);
@@ -577,9 +584,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 0.77, 1.05, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.COOLDOWN_REDUCTION, "ModCooldownReduction", "mod_cooldown_reduction", List.of("focusCooldown"), vaultGearModifierTiersBuilder -> {
-                    vaultGearModifierTiersBuilder.add(0, -1, 10, 0.35, 0.41, 0.01);
-                    vaultGearModifierTiersBuilder.add(101, -1, 10, 0.42, 0.51, 0.01);
-                    vaultGearModifierTiersBuilder.add(102, -1, 10, 0.53, 0.68, 0.01);
+                    vaultGearModifierTiersBuilder.add(0, -1, 10, 1.05, 1.23, 0.01);
+                    vaultGearModifierTiersBuilder.add(101, -1, 10, 1.26, 1.53, 0.01);
+                    vaultGearModifierTiersBuilder.add(102, -1, 10, 1.59, 2.04, 0.01);
                 });
                 vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION, "ModDamageChampion", "mod_damage_champion", List.of("focusDamageChampion"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 10, 0.75, 1.25, 0.01);
@@ -742,6 +749,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
         });
 
+        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective);
+        add("map_mythic", builder -> builder.key(VaultMod.id("map_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective));
+
         addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.CORROSIVE);
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.EXTRA_REINFORCED);
@@ -837,9 +847,9 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             });
 
             vaultGearAttributeGroupBuilder.addModifier(ModGearAttributes.EXECUTION_DAMAGE, "ModOnHitType", "mod_corrupt_execution_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                vaultGearModifierTiersBuilder.add(0, -1, 100, 0.03F, 0.05F, 0.01F);
-                vaultGearModifierTiersBuilder.add(50, -1, 100, 0.05F, 0.07F, 0.01F);
-                vaultGearModifierTiersBuilder.add(90, -1, 100, 0.07F, 0.1F, 0.01F);
+                vaultGearModifierTiersBuilder.add(0, -1, 100, 0.015F, 0.025F, 0.005F);
+                vaultGearModifierTiersBuilder.add(50, -1, 100, 0.025F, 0.035F, 0.005F);
+                vaultGearModifierTiersBuilder.add(90, -1, 100, 0.035F, 0.05F, 0.005F);
             });
             vaultGearAttributeGroupBuilder
                     .addModifier(ModGearAttributes.BURNING_HIT_CHANCE, "ModBurningHit", "mod_corrupt_burning_hit", List.of(), vaultGearModifierTiersBuilder -> {
@@ -906,6 +916,20 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         .addModifier(ModGearAttributes.TRIDENT_CHANNELING, "BaseChanneling", "trident_channeling", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, true);
                         });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.MOVEMENT_SPEED, "BaseBonusPool", "base_movement", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(20, 64, 100, 0.02F, 0.06F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(40, 84, 100, 0.07F, 0.1F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(65, -1, 100, 0.11F, 0.14F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(85, -1, 100, 0.15F, 0.2F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.BLOCK, "BaseBonusPool", "base_block_chance", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(20, -1, 100, 0.04F, 0.08F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(70, -1, 100, 0.09F, 0.12F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder.addModifier(scoped(ModGearAttributes.TRIDENT_RIPTIDE, "BaseTridentLoyalty", "tidebreaker_tideripper", "trident_riptide",
+                        vaultGearModifierTiersBuilder -> vaultGearModifierTiersBuilder.add(0, -1, 10, 6, 6, 1)));
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
@@ -951,7 +975,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_COOLDOWN_PERCENT, "ModJavelinCooldownIncrease", "javelin_cooldown_increase", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 12F, 16F, 0.5F));
+                            vaultGearModifierTiersBuilder.addPercentAbilityCooldown(0, -1, 10, new AbilityFloatValueAttribute.Config("Javelin_Base", 9F, 13F, 0.5F));
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_MANACOST_PERCENT, "ModJavelinManaIncrease", "javelin_mana_cost", List.of(), vaultGearModifierTiersBuilder -> {
@@ -1078,14 +1102,55 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                             vaultGearModifierTiersBuilder.add(75, -1, 10, "Weakness V", ResourceLocation.withDefaultNamespace("empty"), 300, 4.0f, MobEffects.WEAKNESS.getColor(), false, 0.05F, MobEffects.WEAKNESS.getRegistryName(), 300, 0);
                         });
                 vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.MOVEMENT_SPEED, "ModMovementSpeed", "set_movement_speed", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, 64, 10, 0.05F, 0.1F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(40, -1, 10, 0.11F, 0.15F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(80, -1, 10, 0.16F, 0.2F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder.addModifier(scoped(ModGearAttributes.TRIDENT_WINDUP, "ModTridentWindup", "tidebreaker_tideripper", "windup_time_zeus",
+                        vaultGearModifierTiersBuilder -> vaultGearModifierTiersBuilder.add(0, -1, 10, 0.6F, 0.8F, 0.01F)));
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.MANA_ADDITIVE, "ModHealthMana", "mod_max_mana", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(20, 94, 100, 20, 30, 1);
+                            vaultGearModifierTiersBuilder.add(40, 92, 100, 31, 40, 1);
+                            vaultGearModifierTiersBuilder.add(70, -1, 100, 41, 50, 1);
+                            vaultGearModifierTiersBuilder.add(95, -1, 100, 51, 60, 1);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModAPLvl", "unique_rampage_level", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(25, -1, 30, new AbilityLevelAttribute.Config("Rampage", 2));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModAPLvl", "unique_dash_level", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(25, -1, 30, new AbilityLevelAttribute.Config("Dash", 2));
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModAPLvl", "unique_ice_bolt_level", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(25, -1, 30, new AbilityLevelAttribute.Config("Ice_Bolt", 2));
+                        });
+                vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModPoisonNovaLevel", "mod_poison_nova_level", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Nova_Dot", 1));
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Nova_Dot", 2));
                             vaultGearModifierTiersBuilder.add(50, -1, 10, new AbilityLevelAttribute.Config("Nova_Dot", 3));
                             vaultGearModifierTiersBuilder.add(75, -1, 10, new AbilityLevelAttribute.Config("Nova_Dot", 4));
                         });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.JAVELIN_MULTI_HIT, "ModJavelinMultiHit", "u_javelin_multi_hit", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 1, true);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.STORM_TRACKING, "ModStormTracking", "u_storm_tracking", List.of(), vaultGearModifierTiersBuilder -> {
+                            addStormTracking(vaultGearModifierTiersBuilder, 0, -1, 1, "Storm_Arrow_Base", 10.0F);
+                        });
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
+                vaultGearAttributeGroupBuilder
+                        .addModifier(ModGearAttributes.STEEL_INFERNO, "ModSteelInferno", "u_steel_inferno", List.of(), vaultGearModifierTiersBuilder -> {
+                            addSteelInferno(vaultGearModifierTiersBuilder, 0, -1, 5, STEEL_INFERNO_RADIUS_MIN, 0.6F, 0.01F, STEEL_INFERNO_CENTRE_MIN, 2.0F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder.addModifier(woldsIdentifier(iskallia.vault.init.ModGearAttributes.ABILITY_SPECIAL_MODIFICATION, "ModImplodingJavelinDamage", "u_imploding_javelin_damage",
+                        vaultGearModifierTiersBuilder -> vaultGearModifierTiersBuilder.add(0, -1, 1, "Javelin_Base", ImplodingJavelinModification.ID, new FloatRangeConfig(14076214, 6082075, 0.5F, 0.8F, 0.01F))));
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SHOCKING_HIT_CHANCE, "ModShockingHit", "shocking_hit_zeus", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, 0.25F, 0.25F, 0F);
@@ -1110,6 +1175,24 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                             vaultGearModifierTiersBuilder.add(65, -1, 10, 0.05F, 0.09F, 0.01F);
                             vaultGearModifierTiersBuilder.add(85, -1, 10, 0.09F, 0.12F, 0.01F);
                         });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_DURATION, "ModEffectDuration", "set_effect_duration", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, 64, 10, 0.05F, 0.1F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(40, -1, 10, 0.1F, 0.18F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(80, -1, 10, 0.18F, 0.25F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.HEALING_EFFECTIVENESS, "ModHealingEfficiency", "set_healing_efficiency", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, 64, 10, 0.1F, 0.2F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(40, -1, 10, 0.2F, 0.32F, 0.01F);
+                            vaultGearModifierTiersBuilder.add(80, -1, 10, 0.32F, 0.42F, 0.01F);
+                        });
+                vaultGearAttributeGroupBuilder
+                        .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_CLOUD, "ModEffectCloud", "set_chilling_cloud_tideripper", List.of(), vaultGearModifierTiersBuilder -> {
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, "Chilling III", ResourceLocation.withDefaultNamespace("empty"), 200, 4.0f, 3138042, false, 0.05F, ModEffects.CHILLED.getRegistryName(), 140, 0);
+                        });
+                vaultGearAttributeGroupBuilder.addModifier(scoped(ModGearAttributes.TRIDENT_RIPTIDE, "ModRiptide", "tidebreaker_heart", "trident_riptide",
+                        vaultGearModifierTiersBuilder -> vaultGearModifierTiersBuilder.add(0, -1, 10, 1, 1, 1)));
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_LEVEL, "ModDiffuseLevel", "mod_diffuse_level", List.of(), vaultGearModifierTiersBuilder -> {
                             vaultGearModifierTiersBuilder.add(0, -1, 10, new AbilityLevelAttribute.Config("Expunge_Base", 1));
@@ -1175,83 +1258,83 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED,  "BaseAttackSpeed",  "base_attack_speed",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0, -1, 10, -2.1,  -2.0, 1);
-                            vaultGearModifierTiersBuilder.add(50,-1, 10, -1.99, -1.9, 1);
+                            vaultGearModifierTiersBuilder.add(0, -1, 10, -2.1,  -2.0, 0.01);
+                            vaultGearModifierTiersBuilder.add(50,-1, 10, -1.99, -1.9, 0.01);
                         });
             });
 
             builder.key(VaultMod.id("dagger")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,    "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   70, 10, 0.20, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(28,  -1, 10, 0.41, 0.80, 1);
-                            vaultGearModifierTiersBuilder.add(45,  -1, 10, 0.81, 1.20, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 1.21, 1.60, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.60, 2.20, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 2.20, 3.00, 1);
+                            vaultGearModifierTiersBuilder.add(0,   70, 10, 0.20, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(28,  -1, 10, 0.41, 0.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(45,  -1, 10, 0.81, 1.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 1.21, 1.60, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.60, 2.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 2.20, 3.00, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION,  "ModChampionDamage", "mod_champion_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DUNGEON,   "ModDungeonDamage",  "mod_dungeon_damage",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_TANK,      "ModTankDamage",     "mod_tank_damage",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DWELLER,   "ModDwellerDamage",  "mod_dweller_damage",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_ASSASSIN,  "ModAssassinDamage", "mod_assassin_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_HORDE,     "ModHordeDamage",    "mod_horde_damage",    List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 1);
+                            vaultGearModifierTiersBuilder.add(0,   79, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(62,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.41, 0.50, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.LUCKY_HIT_CHANCE, "ModLuckyHit",       "mod_lucky_hit",       List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(25,  79, 10, 0.03, 0.05, 1);
-                            vaultGearModifierTiersBuilder.add(40,  -1, 10, 0.06, 0.08, 1);
-                            vaultGearModifierTiersBuilder.add(60,  -1, 10, 0.09, 0.11, 1);
-                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.12, 0.15, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.16, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.21, 0.25, 1);
+                            vaultGearModifierTiersBuilder.add(25,  79, 10, 0.03, 0.05, 0.01);
+                            vaultGearModifierTiersBuilder.add(40,  -1, 10, 0.06, 0.08, 0.01);
+                            vaultGearModifierTiersBuilder.add(60,  -1, 10, 0.09, 0.11, 0.01);
+                            vaultGearModifierTiersBuilder.add(80,  -1, 10, 0.12, 0.15, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.16, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.21, 0.25, 0.01);
                         });
             });
 
@@ -1287,21 +1370,21 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE,         "ModRangeSpeed",     "mod_attack_range",   List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.10, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(20,  -1, 10, 0.21, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(45,  -1, 10, 0.31, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.41, 0.50, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.51, 0.75, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.76, 1.00, 1);
+                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.10, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(20,  -1, 10, 0.21, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(45,  -1, 10, 0.31, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.41, 0.50, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.51, 0.75, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.76, 1.00, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED_PERCENT, "ModRangeSpeed",     "mod_attack_speed",   List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.10, 1);
-                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.15, 1);
-                            vaultGearModifierTiersBuilder.add(65,  -1, 10, 0.16, 0.20, 1);
-                            vaultGearModifierTiersBuilder.add(96,  -1, 10, 0.21, 0.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.31, 0.35, 1);
+                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.10, 0.01);
+                            vaultGearModifierTiersBuilder.add(36,  -1, 10, 0.11, 0.15, 0.01);
+                            vaultGearModifierTiersBuilder.add(65,  -1, 10, 0.16, 0.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(96,  -1, 10, 0.21, 0.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.31, 0.35, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_CLOUD,         "ModHealBleedCloud", "mod_bleed_cloud",    List.of(), vaultGearModifierTiersBuilder -> {
@@ -1388,58 +1471,58 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED,  "BaseAttackSpeed",  "base_attack_speed",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100,-1, 10, -1.95, -1.85, 1);
+                            vaultGearModifierTiersBuilder.add(100,-1, 10, -1.95, -1.85, 0.01);
                         });
             });
 
             builder.key(VaultMod.id("dagger_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX, vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,    "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 1.50, 2.00, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 2.01, 3.50, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 3.51, 5.00, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 1.50, 2.00, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 2.01, 3.50, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 3.51, 5.00, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_CHAMPION,  "ModChampionDamage", "mod_champion_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DUNGEON,   "ModDungeonDamage",  "mod_dungeon_damage",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_TANK,      "ModTankDamage",     "mod_tank_damage",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_DWELLER,   "ModDwellerDamage",  "mod_dweller_damage",  List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_ASSASSIN,  "ModAssassinDamage", "mod_assassin_damage", List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.DAMAGE_HORDE,     "ModHordeDamage",    "mod_horde_damage",    List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.75, 1.25, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 1.40, 1.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.80, 2.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.LUCKY_HIT_CHANCE, "ModLuckyHit",       "mod_lucky_hit",       List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.15, 0.19, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.20, 0.24, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.25, 0.30, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.15, 0.19, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.20, 0.24, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.25, 0.30, 0.01);
                         });
             });
 
@@ -1464,15 +1547,15 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_RANGE,         "ModRangeSpeed",     "mod_attack_range",   List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.50, 0.75, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.76, 1.00, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.01, 1.25, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.50, 0.75, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.76, 1.00, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 1.01, 1.25, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED_PERCENT, "ModRangeSpeed",     "mod_attack_speed",   List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.26, 0.30, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.35, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.36, 0.40, 1);
+                            vaultGearModifierTiersBuilder.add(100, -1, 10, 0.26, 0.30, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.31, 0.35, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.36, 0.40, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_CLOUD,         "ModHealBleedCloud", "mod_bleed_cloud",    List.of(), vaultGearModifierTiersBuilder -> {
@@ -1558,12 +1641,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             builder.key(VaultMod.id("dagger_sub")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,        "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   70, 200, 0.20, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(28,  -1, 200, 0.41, 0.80, 1);
-                            vaultGearModifierTiersBuilder.add(45,  -1, 200, 0.81, 1.20, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 200, 1.21, 1.60, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 200, 1.60, 2.20, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 200, 2.20, 3.00, 1);
+                            vaultGearModifierTiersBuilder.add(0,   70, 200, 0.20, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(28,  -1, 200, 0.41, 0.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(45,  -1, 200, 0.81, 1.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 200, 1.21, 1.60, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 200, 1.60, 2.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 200, 2.20, 3.00, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_CHAIN,         "ModChaining",       "mod_chaining",        List.of(), vaultGearModifierTiersBuilder -> {
@@ -1606,11 +1689,11 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.LUCKY_HIT_CHANCE,     "ModLuckyHit",       "mod_lucky_hit",       List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.07, 1);
-                            vaultGearModifierTiersBuilder.add(50,  -1, 10, 0.08, 0.11, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.12, 0.14, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.15, 0.17, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.18, 0.20, 1);
+                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.07, 0.01);
+                            vaultGearModifierTiersBuilder.add(50,  -1, 10, 0.08, 0.11, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.12, 0.14, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.15, 0.17, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.18, 0.20, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_CLOUD,         "ModHealBleedStorm", "mod_bleed_storm",    List.of(), vaultGearModifierTiersBuilder -> {
@@ -1709,12 +1792,12 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             builder.key(VaultMod.id("dagger_sub_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.PREFIX,          vaultGearAttributeGroupBuilder -> {
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.SOUL_QUANTITY,        "ModSoulChance",     "mod_soul_chance",     List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   70, 200, 0.20, 0.40, 1);
-                            vaultGearModifierTiersBuilder.add(28,  -1, 200, 0.41, 0.80, 1);
-                            vaultGearModifierTiersBuilder.add(45,  -1, 200, 0.81, 1.20, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 200, 1.21, 1.60, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 200, 1.60, 2.20, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 200, 2.20, 3.00, 1);
+                            vaultGearModifierTiersBuilder.add(0,   70, 200, 0.20, 0.40, 0.01);
+                            vaultGearModifierTiersBuilder.add(28,  -1, 200, 0.41, 0.80, 0.01);
+                            vaultGearModifierTiersBuilder.add(45,  -1, 200, 0.81, 1.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 200, 1.21, 1.60, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 200, 1.60, 2.20, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 200, 2.20, 3.00, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.ON_HIT_CHAIN,         "ModChaining",       "mod_chaining",        List.of(), vaultGearModifierTiersBuilder -> {
@@ -1757,11 +1840,11 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.LUCKY_HIT_CHANCE,     "ModLuckyHit",       "mod_lucky_hit",       List.of(), vaultGearModifierTiersBuilder -> {
-                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.07, 1);
-                            vaultGearModifierTiersBuilder.add(50,  -1, 10, 0.08, 0.11, 1);
-                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.12, 0.14, 1);
-                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.15, 0.17, 1);
-                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.18, 0.20, 1);
+                            vaultGearModifierTiersBuilder.add(0,   -1, 10, 0.05, 0.07, 0.01);
+                            vaultGearModifierTiersBuilder.add(50,  -1, 10, 0.08, 0.11, 0.01);
+                            vaultGearModifierTiersBuilder.add(75,  -1, 10, 0.12, 0.14, 0.01);
+                            vaultGearModifierTiersBuilder.add(101, -1, 10, 0.15, 0.17, 0.01);
+                            vaultGearModifierTiersBuilder.add(102, -1, 10, 0.18, 0.20, 0.01);
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(iskallia.vault.init.ModGearAttributes.EFFECT_CLOUD,         "ModHealBleedStorm", "mod_bleed_storm",    List.of(), vaultGearModifierTiersBuilder -> {
@@ -1813,5 +1896,31 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
             });
         });
+    }
+
+    /** A unique-table row whose identifier is in the woldsvaults namespace. */
+    private static VaultGearTierConfig.ModifierTierGroup woldsIdentifier(VaultGearAttribute<?> attribute, String modifierGroup, String identifierPath,
+                                                                          Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
+        VaultGearTierConfig.ModifierTierGroup group = new VaultGearTierConfig.ModifierTierGroup(attribute.getRegistryName(), modifierGroup, WoldsVaults.id(identifierPath));
+        AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder builder = new AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder();
+        tiers.accept(builder);
+        group.addAll(builder.build());
+        return group;
+    }
+
+    /** A unique-table row scoped to one woldsvaults unique, which {@code UniqueRollTables} resolves before the plain identifier. */
+    private static VaultGearTierConfig.ModifierTierGroup scoped(VaultGearAttribute<?> attribute, String modifierGroup, String uniquePath, String identifierPath,
+                                                                 Consumer<AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder> tiers) {
+        VaultGearTierConfig.ModifierTierGroup group = new VaultGearTierConfig.ModifierTierGroup(attribute.getRegistryName(), modifierGroup,
+                UniqueRollTables.scoped(WoldsVaults.id(uniquePath), VaultMod.id(identifierPath)));
+        AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder builder = new AbstractVaultGearConfigProvider.VaultGearModifierTiersBuilder();
+        tiers.accept(builder);
+        group.addAll(builder.build());
+        return group;
+    }
+
+    private static void extractionObjective(VaultGearAttributeGroupBuilder group) {
+        group.addModifier(ModGearAttributes.OBJECTIVE, "ModObjective", "extraction_objective", List.of(),
+                tiers -> tiers.add(new VaultGearTierConfig.ModifierTier<>(0, 40, new StringValueGenerator.StringValue("extraction")), -1));
     }
 }

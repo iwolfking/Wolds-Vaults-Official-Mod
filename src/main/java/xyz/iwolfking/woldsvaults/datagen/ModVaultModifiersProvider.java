@@ -32,6 +32,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Block;
 import xyz.iwolfking.vhapi.api.datagen.AbstractVaultModifierProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.BasicListBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.WeightedLevelEntryListBuilder;
@@ -46,6 +47,7 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -141,8 +143,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerEffect(modifierBuilder, WoldsVaults.id("unlucky_aura"), MobEffects.UNLUCK.getRegistryName(), 2, "Jinxed", "#5032a8", "You aren't feeling very lucky...", "+%d Unluck", VaultMod.id("gui/modifiers/impossible"));
             playerEffect(modifierBuilder, WoldsVaults.id("doomed_aura"), MobEffects.UNLUCK.getRegistryName(), 6, "Doomed", "#5032a8", "It seems almost all the luck has been sucked out...", "+%d Unluck", VaultMod.id("gui/modifiers/impossible"));
             playerEffect(modifierBuilder, WoldsVaults.id("super_lucky"), MobEffects.LUCK.getRegistryName(), 4, "Four-Leaf Clover", "#b3ff20", "You're feeling super lucky!", "+%d Luck", VaultMod.id("gui/modifiers/lucky"));
-            playerEffect(modifierBuilder, WoldsVaults.id("exposed"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 4, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by half", null, VaultMod.id("gui/modifiers/impossible"));
-            playerEffect(modifierBuilder, WoldsVaults.id("exposed_mini"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 2, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by half", null, VaultMod.id("gui/modifiers/impossible"));
+            playerEffect(modifierBuilder, WoldsVaults.id("exposed"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 4, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by 25%", "Your armor feels exposed... armor reduced by 25%%", VaultMod.id("gui/modifiers/impossible"));
+            playerEffect(modifierBuilder, WoldsVaults.id("exposed_mini"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 2, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by 15%", "Your armor feels exposed... armor reduced by 15%%", VaultMod.id("gui/modifiers/impossible"));
 
             poolReferenceWeight(modifierBuilder, WoldsVaults.id("challenge_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/challenge_rooms")), 3.0, "Challenge Vein", "#FF4500", "3x Challenge Room Chance", null, VaultMod.id("gui/modifiers/challenge_fortune"));
             poolReferenceWeight(modifierBuilder, WoldsVaults.id("omega_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/omega_rooms")), 4.0, "Omega Vein", "#6AFF00", "4x Omega Room Chance", null, VaultMod.id("gui/modifiers/omega_fortune"));
@@ -154,8 +156,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerStat(modifierBuilder, VaultMod.id("disarming"), PlayerStat.TRAP_DISARM_CHANCE, 0.25F,  "Disarming", "#cb9be5", "+25% Trap Disarm Chance", "+%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/safezone"));
             playerStat(modifierBuilder, VaultMod.id("bingo_trapped"), PlayerStat.TRAP_DISARM_CHANCE, -0.25F,  "Trapped", "#CB866D", "-25% Trap Disarm Chance", "-%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/trapped"));
             playerStat(modifierBuilder, VaultMod.id("rigged"), PlayerStat.TRAP_DISARM_CHANCE, -1.0F,  "Rigged", "#CB866D", "-100% Trap Disarm Chance", "-%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/trapped"));
-            playerStat(modifierBuilder, VaultMod.id("rending"), PlayerStat.COOLDOWN_REDUCTION, -0.25F,  "Rending", "#6DACB5", "-25% Cooldown Reduction", "-%d%% Cooldown Reduction", VaultMod.id("gui/modifiers/inert"));
-            playerStat(modifierBuilder, VaultMod.id("nullifying"), PlayerStat.COOLDOWN_REDUCTION, -0.5F,  "Nullifying", "#6DACB5", "-50% Cooldown Reduction", "-%d%% Cooldown Reduction", VaultMod.id("gui/modifiers/inert"));
+            playerStat(modifierBuilder, VaultMod.id("rending"), PlayerStat.COOLDOWN_REDUCTION, RENDING_HASTE,  "Rending", "#6DACB5", percent(RENDING_HASTE) + "% Spell Haste", "%d%% Spell Haste", VaultMod.id("gui/modifiers/inert"));
+            playerStat(modifierBuilder, VaultMod.id("nullifying"), PlayerStat.COOLDOWN_REDUCTION, NULLIFYING_HASTE,  "Nullifying", "#6DACB5", percent(NULLIFYING_HASTE) + "% Spell Haste", "%d%% Spell Haste", VaultMod.id("gui/modifiers/inert"));
             playerStat(modifierBuilder, VaultMod.id("dangerous"), PlayerStat.RESISTANCE, -0.25F,  "Dangerous", "#CA9A5B", "-25% Resistance", "-%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
             playerStat(modifierBuilder, VaultMod.id("piercing"), PlayerStat.RESISTANCE, -0.5F,  "Piercing", "#CA9A5B", "-50% Resistance", "-%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
             playerStat(modifierBuilder, VaultMod.id("protected"), PlayerStat.RESISTANCE, 0.1F,  "Protected", "#CA9A5B", "+10% Resistance", "+%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
@@ -575,7 +577,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 resourceLocationIntegerMap.put(VaultMod.id("furious_mobs"), 3);
                 resourceLocationIntegerMap.put(VaultMod.id("chunky_mobs"), 3);
                 resourceLocationIntegerMap.put(VaultMod.id("rending"), 1);
-            },"Tenos' Challenge", "#ba0000", "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent", null, VaultMod.id("gui/modifiers/challenging"));
+            },"Tenos' Challenge", "#ba0000", "Increases mob damage and mob health 20 percent per stack, " + percent(RENDING_HASTE) + "% Spell Haste", null, VaultMod.id("gui/modifiers/challenging"));
 
             grouped(modifierBuilder, VaultMod.id("wendarr_challenge"), resourceLocationIntegerMap -> {
                 resourceLocationIntegerMap.put(VaultMod.id("furious_mobs"), 3);
@@ -689,7 +691,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             hyperMarker(modifierBuilder, WoldsVaults.id("omega_crate_tier"), "Omega Crate Tier", "#4dffd2",
                     "Injects a set of Omega rewards into the completion crate", WoldsVaults.id("gui/modifiers/omega_crate_tier"));
             hyperMarker(modifierBuilder, WoldsVaults.id("greedy_crate_tier"), "Greedy Crate Tier", "#ffd24d",
-                    "+100% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
+                    "+" + Math.round(ModHyperObjectiveProvider.table().greedyCoinBonusPerStack * 100) + "% Greed Coins in the completion crate", WoldsVaults.id("gui/modifiers/greedy_crate_tier"));
             empty(modifierBuilder, WoldsVaults.id("radar"), "Radar", "#ff4545",
                     "Mob radar is online — Ghost Walk, Spirit Walk and Shadow Cloak cannot hide you", null,
                     WoldsVaults.id("gui/modifiers/radar"));
@@ -802,6 +804,75 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             }
 
         });
+
+        map.put("greed_modifiers", modifierBuilder -> {
+            for (int level = 70; level <= 100; level += 5) {
+                empty(modifierBuilder, VaultMod.id("sigil_ancient_" + level), "Ancient", "#FFA500", "This vault has been inscribed with an Ancient Sigil", null, VaultMod.id("gui/modifiers/sigil_legend"));
+            }
+
+            modifierBuilder.type(VaultMod.id("modifier_type/crate_item_quantity").toString(), typeBuilder -> typeBuilder.modifier(WoldsVaults.id("tenos_challenge_tackler").toString(), entry -> {
+                entry.property("percentage", 1.0F);
+                unformattedDisplay(entry, "Crate Tier", "#38C9C0", "Increases the reward crate tier once per modifier", VaultMod.id("gui/modifiers/crate_item_quantity"));
+            }));
+
+            Map<String, Integer> masterOfChests = new LinkedHashMap<>();
+            Map<String, Integer> omegaCascading = new LinkedHashMap<>();
+            OMEGA_CASCADING.forEach((suffix, cascade) -> {
+                ResourceLocation id = WoldsVaults.id("omega_cascading_" + suffix);
+                decoratorCascade(modifierBuilder, id, PartialBlock.of(cascade.block()), OMEGA_CASCADING_CHANCE, "Omega Cascading", "#3ffbf4", "+" + percent(OMEGA_CASCADING_CHANCE) + "% " + cascade.label(), "+%d%% " + cascade.label(), VaultMod.id("gui/modifiers/item_quant_4"));
+                masterOfChests.put(id.toString(), MASTER_OF_CHESTS_STACKS);
+                omegaCascading.put(id.toString(), 1);
+            });
+
+            modifierBuilder.type(VaultMod.id("modifier_type/grouped").toString(), typeBuilder -> typeBuilder
+                    .modifier(WoldsVaults.id("tenos_master_of_chests").toString(), entry -> {
+                        entry.property("children", masterOfChests);
+                        unformattedDisplay(entry, "Master of Chests", "#3FFBF4", "+" + percent(OMEGA_CASCADING_CHANCE * MASTER_OF_CHESTS_STACKS) + "% Cascading for all chests and coins.", VaultMod.id("gui/modifiers/item_quant_4"));
+                    })
+                    .modifier(WoldsVaults.id("omega_cascading").toString(), entry -> {
+                        entry.property("children", omegaCascading);
+                        unformattedDisplay(entry, "Omega Cascading", "#3ffbf4", "+" + percent(OMEGA_CASCADING_CHANCE) + "% Cascading for all chests and coins.", VaultMod.id("gui/modifiers/item_quant_4"));
+                    }));
+
+            modifierBuilder.type(VaultMod.id("modifier_type/pool_reference_weight").toString(), typeBuilder -> typeBuilder.modifier(WoldsVaults.id("omega_fortune_double").toString(), entry -> {
+                entry.property("references", List.of(VaultMod.id("vault/rooms/omega_rooms").toString()));
+                entry.property("weightMultiplier", OMEGA_SPROUT_MULTIPLIER);
+                unformattedDisplay(entry, "Omega Sprout", "#6AFF00", Math.round(OMEGA_SPROUT_MULTIPLIER) + "x Omega Room Chance", VaultMod.id("gui/modifiers/omega_fortune"));
+            }));
+        });
+    }
+
+    private static final float OMEGA_CASCADING_CHANCE = 0.01F;
+    private static final float RENDING_HASTE = -0.5F;
+    private static final float NULLIFYING_HASTE = -1.0F;
+    private static final int MASTER_OF_CHESTS_STACKS = 15;
+    private static final double OMEGA_SPROUT_MULTIPLIER = 2.0;
+
+    private static int percent(float fraction) {
+        return Math.round(fraction * 100.0F);
+    }
+
+    private record Cascade(Block block, String label) {
+    }
+
+    private static final Map<String, Cascade> OMEGA_CASCADING = orderedCascades();
+
+    private static Map<String, Cascade> orderedCascades() {
+        Map<String, Cascade> cascades = new LinkedHashMap<>();
+        cascades.put("wooden", new Cascade(ModBlocks.WOODEN_CHEST, "Wooden Chests"));
+        cascades.put("gilded", new Cascade(ModBlocks.GILDED_CHEST, "Gilded Chests"));
+        cascades.put("ornate", new Cascade(ModBlocks.ORNATE_CHEST, "Ornate Chests"));
+        cascades.put("living", new Cascade(ModBlocks.LIVING_CHEST, "Living Chests"));
+        cascades.put("coins", new Cascade(ModBlocks.COIN_PILE, "Coin Piles"));
+        return cascades;
+    }
+
+    /**
+     * Display without {@code descriptionFormatted}: VH then shows the plain description instead of formatting it,
+     * which these descriptions need because they contain a literal {@code %}.
+     */
+    private static void unformattedDisplay(ModifierBuilder.ModifierEntryBuilder entry, String name, String color, String description, ResourceLocation icon) {
+        entry.display(name, color, description, null, icon.toString());
     }
 
     /**
@@ -907,7 +978,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             String formattedDescription,
             ResourceLocation icon
     ) {
-        builder.type(VaultMod.id("modifier_type/mob_additional_magic_damage_on_hit").toString(), (typeBuilder) -> {
+        builder.type(WoldsVaults.id("modifier_type/mob_additional_magic_damage_on_hit").toString(), (typeBuilder) -> {
             typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
                 modifierEntryBuilder.property("amount", amount);
@@ -930,7 +1001,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             String formattedDescription,
             ResourceLocation icon
     ) {
-        builder.type(VaultMod.id("modifier_type/mob_additional_void_damage_on_hit").toString(), (typeBuilder) -> {
+        builder.type(WoldsVaults.id("modifier_type/mob_additional_void_damage_on_hit").toString(), (typeBuilder) -> {
             typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
                 modifierEntryBuilder.property("amount", amount);
@@ -953,7 +1024,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             String formattedDescription,
             ResourceLocation icon
     ) {
-        builder.type(VaultMod.id("modifier_type/mob_mana_steal_on_hit").toString(), (typeBuilder) -> {
+        builder.type(WoldsVaults.id("modifier_type/mob_mana_steal_on_hit").toString(), (typeBuilder) -> {
             typeBuilder.modifier(modifierId.toString(), (modifierEntryBuilder) -> {
                 modifierEntryBuilder.property("onHitApplyChance", onHitApplyChance);
                 modifierEntryBuilder.property("amount", amount);

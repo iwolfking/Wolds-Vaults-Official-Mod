@@ -10,6 +10,7 @@ import mezz.jei.common.load.registration.SubtypeRegistration;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Restriction(
         require = {
@@ -24,7 +25,7 @@ public class MixinSubtypeRegistration {
             return;
         }
 //        if (item instanceof IdentifiableItem) {
-//            WoldsVaults.LOGGER.error("Attempted to use NBT subtype interpreter for identifiable item {}", item.getRegistryName().toString());
+//            WoldLogger.error("Attempted to use NBT subtype interpreter for identifiable item {}", item.getRegistryName().toString());
 //        }
         original.call(instance, item, iIngredientSubtypeInterpreter);
     }

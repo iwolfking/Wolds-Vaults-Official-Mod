@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ScavengerBingoObjectiveAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TileCandidateAccessor;
@@ -163,6 +164,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
 
         RandomSource random = JavaRandom.ofInternal(vault.get(Vault.SEED));
         int level = vault.get(Vault.LEVEL).get();
+        double difficultyScale = ObjectiveDifficulty.factor(ObjectiveDifficulty.multiplier(vault), "unhinged_scavenger_bingo");
         List<?> candidates = this.collectAllCandidates();
         Collections.shuffle(candidates, new Random(vault.get(Vault.SEED)));
         ScavengerConfig config = ModConfigs.UNHINGED_SCAVENGER;
@@ -198,7 +200,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
                     int itemCount = entry.getOverride() != null
                         ? (int)Math.ceil(baseCount * entry.getOverride().apply(candidate.getItem(), candidate.getMultiplier()))
                         : baseCount;
-                    ScavengerBingoTile tile = new ScavengerBingoTile(candidate.getItem().copy(), candidate.getSourceType(), candidate.getIcon(), itemCount, candidate.getColor());
+                    ScavengerBingoTile tile = new ScavengerBingoTile(candidate.getItem().copy(), candidate.getSourceType(), candidate.getIcon(), ObjectiveDifficulty.scale(itemCount, difficultyScale), candidate.getColor());
                     tiles.add(tile);
                 }
             }
@@ -336,6 +338,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
         if (!incompleteIndices.isEmpty()) {
             RandomSource random = JavaRandom.ofInternal(vault.get(Vault.SEED) ^ System.nanoTime());
             int level = vault.get(Vault.LEVEL).get();
+            double difficultyScale = ObjectiveDifficulty.factor(ObjectiveDifficulty.multiplier(vault), "unhinged_scavenger_bingo");
             List<TileCandidateAccessor> candidates = this.collectAllCandidates();
             Collections.shuffle(candidates, new Random(random.nextLong()));
             ScavengerConfig config = ModConfigs.UNHINGED_SCAVENGER;
@@ -367,7 +370,7 @@ public class UnhingedScavengerBingoObjective extends ScavengerBingoObjective {
                         int itemCount = entry.getOverride() != null
                             ? (int)Math.ceil(baseCount * entry.getOverride().apply(candidate.getItem(), candidate.getMultiplier()))
                             : baseCount;
-                        ScavengerBingoTile tile = new ScavengerBingoTile(candidate.getItem().copy(), candidate.getSourceType(), candidate.getIcon(), itemCount, candidate.getColor());
+                        ScavengerBingoTile tile = new ScavengerBingoTile(candidate.getItem().copy(), candidate.getSourceType(), candidate.getIcon(), ObjectiveDifficulty.scale(itemCount, difficultyScale), candidate.getColor());
                         int joined = this.getOr(JOINED, 0);
                         if (joined > 1) {
                             tile.scaleForPlayers(joined);

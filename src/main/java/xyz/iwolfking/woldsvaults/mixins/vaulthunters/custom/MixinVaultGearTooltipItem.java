@@ -1,7 +1,5 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import iskallia.vault.client.data.ClientPatreonGearStats;
 import iskallia.vault.config.UniqueGearConfig;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
@@ -9,16 +7,12 @@ import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
-import iskallia.vault.gear.stats.PatreonGearStatHelper;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.gear.tooltip.VaultGearTooltipItem;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.TextUtil;
-import iskallia.vault.www.patreon.PatreonManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,6 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
+import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.client.GearTooltipClient;
 
 import java.util.*;
 
@@ -42,9 +39,6 @@ public interface MixinVaultGearTooltipItem{
 
     @Shadow
     void addTooltipToolCapacity(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state);
-
-    @Shadow
-    void addTooltipRarity(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state);
 
     @Shadow
     void addSlotTooltip(List<Component> tooltip, EquipmentSlot slot);
@@ -88,6 +82,31 @@ public interface MixinVaultGearTooltipItem{
     }
 
     /**
+     * @author PoorMansPhysicist
+     * @reason set pieces read "Set" or "Ancient Set" in the set colour instead of "Unique"
+     */
+    @Overwrite
+    default void addTooltipRarity(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state) {
+        switch (state) {
+            case UNIDENTIFIED -> data.getFirstValue(ModGearAttributes.GEAR_ROLL_TYPE)
+                    .flatMap(ModConfigs.VAULT_GEAR_TYPE_CONFIG::getRollPool)
+                    .ifPresent(pool -> tooltip.add(new TranslatableComponent("tooltip.the_vault.roll")
+                            .append(new TextComponent(pool.getName()).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(pool.getColor()))))));
+            case IDENTIFIED -> {
+                Optional<GearSetConfig.GearSet> set = GearSetHelper.setOf(stack).flatMap(GearSetHelper.config()::getSet);
+                if (set.isPresent()) {
+                    boolean ancient = data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE).orElse(false);
+                    int color = ancient ? set.get().ancientColorRgb() : set.get().colorRgb();
+                    tooltip.add(new TranslatableComponent("tooltip.the_vault.rarity")
+                            .append(new TextComponent(ancient ? "Ancient Set" : "Set").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)))));
+                } else {
+                    tooltip.add(new TranslatableComponent("tooltip.the_vault.rarity").append(data.getRarity().getDisplayName()));
+                }
+            }
+        }
+    }
+
+    /**
      * @author iwolfking
      * @reason Why must mixin fail me so
      */
@@ -96,8 +115,7 @@ public interface MixinVaultGearTooltipItem{
         if (!ModConfigs.isInitialized()) {
             return Collections.emptyList();
         } else {
-            long window = Minecraft.getInstance().getWindow().getWindow();
-            boolean shiftDown = InputConstants.isKeyDown(window, 340) || InputConstants.isKeyDown(window, 344);
+            boolean shiftDown = GearTooltipClient.isShiftDown();
             VaultGearData data = VaultGearData.read(stack);
             List<Component> tooltip = new ArrayList<>();
             VaultGearState state = data.getState();
@@ -197,27 +215,7 @@ public interface MixinVaultGearTooltipItem{
                 tooltip.add(ct);
             }
 
-            Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.player != null && PatreonManager.getInstance().isUserPatreon(minecraft.player.getUUID())) {
-                Item itemType = stack.getItem();
-                if (itemType instanceof VaultGearItem gearItem) {
-                    VaultGearType type = gearItem.getGearType(stack);
-                    if (type != VaultGearType.SWORD && type != VaultGearType.AXE) {
-                        if (PatreonGearStatHelper.isTrackableArmor(stack)) {
-                            double damageTaken = ClientPatreonGearStats.getDamageTaken(stack);
-                            if (damageTaken > (double) 0.0F) {
-                                String formatted = String.format(Locale.US, "%.1f", damageTaken);
-                                tooltip.add((new TextComponent("Damage Taken: ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(formatted)).withStyle(ChatFormatting.WHITE)));
-                            }
-                        }
-                    } else {
-                        int kills = ClientPatreonGearStats.getKills(stack);
-                        if (kills > 0) {
-                            tooltip.add((new TextComponent("Killed ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(String.valueOf(kills))).withStyle(ChatFormatting.WHITE)).append(" mobs"));
-                        }
-                    }
-                }
-            }
+            GearTooltipClient.addPatreonStats(stack, tooltip);
 
             return tooltip;
         }

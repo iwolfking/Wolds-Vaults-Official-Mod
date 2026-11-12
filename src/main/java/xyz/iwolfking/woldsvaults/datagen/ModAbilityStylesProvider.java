@@ -1,12 +1,17 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.config.AbilitiesGUIConfig;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityGUIStylesProvider;
+import xyz.iwolfking.vhapi.mixin.accessors.AbilitiesGUIConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateIds;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
@@ -39,6 +44,36 @@ public class ModAbilityStylesProvider extends AbstractAbilityGUIStylesProvider {
                 styleBuilder.specialization("Vein_Miner_Chain", WoldsVaults.id("gui/abilities/vein_miner_chain"));
             });
         });
+
+        Map<String, ResourceLocation> ultimateSpecializations = new LinkedHashMap<>();
+        ultimateSpecializations.put(UltimateIds.DORMANT, WoldsVaults.id("gui/abilities/stirrings_of_power"));
+        ultimateSpecializations.put(UltimateIds.COPE_DE_GRACE, WoldsVaults.id("gui/abilities/cope_de_grace"));
+        ultimateSpecializations.put(UltimateIds.SAVIOR, WoldsVaults.id("gui/abilities/savior"));
+        ultimateSpecializations.put(UltimateIds.EYES_OF_GOD, WoldsVaults.id("gui/abilities/eyes_of_god"));
+        ultimateSpecializations.put(UltimateIds.BULLET_TIME, WoldsVaults.id("gui/abilities/bullet_time"));
+        addOrdered("god_ultimates", UltimateIds.STIRRINGS_OF_POWER, 140, 265, ultimateSpecializations);
+
+        Map<String, ResourceLocation> blockSpecializations = new LinkedHashMap<>();
+        blockSpecializations.put("Life_Block_Base", WoldsVaults.id("gui/abilities/life_block"));
+        blockSpecializations.put("Mana_Block", WoldsVaults.id("gui/abilities/mana_block"));
+        addOrdered("life_block", "Life_Block", 105, 265, blockSpecializations);
+    }
+
+    /**
+     * Adds a single ability style whose specializations keep their insertion order. The ability tab places nodes in
+     * map order but draws the specialization track from the skill's first specialization, so a reordered map (VHAPI's
+     * StyleBuilder uses a HashMap) leaves the track hanging below the column.
+     */
+    private void addOrdered(String fileName, String abilityName, int x, int y, Map<String, ResourceLocation> specializations) {
+        Map<String, AbilitiesGUIConfig.SpecializationStyle> specializationStyles = new LinkedHashMap<>();
+        specializations.forEach((name, icon) -> specializationStyles.put(name, new AbilitiesGUIConfig.SpecializationStyle(icon)));
+        Map<String, AbilitiesGUIConfig.AbilityStyle> styles = new LinkedHashMap<>();
+        styles.put(abilityName, new AbilitiesGUIConfig.AbilityStyle(x, y, specializationStyles));
+        AbilitiesGUIConfig config = new AbilitiesGUIConfig();
+        ((AbilitiesGUIConfigAccessor) config).setStyles(styles);
+        ((AbilitiesGUIConfigAccessor) config).setLabels(new ArrayList<>());
+        ((AbilitiesGUIConfigAccessor) config).setLines(new ArrayList<>());
+        addConfig(fileName, config);
     }
 
     public void displayToRightOf(String targetAbility, String abilityName, Builder builder, Consumer<Builder.StyleBuilder> builderConsumer) {

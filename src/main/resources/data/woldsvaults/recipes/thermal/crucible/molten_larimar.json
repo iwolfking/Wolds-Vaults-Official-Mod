@@ -1,0 +1,13 @@
+{
+  "type": "thermal:crucible",
+  "ingredient": {
+    "item": "the_vault:gem_larimar"
+  },
+  "result": [
+    {
+      "fluid": "woldsvaults:molten_larimar",
+      "amount": 100
+    }
+  ],
+  "energy": 800
+}

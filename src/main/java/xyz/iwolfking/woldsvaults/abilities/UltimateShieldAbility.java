@@ -26,7 +26,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.abilities.flexible.FlexibleAbility;
+import xyz.iwolfking.woldsvaults.api.util.ManaSustain;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
@@ -98,16 +100,17 @@ public class UltimateShieldAbility extends ToggleManaAbility {
             float elapsedSeconds = this.activeTicks / 20.0F;
             float currentTickCost = Math.min(
                     this.baseManaDrainPerTick + (elapsedSeconds * this.manaDrainRampPerSecond),
-                    this.maxManaDrainPerTick * (Mana.getRegenPerSecond(player) / 20)
-            );
+                    this.maxManaDrainPerTick
+            ) * BuffGlyphs.drain(this);
 
-            if (Mana.get(player) < currentTickCost) {
+            float mana = Mana.get(player);
+            if (mana < currentTickCost && !ManaSustain.shouldStayOn(player, currentTickCost)) {
                 this.activeTicks = 0;
                 player.removeEffect(this.getEffect());
                 return TickResult.PASS;
             }
 
-            Mana.decrease(player, ManaAction.PLAYER_ACTION, currentTickCost);
+            Mana.decrease(player, ManaAction.PLAYER_ACTION, Math.min(mana, currentTickCost));
             return Ability.TickResult.PASS;
         }).orElse(Ability.TickResult.PASS);
     }
@@ -138,7 +141,7 @@ public class UltimateShieldAbility extends ToggleManaAbility {
                 if (player.hasEffect(ability.getEffect())) {
                     float percentageDamageAbsorbed = Mth.clamp(ability.getPercentageDamageAbsorbed(), 0.0F, 1.0F);
 
-                    float manaCostPerDamage = ability.getManaPerDamageScalar();
+                    float manaCostPerDamage = ability.getManaPerDamageScalar() / BuffGlyphs.intensity(ability);
 
                     manaCostPerDamage = Math.max(manaCostPerDamage, 1.0E-5F);
                     float manaUsed = Math.min(event.getAmount() * percentageDamageAbsorbed * manaCostPerDamage, Mana.get(player));

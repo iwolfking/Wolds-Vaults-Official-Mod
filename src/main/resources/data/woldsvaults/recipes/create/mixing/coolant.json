@@ -1,0 +1,21 @@
+{
+  "type": "create:mixing",
+  "ingredients": [
+    {
+      "fluid": "woldsvaults:molten_larimar",
+      "nbt": {},
+      "amount": 800
+    },
+    {
+      "fluid": "woldsvaults:molten_alexandrite",
+      "nbt": {},
+      "amount": 200
+    }
+  ],
+  "results": [
+    {
+      "fluid": "woldsvaults:coolant",
+      "amount": 1000
+    }
+  ]
+}

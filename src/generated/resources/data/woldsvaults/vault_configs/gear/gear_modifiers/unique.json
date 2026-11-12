@@ -215,9 +215,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.03,
-              "max": 0.05,
-              "step": 0.01
+              "min": 0.015,
+              "max": 0.025,
+              "step": 0.005
             }
           },
           {
@@ -225,9 +225,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.05,
-              "max": 0.07,
-              "step": 0.01
+              "min": 0.025,
+              "max": 0.035,
+              "step": 0.005
             }
           },
           {
@@ -235,9 +235,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.07,
-              "max": 0.1,
-              "step": 0.01
+              "min": 0.035,
+              "max": 0.05,
+              "step": 0.005
             }
           }
         ]
@@ -677,6 +677,100 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:movement_speed",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:base_movement",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 20,
+            "maxLevel": 64,
+            "weight": 100,
+            "value": {
+              "min": 0.02,
+              "max": 0.06,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": 84,
+            "weight": 100,
+            "value": {
+              "min": 0.07,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 65,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.11,
+              "max": 0.14,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 85,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.15,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:block",
+        "group": "BaseBonusPool",
+        "identifier": "the_vault:base_block_chance",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 20,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.04,
+              "max": 0.08,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 0.09,
+              "max": 0.12,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_riptide",
+        "group": "BaseTridentLoyalty",
+        "identifier": "woldsvaults:tidebreaker_tideripper/trident_riptide",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 6,
+              "max": 6,
+              "step": 1
+            }
+          }
+        ]
       }
     ],
     "PREFIX": [
@@ -887,8 +981,8 @@
             "maxLevel": -1,
             "weight": 10,
             "value": {
-              "min": 12.0,
-              "max": 16.0,
+              "min": 9.0,
+              "max": 13.0,
               "step": 0.5,
               "abilityKey": "Javelin_Base"
             }
@@ -2281,6 +2375,161 @@
         ]
       },
       {
+        "attribute": "the_vault:movement_speed",
+        "group": "ModMovementSpeed",
+        "identifier": "the_vault:set_movement_speed",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 64,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.11,
+              "max": 0.15,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.16,
+              "max": 0.2,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_wind_up_percent",
+        "group": "ModTridentWindup",
+        "identifier": "woldsvaults:tidebreaker_tideripper/windup_time_zeus",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.6,
+              "max": 0.8,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:mana_additive",
+        "group": "ModHealthMana",
+        "identifier": "the_vault:mod_max_mana",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 20,
+            "maxLevel": 94,
+            "weight": 100,
+            "value": {
+              "min": 20,
+              "max": 30,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": 92,
+            "weight": 100,
+            "value": {
+              "min": 31,
+              "max": 40,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 70,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 41,
+              "max": 50,
+              "step": 1
+            }
+          },
+          {
+            "minLevel": 95,
+            "maxLevel": -1,
+            "weight": 100,
+            "value": {
+              "min": 51,
+              "max": 60,
+              "step": 1
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAPLvl",
+        "identifier": "the_vault:unique_rampage_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 30,
+            "value": {
+              "abilityKey": "Rampage",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAPLvl",
+        "identifier": "the_vault:unique_dash_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 30,
+            "value": {
+              "abilityKey": "Dash",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:added_ability_level",
+        "group": "ModAPLvl",
+        "identifier": "the_vault:unique_ice_bolt_level",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 25,
+            "maxLevel": -1,
+            "weight": 30,
+            "value": {
+              "abilityKey": "Ice_Bolt",
+              "levelChange": 2
+            }
+          }
+        ]
+      },
+      {
         "attribute": "the_vault:added_ability_level",
         "group": "ModPoisonNovaLevel",
         "identifier": "the_vault:mod_poison_nova_level",
@@ -2323,9 +2572,90 @@
             }
           }
         ]
+      },
+      {
+        "attribute": "the_vault:javelin_multi_hit",
+        "group": "ModJavelinMultiHit",
+        "identifier": "the_vault:u_javelin_multi_hit",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "flag": true
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:storm_tracking",
+        "group": "ModStormTracking",
+        "identifier": "the_vault:u_storm_tracking",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "flag": true,
+              "abilityKey": "Storm_Arrow_Base",
+              "speed": 10.0
+            }
+          }
+        ]
       }
     ],
     "SUFFIX": [
+      {
+        "attribute": "the_vault:steel_inferno",
+        "group": "ModSteelInferno",
+        "identifier": "the_vault:u_steel_inferno",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 5,
+            "value": {
+              "radiusMultiplier": {
+                "step": 0.01,
+                "min": 0.5,
+                "max": 0.6
+              },
+              "centreBonus": {
+                "step": 0.01,
+                "min": 1.5,
+                "max": 2.0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:ability_special_modification",
+        "group": "ModImplodingJavelinDamage",
+        "identifier": "woldsvaults:u_imploding_javelin_damage",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 1,
+            "value": {
+              "specialModificationKey": "woldsvaults:imploding_javelin_damage",
+              "abilityKey": "Javelin_Base",
+              "min": 0.5,
+              "max": 0.8,
+              "step": 0.01,
+              "textColor": 14076214,
+              "highlightColor": 6082075
+            }
+          }
+        ]
+      },
       {
         "attribute": "the_vault:shocking_hit_chance",
         "group": "ModShockingHit",
@@ -2540,6 +2870,129 @@
               "min": 0.09,
               "max": 0.12,
               "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_duration",
+        "group": "ModEffectDuration",
+        "identifier": "the_vault:set_effect_duration",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 64,
+            "weight": 10,
+            "value": {
+              "min": 0.05,
+              "max": 0.1,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.1,
+              "max": 0.18,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.18,
+              "max": 0.25,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:healing_effectiveness",
+        "group": "ModHealingEfficiency",
+        "identifier": "the_vault:set_healing_efficiency",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": 64,
+            "weight": 10,
+            "value": {
+              "min": 0.1,
+              "max": 0.2,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 40,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.2,
+              "max": 0.32,
+              "step": 0.01
+            }
+          },
+          {
+            "minLevel": 80,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 0.32,
+              "max": 0.42,
+              "step": 0.01
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:effect_cloud",
+        "group": "ModEffectCloud",
+        "identifier": "the_vault:set_chilling_cloud_tideripper",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "tooltipDisplayName": "Chilling III",
+              "potion": "minecraft:empty",
+              "additionalEffects": [
+                {
+                  "effect": "the_vault:chilled",
+                  "duration": 140,
+                  "amplifier": 0
+                }
+              ],
+              "duration": 200,
+              "radius": 4.0,
+              "color": 3138042,
+              "affectsOwner": false,
+              "triggerChance": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "attribute": "the_vault:trident_riptide",
+        "group": "ModRiptide",
+        "identifier": "woldsvaults:tidebreaker_heart/trident_riptide",
+        "tags": [],
+        "tiers": [
+          {
+            "minLevel": 0,
+            "maxLevel": -1,
+            "weight": 10,
+            "value": {
+              "min": 1,
+              "max": 1,
+              "step": 1
             }
           }
         ]

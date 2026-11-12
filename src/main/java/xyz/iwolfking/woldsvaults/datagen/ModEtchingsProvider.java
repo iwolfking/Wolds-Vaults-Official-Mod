@@ -92,7 +92,7 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(6);
             });
 
-            builder.addEtching(WoldsVaults.id("pyramid_scheme"), "Pyramid Scheme",  "Pyramid Scheme", 13338188, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("pyramid_scheme"), "Pyramid Scheme",  "Increases max stacking talent stacks by %dvalue", 13338188, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("SWORD");
                 });
@@ -143,14 +143,14 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(0);
             });
 
-            builder.addEtching(WoldsVaults.id("fireball_volley_mitosis"), "Fireball Volley Mitosis",  "<#870018>Fireball Volley<gray> creates <yellow>%dvalue<gray> additional fireball on first bounce", 8847384, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("fireball_volley_mitosis"), "Fireball Volley Mitosis",  "<#870018>Fireball Volley<gray> spawns <yellow>%dvalue<gray> extra fireball{value>1=s} on its first bounce", 8847384, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("Offensive");
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("fireball_volley_mitosis"), "ModEtching", WoldsVaults.id("fireball_volley_mitosis_etching"), tierBasicListBuilder -> {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 8, 10, 1, new IntegerAttributeGenerator.Range(1, 1, 1)));
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(8, 10, 10, 1, new IntegerAttributeGenerator.Range(2, 2, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new IntegerAttributeGenerator.Range(2, 4, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new IntegerAttributeGenerator.Range(2, 3, 1)));
                 }).minGreedTier(0);
             });
 
@@ -166,15 +166,15 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 }).minGreedTier(0);
             });
 
-            builder.addEtching(WoldsVaults.id("imploding_barrier"), "Imploding Barrier",  "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%dvalue<gray> chance to cast <aqua>Implode<gray> when hit", 3111119, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+            builder.addEtching(WoldsVaults.id("imploding_barrier"), "Imploding Barrier",  "While <#AF399E>Ultimate Shield<gray> is active, it has a <yellow>%.0fpvalue%<gray> chance to cast <aqua>Implode<gray> when hit", 3111119, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
                 etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
                     stringBasicListBuilder.add("Defensive");
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("imploding_barrier"), "ModEtching", WoldsVaults.id("imploding_barrier_etching"), tierBasicListBuilder -> {
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 5, 10, 1, new FloatAttributeGenerator.Range(0.03F, 0.07F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(5, 7, 10, 1, new FloatAttributeGenerator.Range(0.07F, 0.09F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new FloatAttributeGenerator.Range(0.1F, 0.12F, 1)));
-                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new FloatAttributeGenerator.Range(0.12F, 0.15F, 1)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, 5, 10, 1, new FloatAttributeGenerator.Range(0.03F, 0.07F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(5, 7, 10, 1, new FloatAttributeGenerator.Range(0.07F, 0.09F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(7, 10, 10, 1, new FloatAttributeGenerator.Range(0.1F, 0.12F, 0.01F)));
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(10, -1, 10, 1, new FloatAttributeGenerator.Range(0.12F, 0.15F, 0.01F)));
                 }).minGreedTier(0);
             });
 
@@ -184,6 +184,15 @@ public class ModEtchingsProvider extends AbstractEtchingProvider {
                 });
                 etchingEntryBuilder.attribute(WoldsVaults.id("conservation_of_momentum"), "ModEtching", WoldsVaults.id("conservation_of_momentum_etching"), tierBasicListBuilder -> {
                     tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new BooleanFlagGenerator.BooleanFlag(true)));
+                }).minGreedTier(0);
+            });
+
+            builder.addEtching(WoldsVaults.id("power_core"), "Power Core",  "<gray>A spell cast with <#B26BFF>Charge<gray> held to full resolves <aqua>Power Dump<gray> as if your max mana were <yellow>%.1fvalue<gray> times larger", 7039999, VaultGearModifier.AffixType.IMPLICIT, etchingEntryBuilder -> {
+                etchingEntryBuilder.typeGroups(stringBasicListBuilder -> {
+                    stringBasicListBuilder.add("CHESTPLATE");
+                });
+                etchingEntryBuilder.attribute(WoldsVaults.id("power_core"), "ModEtching", WoldsVaults.id("power_core_etching"), tierBasicListBuilder -> {
+                    tierBasicListBuilder.add(GearModifierRegistryHelper.createEtchingTier(0, -1, 10, 1, new FloatAttributeGenerator.Range(6.0F, 8.0F, 0.1F)));
                 }).minGreedTier(0);
             });
 

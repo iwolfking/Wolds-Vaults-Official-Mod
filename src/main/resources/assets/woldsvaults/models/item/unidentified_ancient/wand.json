@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/gear/unidentified_ancient/wand",
+    "layer1": "woldsvaults:item/gear/unidentified_ancient/wand_overlay"
+  }
+}

@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.config.patch.ConfigPatches;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
@@ -15,6 +16,8 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper efh = event.getExistingFileHelper();
+        ModConfigPatchesProvider configPatches = new ModConfigPatchesProvider(gen);
+        ConfigPatches.useDataRunTable(configPatches.patches());
 
 
 
@@ -28,6 +31,7 @@ public class DataGenerators {
 
         if (event.includeServer()) {
             ModBlockTagProvider blockTags = new ModBlockTagProvider(gen, efh);
+            gen.addProvider(configPatches);
             gen.addProvider(new ModRecipeProvider(gen));
             gen.addProvider(new ModBlockLootTableProvider(gen));
             gen.addProvider(new ModCompressiumLootTableProvider(gen));
@@ -35,13 +39,16 @@ public class DataGenerators {
             gen.addProvider(new ModItemTagProvider(gen, blockTags, efh));
             gen.addProvider(new ModVaultPalettesProvider(gen));
             gen.addProvider(new ModVaultThemesProvider(gen));
+            gen.addProvider(new ModVaultTemplatesProvider(gen));
             gen.addProvider(new ModVaultTemplatePoolsProvider(gen));
             gen.addProvider(new ModVaultGearTiersProvider(gen));
+            gen.addProvider(new ModAncientGearModifiersProvider(gen));
             gen.addProvider(new ModVaultModifierPoolsProvider(gen));
             gen.addProvider(new ModVaultModifiersProvider(gen));
             gen.addProvider(new ModPlayerTitlesProvider(gen));
             gen.addProvider(new ModVaultInscriptionsProvider(gen));
             gen.addProvider(new ModUniqueGearProvider(gen));
+            gen.addProvider(new ModCardModifiersProvider(gen));
             gen.addProvider(new ModVaultMobsProvider(gen));
             gen.addProvider(new ModSkillDescriptionsProvider(gen));
             gen.addProvider(new ModTooltipsProvider(gen));
@@ -97,6 +104,22 @@ public class DataGenerators {
             gen.addProvider(new ModImplicitDeckCoresProvider(gen));
             gen.addProvider(new ModPentacleProvider(gen));
             gen.addProvider(new ModTalentStyleProvider(gen));
+            gen.addProvider(new ModGodTreesProvider(gen));
+            gen.addProvider(new ModGodLevelsProvider(gen));
+            gen.addProvider(new ModGreedRanksProvider(gen));
+            gen.addProvider(new ModGreedMilestonesProvider(gen));
+            gen.addProvider(new ModGreedMedallionsProvider(gen));
+            gen.addProvider(new ModGreedChampionProvider(gen));
+            gen.addProvider(new ModStatScreenProvider(gen));
+            gen.addProvider(new ModGearSetsProvider(gen));
+            gen.addProvider(new ModFocusAugmentsProvider(gen));
+            gen.addProvider(new ModSpellHasteProvider(gen));
+            gen.addProvider(new ModObjectiveDifficultyProvider(gen));
+            gen.addProvider(new ModHyperObjectiveProvider(gen));
+            gen.addProvider(new ModExtractorCostsProvider(gen));
+            gen.addProvider(new ModMultiCellRoomsProvider(gen));
+            gen.addProvider(new ModExtractionObjectiveProvider(gen));
+            gen.addProvider(new ModExtractorPartsProvider(gen));
             gen.addProvider(new ModRecipeTagProvider(gen, efh));
             gen.addProvider(new ModEntityTagProvider(gen, efh));
         }

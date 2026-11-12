@@ -17,7 +17,7 @@ public record PouchUseTotals(long remaining, long total) {
         Map<String, PouchUseTotals> totals = new HashMap<>();
         for (int index = 0; index < PouchContents.SIZE; index++) {
             ItemStack stack = contents.getStackInSlot(index);
-            if (!PouchHelper.isTrinket(stack)) continue;
+            if (!PouchHelper.isTrinket(stack) || PouchHelper.isCharm(stack)) continue;
             String key = PouchHelper.effectKey(stack);
             keys.put(stack, key);
             PouchUseTotals uses = new PouchUseTotals(PouchHelper.remainingUses(stack), Math.max(0, VaultUsesHelper.getUses(stack)));

@@ -20,6 +20,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private final ModelFile EMPTY = models().getExistingFile(modLoc("block/base/nothing"));
@@ -35,6 +36,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         generateChromaticSteelVaultInfuser();
+        generateOmegaVaultInfuser();
+        generateVaultFabricator();
+        generateExtractionFluids();
+        generateExtractionCache();
         generateChromaticIronVaultInfuser();
         generateAugmentTableBlock();
         generateGatewayChannelingBlock();
@@ -170,6 +175,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         decoGodAltar(ModBlocks.DECO_VELARA_ALTAR_BLOCK, VaultGod.VELARA);
     }
 
+    /** Blocks without their own art yet borrow a vanilla texture so they render until models land. */
+    private void placeholderBlockWithItem(Block block, ResourceLocation texture) {
+        ModelFile model = models().cubeAll(block.getRegistryName().getPath(), texture);
+        simpleBlock(block, model);
+        simpleBlockItem(block, model);
+    }
+
     private void slabBlockWithItem(SlabBlock block, ResourceLocation texture) {
         ResourceLocation blockTexture = ResourceLocUtils.prependToId("block/", texture);
         slabBlock(block, blockTexture, blockTexture, blockTexture, blockTexture);
@@ -257,6 +269,48 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .texture("front", modLoc("block/chromatic_steel_vault_infuser_front_on"))
                 .texture("side", modLoc("block/chromatic_steel_vault_infuser_side"));
         itemModels().withExistingParent("chromatic_steel_vault_infuser", modLoc("block/chromatic_steel_vault_infuser"));
+    }
+
+    private void generateVaultFabricator() {
+        ModelFile model = models().withExistingParent("vault_fabricator", "minecraft:block/orientable_with_bottom")
+                .texture("top", modLoc("block/vault_fabricator_top"))
+                .texture("bottom", modLoc("block/vault_fabricator_bottom"))
+                .texture("side", modLoc("block/vault_fabricator_side"))
+                .texture("front", modLoc("block/vault_fabricator_front_on"));
+        horizontalBlock(ModBlocks.VAULT_FABRICATOR_BLOCK, model);
+        itemModels().withExistingParent("vault_fabricator", modLoc("block/vault_fabricator"));
+    }
+
+    private void generateExtractionFluids() {
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleBlock(fluid.block,
+                models().getBuilder(fluid.key + "_block").texture("particle", modLoc("block/fluid/" + fluid.key))));
+    }
+
+    private void generateExtractionCache() {
+        simpleBlock(ModBlocks.EXTRACTION_CACHE, models().getBuilder("extraction_cache").texture("particle", VaultMod.id("block/vault_meat_block")));
+    }
+
+    private void generateOmegaVaultInfuser() {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(ModBlocks.OMEGA_INFUSER_BLOCK);
+        ModelFile existingModel = models().withExistingParent("omega_vault_infuser", "minecraft:block/orientable");
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.NORTH),
+                vbb.partialState().modelForState().modelFile(existingModel).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.EAST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(90).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.SOUTH),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(180).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.WEST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
+
+        models().withExistingParent("omega_vault_infuser", "minecraft:block/orientable")
+                .texture("top", modLoc("block/omega_vault_infuser_top"))
+                .texture("front", modLoc("block/omega_vault_infuser_front_on"))
+                .texture("side", modLoc("block/omega_vault_infuser_side"));
+        itemModels().withExistingParent("omega_vault_infuser", modLoc("block/omega_vault_infuser"));
     }
 
     private void generateChromaticIronVaultInfuser() {

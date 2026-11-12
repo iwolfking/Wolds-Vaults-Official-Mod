@@ -34,6 +34,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import xyz.iwolfking.woldsvaults.api.util.DerivedHit;
 import xyz.iwolfking.woldsvaults.api.util.VaultGearAttributeHelper;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 
@@ -179,7 +180,7 @@ public class DamageBurstComboAttribute extends ComboAttribute {
             float bonusDamage = damageBurst.calculateBonusDamage(player);
             if (bonusDamage > 0) {
                 ActiveFlags.IS_AOE_ATTACKING.push();
-                target.hurt(DamageSource.playerAttack(player), bonusDamage);
+                DerivedHit.deal(target, DamageSource.playerAttack(player), bonusDamage);
                 if(damageBurst.getScaledAttribute().equals(ModGearAttributes.MANA_ADDITIVE)) {
                     if(player instanceof ManaPlayer manaPlayer) {
                         manaPlayer.decreaseMana(ManaAction.PLAYER_ACTION, manaPlayer.getManaMax() * 0.025F);

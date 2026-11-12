@@ -28,6 +28,10 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        extractionSitePalette("idona", "auxiliaryblocks:red_crystal", "auxiliaryblocks:red_gelatin", "auxiliaryblocks:red_frameless_glass", "minecraft:red_stained_glass");
+        extractionSitePalette("tenos", "auxiliaryblocks:blue_crystal", "auxiliaryblocks:cyan_gelatin", "auxiliaryblocks:blue_frameless_glass", "auxiliaryblocks:indigo_crystal");
+        extractionSitePalette("velara", "auxiliaryblocks:green_crystal", "auxiliaryblocks:lime_gelatin", "auxiliaryblocks:green_frameless_glass", "auxiliaryblocks:lime_frameless_glass");
+        extractionSitePalette("wendarr", "auxiliaryblocks:yellow_crystal", "auxiliaryblocks:yellow_gelatin", "auxiliaryblocks:yellow_frameless_glass", "auxiliaryblocks:orange_crystal");
         add(WoldsVaults.id("universal_if"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
@@ -2124,9 +2128,46 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
             p.reference("the_vault:generic/spawners/group_settings");
         });
 
+        add(WoldsVaults.id("vendor_rooms/barter_expert"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.VENDOR_PEDESTAL, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 1.0, successes -> {
+                    successes.put("the_vault:shop_pedestal", 80);
+                    successes.put("woldsvaults:rare_shop_pedestal", 10);
+                    successes.put("woldsvaults:god_shop_pedestal", 7);
+                    successes.put("woldsvaults:omega_shop_pedestal", 3);
+                }, failures -> {
+                    failures.put("minecraft:air", 1);
+                });
+            });
+        });
+
+        add(WoldsVaults.id("vendor_rooms/barter_expert_map"), new PaletteBuilder(), p -> {
+            p.placeholder(PlaceholderBlock.Type.VENDOR_PEDESTAL, placeholderBuilder -> {
+                placeholderBuilder.probability(0, 1.0, successes -> {
+                    successes.put("the_vault:shop_pedestal", 20);
+                    successes.put("woldsvaults:rare_shop_pedestal", 25);
+                    successes.put("woldsvaults:god_shop_pedestal", 18);
+                    successes.put("woldsvaults:omega_shop_pedestal", 17);
+                    successes.put("woldsvaults:blacksmith_shop_pedestal", 15);
+                }, failures -> {
+                    failures.put("minecraft:air", 1);
+                });
+            });
+        });
+
     }
 
     public static String vaultOre(ItemLike oreBlock, String type) {
         return oreBlock.asItem().getRegistryName().toString() + "[type=" + type + ",generated=true]";
+    }
+
+    /** One god's extraction site: the white wool marker becomes that god's glass, and the room's loot and gate placeholders are cleared. */
+    private void extractionSitePalette(String god, String crystal, String gelatin, String glass, String accent) {
+        add(WoldsVaults.id("extraction/" + god), new PaletteBuilder(), palette -> {
+            palette.weightedTarget("minecraft:white_wool", weighted -> weighted.add(crystal, 7).add(gelatin, 4).add(glass, 3).add(accent, 1));
+            for (String placeholder : List.of("wooden_chest", "gilded_chest", "living_chest", "ornate_chest", "coin_stacks", "gate")) {
+                palette.weightedTarget("the_vault:placeholder[type=" + placeholder + "]", weighted -> weighted.add("minecraft:air", 1));
+            }
+        });
     }
 }

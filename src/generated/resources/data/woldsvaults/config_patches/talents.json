@@ -1,0 +1,832 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        0,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        0,
+        "damageIncrease"
+      ],
+      "value": 0.04
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        1,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        1,
+        "damageIncrease"
+      ],
+      "value": 0.06
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        2,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        2,
+        "damageIncrease"
+      ],
+      "value": 0.08
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        3,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        3,
+        "damageIncrease"
+      ],
+      "value": 0.1
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        4,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        4,
+        "damageIncrease"
+      ],
+      "value": 0.12
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        5,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        5,
+        "damageIncrease"
+      ],
+      "value": 0.14
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        6,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        6,
+        "damageIncrease"
+      ],
+      "value": 0.16
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        7,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        7,
+        "damageIncrease"
+      ],
+      "value": 0.18
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        8,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        8,
+        "damageIncrease"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        9,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        9,
+        "damageIncrease"
+      ],
+      "value": 0.22
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        10,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        10,
+        "damageIncrease"
+      ],
+      "value": 0.24
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        11,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        11,
+        "damageIncrease"
+      ],
+      "value": 0.26
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        12,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        12,
+        "damageIncrease"
+      ],
+      "value": 0.28
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        13,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        13,
+        "damageIncrease"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        14,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        14,
+        "damageIncrease"
+      ],
+      "value": 0.32
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        15,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        15,
+        "damageIncrease"
+      ],
+      "value": 0.34
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        16,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        16,
+        "damageIncrease"
+      ],
+      "value": 0.36
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        17,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        17,
+        "damageIncrease"
+      ],
+      "value": 0.38
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        18,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        18,
+        "damageIncrease"
+      ],
+      "value": 0.4
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        19,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        19,
+        "damageIncrease"
+      ],
+      "value": 0.42
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        20,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        20,
+        "damageIncrease"
+      ],
+      "value": 0.44
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        21,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        21,
+        "damageIncrease"
+      ],
+      "value": 0.46
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        22,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        22,
+        "damageIncrease"
+      ],
+      "value": 0.48
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        23,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        23,
+        "damageIncrease"
+      ],
+      "value": 0.5
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        24,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        24,
+        "damageIncrease"
+      ],
+      "value": 0.52
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        25,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        25,
+        "damageIncrease"
+      ],
+      "value": 0.54
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        26,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        26,
+        "damageIncrease"
+      ],
+      "value": 0.56
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        27,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        27,
+        "damageIncrease"
+      ],
+      "value": 0.58
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        28,
+        "type"
+      ],
+      "value": "execution_lucky_hit"
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Execution_Strike"
+        },
+        "tiers",
+        28,
+        "damageIncrease"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Mind_Meld"
+        },
+        "tiers",
+        {
+          "id": "mind_meld_1"
+        },
+        "bonusPerStep"
+      ],
+      "value": 3
+    }
+  ]
+}

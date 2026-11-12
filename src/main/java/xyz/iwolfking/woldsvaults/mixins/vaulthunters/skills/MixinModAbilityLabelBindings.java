@@ -7,8 +7,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.abilities.*;
+import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
+import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorAbility;
 
 import java.util.Map;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import iskallia.vault.skill.ability.component.AbilityLabelBindingKeys;
+import iskallia.vault.skill.ability.component.IAbilityLabelBinding;
+import iskallia.vault.skill.ability.effect.RampageBerserkerAbility;
 
 @Mixin(value = ModAbilityLabelBindings.class,remap = false)
 public abstract class MixinModAbilityLabelBindings {
@@ -136,5 +147,98 @@ public abstract class MixinModAbilityLabelBindings {
 
 
 
+        ModAbilityLabelBindings.register(CopeDeGraceAbility.class, Map.of(
+                "attackDamageMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAttackDamageMultiplier()),
+                "abilityPowerMultiplier",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAbilityPowerMultiplier()),
+                "resistance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAdditionalResistance()),
+                "damageCompounding",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getDamageCompounding()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(SaviorAbility.class, Map.of(
+                "heal",
+                ability -> AbilityLabelFormatters.integer((int) ability.getHealing()),
+                "absorb",
+                ability -> AbilityLabelFormatters.integer((int) ability.getAbsorption()),
+                "resistance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAdditionalResistance()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(EyesOfGodAbility.class, Map.of(
+                "radius",
+                ability -> AbilityLabelFormatters.integer(ability.getRadius()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(BulletTimeAbility.class, Map.of(
+                "timerStretch",
+                ability -> AbilityLabelFormatters.percentRounded(1.0F + ability.getTimerStretch()),
+                "dodgeChance",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getDodgeChance()),
+                "bonusAttackSpeed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAttackSpeed()),
+                "bonusMovementSpeed",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getMovementSpeed()),
+                "duration",
+                ability -> AbilityLabelFormatters.ticks(ability.getDurationTicks()),
+                "ultimateCooldown",
+                ability -> AbilityLabelFormatters.ticks(ability.getCooldownTicks())
+        ));
+
+        ModAbilityLabelBindings.register(LifeBlockAbility.class, Map.of(
+                "blockSize",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getBlockMultiplier()) + " Health",
+                "absorptionShield",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getAbsorption()) + " Health",
+                "transfusion",
+                ability -> "+" + AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getTransfusionPerStack())
+                        + " per heal for " + AbilityLabelFormatters.ticks(ability.getTransfusionStackTicks())
+                        + ", up to " + ability.getTransfusionMaxStacks(),
+                "lifeBond",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getLifeBond()) + " to attacker",
+                "buffDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getMinBuffTicks()) + " - "
+                        + AbilityLabelFormatters.ticks(ability.getMaxBuffTicks()),
+                "fastClear",
+                ability -> AbilityLabelFormatters.ticks(ability.getFastClearTicks())
+        ));
+
+        ModAbilityLabelBindings.register(ManaBlockAbility.class, Map.of(
+                "blockSize",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getBlockMultiplier()) + " Mana",
+                "manaShield",
+                ability -> AbilityLabelFormatters.percentRounded(ability.getManaShield()) + " of damage",
+                "manaRegenShare",
+                ability -> AbilityLabelFormatters.percentTwoDecimalPlaces(ability.getManaRegen()) + " max mana/s",
+                "surgingMana",
+                ability -> "+" + AbilityLabelFormatters.percentRounded(ability.getSurgingAoe()) + " area",
+                "buffDuration",
+                ability -> AbilityLabelFormatters.ticks(ability.getMinBuffTicks()) + " - "
+                        + AbilityLabelFormatters.ticks(ability.getMaxBuffTicks()),
+                "fastClear",
+                ability -> AbilityLabelFormatters.ticks(ability.getFastClearTicks())
+        ));
+    }
+
+    /** Rampage Berserker's drain has no cap (VH never applies {@code maxManaCostPerSecond}), so it gets no max-drain label. */
+    @WrapOperation(method = "register(Ljava/lang/Class;Ljava/util/Map;)V", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/skill/ability/component/AbilityLabelBindingRegistry;register(Ljava/lang/Class;Ljava/lang/String;Liskallia/vault/skill/ability/component/IAbilityLabelBinding;)V"))
+    private static void woldsvaults$dropBerserkerMaxDrain(Class<?> ability, String key, IAbilityLabelBinding<?> binding, Operation<Void> original) {
+        if (ability == RampageBerserkerAbility.class && AbilityLabelBindingKeys.MAX_MANA_COST.equals(key)) {
+            return;
+        }
+        original.call(ability, key, binding);
     }
 }

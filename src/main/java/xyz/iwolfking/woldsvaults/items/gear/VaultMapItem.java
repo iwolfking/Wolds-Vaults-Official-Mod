@@ -57,9 +57,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.extraction.jobs.AncientCrystalFlag;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapGod;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.maps.MapGodXp;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultCrystalObjective;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
@@ -126,9 +129,22 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
                     data.createOrReplaceAttributeValue(ModGearAttributes.MAP_TIER, 0);
                 }
             }
+            rollGodBinding(data);
             data.write(stack);
         }
         VaultGearItem.super.tickRoll(stack, player);
+    }
+
+    /** Binds an unrolled map to a random god and rolls its Bonus XP implicit in the tier's unrolled band. */
+    private void rollGodBinding(VaultGearData data) {
+        if (!data.hasAttribute(ModGearAttributes.MAP_GOD)) {
+            data.createOrReplaceAttributeValue(ModGearAttributes.MAP_GOD, MapGodXp.rollGod(rand).getName());
+        }
+        if (!data.hasAttribute(ModGearAttributes.MAP_BONUS_XP)) {
+            int displayTier = data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0) + 1;
+            data.createOrReplaceAttributeValue(ModGearAttributes.MAP_BONUS_XP,
+                    MapGodXp.rollBonusPercent(displayTier, false, rand));
+        }
     }
 
 
@@ -209,6 +225,18 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         } else {
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent("???").withStyle(Style.EMPTY.withColor(7247291))));
         }
+        addGodTooltip(stack, tooltip);
+    }
+
+    /** The two god-quest lines: the god this map's vault pays, and the Bonus XP implicit. Skipped if absent. */
+    private static void addGodTooltip(ItemStack stack, List<Component> tooltip) {
+        MapGodXp.godOf(stack).ifPresent(god -> tooltip.add(new TextComponent("God: ")
+                .append(new TextComponent(god.getName()).withStyle(god.getChatColor()))));
+        int bonus = MapGodXp.bonusPercentOf(stack);
+        if (bonus > 0) {
+            tooltip.add(new TextComponent("Bonus God XP: ")
+                    .append(new TextComponent("+" + bonus + "%").withStyle(Style.EMPTY.withColor(16755200))));
+        }
     }
 
     public int getTierColor(int tier) {
@@ -231,6 +259,10 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
 
     public boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredientStack, ItemStack output) {
         if (data.getProperties().getLevel().isPresent() && data.getProperties().getLevel().get() < 100) {
+            return false;
+        }
+
+        if (AncientCrystalFlag.isAncient(data)) {
             return false;
         }
 
@@ -320,6 +352,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
         applySpecialModifiers(data, mapData, VaultGearModifier.AffixType.IMPLICIT, context, output, unfinishedMap);
 
         ((DuckMapTier) (Object) data).setMapTier(mapData.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0));
+        transferGodBinding(ingredientStack, data);
 
         data.getProperties().setUnmodifiable(true);
         data.write(output);
@@ -330,6 +363,14 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             context.getInput()[1].shrink(1);
         }));
         return true;
+    }
+
+    /** Imprints the map's god binding and Bonus XP onto the crystal. A map with no binding is logged. */
+    private static void transferGodBinding(ItemStack mapStack, CrystalData data) {
+        MapGodXp.godOf(mapStack).ifPresentOrElse(god -> {
+            ((DuckMapGod) (Object) data).setMapGod(god.getName());
+            ((DuckMapGod) (Object) data).setMapBonusXp(MapGodXp.bonusPercentOf(mapStack));
+        }, () -> WoldLogger.error("Vault map has no god binding and no gear uuid to derive one from; its vault will award no god experience."));
     }
 
     @Override
@@ -346,6 +387,9 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
     public boolean hasApplied(ItemStack crystalStack) {
         if(crystalStack.getItem() instanceof VaultCrystalItem) {
             CrystalData crystalData = CrystalData.read(crystalStack);
+            if (AncientCrystalFlag.isAncient(crystalData)) {
+                return true;
+            }
             CrystalModifiers modifiers = crystalData.getModifiers();
             return modifiers.getList().stream().anyMatch(stack -> stack.getModifier() instanceof SettableValueVaultModifier<?>);
         }

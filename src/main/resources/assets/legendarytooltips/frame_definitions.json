@@ -1,0 +1,10 @@
+{
+  "definitions": [
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 0, "priority": 10, "startColor": "#FFC79A4A", "endColor": "#FF6B4526", "bgColor": "#F0140C04", "selectors": [ "&TooltipFrame=wooden" ] },
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 1, "priority": 10, "startColor": "#FFB8B4D0", "endColor": "#FF4E527E", "bgColor": "#F00E0E18", "selectors": [ "&TooltipFrame=chromatic" ] },
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 2, "priority": 10, "startColor": "#FFE3CCFF", "endColor": "#FF6A3BAB", "bgColor": "#F0100A1C", "selectors": [ "&TooltipFrame=experimental" ] },
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 3, "priority": 10, "startColor": "#FFD98A2B", "endColor": "#FF3A414D", "bgColor": "#F0100E0A", "selectors": [ "&TooltipFrame=armored" ] },
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 4, "priority": 10, "startColor": "#FFB36BFF", "endColor": "#FF26063C", "bgColor": "#F0080410", "selectors": [ "&TooltipFrame=echosteel" ] },
+    { "image": "woldsvaults:textures/gui/extractor_frames.png", "index": 5, "priority": 10, "startColor": "#FF8FD3FF", "endColor": "#FF1D4F9A", "bgColor": "#F0061426", "selectors": [ "&TooltipFrame=blueprint" ] }
+  ]
+}

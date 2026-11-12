@@ -1,0 +1,60 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extractor_assembler",
+    "particle": "woldsvaults:block/extractor_assembler"
+  },
+  "elements": [
+    {
+      "name": "side_run_e",
+      "from": [
+        14,
+        4,
+        0
+      ],
+      "to": [
+        16,
+        9,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            5.9375,
+            4.25,
+            6.9375,
+            4.5625
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            5.9375,
+            4.25,
+            6.9375,
+            4.5625
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            1.25,
+            3.125,
+            1.375,
+            4.125
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            1.25,
+            3.125,
+            1.375,
+            4.125
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

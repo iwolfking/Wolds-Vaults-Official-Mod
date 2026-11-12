@@ -1,0 +1,454 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "resources",
+        {
+          "$value": "minecraft:writeable_book"
+        }
+      ]
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:writable_book"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "botania:stripped_livingwood_log"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "immersiveengineering:steel_scaffolding_grate_top"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:yellow_concrete_10"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:lime_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "hexcasting:amethyst_dust"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:lime"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "everycomp:db/botania/livingwood_support"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "hexcasting:charged_amethyst"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:blue_blossom_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:lavender_blossom_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:orange_blossom_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:pink_blossom_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:red_blossom_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:blossom_post"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "quark:dripstone_bricks_wall"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "twigs:calcite_slab"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "ecologics:walnut_sapling"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "neoncraft2:wallneon_number_2_white"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "neoncraft2:wallneon_number_0_white"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "neoncraft2:wallneon_number_1_white"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:melon_slice"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:netherrack_21"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "buildersdelight:prismarine_5"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:blackstone_14"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:purpur_block_1"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:blackstone_32"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:warped_stem"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:netherrack_7"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:blackstone_8"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:magma_block_56"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:red_mushroom_5"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:melon_seeds"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:redstone_block_58"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "chipped:vine_6"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "rechiseled:iron_block_processed_connecting"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "decorative_blocks:crimson_seat"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:stone_pickaxe"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:wooden_shovel"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:leather_horse_armor"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "neoncraft2:wallneon_arrow_down_white"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "occultism:spirit_lantern"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:raw_copper"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "minecraft:crimson_sign"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "supplementaries:sconce_soul"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "create:belt_connector"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_screw_attack"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_square_horn"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_square_zord"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_horn_monkey"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_headinator"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_invader"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_mojo"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_enigma"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_warthog"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_oblongatron"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_bat_boy"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_the_heart"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "tropicraft:ashen_mask_the_brain"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "the_vault:driftwood_slab"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "the_vault:driftwood_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "the_vault:vault_ash"
+    },
+    {
+      "op": "append",
+      "path": [
+        "resources"
+      ],
+      "value": "the_vault:chromatic_slab"
+    }
+  ]
+}

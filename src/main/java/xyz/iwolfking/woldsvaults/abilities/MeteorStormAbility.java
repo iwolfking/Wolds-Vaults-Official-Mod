@@ -64,7 +64,6 @@ public class MeteorStormAbility extends InstantManaAbility {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), 
                 SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.0F, 0.8F);
 
-            this.putOnCooldown(context);
             return ActionResult.successCooldownImmediate();
         }).orElse(ActionResult.fail());
     }

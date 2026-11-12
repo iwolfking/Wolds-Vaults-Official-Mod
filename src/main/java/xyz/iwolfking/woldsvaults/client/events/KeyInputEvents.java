@@ -24,6 +24,8 @@ import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
@@ -75,6 +77,9 @@ public class KeyInputEvents {
             Minecraft.getInstance().setScreen(new InventoryHudEditScreen(Minecraft.getInstance().screen));
         }
 
+        if (ModKeybinds.toggleCharmBlessing.consumeClick() && Minecraft.getInstance().player != null) {
+            NetworkHandler.INSTANCE.sendToServer(new ServerboundToggleCharmTemporalMessage());
+        }
         if (ModKeybinds.openTrinketPouch.consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null && Minecraft.getInstance().screen == null) {

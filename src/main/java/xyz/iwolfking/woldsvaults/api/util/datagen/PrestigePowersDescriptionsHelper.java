@@ -13,12 +13,13 @@ import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
 import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.datagen.ModPrestigePowersProvider;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 public class PrestigePowersDescriptionsHelper {
 
     public static void generateDescriptions(AbstractSkillDescriptionsProvider.Builder builder, SkillDescriptionsConfig prestigeDescriptions) {
-        ModConfigs.PRESTIGE_POWERS = new PrestigePowersConfig().readConfig();
+        ModConfigs.PRESTIGE_POWERS = ModPrestigePowersProvider.withAdditions(new PrestigePowersConfig().readConfig());
         ModConfigs.PRESTIGE_POWERS.tree.skills.forEach(skill -> {
                 createDescriptionsForPrestige(skill, prestigeDescriptions, builder);
         });
@@ -31,8 +32,12 @@ public class PrestigePowersDescriptionsHelper {
 
         builder.addDescription(skill.getId(), jsonElements -> {
             ComponentUtils.toJsonArray(prestigeDescriptions.getDescriptionFor(skill.getId())).forEach(jsonElements::add);
-            jsonElements.add(JsonDescription.simple("\n\n"));
-            processPrestigeDescriptionByType(skill, jsonElements);
+            JsonArray tiers = new JsonArray();
+            processPrestigeDescriptionByType(skill, tiers);
+            if (!tiers.isEmpty()) {
+                jsonElements.add(JsonDescription.simple("\n\n"));
+                tiers.forEach(jsonElements::add);
+            }
         });
     }
 
@@ -95,7 +100,7 @@ public class PrestigePowersDescriptionsHelper {
 
                 if (tier instanceof ReachPrestigePower reachPrestigePower) {
                     jsonElements.add(JsonDescription.simple(i + 1 + " "));
-                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", (reachPrestigePower.getReachIncrease() * 100)) + "%\n", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("+" + String.format("%.1f", reachPrestigePower.getReachIncrease()) + " reach\n", "#FFD700"));
                 }
             }
         }

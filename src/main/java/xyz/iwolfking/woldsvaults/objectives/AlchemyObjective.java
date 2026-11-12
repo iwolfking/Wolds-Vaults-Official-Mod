@@ -58,6 +58,9 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneDispatcher;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.CrateItemQuantityModifierSettable;
 import xyz.iwolfking.woldsvaults.objectives.data.alchemy.AlchemyTasks;
@@ -80,7 +83,7 @@ public class AlchemyObjective extends Objective {
 
     public static final FieldKey<Integer> VAULT_LEVEL = FieldKey.of("vault_level", Integer.class)
             .with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all()))
-            .register(FIELDS); // yeah right why would we need the VAULT LEVEL on a client, thats useless, im not upset
+            .register(FIELDS);
 
 
     private AlchemyObjectiveConfig.Entry config;
@@ -111,7 +114,7 @@ public class AlchemyObjective extends Objective {
                 return;
             }
             if (!itemTooltipEvent.getItemStack().getTag().getString("VaultId").equals(vault.get(Vault.ID).toString())) {
-                return; // unlikely to be hit but whatevs
+                return;
             }
 
             List<MutableComponent> tooltip = new ArrayList<>();
@@ -171,15 +174,12 @@ public class AlchemyObjective extends Objective {
 
         SigilUtils.addStacksFromSigil(vault);
 
-        // Call super.tickListener() on listener leave, to generate a crate at the end so we can process all the crate quantity modifier at the end
-        // there is probably a better way, but i am lazy, lmao
         CommonEvents.LISTENER_LEAVE.register(this,
                 (data -> {
                     if (data.getVault() == vault) {
                         if (this.get(PROGRESS) > this.get(REQUIRED_PROGRESS)) {
-                            super.tickListener(world, vault, data.getListener()); // dirty, dirty things
+                            super.tickListener(world, vault, data.getListener());
                         } else {
-                            // even more dirty things
                             vault.get(Vault.STATS).get(data.getListener().get(Listener.ID)).set(StatCollector.COMPLETION, Completion.BAILED);
                         }
                     }
@@ -329,7 +329,7 @@ public class AlchemyObjective extends Objective {
                 .filter(item -> item.getType() != AlchemyIngredientItem.AlchemyIngredientType.NEUTRAL)
                 .toList();
 
-        if (effectIngredients.isEmpty()) { // If there are only Neutral Ingredients
+        if (effectIngredients.isEmpty()) {
             if (data.getEntity().getCatalystType().isPresent()) {
                 data.getEntity().getCatalystType().get().applyEffect(world, this, config, data, null, null, progressIncrease);
                 data.getEntity().removeCatalyst();
@@ -347,6 +347,7 @@ public class AlchemyObjective extends Objective {
                     .append(new TextComponent(formatted).withStyle(Style.EMPTY.withColor(percentage >= 0 ? 0x00ff04 : 0xDC143C)));
             world.players().forEach(player -> player.sendMessage(cmp, Util.NIL_UUID));
             this.set(PROGRESS, this.get(PROGRESS) + percentage);
+            awardAlchemyMilestone(vault, percentage);
             return;
         }
 
@@ -374,7 +375,6 @@ public class AlchemyObjective extends Objective {
         }
 
 
-        // apply catalyst effects
         if (data.getEntity().getCatalystType().isPresent()) {
             data.getEntity().getCatalystType().get().applyEffect(world, this, config, data, toAddToVault, modifiers, progressIncrease);
             data.getEntity().removeCatalyst();
@@ -410,13 +410,12 @@ public class AlchemyObjective extends Objective {
         float newProgress = oldProgress + percentage;
 
         this.set(PROGRESS, newProgress);
+        awardAlchemyMilestone(vault, percentage);
 
-        // Check if it crossed the threshold this brew
         if (oldProgress < this.get(REQUIRED_PROGRESS) && newProgress > this.get(REQUIRED_PROGRESS)) {
             if(this.get(FULLY_OVERSTACKED)) {
                 return;
             }
-            // Only count overflow amount above the requirement
             float overflow = newProgress - this.get(REQUIRED_PROGRESS);
             int crateAmount = (int) (overflow * 100);
 
@@ -425,7 +424,6 @@ public class AlchemyObjective extends Objective {
             }
 
         } else if (oldProgress >= this.get(REQUIRED_PROGRESS)) {
-            // Already completed before, full percentage goes to crate quantity
             int crateAmount = (int) (percentage * 100);
 
             if (crateAmount > 0) {
@@ -449,8 +447,16 @@ public class AlchemyObjective extends Objective {
         }
     }
 
+    /** Credits the "Alchemist" milestone in percentage points to every runner in the vault. */
+    private static void awardAlchemyMilestone(Vault vault, float percentage) {
+        if (percentage <= 0.0F) {
+            return;
+        }
+        MilestoneDispatcher.forEachRunner(vault, player ->
+                Milestones.advanceFractional(player, MilestoneIds.ALCHEMIST, percentage * 100.0F));
+    }
+
     private void addCrateQuantity(Vault vault, VirtualWorld world, float crateAmount) {
-        //VaultModifierUtils.incrementModifierValueOfType(vault, CrateItemQuantityModifierSettable.class, VaultMod.id("map_crate_quantity"), crateAmount);
         VaultModifierUtils.addModifier(vault, VaultMod.id("crate_quantity"), (int) crateAmount);
 
         world.players().forEach(player ->

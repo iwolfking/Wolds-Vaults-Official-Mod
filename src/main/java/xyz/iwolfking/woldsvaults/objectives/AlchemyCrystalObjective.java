@@ -10,7 +10,7 @@ import iskallia.vault.core.vault.objective.*;
 import iskallia.vault.item.crystal.CrystalData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -35,10 +35,10 @@ public class AlchemyCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-        double difficultyScale = Math.sqrt(SigilUtils.getDifficultyMultiplier(sigil));
+        double difficultyScale = ObjectiveDifficulty.factor(ObjectiveDifficulty.multiplier(sigil, vault), "alchemy");
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
 
-            objectives.add(AlchemyObjective.of(this.objectiveProbability, level, (float) (requiredProgress * difficultyScale))
+            objectives.add(AlchemyObjective.of(this.objectiveProbability, level, ObjectiveDifficulty.scale(requiredProgress, difficultyScale))
                     .add(FindExitObjective.create(ClassicPortalLogic.EXIT))
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ALCHEMY"), "alchemy", level, true)));
 

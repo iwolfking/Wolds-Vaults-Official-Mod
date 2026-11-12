@@ -1,11 +1,15 @@
 package xyz.iwolfking.woldsvaults.effect.mobeffects;
 
+import iskallia.vault.event.ActiveFlags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.mixins.accessors.MobEffectInstanceAccessor;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 public class EchoingEffectInstance extends MobEffectInstance {
 
@@ -15,6 +19,53 @@ public class EchoingEffectInstance extends MobEffectInstance {
     float decay;
     boolean noLuckyhit;
     boolean noCleave;
+    EnumSet<ActiveFlags> flags;
+
+    private static final Set<ActiveFlags> NOT_CARRIED = EnumSet.of(
+            ActiveFlags.IS_THORNS_REFLECTING,
+            ActiveFlags.IS_AOE_MINING,
+            ActiveFlags.IS_FORTUNE_MINING,
+            ActiveFlags.IS_BURGER_XP);
+
+    /**
+     * Returns the hit-type flags active on this thread, so an echo can replay its hit as the same kind of hit.
+     * The thorns flag is left out because the base mod leaks it past the end of a reflect.
+     */
+    public static EnumSet<ActiveFlags> captureFlags() {
+        EnumSet<ActiveFlags> captured = EnumSet.noneOf(ActiveFlags.class);
+        for (ActiveFlags flag : ActiveFlags.values()) {
+            if (flag.isSet() && !NOT_CARRIED.contains(flag)) {
+                captured.add(flag);
+            }
+        }
+        return captured;
+    }
+
+    /**
+     * Runs a replay with the stored hit's flags pushed, so an echo of an ability-power hit stays an
+     * ability-power hit instead of becoming a normal attack.
+     */
+    public void runWithFlags(Runnable replay) {
+        runWithFlags(this.flags, replay);
+    }
+
+    /** Runs a replay with the given hit-type flags pushed for its duration. */
+    public static void runWithFlags(Set<ActiveFlags> flags, Runnable replay) {
+        for (ActiveFlags flag : flags) {
+            flag.push();
+        }
+        try {
+            replay.run();
+        } finally {
+            for (ActiveFlags flag : flags) {
+                flag.pop();
+            }
+        }
+    }
+
+    public EnumSet<ActiveFlags> getFlags() {
+        return this.flags;
+    }
 
     public Player getAttacker() {
         return this.attacker;
@@ -35,13 +86,13 @@ public class EchoingEffectInstance extends MobEffectInstance {
     }
 
     public EchoingEffectInstance(EchoingEffectInstance echo, int duration) {
-        this(echo.attacker, echo.damage, echo.source, duration, echo.decay, echo.noLuckyhit, echo.noCleave);
+        this(echo.attacker, echo.damage, echo.source, duration, echo.decay, echo.noLuckyhit, echo.noCleave, echo.flags);
     }
     public EchoingEffectInstance(EchoingEffectInstance echo) {
-        this(echo.attacker, echo.damage, echo.source, echo.getDuration(), echo.decay, echo.noLuckyhit, echo.noCleave);
+        this(echo.attacker, echo.damage, echo.source, echo.getDuration(), echo.decay, echo.noLuckyhit, echo.noCleave, echo.flags);
         this.doDecay();
     }
-    public EchoingEffectInstance(Player attacker, float damage, DamageSource source, int pDuration, float decay, boolean noLuckyhit, boolean noCleave) {
+    public EchoingEffectInstance(Player attacker, float damage, DamageSource source, int pDuration, float decay, boolean noLuckyhit, boolean noCleave, EnumSet<ActiveFlags> flags) {
         super(ModEffects.ECHOING, pDuration);
         this.attacker = attacker;
         this.damage = damage;
@@ -49,6 +100,7 @@ public class EchoingEffectInstance extends MobEffectInstance {
         this.decay = decay;
         this.noLuckyhit = noLuckyhit;
         this.noCleave = noCleave;
+        this.flags = EnumSet.copyOf(flags);
     }
 
     public void doDecay() {
@@ -63,6 +115,7 @@ public class EchoingEffectInstance extends MobEffectInstance {
         this.decay = echo.decay;
         this.noLuckyhit = echo.noLuckyhit;
         this.noCleave = echo.noCleave;
+        this.flags = EnumSet.copyOf(echo.flags);
     }
 
     private void tickDownDuration() {
@@ -123,6 +176,7 @@ public class EchoingEffectInstance extends MobEffectInstance {
 
                 this.damage = oEcho.damage;
                 this.decay = oEcho.decay;
+                this.flags = EnumSet.copyOf(oEcho.flags);
                 ((MobEffectInstanceAccessor) this).setDuration(oEcho.getDuration());
                 didUpdate = true;
             } else if (oEcho.getDuration() > this.getDuration()) {

@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.objectives;
 import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultCrateBlock;
-import iskallia.vault.config.sigil.SigilConfig;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
@@ -40,8 +39,7 @@ public class UnhingedScavengerCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = ((VaultLevel)vault.get(Vault.LEVEL)).get();
-        Optional<SigilConfig.LevelEntry> optSigil = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level));
-        ResourceLocation entryPool = optSigil.map(SigilConfig.LevelEntry::getScavengerPool).orElse(VaultMod.id("default"));
+        ResourceLocation entryPool = VaultMod.id("default");
         ModConfigs.UNHINGED_SCAVENGER.getEntry(entryPool, level).ifPresentOrElse((entry) -> vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(UnhingedScavengerObjective.of(this.objectiveProbability, UnhingedScavengerObjective.Config.DEFAULT, entryPool).add(AwardCrateObjective.ofLootTable(VaultCrateBlock.Type.valueOf("UNHINGED_SCAVENGER"), entry.getLootTable(level), level, true)).add(VictoryObjective.of(300)));
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));

@@ -1,0 +1,75 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "skirt",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        3,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            10.6875,
+            14.1875,
+            11.6875,
+            14.375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            4.0,
+            2.0,
+            5.0,
+            3.0
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            4.0,
+            2.0,
+            5.0,
+            3.0
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "mass_lower",
+      "from": [
+        0,
+        3,
+        0
+      ],
+      "to": [
+        14,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            1.875,
+            12.125,
+            2.875,
+            12.9375
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

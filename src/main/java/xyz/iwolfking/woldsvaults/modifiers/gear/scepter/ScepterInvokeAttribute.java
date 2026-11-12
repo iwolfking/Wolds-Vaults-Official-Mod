@@ -13,6 +13,9 @@ import iskallia.vault.gear.comparator.VaultGearAttributeComparator;
 import iskallia.vault.gear.reader.VaultGearModifierReader;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.mana.FullManaPlayer;
+import iskallia.vault.mana.ManaAction;
+import iskallia.vault.mana.ManaPlayer;
+import iskallia.vault.skill.ability.effect.ImplodeAbility;
 import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
@@ -66,11 +69,53 @@ public class ScepterInvokeAttribute {
                     player,
                     SkillSource.of(player)
                             .setPos(player.position())
-                            .setMana(FullManaPlayer.INSTANCE)
+                            .setMana(instantAbility instanceof ImplodeAbility ? new InvokeManaPlayer(player) : FullManaPlayer.INSTANCE)
             );
 
             ((InstantAbilityAccessor)instantAbility).callDoAction(context);
         });
+    }
+
+    /**
+     * Mana source for invoked abilities that scale off current mana: reports the player's real mana
+     * but ignores every change, so the invoke stays free without reading FullManaPlayer's Float.MAX_VALUE.
+     */
+    private static class InvokeManaPlayer implements ManaPlayer {
+        private final ManaPlayer player;
+
+        private InvokeManaPlayer(ServerPlayer player) {
+            this.player = (ManaPlayer) player;
+        }
+
+        @Override
+        public float getMana() {
+            return this.player.getMana();
+        }
+
+        @Override
+        public float setMana(ManaAction action, float amount) {
+            return this.player.getMana();
+        }
+
+        @Override
+        public float getManaMax() {
+            return this.player.getManaMax();
+        }
+
+        @Override
+        public float getManaRegenPerSecond() {
+            return this.player.getManaRegenPerSecond();
+        }
+
+        @Override
+        public float increaseMana(ManaAction action, float amount) {
+            return this.player.getMana();
+        }
+
+        @Override
+        public float decreaseMana(ManaAction action, float amount) {
+            return this.player.getMana();
+        }
     }
 
     public static VaultGearAttributeType<ScepterInvokeAttribute> type() {

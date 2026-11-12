@@ -1,0 +1,41 @@
+{
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "window_pane",
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        32,
+        24,
+        1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            9.75,
+            9.75,
+            12.25,
+            11.25
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            9.75,
+            9.75,
+            12.25,
+            11.25
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

@@ -170,7 +170,7 @@ public class TrinketPouchItem extends BasicItem implements ICurioItem {
                 default -> ChatFormatting.GRAY;
             };
             tooltip.add(new TranslatableComponent("item.woldsvaults.trinket_pouch.active.entry",
-                    trinket.getHoverName().copy().withStyle(color), PouchHelper.remainingUses(trinket))
+                    trinket.getHoverName().copy().withStyle(color), PouchHelper.usesLabel(trinket, PouchHelper.remainingUses(trinket)))
                     .withStyle(ChatFormatting.GRAY));
         }
         tooltip.add(new TranslatableComponent("item.woldsvaults.trinket_pouch.active.equipped_only")

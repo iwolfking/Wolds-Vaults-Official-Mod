@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.objectives;
 import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultCrateBlock;
-import iskallia.vault.config.sigil.SigilConfig;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
@@ -49,7 +48,7 @@ public class ScalingScavengerBingoCrystalObjective extends CrystalObjective impl
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-        ResourceLocation entryPool = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level).getScavengerPool()).orElse(VaultMod.id("default"));
+        ResourceLocation entryPool = VaultMod.id("default");
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
             objectives.add(ScavengerBingoObjective.of(this.getWidth(), this.getHeight(), this.objectiveProbability, entryPool, false /*TODO*/, VaultMod.id("bingos")).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(
                 VaultCrateBlock.Type.BINGO, "bingo", level, true)).add(VictoryObjective.of(300))));

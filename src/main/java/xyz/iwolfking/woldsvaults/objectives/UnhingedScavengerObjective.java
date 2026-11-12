@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.objectives;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.DivineAltarBlock;
+import iskallia.vault.config.ScavengerConfig;
 import iskallia.vault.block.entity.ScavengerAltarTileEntity;
 import iskallia.vault.container.oversized.OverSizedInventory;
 import iskallia.vault.container.oversized.OverSizedItemStack;
@@ -29,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.config.UnhingedScavengerConfig;
 import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
@@ -182,7 +184,11 @@ public class UnhingedScavengerObjective extends ScavengerObjective {
         ScavengerGoal.ObjList list = new ScavengerGoal.ObjList();
         this.get(GOALS).put(listener.get(Listener.ID), list);
         JavaRandom random = JavaRandom.ofInternal(vault.get(Vault.SEED) ^ listener.get(Listener.ID).getMostSignificantBits());
-        list.addAll((this.getOr(CONFIG, UnhingedScavengerObjective.Config.DEFAULT)).get().generateGoals(this.getOr(ENTRY_POOL, VaultMod.id("default")), vault.get(Vault.LEVEL).get(), random));
+        ScavengerConfig config = (this.getOr(CONFIG, UnhingedScavengerObjective.Config.DEFAULT)).get();
+        ResourceLocation pool = this.getOr(ENTRY_POOL, VaultMod.id("default"));
+        int level = vault.get(Vault.LEVEL).get();
+        list.addAll(ObjectiveDifficulty.scavengerGoals(config.generateGoals(pool, level, random),
+                () -> config.generateGoals(pool, level, random), ObjectiveDifficulty.multiplier(vault), level, "unhinged_scavenger"));
     }
 
     static {

@@ -1,20 +1,35 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iskallia.vault.config.ColorsConfig;
 import iskallia.vault.config.ModBoxConfig;
+import iskallia.vault.config.PrestigePowersConfig;
 import iskallia.vault.config.SkillDescriptionsConfig;
+import iskallia.vault.config.TalentsConfig;
+import iskallia.vault.skill.base.Skill;
+import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.init.ModConfigs;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.vhapi.api.datagen.AbstractSkillDescriptionsProvider;
 import xyz.iwolfking.vhapi.api.util.builder.description.JsonDescription;
+import xyz.iwolfking.vhapi.mixin.accessors.SkillDescriptionsConfigAccessor;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
+import xyz.iwolfking.woldsvaults.datagen.gods.GodNodeText;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrFruit;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.datagen.ExpertisesDescriptionHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.PrestigePowersDescriptionsHelper;
 import xyz.iwolfking.woldsvaults.api.util.datagen.TalentDescriptionsHelper;
+import xyz.iwolfking.woldsvaults.prestige.GodExperiencePrestigePower;
+import xyz.iwolfking.woldsvaults.prestige.RelicHunterPrestigePower;
+import xyz.iwolfking.woldsvaults.prestige.ToolCapacityPrestigePower;
+import xyz.iwolfking.woldsvaults.talent.stat_conversion.MindMeldTalent;
 
+import java.util.HashMap;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvider {
     public ModSkillDescriptionsProvider(DataGenerator generator) {
@@ -95,7 +110,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text(".\n\n1 "));
                 description.add(JsonDescription.text("+2 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+4% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+4% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+1 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -107,7 +122,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("\n\n2 "));
                 description.add(JsonDescription.text("+4 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+8% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+8% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+2 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -119,7 +134,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text("\n\n3 "));
                 description.add(JsonDescription.text("+6 Absorption Hearts", "gold"));
                 description.add(JsonDescription.text(", "));
-                description.add(JsonDescription.text("+12% Cooldown Reduction", "aqua"));
+                description.add(JsonDescription.text("+12% Instant Cooldown Reduction", "aqua"));
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+3 Casted Ability Levels", "yellow"));
                 description.add(JsonDescription.text(", "));
@@ -129,7 +144,7 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 description.add(JsonDescription.text(", "));
                 description.add(JsonDescription.text("+3 effect level", "#FFB00F"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Potent Elixir", "add", "+2 Absorption Hearts, +2% Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels", "gold", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Potent Elixir", "add", "+2 Absorption Hearts, +2% Instant Cooldown Reduction, +1 casted Ability Level, +20 Flat Mana Restored, +5% max mana restored, +3 second effect duration, or 1 effect amplifier every 3 levels", "gold", description);
             });
             builder.addDescription("Healthy_Elixir", description -> {
                 description.add(JsonDescription.text("Enhances the "));
@@ -308,26 +323,30 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             builder.addDescription("Execution_Strike", description -> {
                 description.add(JsonDescription.text("Enhances your "));
                 description.add(JsonDescription.text("Lucky Hits ", "#6DF5A3"));
-                description.add(JsonDescription.text("causing them to deal a portion of the target's "));
-                description.add(JsonDescription.text("missing health ", "red"));
-                description.add(JsonDescription.text("as bonus "));
-                description.add(JsonDescription.text("damage ", "red"));
-                description.add(JsonDescription.text(".\n\n1 "));
-                description.add(JsonDescription.text("+15% of missing health", "#d80000"));
+                description.add(JsonDescription.text("so they "));
+                description.add(JsonDescription.text("execute ", "#d80000"));
+                description.add(JsonDescription.text("targets: a lucky hit on a target at or below your execute threshold of its "));
+                description.add(JsonDescription.text("max health ", "red"));
+                description.add(JsonDescription.text("kills it outright. Adds to the execute threshold from your gear. Bosses take " + ModConfigPatchesProvider.bossThresholdShare() + " the threshold."));
+                description.add(JsonDescription.text("\n\n1 "));
+                description.add(JsonDescription.text("+" + percent((float) ModConfigPatchesProvider.executionThreshold(0)) + " execute threshold", "#d80000"));
                 description.add(JsonDescription.text("\n\n"));
-                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+1% increased missing health damage", "#d80000", description);
+                TalentDescriptionsHelper.appendOverlevelDescription("Executing Strike", "add", "+" + percent((float) (ModConfigPatchesProvider.executionThreshold(1) - ModConfigPatchesProvider.executionThreshold(0))) + " execute threshold", "#d80000", description);
             });
 
             builder.addDescription("Mind_Meld", description -> {
+                MindMeldTalent mindMeld = talentTier("Mind_Meld", MindMeldTalent.class);
+                float manaStep = mindMeld.getManaStep();
                 description.add(JsonDescription.text("Become one with your inner mana. Your "));
-                description.add(JsonDescription.text("Cooldown Reduction ", "#6DF5A3"));
+                description.add(JsonDescription.text("Spell Haste ", "#6DF5A3"));
                 description.add(JsonDescription.text(" is increased the larger your "));
                 description.add(JsonDescription.text("max mana ", "#0353d7"));
                 description.add(JsonDescription.text("pool is"));
                 description.add(JsonDescription.text(".\n\n1 "));
-                description.add(JsonDescription.text("+1% Cooldown Reduction ", "#6DF5A3"));
+                description.add(JsonDescription.text("+" + percent(mindMeld.getBonusPerStep()) + " Spell Haste ", "#6DF5A3"));
                 description.add(JsonDescription.text("for every "));
-                description.add(JsonDescription.text("50 max mana", "#0353d7"));
+                description.add(JsonDescription.text((manaStep == Math.rint(manaStep) ? Integer.toString(Math.round(manaStep)) : Float.toString(manaStep))
+                        + " max mana", "#0353d7"));
             });
 
             builder.addDescription("Cleave", description -> {
@@ -393,9 +412,18 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
             PrestigePowersDescriptionsHelper.generateDescriptions(builder, getBuiltInPrestigePowers());
         });
 
+
         add("wolds_builtin_expertises_and_overrides", builder -> {
             ExpertisesDescriptionHelper.generateDescriptions(builder, getExpertises());
         });
+
+        add("god_nodes_idona", this::addIdonaGodNodeDescriptions);
+
+        add("god_nodes_wendarr", this::addWendarrGodNodeDescriptions);
+
+        add("god_nodes_velara", this::addVelaraGodNodeDescriptions);
+
+        add("god_nodes_tenos", this::addTenosGodNodeDescriptions);
 
 
         add("vanilla_research_overrides", builder ->
@@ -702,11 +730,55 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                 .build());
     }
 
+    private static PrestigePowersConfig prestigePowers;
+    private static TalentsConfig talents;
+
+    /** The first tier of a talent from the patched talent config datagen reads, failing datagen when it is absent. */
+    private static <T> T talentTier(String skillId, Class<T> type) {
+        if (talents == null) {
+            talents = new TalentsConfig().readConfig();
+        }
+        Skill skill = talents.tree.getForId(skillId).orElse(null);
+        if (skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty() && type.isInstance(tiered.getTiers().get(0))) {
+            return type.cast(tiered.getTiers().get(0));
+        }
+        throw new IllegalStateException("Talent " + skillId + " has no " + type.getSimpleName() + " tier in the talent config");
+    }
+
+    /** The first tier of a prestige power from the prestige config datagen reads, failing datagen when it is absent. */
+    private static <T> T prestigeTier(String skillId, Class<T> type) {
+        if (prestigePowers == null) {
+            prestigePowers = ModPrestigePowersProvider.withAdditions(new PrestigePowersConfig().readConfig());
+        }
+        for (Skill skill : prestigePowers.tree.skills) {
+            if (skillId.equals(skill.getId()) && skill instanceof TieredSkill tiered && !tiered.getTiers().isEmpty()
+                    && type.isInstance(tiered.getTiers().get(0))) {
+                return type.cast(tiered.getTiers().get(0));
+            }
+        }
+        throw new IllegalStateException("Prestige power " + skillId + " has no " + type.getSimpleName() + " tier in the prestige config");
+    }
+
+    private static String percent(float fraction) {
+        float value = Math.round(fraction * 1000.0F) / 10.0F;
+        return (value == Math.rint(value) ? Integer.toString(Math.round(value)) : Float.toString(value)) + "%";
+    }
+
+    private static String times(float multiplier) {
+        if (multiplier == 2.0F) {
+            return "double";
+        }
+        if (multiplier == 3.0F) {
+            return "triple";
+        }
+        return "x" + (multiplier == Math.rint(multiplier) ? Integer.toString(Math.round(multiplier)) : Float.toString(multiplier));
+    }
+
     public SkillDescriptionsConfig getBuiltInPrestigePowers() {
         return new Builder()
                 .addDescription("WeaverOfTime", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("Increases the "));
-                    jsonElements.add(JsonDescription.simple("Cooldown Reduction ", "#F2CC8C"));
+                    jsonElements.add(JsonDescription.simple("Spell Haste ", "#F2CC8C"));
                     jsonElements.add(JsonDescription.simple("Cap."));
                 })
                 .addDescription("ShieldOfLastingGuard", jsonElements -> {
@@ -735,8 +807,83 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
                     jsonElements.add(JsonDescription.simple("When crafting "));
                     jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
                     jsonElements.add(JsonDescription.simple("they gain "));
-                    jsonElements.add(JsonDescription.simple("75 ", "yellow"));
+                    jsonElements.add(JsonDescription.simple(prestigeTier("Toolsmith", ToolCapacityPrestigePower.class).getCapacityIncrease() + " ", "yellow"));
                     jsonElements.add(JsonDescription.simple("additional capacity."));
+                })
+                .addDescription("ToolsmithII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("When crafting "));
+                    jsonElements.add(JsonDescription.simple("Vault Tools ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("they gain a further "));
+                    jsonElements.add(JsonDescription.simple(prestigeTier("ToolsmithII", ToolCapacityPrestigePower.class).getCapacityIncrease() + " ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("additional capacity."));
+                })
+                .addDescription("SuperCrystalsII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the capacity of any "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals", "aqua"));
+                    jsonElements.add(JsonDescription.simple(" you craft."));
+                })
+                .addDescription("SuperCrystalsIII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the capacity of any "));
+                    jsonElements.add(JsonDescription.simple("Vault Crystals", "aqua"));
+                    jsonElements.add(JsonDescription.simple(" you craft."));
+                })
+                .addDescription("SpiritsHandII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the "));
+                    jsonElements.add(JsonDescription.simple("Reach ", "#82D4FC"));
+                    jsonElements.add(JsonDescription.simple("Cap inside vaults."));
+                })
+                .addDescription("FruityII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Further increases the time granted by any "));
+                    jsonElements.add(JsonDescription.simple("Vault Fruit", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("GodsDisciple", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Every "));
+                    jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("award you earn is increased by "));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("GodsDisciple", GodExperiencePrestigePower.class).getExperienceIncrease()), "yellow"));
+                    jsonElements.add(JsonDescription.simple(", and "));
+                    jsonElements.add(JsonDescription.simple("God Altars ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("pay "));
+                    jsonElements.add(JsonDescription.simple(times(prestigeTier("GodsDisciple", GodExperiencePrestigePower.class).getAltarBaseMultiplier()) + " ", "yellow"));
+                    jsonElements.add(JsonDescription.simple("their base experience."));
+                })
+                .addDescription("GodsDiscipleII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Every "));
+                    jsonElements.add(JsonDescription.simple("God Experience ", "#B2F44B"));
+                    jsonElements.add(JsonDescription.simple("award you earn is increased by a further "));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("GodsDiscipleII", GodExperiencePrestigePower.class).getExperienceIncrease()), "yellow"));
+                    jsonElements.add(JsonDescription.simple(", stacking additively with God's Disciple."));
+                })
+                .addDescription("RelicHunter", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the chance for an identified "));
+                    jsonElements.add(JsonDescription.simple("Unique ", "gold"));
+                    jsonElements.add(JsonDescription.simple("to be "));
+                    jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("by "));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("RelicHunter", RelicHunterPrestigePower.class).getChanceMultiplier()), "yellow"));
+                    jsonElements.add(JsonDescription.simple("."));
+                })
+                .addDescription("RelicHunterII", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Increases the chance for an identified "));
+                    jsonElements.add(JsonDescription.simple("Unique ", "gold"));
+                    jsonElements.add(JsonDescription.simple("to be "));
+                    jsonElements.add(JsonDescription.simple("Ancient ", "#FFD700"));
+                    jsonElements.add(JsonDescription.simple("by a further "));
+                    jsonElements.add(JsonDescription.simple(percent(prestigeTier("RelicHunterII", RelicHunterPrestigePower.class).getChanceMultiplier()), "yellow"));
+                    jsonElements.add(JsonDescription.simple(", stacking additively with Relic Hunter."));
+                })
+                .addDescription("LegendOfTime", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
+                })
+                .addDescription("LegendOfPower", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
+                })
+                .addDescription("LegendOfRiches", jsonElements -> {
+                    jsonElements.add(JsonDescription.simple("Unreleased", "red"));
+                    jsonElements.add(JsonDescription.simple(". This Legend power cannot be learned yet."));
                 })
                 .addDescription("Artificer", jsonElements -> {
                     jsonElements.add(JsonDescription.simple("When you identify "));
@@ -1425,6 +1572,657 @@ public class ModSkillDescriptionsProvider extends AbstractSkillDescriptionsProvi
 
     public JsonArray modDesc(String modName, Consumer<JsonArray> innerDescConsumer) {
         return modDesc(modName, "mod", innerDescConsumer);
+    }
+
+    /** Descriptions for every Idona god tree node, keyed by effect id; start stars by their node id. */
+    private void addIdonaGodNodeDescriptions(Builder builder) {
+        String ember = "#ff7a3d";
+        GodNodeText t = GodNodeText.of("idona");
+        godStat(builder, t, "idona_hard_hitter", "Attack Damage", ember);
+        godStat(builder, t, "idona_hard_hitter_ii", "Attack Damage", ember);
+        godStat(builder, t, "idona_elite_caster", "Ability Power", ember);
+        godStat(builder, t, "idona_elite_caster_ii", "Ability Power", ember);
+        godPiety(builder, t, "idona_pious_devotion", ember);
+        godStat(builder, t, "idona_full_of_soul", "Soul Shard Chance", ember);
+        godStat(builder, t, "idona_fortunate", "Lucky Hit Chance", ember);
+        godStat(builder, t, "idona_fortunate_ii", "Lucky Hit Chance", ember);
+        godNode(builder, "idona_stack_stack_stack", t.signedFlat(t.value("idona_stack_stack_stack")) + " max stack", ember, " on stacking talents.");
+        godNode(builder, "idona_king_hunter", t.signedPercent(t.value("idona_king_hunter")) + " Damage", ember, " to Champions and Tanks.");
+        godNode(builder, "idona_enforcer", t.signedPercent(t.value("idona_enforcer")) + " Damage", ember, " to Hordes and Assassins.");
+        builder.addDescription("idona_kinetic_impact", description -> {
+            double perPercent = t.param("idona_kinetic_impact", "per_percent");
+            description.add(JsonDescription.text("Multiplies your global damage based on Movement Speed - "));
+            description.add(JsonDescription.text(t.percent(perPercent * 10.0D) + " per 10% speed", ember));
+            description.add(JsonDescription.text(", measured after the boots cap."));
+            description.add(JsonDescription.text("\n\nExamples: +50% speed gives x" + t.fixed(1.0D + 50.0D * perPercent, 2)
+                    + ", +100% gives x" + t.fixed(1.0D + 100.0D * perPercent, 2)
+                    + ", +200% gives x" + t.fixed(1.0D + 200.0D * perPercent, 2) + "."));
+        });
+        builder.addDescription("idona_surrounded", description -> {
+            description.add(JsonDescription.text(t.signedPercent(t.param("idona_surrounded", "per_mob")) + " global damage", ember));
+            description.add(JsonDescription.text(" per enemy within " + t.num(t.param("idona_surrounded", "radius")) + " blocks."));
+        });
+        builder.addDescription("idona_under_pressure", description -> {
+            double window = t.param("idona_under_pressure", "window_ticks");
+            double max = t.param("idona_under_pressure", "max");
+            description.add(JsonDescription.text("Deal more damage the closer the vault is to ending - up to "));
+            description.add(JsonDescription.text(t.times(max), ember));
+            description.add(JsonDescription.text(" as the timer runs out, scaling evenly over the last " + t.minutes(window) + " minutes."));
+            description.add(JsonDescription.text("\n\nExamples: 10 minutes left gives " + t.x(underPressure(t, window, max, 10.0D))
+                    + ", 5 minutes gives " + t.x(underPressure(t, window, max, 5.0D))
+                    + ", 0 gives " + t.x(underPressure(t, window, max, 0.0D)) + "."));
+        });
+        builder.addDescription("idona_pincushion", description -> {
+            double perHit = t.param("idona_pincushion", "per_hit");
+            description.add(JsonDescription.text("Your melee attacks deal "));
+            description.add(JsonDescription.text(t.signedPercent(perHit) + " damage", ember));
+            description.add(JsonDescription.text(" for every melee attack you already landed on that enemy, with no cap. Resets when it dies."));
+            description.add(JsonDescription.text("\n\nExamples: the 21st hit deals " + t.signedPercent(20.0D * perHit)
+                    + ", the 101st " + t.signedPercent(100.0D * perHit)
+                    + ", the 201st " + t.x(1.0D + 200.0D * perHit) + "."));
+        });
+        builder.addDescription("idona_banked_anger", description -> {
+            double base = t.param("idona_banked_anger", "base");
+            description.add(JsonDescription.text("Gain an increasing "));
+            description.add(JsonDescription.text("global damage multiplier", ember));
+            description.add(JsonDescription.text(" the more damage you take in the vault: "));
+            description.add(JsonDescription.text("log" + t.num(base) + "(" + t.num(base) + " + damage taken)", ember));
+            description.add(JsonDescription.text(", with no cap."));
+            description.add(JsonDescription.text("\n\nExamples: 100k damage taken gives x" + t.fixed(logBase(base, 100000.0D), 2)
+                    + ", 1M gives x" + t.fixed(logBase(base, 1000000.0D), 2)
+                    + ", 10M gives x" + t.fixed(logBase(base, 10000000.0D), 2) + "."));
+        });
+        godNode(builder, "idona_soulstealer", t.times(t.param("idona_soulstealer", "multiplier")) + " Soul Shard Chance", ember, ".");
+        builder.addDescription("idona_luckiest_hit", description -> {
+            String scale = t.num(t.param("idona_luckiest_hit", "chance_scale"));
+            description.add(JsonDescription.text("Lucky Hit chance is multiplied by "));
+            description.add(JsonDescription.text(scale, ember));
+            description.add(JsonDescription.text(", but Fatal Strike, Mana Leech and Health Leech "));
+            description.add(JsonDescription.text("trigger twice", ember));
+            description.add(JsonDescription.text(" on every lucky hit. Fatal Strike multiplies twice, so +50% becomes x2.25. Other lucky hit effects trigger once. Lucky Strike Battle Cry's bonus chance is added after the " + scale + " and is "));
+            description.add(JsonDescription.text("not reduced", ember));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("idona_thwack", description -> {
+            description.add(JsonDescription.text(t.capitalize(t.timesWord(t.param("idona_thwack", "multiplier"))) + " Stun Chance", ember));
+            description.add(JsonDescription.text(" while using a battlestaff."));
+        });
+        builder.addDescription("idona_weaponmaster", description -> {
+            description.add(JsonDescription.text("Deal "));
+            description.add(JsonDescription.text(t.times(t.param("idona_weaponmaster", "two_handed")) + " on hit damage", ember));
+            description.add(JsonDescription.text(" with two handed weapons, or gain "));
+            description.add(JsonDescription.text(t.signedPercent(t.param("idona_weaponmaster", "dual_wield_attack_speed")) + " Attack Speed", ember));
+            description.add(JsonDescription.text(" while dual wielding."));
+        });
+        builder.addDescription("idona_cleave_expert", description -> {
+            description.add(JsonDescription.text("Rampage", "#C23627"));
+            description.add(JsonDescription.text(" now applies to cleave at "));
+            description.add(JsonDescription.text(t.percent(t.param("idona_cleave_expert", "efficiency")) + " efficiency", ember));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("idona_true_rage", description -> {
+            description.add(JsonDescription.text("Rampage", "#C23627"));
+            description.add(JsonDescription.text(" now applies to Attack Damage abilities at "));
+            description.add(JsonDescription.text(t.percent(t.param("idona_true_rage", "efficiency")) + " efficiency", ember));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "idona_crushing_blows", t.times(t.param("idona_crushing_blows", "multiplier")) + " Attack Damage", ember, ".");
+        builder.addDescription("idona_sneaky_advantage", description -> {
+            description.add(JsonDescription.text(t.signedPercent(t.param("idona_sneaky_advantage", "per_effect")) + " damage", ember));
+            description.add(JsonDescription.text(" for every unique negative effect on the target."));
+        });
+        godNode(builder, "idona_super_stacker", t.times(t.param("idona_super_stacker", "multiplier")) + " max stacks", ember, " on stacking talents.");
+        builder.addDescription("idona_stack_hoarder", description -> {
+            description.add(JsonDescription.text("Stacks on stacking talents last "));
+            description.add(JsonDescription.text(t.percent(t.param("idona_stack_hoarder", "multiplier") - 1.0D) + " longer", ember));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("idona_prison_warden", description -> {
+            description.add(JsonDescription.text("Deal "));
+            description.add(JsonDescription.text(t.times(t.param("idona_prison_warden", "multiplier")) + " damage for "
+                    + t.seconds(t.param("idona_prison_warden", "duration_ticks")) + " seconds", ember));
+            description.add(JsonDescription.text(" to enemies that survive a glacial prison."));
+        });
+        builder.addDescription("idona_greedbane", description -> {
+            description.add(JsonDescription.text("Deal "));
+            description.add(JsonDescription.text(t.times(t.param("idona_greedbane", "multiplier")) + " damage", ember));
+            description.add(JsonDescription.text(" to greed assassins and the greed champion."));
+        });
+        builder.addDescription("idona_power_dump", description -> {
+            double perMana = t.param("idona_power_dump", "per_mana");
+            double sqrtRef = t.param("idona_power_dump", "sqrt_ref");
+            double drain = t.param("idona_power_dump", "hold_drain_fraction");
+            double small = powerDumpBonus(perMana, sqrtRef, 1000.0D);
+            double medium = powerDumpBonus(perMana, sqrtRef, 20000.0D);
+            double large = powerDumpBonus(perMana, sqrtRef, 150000.0D);
+            description.add(JsonDescription.text("Instant abilities cast "));
+            description.add(JsonDescription.text("while sneaking", ember));
+            description.add(JsonDescription.text(" consume your whole mana bar. Your max mana sets the largest bonus, "));
+            description.add(JsonDescription.text(t.percent(perMana) + " x sqrt(" + t.num(sqrtRef) + " x max mana)", ember));
+            description.add(JsonDescription.text(", and each cast multiplies its damage by "));
+            description.add(JsonDescription.text("1 + that bonus x the share of your bar it spent above its cost", ember));
+            description.add(JsonDescription.text(". Each cast keeps its own bonus for its own hits; damage over time is not boosted. Casts made standing up and toggles are unaffected."));
+            description.add(JsonDescription.text("\n\nHeld channels cast while sneaking drain " + t.percent(t.perSecond(drain)) + " of your bar per second; each tick counts only its own drain above its cost. Every Implode gets the bonus for the mana it consumes, sneaking or not, and so does a Starforge nova that procs while you sneak."));
+            description.add(JsonDescription.text("\n\nExamples, ignoring the spell's own cost: a cast from a full bar gets x" + t.sig(1.0D + small, 2)
+                    + " at 1,000 max mana, x" + t.sig(1.0D + medium, 2) + " at 20,000 and x" + t.sig(1.0D + large, 2)
+                    + " at 150,000. From a half-full bar: x" + t.sig(1.0D + small * 0.5D, 2) + ", x" + t.sig(1.0D + medium * 0.5D, 2)
+                    + ", x" + t.sig(1.0D + large * 0.5D, 2) + ". A held channel's ticks get x" + t.sig(1.0D + small * drain, 3)
+                    + ", x" + t.sig(1.0D + medium * drain, 2) + ", x" + t.sig(1.0D + large * drain, 2) + "."));
+        });
+        builder.addDescription("idona_overcrit", description -> {
+            double cap = GodNodeText.luckyHitCap();
+            double partial = cap + 0.24D;
+            double full = cap + 1.0D;
+            double beyond = cap + 1.5D;
+            int beyondTier = (int) Math.floor(beyond - cap);
+            description.add(JsonDescription.text("Lucky Hit chance over your cap (" + t.percent(cap) + ")", "gold"));
+            description.add(JsonDescription.text(" lets your lucky hits overcrit: every full 100% over the cap adds "));
+            description.add(JsonDescription.text("+100% damage", ember));
+            description.add(JsonDescription.text(" to each lucky hit, and the remainder is the chance of one more +100%."));
+            description.add(JsonDescription.text("\n\nExamples: at " + t.percent(partial) + " chance, " + t.percent(partial - cap)
+                    + " of lucky hits deal x2. At " + t.percent(full) + ", every lucky hit deals x2. At " + t.percent(beyond)
+                    + ", lucky hits deal x" + (1 + beyondTier) + " or x" + (2 + beyondTier) + ", " + t.x(1.0D + beyond - cap) + " on average."));
+        });
+        builder.addDescription("idona_grand_archmage", description -> {
+            String id = "idona_grand_archmage";
+            description.add(JsonDescription.text("Turn into an archmage: "));
+            description.add(JsonDescription.text(t.signedPercent(t.param(id, "mana_percentile")) + " Mana, "
+                    + t.signedFlat(t.param(id, "mana_flat")) + " flat Mana, greatly increased Mana Regeneration, "
+                    + t.times(t.param(id, "ability_damage")) + " Ability Damage and "
+                    + t.signedPercent(t.param(id, "cooldown_reduction_cap")) + " Spell Haste cap", ember));
+            description.add(JsonDescription.text(" - but your melee attacks deal no damage."));
+        });
+        builder.addDescription("idona_ultra_rampaging", description -> {
+            String id = "idona_ultra_rampaging";
+            double perHit = t.param(id, "fury_per_hit");
+            double decay = t.param(id, "fury_decay_per_tick");
+            double cap = t.param(id, "fury_cap");
+            double handover = t.param(id, "cdm_sqrt_from");
+            double decayPerSecond = -Math.log(decay) * t.perSecond(1.0D);
+            double halfLife = Math.log(2.0D) / decayPerSecond;
+            double hitsHeld = Math.round(5.0D * perHit / decayPerSecond / 50.0D) * 50.0D;
+            double bossHitsHeld = Math.round(5.0D * perHit * t.param(id, "fury_boss_hit_multiplier") / decayPerSecond / 50.0D) * 50.0D;
+            description.add(JsonDescription.text("Hitting, killing and being hurt build "));
+            description.add(JsonDescription.text("Fury", ember));
+            description.add(JsonDescription.text(" (" + t.grouped(perHit) + " per hit, " + t.grouped(t.param(id, "fury_per_kill"))
+                    + " per kill, up to " + t.grouped(t.param(id, "fury_per_hp_fraction_lost")) + " for losing your whole health bar; cap "
+                    + t.grouped(cap) + "), which loses about half every " + t.num(halfLife, 1) + " seconds, faster above "
+                    + t.grouped(t.param(id, "fury_decay_scale_from")) + ". While Rampage is active, Fury both "));
+            description.add(JsonDescription.text("adds to and multiplies your Rampage damage", ember));
+            description.add(JsonDescription.text(", so a fight that keeps moving keeps you at a far higher multiplier."));
+            description.add(JsonDescription.text("\n\nBosses pay " + t.timesWord(t.param(id, "fury_boss_hit_multiplier")) + " on hit and "
+                    + t.timesWord(t.param(id, "fury_boss_kill_multiplier")) + " on death."));
+            description.add(JsonDescription.text("\n\nWhile you hold Fury you also "));
+            description.add(JsonDescription.text("take up to " + t.times(furyIncoming(t, cap)) + " damage at full Fury", "#C23627"));
+            description.add(JsonDescription.text(", with or without Rampage active."));
+            description.add(JsonDescription.text("\n\nExamples with a +100% Rampage: 5 hits a second holds about " + t.grouped(hitsHeld)
+                    + " Fury, making it " + furyRampage(t, hitsHeld) + " and " + t.times(furyIncoming(t, hitsHeld))
+                    + " damage taken. 5 boss hits a second holds about " + t.grouped(bossHitsHeld) + ", for "
+                    + furyRampage(t, bossHitsHeld) + " and " + t.times(furyIncoming(t, bossHitsHeld)) + " taken. "
+                    + t.grouped(handover) + " Fury gives " + furyRampage(t, handover) + " and " + t.times(furyIncoming(t, handover))
+                    + " taken; full Fury gives " + furyRampage(t, cap) + " and " + t.times(furyIncoming(t, cap)) + " taken."));
+        });
+        godRoot(builder, t, "idona_start_sw", "Idona's sword", "attack damage, up close", ember, "Ability Power", "Attack Damage");
+        godRoot(builder, t, "idona_start_st", "Idona's staff", "ability power and range", ember, "Ability Power", "Attack Damage");
+        godRoot(builder, t, "idona_start_gambler", "the Gambler", "lucky hits", ember, "Ability Power", "Attack Damage");
+        godRoot(builder, t, "idona_start_hoard", "the Hoard", "stacking talents", ember, "Ability Power", "Attack Damage");
+        godRoot(builder, t, "idona_start_reaper", "the Reaper", "soul shards", ember, "Ability Power", "Attack Damage");
+        godRoot(builder, t, "idona_start_bounty", "the Bounty", "damage to champions, tanks, hordes and assassins", ember, "Ability Power", "Attack Damage");
+    }
+
+    private void addWendarrGodNodeDescriptions(Builder builder) {
+        String gold = "#ffc854";
+        GodNodeText t = GodNodeText.of("wendarr");
+        godStat(builder, t, "wendarr_fruit_conissour", "Fruit Efficiency", gold);
+        godStat(builder, t, "wendarr_speedy", "Movement Speed", gold);
+        godStat(builder, t, "wendarr_heavily_effected", "Effect Duration", gold);
+        godStat(builder, t, "wendarr_master_imbuer", "Imbuement Chance", gold);
+        godStat(builder, t, "wendarr_speedy_caster", "Spell Haste", gold);
+        godPiety(builder, t, "wendarr_pious_devotion", gold);
+        builder.addDescription("wendarr_extraction_superviser", description -> {
+            description.add(JsonDescription.text("+5% Extractor Speed", gold));
+            description.add(JsonDescription.text(" for extractors you placed.\n\n"));
+            description.add(JsonDescription.text("Coming soon.", "gray"));
+        });
+        godNode(builder, "wendarr_expert_eater", t.percent(t.param("wendarr_expert_eater", "save_chance")) + " chance", gold, " to not consume a vault fruit when you eat it.");
+        builder.addDescription("wendarr_tough_stomach", description -> {
+            double scaling = t.param("wendarr_tough_stomach", "health_scaling");
+            description.add(JsonDescription.text("Slightly reduces the "));
+            description.add(JsonDescription.text("max health lost per fruit", gold));
+            description.add(JsonDescription.text(" you eat, letting you eat more."));
+            description.add(JsonDescription.text("\n\nExamples: after 5 fruits you keep " + t.percent(fruitHealth(scaling, 5), 0)
+                    + " of your max health instead of " + t.percent(fruitHealth(WendarrFruit.DEFAULT_HEALTH_SCALING, 5), 0)
+                    + ", after 10 fruits " + t.percent(fruitHealth(scaling, 10), 0)
+                    + " instead of " + t.percent(fruitHealth(WendarrFruit.DEFAULT_HEALTH_SCALING, 10), 0) + "."));
+        });
+        godNode(builder, "wendarr_pristine_condition", t.percent(1.0D - t.param("wendarr_pristine_condition", "rot_multiplier")) + " chance", gold, " to not gain a rot stack when you otherwise would - calculated separately from other rot reductions.");
+        builder.addDescription("wendarr_glutton", description -> {
+            description.add(JsonDescription.text("All fruit grants "));
+            description.add(JsonDescription.text(t.times(t.param("wendarr_glutton", "time_multiplier")) + " time", gold));
+            description.add(JsonDescription.text(", but the chance to rot the vault is reduced by "));
+            description.add(JsonDescription.text(t.percent(1.0D - t.param("wendarr_glutton", "rot_multiplier")), gold));
+            description.add(JsonDescription.text(" - multiplicative with other rot reductions."));
+        });
+        godStat(builder, t, "wendarr_fruity", "Fruit Efficiency", gold);
+        godNode(builder, "wendarr_clock_artificier", t.signedPercent(t.param("wendarr_clock_artificier", "multiplier") - 1.0D) + " duration", gold, " on temporal shards you consume.");
+        builder.addDescription("wendarr_paced_strikes", description -> {
+            double reference = t.param("wendarr_paced_strikes", "reference_minutes");
+            description.add(JsonDescription.text("Multiplies your damage by "));
+            description.add(JsonDescription.text(GodNodePreviews.pacedStrikesFormula(reference), gold));
+            description.add(JsonDescription.text(", where t is the minutes left on the vault timer. Damage over time is not boosted."));
+            description.add(JsonDescription.text("\n\nExamples: 10 minutes left gives x" + t.fixed(Math.sqrt((reference + 10.0D) / reference), 2)
+                    + ", 30 minutes gives x" + t.fixed(Math.sqrt((reference + 30.0D) / reference), 2)
+                    + ", 100 minutes gives x" + t.fixed(Math.sqrt((reference + 100.0D) / reference), 2) + "."));
+        });
+        builder.addDescription("wendarr_temporal_shielding", description -> {
+            description.add(JsonDescription.text("Take "));
+            description.add(JsonDescription.text(t.percent(1.0D - t.param("wendarr_temporal_shielding", "reduction")) + " less damage", gold));
+            description.add(JsonDescription.text(" after armor and resistance, but every hit taken drains "));
+            description.add(JsonDescription.text(timeDrain(t), gold));
+            description.add(JsonDescription.text(" of vault time. Only works inside a vault."));
+        });
+        godNode(builder, "wendarr_efficient_steps", t.signedPercent(t.param("wendarr_efficient_steps", "ratio") / 100.0D) + " Movement Speed", gold, " per 1% Fruit Efficiency.");
+        builder.addDescription("wendarr_extender", description -> {
+            description.add(JsonDescription.text("Enter every vault with "));
+            description.add(JsonDescription.text("2 stacks of Extended", gold));
+            description.add(JsonDescription.text(" (+" + t.minutes(t.param("wendarr_extender", "ticks")) + " minutes). Stacks with other players."));
+        });
+        builder.addDescription("wendarr_temporal_breaking", description -> {
+            description.add(JsonDescription.text("Grants "));
+            description.add(JsonDescription.text("immunity", gold));
+            description.add(JsonDescription.text(" to time acceleration."));
+        });
+        godNode(builder, "wendarr_plushie_lover", "Doubles the rolled stats", gold, " of a plushie held in your offhand.");
+        builder.addDescription("wendarr_pylon_whisperer", description -> {
+            description.add(JsonDescription.text("Pylons grant "));
+            description.add(JsonDescription.text(t.percent(t.param("wendarr_pylon_whisperer", "boost") - 1.0D) + " greater effects", gold));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("wendarr_gardener", description -> {
+            description.add(JsonDescription.text("Each fruit stack from Woldian Gardens has a "));
+            description.add(JsonDescription.text(t.percent(t.param("wendarr_gardener", "starfruit_upgrade_chance")) + " chance to become Starfruit", gold));
+            description.add(JsonDescription.text(", and otherwise a "));
+            description.add(JsonDescription.text(t.percent(t.param("wendarr_gardener", "extra_fruit_chance")) + " chance to double", gold));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "wendarr_the_deckless", t.signedPercent(t.param("wendarr_the_deckless", "fruit_per_slot")) + " Fruit Efficiency, "
+                + t.signedPercent(t.param("wendarr_the_deckless", "speed_per_slot")) + " Movement Speed and "
+                + t.signedPercent(t.param("wendarr_the_deckless", "cooldown_per_slot")) + " Spell Haste", gold, " for every empty slot in your card deck.");
+        builder.addDescription("wendarr_speed_demon", description -> {
+            double stat = t.param("wendarr_speed_demon", "stat_multiplier");
+            description.add(JsonDescription.text("The vault timer runs " + t.times(1.0D / t.param("wendarr_speed_demon", "rate")) + " faster", gold));
+            description.add(JsonDescription.text(", but everyone in the vault deals "));
+            description.add(JsonDescription.text(t.times(stat) + " damage", gold));
+            description.add(JsonDescription.text(" and gets "));
+            description.add(JsonDescription.text(t.times(stat) + " Item Quantity, Item Rarity and Trap Disarming", gold));
+            description.add(JsonDescription.text(" and "));
+            description.add(JsonDescription.text(t.signedPercent(stat - 1.0D) + " Armor", gold));
+            description.add(JsonDescription.text(", added to other Armor %. Does not stack."));
+        });
+        builder.addDescription("wendarr_quick_search", description -> {
+            double rate = t.param("wendarr_quick_search", "rate");
+            description.add(JsonDescription.text("4x omega room weight", gold));
+            description.add(JsonDescription.text(", but the "));
+            description.add(JsonDescription.text("vault timer runs " + t.times(1.0D / rate) + " faster", gold));
+            description.add(JsonDescription.text(". Does not stack; with Speed Demon the timer runs "
+                    + t.times(1.0D / (rate * t.param("wendarr_speed_demon", "rate"))) + " faster."));
+        });
+        builder.addDescription("wendarr_armored_extractors", description -> {
+            description.add(JsonDescription.text("Extractors you place take "));
+            description.add(JsonDescription.text("50% less damage", gold));
+            description.add(JsonDescription.text(".\n\n"));
+            description.add(JsonDescription.text("Coming soon.", "gray"));
+        });
+        builder.addDescription("wendarr_legend_of_the_pear", description -> {
+            description.add(JsonDescription.text("Fruit grants "));
+            description.add(JsonDescription.text("1 + sqrt(e)", gold));
+            description.add(JsonDescription.text(" times its time instead of "));
+            description.add(JsonDescription.text("1 + e / (1 + e)", gold));
+            description.add(JsonDescription.text(", where e is your Fruit Efficiency. The normal curve never reaches 2x; this one keeps growing. Rot chance is unchanged."));
+            description.add(JsonDescription.text("\n\nExamples: +50% efficiency gives " + pearCurve(t, 0.5D) + "x time instead of "
+                    + normalCurve(t, 0.5D) + "x, +150% gives " + pearCurve(t, 1.5D) + "x instead of " + normalCurve(t, 1.5D)
+                    + "x, +300% gives " + pearCurve(t, 3.0D) + "x instead of " + normalCurve(t, 3.0D) + "x."));
+        });
+        builder.addDescription("wendarr_edge_of_time", description -> {
+            description.add(JsonDescription.text("Deal "));
+            description.add(JsonDescription.text(t.times(t.param("wendarr_edge_of_time", "multiplier")) + " damage", gold));
+            description.add(JsonDescription.text(" (not damage over time), but every instance of damage you deal, damage over time included, consumes "));
+            description.add(JsonDescription.text(timeDrain(t), gold));
+            description.add(JsonDescription.text(" of vault time. Only works inside a vault."));
+        });
+        godRoot(builder, t, "wendarr_start_top", "the top of Wendarr's glass", "making time - fruit and what it is worth", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_bot", "the bottom of Wendarr's glass", "spending time - speed and the clock", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_swift", "the Swift", "burning the clock for loot", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_deck", "the Deck", "what you bring in with you", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_spanner", "the Spanner", "the vault's machinery", gold, "Movement Speed", "Spell Haste");
+        godRoot(builder, t, "wendarr_start_bough", "the Bough", "where fruit comes from", gold, "Movement Speed", "Spell Haste");
+    }
+
+    private void addVelaraGodNodeDescriptions(Builder builder) {
+        String leaf = "#6ef08c";
+        GodNodeText t = GodNodeText.of("velara");
+        String badEffects = " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger.";
+        godStat(builder, t, "velara_tough", "Health", leaf);
+        godStat(builder, t, "velara_tough_ii", "Health", leaf);
+        godStat(builder, t, "velara_armored", "Armor", leaf);
+        godStat(builder, t, "velara_armored_ii", "Armor", leaf);
+        godNode(builder, "velara_immune", t.signedPercent(t.value("velara_immune")) + " chance to avoid", leaf, badEffects);
+        godNode(builder, "velara_immune_ii", t.signedPercent(t.value("velara_immune_ii")) + " chance to avoid", leaf, badEffects);
+        godStat(builder, t, "velara_healthy", "Healing Efficiency", leaf);
+        godStat(builder, t, "velara_healthy_ii", "Healing Efficiency", leaf);
+        godStat(builder, t, "velara_fast_reflexes", "Dodge", leaf);
+        godStat(builder, t, "velara_fast_reflexes_ii", "Dodge", leaf);
+        godStat(builder, t, "velara_guarded", "Block", leaf);
+        godStat(builder, t, "velara_guarded_ii", "Block", leaf);
+        godNode(builder, "velara_thorny", t.signedFlat(t.value("velara_thorny")) + " Thorns Damage", leaf, ".");
+        godNode(builder, "velara_thorny_ii", t.signedFlat(t.value("velara_thorny_ii")) + " Thorns Damage", leaf, ".");
+        godPiety(builder, t, "velara_pious_devotion", leaf);
+        godNode(builder, "velara_counterstrike", t.percent(t.param("velara_counterstrike", "chance")) + " chance", leaf, " to land a free attack on an enemy whose melee strike you blocked or dodged.");
+        builder.addDescription("velara_magic_armor", description -> {
+            description.add(JsonDescription.text("Magic damage that ignores armor is now reduced by your armor as if you had "));
+            description.add(JsonDescription.text(t.fractionWord(t.param("velara_magic_armor", "efficiency")) + " your Armor", leaf));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "velara_defender_of_the_faith", t.signedPercent(t.param("velara_defender_of_the_faith", "per_charm")) + " Health and Armor", leaf, " for each distinct god carried on a charm by your vault party, yourself included.");
+        godNode(builder, "velara_perserverence", t.signedPercent(t.param("velara_perserverence", "timer_bonus")) + " longer downed timer", leaf, ".");
+        godNode(builder, "velara_adaptive_armor", "-" + t.percent(t.param("velara_adaptive_armor", "per_stack")) + " damage taken per stack, up to "
+                + t.num(t.param("velara_adaptive_armor", "max_stacks")) + " stacks", leaf, ". Every consecutive hit from the same enemy adds a stack; a hit from anything else starts the run over.");
+        builder.addDescription("velara_bounce_back", description -> {
+            double multiplier = t.param("velara_bounce_back", "multiplier");
+            description.add(JsonDescription.text(t.multipliesVerb(multiplier, "your Healing Efficiency"), leaf));
+            description.add(JsonDescription.text(" (+100% becomes " + t.signedPercent((1.0D + 1.0D) * multiplier - 1.0D) + ") while below "));
+            description.add(JsonDescription.text(t.percent(t.param("velara_bounce_back", "health_threshold")) + " max health", leaf));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "velara_indomitable", t.signedFlat(t.param("velara_indomitable", "regeneration_levels")) + " Regeneration levels", leaf, ". Stacks with other sources of regeneration.");
+        godNode(builder, "velara_field_medic", t.times(t.param("velara_field_medic", "multiplier")) + " healing", leaf, " on the heals your Heal Group ability gives allies. Never applies to healing yourself.");
+        builder.addDescription("velara_the_stonewall", description -> {
+            description.add(JsonDescription.text(t.times(t.param("velara_the_stonewall", "speed_multiplier")) + " Movement Speed", leaf));
+            description.add(JsonDescription.text(", but "));
+            description.add(JsonDescription.text(t.times(t.param("velara_the_stonewall", "armor_multiplier")) + " Armor", leaf));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("velara_cactus", description -> {
+            description.add(JsonDescription.text(t.times(t.param("velara_cactus", "armor_multiplier")) + " Armor", leaf));
+            description.add(JsonDescription.text(", but "));
+            description.add(JsonDescription.text(t.times(t.param("velara_cactus", "thorns_multiplier")) + " Thorns", leaf));
+            description.add(JsonDescription.text("."));
+        });
+        builder.addDescription("velara_malediction", description -> {
+            description.add(JsonDescription.text("Multiplies thorns by "));
+            description.add(JsonDescription.text(GodNodePreviews.MALEDICTION_FORMULA, leaf));
+            description.add(JsonDescription.text(", where healing efficiency is from your gear, but caps your healing efficiency at "));
+            description.add(JsonDescription.text(t.signedPercent(t.param("velara_malediction", "forced_healing") - 1.0D), leaf));
+            description.add(JsonDescription.text("."));
+            description.add(JsonDescription.text("\n\nExamples: +50% gear healing efficiency gives " + t.x(Math.cbrt(1.0D + 0.5D))
+                    + " thorns, +200% gives " + t.x(Math.cbrt(1.0D + 2.0D)) + ", +700% gives " + t.x(Math.cbrt(1.0D + 7.0D)) + "."));
+        });
+        builder.addDescription("velara_immortal", description -> {
+            String id = "velara_immortal";
+            description.add(JsonDescription.text(t.times(t.same(id, "health_multiplier", "armor_multiplier")) + " max Health and Armor, "
+                    + t.times(t.param(id, "healing_multiplier")) + " Healing Efficiency, "
+                    + t.signedFlat(t.param(id, "flat_health")) + " base Health, "
+                    + t.signedFlat(t.param(id, "flat_armor")) + " base Armor, "
+                    + t.signedFlat(t.param(id, "regeneration_levels")) + " Regeneration levels", leaf));
+            description.add(JsonDescription.text(", and you "));
+            description.add(JsonDescription.text("revive yourself at most once every " + t.seconds(t.param(id, "revive_cooldown_ticks")) + " seconds", leaf));
+            description.add(JsonDescription.text(" - but you deal "));
+            description.add(JsonDescription.text(t.fractionWord(t.param(id, "damage_multiplier")) + " damage", leaf));
+            description.add(JsonDescription.text(". Sacrifice cannot syphon through you."));
+        });
+        builder.addDescription("velara_fleeting_physicality", description -> {
+            String id = "velara_fleeting_physicality";
+            description.add(JsonDescription.text(t.seconds(t.param(id, "immune_ticks")) + " seconds of damage immunity", leaf));
+            description.add(JsonDescription.text(", then "));
+            description.add(JsonDescription.text(t.seconds(t.param(id, "vulnerable_ticks")) + " seconds taking "
+                    + t.times(t.param(id, "damage_multiplier")) + " damage", leaf));
+            description.add(JsonDescription.text(", over and over on the world clock. The vault timer still gets through."));
+        });
+        builder.addDescription("velara_steadfast", description -> {
+            double floor = t.param("velara_steadfast", "knockback_floor");
+            double perExcess = t.param("velara_steadfast", "armor_per_excess");
+            description.add(JsonDescription.text("Knockback Resistance above " + t.percent(floor), leaf));
+            description.add(JsonDescription.text(" is converted to "));
+            description.add(JsonDescription.text("Armor %", leaf));
+            description.add(JsonDescription.text(" at " + t.num(1.0D / perExcess) + " to 1, added to your other Armor %."));
+            description.add(JsonDescription.text("\n\nExamples: 150% Knockback Resistance gives " + t.signedPercent((1.5D - floor) * perExcess)
+                    + " Armor, 200% gives " + t.signedPercent((2.0D - floor) * perExcess)
+                    + ", 300% gives " + t.signedPercent((3.0D - floor) * perExcess) + "."));
+        });
+        builder.addDescription("velara_sanitation", description -> {
+            description.add(JsonDescription.text("Negative effects on you and allies within " + t.num(t.param("velara_sanitation", "radius")) + " blocks last "));
+            description.add(JsonDescription.text(t.fractionWord(1.0D / t.param("velara_sanitation", "duration_divisor")) + " as long", leaf));
+            description.add(JsonDescription.text(". Does not stack."));
+        });
+        godNode(builder, "velara_presence", t.signedPercent(t.param("velara_presence", "resistance")) + " Resistance, "
+                + t.signedPercent(t.param("velara_presence", "healing")) + " Healing Efficiency and "
+                + t.signedFlat(t.param("velara_presence", "regeneration_levels")) + " Regeneration", leaf,
+                " to allies within " + t.num(t.param("velara_presence", "radius")) + " blocks. Cannot be applied to yourself.");
+        builder.addDescription("velara_healing_flow", description -> {
+            description.add(JsonDescription.text("+1% Healing Efficiency", leaf));
+            description.add(JsonDescription.text(" per "));
+            description.add(JsonDescription.text(t.percent(0.01D / t.param("velara_healing_flow", "per_mana_regen")) + " Mana Regeneration", leaf));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "velara_utilized", t.signedFlat(t.param("velara_utilized", "ability_levels")) + " to all Utility ability levels", leaf, ".");
+        builder.addDescription("velara_sacrifice", description -> {
+            description.add(JsonDescription.text("Syphon " + t.percent(t.param("velara_sacrifice", "syphon")) + " of all damage", leaf));
+            description.add(JsonDescription.text(" your party members take, after their armor and resistance, onto yourself, with an additional "));
+            description.add(JsonDescription.text(t.percent(t.param("velara_sacrifice", "resistance")) + " resistance", leaf));
+            description.add(JsonDescription.text(" against what you syphon on top of your own. Several shepherds split the flock evenly instead of overlapping."));
+        });
+        godRoot(builder, t, "velara_start_bulwark", "the Bulwark", "armour, thorns and taking the hit", leaf, "Health", "Armor");
+        godRoot(builder, t, "velara_start_mercy", "the Mercy", "healing, allies and staying up", leaf, "Health", "Armor");
+        godRoot(builder, t, "velara_start_fern", "the Fern", "auras cast over the party", leaf, "Health", "Armor");
+        godRoot(builder, t, "velara_start_briar", "the Briar", "refusing to go down", leaf, "Health", "Armor");
+        godRoot(builder, t, "velara_start_bloom", "the Bloom", "the answer to a blocked hit", leaf, "Health", "Armor");
+        godRoot(builder, t, "velara_start_sapling", "the Sapling", "utility that grows on you", leaf, "Health", "Armor");
+    }
+
+    private void addTenosGodNodeDescriptions(Builder builder) {
+        String sky = "#5ad8ff";
+        GodNodeText t = GodNodeText.of("tenos");
+        godStat(builder, t, "tenos_hoarder", "Item Quantity", sky);
+        godStat(builder, t, "tenos_hoarder_ii", "Item Quantity", sky);
+        godStat(builder, t, "tenos_treasurer", "Item Rarity", sky);
+        godStat(builder, t, "tenos_treasurer_ii", "Item Rarity", sky);
+        godStat(builder, t, "tenos_magical", "Mana Regeneration", sky);
+        godStat(builder, t, "tenos_magical_ii", "Mana Regeneration", sky);
+        godStat(builder, t, "tenos_reserves", "Maximum Mana", sky);
+        godStat(builder, t, "tenos_reserves_ii", "Maximum Mana", sky);
+        godStat(builder, t, "tenos_careful", "Trap Disarming", sky);
+        godStat(builder, t, "tenos_careful_ii", "Trap Disarming", sky);
+        godStat(builder, t, "tenos_wide_influence", "Area of Effect", sky);
+        godStat(builder, t, "tenos_wide_influence_ii", "Area of Effect", sky);
+        godStat(builder, t, "tenos_advanced_extraction", "Copiously", sky);
+        godStat(builder, t, "tenos_advanced_extraction_ii", "Copiously", sky);
+        godPiety(builder, t, "tenos_pious_devotion", sky);
+        godNode(builder, "tenos_omega_vault", "Doubles the weight", sky, " of omega rooms when the vault is built.");
+        builder.addDescription("tenos_mana_starved", description -> {
+            double maxBonus = t.param("tenos_mana_starved", "max_bonus");
+            double threshold = t.param("tenos_mana_starved", "threshold");
+            description.add(JsonDescription.text("Up to "));
+            description.add(JsonDescription.text(t.times(1.0D + maxBonus) + " Mana Regeneration", sky));
+            description.add(JsonDescription.text(" as your mana falls from " + t.fillWord(threshold) + " full to empty."));
+            description.add(JsonDescription.text("\n\nExamples: at " + t.percent(threshold) + " mana " + t.x(manaStarved(maxBonus, threshold, threshold))
+                    + ", at 25% " + t.x(manaStarved(maxBonus, threshold, 0.25D))
+                    + ", at 10% " + t.x(manaStarved(maxBonus, threshold, 0.1D)) + "."));
+        });
+        godNode(builder, "tenos_deep_reserves", t.times(1.0D + t.param("tenos_deep_reserves", "multiplier")) + " Maximum Mana", sky, ".");
+        godNode(builder, "tenos_barter_expert", "Significantly improves", sky,
+                " the rates of rarer shop pedestals in non-special vendoor rooms.");
+        godNode(builder, "tenos_nose_for_treasure", t.signedPercent(t.param("tenos_nose_for_treasure", "treasure_door_bonus")) + " Treasure Door", sky, " spawn rate, across the whole vault.");
+        builder.addDescription("tenos_domain_expansion", description -> {
+            double perCell = t.param("tenos_domain_expansion", "per_cell");
+            double cap = t.param("tenos_domain_expansion", "cap");
+            int roomsToCap = (int) Math.ceil((cap - 1.0D) / (2.0D * perCell) - 1.0E-6D);
+            description.add(JsonDescription.text("Up to "));
+            description.add(JsonDescription.text(t.times(cap) + " Area of Effect", sky));
+            description.add(JsonDescription.text(" the further you are from the portal - "));
+            description.add(JsonDescription.text("+" + t.num(perCell, 3) + "x per vault grid cell", sky));
+            description.add(JsonDescription.text(" (47 blocks; rooms are two cells apart) of taxicab distance, so +" + t.num(2.0D * perCell, 3) + "x per room."));
+            description.add(JsonDescription.text("\n\nExamples: 2 rooms out gives " + t.x(Math.min(cap, 1.0D + perCell * 4.0D))
+                    + ", 5 rooms " + t.x(Math.min(cap, 1.0D + perCell * 10.0D))
+                    + ", " + roomsToCap + " rooms or more " + t.x(cap) + "."));
+        });
+        builder.addDescription("tenos_indiana_jones", description -> {
+            double reference = t.param("tenos_indiana_jones", "reference");
+            description.add(JsonDescription.text("You no longer benefit from Trap Disarming", sky));
+            description.add(JsonDescription.text(", but it multiplies your Item Quantity and Rarity by "));
+            description.add(JsonDescription.text(GodNodePreviews.indianaJonesFormula(reference), sky));
+            description.add(JsonDescription.text(", with trap disarm in percent from your gear."));
+            description.add(JsonDescription.text("\n\nExamples: 300% trap disarm gives x" + t.fixed(Math.cbrt((reference + 300.0D) / reference), 2)
+                    + ", 1,000% gives x" + t.fixed(Math.cbrt((reference + 1000.0D) / reference), 2)
+                    + ", 3,000% gives x" + t.fixed(Math.cbrt((reference + 3000.0D) / reference), 2) + "."));
+        });
+        builder.addDescription("tenos_expert_looter", description -> {
+            description.add(JsonDescription.text("Chests can roll up to "));
+            description.add(JsonDescription.text(t.signedFlat(t.param("tenos_expert_looter", "rolls")) + " more item stacks", sky));
+            description.add(JsonDescription.text("."));
+        });
+        godNode(builder, "tenos_master_of_chests", "+15% Cascading", sky, " for every chest type and for coin piles, for the whole vault.");
+        godNode(builder, "tenos_global_veins", t.signedFlat(t.param("tenos_global_veins", "levels")) + " effective Vein Miner levels", sky, ", 32 up to 40.");
+        godNode(builder, "tenos_drillmaster", "Raises the Fortune enchant cap", sky, " from 5 to " + t.num(t.param("tenos_drillmaster", "raised_fortune_cap")) + ".");
+        godNode(builder, "tenos_sacked", "Doubles every stat", sky, " your held loot sack grants.");
+        builder.addDescription("tenos_sack_of_mobs", description -> {
+            double base = t.param("tenos_sack_of_mobs", "log_base");
+            description.add(JsonDescription.text("Multiplies your damage by "));
+            description.add(JsonDescription.text(GodNodePreviews.sackOfMobsFormula(base), sky));
+            description.add(JsonDescription.text(", counting only kills scored this vault while holding a vault sack in your offhand. Damage over time is not boosted."));
+            description.add(JsonDescription.text("\n\nExamples: 100 kills gives x" + t.fixed(logBase(base, 100.0D), 3)
+                    + ", 1,000 gives x" + t.fixed(logBase(base, 1000.0D), 2)
+                    + ", 5,000 gives x" + t.fixed(logBase(base, 5000.0D), 2) + "."));
+        });
+        builder.addDescription("tenos_unstoppable_greed", description -> {
+            double ratio = t.param("tenos_unstoppable_greed", "ratio");
+            description.add(JsonDescription.text("Multiplies your damage by "));
+            description.add(JsonDescription.text("1 + " + t.percent(ratio) + " of your Item Quantity and Rarity, summed", sky));
+            description.add(JsonDescription.text(". Counts the Quantity and Rarity on your gear, before other Tenos stars change them. Damage over time is not boosted."));
+            description.add(JsonDescription.text("\n\nExamples: +50% summed gives x" + t.num(1.0D + ratio * 0.5D, 3)
+                    + ", +130% gives x" + t.num(1.0D + ratio * 1.3D, 3)
+                    + ", +500% gives x" + t.num(1.0D + ratio * 5.0D, 3)
+                    + ", +1850% gives x" + t.num(1.0D + ratio * 18.5D, 2) + "."));
+        });
+        godNode(builder, "tenos_wealthy_patron", t.signedPercent(t.param("tenos_wealthy_patron", "per_unique")) + " Item Quantity and Rarity", sky, " per Unique armor piece equipped, multiplicative.");
+        builder.addDescription("tenos_gold_plating", description -> {
+            double coefficient = t.param("tenos_gold_plating", "cost_coefficient");
+            double offset = t.param("tenos_gold_plating", "cost_offset");
+            description.add(JsonDescription.text(t.signedPercent(t.param("tenos_gold_plating", "damage_multiplier") - 1.0D) + " damage taken", sky));
+            description.add(JsonDescription.text(" after armor and resistance, but each hit costs you "));
+            description.add(JsonDescription.text(t.num(coefficient) + " x log10(" + t.num(offset) + " + damage blocked)", sky));
+            description.add(JsonDescription.text(" gold. The reduction holds even when you cannot pay; the cost is kept as a debt and charged when you can, until you leave the vault."));
+            description.add(JsonDescription.text("\n\nExamples: blocking 10 damage costs " + t.fixed(coefficient * Math.log10(offset + 10.0D), 1)
+                    + " gold, 100 costs " + t.fixed(coefficient * Math.log10(offset + 100.0D), 1)
+                    + ", 1,000 costs " + t.fixed(coefficient * Math.log10(offset + 1000.0D), 1) + "."));
+        });
+        godNode(builder, "tenos_cash_hunter", "Applies your Item Quantity to coin piles", sky, " at " + t.percent(t.param("tenos_cash_hunter", "efficiency")) + " efficiency.");
+        godNode(builder, "tenos_challenge_tackler", t.signedPercent(t.param("tenos_challenge_tackler", "extra_crate_tier_ratio")) + " crate tiers", sky, " from the sigil you went in with.");
+        builder.addDescription("tenos_looting_engine", description -> {
+            double reference = t.param("tenos_looting_engine", "reference");
+            description.add(JsonDescription.text("Multiplies Item Quantity and Rarity by "));
+            description.add(JsonDescription.text(GodNodePreviews.lootingEngineFormula(reference), sky));
+            description.add(JsonDescription.text(", where c is your chests per minute averaged over the last five minutes."));
+            description.add(JsonDescription.text("\n\nExamples: 100 chests a minute gives x" + t.fixed(Math.cbrt((reference + 100.0D) / reference), 2)
+                    + ", 1,000 gives x" + t.fixed(Math.cbrt((reference + 1000.0D) / reference), 2)
+                    + ", 3,000 gives x" + t.fixed(Math.cbrt((reference + 3000.0D) / reference), 2) + "."));
+        });
+        builder.addDescription("tenos_massive_chests", description -> {
+            description.add(JsonDescription.text("Chests can roll up to "));
+            description.add(JsonDescription.text(t.signedFlat(t.param("tenos_massive_chests", "rolls")) + " more item stacks", sky));
+            description.add(JsonDescription.text(", but your Item Rarity is "));
+            description.add(JsonDescription.text(t.scaledWord(t.param("tenos_massive_chests", "rarity_multiplier")), sky));
+            description.add(JsonDescription.text("."));
+        });
+        godRoot(builder, t, "tenos_start_hoard", "the Hoard", "raw wealth, sacks and digging", sky, "Item Rarity", "Item Quantity");
+        godRoot(builder, t, "tenos_start_chest", "the Chest", "what the vault opens up, and what comes out of it", sky, "Item Rarity", "Item Quantity");
+        godRoot(builder, t, "tenos_start_chalice", "the Chalice", "mana", sky, "Item Rarity", "Item Quantity");
+        godRoot(builder, t, "tenos_start_scales", "the Scales", "trading one stat for another", sky, "Item Rarity", "Item Quantity");
+        godRoot(builder, t, "tenos_start_compass", "the Compass", "reach across the vault", sky, "Item Rarity", "Item Quantity");
+        godRoot(builder, t, "tenos_start_lantern", "the Lantern", "going in without the tools", sky, "Item Rarity", "Item Quantity");
+    }
+
+    private static void godNode(Builder builder, String id, String value, String color, String tail) {
+        builder.addDescription(id, description -> {
+            description.add(JsonDescription.text(value, color));
+            description.add(JsonDescription.text(tail));
+        });
+    }
+
+    /** A star paying one stat from its per-point table, written as a signed percent. */
+    private static void godStat(Builder builder, GodNodeText t, String id, String stat, String color) {
+        godNode(builder, id, t.signedPercent(t.value(id)) + " " + stat, color, ".");
+    }
+
+    private static void godPiety(Builder builder, GodNodeText t, String id, String color) {
+        godNode(builder, id, t.signedFlat(t.value(id)) + " Piety", color, ".");
+    }
+
+    /** A first star paying its per-point value into one stat and its second value into the other. */
+    private static void godRoot(Builder builder, GodNodeText t, String id, String home, String theme, String color,
+                                String stat, String secondStat) {
+        String value = t.signedPercent(t.value(id));
+        String secondValue = t.signedPercent(t.secondValue(id));
+        builder.addDescription(id, description -> {
+            description.add(JsonDescription.text("The first star of " + home + " - "));
+            description.add(JsonDescription.text(theme, color));
+            description.add(JsonDescription.text(". Grants "));
+            description.add(JsonDescription.text(value + " " + stat + " and " + secondValue + " " + secondStat, color));
+            description.add(JsonDescription.text("."));
+        });
+    }
+
+    private static double underPressure(GodNodeText t, double windowTicks, double max, double minutesLeft) {
+        double ticks = Math.max(0.0D, Math.min(minutesLeft * t.ticksPerMinute(), windowTicks));
+        return 1.0D + (max - 1.0D) * (1.0D - ticks / windowTicks);
+    }
+
+    private static double logBase(double base, double amount) {
+        return Math.log(base + amount) / Math.log(base);
+    }
+
+    private static double powerDumpBonus(double perMana, double sqrtRef, double maxMana) {
+        return perMana * Math.sqrt(sqrtRef * maxMana);
+    }
+
+    /** Ultra Rampaging's Rampage damage increase at {@code fury}, for a +100% Rampage, as a signed whole percent. */
+    private static String furyRampage(GodNodeText t, double fury) {
+        String id = "idona_ultra_rampaging";
+        double handover = t.param(id, "cdm_sqrt_from");
+        double base = t.param(id, "cdm_multiplier_base");
+        double multiplier = fury <= handover
+                ? Math.pow(base, fury / 100.0D)
+                : Math.pow(base, handover / 100.0D) + Math.sqrt(fury / handover - 1.0D);
+        double addend = Math.cbrt(fury / t.param(id, "cdm_additive_divisor")) * multiplier;
+        return t.signedPercent(multiplier + addend, 0);
+    }
+
+    private static double furyIncoming(GodNodeText t, double fury) {
+        String id = "idona_ultra_rampaging";
+        return 1.0D + Math.sqrt(fury / t.param(id, "incoming_divisor")) * t.param(id, "incoming_scale");
+    }
+
+    private static double fruitHealth(double scaling, int fruits) {
+        return WoldConstants.HEALTH_REDUCTION_DEFAULT_MULT * Math.pow(scaling, fruits);
+    }
+
+    private static String timeDrain(GodNodeText t) {
+        return t.seconds(t.param("wendarr_edge_of_time", "drain_min_ticks")) + "-"
+                + t.seconds(t.param("wendarr_edge_of_time", "drain_max_ticks")) + " seconds";
+    }
+
+    private static String pearCurve(GodNodeText t, double efficiency) {
+        return t.fixed(1.0D + Math.sqrt(efficiency), 2);
+    }
+
+    private static String normalCurve(GodNodeText t, double efficiency) {
+        return t.fixed(1.0D + efficiency / (1.0D + efficiency), 2);
+    }
+
+    private static double manaStarved(double maxBonus, double threshold, double fraction) {
+        if (fraction >= threshold) {
+            return 1.0D;
+        }
+        return 1.0D + maxBonus * (threshold - fraction) / threshold;
     }
 
 }

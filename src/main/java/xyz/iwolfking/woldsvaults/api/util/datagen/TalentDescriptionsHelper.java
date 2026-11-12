@@ -49,13 +49,13 @@ import java.util.function.Consumer;
 
 public class TalentDescriptionsHelper {
 
-    public static void appendOverlevelDescription(String skillId, AbstractSkillDescriptionsProvider.Builder builder, String action, String overlevelBonusDesc, String descriptionColor) {
-        if(ModConfigs.TALENTS == null) {
-            ModConfigs.TALENTS = new TalentsConfig().readConfig();
-        }
+    private static boolean patchedConfigsRead;
 
-        if(ModConfigs.SKILL_DESCRIPTIONS == null) {
+    public static void appendOverlevelDescription(String skillId, AbstractSkillDescriptionsProvider.Builder builder, String action, String overlevelBonusDesc, String descriptionColor) {
+        if(!patchedConfigsRead) {
+            ModConfigs.TALENTS = new TalentsConfig().readConfig();
             ModConfigs.SKILL_DESCRIPTIONS = new SkillDescriptionsConfig().readConfig();
+            patchedConfigsRead = true;
         }
 
         Skill skill = ModConfigs.TALENTS.tree.getForId(skillId).orElse(null);

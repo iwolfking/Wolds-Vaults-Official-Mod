@@ -1,0 +1,52 @@
+{
+  "ops": [
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        0,
+        "pool",
+        0,
+        "pool"
+      ],
+      "value": {
+        "weight": 16.0,
+        "item": {
+          "id": "the_vault:scepter",
+          "count": {
+            "type": "uniform",
+            "min": 1,
+            "max": 1
+          },
+          "nbt": {
+            "the_vault:gear_roll_type_pool": "gear_completion"
+          }
+        }
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        0,
+        "pool",
+        0,
+        "pool"
+      ],
+      "value": {
+        "weight": 16.0,
+        "item": {
+          "id": "the_vault:dagger",
+          "count": {
+            "type": "uniform",
+            "min": 1,
+            "max": 1
+          },
+          "nbt": {
+            "the_vault:gear_roll_type_pool": "gear_completion"
+          }
+        }
+      }
+    }
+  ]
+}

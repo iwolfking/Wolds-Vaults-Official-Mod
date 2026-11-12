@@ -20,6 +20,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -36,6 +37,8 @@ import xyz.iwolfking.woldsvaults.integration.ftbquests.rewards.UnlockResearchRew
 import xyz.iwolfking.woldsvaults.integration.ftbquests.rewards.VaultPointsReward;
 import xyz.iwolfking.woldsvaults.api.util.DelayedExecutionHelper;
 import xyz.iwolfking.woldsvaults.events.*;
+import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
+import xyz.iwolfking.woldsvaults.gods.sacrifice.GodSacrifices;
 import xyz.iwolfking.woldsvaults.integration.arsnouveau.ArsAPIRegistration;
 import xyz.iwolfking.woldsvaults.integration.cctweaked.CCTweakedSetup;
 import xyz.iwolfking.woldsvaults.integration.mekanism.init.MekanismRecipeDeserializers;
@@ -49,15 +52,18 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredThemesData;
 import xyz.iwolfking.woldsvaults.api.data.recipes.CachedInfuserRecipeData;
+import xyz.iwolfking.woldsvaults.integration.create.SpellcraftCreateAttributes;
 import xyz.iwolfking.woldsvaults.init.*;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.lib.PlayerGreedDataExtension;
+import xyz.iwolfking.woldsvaults.modifiers.gear.ancient.AncientModifierEvents;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchCapability;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.models.AdditionalModels;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.EnchantedEventsRegistry;
+import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("woldsvaults")
@@ -120,6 +126,7 @@ public class WoldsVaults {
         }
 
         MinecraftForge.EVENT_BUS.addListener(WoldDataLoaders::initProcessors);
+        WoldsTables.registerInstaller();
         ModCompressibleBlocks.addBuiltInBlocks();
     }
 
@@ -134,10 +141,17 @@ public class WoldsVaults {
             LOGGER.debug("Initializing FMLCommonSetup events!");
         }
         ModNetwork.init();
+        event.enqueueWork(FocusAugments::init);
         LivingEntityEvents.init();
         event.enqueueWork(RampageListenerFix::init);
+        FuryIncome.init();
+        GodSacrifices.validateItems();
+        AncientModifierEvents.init();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
+        if (ModList.get().isLoaded("create")) {
+            event.enqueueWork(SpellcraftCreateAttributes::register);
+        }
         ModGameRules.initialize();
         ModLayoutDefinitions.init();
         NetworkHandler.onCommonSetup();

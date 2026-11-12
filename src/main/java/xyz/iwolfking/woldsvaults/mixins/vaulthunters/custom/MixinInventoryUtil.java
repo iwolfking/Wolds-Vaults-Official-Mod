@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
+import xyz.iwolfking.woldsvaults.items.PowerCellItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.InventoryUtilItemAccessAccessor;
 
 import java.util.ArrayList;
@@ -131,6 +132,13 @@ public abstract class MixinInventoryUtil {
             }
 
             return success;
+        }
+    }
+
+    @Inject(method = "doesRotten(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
+    private static void rotPowerCells(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (stack.getItem() instanceof PowerCellItem) {
+            cir.setReturnValue(true);
         }
     }
 

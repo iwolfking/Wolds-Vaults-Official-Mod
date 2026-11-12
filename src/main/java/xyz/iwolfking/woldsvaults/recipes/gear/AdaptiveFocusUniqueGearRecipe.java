@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.recipes.gear;
 
+import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import iskallia.vault.VaultMod;
 import iskallia.vault.client.gui.overlay.VaultBarOverlay;
 import iskallia.vault.command.give.GiveCommand;
@@ -35,6 +36,10 @@ public class AdaptiveFocusUniqueGearRecipe extends VanillaAnvilRecipe {
             VaultGearData gear = VaultGearData.read(output);
 
             if(!gear.getRarity().equals(VaultGearRarity.UNIQUE)) {
+                return false;
+            }
+
+            if (GearSetHelper.isSetPiece(output)) {
                 return false;
             }
 

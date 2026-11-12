@@ -27,11 +27,15 @@ import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.util.StringUtils;
 import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
+import java.util.List;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -84,6 +88,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
+import xyz.iwolfking.woldsvaults.init.ModBlocks;
+import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
+import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerScreen;
 
 @JeiPlugin
 @SuppressWarnings("unused")
@@ -126,6 +133,22 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return WoldsVaults.id("wolds_jei_integration");
     }
 
+    /** Hides the creative Armory, an admin block with no recipe, from the ingredient list. */
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ModBlocks.CREATIVE_ARMORY_BLOCK)));
+    }
+
+    /**
+     * The Extractor Assembler fills its window, and the skill menu's Abilities tab has the spell bar along its bottom; a
+     * null property set tells JEI to keep its overlay off those screens.
+     */
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addGuiScreenHandler(ExtractorAssemblerScreen.class, screen -> null);
+        registration.addGuiScreenHandler(AbilitiesElementContainerScreen.class, screen -> null);
+    }
+
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
         registration.useNbtForSubtypes(ModItems.CHISELING_FOCUS);
@@ -157,6 +180,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.VAULTAR_BOX), VAULTAR_BOX);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_INFUSER_BLOCK), InfuserCraftingCategory.UID);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK), InfuserCraftingCategory.UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.OMEGA_INFUSER_BLOCK), InfuserCraftingCategory.UID);
         registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_PEARL);
 
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ETCHING_PEDESTAL), ETCHING_SHOP_PEDESTAL);

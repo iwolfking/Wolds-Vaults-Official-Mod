@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 @Mixin(value = GlacialShatterEffect.class, remap = false)
 public class MixinGlacialShatterEffect {
@@ -32,13 +34,17 @@ public class MixinGlacialShatterEffect {
      */
     @Overwrite
     public static void on(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (event.getEntity() instanceof Mob mob) {
             if (ActiveFlags.IS_AOE_ATTACKING.isSet()
             || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
             || ActiveFlags.IS_CHARMED_ATTACKING.isSet()
             || ActiveFlags.IS_DOT_ATTACKING.isSet()
             || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
-            || ActiveFlags.IS_EFFECT_ATTACKING.isSet()) {
+            || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
+            || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
                 return;
             }
 

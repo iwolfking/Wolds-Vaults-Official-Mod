@@ -5,6 +5,54 @@
       "displayName": "Plague Steppers",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/tidebreaker/helmet",
+      "displayName": "Tidebreaker's Reign",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/tidebreaker/chestplate",
+      "displayName": "Tidebreaker's Heart",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/tidebreaker/leggings",
+      "displayName": "Tidebreaker's Leggings",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/tidebreaker/boots",
+      "displayName": "Tidebreaker's Greaves",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/helmet",
+      "displayName": "Lightning Fiend's Crown",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/chestplate",
+      "displayName": "Lightning Fiend's Mantle",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/leggings",
+      "displayName": "Lightning Fiend's Legguards",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/lightning_fiend/boots",
+      "displayName": "Lightning Fiend's Talons",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

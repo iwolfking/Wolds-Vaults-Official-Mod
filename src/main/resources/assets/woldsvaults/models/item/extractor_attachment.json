@@ -1,0 +1,62 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/extractor/attach_auxiliary_radiator"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:variant": 2.0
+      },
+      "model": "woldsvaults:item/extractor/attach_secondary_shield_charger"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 3.0
+      },
+      "model": "woldsvaults:item/extractor/attach_driver_override"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 4.0
+      },
+      "model": "woldsvaults:item/extractor/attach_extra_plating"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 5.0
+      },
+      "model": "woldsvaults:item/extractor/attach_fuel_injector"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 6.0
+      },
+      "model": "woldsvaults:item/extractor/attach_battery_array"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 7.0
+      },
+      "model": "woldsvaults:item/extractor/attach_ore_cleaner"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 8.0
+      },
+      "model": "woldsvaults:item/extractor/attach_defense_turret"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 9.0
+      },
+      "model": "woldsvaults:item/extractor/attach_system_reinforcement"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 10.0
+      },
+      "model": "woldsvaults:item/extractor/attach_regenerative_nanobots"
+    }
+  ]
+}

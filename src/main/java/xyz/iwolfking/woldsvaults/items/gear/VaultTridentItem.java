@@ -62,6 +62,9 @@ import xyz.iwolfking.woldsvaults.integration.bettertridents.BetterThrownTrident;
 import xyz.iwolfking.woldsvaults.api.data.enchantments.AllowedEnchantmentsData;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.models.Tridents;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.ThrownTridentAttackDamage;
+import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDash;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -70,11 +73,13 @@ import java.util.Optional;
 import java.util.Random;
 
 public class VaultTridentItem extends TridentItem implements VaultGearItem, DyeableLeatherItem {
+    /** Ticks a riptide launch spins for; the spin's elapsed ticks are this minus the ticks left. */
+    public static final int RIPTIDE_SPIN_TICKS = 20;
+
     public VaultTridentItem(ResourceLocation id, Properties builder) {
         super(builder);
         setRegistryName(id);
     }
-
 
     @Nullable
     public ResourceLocation getRandomModel(ItemStack stack, Random random, @Nullable Player player, @Nullable DiscoveredModelsData discoveredModelsData) {
@@ -88,18 +93,15 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         return Tridents.REGISTRY.get(key);
     }
 
-
     @Nullable
     public EquipmentSlot getIntendedSlot(ItemStack stack) {
         return EquipmentSlot.MAINHAND;
     }
 
-
     @NotNull
     public VaultGearClassification getClassification(ItemStack stack) {
         return VaultGearClassification.AXE;
     }
-
 
     @Nonnull @SuppressWarnings({"deprecation","removal"})
     public ProficiencyType getCraftingProficiencyType(ItemStack stack) {
@@ -182,7 +184,6 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         return VaultGearHelper.getDisplayName(stack, super.getName(stack));
     }
 
-
     @Override
     public int getUseDuration(ItemStack stack) {
         return 72000;
@@ -190,6 +191,9 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
 
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int duration) {
+        if (entity instanceof Player player && LightningFiend.isLightning(player)) {
+            return;
+        }
         VaultGearData data = VaultGearData.read(stack);
         if(entity instanceof Player player) {
             if(data.getItemLevel() > SidedHelper.getVaultLevel(player)) {
@@ -205,7 +209,7 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
             float percentDecrease = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_WINDUP, VaultGearAttributeTypeMerger.floatSum());
             int i = this.getUseDuration(stack) - duration;
             if (i >= (10 * (1 -percentDecrease))) {
-                int j = data.get(xyz.iwolfking.woldsvaults.init.ModGearAttributes.TRIDENT_RIPTIDE, VaultGearAttributeTypeMerger.intSum());
+                int j = RiptideDash.riptideLevel(player, stack);
                 if (true) {
                     if (!level.isClientSide) {
                         stack.hurtAndBreak(1, player, (pEntity) -> {
@@ -218,12 +222,16 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                             else
                                 throwntrident = new ThrownTrident(level, player, stack);
                             throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + j * 0.5F, 1.0F);
+                            ((ThrownTridentAttackDamage) throwntrident).woldsVaults$setThrowAttackDamage(LightningFiend.attackDamage(player));
                             if (player.getAbilities().instabuild) {
                                 throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                             }
 
                             level.addFreshEntity(throwntrident);
                             level.playSound(null, throwntrident, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                            if (player instanceof ServerPlayer serverPlayer) {
+                                LightningFiend.onThrow(serverPlayer);
+                            }
                             if (!player.getAbilities().instabuild) {
                                 player.getInventory().removeItem(stack);
                             }
@@ -243,7 +251,8 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                         f2 *= f5 / f4;
                         f3 *= f5 / f4;
                         player.push(f1, f2, f3);
-                        player.startAutoSpinAttack(20);
+                        player.startAutoSpinAttack(RIPTIDE_SPIN_TICKS);
+                        RiptideDash.start(player);
                         if (player.isOnGround()) {
                             float f6 = 1.1999999F;
                             player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
@@ -259,7 +268,7 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
                         }
 
                         if(entity instanceof ServerPlayer sPlayer) {
-                            sPlayer.getCooldowns().addCooldown(ModItems.TRIDENT, Math.max((int)(100 - (100 * percentDecrease)), 20));
+                            RiptideDash.startCooldown(sPlayer, ModItems.TRIDENT, Math.max((int)(100 - (100 * percentDecrease)), 20));
                         }
 
                         level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -270,12 +279,13 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         }
     }
 
-
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        if (LightningFiend.isLightning(player)) {
+            return InteractionResultHolder.fail(player.getItemInHand(hand));
+        }
         return VaultGearHelper.rightClick(world, player, hand, super.use(world, player, hand));
     }
-
 
     @Override
     public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
@@ -285,7 +295,6 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         }
 
     }
-
 
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
@@ -340,49 +349,5 @@ public class VaultTridentItem extends TridentItem implements VaultGearItem, Dyea
         }
     }
 
-    public static double getTridentScaledDamage(AttributeSnapshot snapshot, LivingEntity entity, double originalDamage) {
-        MobType type = ((LivingEntity) entity).getMobType();
-        float increasedDamage = 0.0F;
-        if (!ActiveFlags.IS_AP_ATTACKING.isSet())
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_INCREASE, VaultGearAttributeTypeMerger.floatSum());
-        if (type == MobType.UNDEAD) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_UNDEAD, VaultGearAttributeTypeMerger.floatSum());
-        }
-        if (type == MobType.ARTHROPOD) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_SPIDERS, VaultGearAttributeTypeMerger.floatSum());
-        }
-        if (type == MobType.ILLAGER) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ILLAGERS, VaultGearAttributeTypeMerger.floatSum());
-        }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/nether"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_NETHER, VaultGearAttributeTypeMerger.floatSum());
-        }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/champion"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_CHAMPION, VaultGearAttributeTypeMerger.floatSum());
-        }
-
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dungeon"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DUNGEON, VaultGearAttributeTypeMerger.floatSum());
-        }
-
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/tank"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_TANK, VaultGearAttributeTypeMerger.floatSum());
-        }
-
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/horde"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_HORDE, VaultGearAttributeTypeMerger.floatSum());
-        }
-
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/assassin"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_ASSASSIN, VaultGearAttributeTypeMerger.floatSum());
-        }
-
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("mob_type/dweller"), entity)) {
-            increasedDamage += snapshot.getAttributeValue(ModGearAttributes.DAMAGE_DWELLER, VaultGearAttributeTypeMerger.floatSum());
-        }
-        return  (originalDamage * (1.0F + increasedDamage));
-    }
-
 }
-
 

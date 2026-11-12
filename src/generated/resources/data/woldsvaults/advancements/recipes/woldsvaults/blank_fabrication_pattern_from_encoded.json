@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "woldsvaults:blank_fabrication_pattern_from_encoded"
+    ]
+  },
+  "criteria": {
+    "has_fabrication_pattern": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "woldsvaults:fabrication_pattern"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "woldsvaults:blank_fabrication_pattern_from_encoded"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fabrication_pattern",
+      "has_the_recipe"
+    ]
+  ]
+}

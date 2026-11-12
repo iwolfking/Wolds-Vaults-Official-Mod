@@ -1,14 +1,29 @@
 package xyz.iwolfking.woldsvaults.init;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import xyz.iwolfking.vhapi.api.data.api.CustomRecyclerOutputs;
 import xyz.iwolfking.vhapi.api.loaders.workstation.lib.CustomVaultRecyclerConfig;
 import xyz.iwolfking.woldsvaults.config.*;
+import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeConfig;
+import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericLootableConfig;
 import xyz.iwolfking.woldsvaults.config.lib.GenericShopPedestalConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.augment.AugmentRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.mod_box.ModBoxRecipesConfig;
 import xyz.iwolfking.woldsvaults.config.recipes.weaving.WeavingRecipesConfig;
 import xyz.iwolfking.woldsvaults.objectives.SurvivalObjective;
+
+import java.util.EnumMap;
+import java.util.Map;
+import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
+import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
+import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
+import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
+import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 
 public class ModConfigs {
     public static GenericLootableConfig GEM_BOX;
@@ -30,6 +45,14 @@ public class ModConfigs {
     public static AlchemyObjectiveConfig ALCHEMY_OBJECTIVE;
     public static SurvivalObjectiveConfig SURVIVAL_OBJECTIVE;
     public static HyperObjectiveConfig HYPER_OBJECTIVE;
+    public static ExtractionObjectiveConfig EXTRACTION_OBJECTIVE = ExtractionObjectiveConfig.inert();
+    public static MultiCellRoomsConfig MULTI_CELL_ROOMS = MultiCellRoomsConfig.inert();
+    public static ExtractorPartsConfig EXTRACTOR_PARTS = ExtractorPartsConfig.inert();
+    public static ExtractorCostsConfig EXTRACTOR_COSTS = ExtractorCostsConfig.inert();
+    public static ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
+    public static GearSetConfig GEAR_SETS;
+    public static FocusAugmentsConfig FOCUS_AUGMENTS;
+    public static SpellHasteConfig SPELL_HASTE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;
@@ -57,6 +80,17 @@ public class ModConfigs {
     public static WeaponTypesConfig WEAPON_TYPES = new WeaponTypesConfig();
     public static ImplicitDeckModifiersConfig IMPLICIT_DECK_MODIFIERS = new ImplicitDeckModifiersConfig();
 
+    public static GodLevelsConfig GOD_LEVELS;
+
+    public static GreedRanksConfig GREED_RANKS;
+    public static GreedMilestonesConfig GREED_MILESTONES;
+    public static GreedMedallionsConfig GREED_MEDALLIONS;
+    public static GreedChampionConfig GREED_CHAMPION;
+    public static StatScreenConfig STAT_SCREEN;
+
+    public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);
+    public static final Map<VaultGod, GodNodeEffectsConfig> GOD_NODE_EFFECTS = new EnumMap<>(VaultGod.class);
     public static ThemeModifiersConfig THEME_MODIFIERS = new ThemeModifiersConfig();
     public static ThemePaletteRegistryConfig THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig();
 
@@ -78,7 +112,6 @@ public class ModConfigs {
         CORRUPTED_OBJECTIVE = new CorruptedObjectiveConfig().readConfig();
         ALCHEMY_OBJECTIVE = new AlchemyObjectiveConfig().readConfig();
         SURVIVAL_OBJECTIVE = new SurvivalObjectiveConfig().readConfig();
-        HYPER_OBJECTIVE = new HyperObjectiveConfig().readConfig();
         AUGMENT_RECIPES = new AugmentRecipesConfig().readConfig();
         MOD_BOX_RECIPES_CONFIG = new ModBoxRecipesConfig().readConfig();
         CUSTOM_RECYCLER_CONFIG = new CustomVaultRecyclerConfig().readConfig();
@@ -102,4 +135,5 @@ public class ModConfigs {
         THEME_MODIFIERS = new ThemeModifiersConfig().readConfig();
         THEME_PALETTE_REGISTRY = new ThemePaletteRegistryConfig().readConfig();
     }
+
 }

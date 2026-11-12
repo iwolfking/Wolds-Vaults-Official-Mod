@@ -1,5 +1,11 @@
 package xyz.iwolfking.woldsvaults.client.init;
 
+import iskallia.vault.client.util.color.ColorUtil;
+import iskallia.vault.config.gear.VaultGearTypeConfig;
+import iskallia.vault.gear.VaultGearHelper;
+import iskallia.vault.gear.VaultGearState;
+import iskallia.vault.gear.data.GearDataCache;
+import iskallia.vault.init.ModConfigs;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +26,8 @@ import xyz.iwolfking.woldsvaults.entities.astral.client.model.LoginarModel;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+import java.util.Optional;
+
 @Mod.EventBusSubscriber(value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModModels {
     public static void setupRenderLayers() {
@@ -33,6 +41,13 @@ public class ModModels {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GRAVEYARD_LOOT_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TIME_TRIAL_TROPHY_BLOCK, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TRINKET_FUSION_BLOCK, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.ARMORY_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CREATIVE_ARMORY_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_ASSEMBLER_PART_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTOR_FORGE_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.EXTRACTION_FORGE_PART_BLOCK, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.MOBILE_FLUID_TANK, RenderType.cutout());
     }
 
 
@@ -73,6 +88,21 @@ public class ModModels {
             }
             return -1;
         }, ModItems.DECO_POTION);
+
+        event.getItemColors().register((stack, layer) -> {
+            if (layer > 0) {
+                GearDataCache cache = GearDataCache.of(stack);
+                if (cache.getState() == VaultGearState.UNIDENTIFIED) {
+                    VaultGearTypeConfig.RollType rollType = Optional.ofNullable(cache.getGearRollType())
+                            .flatMap(ModConfigs.VAULT_GEAR_TYPE_CONFIG::getRollPool).orElse(null);
+                    if (rollType != null) {
+                        return ColorUtil.blendColors(rollType.getColor(), -1, 0.8F);
+                    }
+                }
+                return -1;
+            }
+            return VaultGearHelper.getGearColor(stack);
+        }, ModItems.MYTHIC_VAULT_CHARM);
     }
 
     @SubscribeEvent

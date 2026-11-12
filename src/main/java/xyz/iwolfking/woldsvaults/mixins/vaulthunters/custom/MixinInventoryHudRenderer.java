@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.client.invhud.BossDpsHudModule;
 import xyz.iwolfking.woldsvaults.client.invhud.LightmanWalletHudModule;
 import xyz.iwolfking.woldsvaults.client.invhud.MultiItemHudModule;
 import xyz.iwolfking.woldsvaults.init.ModOptions;
@@ -46,6 +47,7 @@ public abstract class MixinInventoryHudRenderer {
         MODULES.add(new MultiItemHudModule("trinket_2", () -> MultiItemHudModule.getCurioSlotsByName(Minecraft.getInstance().player, "red_trinket"), iskallia.vault.init.ModOptions.RED_TRINKET));
         MODULES.add(new MultiItemHudModule("trinket_3", () -> MultiItemHudModule.getCurioSlotsByName(Minecraft.getInstance().player, "green_trinket"), ModOptions.GREEN_TRINKET));
         MODULES.add(new ItemHudModule("trinket_pouch", () -> getCurioSlotByName(Minecraft.getInstance().player, "trinket_pouch"), ModOptions.TRINKET_POUCH));
+        MODULES.add(new BossDpsHudModule("boss_dps", ModOptions.BOSS_DPS));
         if (ModList.get().isLoaded("lightmanscurrency")) {
             MODULES.add(new LightmanWalletHudModule("lightman_wallet", ModOptions.LIGHTMAN_WALLET));
         }

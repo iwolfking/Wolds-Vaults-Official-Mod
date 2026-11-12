@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_0"
+    },
+    "level=1": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_1"
+    },
+    "level=2": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_2"
+    },
+    "level=3": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_3"
+    },
+    "level=4": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_4"
+    },
+    "level=5": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_5"
+    },
+    "level=6": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_6"
+    },
+    "level=7": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_7"
+    },
+    "level=8": {
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_8"
+    }
+  }
+}

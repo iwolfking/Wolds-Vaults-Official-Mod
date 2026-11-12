@@ -1,6 +1,26 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:extraction/idona",
+      "name": "Extraction Idona",
+      "1.0": "woldsvaults:extraction/idona"
+    },
+    {
+      "id": "woldsvaults:extraction/tenos",
+      "name": "Extraction Tenos",
+      "1.0": "woldsvaults:extraction/tenos"
+    },
+    {
+      "id": "woldsvaults:extraction/velara",
+      "name": "Extraction Velara",
+      "1.0": "woldsvaults:extraction/velara"
+    },
+    {
+      "id": "woldsvaults:extraction/wendarr",
+      "name": "Extraction Wendarr",
+      "1.0": "woldsvaults:extraction/wendarr"
+    },
+    {
       "id": "woldsvaults:universal_if",
       "name": "Universal If",
       "1.0": "woldsvaults:universal_if"
@@ -99,6 +119,16 @@
       "id": "woldsvaults:generic/spawners/astral_mobs",
       "name": "Generic Spawners Astral Mobs",
       "1.0": "woldsvaults:generic/spawners/astral_mobs"
+    },
+    {
+      "id": "woldsvaults:vendor_rooms/barter_expert",
+      "name": "Vendor Rooms Barter Expert",
+      "1.0": "woldsvaults:vendor_rooms/barter_expert"
+    },
+    {
+      "id": "woldsvaults:vendor_rooms/barter_expert_map",
+      "name": "Vendor Rooms Barter Expert Map",
+      "1.0": "woldsvaults:vendor_rooms/barter_expert_map"
     }
   ]
 }

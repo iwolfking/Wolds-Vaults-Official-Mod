@@ -12,16 +12,28 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import iskallia.vault.gear.attribute.VaultGearModifier;
+import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Mixin(value = VaultGearTierConfig.class, remap = false, priority = 1500)
 public abstract class MixinVaultGearTierConfig {
     @Shadow
     static Optional<VaultGearTierConfig> getConfig(ResourceLocation key) {
         return null;
+    }
+
+    /** During a unique roll, resolves unique-scoped rows first and lets ancient items fall back to the unique table. */
+    @Inject(method = "generateModifier", at = @At("HEAD"), cancellable = true)
+    private void resolveUniqueRoll(ResourceLocation identifier, int level, Random random, CallbackInfoReturnable<VaultGearModifier<?>> cir) {
+        if (UniqueRollTables.shouldResolve()) {
+            cir.setReturnValue(UniqueRollTables.generate((VaultGearTierConfig) (Object) this, identifier, level, random));
+        }
     }
 
     @Inject(method = "getConfig(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;", at = @At("HEAD"), cancellable = true)
@@ -44,7 +56,13 @@ public abstract class MixinVaultGearTierConfig {
         else if(stack.getItem() instanceof VaultGearItem) {
             VaultGearData data = VaultGearData.read(stack);
             VaultGearRarity rarity = data.getRarity();
-            if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
+            if(rarity.equals(VaultGearRarity.UNIQUE)) {
+                Optional<VaultGearTierConfig> ancientConfig = AncientUniqueHelper.getAncientConfig(data);
+                if(ancientConfig.isPresent()) {
+                    cir.setReturnValue(ancientConfig);
+                }
+            }
+            else if(rarity.equals(VaultGearRarity.valueOf("MYTHIC"))) {
                 cir.setReturnValue(getConfig(VaultMod.id(stack.getItem().getRegistryName().getPath() + "_mythic")));
             }
         }

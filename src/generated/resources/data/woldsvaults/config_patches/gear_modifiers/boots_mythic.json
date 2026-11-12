@@ -1,0 +1,114 @@
+{
+  "ops": [
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_aoe_reduce"
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "modifierGroup",
+        "CORRUPTED_IMPLICIT",
+        {
+          "identifier": "the_vault:storm_cooldown"
+        }
+      ]
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "max"
+      ],
+      "value": 3
+    }
+  ]
+}

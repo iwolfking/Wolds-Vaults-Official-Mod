@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.fluids.PrismaticGlueFluid;
+import xyz.iwolfking.woldsvaults.init.ModTags;
 
 import java.util.function.Consumer;
 
@@ -29,33 +29,28 @@ public abstract class MixinCreativeFluidTankTileEntity extends SmartFluidTank {
 
     @Inject(method = "setContainedFluid", at = @At("HEAD"), cancellable = true)
     private void blacklistSetContainedFluid(FluidStack fluidStack, CallbackInfo ci) {
-        this.fluid = fluidStack.copy();
-
-        if(!fluidStack.isEmpty() && fluidStack.getFluid() instanceof PrismaticGlueFluid) {
-            this.fluid.setAmount(fluidStack.getAmount());
-            onContentsChanged();
+        if(ModTags.isCreativeTankBlacklisted(fluidStack)) {
             ci.cancel();
         }
-
     }
 
     @Inject(method = "getFluidAmount", at = @At("HEAD"), cancellable = true)
     private void blacklistFluidsAmount(CallbackInfoReturnable<Integer> cir) {
-        if(this.fluid != null && this.fluid.getFluid() instanceof PrismaticGlueFluid) {
+        if(ModTags.isCreativeTankBlacklisted(this.fluid)) {
             cir.setReturnValue(super.getFluidAmount());
         }
     }
 
     @Inject(method = "drain(ILnet/minecraftforge/fluids/capability/IFluidHandler$FluidAction;)Lnet/minecraftforge/fluids/FluidStack;", at = @At("HEAD"), cancellable = true)
     private void blacklistFluidsDrain1(int maxDrain, FluidAction action, CallbackInfoReturnable<FluidStack> cir) {
-        if(this.fluid != null && this.fluid.getFluid() instanceof PrismaticGlueFluid) {
+        if(ModTags.isCreativeTankBlacklisted(this.fluid)) {
             cir.setReturnValue(super.drain(maxDrain, action));
         }
     }
 
     @Inject(method = "drain(Lnet/minecraftforge/fluids/FluidStack;Lnet/minecraftforge/fluids/capability/IFluidHandler$FluidAction;)Lnet/minecraftforge/fluids/FluidStack;", at = @At("HEAD"), cancellable = true)
     private void blacklistFluidsDrain1(FluidStack resource, FluidAction action, CallbackInfoReturnable<FluidStack> cir) {
-        if(this.fluid != null && this.fluid.getFluid() instanceof PrismaticGlueFluid) {
+        if(ModTags.isCreativeTankBlacklisted(this.fluid)) {
             cir.setReturnValue(super.drain(resource, action));
         }
     }

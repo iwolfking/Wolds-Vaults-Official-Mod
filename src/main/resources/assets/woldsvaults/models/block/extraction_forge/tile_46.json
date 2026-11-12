@@ -1,0 +1,90 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "mass_left",
+      "from": [
+        0,
+        0,
+        2
+      ],
+      "to": [
+        2,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2.75,
+            10.125,
+            2.875,
+            11.125
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "win_frame_l",
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        4,
+        16,
+        6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14.125,
+            10.0,
+            14.25,
+            11.0
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            13.875,
+            10.0,
+            14.125,
+            11.0
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "cham_left",
+      "from": [
+        2,
+        0,
+        6
+      ],
+      "to": [
+        4,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            13.25,
+            10.0,
+            13.875,
+            11.0
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

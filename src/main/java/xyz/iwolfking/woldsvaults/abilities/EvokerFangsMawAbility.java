@@ -59,7 +59,6 @@ public class EvokerFangsMawAbility extends InstantManaAbility {
                 });
             }
 
-            this.putOnCooldown(context);
             return ActionResult.successCooldownImmediate();
         }).orElse(ActionResult.fail());
     }

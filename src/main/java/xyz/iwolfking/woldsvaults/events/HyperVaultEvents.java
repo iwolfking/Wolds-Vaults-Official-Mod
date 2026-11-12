@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
@@ -33,8 +34,10 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class HyperVaultEvents {
@@ -59,6 +62,20 @@ public final class HyperVaultEvents {
         return ServerVaults.get(entity.level)
                 .map(vault -> vault.get(Vault.MODIFIERS).hasModifier(RADAR))
                 .orElse(false);
+    }
+
+    /**
+     * Denies every point of self-healing on a hyperboss. The roster's {@code heal} trait restores
+     * 2% of maximum health on a timer whose interval is divided by the vault's rune ability haste
+     * ({@code bossAbilityHaste}), and {@code life_leech_on_hit} returns a share of the damage the
+     * boss deals; both scale with the boss's own health pool, so they gate the fight harder the
+     * bigger the boss is. A hyper fight is a damage race against the vault clock instead.
+     */
+    @SubscribeEvent
+    public static void denyHyperbossSelfHealing(LivingHealEvent event) {
+        if (isHyperBoss(event.getEntityLiving())) {
+            event.setCanceled(true);
+        }
     }
 
     /** Cached Radar state for hot targeting paths, refreshed once per second and on dimension change. */
@@ -176,7 +193,7 @@ public final class HyperVaultEvents {
             return;
         }
         DamageSource source = event.getSource();
-        if (!source.isBypassArmor() && !source.isMagic()) {
+        if (source instanceof TrueDamageSource || (!source.isBypassArmor() && !source.isMagic())) {
             return;
         }
         if (!(source.getEntity() instanceof VaultBossEntity boss) || source.getDirectEntity() != boss) {
@@ -197,16 +214,28 @@ public final class HyperVaultEvents {
      * The floating lava/void pools are placed as bare liquid source blocks; explosions that
      * eat them (or whatever invisible casing sits around them) spill the pool across the
      * room floor. In hyper vaults explosions therefore cannot affect a pool fluid or any
-     * block within one step of one.
+     * block within one step of one. While a hyperboss fight is on, explosions break no blocks at
+     * all: the arena's no-modify zone keeps the walls on the server, but the explosion packet still
+     * clears them on clients, leaving ghost holes that players get stuck in.
      */
     @SubscribeEvent
     public static void protectPoolsFromExplosions(ExplosionEvent.Detonate event) {
         if (!(event.getWorld() instanceof ServerLevel level)) {
             return;
         }
-        if (ServerVaults.get(level)
-                .map(vault -> vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class).isEmpty())
-                .orElse(true)) {
+        List<HyperVaultObjective> objectives = ServerVaults.get(level)
+                .map(vault -> vault.get(Vault.OBJECTIVES).getAll(HyperVaultObjective.class))
+                .orElse(List.of());
+        if (objectives.isEmpty()) {
+            return;
+        }
+        if (objectives.stream().anyMatch(o -> o.getOr(HyperVaultObjective.PHASE, HyperVaultObjective.Phase.ROLLING)
+                == HyperVaultObjective.Phase.FIGHT)) {
+            int cleared = event.getAffectedBlocks().size();
+            event.getAffectedBlocks().clear();
+            if (cleared > 0) {
+                WoldLogger.debug("Kept {} block(s) from an explosion during a hyperboss fight.", cleared);
+            }
             return;
         }
         int before = event.getAffectedBlocks().size();

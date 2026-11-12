@@ -34,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.api.util.WoldEtchingHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaStackTuning;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
@@ -91,7 +92,7 @@ public class MomentumEngineTalent extends GearAttributeTalent {
 
     public int getMaxStacks(ServerPlayer player) {
         int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
-        return maxStacks + maxStacksBonus;
+        return IdonaStackTuning.maxStacks(player, maxStacks + maxStacksBonus);
     }
 
     @Override

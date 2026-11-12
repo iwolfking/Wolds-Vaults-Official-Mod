@@ -8,6 +8,7 @@ import iskallia.vault.gear.attribute.ability.special.base.template.value.FloatVa
 import iskallia.vault.skill.ability.effect.FireballAbility;
 import iskallia.vault.skill.ability.effect.spi.core.Ability;
 import iskallia.vault.skill.base.SkillContext;
+import iskallia.vault.util.ServerScheduler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -21,8 +22,6 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.special.FireballModification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Mixin(value = FireballAbility.class, remap = false)
 public class MixinFireballAbility implements IWoldAbilityEnhancements {
@@ -51,23 +50,23 @@ public class MixinFireballAbility implements IWoldAbilityEnhancements {
             player.level.addFreshEntity(fireball);
             for (ConfiguredModification<FireballModification, FloatRangeConfig, FloatValue> mod : SpecialAbilityModification.getModifications(player, FireballModification.class)) {
                 if (player.level.random.nextFloat() <= mod.value().getValue()) {
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            VaultFireball fireball2 = new VaultFireball(player.level, player);
-                            if (fireball2 instanceof IWoldAbilityEnhancements storedAbilityTier) {
-                                storedAbilityTier.setTierLevel(getTierLevel());
-                            }
-                            fireball2.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
-                            fireball2.pickup = AbstractArrow.Pickup.DISALLOWED;
-                            fireball2.setType(VaultFireball.FireballType.BASE);
-                            player.level.addFreshEntity(fireball2);
-                            player.level.playSound(null, player, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            timer.cancel();
+                    int tierLevel = getTierLevel();
+                    List<ElementalType> elementalTypes = woldsVaults$elementalTypes;
+                    ServerScheduler.INSTANCE.schedule(40, () -> {
+                        if (!player.isAlive() || player.isRemoved()) {
+                            return;
                         }
-                    }, 2000, 10000);
-
+                        VaultFireball fireball2 = new VaultFireball(player.level, player);
+                        if (fireball2 instanceof IWoldAbilityEnhancements storedAbilityTier) {
+                            storedAbilityTier.setTierLevel(tierLevel);
+                            storedAbilityTier.setElementTypes(elementalTypes);
+                        }
+                        fireball2.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
+                        fireball2.pickup = AbstractArrow.Pickup.DISALLOWED;
+                        fireball2.setType(VaultFireball.FireballType.BASE);
+                        player.level.addFreshEntity(fireball2);
+                        player.level.playSound(null, player, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    });
                 }
             }
             player.level.playSound(null, player, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1.0F, 1.0F);

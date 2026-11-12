@@ -24,6 +24,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
+import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaStackTuning;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 import java.util.Optional;
@@ -69,7 +70,7 @@ public class StackOnHitAttributeTalent extends GearAttributeTalent {
 
     public int getDurationTicks(LivingEntity entity) {
         int duration = this.getUnmodifiedDurationTicks();
-        return EffectDurationHelper.adjustEffectDurationFloor(entity, duration);
+        return IdonaStackTuning.stackDuration(entity, EffectDurationHelper.adjustEffectDurationFloor(entity, duration));
     }
 
     @Override
@@ -130,7 +131,7 @@ public class StackOnHitAttributeTalent extends GearAttributeTalent {
 
     public void onStack(ServerPlayer player) {
         int maxStacksBonus = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ADDITIONAL_STACKING_STACKS, VaultGearAttributeTypeMerger.intSum());
-        this.stacks = Math.min(++this.stacks, maxStacks + maxStacksBonus);
+        this.stacks = Math.min(++this.stacks, IdonaStackTuning.maxStacks(player, maxStacks + maxStacksBonus));
         this.timeLeft = this.getDurationTicks(player);
         this.refreshSnapshot(player);
     }

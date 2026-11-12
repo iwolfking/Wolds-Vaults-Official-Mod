@@ -22,8 +22,15 @@ import java.util.List;
 public class FlexibleImplode extends ImplodeAbility {
 
     public float cast(Player player, LivingEntity target, ImplodeAbility ability) {
+        return this.cast(player, target, ability, ((ManaPlayer) player).getMana(), 1.0F);
+    }
+
+    /**
+     * Casts Implode around {@code target}, dealing {@code mana} x percentManaDealt x falloff x
+     * {@code damageScale} to each enemy in range. Returns the number of enemies in range.
+     */
+    public float cast(Player player, LivingEntity target, ImplodeAbility ability, float mana, float damageScale) {
         Vec3 pos = target.position();
-        ManaPlayer manaPlayer = (ManaPlayer) player;
 
         float radius = ability.getRadius(player);
         List<LivingEntity> targetEntities = player.level.getNearbyEntities(LivingEntity.class, TargetingConditions.forCombat().range(radius).selector((entity) -> !(entity instanceof Player) && !(entity instanceof EternalEntity)), player, AABBHelper.create(pos, radius));;
@@ -32,7 +39,7 @@ public class FlexibleImplode extends ImplodeAbility {
         for (LivingEntity entity : targetEntities) {
             if (!entity.isInvulnerableTo(damageSource)) {
                 float damageModifier = this.getDamageModifier(ability.getRadius(target), target.distanceTo(entity));
-                float damage = manaPlayer.getMana() * ability.getPercentManaDealt() * damageModifier;
+                float damage = mana * ability.getPercentManaDealt() * damageModifier * damageScale;
                 ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> entity.hurt(damageSource, damage));
             }
         }

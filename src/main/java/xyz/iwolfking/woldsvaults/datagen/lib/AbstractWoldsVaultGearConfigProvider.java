@@ -15,8 +15,11 @@ import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.modifiers.gear.DamageBurstComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.EffectComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.HealthScalingComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.GravityComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.InvokeAbilityComboAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.ScepterInvokeAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.unique.SteelInfernoAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.unique.StormTrackingAttribute;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.StringValueGenerator;
 
 import java.util.List;
@@ -157,6 +160,20 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
     }
 
+    public static VaultGearModifierTiersBuilder addSteelInferno(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            float minRadius, float maxRadius, float stepRadius,
+            float minBonus, float maxBonus, float stepBonus) {
+
+        SteelInfernoAttribute.Config config = new SteelInfernoAttribute.Config(
+                new FloatRollRangeEntry(minRadius, maxRadius, stepRadius),
+                new FloatRollRangeEntry(minBonus, maxBonus, stepBonus)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
     public static VaultGearModifierTiersBuilder addDamageBurstCombo(
             VaultGearModifierTiersBuilder builder,
             int minLevel, int maxLevel, int weight,
@@ -175,6 +192,13 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addStormTracking(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            String abilityKey, float speed) {
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, new StormTrackingAttribute.Config(true, abilityKey, speed)), maxLevel);
     }
 
     public static VaultGearModifierTiersBuilder addInvokeComboAttribute(
@@ -214,6 +238,24 @@ public abstract class AbstractWoldsVaultGearConfigProvider extends AbstractVault
                 effectId,
                 new IntRollRangeEntry(minAmplifier, maxAmplifier, amplifierSteps),
                 new IntRollRangeEntry(minEffectDuration, maxEffectDuration, durationSteps)
+        );
+
+        return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);
+    }
+
+    public static VaultGearModifierTiersBuilder addGravityCombo(
+            VaultGearModifierTiersBuilder builder,
+            int minLevel, int maxLevel, int weight,
+            ResourceLocation associatedEffect,
+            int duration,
+            int minHits, int maxHits, int hitSteps,
+            float minRadius, float maxRadius, float radiusStep) {
+
+        GravityComboAttribute.Config config = new GravityComboAttribute.Config(
+                new IntRollRangeEntry(minHits, maxHits, hitSteps),
+                associatedEffect,
+                duration,
+                new FloatRollRangeEntry(minRadius, maxRadius, radiusStep)
         );
 
         return builder.add(new VaultGearTierConfig.ModifierTier<>(minLevel, weight, config), maxLevel);

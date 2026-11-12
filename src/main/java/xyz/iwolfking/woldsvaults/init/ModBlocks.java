@@ -26,6 +26,21 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlock;
+import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
+import net.minecraft.world.item.Rarity;
+import xyz.iwolfking.woldsvaults.blocks.ExtractorAssemblerBlock;
+import xyz.iwolfking.woldsvaults.blocks.ExtractorForgeBlock;
+import xyz.iwolfking.woldsvaults.blocks.ExtractorStructureBlock;
+import xyz.iwolfking.woldsvaults.blocks.MobileFluidTankBlock;
+import xyz.iwolfking.woldsvaults.blocks.VaultFabricatorBlock;
+import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorAssemblerTileEntity;
+import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorForgeTileEntity;
+import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorStructureTileEntity;
+import xyz.iwolfking.woldsvaults.blocks.tiles.MobileFluidTankTileEntity;
+import xyz.iwolfking.woldsvaults.blocks.tiles.VaultFabricatorTileEntity;
+import xyz.iwolfking.woldsvaults.client.renderers.station.ExtractorStationRenderer;
+import xyz.iwolfking.woldsvaults.items.MobileFluidTankItem;
 
 public class ModBlocks {
 
@@ -46,12 +61,21 @@ public class ModBlocks {
     public static final SurvivalMobBarrier SURVIVAL_MOB_BARRIER;
     public static final VaultInfuserBlock VAULT_INFUSER_BLOCK;
     public static final VaultInfuserBlock CHROMATIC_STEEL_INFUSER_BLOCK;
+    public static final VaultInfuserBlock OMEGA_INFUSER_BLOCK;
+    public static final ExtractorAssemblerBlock EXTRACTOR_ASSEMBLER_BLOCK;
+    public static final ExtractorForgeBlock EXTRACTOR_FORGE_BLOCK;
+    public static final ExtractorStructureBlock EXTRACTOR_ASSEMBLER_PART_BLOCK;
+    public static final ExtractorStructureBlock EXTRACTION_FORGE_PART_BLOCK;
+    public static final MobileFluidTankBlock MOBILE_FLUID_TANK;
     public static final GatewayChannelingBlock GATEWAY_CHANNELING_BLOCK;
     public static final FracturedObelisk FRACTURED_OBELISK;
     public static final MonolithControllerBlock MONOLITH_CONTROLLER;
     public static final TrinketFusionBlock TRINKET_FUSION_BLOCK;
     public static final OwnedCraftingTableBlock OWNED_CRAFTING_TABLE_BLOCK;
     public static final SuppressorBlock SUPPRESSOR_BLOCK;
+    public static final ArmoryBlock ARMORY_BLOCK;
+    public static final ArmoryBlock CREATIVE_ARMORY_BLOCK;
+    public static final ExtractionCacheBlock EXTRACTION_CACHE;
 
     public static final BrewingAltar BREWING_ALTAR;
     public static final SurvivalObjectiveBlock SURVIVAL_OBJECTIVE_BLOCK;
@@ -92,10 +116,18 @@ public class ModBlocks {
     public static final BlockEntityType<SurvivalMobBarrierTileEntity> SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<BackpackBlockEntity> SOPHISTICATED_BACKPACK;
     public static final BlockEntityType<VaultInfuserTileEntity> VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<ExtractorAssemblerTileEntity> EXTRACTOR_ASSEMBLER_TILE_ENTITY_TYPE;
+    public static final BlockEntityType<ExtractorForgeTileEntity> EXTRACTOR_FORGE_TILE_ENTITY_TYPE;
+    public static final BlockEntityType<ExtractorStructureTileEntity> EXTRACTOR_STRUCTURE_TILE_ENTITY_TYPE;
+    public static final BlockEntityType<MobileFluidTankTileEntity> MOBILE_FLUID_TANK_TILE_ENTITY_TYPE;
+    public static final VaultFabricatorBlock VAULT_FABRICATOR_BLOCK;
+    public static final BlockEntityType<VaultFabricatorTileEntity> VAULT_FABRICATOR_TILE_ENTITY_TYPE;
     public static final BlockEntityType<DollDismantlingTileEntity> DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<CrateCrackerTileEntity> CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<OwnedCraftingTableTileEntity> OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
     public static final BlockEntityType<SuppressorTileEntity> SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE;
+    public static final BlockEntityType<ArmoryBlockEntity> ARMORY_TILE_ENTITY_TYPE;
+    public static final BlockEntityType<ExtractionCacheTileEntity> EXTRACTION_CACHE_TILE_ENTITY_TYPE;
 
     //Workstations
     public static final AugmentCraftingTableBlock AUGMENT_CRAFTING_TABLE;
@@ -242,6 +274,13 @@ public class ModBlocks {
         XL_BACKPACK = new BackpackBlock(12000);
         VAULT_INFUSER_BLOCK = new VaultInfuserBlock(1);
         CHROMATIC_STEEL_INFUSER_BLOCK = new VaultInfuserBlock(4);
+        OMEGA_INFUSER_BLOCK = new VaultInfuserBlock(40);
+        EXTRACTOR_ASSEMBLER_BLOCK = new ExtractorAssemblerBlock();
+        EXTRACTOR_FORGE_BLOCK = new ExtractorForgeBlock();
+        EXTRACTOR_ASSEMBLER_PART_BLOCK = new ExtractorStructureBlock.AssemblerPart();
+        EXTRACTION_FORGE_PART_BLOCK = new ExtractorStructureBlock.ForgePart();
+        MOBILE_FLUID_TANK = new MobileFluidTankBlock();
+        VAULT_FABRICATOR_BLOCK = new VaultFabricatorBlock();
         AUGMENT_CRAFTING_TABLE = new AugmentCraftingTableBlock();
         MOD_BOX_WORKSTATION = new ModBoxWorkstationBlock();
         WEAVING_STATION = new WeavingStationBlock();
@@ -263,6 +302,9 @@ public class ModBlocks {
         SURVIVAL_OBJECTIVE_BLOCK = new SurvivalObjectiveBlock(BlockBehaviour.Properties.copy(Blocks.BEDROCK));
         OWNED_CRAFTING_TABLE_BLOCK = new OwnedCraftingTableBlock(BlockBehaviour.Properties.copy(Blocks.CRAFTING_TABLE));
         SUPPRESSOR_BLOCK = new SuppressorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK));
+        ARMORY_BLOCK = new ArmoryBlock(false);
+        CREATIVE_ARMORY_BLOCK = new ArmoryBlock(true);
+        EXTRACTION_CACHE = new ExtractionCacheBlock();
         WUTODIE_SLAB = new VaultGemSlabBlock(ModItems.WUTODIE_GEM);
         WUTODIE_WALL = new VaultGemWallBlock(ModItems.WUTODIE_GEM);
         WUTODIE_STAIRS = new VaultGemStairsBlock(ModItems.WUTODIE_GEM);
@@ -287,7 +329,12 @@ public class ModBlocks {
         DECO_VELARA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoVelaraAltarTileEntity::new, DECO_VELARA_ALTAR_BLOCK).build(null);
         DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DecoTenosAltarTileEntity::new, DECO_TENOS_ALTAR_BLOCK).build(null);
         SURVIVAL_MOB_BARRIER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SurvivalMobBarrierTileEntity::new, SURVIVAL_MOB_BARRIER).build(null);
-        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK, CHROMATIC_STEEL_INFUSER_BLOCK}).build(null);
+        VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(VaultInfuserTileEntity::new, new Block[]{VAULT_INFUSER_BLOCK, CHROMATIC_STEEL_INFUSER_BLOCK, OMEGA_INFUSER_BLOCK}).build(null);
+        EXTRACTOR_ASSEMBLER_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ExtractorAssemblerTileEntity::new, EXTRACTOR_ASSEMBLER_BLOCK).build(null);
+        EXTRACTOR_FORGE_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ExtractorForgeTileEntity::new, EXTRACTOR_FORGE_BLOCK).build(null);
+        EXTRACTOR_STRUCTURE_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ExtractorStructureTileEntity::new, EXTRACTOR_ASSEMBLER_PART_BLOCK, EXTRACTION_FORGE_PART_BLOCK).build(null);
+        MOBILE_FLUID_TANK_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(MobileFluidTankTileEntity::new, MOBILE_FLUID_TANK).build(null);
+        VAULT_FABRICATOR_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(VaultFabricatorTileEntity::new, VAULT_FABRICATOR_BLOCK).build(null);
         SOPHISTICATED_BACKPACK = BlockEntityType.Builder.of(BackpackBlockEntity::new, new Block[]{XL_BACKPACK}).build(null);
         AUGMENT_CRAFTING_TABLE_ENTITY = BlockEntityType.Builder.of(AugmentCraftingTableTileEntity::new, new Block[]{AUGMENT_CRAFTING_TABLE}).build(null);
         MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(ModBoxWorkstationTileEntity::new, new Block[]{MOD_BOX_WORKSTATION}).build(null);
@@ -303,6 +350,8 @@ public class ModBlocks {
         TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TrinketFusionForgeTileEntity::new, new Block[]{TRINKET_FUSION_BLOCK}).build(null);
         OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(OwnedCraftingTableTileEntity::new, new Block[]{OWNED_CRAFTING_TABLE_BLOCK}).build(null);
         SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(SuppressorTileEntity::new, new Block[]{SUPPRESSOR_BLOCK}).build(null);
+        ARMORY_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ArmoryBlockEntity::new, ARMORY_BLOCK, CREATIVE_ARMORY_BLOCK).build(null);
+        EXTRACTION_CACHE_TILE_ENTITY_TYPE = BlockEntityType.Builder.of(ExtractionCacheTileEntity::new, EXTRACTION_CACHE).build(null);
         for(DyeColor color : DyeColor.values()) {
             Block dyedUnobtanium = new Block(BlockBehaviour.Properties.of(Material.HEAVY_METAL, color).strength(50F).requiresCorrectToolForDrops());
             COLORED_UNOBTANIUMS.put(color, dyedUnobtanium);
@@ -400,6 +449,14 @@ public class ModBlocks {
         registerBlock(event, NULLITE_ORE, WoldsVaults.id("nullite_ore"));
         registerBlock(event, VAULT_INFUSER_BLOCK, WoldsVaults.id("chromatic_iron_vault_infuser"));
         registerBlock(event, CHROMATIC_STEEL_INFUSER_BLOCK, WoldsVaults.id("chromatic_steel_vault_infuser"));
+        registerBlock(event, OMEGA_INFUSER_BLOCK, WoldsVaults.id("omega_vault_infuser"));
+        registerBlock(event, EXTRACTOR_ASSEMBLER_BLOCK, WoldsVaults.id("extractor_assembler"));
+        registerBlock(event, EXTRACTOR_FORGE_BLOCK, WoldsVaults.id("extraction_forge"));
+        registerBlock(event, EXTRACTOR_ASSEMBLER_PART_BLOCK, WoldsVaults.id("extractor_assembler_part"));
+        registerBlock(event, EXTRACTION_FORGE_PART_BLOCK, WoldsVaults.id("extraction_forge_part"));
+        registerBlock(event, MOBILE_FLUID_TANK, WoldsVaults.id("mobile_extractor_fluid_tank"));
+        registerBlock(event, VAULT_FABRICATOR_BLOCK, WoldsVaults.id("vault_fabricator"));
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> registerBlock(event, fluid.block, WoldsVaults.id(fluid.key + "_block")));
         registerBlock(event, TRINKET_FUSION_BLOCK, WoldsVaults.id("trinket_fusion_forge"));
         registerBlock(event, PRISMATIC_GLUE_BLOCK, WoldsVaults.id("prismatic_glue_block"));
         registerBlock(event, MOLTEN_TRINKET_BLOCK, WoldsVaults.id("molten_trinket_block"));
@@ -426,6 +483,9 @@ public class ModBlocks {
         registerBlock(event, OWNED_CRAFTING_TABLE_BLOCK, WoldsVaults.id("owned_crafting_table"));
         registerBlock(event, LOCKED_TREASURE_CONTAINER_BLOCK, WoldsVaults.id("locked_treasure_container"));
         registerBlock(event, SUPPRESSOR_BLOCK, WoldsVaults.id("universal_suppressor"));
+        registerBlock(event, ARMORY_BLOCK, WoldsVaults.id("armory"));
+        registerBlock(event, CREATIVE_ARMORY_BLOCK, WoldsVaults.id("creative_armory"));
+        registerBlock(event, EXTRACTION_CACHE, WoldsVaults.id("extraction_cache"));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlock(event, block, WoldsVaults.id(dyeColor.getSerializedName() + "_unobtanium_block"));
         }));
@@ -506,6 +566,11 @@ public class ModBlocks {
         registerTileEntity(event, MOD_BOX_WORKSTATION_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("mod_box_workstation_entity"));
         registerTileEntity(event, WEAVING_STATION_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("weaving_station_entity"));
         registerTileEntity(event, VAULT_INFUSER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("vault_infuser_entity"));
+        registerTileEntity(event, EXTRACTOR_ASSEMBLER_TILE_ENTITY_TYPE, WoldsVaults.id("extractor_assembler_entity"));
+        registerTileEntity(event, EXTRACTOR_FORGE_TILE_ENTITY_TYPE, WoldsVaults.id("extractor_forge_entity"));
+        registerTileEntity(event, EXTRACTOR_STRUCTURE_TILE_ENTITY_TYPE, WoldsVaults.id("extractor_structure_entity"));
+        registerTileEntity(event, MOBILE_FLUID_TANK_TILE_ENTITY_TYPE, WoldsVaults.id("mobile_extractor_fluid_tank_entity"));
+        registerTileEntity(event, VAULT_FABRICATOR_TILE_ENTITY_TYPE, WoldsVaults.id("vault_fabricator_entity"));
         registerTileEntity(event, FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("fractured_obelisk_tile_entity"));
         registerTileEntity(event, MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, WoldsVaults.id("monolith_controller_tile_entity"));
         registerTileEntity(event, BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("brewing_altar_tile_entity"));
@@ -521,6 +586,8 @@ public class ModBlocks {
         registerTileEntity(event, DECO_IDONA_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_idona_altar_tile_entity"));
         registerTileEntity(event, DECO_TENOS_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("deco_tenos_altar_tile_entity"));
         registerTileEntity(event, SUPPRESSOR_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("universal_suppressor_tile_entity"));
+        registerTileEntity(event, ARMORY_TILE_ENTITY_TYPE, WoldsVaults.id("armory"));
+        registerTileEntity(event, EXTRACTION_CACHE_TILE_ENTITY_TYPE, WoldsVaults.id("extraction_cache_tile_entity"));
     }
 
     public static void registerBlockItems(RegistryEvent.Register<Item> event) {
@@ -542,6 +609,11 @@ public class ModBlocks {
         registerBlockItem(event, NULLITE_ORE, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, VAULT_INFUSER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, CHROMATIC_STEEL_INFUSER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, OMEGA_INFUSER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, EXTRACTOR_ASSEMBLER_BLOCK, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, EXTRACTOR_FORGE_BLOCK, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, MOBILE_FLUID_TANK, new MobileFluidTankItem(MOBILE_FLUID_TANK, new Item.Properties().tab(ModCreativeTabs.WOLDS_VAULTS)));
+        registerBlockItem(event, VAULT_FABRICATOR_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, TRINKET_FUSION_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, GATEWAY_CHANNELING_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, ETCHING_PEDESTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
@@ -578,6 +650,8 @@ public class ModBlocks {
         registerBlockItem(event, TIME_TRIAL_TROPHY_BLOCK, xyz.iwolfking.woldsvaults.init.ModItems.TIME_TRIAL_TROPHY);
         registerBlockItem(event, LOCKED_TREASURE_CONTAINER_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, SUPPRESSOR_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, ARMORY_BLOCK, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, CREATIVE_ARMORY_BLOCK, 1, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS).rarity(Rarity.EPIC));
         COLORED_UNOBTANIUMS.forEach(((dyeColor, block) -> {
             registerBlockItem(event, block, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         }));
@@ -646,11 +720,14 @@ public class ModBlocks {
         event.registerBlockEntityRenderer(DUNGEON_PEDESTAL_TILE_ENTITY_BLOCK_ENTITY_TYPE, DungeonPedestalRenderer::new);
         event.registerBlockEntityRenderer(FRACTURED_OBELISK_TILE_ENTITY_BLOCK_ENTITY_TYPE, FracturedObeliskRenderer::new);
         event.registerBlockEntityRenderer(MONOLITH_CONTROLLER_BLOCK_ENTITY_TYPE, MonolithControllerRenderer::new);
+        event.registerBlockEntityRenderer(EXTRACTOR_ASSEMBLER_TILE_ENTITY_TYPE, ExtractorStationRenderer::assembler);
+        event.registerBlockEntityRenderer(EXTRACTOR_FORGE_TILE_ENTITY_TYPE, ExtractorStationRenderer::forge);
         event.registerBlockEntityRenderer(BREWING_ALTAR_TILE_ENTITY_BLOCK_ENTITY_TYPE, BrewingAltarRenderer::new);
         event.registerBlockEntityRenderer(VAULT_EVENT_ACTIVATOR_TILE_ENTITY_BLOCK_ENTITY_TYPE, VaultEventActivatorRenderer::new);
         event.registerBlockEntityRenderer(DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, DollDismantlingRenderer::new);
         event.registerBlockEntityRenderer(CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, ConfigurableFloatingTextRenderer::new);
         event.registerBlockEntityRenderer(CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, CrateCrackerRenderer::new);
+        event.registerBlockEntityRenderer(EXTRACTION_CACHE_TILE_ENTITY_TYPE, ExtractionCacheRenderer::new);
     }
 
 

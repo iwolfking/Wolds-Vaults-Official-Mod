@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.objectives;
 import com.google.gson.JsonObject;
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.VaultCrateBlock;
-import iskallia.vault.config.sigil.SigilConfig;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
@@ -17,6 +16,7 @@ import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.scalingbingoseals.util.INamedObjective;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 import xyz.iwolfking.woldsvaults.objectives.lib.ScalingObjective;
@@ -64,9 +64,15 @@ public class ScalingBallisticBingoCrystalObjective extends WoldCrystalObjective 
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-        Optional<SigilConfig.LevelEntry> entry = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level));
+        double difficulty = ObjectiveDifficulty.multiplier(sigil, vault);
+        int gridBonus = ObjectiveDifficulty.ballisticGridBonus(difficulty);
+        int width = Math.min(getWidth() + gridBonus, Math.max(getWidth(), ObjectiveDifficulty.ballisticGridCap()));
+        int height = Math.min(getHeight() + gridBonus, Math.max(getHeight(), ObjectiveDifficulty.ballisticGridCap()));
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
-            ModConfigs.BALLISTIC_BINGO_CONFIG.generate(entry.map(SigilConfig.LevelEntry::getBingoPool).orElse(VaultMod.id("default")), level).ifPresent((task) -> objectives.add(BallisticBingoObjective.of(task, getWidth(), getHeight(), blackout).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BALLISTIC_BINGO"), "ballistic_bingo", level, true)).add(VictoryObjective.of(300)))));
+            ModConfigs.BALLISTIC_BINGO_CONFIG.generate(VaultMod.id("default"), level).ifPresent((task) -> {
+                ObjectiveDifficulty.scaleBingoTask(task, difficulty);
+                objectives.add(BallisticBingoObjective.of(task, width, height, blackout).add(GridGatewayObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("BALLISTIC_BINGO"), "ballistic_bingo", level, true)).add(VictoryObjective.of(300))));
+            });
             objectives.add(BailObjective.create(true, ClassicPortalLogic.EXIT));
             objectives.add(DeathObjective.create(true));
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));

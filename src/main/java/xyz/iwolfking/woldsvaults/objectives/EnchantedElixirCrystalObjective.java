@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.objectives;
 
 import com.google.gson.JsonObject;
 import iskallia.vault.block.VaultCrateBlock;
-import iskallia.vault.config.sigil.SigilConfig;
 import iskallia.vault.core.data.adapter.Adapters;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.ClassicPortalLogic;
@@ -19,6 +18,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
 import javax.annotation.Nullable;
@@ -38,7 +38,7 @@ public class EnchantedElixirCrystalObjective extends WoldCrystalObjective {
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
         int level = vault.get(Vault.LEVEL).get();
-        float multiplier = SigilConfig.getConfig(sigil).map((config) -> config.getLevel(level).getElixirTargetMultiplier()).orElse(1.0F);
+        float multiplier = (float) ObjectiveDifficulty.factor(ObjectiveDifficulty.multiplier(sigil, vault), "enchanted_elixir");
         vault.ifPresent(Vault.OBJECTIVES, objectives -> {
             EnchantedElixirObjective elixirObjective = (EnchantedElixirObjective) EnchantedElixirObjective.create().withTargetMultiplier(multiplier);
             objectives.add(elixirObjective.add(LodestoneObjective.of(this.objectiveProbability).add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("ENCHANTED_ELIXIR"), "enchanted_elixir", level, true)).add(VictoryObjective.of(300))));

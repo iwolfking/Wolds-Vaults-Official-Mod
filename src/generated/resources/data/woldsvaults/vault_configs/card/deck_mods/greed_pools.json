@@ -1,0 +1,31 @@
+{
+  "values": {},
+  "pools": {
+    "greed_basic": [
+      {
+        "value": "harvest",
+        "weight": 4.0
+      },
+      {
+        "value": "bounty",
+        "weight": 4.0
+      },
+      {
+        "value": "crimson",
+        "weight": 4.0
+      },
+      {
+        "value": "azure",
+        "weight": 4.0
+      },
+      {
+        "value": "viridian",
+        "weight": 4.0
+      },
+      {
+        "value": "golden",
+        "weight": 4.0
+      }
+    ]
+  }
+}

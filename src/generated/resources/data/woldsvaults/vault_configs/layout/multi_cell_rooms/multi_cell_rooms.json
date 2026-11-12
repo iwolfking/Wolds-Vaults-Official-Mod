@@ -1,0 +1,11 @@
+{
+  "rooms": [
+    {
+      "pool": "woldsvaults:vault/rooms/special/extraction_3x3",
+      "span": 3,
+      "templates": [
+        "woldsvaults:vault/rooms/special/extraction_3x3_1"
+      ]
+    }
+  ]
+}

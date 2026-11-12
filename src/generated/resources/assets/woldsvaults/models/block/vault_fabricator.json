@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "woldsvaults:block/vault_fabricator_top",
+    "bottom": "woldsvaults:block/vault_fabricator_bottom",
+    "side": "woldsvaults:block/vault_fabricator_side",
+    "front": "woldsvaults:block/vault_fabricator_front_on"
+  }
+}

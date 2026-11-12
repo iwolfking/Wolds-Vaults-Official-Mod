@@ -1,0 +1,13 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "TRINKETS",
+        "the_vault:cufflinks",
+        "effectText"
+      ],
+      "value": "Increases your Spell Haste by 50% of your total Spell Haste"
+    }
+  ]
+}

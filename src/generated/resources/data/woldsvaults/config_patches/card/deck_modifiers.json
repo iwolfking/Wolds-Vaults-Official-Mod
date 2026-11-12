@@ -1,0 +1,354 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValue",
+        "min"
+      ],
+      "value": 0.12
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValues",
+        "lesser",
+        "value",
+        "min"
+      ],
+      "value": 0.06
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValues",
+        "lesser",
+        "value",
+        "max"
+      ],
+      "value": 0.06
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValues",
+        "greater",
+        "value",
+        "min"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "equilibrium",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.36
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValue",
+        "min"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValues",
+        "lesser",
+        "value",
+        "min"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValues",
+        "lesser",
+        "value",
+        "max"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValues",
+        "greater",
+        "value",
+        "min"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "shiny",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.9
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "crimson",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "crimson",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "azure",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "azure",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "viridian",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "viridian",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "golden",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "golden",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.6
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "pure",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.03
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "pure",
+        "modifierValues",
+        "greater",
+        "value",
+        "min"
+      ],
+      "value": 0.03
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "pure",
+        "modifierValues",
+        "greater",
+        "value",
+        "max"
+      ],
+      "value": 0.05
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "type"
+      ],
+      "value": "slot_multiplier"
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "modifierValue",
+        "min"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "modifierValue",
+        "max"
+      ],
+      "value": 0.3
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "slotRoll",
+        "max"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "slotRolls",
+        "lesser",
+        "value",
+        "min"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "set",
+      "path": [
+        "values",
+        "empyreal",
+        "slotRolls",
+        "lesser",
+        "value",
+        "max"
+      ],
+      "value": 0.2
+    },
+    {
+      "op": "add",
+      "path": [
+        "values",
+        "empyreal",
+        "slotRolls",
+        "greater"
+      ],
+      "value": {
+        "value": {
+          "min": 0.3,
+          "max": 0.4,
+          "type": "uniform"
+        },
+        "requiredGroups": [
+          "Stat",
+          "Evolution"
+        ],
+        "requiredColors": [],
+        "slotRoll": {
+          "min": 3,
+          "max": 3,
+          "type": "uniform"
+        },
+        "modelId": "the_vault:deck_cores/greater_empyreal_deck_core#inventory",
+        "name": "Greater Empyreal Core",
+        "colour": 16769382
+      }
+    }
+  ]
+}

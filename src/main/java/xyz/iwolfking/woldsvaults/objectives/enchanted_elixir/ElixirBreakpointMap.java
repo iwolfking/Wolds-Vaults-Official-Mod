@@ -22,6 +22,9 @@ public class ElixirBreakpointMap extends DataMap<ElixirBreakpointMap, UUID, List
         @Override
         public Optional<List<Float>> readBits(BitBuffer buffer, SyncContext context) {
             int size = buffer.readIntSegmented(8);
+            if (size < 0 || size > 100000) {
+                throw new IllegalStateException("Invalid elixir breakpoint list size: " + size + ", likely corrupted data");
+            }
             List<Float> list = new ArrayList<>(size);
             for (int i = 0; i < size; i++) {
                 list.add(buffer.readFloat());

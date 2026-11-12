@@ -114,9 +114,9 @@
         ]
       },
       {
-        "attribute": "woldsvaults:magic_burst_combo",
+        "attribute": "woldsvaults:gravity_combo",
         "group": "BaseCombo",
-        "identifier": "the_vault:base_mana_burst_combo",
+        "identifier": "the_vault:base_gravity_combo",
         "tags": [],
         "tiers": [
           {
@@ -124,46 +124,17 @@
             "maxLevel": -1,
             "weight": 40,
             "value": {
-              "scaledAttribute": "the_vault:mana_additive",
-              "damageMultiplier": {
-                "step": 0.01,
-                "min": 1.51,
-                "max": 2.0
+              "radius": {
+                "step": 0.5,
+                "min": 6.0,
+                "max": 6.0
               },
               "requiredHits": {
                 "step": 1,
                 "min": 4,
                 "max": 6
               },
-              "associatedEffect": "woldsvaults:mana_burst_combo",
-              "effectDuration": 80
-            }
-          }
-        ]
-      },
-      {
-        "attribute": "woldsvaults:health_scaling_combo",
-        "group": "BaseCombo",
-        "identifier": "the_vault:base_current_health_burst_combo",
-        "tags": [],
-        "tiers": [
-          {
-            "minLevel": 80,
-            "maxLevel": -1,
-            "weight": 40,
-            "value": {
-              "scalingType": "CURRENT_HEALTH",
-              "healthMultiplier": {
-                "step": 0.01,
-                "min": 0.13,
-                "max": 0.18
-              },
-              "requiredHits": {
-                "step": 1,
-                "min": 4,
-                "max": 6
-              },
-              "associatedEffect": "woldsvaults:health_burst_combo",
+              "associatedEffect": "woldsvaults:gravity_combo",
               "effectDuration": 80
             }
           }
@@ -568,9 +539,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.03,
-              "max": 0.05,
-              "step": 0.01
+              "min": 0.015,
+              "max": 0.025,
+              "step": 0.005
             }
           },
           {
@@ -578,9 +549,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.05,
-              "max": 0.07,
-              "step": 0.01
+              "min": 0.025,
+              "max": 0.035,
+              "step": 0.005
             }
           },
           {
@@ -588,9 +559,9 @@
             "maxLevel": -1,
             "weight": 100,
             "value": {
-              "min": 0.07,
-              "max": 0.1,
-              "step": 0.01
+              "min": 0.035,
+              "max": 0.05,
+              "step": 0.005
             }
           }
         ]

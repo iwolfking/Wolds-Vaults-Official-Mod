@@ -27,9 +27,15 @@ public class WoldConstants {
     public static final UUID SECOND_CHANCE_HEALTH_REDUCTION_UUID = UUID.fromString("377c9fce-a8bd-4a3a-8123-180b5d633a23");
 
     //Caps
-    public static final float DODGE_PERCENT_CAP = 0.95F;
+    public static final float DODGE_PERCENT_CAP = 0.75F;
+    public static final float RESISTANCE_HARD_CAP = 0.95F;
 
     //Constant Strings
     public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
     public static final String DELOOT_RESEARCH = "Delooting Pro";
+    public static final String MYSTERY_DECK_ID = "mystery";
+
+    //Health Reduction
+    public static final double HEALTH_REDUCTION_DEFAULT_MULT = 1.0849795594911;
+    public static final double HEALTH_REDUCTION_DEFAULT_MULT_SCALING = 0.827;
 }

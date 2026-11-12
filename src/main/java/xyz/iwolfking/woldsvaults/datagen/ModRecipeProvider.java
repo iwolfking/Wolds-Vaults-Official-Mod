@@ -73,6 +73,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import net.minecraft.world.item.Items;
 
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -178,6 +179,40 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("VBV")
                 .pattern("ACA")
                 .unlockedBy("has_infuser", has(ModBlocks.VAULT_INFUSER_BLOCK))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.VAULT_FABRICATOR_BLOCK)
+                .define('S', iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT)
+                .define('D', iskallia.vault.init.ModItems.VAULT_DIAMOND)
+                .define('P', iskallia.vault.init.ModItems.VAULT_PLATING)
+                .define('C', Blocks.CRAFTING_TABLE)
+                .define('A', iskallia.vault.init.ModItems.VAULT_ALLOY)
+                .pattern("SDS")
+                .pattern("PCP")
+                .pattern("SAS")
+                .unlockedBy("has_chromatic_steel", has(iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT))
+                .save(pFinishedRecipeConsumer);
+
+        ShapelessRecipeBuilder.shapeless(ModItems.BLANK_FABRICATION_PATTERN, 2)
+                .requires(Items.PAPER)
+                .requires(iskallia.vault.init.ModItems.VAULT_ESSENCE)
+                .requires(iskallia.vault.init.ModItems.LARIMAR_GEM)
+                .unlockedBy("has_vault_essence", has(iskallia.vault.init.ModItems.VAULT_ESSENCE))
+                .save(pFinishedRecipeConsumer);
+
+        ShapelessRecipeBuilder.shapeless(ModItems.BLANK_FABRICATION_PATTERN)
+                .requires(ModItems.FABRICATION_PATTERN)
+                .unlockedBy("has_fabrication_pattern", has(ModItems.FABRICATION_PATTERN))
+                .save(pFinishedRecipeConsumer, WoldsVaults.id("blank_fabrication_pattern_from_encoded"));
+
+        ShapedRecipeBuilder.shaped(ModBlocks.OMEGA_INFUSER_BLOCK)
+                .define('P', iskallia.vault.init.ModItems.OMEGA_POG)
+                .define('B', iskallia.vault.init.ModBlocks.BLACK_CHROMATIC_STEEL_BLOCK)
+                .define('I', ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK)
+                .pattern("BPB")
+                .pattern("BIB")
+                .pattern("BBB")
+                .unlockedBy("has_chromatic_steel_infuser", has(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModBlocks.VAULT_INFUSER_BLOCK)

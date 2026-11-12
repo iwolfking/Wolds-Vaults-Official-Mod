@@ -4,16 +4,38 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.abilities.WoldsAbilityGroups;
+import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
+import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
 
 import java.io.IOException;
 
 public class ModAbilitiesProvider extends AbstractAbilityProvider {
+    private static final int BLOCK_RAMP_TIERS = 8;
+    private static final int BLOCK_TIERS = 30;
+
     protected ModAbilitiesProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override
     public void registerConfigs() {
+        add("life_block", builder -> builder.addSpecializedAbility(WoldsAbilityGroups.LIFE_BLOCK, "Life Block", BLOCK_RAMP_TIERS, 0, 1, 2, i -> {
+            if (i == 0) {
+                return createTieredSkill("Life_Block_Base", "Life Block", 0, 1, BLOCK_RAMP_TIERS, BLOCK_TIERS, tier -> {
+                    float block = blockMultiplier(tier);
+                    return createAndAssignId("life_block", tier + 1, new LifeBlockAbility(0, 1, 1, 2400, blockManaCost(tier),
+                            block, 200, 600, Math.round(100 * block), Math.round(400 * block),
+                            0.25F, 1.0F, 0.02F, 0.05F, 10, 60, 0.20F, 0.35F));
+                });
+            }
+            return createTieredSkill("Mana_Block", "Mana Block", 0, 1, BLOCK_RAMP_TIERS, BLOCK_TIERS, tier -> {
+                float block = blockMultiplier(tier);
+                return createAndAssignId("mana_block", tier + 1, new ManaBlockAbility(0, 1, 1, 2400, blockManaCost(tier),
+                        block, 200, 600, Math.round(200 * block), Math.round(800 * block),
+                        0.25F, 0.50F, 0.01F, 0.05F, 0.50F, 1.25F));
+            });
+        }));
 
 //        add("replace/diffuse", builder -> {
 //            builder.addSpecializedAbility("Expunge", "Diffuse", 8, 0, 1, 2, i ->
@@ -138,4 +160,14 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
 //
 
     }
+
+    private static float blockMultiplier(int tier) {
+        float t = Math.min(tier, BLOCK_RAMP_TIERS - 1) / (float) (BLOCK_RAMP_TIERS - 1);
+        return Math.round((1.0F + 9.0F * t) * 100.0F) / 100.0F;
+    }
+
+    private static float blockManaCost(int tier) {
+        return 40.0F + 2.0F * Math.min(tier, BLOCK_RAMP_TIERS - 1);
+    }
+
 }

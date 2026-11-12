@@ -4,6 +4,7 @@ import xyz.iwolfking.woldsvaults.integration.vaultfilters.*;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.etched_layout.*;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlRewardsAttribute;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlSizeAttribute;
+import xyz.iwolfking.woldsvaults.integration.vaultfilters.extractor.*;
 import xyz.iwolfking.woldsvaults.integration.vaultfilters.gte.GatePearlWavesAttribute;
 
 public class ModVaultFilterAttributes {
@@ -36,6 +37,19 @@ public class ModVaultFilterAttributes {
         new CatalystItemAttribute(true).register(CatalystItemAttribute::new);
         new AlchemyIngredientTypeAttribute("Negative").register(AlchemyIngredientTypeAttribute::new);
         new VaultDollCompletedAttribute(true).register(VaultDollCompletedAttribute::new);
+        new IsExtractorPartAttribute(true).register(IsExtractorPartAttribute::new);
+        new ExtractorPartTypeAttribute("Chassis").register(ExtractorPartTypeAttribute::new);
+        new ExtractorPartSeriesAttribute("Chromatic").register(ExtractorPartSeriesAttribute::new);
+        new ExtractorDrillClassAttribute("Auger").register(ExtractorDrillClassAttribute::new);
+        new ExtractorPartRarityAttribute("Omega").register(ExtractorPartRarityAttribute::new);
+        new ExtractorPartQualityAttribute(0.0D).register(ExtractorPartQualityAttribute::new);
+        new ExtractorPartAffixAttribute("Reinforced").register(ExtractorPartAffixAttribute::new);
+        new ExtractorPartPrefixAttribute("Reinforced").register(ExtractorPartPrefixAttribute::new);
+        new ExtractorPartSuffixAttribute("of Recharging").register(ExtractorPartSuffixAttribute::new);
+        new ExtractorPartAffixValueAttribute("Reinforced").register(ExtractorPartAffixValueAttribute::new);
+        new IsExtractorBlueprintAttribute(true).register(IsExtractorBlueprintAttribute::new);
+        new ExtractorBlueprintIdentifiedAttribute(true).register(ExtractorBlueprintIdentifiedAttribute::new);
+        new ExtractorAttachmentDurabilityAttribute(0).register(ExtractorAttachmentDurabilityAttribute::new);
         //new CardDeckModifierAttribute("").register(CardDeckModifierAttribute::new);
     }
 }

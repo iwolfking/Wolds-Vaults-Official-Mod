@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.mekanism;
 
+import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import iskallia.vault.gear.data.GearDataCache;
@@ -55,14 +56,14 @@ public abstract class MixinTileEntityModificationStation extends TileEntityMekan
 
     @Inject(method = "lambda$getInitialInventory$1", at = @At("HEAD"), cancellable = true)
     private static void allowVaultGear(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-       if(stack.getItem() instanceof VaultGearItem) {
+       if(stack.getItem() instanceof VaultGearItem && !GearSetHelper.isSetPiece(stack)) {
             cir.setReturnValue(true);
        }
    }
 
    @Inject(method = "onUpdateServer", at = @At(value = "INVOKE", target = "Lmekanism/api/MekanismAPI;getModuleHelper()Lmekanism/api/gear/IModuleHelper;", shift = At.Shift.BEFORE))
     private void addVaultGearHandling(CallbackInfo ci, @Local ItemStack stack, @Local ModuleData<?> moduleData, @Local(name = "operated") LocalBooleanRef operatedRef) {
-       if(stack.getItem() instanceof VaultGearItem) {
+       if(stack.getItem() instanceof VaultGearItem && !GearSetHelper.isSetPiece(stack)) {
            Item moduleItem = moduleData.getItemProvider().asItem();
            if(ModModuleToVaultGearModifications.supports(moduleItem)) {
                if(!ModModuleToVaultGearModifications.getModuleList(stack).isEmpty()) {

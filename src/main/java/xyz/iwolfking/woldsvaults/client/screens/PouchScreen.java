@@ -646,7 +646,7 @@ public final class PouchScreen extends AbstractContainerScreen<PouchMenu> {
         inspectedDescriptionRows = descriptionRows;
         int usesY = descriptionY + descriptionRows * 10 + 6;
         if (chosen >= 0) {
-            font.draw(pose, fit(label("uses", PouchUseDisplay.remainingUses(menu.contents(), menu.contents().getStackInSlot(chosen))).getString(), 84),
+            font.draw(pose, fit(label("uses", PouchHelper.usesLabel(menu.contents().getStackInSlot(chosen), PouchUseDisplay.remainingUses(menu.contents(), menu.contents().getStackInSlot(chosen)))).getString(), 84),
                     190, usesY, TEXT);
         }
         boolean active = chosen >= 0 && menu.contents().isActive(chosen);

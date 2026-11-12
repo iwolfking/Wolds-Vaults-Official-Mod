@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.events;
 
-import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cofh.core.init.CoreMobEffects;
 import com.mojang.math.Vector3f;
 import iskallia.vault.block.CoinPileBlock;
@@ -10,8 +9,6 @@ import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultLevel;
-import iskallia.vault.entity.VaultBoss;
-import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
 import iskallia.vault.entity.entity.PetEntity;
@@ -28,6 +25,7 @@ import iskallia.vault.entity.entity.elite.EliteWitherSkeleton;
 import iskallia.vault.entity.entity.elite.EliteZombieEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.ActiveFlagsCheck;
+import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.gear.data.GearDataCache;
@@ -37,6 +35,7 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketHelper;
 import iskallia.vault.gear.trinket.effects.MultiJumpTrinket;
 import iskallia.vault.item.gear.VaultAxeItem;
+import iskallia.vault.skill.ability.effect.RampageAbility;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.JavelinConductTalent;
 import iskallia.vault.skill.tree.TalentTree;
@@ -46,6 +45,10 @@ import iskallia.vault.util.calc.*;
 import iskallia.vault.util.damage.DamageUtil;
 import iskallia.vault.world.data.PlayerTalentsData;
 import iskallia.vault.world.data.ServerVaults;
+import xyz.iwolfking.woldsvaults.gods.combat.RampageAccess;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraCounterstrike;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -63,6 +66,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -71,6 +75,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -81,6 +86,7 @@ import top.theillusivec4.curios.api.event.CurioChangeEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -96,21 +102,26 @@ import xyz.iwolfking.woldsvaults.effect.trinkets.EffectOnHitTakenEffect;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDash;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultLootSackItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultPlushieItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.MagibashHits;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.List;
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -125,6 +136,17 @@ public class LivingEntityEvents {
 
     public static void init() {
          ANCHOR_SLAM_SOUND  = Registry.SOUND_EVENT.get(ResourceLocation.parse("bettercombat:anchor_slam"));
+         registerLeechHealingEfficiencyExclusion();
+         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, false, LivingHurtEvent.class, LivingEntityEvents::applyRiptideDamageMore);
+    }
+
+    /** Clamps healing effectiveness to 1.0 while {@link ActiveFlags#IS_LEECHING} is set, at lowest priority. */
+    private static void registerLeechHealingEfficiencyExclusion() {
+        CommonEvents.PLAYER_STAT.of(PlayerStat.HEALING_EFFECTIVENESS).register(LivingEntityEvents.class, data -> {
+            if(ActiveFlags.IS_LEECHING.isSet()) {
+                data.setValue(Math.min(data.getValue(), 1.0F));
+            }
+        }, Integer.MIN_VALUE);
     }
 
     @SubscribeEvent
@@ -157,6 +179,12 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void onElementalAttack(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
+        if (WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
+            return;
+        }
         Entity attacker = event.getSource().getEntity();
         if (attacker instanceof ServerPlayer player) {
             ElementHelper.applyElementalEffects(event.getEntityLiving(), player, event.getAmount());
@@ -179,10 +207,31 @@ public class LivingEntityEvents {
         }
     }
 
+    /**
+     * A plain weapon hit by this player: inside {@code Player.attack}, dealt directly by the player, and not a proc
+     * nested in the swing (AoE, chaining, effect, DoT, reflect, totem, ability power, echo, reaving, fang, scepter cast,
+     * derived, Lightning Fiend).
+     */
+    private static boolean weaponHit(LivingHurtEvent event, ServerPlayer player) {
+        if (!WoldActiveFlags.IS_MELEE_ATTACKING.isSet() || event.getSource().getDirectEntity() != player) {
+            return false;
+        }
+        return !(ActiveFlags.IS_AP_ATTACKING.isSet() || ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
+                || ActiveFlags.IS_EFFECT_ATTACKING.isSet() || ActiveFlags.IS_DOT_ATTACKING.isSet() || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
+                || ActiveFlags.IS_TOTEM_ATTACKING.isSet() || ActiveFlags.IS_THORNS_REFLECTING.isSet()
+                || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet() || WoldActiveFlags.IS_ECHOING_ATTACKING.isSet()
+                || WoldActiveFlags.IS_REAVING_ATTACKING.isSet() || WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()
+                || WoldActiveFlags.IS_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.isSet()
+                || WoldActiveFlags.IS_DERIVED_ATTACKING.isSet());
+    }
+
     @SubscribeEvent
     public static void onScepterHitSparkles(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
-        if (ActiveFlags.IS_AP_ATTACKING.isSet()) return;
+        if (!weaponHit(event, player)) return;
 
         ItemStack heldItem = player.getMainHandItem();
         GearDataCache gearDataCache = GearDataCache.of(heldItem);
@@ -206,7 +255,7 @@ public class LivingEntityEvents {
 
         if (nearbyTargets.isEmpty()) return;
 
-        float sparkleDamage = playerAP * 0.1F;
+        float sparkleDamage = playerAP * (gearDataCache.getRarity().equals(VaultGearRarity.valueOf("MYTHIC")) ? 0.2F : 0.1F);
 
         Vector3f startColor = new Vector3f(0.8F, 0.2F, 1.0F);
         Vector3f endColor = new Vector3f(0.3F, 0.9F, 1.0F);
@@ -228,7 +277,7 @@ public class LivingEntityEvents {
                                 ActiveFlags.IS_AP_ATTACKING.push();
                                 try {
                                     DamageSource sparkleSource = DamageSource.indirectMagic(player, player);
-                                    target.hurt(sparkleSource, sparkleDamage);
+                                    WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.runWithFlag(() -> target.hurt(sparkleSource, sparkleDamage));
                                 } finally {
                                     ActiveFlags.IS_AP_ATTACKING.pop();
                                 }
@@ -335,8 +384,15 @@ public class LivingEntityEvents {
             }
         });
 
-        float dodgeChance = WoldAttributeHelper.getDodgeChance(entity);
-        boolean dodge = entity.getRandom().nextDouble() <= Math.min(dodgeChance, WoldConstants.DODGE_PERCENT_CAP);
+        if (source instanceof TrueDamageSource)
+            return;
+
+        boolean dodge = entity.getRandom().nextDouble() <= Math.min(WoldAttributeHelper.getDodgeChance(entity), WoldConstants.DODGE_PERCENT_CAP);
+
+        if (dodge && entity instanceof ServerPlayer dodgingPlayer) {
+            Milestones.advance(dodgingPlayer, MilestoneIds.WOOSH, 1L);
+            VelaraCounterstrike.onDefended(dodgingPlayer, source);
+        }
 
         event.setCanceled(dodge);
     }
@@ -481,8 +537,25 @@ public class LivingEntityEvents {
         level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
     }
 
-    @SubscribeEvent
-    public static void cleavingDamage(LivingHurtEvent event) {
+    /**
+     * Stores echoes, then applies Spectral Strike and the flat bonuses (cleaving, reaving) in a fixed order ahead
+     * of every damage multiplier. Separate same-priority handlers ran in an order Forge does not define, so a flat
+     * add could land before or after damage increase depending on the session. Echoes are stored before Spectral
+     * Strike, so they do not carry its bonus. Thorns and ability power scaling are added later, by
+     * {@link PostMultiplierFlatAdds}.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void preMultiplierHit(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
+        echoingHit(event);
+        SpectralStrikeDamage.apply(event);
+        cleavingDamage(event);
+        reavingDamage(event);
+    }
+
+    private static void cleavingDamage(LivingHurtEvent event) {
         if(event.getSource().getEntity() instanceof Player player && WoldEventHelper.isNormalAttack() && !WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
             if(player.getMainHandItem().getItem() instanceof VaultAxeItem) {
                 event.setAmount(event.getAmount() + WoldsAxeSpecializationTalent.applyCleavingDamageBonus(player, event.getEntityLiving()));
@@ -490,9 +563,7 @@ public class LivingEntityEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void reavingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
+    private static void reavingDamage(LivingHurtEvent event) {
         if(event.getEntityLiving().hasEffect(ModEffects.REAVING) || !WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -524,61 +595,13 @@ public class LivingEntityEvents {
         }
     }
 
-    /**
-     * Hyper-scoped NaN firewall for the %-max-health damage bonuses: a non-finite computed
-     * amount inside a hyper vault is replaced with the untouched pre-bonus amount and logged
-     * loudly; outside hyper vaults every value passes through unchanged (the NaN guards are
-     * deliberately hyper-only).
-     */
-    private static float hyperFinite(LivingEntity target, float computed, float fallback, String what) {
-        if (Float.isFinite(computed) || !HyperVaultEvents.isInHyperVault(target)) {
-            return computed;
-        }
-        WoldLogger.error("HYPER NaN-guard: non-finite {} damage against {} replaced with {} (max health {}).",
-                what, target.getType().getRegistryName(), fallback, target.getMaxHealth());
-        return Float.isFinite(fallback) ? fallback : 0.0F;
-    }
-
-    @SubscribeEvent
-    public static void executionDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
-        if(!WoldEventHelper.isNormalAttack()) {
-            return;
-        }
-
-        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
-            return;
-        }
-
-        if(event.getSource().isProjectile()) {
-            return;
-        }
-
-
-        if(event.getSource().getEntity() instanceof Player player) {
-            float executionDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.EXECUTION_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
-            if(executionDamage != 0) {
-                if(WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
-                    WoldLogger.debug("[WOLD'S VAULTS] Added " + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage) + " bonus execution damage to attack.");
-                }
-
-                if(event.getEntityLiving() instanceof TheVesselEntity) {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.01F, event.getAmount(), "execution"));
-                }
-                else if(ChampionLogic.isChampion(event.getEntityLiving()) || InfernalMobsCore.getMobModifiers(event.getEntityLiving()) != null || event.getEntityLiving() instanceof VaultBoss || event.getEntityLiving() instanceof VaultBossEntity || event.getEntityLiving() instanceof EliteDrownedEntity || event.getEntityLiving() instanceof EliteWitherSkeleton || event.getEntityLiving() instanceof EliteEndermanEntity || event.getEntityLiving() instanceof EliteHuskEntity || event.getEntityLiving() instanceof EliteSpiderEntity || event.getEntityLiving() instanceof  EliteStrayEntity || event.getEntityLiving() instanceof  EliteZombieEntity || event.getEntityLiving() instanceof EliteWitchEntity) {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), (event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage)) * 0.25F, event.getAmount(), "execution"));
-                }
-                else {
-                    event.setAmount(hyperFinite(event.getEntityLiving(), event.getAmount() + ((event.getEntityLiving().getMaxHealth() - event.getEntityLiving().getHealth()) * executionDamage), event.getAmount(), "execution"));
-                }
-            }
-        }
-    }
-
     @SubscribeEvent
     public static void bonusDebuffDamage(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if(event.getSource().getEntity() instanceof ServerPlayer player) {
-            if(ActiveFlags.IS_AP_ATTACKING.isSet()) {
+            if(ActiveFlags.IS_AP_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
                 if(event.getEntity() instanceof LivingEntity livingEntity) {
                     if(!MobEffectHelper.hasNegativeEffect(livingEntity)) {
                         return;
@@ -595,67 +618,6 @@ public class LivingEntityEvents {
     public static void onLivingKnockBack(LivingKnockBackEvent event) {
         if(WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.isSet()) {
             event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
-    public static void thornsScalingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
-        if(!WoldEventHelper.isNormalAttack()) {
-            return;
-        }
-
-        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
-            return;
-        }
-
-        if(event.getSource().isProjectile()) {
-            return;
-        }
-
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data != null) {
-                float thornsScalingPercent = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.THORNS_SCALING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
-                if(thornsScalingPercent <= 0F) {
-                    return;
-                }
-
-                float thornsDamage = ThornsHelper.getAdditionalThornsFlatDamage(player);
-                event.setAmount(event.getAmount() + (thornsDamage * thornsScalingPercent));
-
-            }
-        }
-    }
-
-
-    @SubscribeEvent
-    public static void apScalingDamage(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
-        if(!WoldEventHelper.isNormalAttack()) {
-            return;
-        }
-
-        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
-            return;
-        }
-
-        if(event.getSource().isProjectile()) {
-            return;
-        }
-
-        if(event.getSource().getEntity() instanceof Player player && player.getMainHandItem().getItem() instanceof VaultGearItem) {
-            VaultGearData data = VaultGearData.read(player.getMainHandItem().copy());
-            if(data != null) {
-                float apScalingPercent = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.AP_SCALING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
-                if(apScalingPercent <= 0F) {
-                    return;
-                }
-
-                float abilityPower = WoldAttributeHelper.getAdditionalAbilityPower(player);
-                event.setAmount(event.getAmount() + (abilityPower * apScalingPercent));
-
-            }
         }
     }
 
@@ -697,29 +659,13 @@ public class LivingEntityEvents {
             return;
         }
 
-        float playerAP = AbilityPowerHelper.getAbilityPower(player);
-        float magibashDamage = playerAP * 0.5F;
-
-        List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
-
-        WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> {
-            ActiveFlags.IS_AP_ATTACKING.push();
-            try {
-                ElementHelper.runWithElements(elementalTypes, () -> {
-                    if (victim.isAlive()) {
-                        DamageSource bashSource = DamageSource.indirectMagic(player, player);
-                        victim.hurt(bashSource, magibashDamage);
-                    }
-                });
-            } finally {
-                ActiveFlags.IS_AP_ATTACKING.pop();
-            }
-        });
+        float coefficient = gearData.getRarity().equals(VaultGearRarity.valueOf("MYTHIC")) ? MagibashHits.MYTHIC_AP_COEFFICIENT : MagibashHits.AP_COEFFICIENT;
+        float magibashDamage = AbilityPowerHelper.getAbilityPower(player) * coefficient;
+        MagibashHits.queue(player, victim, magibashDamage, ElementHelper.getAllElementsFromGear(gearData));
     }
 
     @SubscribeEvent
     public static void hexingHit(LivingHurtEvent event) {
-        //Prevent an entity from being reaved more than once or applying to non-melee strikes.
         if(!WoldEventHelper.isNormalAttack()) {
             return;
         }
@@ -748,14 +694,13 @@ public class LivingEntityEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void echoingHit(LivingHurtEvent event) {
+    private static void echoingHit(LivingHurtEvent event) {
 
         if(event.getSource().isProjectile()) {
             return;
         }
 
-        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()) {
+        if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
             return;
         }
 
@@ -763,15 +708,8 @@ public class LivingEntityEvents {
         || ActiveFlags.IS_LEECHING.isSet()
         || ActiveFlags.IS_AOE_ATTACKING.isSet()
         || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
-//        || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || ActiveFlags.IS_CHARMED_ATTACKING.isSet()
         || ActiveFlags.IS_EFFECT_ATTACKING.isSet()
-//        || ActiveFlags.IS_JAVELIN_ATTACKING.isSet()
-//        || ActiveFlags.IS_SMITE_ATTACKING.isSet()
-//        || ActiveFlags.IS_SMITE_BASE_ATTACKING.isSet()
-//        || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
-//        || ActiveFlags.IS_THORNS_REFLECTING.isSet()
-//        || ActiveFlags.IS_GLACIAL_SHATTER_ATTACKING.isSet()
         || (ActiveFlags.IS_AP_ATTACKING.isSet()
             && !(ActiveFlags.IS_FIRESHOT_ATTACKING.isSet()
                 || ActiveFlags.IS_ARCANE_RAIL_ATTACKING.isSet()
@@ -798,41 +736,39 @@ public class LivingEntityEvents {
             float echoingChance = WoldAttributeHelper.getEchoingChance(player);
             float echoingDamage = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(ModGearAttributes.ECHOING_DAMAGE, VaultGearAttributeTypeMerger.floatSum());
             if(echoingChance != 0) {
-                //buff chances for echoing to re-proc itself
                 if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet())
                     echoingChance = (float) Math.sqrt(echoingChance);
 
-                //roll chance
-                if(player.level.random.nextFloat() <= echoingChance) {
+                if(player.level.random.nextFloat() <= LuckHelper.getLuckAffectedChance(echoingChance, player)) {
                     LivingEntity target = event.getEntityLiving();
 
                     float newDamage;
                     DamageSource newSource;
                     int newDuration;
                     float newDecay;
+                    EnumSet<ActiveFlags> newFlags;
 
                     EchoingEffectInstance oldInstance = (EchoingEffectInstance) target.getEffect(ModEffects.ECHOING);
                     if (WoldActiveFlags.IS_ECHOING_ATTACKING.isSet()) {
                         if(oldInstance == null)
                             return;
 
-//                        //[[DEBUG]]
-//                        WoldLogger.info("[WOLD'S VAULTS] Echo successfully re-procced.");
-
-                        // proc from echo/reverb
                         newDamage = event.getAmount() * oldInstance.getDecay();
                         newSource = oldInstance.getSource();
                         newDuration = EffectDurationHelper.adjustEffectDurationFloor(player, 1) * 10;
                         newDecay = oldInstance.getDecay() * 0.95F - 0.05F;
+                        newFlags = oldInstance.getFlags();
                     } else {
-                        // original proc
                         newDamage = event.getAmount() * (1+echoingDamage) * 0.667F;
+                        if (player instanceof ServerPlayer sPlayer && RampageAbility.isDirectMeleeHit(event)) {
+                            newDamage *= 1.0F + RampageAccess.effectiveDamageIncrease(sPlayer);
+                        }
                         newSource = event.getSource();
                         newDuration = EffectDurationHelper.adjustEffectDurationFloor(player, 1) * 10;
                         newDecay = 1.0F;
+                        newFlags = EchoingEffectInstance.captureFlags();
                     }
 
-                    //only activate on big enough hits
                     if(newDamage > 1.0f) {
                         boolean noLuck = ActiveFlagsCheck.isAnyFlagActiveLuckyHit();
                         boolean noCleave = ActiveFlags.IS_TOTEM_ATTACKING.isSet();
@@ -840,6 +776,7 @@ public class LivingEntityEvents {
                         && WoldEtchingHelper.hasEtching(player, ModEtchingGearAttributes.REVERBERATION)) {
 
                             DamageSource oSource = oldInstance.getSource();
+                            EnumSet<ActiveFlags> oFlags = oldInstance.getFlags();
                             float oDamage = oldInstance.getDamage() * oldInstance.getDecay();
                             oldInstance.setDamage(oDamage);
 
@@ -847,25 +784,17 @@ public class LivingEntityEvents {
                             oldInstance.reverberate();
 
                             if(oDamage > 1.0F) {
-//                                //[[DEBUG]]
-//                                WoldLogger.info("[WOLD'S VAULTS] Reverberated {} damage.", oDamage);
-
                                 WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(noCleave, () ->
                                     WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
                                         WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
-                                            DamageUtil.shotgunAttack(target, e -> e.hurt(oSource, oDamage))
+                                            EchoingEffectInstance.runWithFlags(oFlags, () -> DamageUtil.shotgunAttack(target, e -> e.hurt(oSource, oDamage)))
                                         )
                                     )
                                 );
                             }
                         }
 
-                        target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay, noLuck, noCleave));
-
-//                        //[[DEBUG]]
-//                        WoldLogger.info("[WOLD'S VAULTS] Added a {} damage echo to attack.", newDamage);
-//                        WoldLogger.info("[WOLD'S VAULTS] Currently, {} damage is on top.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDamage());
-//                        WoldLogger.info("[WOLD'S VAULTS] Decay at {}.", ((EchoingEffectInstance) target.getEffect(ModEffects.ECHOING)).getDecay());
+                        target.addEffect(new EchoingEffectInstance(player, newDamage, newSource, newDuration, newDecay, noLuck, noCleave, newFlags));
                     }
                 }
             }
@@ -927,15 +856,7 @@ public class LivingEntityEvents {
         }
     }
 
-    /**
-     * Handles the reduction/cancellation of fall damage for players with the Feather Trinket equipped.
-     * <p>
-     * If the player has an active and usable {@code MultiJumpTrinket}:
-     * - Fall damage is canceled if the fall distance is less than 5.0 blocks to prevent damage ticking when taking no damage.
-     * - Otherwise, the fall distance is reduced by 2.0 blocks to mitigate fall damage.
-     * <p>
-     * Called whenever a LivingEntity falls
-     */
+    /** With a usable {@code MultiJumpTrinket}, cancels falls under 5.0 blocks and cuts 2.0 off the rest. */
     @SubscribeEvent
     public static void multiJumpTrinketFallReductionEvent(LivingFallEvent event) {
         if(event.getEntityLiving() instanceof ServerPlayer player) {
@@ -949,8 +870,16 @@ public class LivingEntityEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
+    /**
+     * Sets the base damage of hits a player lands while spinning with a riptide vault trident: twice the player's
+     * attack damage attribute, for riptide contacts and the channeling hits the spin calls alike. Runs first so every
+     * later stage of the hurt chain builds on this base.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onLivingHurt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (!(event.getSource().getEntity() instanceof Player player)) {
             return;
         }
@@ -961,19 +890,38 @@ public class LivingEntityEvents {
 
         ItemStack stack = player.getMainHandItem();
 
-        if (stack.getItem() instanceof VaultTridentItem &&
-                player.isAutoSpinAttack() && VaultTridentItem.isVaultTridentRiptide(stack)) {
-            VaultGearData data = VaultGearData.read(stack);
-            double d = 2 * data.get(iskallia.vault.init.ModGearAttributes.ATTACK_DAMAGE, VaultGearAttributeTypeMerger.doubleSum());
+        if (isVaultRiptideSpin(player, stack)) {
+            double d = 2 * player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
-            AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
             if(!ActiveFlags.IS_CHAINING_ATTACKING.isSet()) {
                 ActiveFlags.IS_CHAINING_ATTACKING.runIfNotSet(() -> VaultTridentItem.triggerChannelingRiptide(stack, player.getLevel(), player));
-                event.setAmount((float) VaultTridentItem.getTridentScaledDamage(snapshot, event.getEntityLiving(), d));
             }
-            else
-                event.setAmount((float) d);
+            event.setAmount((float) d);
         }
+    }
+
+    /**
+     * Multiplies a riptide contact by its More Riptide Damage. Registered at HIGH after the base mod's own HIGH
+     * listeners, so the additions they make to the contact (Battle Cry) are multiplied too.
+     */
+    private static void applyRiptideDamageMore(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof Player player)
+                || WoldActiveFlags.IS_FANG_ATTACKING.isSet()
+                || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
+                || !RiptideDash.isContact(event.getEntityLiving())
+                || !isVaultRiptideSpin(player, player.getMainHandItem())
+                || !AttributeSnapshotHelper.canHaveSnapshot(player)) {
+            return;
+        }
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(player);
+        float more = snapshot.getAttributeValue(ModGearAttributes.RIPTIDE_DAMAGE_MORE, VaultGearAttributeTypeMerger.floatSum());
+        if (more != 0.0F) {
+            event.setAmount(event.getAmount() * (1.0F + more));
+        }
+    }
+
+    private static boolean isVaultRiptideSpin(Player player, ItemStack stack) {
+        return stack.getItem() instanceof VaultTridentItem && player.isAutoSpinAttack() && VaultTridentItem.isVaultTridentRiptide(stack);
     }
 
     private static void withSnapshot(LivingEvent event, boolean serverOnly, BiConsumer<LivingEntity, AttributeSnapshot> fn) {

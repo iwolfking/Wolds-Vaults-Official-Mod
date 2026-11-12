@@ -1,0 +1,549 @@
+{
+  "descriptions": {
+    "idona_weaponmaster": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x on hit damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " with two handed weapons, or gain "
+      },
+      {
+        "text": "+30% Attack Speed",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while dual wielding."
+      }
+    ],
+    "idona_elite_caster_ii": [
+      {
+        "text": "+25% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_stack_stack_stack": [
+      {
+        "text": "+1 max stack",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_ultra_rampaging": [
+      {
+        "text": "Hitting, killing and being hurt build "
+      },
+      {
+        "text": "Fury",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " (100 per hit, 200 per kill, up to 6,000 for losing your whole health bar; cap 15,000), which loses about half every 2.3 seconds, faster above 6,000. While Rampage is active, Fury both "
+      },
+      {
+        "text": "adds to and multiplies your Rampage damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", so a fight that keeps moving keeps you at a far higher multiplier."
+      },
+      {
+        "text": "\n\nBosses pay double on hit and ten times on death."
+      },
+      {
+        "text": "\n\nWhile you hold Fury you also "
+      },
+      {
+        "text": "take up to 1.5x damage at full Fury",
+        "color": "#C23627"
+      },
+      {
+        "text": ", with or without Rampage active."
+      },
+      {
+        "text": "\n\nExamples with a +100% Rampage: 5 hits a second holds about 1,650 Fury, making it +266% and 1.17x damage taken. 5 boss hits a second holds about 3,300, for +477% and 1.23x taken. 6,000 Fury gives +1163% and 1.32x taken; full Fury gives +1652% and 1.5x taken."
+      }
+    ],
+    "idona_crushing_blows": [
+      {
+        "text": "1.15x Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_under_pressure": [
+      {
+        "text": "Deal more damage the closer the vault is to ending - up to "
+      },
+      {
+        "text": "2x",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " as the timer runs out, scaling evenly over the last 15 minutes."
+      },
+      {
+        "text": "\n\nExamples: 10 minutes left gives x1.33, 5 minutes gives x1.67, 0 gives x2."
+      }
+    ],
+    "idona_start_hoard": [
+      {
+        "text": "The first star of the Hoard - "
+      },
+      {
+        "text": "stacking talents",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_luckiest_hit": [
+      {
+        "text": "Lucky Hit chance is multiplied by "
+      },
+      {
+        "text": "0.1",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", but Fatal Strike, Mana Leech and Health Leech "
+      },
+      {
+        "text": "trigger twice",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on every lucky hit. Fatal Strike multiplies twice, so +50% becomes x2.25. Other lucky hit effects trigger once. Lucky Strike Battle Cry's bonus chance is added after the 0.1 and is "
+      },
+      {
+        "text": "not reduced",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_greedbane": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to greed assassins and the greed champion."
+      }
+    ],
+    "idona_soulstealer": [
+      {
+        "text": "1.5x Soul Shard Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_sneaky_advantage": [
+      {
+        "text": "+5% damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " for every unique negative effect on the target."
+      }
+    ],
+    "idona_start_st": [
+      {
+        "text": "The first star of Idona's staff - "
+      },
+      {
+        "text": "ability power and range",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter": [
+      {
+        "text": "+12.5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_start_gambler": [
+      {
+        "text": "The first star of the Gambler - "
+      },
+      {
+        "text": "lucky hits",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter_ii": [
+      {
+        "text": "+25% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_kinetic_impact": [
+      {
+        "text": "Multiplies your global damage based on Movement Speed - "
+      },
+      {
+        "text": "1% per 10% speed",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", measured after the boots cap."
+      },
+      {
+        "text": "\n\nExamples: +50% speed gives x1.05, +100% gives x1.10, +200% gives x1.20."
+      }
+    ],
+    "idona_prison_warden": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "2x damage for 30 seconds",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to enemies that survive a glacial prison."
+      }
+    ],
+    "idona_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_pincushion": [
+      {
+        "text": "Your melee attacks deal "
+      },
+      {
+        "text": "+0.5% damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " for every melee attack you already landed on that enemy, with no cap. Resets when it dies."
+      },
+      {
+        "text": "\n\nExamples: the 21st hit deals +10%, the 101st +50%, the 201st x2."
+      }
+    ],
+    "idona_fortunate_ii": [
+      {
+        "text": "+4% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_start_sw": [
+      {
+        "text": "The first star of Idona's sword - "
+      },
+      {
+        "text": "attack damage, up close",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_grand_archmage": [
+      {
+        "text": "Turn into an archmage: "
+      },
+      {
+        "text": "+100% Mana, +200 flat Mana, greatly increased Mana Regeneration, 3x Ability Damage and +250% Spell Haste cap",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " - but your melee attacks deal no damage."
+      }
+    ],
+    "idona_start_bounty": [
+      {
+        "text": "The first star of the Bounty - "
+      },
+      {
+        "text": "damage to champions, tanks, hordes and assassins",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_fortunate": [
+      {
+        "text": "+2.5% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_banked_anger": [
+      {
+        "text": "Gain an increasing "
+      },
+      {
+        "text": "global damage multiplier",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " the more damage you take in the vault: "
+      },
+      {
+        "text": "log100000(100000 + damage taken)",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", with no cap."
+      },
+      {
+        "text": "\n\nExamples: 100k damage taken gives x1.06, 1M gives x1.21, 10M gives x1.40."
+      }
+    ],
+    "idona_elite_caster": [
+      {
+        "text": "+12.5% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_enforcer": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Hordes and Assassins."
+      }
+    ],
+    "idona_full_of_soul": [
+      {
+        "text": "+50% Soul Shard Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_thwack": [
+      {
+        "text": "Double Stun Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while using a battlestaff."
+      }
+    ],
+    "idona_power_dump": [
+      {
+        "text": "Instant abilities cast "
+      },
+      {
+        "text": "while sneaking",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " consume your whole mana bar. Your max mana sets the largest bonus, "
+      },
+      {
+        "text": "0.25% x sqrt(2000 x max mana)",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", and each cast multiplies its damage by "
+      },
+      {
+        "text": "1 + that bonus x the share of your bar it spent above its cost",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Each cast keeps its own bonus for its own hits; damage over time is not boosted. Casts made standing up and toggles are unaffected."
+      },
+      {
+        "text": "\n\nHeld channels cast while sneaking drain 50% of your bar per second; each tick counts only its own drain above its cost. Every Implode gets the bonus for the mana it consumes, sneaking or not, and so does a Starforge nova that procs while you sneak."
+      },
+      {
+        "text": "\n\nExamples, ignoring the spell's own cost: a cast from a full bar gets x4.5 at 1,000 max mana, x17 at 20,000 and x44 at 150,000. From a half-full bar: x2.8, x8.9, x23. A held channel's ticks get x1.09, x1.4, x2.1."
+      }
+    ],
+    "idona_cleave_expert": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to cleave at "
+      },
+      {
+        "text": "20% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_surrounded": [
+      {
+        "text": "+2.5% global damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per enemy within 20 blocks."
+      }
+    ],
+    "idona_king_hunter": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Champions and Tanks."
+      }
+    ],
+    "idona_super_stacker": [
+      {
+        "text": "1.25x max stacks",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_overcrit": [
+      {
+        "text": "Lucky Hit chance over your cap (100%)",
+        "color": "gold"
+      },
+      {
+        "text": " lets your lucky hits overcrit: every full 100% over the cap adds "
+      },
+      {
+        "text": "+100% damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to each lucky hit, and the remainder is the chance of one more +100%."
+      },
+      {
+        "text": "\n\nExamples: at 124% chance, 24% of lucky hits deal x2. At 200%, every lucky hit deals x2. At 250%, lucky hits deal x2 or x3, x2.5 on average."
+      }
+    ],
+    "idona_start_reaper": [
+      {
+        "text": "The first star of the Reaper - "
+      },
+      {
+        "text": "soul shards",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". Grants "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_true_rage": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to Attack Damage abilities at "
+      },
+      {
+        "text": "50% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_stack_hoarder": [
+      {
+        "text": "Stacks on stacking talents last "
+      },
+      {
+        "text": "50% longer",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ]
+  }
+}
