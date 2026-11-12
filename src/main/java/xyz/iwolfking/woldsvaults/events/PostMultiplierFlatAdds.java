@@ -14,6 +14,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.WoldAttributeHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.Collections;
 import java.util.Set;
@@ -46,6 +47,9 @@ public final class PostMultiplierFlatAdds {
      * handler before it multiplies the amount.
      */
     public static void apply(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (event.isCanceled() || !APPLIED.add(event)) {
             return;
         }

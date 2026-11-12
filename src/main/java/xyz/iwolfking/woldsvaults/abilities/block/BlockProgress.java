@@ -5,18 +5,26 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 
 
 final class BlockProgress<A extends AbstractBlockAbility> {
     final A ability;
     final float required;
     final int raisedTick;
+    final float durationFactor;
     float lifted;
 
-    BlockProgress(A ability, float required, int raisedTick) {
+    BlockProgress(A ability, float required, int raisedTick, float durationFactor) {
         this.ability = ability;
         this.required = Math.max(required, 1.0F);
         this.raisedTick = raisedTick;
+        this.durationFactor = durationFactor;
+    }
+
+    /** The buff duration for a lift after {@code clearTicks}, times the Extend factor of the cast that raised the block. */
+    int buffTicks(int clearTicks) {
+        return BuffGlyphs.scale(this.ability.getBuffTicks(clearTicks), this.durationFactor);
     }
 
     boolean lift(float amount) {

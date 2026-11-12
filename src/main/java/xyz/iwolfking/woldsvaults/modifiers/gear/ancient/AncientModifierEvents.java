@@ -33,6 +33,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaState;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.List;
 
@@ -50,6 +51,9 @@ public class AncientModifierEvents {
     }
 
     private static void luckyHitCleave(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
             return;
         }

@@ -156,8 +156,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerStat(modifierBuilder, VaultMod.id("disarming"), PlayerStat.TRAP_DISARM_CHANCE, 0.25F,  "Disarming", "#cb9be5", "+25% Trap Disarm Chance", "+%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/safezone"));
             playerStat(modifierBuilder, VaultMod.id("bingo_trapped"), PlayerStat.TRAP_DISARM_CHANCE, -0.25F,  "Trapped", "#CB866D", "-25% Trap Disarm Chance", "-%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/trapped"));
             playerStat(modifierBuilder, VaultMod.id("rigged"), PlayerStat.TRAP_DISARM_CHANCE, -1.0F,  "Rigged", "#CB866D", "-100% Trap Disarm Chance", "-%d%% Trap Disarm Chance", VaultMod.id("gui/modifiers/trapped"));
-            playerStat(modifierBuilder, VaultMod.id("rending"), PlayerStat.COOLDOWN_REDUCTION, -0.25F,  "Rending", "#6DACB5", "-25% Cooldown Reduction", "-%d%% Cooldown Reduction", VaultMod.id("gui/modifiers/inert"));
-            playerStat(modifierBuilder, VaultMod.id("nullifying"), PlayerStat.COOLDOWN_REDUCTION, -0.5F,  "Nullifying", "#6DACB5", "-50% Cooldown Reduction", "-%d%% Cooldown Reduction", VaultMod.id("gui/modifiers/inert"));
+            playerStat(modifierBuilder, VaultMod.id("rending"), PlayerStat.COOLDOWN_REDUCTION, RENDING_HASTE,  "Rending", "#6DACB5", percent(RENDING_HASTE) + "% Spell Haste", "%d%% Spell Haste", VaultMod.id("gui/modifiers/inert"));
+            playerStat(modifierBuilder, VaultMod.id("nullifying"), PlayerStat.COOLDOWN_REDUCTION, NULLIFYING_HASTE,  "Nullifying", "#6DACB5", percent(NULLIFYING_HASTE) + "% Spell Haste", "%d%% Spell Haste", VaultMod.id("gui/modifiers/inert"));
             playerStat(modifierBuilder, VaultMod.id("dangerous"), PlayerStat.RESISTANCE, -0.25F,  "Dangerous", "#CA9A5B", "-25% Resistance", "-%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
             playerStat(modifierBuilder, VaultMod.id("piercing"), PlayerStat.RESISTANCE, -0.5F,  "Piercing", "#CA9A5B", "-50% Resistance", "-%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
             playerStat(modifierBuilder, VaultMod.id("protected"), PlayerStat.RESISTANCE, 0.1F,  "Protected", "#CA9A5B", "+10% Resistance", "+%d%% Resistance", VaultMod.id("gui/modifiers/vulnerable"));
@@ -577,7 +577,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
                 resourceLocationIntegerMap.put(VaultMod.id("furious_mobs"), 3);
                 resourceLocationIntegerMap.put(VaultMod.id("chunky_mobs"), 3);
                 resourceLocationIntegerMap.put(VaultMod.id("rending"), 1);
-            },"Tenos' Challenge", "#ba0000", "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent", null, VaultMod.id("gui/modifiers/challenging"));
+            },"Tenos' Challenge", "#ba0000", "Increases mob damage and mob health 20 percent per stack, " + percent(RENDING_HASTE) + "% Spell Haste", null, VaultMod.id("gui/modifiers/challenging"));
 
             grouped(modifierBuilder, VaultMod.id("wendarr_challenge"), resourceLocationIntegerMap -> {
                 resourceLocationIntegerMap.put(VaultMod.id("furious_mobs"), 3);
@@ -843,6 +843,8 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
     }
 
     private static final float OMEGA_CASCADING_CHANCE = 0.01F;
+    private static final float RENDING_HASTE = -0.5F;
+    private static final float NULLIFYING_HASTE = -1.0F;
     private static final int MASTER_OF_CHESTS_STACKS = 15;
     private static final double OMEGA_SPROUT_MULTIPLIER = 2.0;
 

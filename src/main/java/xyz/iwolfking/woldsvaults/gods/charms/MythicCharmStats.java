@@ -24,6 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import javax.annotation.Nullable;
 
@@ -78,6 +79,9 @@ public final class MythicCharmStats {
     }
 
     private static void onLivingHurt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         Entity source = event.getSource().getEntity();
         if (!(source instanceof LivingEntity attacker) || attacker.getLevel().isClientSide()
                 || !AttributeSnapshotHelper.canHaveSnapshot(attacker)) {

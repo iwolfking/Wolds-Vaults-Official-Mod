@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
+import xyz.iwolfking.woldsvaults.client.spellcraft.GlyphAffixLine;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,6 +15,7 @@ import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltip
 import xyz.iwolfking.woldsvaults.client.init.ModEntityRenderers;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.init.ModScreens;
+import xyz.iwolfking.woldsvaults.client.spellcraft.SpellcraftTooltipRow;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
@@ -57,5 +59,7 @@ public class ClientSetupEvents {
 
     private static void registerClientTooltips() {
         MinecraftForgeClient.registerTooltipComponentFactory(LayoutTooltipComponent.class, LayoutTooltipClientComponent::new);
+        MinecraftForgeClient.registerTooltipComponentFactory(SpellcraftTooltipRow.class, SpellcraftTooltipRow.Client::new);
+        MinecraftForgeClient.registerTooltipComponentFactory(GlyphAffixLine.class, GlyphAffixLine.Client::new);
     }
 }

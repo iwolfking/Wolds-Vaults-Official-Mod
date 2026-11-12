@@ -13,6 +13,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
+import xyz.iwolfking.woldsvaults.api.cast.CastContext;
+import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.network.message.LuckyHitCooldownParticleMessage;
@@ -34,6 +36,10 @@ public class CooldownReductionLuckyHitTalent extends LuckyHitTalent {
    public void onLuckyHit(LivingHurtEvent event) {
       if(event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
          Milestones.onLuckyHit(serverPlayer, event);
+         CastTag tag = CastContext.forHit(serverPlayer, event.getSource());
+         if (tag != null && !tag.claimArcaneStrike()) {
+            return;
+         }
          AbilityTree abilities = PlayerAbilitiesData.get(serverPlayer.getLevel()).getAbilities(serverPlayer);
          abilities.iterate(Ability.class, (ability) -> {
             if (ability.isOnCooldown()) {

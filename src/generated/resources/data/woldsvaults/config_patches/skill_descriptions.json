@@ -39,6 +39,102 @@
         "text"
       ],
       "value": "20 seconds"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_1",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_1",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_2",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_2",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_3",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_3",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_xp_path_1",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_xp_path_1",
+        {
+          "text": "10%"
+        },
+        "text"
+      ],
+      "value": "30%"
     }
   ]
 }

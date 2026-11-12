@@ -1,17 +1,22 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
 import iskallia.vault.util.PlayerBerserkHelper;
 import xyz.iwolfking.woldsvaults.api.cast.LuckyReset;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider;
 import xyz.iwolfking.woldsvaults.datagen.patches.GreedTraderPatches;
+import xyz.iwolfking.woldsvaults.datagen.patches.SpellHastePatches;
 import xyz.iwolfking.woldsvaults.events.ExecuteEvents;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Every change Wold's Vaults makes to a base Vault Hunters config, as field-level patches the game applies when it
@@ -21,7 +26,9 @@ import java.util.List;
 public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
     public static final String STEEL_INFERNO = "Steel Inferno";
     public static final int EXECUTION_STRIKE_TIERS = 29;
+    public static final double WEAVER_OF_TIME_HASTE_CAP = 1.0;
 
+    private static final String FLAT_MANA = "the_vault:mana_additive";
     private static final int UPSTREAM_PRESTIGE_HEADERS = 12;
     private static final int PRESTIGE_HEADER_COLUMNS = 3;
     private static final int PRESTIGE_HEADER_LEFT = -150;
@@ -62,10 +69,12 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         uniqueGear();
         etchings();
         deckCores();
+        flatManaCards();
         mapChestLoot();
         sigils();
         misc();
         GreedTraderPatches.register(patch("greed/greed_trader.json"));
+        SpellHastePatches.register(this::patch);
     }
 
     private void talents() {
@@ -90,6 +99,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         prestigeRank(prestige, "BarrierOfResilience", "barrier_of_resilience_1", 13, 2400);
         prestigeRank(prestige, "ShieldOfLastingGuard", "shield_of_lasting_guard_1", 14, 2800);
         prestigeRank(prestige, "WeaverOfTime", "weaver_of_time_1", 14, 2800);
+        prestige.at("tree", "skills", id("WeaverOfTime"), "tiers", id("weaver_of_time_1")).set("value", WEAVER_OF_TIME_HASTE_CAP);
         prestige.at("tree", "skills", id("Toolsmith"), "tiers", 0).set("capacityIncrease", 50);
         prestige.at("tree", "skills", id("SuperCrystals"), "tiers", id("super_crystals_1")).set("extraCapacity", 75);
         prestige.at("tree", "skills", id("Fruity"), "tiers", id("fruity_1")).set("value", 0.5);
@@ -329,6 +339,41 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
                 .set("description", "<gray>Proccing <#6DF5A3>Lucky Hit <gray>reduces the remaining cooldown of <yellow>%svalue/ability <gray>by <yellow>"
                         + share + "%<gray>, at most once per ability cast")
                 .set("typeGroups", jsonArray("HELMET"));
+        Node etchings = patch("gear/etchings.json").at("ETCHINGS");
+        etchings.remove("the_vault:etching_ice_bolt_lucky");
+        etchings.at("the_vault:etching_arcane_rail_size")
+                .set("description", "<gray>Arcane Rail hits everything within <yellow>%.1fvalue <gray>blocks of its beam");
+        etchings.at("the_vault:etching_arcane_rail_size", "attributes", 0, "tiers", 0, "value").set("min", ModFocusAugmentsProvider.RAIL_SIZE_MIN);
+        etchings.at("the_vault:etching_totem_player_damage_effect")
+                .set("description", "<gray>While the <yellow>Wrath Totem<gray> buff is on you, your hits apply <yellow>%dvalueC <gray>stack(s) of "
+                        + "<yellow>%svalueA/effect <gray>for <yellow>%tvalueB <gray>second(s)");
+    }
+
+    /**
+     * Flat max mana cards leave every booster pool (ruling 2026-11-09): each pool entry naming a card whose attribute is
+     * {@code the_vault:mana_additive} is removed. Percent mana and mana regeneration cards stay.
+     */
+    private void flatManaCards() {
+        JsonObject cards = seeded("card/modifiers.json").getAsJsonObject();
+        Set<String> flat = new HashSet<>();
+        for (Map.Entry<String, JsonElement> entry : cards.getAsJsonObject("values").entrySet()) {
+            JsonObject card = entry.getValue().getAsJsonObject();
+            if (card.has("attribute") && FLAT_MANA.equals(card.get("attribute").getAsString())) {
+                flat.add(entry.getKey());
+            }
+        }
+        if (flat.isEmpty()) {
+            throw new IllegalStateException("no card pays " + FLAT_MANA + "; the flat mana card patch has nothing to remove");
+        }
+        Node pools = patch("card/modifiers.json").at("pools");
+        for (Map.Entry<String, JsonElement> pool : cards.getAsJsonObject("pools").entrySet()) {
+            for (JsonElement entry : pool.getValue().getAsJsonArray()) {
+                String value = entry.getAsJsonObject().get("value").getAsString();
+                if (flat.contains(value)) {
+                    pools.at(pool.getKey()).remove(where("value", value));
+                }
+            }
+        }
     }
 
     private void deckCores() {

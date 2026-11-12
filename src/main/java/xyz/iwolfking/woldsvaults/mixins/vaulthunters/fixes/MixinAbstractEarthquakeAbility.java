@@ -7,6 +7,10 @@ import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.skill.ability.effect.spi.AbstractEarthquakeAbility;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 @Mixin(value = AbstractEarthquakeAbility.class, remap = false)
 public class MixinAbstractEarthquakeAbility {
@@ -19,5 +23,12 @@ public class MixinAbstractEarthquakeAbility {
         }
 
         return original.call(instance);
+    }
+
+    /** Earthquake falloff is measured from the shock's position (a Bundled Spell landing, a mine), not from the player. */
+    @WrapOperation(method = "triggerExplosion", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;distanceTo(Lnet/minecraft/world/entity/Entity;)F", remap = true))
+    private float woldsvaults$falloffFromShock(ServerPlayer player, Entity entity, Operation<Float> original,
+                                               @Local(argsOnly = true) Vec3 pos) {
+        return (float) entity.position().distanceTo(pos);
     }
 }

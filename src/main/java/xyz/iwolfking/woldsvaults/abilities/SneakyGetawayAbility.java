@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
@@ -63,7 +64,7 @@ public class SneakyGetawayAbility extends InstantManaAbility {
             if (player.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
                 return ActionResult.fail();
             } else {
-                int duration = this.getDurationTicks(player);
+                int duration = BuffGlyphs.scale(this.getDurationTicks(player), BuffGlyphs.castDuration(this));
                 MobEffectInstance newEffect = new MobEffectInstance(ModEffects.SNEAKY_GETAWAY, duration, 0, false, false, true);
                 player.addEffect(newEffect);
                 return ActionResult.successCooldownDeferred();
@@ -141,7 +142,7 @@ public class SneakyGetawayAbility extends InstantManaAbility {
                 AbilityTree abilities = PlayerAbilitiesData.get((ServerLevel)player.level).getAbilities(player);
                 for (SneakyGetawayAbility ability : abilities.getAll(SneakyGetawayAbility.class, Skill::isUnlocked)) {
                     size = ability.getSize();
-                    speedPercentAdded = ability.getSpeedPercentAdded();
+                    speedPercentAdded = ability.getSpeedPercentAdded() * BuffGlyphs.intensity(ability);
                 }
                 //set scale
                 ScaleData scaleData = scaleType.getScaleData(player);

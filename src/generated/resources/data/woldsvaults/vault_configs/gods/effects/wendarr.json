@@ -6,7 +6,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_start_bot": {
       "handler": "gear_attribute_scaled",
@@ -14,7 +17,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_start_swift": {
       "handler": "gear_attribute_scaled",
@@ -22,7 +28,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_start_deck": {
       "handler": "gear_attribute_scaled",
@@ -30,7 +39,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_start_spanner": {
       "handler": "gear_attribute_scaled",
@@ -38,7 +50,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_start_bough": {
       "handler": "gear_attribute_scaled",
@@ -46,7 +61,10 @@
         0.02
       ],
       "attribute": "the_vault:movement_speed",
-      "secondAttribute": "the_vault:cooldown_reduction"
+      "secondAttribute": "the_vault:cooldown_reduction",
+      "secondValues": [
+        0.06
+      ]
     },
     "wendarr_fruit_conissour": {
       "handler": "gear_attribute_scaled",
@@ -72,7 +90,7 @@
     "wendarr_speedy_caster": {
       "handler": "gear_attribute_scaled",
       "values": [
-        0.05
+        0.15
       ],
       "attribute": "the_vault:cooldown_reduction"
     },
@@ -184,7 +202,7 @@
       "values": [],
       "fruit_per_slot": 0.01,
       "speed_per_slot": 0.05,
-      "cooldown_per_slot": 0.05
+      "cooldown_per_slot": 0.15
     },
     "wendarr_speed_demon": {
       "handler": "wendarr_speed_demon",

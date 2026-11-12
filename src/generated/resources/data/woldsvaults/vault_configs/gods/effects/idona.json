@@ -139,7 +139,7 @@
       "mana_flat": 200,
       "mana_regen": 8.0,
       "ability_damage": 3.0,
-      "cooldown_reduction_cap": 0.05
+      "cooldown_reduction_cap": 2.5
     },
     "idona_ultra_rampaging": {
       "handler": "idona_ultra_rampaging",

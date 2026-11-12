@@ -26,6 +26,7 @@ public class ModKeybinds {
         configureTrinket = registerKeyMapping("configure_trinket", GLFW.GLFW_KEY_G, KeyConflictContext.GUI);
         toggleCharmBlessing = registerKeyMapping("toggle_charm_blessing", -1);
         openTrinketPouch = registerKeyMapping("open_trinket_pouch", GLFW.GLFW_KEY_T, KeyConflictContext.IN_GAME, KeyModifier.CONTROL);
+        xyz.iwolfking.woldsvaults.client.spellcraft.SpellBarKeys.register();
     }
 
     private static KeyMapping registerKeyMapping(String name, int keyCode) {

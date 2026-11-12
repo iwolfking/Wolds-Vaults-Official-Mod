@@ -2,7 +2,7 @@
   "descriptions": {
     "wendarr_the_deckless": [
       {
-        "text": "+1% Fruit Efficiency, +5% Movement Speed and +5% Cooldown Reduction",
+        "text": "+1% Fruit Efficiency, +5% Movement Speed and +15% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -21,7 +21,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -157,7 +157,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -176,7 +176,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -204,7 +204,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -213,7 +213,7 @@
     ],
     "wendarr_speedy_caster": [
       {
-        "text": "+5% Cooldown Reduction",
+        "text": "+15% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -307,7 +307,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {
@@ -403,7 +403,7 @@
         "text": ". Grants "
       },
       {
-        "text": "+2% Movement Speed and +2% Cooldown Reduction",
+        "text": "+2% Movement Speed and +6% Spell Haste",
         "color": "#ffc854"
       },
       {

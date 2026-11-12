@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -45,7 +46,8 @@ public final class ManaBlockState {
 
     public static void raise(ServerPlayer player, ManaBlockAbility ability) {
         BlockProgress<ManaBlockAbility> block = new BlockProgress<>(ability,
-                Mana.getMax(player) * ability.getBlockMultiplier(), player.server.getTickCount());
+                Mana.getMax(player) * ability.getBlockMultiplier(), player.server.getTickCount(),
+                BuffGlyphs.castDuration(ability));
         BLOCKS.put(player.getUUID(), block);
         block.showProgress(player, "message.woldsvaults.mana_block.progress", ChatFormatting.AQUA);
     }
@@ -69,7 +71,7 @@ public final class ManaBlockState {
     private static void grantBuffs(ServerPlayer player, BlockProgress<ManaBlockAbility> block) {
         ManaBlockAbility ability = block.ability;
         int clearTicks = block.clearTicks(player);
-        int buffTicks = ability.getBuffTicks(clearTicks);
+        int buffTicks = block.buffTicks(clearTicks);
         BUFFS.put(player.getUUID(), new Buff(ability, buffTicks));
         BlockProgress.announceLift(player, "message.woldsvaults.mana_block.lifted", ChatFormatting.AQUA, clearTicks, buffTicks);
     }

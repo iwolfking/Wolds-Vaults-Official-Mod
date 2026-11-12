@@ -23,6 +23,14 @@
         "the_vault:thorns_damage_flat_percentile"
       ],
       "value": "Your §bpercentage increase§7 of your flat §aThorns§7 damage"
+    },
+    {
+      "op": "set",
+      "path": [
+        "MOD_GEAR_ATTRIBUTE_DESCRIPTIONS",
+        "the_vault:cooldown_reduction"
+      ],
+      "value": "Your §bspell haste§7 for §aany Ability§7: cooldowns are divided by §b1 + spell haste§7, and negative spell haste multiplies them by §b1 + its size§7. Positive spell haste counts up to §b+400%§7 plus your Spell Haste Cap"
     }
   ]
 }

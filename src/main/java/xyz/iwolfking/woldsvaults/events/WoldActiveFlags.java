@@ -16,7 +16,8 @@ public enum WoldActiveFlags {
     IS_TRUE_DAMAGE,
     IS_SCEPTER_CAST_ATTACKING,
     IS_DERIVED_ATTACKING,
-    IS_LIGHTNING_FIEND_ATTACKING;
+    IS_LIGHTNING_FIEND_ATTACKING,
+    IS_MELEE_ATTACKING;
 
     private final ThreadLocal<Integer> activeReferences = ThreadLocal.withInitial(() -> 0);
 

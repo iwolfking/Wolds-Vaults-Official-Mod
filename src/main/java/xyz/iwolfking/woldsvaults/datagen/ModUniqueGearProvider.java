@@ -183,7 +183,7 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .description("and ", "$text")
                 .description("Effect Avoidance ", "$ethereal")
                 .description("with the downside of lowering your ", "$text")
-                .description("Cooldown Reduction", "$cooldown")
+                .description("Spell Haste", "$cooldown")
                 .modelType("PLUSHIE")
                 .slotType(UniqueCodexConfig.IntroductionPage.SlotType.OFFHAND)
                 .build()

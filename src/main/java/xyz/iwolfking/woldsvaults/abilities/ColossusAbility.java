@@ -26,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 
@@ -61,7 +62,7 @@ public class ColossusAbility extends InstantManaAbility {
             if (player.hasEffect(ModEffects.COLOSSUS)) {
                 return ActionResult.fail();
             } else {
-                int duration = this.getDurationTicks(player);
+                int duration = BuffGlyphs.scale(this.getDurationTicks(player), BuffGlyphs.castDuration(this));
                 MobEffectInstance newEffect = new MobEffectInstance(ModEffects.COLOSSUS, duration, 0, false, false, true);
                 player.addEffect(newEffect);
                 return ActionResult.successCooldownDeferred();
@@ -142,7 +143,7 @@ public class ColossusAbility extends InstantManaAbility {
                 float size = 1.0f;
                 AbilityTree abilities = PlayerAbilitiesData.get((ServerLevel)player.level).getAbilities(player);
                 for (ColossusAbility ability : abilities.getAll(ColossusAbility.class, Skill::isUnlocked)) {
-                    size = ability.getSize();
+                    size = ability.getSize() * BuffGlyphs.intensity(ability);
                 }
                 //set scale
                 ScaleData scaleData = scaleType.getScaleData(player);
@@ -186,7 +187,7 @@ public class ColossusAbility extends InstantManaAbility {
                 }
                 AbilityTree abilities = PlayerAbilitiesData.get((ServerLevel) player.level).getAbilities(player);
                 for (ColossusAbility ability : abilities.getAll(ColossusAbility.class, Skill::isUnlocked)) {
-                    resistancePercentage += ability.getAdditionalResistance();
+                    resistancePercentage += ability.getAdditionalResistance() * BuffGlyphs.intensity(ability);
                 }
                 return resistancePercentage;
             }
@@ -212,7 +213,7 @@ public class ColossusAbility extends InstantManaAbility {
                 }
                 AbilityTree abilities = PlayerAbilitiesData.get((ServerLevel) player.level).getAbilities(player);
                 for (ColossusAbility ability : abilities.getAll(ColossusAbility.class, Skill::isUnlocked)) {
-                    aoePercentage += ability.getAdditionalResistance();
+                    aoePercentage += ability.getAdditionalResistance() * BuffGlyphs.intensity(ability);
                 }
                 return aoePercentage;
             }

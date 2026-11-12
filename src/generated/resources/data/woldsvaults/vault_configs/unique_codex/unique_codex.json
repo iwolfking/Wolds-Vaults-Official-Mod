@@ -327,7 +327,7 @@
             "color": "$text"
           },
           {
-            "text": "Cooldown Reduction",
+            "text": "Spell Haste",
             "color": "$cooldown"
           },
           {

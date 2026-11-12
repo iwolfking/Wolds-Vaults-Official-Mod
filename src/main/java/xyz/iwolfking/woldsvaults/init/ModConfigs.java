@@ -44,6 +44,8 @@ public class ModConfigs {
     public static xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig EXTRACTOR_COSTS = xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.inert();
     public static xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
     public static xyz.iwolfking.woldsvaults.config.GearSetConfig GEAR_SETS;
+    public static xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig FOCUS_AUGMENTS;
+    public static xyz.iwolfking.woldsvaults.config.SpellHasteConfig SPELL_HASTE;
 
     public static AugmentRecipesConfig AUGMENT_RECIPES;
     public static ModBoxRecipesConfig MOD_BOX_RECIPES_CONFIG;

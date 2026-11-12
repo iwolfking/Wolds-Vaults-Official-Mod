@@ -1,0 +1,5234 @@
+{
+  "worksOutsideVaults": true,
+  "rules": {
+    "escalationPerGlyph": 0.12,
+    "abilityStepCost": 7,
+    "chainCooldownShare": 0.25,
+    "manaFactorFloor": 0.5,
+    "glyphHasteHeadroom": 1.0,
+    "maxGlyphsPerSpell": 12,
+    "maxSpellsPerItem": 6,
+    "maxCastsPerTrigger": 16,
+    "maxBundleNesting": 2,
+    "maxNameLength": 24,
+    "defaultPriority": 3,
+    "priorities": 5,
+    "uniqueMixCost": 10,
+    "costNoise": [
+      {
+        "offset": -1,
+        "weight": 25
+      },
+      {
+        "offset": 0,
+        "weight": 50
+      },
+      {
+        "offset": 1,
+        "weight": 25
+      }
+    ]
+  },
+  "tuning": {
+    "echoDelaySeconds": 0.5,
+    "shotgunSpreadDegrees": 12.0,
+    "homingRetargetTicks": 5,
+    "homingRange": 6.0,
+    "homingAimRange": 48.0,
+    "homingAimConeDegrees": 25.0,
+    "orbitRadius": 2.5,
+    "orbitHeight": 1.2,
+    "orbitVolleyExplosionGapTicks": 10,
+    "bundleSpeed": 0.8,
+    "railRange": 128.0,
+    "sizeUpMaxScale": 3.0,
+    "sizeDownMinScale": 0.4,
+    "chargeSeconds": 1.0,
+    "chargeMinShare": 0.25,
+    "chargeMoveFactor": 0.5
+  },
+  "glyphs": {
+    "amplify_area": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "power",
+      "minLevel": 0,
+      "weight": 10,
+      "requires": [
+        [
+          "instant",
+          "area"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "area",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.12,
+            "max": 0.216
+          },
+          {
+            "minLevel": 35,
+            "min": 0.168,
+            "max": 0.288
+          },
+          {
+            "minLevel": 70,
+            "min": 0.216,
+            "max": 0.36
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "area",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "damage",
+          "role": "downside",
+          "k": -0.20833333
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "k": 0.3333333
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 4,
+      "costMax": 8,
+      "noEscalation": false,
+      "description": "<gray>Increases area by <#5FD068>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
+    },
+    "strengthen": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "power",
+      "minLevel": 15,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "damage"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "damage",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.096,
+            "max": 0.168
+          },
+          {
+            "minLevel": 35,
+            "min": 0.132,
+            "max": 0.228
+          },
+          {
+            "minLevel": 70,
+            "min": 0.18,
+            "max": 0.3
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "area",
+          "role": "downside",
+          "k": -0.25
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "k": 0.5
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 5,
+      "costMax": 11,
+      "noEscalation": false,
+      "description": "<gray>Increases damage by <#E0564A>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
+    },
+    "quicken": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "flow",
+      "minLevel": 0,
+      "weight": 10,
+      "requires": [
+        [
+          "instant"
+        ],
+        [
+          "toggle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "haste",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.072,
+            "max": 0.12
+          },
+          {
+            "minLevel": 35,
+            "min": 0.096,
+            "max": 0.168
+          },
+          {
+            "minLevel": 70,
+            "min": 0.12,
+            "max": 0.216
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "role": "downside",
+          "k": -0.16666666
+        }
+      ],
+      "spell": [
+        {
+          "stat": "haste",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "mana",
+          "role": "cost",
+          "k": 0.6666666
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 5,
+      "costMax": 11,
+      "noEscalation": false,
+      "description": "<gray>Increases spell haste by <#4AC6E0>%.0fpvalue%<gray>, offsetting cooldown penalties even at the haste cap",
+      "scope": "step"
+    },
+    "discount": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "flow",
+      "minLevel": 0,
+      "weight": 10,
+      "requires": [
+        [
+          "mana"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "mana efficiency",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.077,
+            "max": 0.133
+          },
+          {
+            "minLevel": 35,
+            "min": 0.104,
+            "max": 0.195
+          },
+          {
+            "minLevel": 70,
+            "min": 0.133,
+            "max": 0.263
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "efficiency",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "haste",
+          "role": "downside",
+          "k": -0.2
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 4,
+      "costMax": 8,
+      "noEscalation": false,
+      "description": "<gray>Increases mana efficiency by <#6FA8FF>%.0fpvalue%",
+      "scope": "step"
+    },
+    "delay": {
+      "kind": "delay",
+      "class": "utility",
+      "category": "flow",
+      "minLevel": 0,
+      "weight": 6,
+      "requires": [],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "pause",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.25,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.02
+        }
+      ],
+      "maxUses": 4,
+      "useWeights": [
+        40,
+        30,
+        20,
+        10
+      ],
+      "capPerSpell": 4,
+      "costMin": 1,
+      "costMax": 1,
+      "noEscalation": true,
+      "description": "<gray>Pauses the spell for <yellow>%.2fvalue <gray>seconds",
+      "scope": "step"
+    },
+    "accelerate": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "path",
+      "minLevel": 0,
+      "weight": 10,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "speed",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.18,
+            "max": 0.3
+          },
+          {
+            "minLevel": 35,
+            "min": 0.24,
+            "max": 0.384
+          },
+          {
+            "minLevel": 70,
+            "min": 0.3,
+            "max": 0.48
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "speed",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "damage",
+          "role": "downside",
+          "k": -0.06666666
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "k": 0.16666666
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        60,
+        30,
+        10
+      ],
+      "capPerSpell": 3,
+      "costMin": 2,
+      "costMax": 6,
+      "noEscalation": false,
+      "description": "<gray>Increases projectile speed by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits",
+      "scope": "spell"
+    },
+    "homing": {
+      "kind": "modifier",
+      "class": "utility",
+      "category": "path",
+      "minLevel": 20,
+      "weight": 6,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [
+        "orbit"
+      ],
+      "potency": {
+        "label": "turn rate",
+        "format": "deg_s",
+        "tiers": [
+          {
+            "minLevel": 20,
+            "min": 60.0,
+            "max": 120.0
+          },
+          {
+            "minLevel": 50,
+            "min": 80.0,
+            "max": 150.0
+          },
+          {
+            "minLevel": 80,
+            "min": 100.0,
+            "max": 180.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "role": "downside",
+          "fixed": 0.9
+        },
+        {
+          "stat": "speed",
+          "role": "downside",
+          "fixed": 0.9
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 7,
+      "costMax": 12,
+      "noEscalation": false,
+      "description": "<gray>Projectiles home onto targets, turning <yellow>%.0fvalue<gray> degrees per second",
+      "scope": "step"
+    },
+    "orbit": {
+      "kind": "modifier",
+      "class": "utility",
+      "category": "path",
+      "minLevel": 20,
+      "weight": 4,
+      "requires": [
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [
+        "homing"
+      ],
+      "potency": {
+        "label": "duration",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 20,
+            "min": 6.0,
+            "max": 12.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "role": "downside",
+          "fixed": 0.85
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.15
+        },
+        {
+          "stat": "cooldown",
+          "role": "cost",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 7,
+      "costMax": 12,
+      "noEscalation": false,
+      "description": "<gray>Projectiles orbit you for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
+    },
+    "low_gravity": {
+      "kind": "modifier",
+      "class": "utility",
+      "category": "path",
+      "minLevel": 0,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "gravity"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "gravity",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 0.7
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "speed",
+          "role": "downside",
+          "fixed": 0.95
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.04
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 1,
+      "costMax": 4,
+      "noEscalation": false,
+      "description": "<gray>Projectiles fall <yellow>%.0fpvalue% <gray>slower",
+      "scope": "step"
+    },
+    "ethereal": {
+      "kind": "modifier",
+      "class": "utility",
+      "category": "path",
+      "minLevel": 60,
+      "weight": 2,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "lifetime",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 4.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "damage",
+          "role": "downside",
+          "fixed": 0.85
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.2
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 11,
+      "costMax": 16,
+      "noEscalation": false,
+      "description": "<gray>Projectiles pass through walls for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
+    },
+    "size_up": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "form",
+      "minLevel": 0,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "instant",
+          "bolt"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "size",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.24,
+            "max": 0.36
+          },
+          {
+            "minLevel": 35,
+            "min": 0.3,
+            "max": 0.48
+          },
+          {
+            "minLevel": 70,
+            "min": 0.36,
+            "max": 0.6
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "scale",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "speed",
+          "role": "downside",
+          "k": -0.25
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "k": 0.25
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 4,
+      "costMax": 8,
+      "noEscalation": false,
+      "description": "<gray>Increases projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits",
+      "scope": "spell"
+    },
+    "size_down": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "form",
+      "minLevel": 0,
+      "weight": 6,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "size",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.15,
+            "max": 0.22
+          },
+          {
+            "minLevel": 35,
+            "min": 0.18,
+            "max": 0.26
+          },
+          {
+            "minLevel": 70,
+            "min": 0.2,
+            "max": 0.3
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "scale",
+          "role": "downside",
+          "k": -1.0
+        },
+        {
+          "stat": "damage",
+          "role": "upside",
+          "k": 0.72
+        },
+        {
+          "stat": "speed",
+          "role": "upside",
+          "k": 0.6
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.05
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 4,
+      "costMax": 8,
+      "noEscalation": false,
+      "description": "<gray>Reduces projectile size by <yellow>%.0fpvalue% <gray>on every ability or orb in the spell it fits, hitting harder and flying faster",
+      "scope": "spell"
+    },
+    "echo": {
+      "kind": "modifier",
+      "class": "special",
+      "category": "chaos",
+      "minLevel": 60,
+      "weight": 2,
+      "requires": [
+        [
+          "instant",
+          "damage"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "echo power",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 0.45,
+            "max": 0.65
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.5
+        },
+        {
+          "stat": "cooldown",
+          "role": "cost",
+          "fixed": 1.3
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 14,
+      "costMax": 22,
+      "noEscalation": false,
+      "description": "<gray>Recasts the ability after a short delay at <#E0564A>%.0fpvalue% <gray>power",
+      "scope": "step"
+    },
+    "shotgun": {
+      "kind": "modifier",
+      "class": "special",
+      "category": "chaos",
+      "minLevel": 50,
+      "weight": 3,
+      "requires": [
+        [
+          "instant",
+          "path"
+        ],
+        [
+          "instant",
+          "projectile"
+        ],
+        [
+          "instant",
+          "bolt"
+        ],
+        [
+          "bundle"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "copy damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 50,
+            "min": 0.7,
+            "max": 0.8
+          },
+          {
+            "minLevel": 70,
+            "min": 0.75,
+            "max": 0.85
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "perUse": 0.3
+        },
+        {
+          "stat": "cooldown",
+          "role": "cost",
+          "perUse": 0.1
+        }
+      ],
+      "maxUses": 3,
+      "useWeights": [
+        50,
+        35,
+        15
+      ],
+      "capPerSpell": 3,
+      "costMin": 12,
+      "costMax": 19,
+      "noEscalation": false,
+      "description": "<gray>Fires an extra copy dealing <#E0564A>%.0fpvalue% <gray>damage",
+      "scope": "step"
+    },
+    "charge": {
+      "kind": "modifier",
+      "class": "special",
+      "category": "chaos",
+      "minLevel": 60,
+      "weight": 2,
+      "requires": [
+        [
+          "instant",
+          "damage",
+          "path"
+        ],
+        [
+          "instant",
+          "damage",
+          "projectile"
+        ],
+        [
+          "instant",
+          "damage",
+          "area"
+        ],
+        [
+          "instant",
+          "damage",
+          "bolt"
+        ]
+      ],
+      "forbids": [
+        "linger"
+      ],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "full charge",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 60,
+            "min": 0.9,
+            "max": 1.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.35
+        },
+        {
+          "stat": "cooldown",
+          "role": "cost",
+          "fixed": 1.25
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 12,
+      "costMax": 18,
+      "noEscalation": false,
+      "description": "<gray>Hold the key to charge; a full charge deals <#E0564A>%.0fpvalue% <gray>more damage with every ability in the spell it fits",
+      "scope": "spell"
+    },
+    "bundled_spell": {
+      "kind": "bundle",
+      "class": "special",
+      "category": "chaos",
+      "minLevel": 40,
+      "weight": 3,
+      "requires": [],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "flight",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 40,
+            "min": 3.0,
+            "max": 6.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.25
+        },
+        {
+          "stat": "cooldown",
+          "role": "cost",
+          "fixed": 1.15
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 12,
+      "costMax": 19,
+      "noEscalation": false,
+      "description": "<gray>Throws the rest of the spell as an orb that flies for <yellow>%.1fvalue <gray>seconds",
+      "scope": "step"
+    },
+    "intensify": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "power",
+      "minLevel": 20,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "intensify"
+        ],
+        [
+          "toggle",
+          "intensify"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "intensity",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.14
+          },
+          {
+            "minLevel": 35,
+            "min": 0.12,
+            "max": 0.16
+          },
+          {
+            "minLevel": 70,
+            "min": 0.14,
+            "max": 0.18
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "intensity",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "duration",
+          "role": "downside",
+          "fixed": 0.85
+        },
+        {
+          "stat": "drain",
+          "role": "downside",
+          "k": 1.5
+        },
+        {
+          "stat": "heal_mana",
+          "role": "downside",
+          "k": 1.5
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.15
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 6,
+      "costMax": 10,
+      "noEscalation": false,
+      "description": "<gray>Increases buff strength by <gold>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
+    },
+    "extend": {
+      "kind": "modifier",
+      "class": "common",
+      "category": "flow",
+      "minLevel": 20,
+      "weight": 8,
+      "requires": [
+        [
+          "instant",
+          "extend"
+        ],
+        [
+          "toggle",
+          "extend"
+        ]
+      ],
+      "forbids": [],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "duration",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 0.275
+          },
+          {
+            "minLevel": 35,
+            "min": 0.25,
+            "max": 0.325
+          },
+          {
+            "minLevel": 70,
+            "min": 0.3,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [
+        {
+          "stat": "duration",
+          "role": "upside",
+          "k": 1.0
+        },
+        {
+          "stat": "intensity",
+          "role": "downside",
+          "base": 0.98,
+          "k": -0.2
+        },
+        {
+          "stat": "drain",
+          "role": "upside",
+          "k": -0.5
+        }
+      ],
+      "spell": [
+        {
+          "stat": "mana",
+          "role": "cost",
+          "fixed": 1.1
+        }
+      ],
+      "maxUses": 2,
+      "useWeights": [
+        70,
+        30
+      ],
+      "capPerSpell": 2,
+      "costMin": 5,
+      "costMax": 9,
+      "noEscalation": false,
+      "description": "<gray>Increases buff duration by <yellow>%.0fpvalue% <gray>on every ability in the spell it fits",
+      "scope": "spell"
+    },
+    "chaining": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        [
+          "instant",
+          "damage",
+          "direct"
+        ]
+      ],
+      "forbids": [
+        "linger"
+      ],
+      "specs": [],
+      "excludes": [],
+      "potency": {
+        "label": "procs chaining",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Direct hits now proc <yellow>Chaining <gray>to nearby mobs",
+      "scope": "step"
+    },
+    "rime": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Slow"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "vulnerability level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 6.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Frost Nova applies level <yellow>%.0fvalue <gray>Vulnerability",
+      "scope": "step"
+    },
+    "warp_haste": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Dash_Warp"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "warp cooldown",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "cooldown",
+          "role": "upside",
+          "base": 1.0,
+          "k": -1.0
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Reduces Warp's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
+    },
+    "warp_velocity": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Dash_Warp"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "warp arrow speed",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Increases Warp's arrow speed by <yellow>%.0fpvalue%",
+      "scope": "step"
+    },
+    "steel_core": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Base",
+        "Fireball_Volley"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "centre bonus",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.5,
+            "max": 2.25
+          }
+        ],
+        "linked": [
+          {
+            "name": "radius",
+            "min": 0.5,
+            "max": 0.65
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Fireball's explosion is tighter, dealing up to <#E0564A>%.2fvalue<gray>x damage at its centre",
+      "scope": "step"
+    },
+    "twinfire": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "second fireball chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.65,
+            "max": 0.86
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Fireball has a <yellow>%.0fpvalue% <gray>chance to fire a second fireball",
+      "scope": "step"
+    },
+    "deep_chill": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "hypothermia",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Glacial Blast applies level <yellow>%.0fvalue <#2FE1FA>Hypothermia",
+      "scope": "step"
+    },
+    "implosion": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Base",
+        "Javelin_Piercing",
+        "Javelin_Scatter",
+        "Javelin_Sight"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "implode damage",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 0.9
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Javelins implode on impact, dealing <#E0564A>%.0fpvalue% <gray>of their damage",
+      "scope": "step"
+    },
+    "entropic_bind": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Empower_Slowness_Aura"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "poison level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 16.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Slowness Aura poisons mobs at level <yellow>%.0fvalue",
+      "scope": "step"
+    },
+    "wide_blast": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "fireball area",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.24
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
+    },
+    "narrow_storm": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Storm_Arrow_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "storm area",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.6,
+            "max": 0.8
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
+    },
+    "swift_storm": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Storm_Arrow_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "storm cooldown",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 0.75
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "cooldown",
+          "role": "upside",
+          "base": 1.0,
+          "k": -1.0
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
+    },
+    "dread": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Taunt_Repel"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "fear area",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.33
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Increases Repel's fear area by <#5FD068>%.0fpvalue%",
+      "scope": "step"
+    },
+    "quick_mend": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Heal_Group"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "group heal cooldown",
+        "format": "neg_pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.25,
+            "max": 0.75
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [
+        {
+          "stat": "cooldown",
+          "role": "upside",
+          "base": 1.0,
+          "k": -1.0
+        }
+      ],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Reduces Group Heal's cooldown by <#4AC6E0>%.0fpvalue%",
+      "scope": "step"
+    },
+    "glacial_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Slow"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "freeze chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.75
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "nova_recast": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Base",
+        "Nova_Slow",
+        "Nova_Dot"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "recast after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "low_mana_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Nova_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage below half mana",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 1.2
+          }
+        ],
+        "linked": [
+          {
+            "name": "threshold",
+            "min": 0.5,
+            "max": 0.5
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "glacial_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "attack damage on the blast",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "shattering_bolt": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "glacial shatter chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 0.9
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 2.0,
+            "max": 5.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "frozen_barrage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "extra casts",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 4.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "piercing_bolt": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ice_Bolt_Base",
+        "Ice_Bolt_Blast",
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 4.0,
+            "max": 15.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "blizzard_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "ability power per hit",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.6
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "blizzard_vulnerability": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shard_Blizzard",
+        "Storm_Arrow_Blizzard"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "vulnerable stacks",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 20.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "stunning_smite": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "stun chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "echoing_smite": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "echo bolt damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.2
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "second_strike": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Smite_Base",
+        "Smite_Archon",
+        "Smite_Thunderstorm",
+        "Chain_Lightning_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "strikes again after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 4.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "grand_orb": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "orb size",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 2.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "orb_refund": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "cooldown refunded per kill",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "tristorm_orbs": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Chain_Lightning_Orbs"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage per orb (3 orbs)",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.4,
+            "max": 0.8
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "arcane_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "rail_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Rail"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "pierce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 10.0,
+            "max": 25.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "wide_rail": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Rail"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "hit width (blocks)",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.1,
+            "max": 5.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "prism_anchor": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Prism"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "anchors to blocks on a miss",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "prism_split": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Arcane_Prism"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "also fires the other pattern",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "scatter_pierce": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Piercing"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "side javelin damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.3,
+            "max": 1.2
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "piercing_ricochet": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Piercing"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "ricochet damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.3,
+            "max": 0.8
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "scatter_mana": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Javelin_Scatter"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "mana per hit",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "aftershock": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Earthquake_Base",
+        "Earthquake_Singularity",
+        "Earthquake_Tremor"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "quakes again after",
+        "format": "seconds",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 3.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "arcane_wrath": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Totem_Player_Damage"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "buff also raises ability power",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "vulnerable_totem": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Totem_Player_Damage"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "vulnerable stacks",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 20.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "shockwave": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Stonefall_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "stun chance",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.2,
+            "max": 1.0
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 40.0,
+            "max": 120.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "bash_force": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Shield_Bash"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "attack damage",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.5
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "heal_cleanse": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Heal_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "cleanse level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "rampaging_luck": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Rampage_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "lucky hit",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.02,
+            "max": 0.12
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "tap_damage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Implode_Life_Tap"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "damage per health drained",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 8.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "lucky_tap": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Implode_Life_Tap"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "% lucky hit per kill",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.5,
+            "max": 2.5
+          }
+        ],
+        "linked": [
+          {
+            "name": "duration",
+            "min": 160.0,
+            "max": 220.0
+          }
+        ]
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "imploding_reversal": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Mana_Shield_Implode"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "mana regen per kill",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.01,
+            "max": 0.06
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "nova_shield": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Mana_Shield_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 20.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "nova_dash": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Dash_Warp"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 2.0,
+            "max": 20.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "spirit_nova": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Ghost_Walk_Spirit"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "frost nova level",
+        "format": "level",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "concentrated_drain": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Concentrate_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "current health drained per effect",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.02,
+            "max": 0.1
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "greedball": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "of quantity, rarity and copiously as damage, minimum radius",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.1,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "volley_mitosis": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fireball_Volley"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "fireballs on first bounce",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 3.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "colossus_titan": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Colossus_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "resistance cap",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.04,
+            "max": 0.08
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "ninja_getaway": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Sneaky_Getaway"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "dodge",
+        "format": "pct",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.25,
+            "max": 0.4
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "chemical_barrage": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Expunge_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "chaos grenades",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 3.0,
+            "max": 9.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "imploding_barrier": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "UltimateShield_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "chance to implode when hit",
+        "format": "pct_plain",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 0.03,
+            "max": 0.15
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    },
+    "ravenous_fangs": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Fangs_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "75% less damage, double execute threshold",
+        "format": "none",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 1.0,
+            "max": 1.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "scope": "step"
+    }
+  },
+  "combos": [
+    {
+      "a": "shotgun",
+      "b": "echo",
+      "cost": 10,
+      "reason": "every copy echoes"
+    },
+    {
+      "a": "shotgun",
+      "b": "homing",
+      "cost": 5,
+      "reason": "every copy finds a target"
+    },
+    {
+      "a": "shotgun",
+      "b": "orbit",
+      "cost": 5,
+      "reason": "a ring of orbiting projectiles"
+    },
+    {
+      "a": "shotgun",
+      "b": "bundled_spell",
+      "cost": 10,
+      "reason": "a Shotgun on the bundle multiplies every payload"
+    },
+    {
+      "a": "ethereal",
+      "b": "homing",
+      "cost": 5,
+      "reason": "seeks through walls"
+    },
+    {
+      "a": "ethereal",
+      "b": "bundled_spell",
+      "cost": 7,
+      "reason": "payloads land behind walls"
+    },
+    {
+      "a": "echo",
+      "b": "bundled_spell",
+      "cost": 7,
+      "reason": "an Echo inside a payload repeats at every landing"
+    }
+  ],
+  "focus": {
+    "budgetBase": 14.4,
+    "budgetPerLevel": 0.72,
+    "budgetRollMin": 0.9,
+    "budgetRollMax": 1.1,
+    "rarities": {
+      "SCRAPPY": {
+        "budget": 0.6,
+        "linesMin": 2,
+        "linesMax": 3
+      },
+      "COMMON": {
+        "budget": 0.8,
+        "linesMin": 3,
+        "linesMax": 4
+      },
+      "RARE": {
+        "budget": 1.0,
+        "linesMin": 4,
+        "linesMax": 5
+      },
+      "EPIC": {
+        "budget": 1.15,
+        "linesMin": 5,
+        "linesMax": 6
+      },
+      "UNIQUE": {
+        "budget": 1.15,
+        "linesMin": 5,
+        "linesMax": 6
+      },
+      "SPECIAL": {
+        "budget": 1.15,
+        "linesMin": 5,
+        "linesMax": 6
+      },
+      "OMEGA": {
+        "budget": 1.3,
+        "linesMin": 6,
+        "linesMax": 7
+      },
+      "MYTHIC": {
+        "budget": 1.5,
+        "focusBudgetMult": 1.3,
+        "linesMin": 8,
+        "linesMax": 9
+      },
+      "CHAOTIC": {
+        "budget": 1.3,
+        "linesMin": 4,
+        "linesMax": 8,
+        "budgetRollMin": 0.75,
+        "budgetRollMax": 1.25
+      }
+    },
+    "depth": [
+      {
+        "minLevel": 0,
+        "min": 3,
+        "max": 3
+      },
+      {
+        "minLevel": 40,
+        "min": 3,
+        "max": 4
+      },
+      {
+        "minLevel": 70,
+        "min": 4,
+        "max": 4
+      }
+    ],
+    "depthBonus": {
+      "OMEGA": {
+        "minLevel": 70,
+        "min": 4,
+        "max": 5
+      },
+      "MYTHIC": {
+        "minLevel": 70,
+        "min": 6,
+        "max": 6
+      }
+    }
+  },
+  "wand": {
+    "budgetFactor": 0.6,
+    "linesDelta": -2,
+    "minLines": 1,
+    "maxDepth": 4
+  },
+  "abilityTraits": {
+    "UltimateShield_Base": [
+      "TOGGLE",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Fangs_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Fangs_Maw": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Expunge_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER"
+    ],
+    "Concentrate_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Colossus_Base": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Sneaky_Getaway": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Heal_Base": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY"
+    ],
+    "Heal_Group": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY"
+    ],
+    "Heal_Cleanse": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Dash_Base": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Dash_Damage": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Dash_Warp": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Nova_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Nova_Slow": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Nova_Dot": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "PAYLOAD"
+    ],
+    "Ghost_Walk_Base": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Ghost_Walk_Spirit": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Mega_Jump_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mega_Jump_Break_Up": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Mega_Jump_Break_Down": [
+      "INSTANT",
+      "AREA",
+      "MANA"
+    ],
+    "Levitate": [
+      "HOLD",
+      "MANA"
+    ],
+    "Rampage_Base": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Rampage_Bloodlust": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Rampage_Berserker": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Rampage_Instinct": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Rampage_Leech": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Rampage_Chain": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Smite_Base": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Smite_Archon": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Smite_Blast_Wave": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Smite_Thunderstorm": [
+      "TOGGLE"
+    ],
+    "Summon_Eternal_Base": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Empower_Base": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Empower_Ice_Armor": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Empower_Slowness_Aura": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Vein_Miner_Base": [
+      "HOLD"
+    ],
+    "Vein_Miner_Fortune": [
+      "HOLD"
+    ],
+    "Vein_Miner_Durability": [
+      "HOLD"
+    ],
+    "Vein_Miner_Void": [
+      "HOLD"
+    ],
+    "Vein_Miner_Chain": [
+      "HOLD"
+    ],
+    "Hunter_Base": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Javelin_Sight": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Farmer_Base": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Melon": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Cactus": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Farmer_Animal": [
+      "TOGGLE",
+      "AREA",
+      "MANA"
+    ],
+    "Mana_Shield_Base": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Mana_Barrier": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "EXTEND"
+    ],
+    "Shield_Bash": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Shield_Bash_Earthshatter": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Shield_Bash_Battering_Ram": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Mana_Shield_Retribution": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER"
+    ],
+    "Mana_Shield_Implode": [
+      "INSTANT",
+      "AREA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Implode_Life_Tap": [
+      "INSTANT",
+      "AREA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Taunt_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Taunt_Repel": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Taunt_Decoy": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "GRAVITY",
+      "PAYLOAD",
+      "EXTEND"
+    ],
+    "Taunt_Charm": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Stonefall_Base": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Stonefall_Snow": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Stonefall_Cold": [
+      "INSTANT",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Totem_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Totem_Player_Damage": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Totem_Mana_Regen": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Totem_Mob_Damage": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "EXTEND"
+    ],
+    "Javelin_Base": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Javelin_Piercing": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Javelin_Scatter": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Shell_Base": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Shell_Porcupine": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Shell_Quill": [
+      "TOGGLE",
+      "MANA",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Fireball_Base": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Fireball_Volley": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Fireball_Fireshot": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Storm_Arrow_Base": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Storm_Arrow_Blizzard": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Battle_Cry_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Battle_Cry_Spectral_Strike": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Battle_Cry_Lucky_Strike": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "PAYLOAD",
+      "INTENSIFY",
+      "EXTEND"
+    ],
+    "Ice_Bolt_Base": [
+      "INSTANT",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "PAYLOAD"
+    ],
+    "Ice_Bolt_Blast": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "DIRECT",
+      "PAYLOAD"
+    ],
+    "Shard_Blizzard": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Arcane_Base": [
+      "HOLD",
+      "BEAM",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Arcane_Rail": [
+      "INSTANT",
+      "BOLT",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Arcane_Prism": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Earthquake_Base": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Earthquake_Singularity": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Earthquake_Tremor": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Earthquake_Landmine": [
+      "INSTANT",
+      "AREA",
+      "MANA",
+      "DAMAGE",
+      "LINGER",
+      "PAYLOAD"
+    ],
+    "Chain_Lightning_Base": [
+      "INSTANT",
+      "PATH",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Chain_Lightning_Orbs": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "PAYLOAD"
+    ],
+    "Chain_Lightning_Charged_Bolts": [
+      "INSTANT",
+      "PATH",
+      "MANA",
+      "DAMAGE"
+    ],
+    "Necromancy_Base": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
+    ],
+    "Necromancy_Archer": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
+    ],
+    "Necromancy_Golem": [
+      "INSTANT",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "LINGER",
+      "PAYLOAD"
+    ],
+    "Grenade_Base": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Grenade_Sticky": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Toxic_Grenade": [
+      "INSTANT",
+      "AREA",
+      "PROJECTILE",
+      "MANA",
+      "DAMAGE",
+      "GRAVITY",
+      "PAYLOAD"
+    ],
+    "Stirrings_Of_Power": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Stirrings_Of_Power_Dormant": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Cope_De_Grace": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Savior": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Eyes_Of_God": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Bullet_Time": [
+      "INSTANT",
+      "MANA"
+    ],
+    "Life_Block_Base": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ],
+    "Mana_Block": [
+      "INSTANT",
+      "MANA",
+      "EXTEND"
+    ]
+  },
+  "disabledAbilities": [],
+  "gearGlyphs": [
+    {
+      "attribute": "the_vault:ability_special_modification",
+      "key": "the_vault:frost_nova_vulnerability",
+      "glyph": "rime",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_cooldown_percent",
+      "key": "Dash_Warp",
+      "glyph": "warp_haste",
+      "scale": 1.0,
+      "orientation": "lower"
+    },
+    {
+      "attribute": "the_vault:warp_projectile_speed",
+      "glyph": "warp_velocity",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:steel_inferno",
+      "glyph": "steel_core",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_special_modification",
+      "key": "the_vault:fireball_special_modification",
+      "glyph": "twinfire",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_special_modification",
+      "key": "the_vault:glacial_blast_hypothermia",
+      "glyph": "deep_chill",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_special_modification",
+      "key": "woldsvaults:imploding_javelin_damage",
+      "glyph": "implosion",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:javelin_implode",
+      "glyph": "implosion",
+      "scale": 0.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_special_modification",
+      "key": "the_vault:entropic_bind_poison",
+      "glyph": "entropic_bind",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_area_of_effect_percent",
+      "key": "Fireball_Base",
+      "glyph": "wide_blast",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_area_of_effect_percent",
+      "key": "Storm_Arrow_Base",
+      "glyph": "narrow_storm",
+      "scale": 1.0,
+      "orientation": "lower"
+    },
+    {
+      "attribute": "the_vault:ability_cooldown_percent",
+      "key": "Storm_Arrow_Base",
+      "glyph": "swift_storm",
+      "scale": 1.0,
+      "orientation": "lower"
+    },
+    {
+      "attribute": "the_vault:ability_area_of_effect_percent",
+      "key": "Taunt_Repel",
+      "glyph": "dread",
+      "scale": 1.0,
+      "orientation": "higher"
+    },
+    {
+      "attribute": "the_vault:ability_cooldown_percent",
+      "key": "Heal_Group",
+      "glyph": "quick_mend",
+      "scale": 1.0,
+      "orientation": "lower"
+    }
+  ],
+  "uniqueSets": {
+    "the_vault:inferno_reach": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [
+        {
+          "glyph": "steel_core"
+        }
+      ],
+      "draw": [
+        "strengthen",
+        "shotgun",
+        "intensify",
+        "size_down",
+        "accelerate"
+      ],
+      "drawMin": 3,
+      "drawMax": 5
+    },
+    "the_vault:frozen_orb": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [
+        {
+          "glyph": "rime"
+        }
+      ],
+      "draw": [
+        "delay",
+        "echo",
+        "bundled_spell",
+        "size_up",
+        "amplify_area"
+      ],
+      "drawMin": 3,
+      "drawMax": 5
+    },
+    "the_vault:ender_rings": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [
+        {
+          "glyph": "warp_haste"
+        },
+        {
+          "glyph": "warp_velocity"
+        }
+      ],
+      "draw": [
+        "echo",
+        "quicken",
+        "intensify",
+        "extend"
+      ],
+      "drawMin": 2,
+      "drawMax": 4
+    },
+    "the_vault:echoflare": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [],
+      "draw": [
+        "shotgun",
+        "bundled_spell",
+        "echo",
+        "homing",
+        "orbit",
+        "accelerate",
+        "low_gravity"
+      ],
+      "drawMin": 5,
+      "drawMax": 7
+    },
+    "woldsvaults:chroma_brew": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [],
+      "draw": [
+        "size_up",
+        "amplify_area",
+        "size_down",
+        "intensify",
+        "charge",
+        "bundled_spell"
+      ],
+      "drawMin": 4,
+      "drawMax": 6
+    },
+    "the_vault:chainlash": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [
+        {
+          "glyph": "chaining"
+        }
+      ],
+      "draw": [
+        "strengthen",
+        "echo",
+        "homing",
+        "accelerate",
+        "bundled_spell"
+      ],
+      "drawMin": 3,
+      "drawMax": 5
+    },
+    "the_vault:baguette": {
+      "rarityRow": "OMEGA",
+      "ancientRarityRow": "MYTHIC",
+      "always": [
+        {
+          "glyph": "intensify",
+          "uses": 4,
+          "cap": 4
+        }
+      ],
+      "draw": [
+        "extend",
+        "orbit",
+        "charge",
+        "bundled_spell"
+      ],
+      "drawMin": 2,
+      "drawMax": 4
+    }
+  },
+  "etchingGlyphs": [
+    {
+      "attribute": "the_vault:etching_frost_nova_freeze",
+      "glyph": "glacial_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_nova_recast",
+      "glyph": "nova_recast",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_nova_low_mana_damage",
+      "glyph": "low_mana_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "float",
+          "linked": "threshold"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_chunk_damage",
+      "glyph": "glacial_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_effect",
+      "glyph": "shattering_bolt",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        }
+      ],
+      "choices": [
+        "the_vault:glacial_shatter"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_multicast",
+      "glyph": "frozen_barrage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_ice_bolt_pierce",
+      "glyph": "piercing_bolt",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_storm_arrow_blizzard_damage",
+      "glyph": "blizzard_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_storm_arrow_blizzard_effect",
+      "glyph": "blizzard_vulnerability",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "the_vault:vulnerable"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_smite_stun",
+      "glyph": "stunning_smite",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_smite_echo",
+      "glyph": "echoing_smite",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_strike_delay",
+      "glyph": "second_strike",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_size",
+      "glyph": "grand_orb",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_kill_cooldown",
+      "glyph": "orb_refund",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_lightning_orb_triple_damage",
+      "glyph": "tristorm_orbs",
+      "scale": -1.0,
+      "offset": 1.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_arcane_pierce",
+      "glyph": "arcane_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_rail_pierce",
+      "glyph": "rail_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_arcane_rail_size",
+      "glyph": "wide_rail",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_prism_anchor",
+      "glyph": "prism_anchor",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_prism_split",
+      "glyph": "prism_split",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_extra_piercing_javelin",
+      "glyph": "scatter_pierce",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_piercing_javelin_ricochet",
+      "glyph": "piercing_ricochet",
+      "scale": -1.0,
+      "offset": 1.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_scatter_mana",
+      "glyph": "scatter_mana",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_earthquake_recast_delay",
+      "glyph": "aftershock",
+      "scale": 0.05,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_totem_player_damage_ap",
+      "glyph": "arcane_wrath",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_totem_player_damage_effect",
+      "glyph": "vulnerable_totem",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "linked",
+          "type": "float",
+          "linked": "duration"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "the_vault:vulnerable"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_stone_fall_stun",
+      "glyph": "shockwave",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        },
+        {
+          "role": "choice"
+        }
+      ],
+      "choices": [
+        "the_vault:noai"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_shield_bash_damage",
+      "glyph": "bash_force",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_heal_cleanse",
+      "glyph": "heal_cleanse",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_rampage_lucky_hit",
+      "glyph": "rampaging_luck",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_life_tap_extra_damage",
+      "glyph": "tap_damage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_life_tap_lucky_hit",
+      "glyph": "lucky_tap",
+      "scale": 100.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        },
+        {
+          "role": "linked",
+          "type": "int",
+          "linked": "duration"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_implode_mana_regen",
+      "glyph": "imploding_reversal",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "the_vault:etching_mana_shield_nova",
+      "glyph": "nova_shield",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow",
+        "Nova_Base",
+        "Nova_Dot"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_dash_warp_nova",
+      "glyph": "nova_dash",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow",
+        "Nova_Base",
+        "Nova_Dot"
+      ]
+    },
+    {
+      "attribute": "the_vault:etching_spirit_walk_ability",
+      "glyph": "spirit_nova",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "choice"
+        },
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": [
+        "Nova_Slow"
+      ]
+    },
+    {
+      "attribute": "woldsvaults:concentrate_drain",
+      "glyph": "concentrated_drain",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:fireball_greedball",
+      "glyph": "greedball",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:fireball_volley_mitosis",
+      "glyph": "volley_mitosis",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:colossus_titan_resistance",
+      "glyph": "colossus_titan",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:sneaky_getaway_ninja",
+      "glyph": "ninja_getaway",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:diffuse_chemical_bomb",
+      "glyph": "chemical_barrage",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "int"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:imploding_barrier",
+      "glyph": "imploding_barrier",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "potency",
+          "type": "float"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "attribute": "woldsvaults:ravenous_fangs",
+      "glyph": "ravenous_fangs",
+      "scale": 1.0,
+      "offset": 0.0,
+      "parts": [
+        {
+          "role": "flag"
+        }
+      ],
+      "choices": []
+    }
+  ],
+  "removedEtchings": [
+    "the_vault:etching_ice_bolt_lucky"
+  ]
+}

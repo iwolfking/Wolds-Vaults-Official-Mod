@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
+import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.data.GearDataCache;
 import iskallia.vault.gear.data.VaultGearData;
@@ -11,6 +12,10 @@ import net.minecraft.world.item.ItemStack;
 
 public class WoldEtchingHelper {
     public static <T> boolean hasEtching(LivingEntity entity, VaultGearAttribute<T> attribute) {
+        Boolean granted = EtchingGlyphs.has(entity, attribute);
+        if (granted != null) {
+            return granted;
+        }
         for(EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = entity.getItemBySlot(slot);
             if (!stack.isEmpty() && VaultGearData.hasData(stack)) {

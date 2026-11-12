@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 /**
  * Every way Fury is earned, plus the drawback it carries. Any hit the player is the true source of
@@ -29,6 +30,9 @@ public final class FuryIncome {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onHitDealt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (event.getAmount() <= 0.0F) {
             return;
         }

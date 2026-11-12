@@ -113,6 +113,7 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.scepter.MagibashHits;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import xyz.iwolfking.woldsvaults.talent.special.DebuffDamageBonusTalent;
 import xyz.iwolfking.woldsvaults.talent.special.WoldsAxeSpecializationTalent;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.SpellChainDamage;
 
 import java.util.List;
 import java.util.EnumSet;
@@ -177,6 +178,9 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void onElementalAttack(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
             return;
         }
@@ -202,10 +206,31 @@ public class LivingEntityEvents {
         }
     }
 
+    /**
+     * A plain weapon hit by this player: inside {@code Player.attack}, dealt directly by the player, and not a proc
+     * nested in the swing (AoE, chaining, effect, DoT, reflect, totem, ability power, echo, reaving, fang, scepter cast,
+     * derived, Lightning Fiend).
+     */
+    private static boolean weaponHit(LivingHurtEvent event, ServerPlayer player) {
+        if (!WoldActiveFlags.IS_MELEE_ATTACKING.isSet() || event.getSource().getDirectEntity() != player) {
+            return false;
+        }
+        return !(ActiveFlags.IS_AP_ATTACKING.isSet() || ActiveFlags.IS_AOE_ATTACKING.isSet() || ActiveFlags.IS_CHAINING_ATTACKING.isSet()
+                || ActiveFlags.IS_EFFECT_ATTACKING.isSet() || ActiveFlags.IS_DOT_ATTACKING.isSet() || ActiveFlags.IS_REFLECT_ATTACKING.isSet()
+                || ActiveFlags.IS_TOTEM_ATTACKING.isSet() || ActiveFlags.IS_THORNS_REFLECTING.isSet()
+                || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet() || WoldActiveFlags.IS_ECHOING_ATTACKING.isSet()
+                || WoldActiveFlags.IS_REAVING_ATTACKING.isSet() || WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()
+                || WoldActiveFlags.IS_FANG_ATTACKING.isSet() || WoldActiveFlags.IS_SCEPTER_CAST_ATTACKING.isSet()
+                || WoldActiveFlags.IS_DERIVED_ATTACKING.isSet());
+    }
+
     @SubscribeEvent
     public static void onScepterHitSparkles(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
-        if (ActiveFlags.IS_AP_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) return;
+        if (!weaponHit(event, player)) return;
 
         ItemStack heldItem = player.getMainHandItem();
         GearDataCache gearDataCache = GearDataCache.of(heldItem);
@@ -517,6 +542,9 @@ public class LivingEntityEvents {
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void preMultiplierHit(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         echoingHit(event);
         SpectralStrikeDamage.apply(event);
         cleavingDamage(event);
@@ -565,6 +593,9 @@ public class LivingEntityEvents {
 
     @SubscribeEvent
     public static void bonusDebuffDamage(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if(event.getSource().getEntity() instanceof ServerPlayer player) {
             if(ActiveFlags.IS_AP_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
                 if(event.getEntity() instanceof LivingEntity livingEntity) {
@@ -842,6 +873,9 @@ public class LivingEntityEvents {
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onLivingHurt(LivingHurtEvent event) {
+        if (SpellChainDamage.active()) {
+            return;
+        }
         if (!(event.getSource().getEntity() instanceof Player player)) {
             return;
         }

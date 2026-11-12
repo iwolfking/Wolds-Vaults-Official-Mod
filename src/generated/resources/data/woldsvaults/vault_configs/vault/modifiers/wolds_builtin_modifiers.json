@@ -1658,26 +1658,26 @@
       "the_vault:rending": {
         "properties": {
           "stat": "cooldown_reduction",
-          "addend": -0.25
+          "addend": -0.5
         },
         "display": {
           "name": "Rending",
           "color": "#6DACB5",
-          "description": "-25% Cooldown Reduction",
-          "descriptionFormatted": "-%d%% Cooldown Reduction",
+          "description": "-50% Spell Haste",
+          "descriptionFormatted": "%d%% Spell Haste",
           "icon": "the_vault:gui/modifiers/inert"
         }
       },
       "the_vault:nullifying": {
         "properties": {
           "stat": "cooldown_reduction",
-          "addend": -0.5
+          "addend": -1.0
         },
         "display": {
           "name": "Nullifying",
           "color": "#6DACB5",
-          "description": "-50% Cooldown Reduction",
-          "descriptionFormatted": "-%d%% Cooldown Reduction",
+          "description": "-100% Spell Haste",
+          "descriptionFormatted": "%d%% Spell Haste",
           "icon": "the_vault:gui/modifiers/inert"
         }
       },
@@ -3699,8 +3699,8 @@
         "display": {
           "name": "Tenos' Challenge",
           "color": "#ba0000",
-          "description": "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent",
-          "descriptionFormatted": "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent",
+          "description": "Increases mob damage and mob health 20 percent per stack, -50% Spell Haste",
+          "descriptionFormatted": "Increases mob damage and mob health 20 percent per stack, -50% Spell Haste",
           "icon": "the_vault:gui/modifiers/challenging"
         }
       },

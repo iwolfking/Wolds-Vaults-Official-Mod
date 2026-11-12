@@ -7,19 +7,23 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.augments.effect.BuffGlyphs;
 import xyz.iwolfking.woldsvaults.gods.combat.UltraRampaging;
 
 @Mixin(value = AbstractRampageAbility.class, remap = false)
 public class MixinAbstractRampageAbility {
 
-    /** Applies Ultra Rampaging's Fury scaling to the Rampage damage bonus, for every specialization at once. */
+    /**
+     * Applies Ultra Rampaging's Fury scaling to the Rampage damage bonus, for every specialization at once, then the
+     * Intensify factor of the toggle's activation.
+     */
     @Inject(method = "getDamageIncrease", at = @At("RETURN"), cancellable = true)
     private void woldsvaults$applyUltraRampaging(Player player, CallbackInfoReturnable<Float> cir) {
         if (!(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
         float base = cir.getReturnValueF();
-        float boosted = UltraRampaging.applyCdm(serverPlayer, base);
+        float boosted = UltraRampaging.applyCdm(serverPlayer, base) * BuffGlyphs.intensity((AbstractRampageAbility) (Object) this);
         if (boosted != base) {
             cir.setReturnValue(boosted);
         }

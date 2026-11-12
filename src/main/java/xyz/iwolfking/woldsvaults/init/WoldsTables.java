@@ -10,6 +10,8 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
+import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
+import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
@@ -58,6 +60,8 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
     public static final WoldsTableLoader<GreedChampionConfig> GREED_CHAMPION = new WoldsTableLoader<>(new GreedChampionConfig(), "greed/champion");
+    public static final WoldsTableLoader<FocusAugmentsConfig> FOCUS_AUGMENTS = new WoldsTableLoader<>(new FocusAugmentsConfig(), "focus_augments");
+    public static final WoldsTableLoader<SpellHasteConfig> SPELL_HASTE = new WoldsTableLoader<>(new SpellHasteConfig(), "spell_haste");
     public static final WoldsTableLoader<StatScreenConfig> STAT_SCREEN = new WoldsTableLoader<>(new StatScreenConfig(), "gui/stat_screen");
 
     private WoldsTables() {
@@ -80,6 +84,8 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
         LoaderRegistry.addConfigProcessor(GREED_CHAMPION);
+        LoaderRegistry.addConfigProcessor(FOCUS_AUGMENTS);
+        LoaderRegistry.addConfigProcessor(SPELL_HASTE);
         LoaderRegistry.addConfigProcessor(STAT_SCREEN);
     }
 
@@ -103,6 +109,8 @@ public final class WoldsTables {
             ModConfigs.MULTI_CELL_ROOMS = multiCell;
         }
         installExtraction();
+        ModConfigs.SPELL_HASTE = require(SPELL_HASTE, "spell_haste");
+        ModConfigs.FOCUS_AUGMENTS = require(FOCUS_AUGMENTS, "focus_augments");
         ModConfigs.STAT_SCREEN = require(STAT_SCREEN, "player_stats");
         WoldsVaults.LOGGER.info("Installed the generated Wold's Vaults tables");
     }
