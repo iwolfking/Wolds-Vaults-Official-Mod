@@ -262,7 +262,6 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
             this.stowButton = this.titleButton("Stow", x, y, button -> this.click(ArmoryMenu.BUTTON_STOW));
             x = this.stowButton.x - BUTTON_GAP;
             this.titleButton("Save", x, y, button -> this.save());
-            this.stowButton.active = !this.openInfo.creative();
         }
         int popupWidth = 140;
         int popupX = (this.width - popupWidth) / 2;
@@ -301,6 +300,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
                 lines.add(new TextComponent("Stow"));
                 lines.add(new TextComponent(info.creative() ? "The Creative Armory does not store items"
                         : "Moves your marked gear into this build").withStyle(ChatFormatting.GRAY));
+                if (!info.creative() && !this.shownState.hasBuild()) {
+                    lines.add(new TextComponent("Save a build here first").withStyle(ChatFormatting.RED));
+                }
             }
             default -> {
                 lines.add(new TextComponent(info.creative() ? "Load (creative copy)" : "Load"));
@@ -318,6 +320,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private void refreshButtons() {
         if (this.loadButton != null) {
             this.loadButton.active = this.menu.info().loadRefusals().isEmpty();
+        }
+        if (this.stowButton != null) {
+            this.stowButton.active = !this.openInfo.creative() && this.shownState.hasBuild();
         }
     }
 
@@ -410,8 +415,10 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         int popupWidth = 140;
         int popupX = (this.width - popupWidth) / 2;
         int popupY = this.height / 2 - 22;
+        this.elementRenderer.begin();
         this.elementRenderer.render(ScreenTextures.DEFAULT_WINDOW_BACKGROUND, poseStack,
                 Spatials.positionXYZ(popupX, popupY, 0).size(popupWidth, 48));
+        this.elementRenderer.end();
         this.font.draw(poseStack, "Overwrite Build " + (this.menu.page() + 1) + "?", popupX + 8, popupY + 8, 0xFF404040);
         this.confirmButton.render(poseStack, mouseX, mouseY, partialTick);
         this.cancelButton.render(poseStack, mouseX, mouseY, partialTick);

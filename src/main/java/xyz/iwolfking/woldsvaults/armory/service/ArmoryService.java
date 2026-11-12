@@ -101,6 +101,10 @@ public final class ArmoryService {
             return;
         }
         ArmoryPage page = armory.page(pageIndex);
+        if (page.build() == null) {
+            refuse(player, "Stow", List.of("Build " + (pageIndex + 1) + " has no save yet; save a build first"));
+            return;
+        }
         List<ItemStack> toExcess = new ArrayList<>();
         List<String> keys = new ArrayList<>();
         for (String key : SlotKeys.ALL) {
