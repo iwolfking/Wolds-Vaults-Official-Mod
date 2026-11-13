@@ -30,6 +30,11 @@ import iskallia.vault.gear.GearRollHelper;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.data.VaultGearData;
+import iskallia.vault.gear.item.VaultGearItem;
+import iskallia.vault.init.ModGearAttributes;
+import iskallia.vault.world.data.DiscoveredModelsData;
+import net.minecraft.resources.ResourceLocation;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import iskallia.vault.init.ModItems;
 import java.util.Locale;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -222,6 +227,7 @@ public final class AugmentsCommand {
         data.setState(VaultGearState.UNIDENTIFIED);
         data.write(stack);
         GearRollHelper.initializeGear(stack, player);
+        rollModel(stack, player);
         if (!SpellcraftItemData.has(stack)) {
             SpellcraftRoller.roll(stack, player.getRandom());
         }
@@ -230,6 +236,25 @@ public final class AugmentsCommand {
         }
         line(context.getSource(), "Gave a level " + data.getItemLevel() + " " + name + (wand ? " wand" : " focus"), ChatFormatting.LIGHT_PURPLE);
         return 1;
+    }
+
+    /**
+     * Rolls the gear model the identification roll would have picked. {@link GearRollHelper#initializeGear} never sets
+     * one (only the roll tick does), and gear without a model renders with the unidentified texture.
+     */
+    private static void rollModel(ItemStack stack, ServerPlayer player) {
+        VaultGearData data = VaultGearData.read(stack);
+        if (data.getFirstValue(ModGearAttributes.GEAR_MODEL).isPresent() || !(stack.getItem() instanceof VaultGearItem gearItem)) {
+            return;
+        }
+        ResourceLocation model = gearItem.getRandomModel(stack, player.getRandom(), player, DiscoveredModelsData.get(player.getServer()));
+        if (model == null) {
+            WoldLogger.error("givefocus: no model rolled for a {} {}; it renders with the unidentified texture",
+                    data.getRarity(), stack.getItem().getRegistryName());
+            return;
+        }
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_MODEL, model);
+        data.write(stack);
     }
 
     private static int report(CommandSourceStack source, String error) {
