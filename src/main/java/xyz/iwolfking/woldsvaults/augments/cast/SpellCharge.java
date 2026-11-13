@@ -9,6 +9,7 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.augments.effect.SpellParticles;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 
@@ -80,7 +81,11 @@ public final class SpellCharge {
             stop(player);
             return;
         }
-        charging.held()[0]++;
+        int held = ++charging.held()[0];
+        SpellParticles.chargeRing(player, held, held / (float) charging.fullTicks());
+        if (held == charging.fullTicks()) {
+            SpellParticles.chargeFull(player);
+        }
     }
 
     @SubscribeEvent
