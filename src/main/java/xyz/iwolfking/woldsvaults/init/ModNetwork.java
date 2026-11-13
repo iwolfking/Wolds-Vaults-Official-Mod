@@ -37,6 +37,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SuppressorUpdateMessage.class, SuppressorUpdateMessage::encode, SuppressorUpdateMessage::decode, SuppressorUpdateMessage::handle);
         CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
         CHANNEL.registerMessage(id++, DepositBackpackPacket.class, DepositBackpackPacket::encode, DepositBackpackPacket::decode, DepositBackpackPacket::handle);
+        CHANNEL.registerMessage(id++, VaultRodAttackMessage.class, VaultRodAttackMessage::encode, VaultRodAttackMessage::decode, VaultRodAttackMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {

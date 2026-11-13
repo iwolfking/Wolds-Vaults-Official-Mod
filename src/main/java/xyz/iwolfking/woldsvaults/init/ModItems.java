@@ -64,6 +64,7 @@ public class ModItems {
     public static VaultScepterItem SCEPTER;
     public static VaultDaggerMainItem DAGGER_MAIN;
     public static VaultDaggerSubItem DAGGER_SUB;
+    public static VaultRodItem VAULT_ROD;
     //public static VaultBowItem BOW;
 
     public static CombinedTrinketItem COMBINED_TRINKET;
@@ -271,6 +272,7 @@ public class ModItems {
         registry.register(DAGGER_SUB);
         registry.register(TRIDENT);
         registry.register(SCEPTER);
+        registry.register(VAULT_ROD);
         registry.register(PLUSHIE);
         registry.register(LOOT_SACK);
         registry.register(GEM_BOX);
@@ -460,6 +462,7 @@ public class ModItems {
         SCEPTER = new VaultScepterItem(VaultMod.id("scepter"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
         DAGGER_MAIN = new VaultDaggerMainItem(VaultMod.id("dagger"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
         DAGGER_SUB = new VaultDaggerSubItem(VaultMod.id("dagger_sub"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
+        VAULT_ROD = new VaultRodItem(VaultMod.id("rod"), (new Item.Properties()).tab(GEAR_GROUP).tab(ModCreativeTabs.WOLDS_VAULTS).stacksTo(1));
 
         GEM_BOX = new LootableItem(WoldsVaults.id("gem_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.GEM_BOX.POOL.getRandom(rand).generateItemStack()));
         SUPPLY_BOX = new LootableItem(WoldsVaults.id("supply_box"), (new Item.Properties()).tab(ModCreativeTabs.WOLDS_VAULTS), () -> (ModConfigs.SUPPLY_BOX.POOL.getRandom(rand).generateItemStack()));
