@@ -6,6 +6,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
@@ -93,6 +95,11 @@ public class WorkstationTabs {
                     BlockState state = level.getBlockState(pos);
 
                     if (!isWorkstation(state)) {
+                        continue;
+                    }
+
+                    if (state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF) &&
+                            state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
                         continue;
                     }
 
