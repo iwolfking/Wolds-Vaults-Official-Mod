@@ -50,8 +50,9 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * item, and arcana spells may take it like any other unique glyph. The etching itself no longer acts: every read of
  * the etching (VH's {@code EtchingHelper.getEtchings}, WV's {@code WoldEtchingHelper.hasEtching}) gets the active glyph
  * instead, rebuilt as an etching value from the glyph's potency and quality, or nothing when the glyph is not active.
- * The glyph in effect is the open cast scope's step, else the deferred scope of one of the player's spell steps, else
- * a toggle a spell switched on, else the player's best auto line, which covers reads that happen outside any cast
+ * The glyph in effect is the open cast scope's step, else the deferred scope of one of the player's spell steps (each
+ * only when that step casts an ability the glyph is locked to), else a toggle a spell switched on, else the player's
+ * best auto line, which covers reads that happen outside any cast or during another ability's step
  * (an expiring Mana Shield, a kill, a hit taken). Etchings on the table's removed list read as absent everywhere.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -326,29 +327,52 @@ public final class EtchingGlyphs {
     }
 
     /**
-     * The glyph in effect for an etching read: the open cast scope's step, the deferred scope of a spell step, a toggle
-     * a spell switched on, else the player's best auto line of the type.
+     * The glyph in effect for an etching read: the open cast scope's step, else the deferred scope of a spell step, else
+     * a toggle a spell switched on, else the player's best auto line of the type. A cast or deferred scope decides only
+     * when its step casts one of the abilities the glyph is locked to: a step of any other ability is not a read about
+     * this etching's ability, so a lingering effect (Arcane Wrath on the damage totem's buff, Rampage's lucky hit, a
+     * totem's Vulnerable) read during that step's cast or hits resolves as it does outside any cast.
      */
     @Nullable
     public static GlyphGrants.Grant grant(ServerPlayer player, AugmentType type) {
-        CastScope.Active scope = CastScope.current().filter(active -> active.player() == player).orElse(null);
-        if (scope != null) {
-            return scope.modifiers().grants().get(type);
-        }
-        DeferredReach.Reach reach = DeferredReach.current(player);
-        if (reach != null) {
-            return reach.glyphs().modifiers().grants().get(type);
-        }
-        GlyphGrants.Grant toggled = GearGlyphs.grants(player).get(type);
-        if (toggled != null) {
-            return toggled;
-        }
         FocusAugmentsConfig config = FocusAugments.config();
         if (config == null) {
             return null;
         }
+        FocusAugmentsConfig.Glyph glyph = config.glyph(type);
+        CastScope.Active scope = CastScope.current().filter(active -> active.player() == player).orElse(null);
+        if (scope != null && locksTo(glyph, type, scope.spec())) {
+            return scope.modifiers().grants().get(type);
+        }
+        DeferredReach.Reach reach = DeferredReach.current(player);
+        if (reach != null && locksTo(glyph, type, reach.glyphs().spec())) {
+            return reach.glyphs().modifiers().grants().get(type);
+        }
+        GlyphGrants.Grant toggled = GearGlyphs.toggleGrants(player).get(type);
+        if (toggled != null) {
+            return toggled;
+        }
         ViewLine line = GlyphSources.get(player).autoLines(config).get(type);
         return line == null ? null : new GlyphGrants.Grant(line.potency(), line.quality());
+    }
+
+    /**
+     * Whether a step casting {@code spec} is one the etching glyph can sit on. A glyph entry without a spec list logs an
+     * error once and counts as locked to every ability, so every scope keeps deciding for it; a step without a spec logs an
+     * error once and decides nothing.
+     */
+    private static boolean locksTo(@Nullable FocusAugmentsConfig.Glyph glyph, AugmentType type, @Nullable String spec) {
+        if (glyph == null || glyph.specs == null || glyph.specs.isEmpty()) {
+            reportOnce("specs:" + type.id(), "Spellcraft: etching glyph " + type.id() + " has no ability list in the focus augments table; "
+                    + "every spell step's own glyphs decide its etching reads");
+            return true;
+        }
+        if (spec == null) {
+            reportOnce("scope_spec:" + type.id(), "Spellcraft: a spell step without an ability spec read etching glyph " + type.id()
+                    + "; the read resolves as outside any cast");
+            return false;
+        }
+        return glyph.specs.contains(spec);
     }
 
     @Nullable
