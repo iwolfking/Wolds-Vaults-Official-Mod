@@ -23,14 +23,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.lib.TrackingStorm;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
-import xyz.iwolfking.woldsvaults.modifiers.gear.unique.StormTrackingAttribute;
-
-import java.util.Comparator;
+import xyz.iwolfking.woldsvaults.augments.AugmentType;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.GlyphGrants;
 
 /**
- * Stormcrown storm tracking: when the owner has {@code storm_tracking} for this storm's ability, the storm
- * spawned on hit locks onto the hit mob, or else the mob closest to the hit point.
+ * Stormcrown storm tracking: when the arrow's cast carried the Tracking Storm glyph, the storm spawned on hit locks
+ * onto the hit mob, or else the mob closest to the hit point, and follows it at the glyph's potency in blocks per second.
  */
 @Mixin(VaultStormArrow.class)
 public abstract class MixinVaultStormArrowTracking extends AbstractArrow {
@@ -46,11 +45,13 @@ public abstract class MixinVaultStormArrowTracking extends AbstractArrow {
         if (this.level.isClientSide || !(this.getOwner() instanceof ServerPlayer player) || !AttributeSnapshotHelper.canHaveSnapshot(player)) {
             return;
         }
-        String abilityKey = storm.getStormArrowType() == VaultStormArrow.StormType.BASE ? "Storm_Arrow_Base" : "Storm_Arrow_Blizzard";
-        StormTrackingAttribute tracking = AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValueList(ModGearAttributes.STORM_TRACKING).stream()
-                .filter(attribute -> attribute.isFlag() && abilityKey.equals(attribute.getAbilityKey()))
-                .max(Comparator.comparing(StormTrackingAttribute::getSpeed))
-                .orElse(null);
+        if (storm.getStormArrowType() != VaultStormArrow.StormType.BASE) {
+            return;
+        }
+        GlyphGrants.Grant tracking = GearGlyphs.carried(this, player).get(AugmentType.STORM_TRACKING);
+        if (tracking == null) {
+            tracking = GearGlyphs.grant(player, AugmentType.STORM_TRACKING);
+        }
         if (tracking == null) {
             return;
         }
@@ -62,7 +63,7 @@ public abstract class MixinVaultStormArrowTracking extends AbstractArrow {
             target = woldsvaults$nearestEnemy(player, result.getLocation());
         }
         if (target != null && storm instanceof TrackingStorm trackingStorm) {
-            trackingStorm.woldsvaults$track(target.getUUID(), tracking.getSpeed());
+            trackingStorm.woldsvaults$track(target.getUUID(), tracking.potency());
         }
     }
 

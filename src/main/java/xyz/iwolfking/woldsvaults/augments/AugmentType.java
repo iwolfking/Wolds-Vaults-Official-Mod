@@ -42,7 +42,7 @@ public enum AugmentType {
     IMPLOSION("Implosion"),
     ENTROPIC_BIND("Entropic Bind"),
     WIDE_BLAST("Wide Blast"),
-    NARROW_STORM("Narrow Storm"),
+    STORM_TRACKING("Tracking Storm"),
     SWIFT_STORM("Swift Storm"),
     DREAD("Dread"),
     QUICK_MEND("Quick Mend"),

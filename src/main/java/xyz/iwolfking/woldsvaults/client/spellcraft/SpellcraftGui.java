@@ -336,7 +336,7 @@ public final class SpellcraftGui {
         if (text == null) {
             String template = config.glyph(type).description;
             if (template != null && !template.isBlank()) {
-                text = EtchingHelper.formatDescription(template, Optional.of(potency));
+                text = EtchingHelper.formatDescription(fillLinked(config, type, template, quality), Optional.of(potency));
             }
         }
         if (text == null) {
@@ -346,6 +346,20 @@ public final class SpellcraftGui {
             return new TextComponent(potency(config, type, potency)).withStyle(ChatFormatting.GRAY);
         }
         return TextUtil.applyColorTags(capitalize(text));
+    }
+
+    /** Replaces each {@code {name}} in a description template with the glyph's linked value of that name at the quality, as a whole percent. */
+    private static String fillLinked(FocusAugmentsConfig config, AugmentType type, String template, float quality) {
+        FocusAugmentsConfig.Glyph glyph = config.glyph(type);
+        if (glyph.potency == null || glyph.potency.linked == null) {
+            return template;
+        }
+        String out = template;
+        for (FocusAugmentsConfig.Linked linked : glyph.potency.linked) {
+            float value = linked.min + (linked.max - linked.min) * quality;
+            out = out.replace("{" + linked.name + "}", Integer.toString(Math.round(value * 100.0F)));
+        }
+        return out;
     }
 
     /** The text with its first letter upper-cased, skipping leading colour tags, signs and digits. */

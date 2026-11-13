@@ -18,11 +18,14 @@ import xyz.iwolfking.woldsvaults.augments.FocusAugments;
 import xyz.iwolfking.woldsvaults.augments.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.modifiers.gear.unique.SteelInfernoAttribute;
+import xyz.iwolfking.woldsvaults.modifiers.gear.unique.StormTrackingAttribute;
 import xyz.iwolfking.woldsvaults.spellcraft.pool.GlyphLines;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -59,21 +62,51 @@ public final class GearGlyphLines {
             return List.of();
         }
         AttributeGearData data = AttributeGearData.read(stack);
+        Map<AugmentType, Float> linkedQuality = linkedQualities(config, entries, data);
         List<SpellcraftItemData.Line> lines = new ArrayList<>();
         for (FocusAugmentsConfig.GearGlyph entry : entries) {
             VaultGearAttribute<?> attribute = attribute(entry.attribute);
             AugmentType type = AugmentType.byId(entry.glyph);
-            if (attribute == null || type == null) {
+            if (attribute == null || type == null || entry.linked != null) {
                 continue;
             }
             for (Object value : values(data, attribute)) {
-                SpellcraftItemData.Line line = line(config, entry, type, value);
+                SpellcraftItemData.Line line = line(config, entry, type, value, linkedQuality.get(type));
                 if (line != null) {
                     lines.add(line);
                 }
             }
         }
         return lines;
+    }
+
+    /** The quality each linked affix on the item places in its glyph's linked value. */
+    private static Map<AugmentType, Float> linkedQualities(FocusAugmentsConfig config, List<FocusAugmentsConfig.GearGlyph> entries, AttributeGearData data) {
+        Map<AugmentType, Float> out = new HashMap<>();
+        for (FocusAugmentsConfig.GearGlyph entry : entries) {
+            if (entry.linked == null) {
+                continue;
+            }
+            VaultGearAttribute<?> attribute = attribute(entry.attribute);
+            AugmentType type = AugmentType.byId(entry.glyph);
+            if (attribute == null || type == null) {
+                continue;
+            }
+            FocusAugmentsConfig.Linked linked = GearGlyphs.linked(config, type, entry.linked);
+            if (linked == null) {
+                reportOnce("linked:" + type.id() + ":" + entry.linked, "Spellcraft: " + type.id() + " has no linked value " + entry.linked
+                        + "; the " + entry.attribute + " affix that fills it is ignored");
+                continue;
+            }
+            for (Object value : values(data, attribute)) {
+                Float raw = number(entry, value);
+                if (raw != null) {
+                    float magnitude = entry.potency(raw);
+                    out.put(type, linked.max <= linked.min ? 0.0F : Mth.clamp((magnitude - linked.min) / (linked.max - linked.min), 0.0F, 1.0F));
+                }
+            }
+        }
+        return out;
     }
 
     /** A converted affix modifier on a gear item, with its affix type and the glyph it grants. */
@@ -112,7 +145,8 @@ public final class GearGlyphLines {
     }
 
     @Nullable
-    private static SpellcraftItemData.Line line(FocusAugmentsConfig config, FocusAugmentsConfig.GearGlyph entry, AugmentType type, Object value) {
+    private static SpellcraftItemData.Line line(FocusAugmentsConfig config, FocusAugmentsConfig.GearGlyph entry, AugmentType type, Object value,
+                                                @Nullable Float linkedQuality) {
         FocusAugmentsConfig.Glyph glyph = config.glyph(type);
         float potency;
         float quality;
@@ -127,13 +161,33 @@ public final class GearGlyphLines {
                 return null;
             }
             potency = value instanceof Boolean ? entry.scale : entry.potency(raw);
-            quality = tierQuality(glyph, potency);
+            if (linkedQuality != null) {
+                quality = linkedQuality;
+            } else {
+                quality = tierQuality(glyph, potency);
+                if (glyph.potency != null && glyph.potency.linked != null && !glyph.potency.linked.isEmpty() && hasLinkedEntry(config, type)) {
+                    reportOnce("linked_missing:" + type.id(), "Spellcraft: an item grants " + type.id() + " without the affix that fills its linked value; "
+                            + "the line's quality comes from its potency instead");
+                }
+            }
         }
         return new SpellcraftItemData.Line(type, potency, quality, glyph.costMin, 1, false, null);
     }
 
+    private static boolean hasLinkedEntry(FocusAugmentsConfig config, AugmentType type) {
+        for (FocusAugmentsConfig.GearGlyph entry : GearGlyphs.entries(config)) {
+            if (entry.linked != null && type.id().equals(entry.glyph)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Nullable
     private static Float number(FocusAugmentsConfig.GearGlyph entry, Object value) {
+        if (value instanceof StormTrackingAttribute tracking) {
+            return tracking.isFlag() && tracking.getAbilityKey().equals(entry.key) ? tracking.getSpeed() : null;
+        }
         if (value instanceof AbilityFloatValueAttribute keyed) {
             return keyed.getAbilityKey().equals(entry.key) ? keyed.getAmount() : null;
         }

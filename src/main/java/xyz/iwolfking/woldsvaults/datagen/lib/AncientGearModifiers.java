@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.datagen.lib;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import xyz.iwolfking.woldsvaults.datagen.ModVaultGearTiersProvider;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -373,7 +374,7 @@ public final class AncientGearModifiers {
         config.prefix("the_vault:javelin_multi_hit", "ModJavelinMultiHit", "the_vault:u_javelin_multi_hit", tags(),
                 tier(0, -1, 1, obj("flag", true)));
         config.prefix("the_vault:storm_tracking", "ModStormTracking", "the_vault:u_storm_tracking", tags(),
-                tier(0, -1, 1, obj("flag", true, "abilityKey", "Storm_Arrow_Base", "speed", 10.0D)));
+                tier(0, -1, 1, obj("flag", true, "abilityKey", "Storm_Arrow_Base", "speed", (double) ModVaultGearTiersProvider.STORM_FOLLOW_SPEED)));
     }
 
     private static void sharedSuffix1(Config config) {

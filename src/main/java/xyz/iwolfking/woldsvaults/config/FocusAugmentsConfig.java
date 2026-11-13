@@ -209,7 +209,9 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
      * {@code key} the ability key of a keyed ability attribute or the special modification id of an
      * {@code ability_special_modification}, null for a plain attribute. The glyph's potency is the affix's rolled value,
      * negated when {@code orientation} is {@code lower} (the affix is stronger the lower it rolls), times {@code scale};
-     * a flag attribute grants potency {@code scale}.
+     * a flag attribute grants potency {@code scale}. With {@code linked} set, the affix grants no line of its own: it is
+     * the second half of the glyph another affix on the same item grants, its value places that line's quality in the
+     * glyph's linked value of that name, and the cast reads it back from there.
      */
     public static class GearGlyph {
         @Expose public String attribute;
@@ -217,9 +219,16 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
         @Expose public String glyph;
         @Expose public float scale;
         @Expose public String orientation;
+        @Expose public String linked;
 
         public boolean lower() {
             return "lower".equals(this.orientation);
+        }
+
+        /** The affix value of the linked value at a line's quality, signed like the affix. */
+        public float linkedValue(Linked linked, float quality) {
+            float magnitude = (linked.min + (linked.max - linked.min) * quality) * this.scale;
+            return lower() ? -magnitude : magnitude;
         }
 
         /** The glyph potency of a rolled affix value. */
@@ -436,6 +445,14 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             }
             if (entry.scale < 0.0F || (entry.orientation != null && !List.of("higher", "lower").contains(entry.orientation))) {
                 return "gear glyph " + entry.attribute + " has an invalid scale or orientation";
+            }
+            if (entry.linked != null) {
+                Glyph glyph = this.glyphs.get(type.id());
+                boolean found = glyph.potency != null && glyph.potency.linked != null
+                        && glyph.potency.linked.stream().anyMatch(linked -> entry.linked.equals(linked.name));
+                if (!found) {
+                    return "gear glyph " + entry.attribute + " fills linked value " + entry.linked + ", which " + type.id() + " does not have";
+                }
             }
         }
         return null;

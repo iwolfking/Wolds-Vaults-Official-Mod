@@ -200,9 +200,20 @@ public final class GearGlyphs {
         List result = withoutConverted(current, ABILITY_AREA, found);
         grants(entity).all().forEach((type, grant) -> {
             for (FocusAugmentsConfig.GearGlyph entry : current.byType().getOrDefault(type, List.of())) {
-                if (ABILITY_AREA.equals(entry.attribute) && entry.key != null) {
-                    result.add(new AbilityAreaOfEffectPercentAttribute(entry.key, entry.value(grant.potency())));
+                if (!ABILITY_AREA.equals(entry.attribute) || entry.key == null) {
+                    continue;
                 }
+                if (entry.linked == null) {
+                    result.add(new AbilityAreaOfEffectPercentAttribute(entry.key, entry.value(grant.potency())));
+                    continue;
+                }
+                FocusAugmentsConfig.Linked linked = linked(current.config(), type, entry.linked);
+                if (linked == null) {
+                    reportOnce("area_linked:" + type.id(), "Spellcraft: " + type.id() + " has no linked value " + entry.linked
+                            + "; its area change is not applied");
+                    continue;
+                }
+                result.add(new AbilityAreaOfEffectPercentAttribute(entry.key, entry.linkedValue(linked, grant.quality())));
             }
         });
         return result;

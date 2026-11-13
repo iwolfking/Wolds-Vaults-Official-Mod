@@ -35,6 +35,7 @@ import java.util.function.Consumer;
 public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvider {
     public static final float STEEL_INFERNO_RADIUS_MIN = 0.5F;
     public static final float STEEL_INFERNO_CENTRE_MIN = 1.5F;
+    public static final float STORM_FOLLOW_SPEED = 10.0F;
 
     public ModVaultGearTiersProvider(DataGenerator generator) {
         super(generator);
@@ -1140,7 +1141,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                         });
                 vaultGearAttributeGroupBuilder
                         .addModifier(ModGearAttributes.STORM_TRACKING, "ModStormTracking", "u_storm_tracking", List.of(), vaultGearModifierTiersBuilder -> {
-                            addStormTracking(vaultGearModifierTiersBuilder, 0, -1, 1, "Storm_Arrow_Base", 10.0F);
+                            addStormTracking(vaultGearModifierTiersBuilder, 0, -1, 1, "Storm_Arrow_Base", STORM_FOLLOW_SPEED);
                         });
             }).build();
             builder.key(VaultMod.id("unique")).add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {

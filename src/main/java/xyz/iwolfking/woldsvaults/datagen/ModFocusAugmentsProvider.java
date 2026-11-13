@@ -220,10 +220,10 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 List.of()), List.of(), List.of());
         gearGlyph(table, AugmentType.WIDE_BLAST, "unique", List.of("Fireball_Base"), potency("fireball area", "pct", List.of(tier(0, 0.1F, 0.24F)), List.of()),
                 List.of(), List.of());
-        gearGlyph(table, AugmentType.NARROW_STORM, "unique", List.of("Storm_Arrow_Base"), potency("storm area", "neg_pct", List.of(tier(0, 0.6F, 0.8F)), List.of()),
-                List.of(), List.of());
         gearGlyph(table, AugmentType.SWIFT_STORM, "unique", List.of("Storm_Arrow_Base"), potency("storm cooldown", "neg_pct", List.of(tier(0, 0.5F, 0.75F)),
-                List.of()), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
+                List.of(linked("area", 0.6F, 0.8F))), List.of(), List.of(kBase("cooldown", UP, 1.0F, -1.0F)));
+        gearGlyph(table, AugmentType.STORM_TRACKING, "unique", List.of("Storm_Arrow_Base"),
+                potency("storm follow speed", "default", List.of(tier(0, ModVaultGearTiersProvider.STORM_FOLLOW_SPEED, ModVaultGearTiersProvider.STORM_FOLLOW_SPEED)), List.of()), List.of(), List.of());
         gearGlyph(table, AugmentType.DREAD, "unique", List.of("Taunt_Repel"), potency("fear area", "pct", List.of(tier(0, 0.2F, 1.33F)), List.of()),
                 List.of(), List.of());
         gearGlyph(table, AugmentType.QUICK_MEND, "unique", List.of("Heal_Group"), potency("group heal cooldown", "neg_pct", List.of(tier(0, 0.25F, 0.75F)),
@@ -259,8 +259,8 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         describe(table, AugmentType.IMPLOSION, "<gray>Javelins implode on impact, dealing <#E0564A>%.0fpvalue% <gray>of their damage");
         describe(table, AugmentType.ENTROPIC_BIND, "<gray>Slowness Aura poisons mobs at level <yellow>%.0fvalue");
         describe(table, AugmentType.WIDE_BLAST, "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%");
-        describe(table, AugmentType.NARROW_STORM, "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%");
-        describe(table, AugmentType.SWIFT_STORM, "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%");
+        describe(table, AugmentType.SWIFT_STORM, "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue% <gray>and its area by <#5FD068>{area}%");
+        describe(table, AugmentType.STORM_TRACKING, "<gray>Storm Arrow's storm locks onto a mob and follows it at <yellow>%.0fvalue <gray>blocks per second");
         describe(table, AugmentType.DREAD, "<gray>Increases Repel's fear area by <#5FD068>%.0fpvalue%");
         describe(table, AugmentType.QUICK_MEND, "<gray>Reduces Group Heal's cooldown by <#4AC6E0>%.0fpvalue%");
         checkDescriptions(table);
@@ -282,8 +282,10 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
                 0.0F, HIGHER);
         gearAffix(table, special, EntropyPoisonModification.ID.toString(), AugmentType.ENTROPIC_BIND, 1.0F, HIGHER);
         gearAffix(table, area, "Fireball_Base", AugmentType.WIDE_BLAST, 1.0F, HIGHER);
-        gearAffix(table, area, "Storm_Arrow_Base", AugmentType.NARROW_STORM, 1.0F, LOWER);
         gearAffix(table, cooldown, "Storm_Arrow_Base", AugmentType.SWIFT_STORM, 1.0F, LOWER);
+        linkedAffix(table, area, "Storm_Arrow_Base", AugmentType.SWIFT_STORM, "area", LOWER);
+        gearAffix(table, xyz.iwolfking.woldsvaults.init.ModGearAttributes.STORM_TRACKING.getRegistryName().toString(), "Storm_Arrow_Base",
+                AugmentType.STORM_TRACKING, 1.0F, HIGHER);
         gearAffix(table, area, "Taunt_Repel", AugmentType.DREAD, 1.0F, HIGHER);
         gearAffix(table, cooldown, "Heal_Group", AugmentType.QUICK_MEND, 1.0F, LOWER);
 
@@ -512,6 +514,11 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         entry.scale = scale;
         entry.orientation = orientation;
         table.gearGlyphs.add(entry);
+    }
+
+    private static void linkedAffix(FocusAugmentsConfig table, String attribute, String key, AugmentType glyph, String linked, String orientation) {
+        gearAffix(table, attribute, key, glyph, 1.0F, orientation);
+        table.gearGlyphs.get(table.gearGlyphs.size() - 1).linked = linked;
     }
 
     private static FocusAugmentsConfig.SetGlyph always(AugmentType type) {

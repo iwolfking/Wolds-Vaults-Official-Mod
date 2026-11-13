@@ -1656,45 +1656,6 @@
       "description": "<gray>Increases Fireball's explosion area by <#5FD068>%.0fpvalue%",
       "scope": "step"
     },
-    "narrow_storm": {
-      "kind": "modifier",
-      "class": "unique",
-      "category": "unique",
-      "minLevel": 0,
-      "weight": 0,
-      "requires": [
-        []
-      ],
-      "forbids": [],
-      "specs": [
-        "Storm_Arrow_Base"
-      ],
-      "excludes": [],
-      "potency": {
-        "label": "storm area",
-        "format": "neg_pct",
-        "tiers": [
-          {
-            "minLevel": 0,
-            "min": 0.6,
-            "max": 0.8
-          }
-        ],
-        "linked": []
-      },
-      "step": [],
-      "spell": [],
-      "maxUses": 1,
-      "useWeights": [
-        100
-      ],
-      "capPerSpell": 1,
-      "costMin": 10,
-      "costMax": 10,
-      "noEscalation": true,
-      "description": "<gray>Reduces Storm Arrow's area by <#5FD068>%.0fpvalue%",
-      "scope": "step"
-    },
     "swift_storm": {
       "kind": "modifier",
       "class": "unique",
@@ -1719,7 +1680,13 @@
             "max": 0.75
           }
         ],
-        "linked": []
+        "linked": [
+          {
+            "name": "area",
+            "min": 0.6,
+            "max": 0.8
+          }
+        ]
       },
       "step": [],
       "spell": [
@@ -1738,7 +1705,46 @@
       "costMin": 10,
       "costMax": 10,
       "noEscalation": true,
-      "description": "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue%",
+      "description": "<gray>Reduces Storm Arrow's cooldown by <#4AC6E0>%.0fpvalue% <gray>and its area by <#5FD068>{area}%",
+      "scope": "step"
+    },
+    "storm_tracking": {
+      "kind": "modifier",
+      "class": "unique",
+      "category": "unique",
+      "minLevel": 0,
+      "weight": 0,
+      "requires": [
+        []
+      ],
+      "forbids": [],
+      "specs": [
+        "Storm_Arrow_Base"
+      ],
+      "excludes": [],
+      "potency": {
+        "label": "storm follow speed",
+        "format": "default",
+        "tiers": [
+          {
+            "minLevel": 0,
+            "min": 10.0,
+            "max": 10.0
+          }
+        ],
+        "linked": []
+      },
+      "step": [],
+      "spell": [],
+      "maxUses": 1,
+      "useWeights": [
+        100
+      ],
+      "capPerSpell": 1,
+      "costMin": 10,
+      "costMax": 10,
+      "noEscalation": true,
+      "description": "<gray>Storm Arrow's storm locks onto a mob and follows it at <yellow>%.0fvalue <gray>blocks per second",
       "scope": "step"
     },
     "dread": {
@@ -4435,18 +4441,26 @@
       "orientation": "higher"
     },
     {
-      "attribute": "the_vault:ability_area_of_effect_percent",
-      "key": "Storm_Arrow_Base",
-      "glyph": "narrow_storm",
-      "scale": 1.0,
-      "orientation": "lower"
-    },
-    {
       "attribute": "the_vault:ability_cooldown_percent",
       "key": "Storm_Arrow_Base",
       "glyph": "swift_storm",
       "scale": 1.0,
       "orientation": "lower"
+    },
+    {
+      "attribute": "the_vault:ability_area_of_effect_percent",
+      "key": "Storm_Arrow_Base",
+      "glyph": "swift_storm",
+      "scale": 1.0,
+      "orientation": "lower",
+      "linked": "area"
+    },
+    {
+      "attribute": "the_vault:storm_tracking",
+      "key": "Storm_Arrow_Base",
+      "glyph": "storm_tracking",
+      "scale": 1.0,
+      "orientation": "higher"
     },
     {
       "attribute": "the_vault:ability_area_of_effect_percent",
