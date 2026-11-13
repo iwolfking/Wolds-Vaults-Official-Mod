@@ -811,6 +811,20 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         table.removedEtchings = new ArrayList<>(List.of(EtchingGearAttributes.ICE_BOLT_LUCKY.getRegistryName().toString()));
     }
 
+    /**
+     * Etching glyphs read by a buff that outlasts its cast, with where the read takes its glyph from: the note the
+     * ability's cast left, or the totem covering the player. Every other etching glyph is read during its own cast.
+     */
+    private static final Map<AugmentType, String> LINGERING = Map.of(
+            AugmentType.ARCANE_WRATH, FocusAugmentsConfig.EtchingGlyph.LINGERING_TOTEM,
+            AugmentType.VULNERABLE_TOTEM, FocusAugmentsConfig.EtchingGlyph.LINGERING_TOTEM,
+            AugmentType.RAMPAGING_LUCK, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST,
+            AugmentType.NOVA_SHIELD, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST,
+            AugmentType.IMPLODING_BARRIER, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST,
+            AugmentType.SPIRIT_NOVA, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST,
+            AugmentType.COLOSSUS_TITAN, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST,
+            AugmentType.NINJA_GETAWAY, FocusAugmentsConfig.EtchingGlyph.LINGERING_CAST);
+
     private static void etching(FocusAugmentsConfig table, AugmentType type, String category, List<String> specs, FocusAugmentsConfig.Potency potency,
                                 VaultGearAttribute<?> attribute, float scale, float offset, List<String> choices, FocusAugmentsConfig.EtchingPart... parts) {
         gearGlyph(table, type, category, specs, potency, List.of(), List.of());
@@ -821,6 +835,7 @@ public class ModFocusAugmentsProvider extends AbstractWoldsTableProvider {
         entry.offset = offset;
         entry.parts = List.of(parts);
         entry.choices = choices;
+        entry.lingering = LINGERING.get(type);
         table.etchingGlyphs.add(entry);
     }
 

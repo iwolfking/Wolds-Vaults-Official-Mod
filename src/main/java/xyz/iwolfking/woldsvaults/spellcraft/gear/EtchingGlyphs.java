@@ -52,7 +52,9 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * instead, rebuilt as an etching value from the glyph's potency and quality, or nothing when the glyph is not active.
  * The glyph in effect is the open cast scope's step, else the deferred scope of one of the player's spell steps, else
  * a toggle a spell switched on, else the player's best auto line, which covers reads that happen outside any cast
- * (an expiring Mana Shield, a kill, a hit taken). Etchings on the table's removed list read as absent everywhere.
+ * (a kill, a hit taken). Lingering etchings, read by a buff after its cast (the damage totem's ability power, Rampage's
+ * lucky hit, an expiring Mana Shield), take the glyph from the note that buff's cast left ({@link BuffSources}).
+ * Etchings on the table's removed list read as absent everywhere.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class EtchingGlyphs {
@@ -69,7 +71,7 @@ public final class EtchingGlyphs {
     private record Entry(FocusAugmentsConfig.EtchingGlyph config, AugmentType type) {
     }
 
-    private record Index(FocusAugmentsConfig config, Map<String, Entry> byAttribute, Set<String> removed) {
+    private record Index(FocusAugmentsConfig config, Map<String, Entry> byAttribute, Map<AugmentType, Entry> byType, Set<String> removed) {
     }
 
     /** Registers the etching glyph line provider; called once from common setup. */
@@ -88,18 +90,21 @@ public final class EtchingGlyphs {
             return current;
         }
         Map<String, Entry> byAttribute = new HashMap<>();
+        Map<AugmentType, Entry> byType = new HashMap<>();
         if (config.etchingGlyphs == null) {
             reportOnce("missing", "Spellcraft: the focus augments table has no etchingGlyphs section; etchings act on their own and grant no glyphs");
         } else {
             for (FocusAugmentsConfig.EtchingGlyph entry : config.etchingGlyphs) {
                 AugmentType type = AugmentType.byId(entry.glyph);
                 if (type != null) {
-                    byAttribute.put(entry.attribute, new Entry(entry, type));
+                    Entry indexed = new Entry(entry, type);
+                    byAttribute.put(entry.attribute, indexed);
+                    byType.put(type, indexed);
                 }
             }
         }
         Set<String> removed = config.removedEtchings == null ? Set.of() : Collections.unmodifiableSet(new HashSet<>(config.removedEtchings));
-        current = new Index(config, Collections.unmodifiableMap(byAttribute), removed);
+        current = new Index(config, Collections.unmodifiableMap(byAttribute), Collections.unmodifiableMap(byType), removed);
         index = current;
         return current;
     }
@@ -327,11 +332,17 @@ public final class EtchingGlyphs {
 
     /**
      * The glyph in effect for an etching read: the open cast scope's step, the deferred scope of a spell step, a toggle
-     * a spell switched on, else the player's best auto line of the type.
+     * a spell switched on, else the player's best auto line of the type. A lingering etching (read by a buff after its
+     * cast) is decided by its own ability's open cast step, else by the note its buff's cast left ({@link BuffSources}).
      */
     @Nullable
     public static GlyphGrants.Grant grant(ServerPlayer player, AugmentType type) {
         CastScope.Active scope = CastScope.current().filter(active -> active.player() == player).orElse(null);
+        Index current = index();
+        Entry entry = current == null ? null : current.byType().get(type);
+        if (entry != null && entry.config().lingering != null) {
+            return lingering(player, entry, current.config(), scope);
+        }
         if (scope != null) {
             return scope.modifiers().grants().get(type);
         }
@@ -349,6 +360,28 @@ public final class EtchingGlyphs {
         }
         ViewLine line = GlyphSources.get(player).autoLines(config).get(type);
         return line == null ? null : new GlyphGrants.Grant(line.potency(), line.quality());
+    }
+
+    @Nullable
+    private static GlyphGrants.Grant lingering(ServerPlayer player, Entry entry, FocusAugmentsConfig config, @Nullable CastScope.Active scope) {
+        AugmentType type = entry.type();
+        FocusAugmentsConfig.Glyph glyph = config.glyph(type);
+        if (glyph == null || glyph.specs == null || glyph.specs.size() != 1) {
+            reportOnce("lingering_spec:" + type.id(), "Spellcraft: lingering etching glyph " + type.id()
+                    + " is not locked to exactly one ability; it reads the gear auto line");
+            return BuffSources.autoLine(player, type, config);
+        }
+        String spec = glyph.specs.get(0);
+        if (scope != null && spec.equals(scope.spec())) {
+            return scope.modifiers().grants().get(type);
+        }
+        BuffSources.Resolution resolution = BuffSources.resolve(player, type, entry.config().lingering, spec, config);
+        if (resolution.known()) {
+            return resolution.grant();
+        }
+        reportOnce("lingering_note:" + type.id(), "Spellcraft: no buff note for " + spec + " when " + type.id()
+                + " was read (buff active since before a relog or restart?); it reads the gear auto line");
+        return BuffSources.autoLine(player, type, config);
     }
 
     @Nullable

@@ -711,6 +711,7 @@
     "vaulthunters.skills.buffs.MixinTotemBuffGlyphs",
     "vaulthunters.skills.buffs.MixinTotemManaRegenBuffGlyphs",
     "vaulthunters.skills.buffs.MixinTotemPlayerDamageBuffGlyphs",
+    "vaulthunters.skills.buffs.MixinTotemPlayerDamageBuffSource",
     "vaulthunters.gods.idona.MixinStackingGearAttributeTalentIdona",
     "vaulthunters.gods.idona.MixinSweepingLuckyHitTalentIdona",
     "vaulthunters.gods.tenos.MixinPlayerEventsManaStarved",

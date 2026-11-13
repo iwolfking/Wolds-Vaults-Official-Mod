@@ -252,12 +252,16 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
      * {@code offset + scale}.
      */
     public static class EtchingGlyph {
+        public static final String LINGERING_CAST = "cast";
+        public static final String LINGERING_TOTEM = "totem";
+
         @Expose public String attribute;
         @Expose public String glyph;
         @Expose public float scale;
         @Expose public float offset;
         @Expose public List<EtchingPart> parts;
         @Expose public List<String> choices;
+        @Expose public String lingering;
 
         /** The glyph potency of a rolled value. */
         public float potency(float value) {
@@ -472,6 +476,14 @@ public class FocusAugmentsConfig extends Config implements WoldsTable {
             Glyph glyph = this.glyphs.get(type.id());
             if (!"unique".equals(glyph.glyphClass)) {
                 return name + " grants " + type.id() + ", which is not a unique glyph";
+            }
+            if (entry.lingering != null) {
+                if (!List.of(EtchingGlyph.LINGERING_CAST, EtchingGlyph.LINGERING_TOTEM).contains(entry.lingering)) {
+                    return name + " has an unknown lingering source " + entry.lingering;
+                }
+                if (glyph.specs == null || glyph.specs.size() != 1) {
+                    return name + " is lingering, so " + type.id() + " must be locked to exactly one ability";
+                }
             }
             int potency = 0;
             int quality = 0;

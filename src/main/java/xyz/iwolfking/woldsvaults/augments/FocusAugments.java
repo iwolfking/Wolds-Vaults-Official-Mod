@@ -19,6 +19,7 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBars;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellCooldowns;
+import xyz.iwolfking.woldsvaults.spellcraft.gear.BuffSources;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.EtchingGlyphs;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.GearGlyphs;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.UniqueSetRoller;
@@ -44,6 +45,7 @@ public final class FocusAugments {
         AugmentEvents.register();
         GearGlyphs.init();
         EtchingGlyphs.init();
+        BuffSources.init();
         SpellcraftRoller.setUniqueSets(new UniqueSetRoller());
     }
 

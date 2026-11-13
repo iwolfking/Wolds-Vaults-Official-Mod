@@ -4949,7 +4949,8 @@
           "role": "flag"
         }
       ],
-      "choices": []
+      "choices": [],
+      "lingering": "totem"
     },
     {
       "attribute": "the_vault:etching_totem_player_damage_effect",
@@ -4972,7 +4973,8 @@
       ],
       "choices": [
         "the_vault:vulnerable"
-      ]
+      ],
+      "lingering": "totem"
     },
     {
       "attribute": "the_vault:etching_stone_fall_stun",
@@ -5034,7 +5036,8 @@
           "type": "float"
         }
       ],
-      "choices": []
+      "choices": [],
+      "lingering": "cast"
     },
     {
       "attribute": "the_vault:etching_life_tap_extra_damage",
@@ -5098,7 +5101,8 @@
         "Nova_Slow",
         "Nova_Base",
         "Nova_Dot"
-      ]
+      ],
+      "lingering": "cast"
     },
     {
       "attribute": "the_vault:etching_dash_warp_nova",
@@ -5136,7 +5140,8 @@
       ],
       "choices": [
         "Nova_Slow"
-      ]
+      ],
+      "lingering": "cast"
     },
     {
       "attribute": "woldsvaults:concentrate_drain",
@@ -5188,7 +5193,8 @@
           "type": "float"
         }
       ],
-      "choices": []
+      "choices": [],
+      "lingering": "cast"
     },
     {
       "attribute": "woldsvaults:sneaky_getaway_ninja",
@@ -5201,7 +5207,8 @@
           "type": "float"
         }
       ],
-      "choices": []
+      "choices": [],
+      "lingering": "cast"
     },
     {
       "attribute": "woldsvaults:diffuse_chemical_bomb",
@@ -5227,7 +5234,8 @@
           "type": "float"
         }
       ],
-      "choices": []
+      "choices": [],
+      "lingering": "cast"
     },
     {
       "attribute": "woldsvaults:ravenous_fangs",
