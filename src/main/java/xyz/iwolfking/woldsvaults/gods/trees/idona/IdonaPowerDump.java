@@ -13,6 +13,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.augments.cast.CastScope;
+import xyz.iwolfking.woldsvaults.augments.effect.SpellParticles;
 import xyz.iwolfking.woldsvaults.init.ModEtchingGearAttributes;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.idona.ManaCostHelperAccessor;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SlotBilling;
@@ -140,6 +141,7 @@ public final class IdonaPowerDump {
         float bar = Mana.get(player);
         tag.setManaConsumed(bar);
         IdonaState.markSneakDrain(player);
+        SpellParticles.powerDump(player);
         return Math.max(bar, paid);
     }
 
@@ -160,6 +162,7 @@ public final class IdonaPowerDump {
         if (!player.isCreative() && bar > 0.0F) {
             Mana.decrease(player, ManaAction.PLAYER_ACTION, bar);
             IdonaState.markSneakDrain(player);
+            SpellParticles.powerDump(player);
         }
     }
 
