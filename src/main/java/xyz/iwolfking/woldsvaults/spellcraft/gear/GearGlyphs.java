@@ -304,8 +304,7 @@ public final class GearGlyphs {
         }
     }
 
-    /** The merged grants of the toggles a spell switched on that are still active; none when there are none. */
-    public static GlyphGrants toggleGrants(ServerPlayer player) {
+    private static GlyphGrants toggleGrants(ServerPlayer player) {
         Map<String, GlyphGrants> toggles = TOGGLES.get(player.getUUID());
         if (toggles == null || toggles.isEmpty()) {
             return GlyphGrants.NONE;
