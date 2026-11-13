@@ -202,11 +202,8 @@ public class AugmentTooltipEvents {
             }
         }
         Font font = Minecraft.getInstance().font;
-        for (Either<FormattedText, TooltipComponent> element : event.getTooltipElements()) {
-            width[0] = Math.max(width[0], element.left().map(font::width).orElse(0));
-        }
         for (Either<FormattedText, TooltipComponent> element : block) {
-            int w = element.map(font::width, component -> component instanceof SpellcraftTooltipRow row ? row.naturalWidth(font) : 0);
+            int w = element.map(text -> 0, component -> component instanceof SpellcraftTooltipRow row ? row.naturalWidth(font) : 0);
             width[0] = Math.max(width[0], w);
         }
         event.getTooltipElements().addAll(block);

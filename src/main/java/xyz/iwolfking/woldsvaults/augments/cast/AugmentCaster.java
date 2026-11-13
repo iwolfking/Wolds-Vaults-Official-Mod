@@ -211,7 +211,7 @@ public final class AugmentCaster {
     }
 
     private static void report(ServerPlayer player, AugmentAbility ability, CastResult result) {
-        if (result == CastResult.ON_COOLDOWN) {
+        if (result == CastResult.ON_COOLDOWN || result == CastResult.FAILED) {
             player.level.playSound(null, player.blockPosition(), ModSounds.ABILITY_ON_COOLDOWN, SoundSource.PLAYERS, 1.0F, 1.0F);
         } else if (result.message() != null) {
             showMessage(player, String.format(result.message(), AugmentAbilities.displayName(ability.id())));

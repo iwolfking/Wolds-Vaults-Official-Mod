@@ -3,8 +3,8 @@ package xyz.iwolfking.woldsvaults.augments;
 import javax.annotation.Nullable;
 
 /**
- * Outcome of casting one ability step of a recipe. Every value except SUCCESS, STARTED and STOPPED tells the
- * player why the step did nothing.
+ * Outcome of casting one ability step of a recipe. Every value except SUCCESS, STARTED, STOPPED, SKIPPED and FAILED
+ * tells the player why the step did nothing; ON_COOLDOWN and FAILED (usually too little mana) only play the cooldown sound.
  */
 public enum CastResult {
     SUCCESS(null),
@@ -13,7 +13,7 @@ public enum CastResult {
     NOT_LEARNED("%s is not learned"),
     ON_COOLDOWN("%s is on cooldown"),
     BLOCKED("%s can't be cast right now"),
-    FAILED("%s failed to cast"),
+    FAILED(null),
     UNSUPPORTED("%s can't be cast this way"),
     DISABLED("%s is disabled for augments"),
     SKIPPED(null);
