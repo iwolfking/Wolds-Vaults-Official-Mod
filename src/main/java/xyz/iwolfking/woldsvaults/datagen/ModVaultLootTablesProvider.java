@@ -12,9 +12,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import xyz.iwolfking.vhapi.api.datagen.gen.AbstractLootTableProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -24,7 +24,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         super(generator, WoldsVaults.MOD_ID);
     }
 
-    private static final List<VaultGearItem> gearItems = new ArrayList<VaultGearItem>(Arrays.asList(ModItems.CHESTPLATE, ModItems.BOOTS, ModItems.LEGGINGS, ModItems.HELMET, ModItems.SWORD, ModItems.AXE, ModItems.FOCUS, ModItems.WAND, ModItems.MAGNET, ModItems.SHIELD, xyz.iwolfking.woldsvaults.init.ModItems.BATTLESTAFF, xyz.iwolfking.woldsvaults.init.ModItems.LOOT_SACK, xyz.iwolfking.woldsvaults.init.ModItems.RANG, xyz.iwolfking.woldsvaults.init.ModItems.PLUSHIE, xyz.iwolfking.woldsvaults.init.ModItems.TRIDENT));
+    private static final List<Item> gearItems = WoldConstants.ALL_VAULT_GEAR_ITEMS.get();
     private static final int[] standardLevels = new int[]{0, 20, 50, 100};
     @Override
     public void registerLootTables() {
@@ -106,14 +106,14 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
             lootBuilder.entry(entryBuilder -> {
                 entryBuilder.rolls(1, 1)
                         .pool(1, poolBuilder -> {
-                            gearItems.forEach(item -> poolBuilder.itemNbt(6, item.getItem().getRegistryName().toString(), 1, 1, nbt -> {
+                            gearItems.forEach(item -> poolBuilder.itemNbt(6, item.getRegistryName().toString(), 1, 1, nbt -> {
                                 nbt.put("the_vault:gear_roll_type", "Rare+");
                             }));
-                            gearItems.forEach(item -> poolBuilder.itemNbt(2, item.getItem().getRegistryName().toString(), 1, 1, nbt -> {
+                            gearItems.forEach(item -> poolBuilder.itemNbt(2, item.getRegistryName().toString(), 1, 1, nbt -> {
                                 nbt.put("the_vault:gear_roll_type", "Rare+");
                                 nbt.put("the_vault:is_legendary", "true");
                             }));
-                            gearItems.forEach(item -> poolBuilder.itemNbt(1, item.getItem().getRegistryName().toString(), 1, 1, nbt -> {
+                            gearItems.forEach(item -> poolBuilder.itemNbt(1, item.getRegistryName().toString(), 1, 1, nbt -> {
                                 nbt.put("the_vault:gear_roll_type_pool", "Chaotic");
                             }));
                             poolBuilder.itemNbt(6, ModItems.MAGNET.getRegistryName().toString(), 1, 1, nbt -> {
@@ -308,7 +308,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
         builder.entry(entryBuilder -> {
             entryBuilder.pool(1, poolBuilder -> {
                 gearItems.forEach(vaultGearItem -> {
-                    gearPiece(poolBuilder, 10, vaultGearItem.getItem(), "gear_completion");
+                    gearPiece(poolBuilder, 10, vaultGearItem, "gear_completion");
                 });
             }).rolls(gearPiecesRolls.getMin(), gearPiecesRolls.getMax());
         });

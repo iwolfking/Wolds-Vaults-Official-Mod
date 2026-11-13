@@ -13,133 +13,7 @@
             {
               "weight": 6,
               "item": {
-                "id": "the_vault:chestplate",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:boots",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:leggings",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:helmet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:sword",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
                 "id": "the_vault:axe",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:focus",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:wand",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:magnet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+"
-                }
-              }
-            },
-            {
-              "weight": 6,
-              "item": {
-                "id": "the_vault:shield",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -167,6 +41,90 @@
             {
               "weight": 6,
               "item": {
+                "id": "the_vault:boots",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:chestplate",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:dagger",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:helmet",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:leggings",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
                 "id": "the_vault:loot_sack",
                 "count": {
                   "type": "uniform",
@@ -181,7 +139,7 @@
             {
               "weight": 6,
               "item": {
-                "id": "the_vault:rang",
+                "id": "the_vault:magnet",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -209,7 +167,91 @@
             {
               "weight": 6,
               "item": {
+                "id": "the_vault:rang",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:rod",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:scepter",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:shield",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:sword",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
                 "id": "the_vault:trident",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+"
+                }
+              }
+            },
+            {
+              "weight": 6,
+              "item": {
+                "id": "the_vault:wand",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -223,142 +265,7 @@
             {
               "weight": 2,
               "item": {
-                "id": "the_vault:chestplate",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:boots",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:leggings",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:helmet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:sword",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
                 "id": "the_vault:axe",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:focus",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:wand",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:magnet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type": "Rare+",
-                  "the_vault:is_legendary": "true"
-                }
-              }
-            },
-            {
-              "weight": 2,
-              "item": {
-                "id": "the_vault:shield",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -388,6 +295,96 @@
             {
               "weight": 2,
               "item": {
+                "id": "the_vault:boots",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:chestplate",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:dagger",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:helmet",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:leggings",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
                 "id": "the_vault:loot_sack",
                 "count": {
                   "type": "uniform",
@@ -403,7 +400,7 @@
             {
               "weight": 2,
               "item": {
-                "id": "the_vault:rang",
+                "id": "the_vault:magnet",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -433,7 +430,97 @@
             {
               "weight": 2,
               "item": {
+                "id": "the_vault:rang",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:rod",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:scepter",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:shield",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:sword",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
                 "id": "the_vault:trident",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type": "Rare+",
+                  "the_vault:is_legendary": "true"
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:wand",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -448,133 +535,7 @@
             {
               "weight": 1,
               "item": {
-                "id": "the_vault:chestplate",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:boots",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:leggings",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:helmet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:sword",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
                 "id": "the_vault:axe",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:focus",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:wand",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:magnet",
-                "count": {
-                  "type": "uniform",
-                  "min": 1,
-                  "max": 1
-                },
-                "nbt": {
-                  "the_vault:gear_roll_type_pool": "Chaotic"
-                }
-              }
-            },
-            {
-              "weight": 1,
-              "item": {
-                "id": "the_vault:shield",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -602,6 +563,90 @@
             {
               "weight": 1,
               "item": {
+                "id": "the_vault:boots",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:chestplate",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:dagger",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:helmet",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:leggings",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
                 "id": "the_vault:loot_sack",
                 "count": {
                   "type": "uniform",
@@ -616,7 +661,7 @@
             {
               "weight": 1,
               "item": {
-                "id": "the_vault:rang",
+                "id": "the_vault:magnet",
                 "count": {
                   "type": "uniform",
                   "min": 1,
@@ -644,7 +689,91 @@
             {
               "weight": 1,
               "item": {
+                "id": "the_vault:rang",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:rod",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:scepter",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:shield",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:sword",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
                 "id": "the_vault:trident",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "Chaotic"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:wand",
                 "count": {
                   "type": "uniform",
                   "min": 1,

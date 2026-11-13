@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Slice;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.items.gear.*;
 
 @Mixin(value = ItemStack.class, priority = 1501)
@@ -29,11 +30,7 @@ public abstract class MixinItemStack extends net.minecraftforge.common.capabilit
     )
     public Item gearDurabilityPrestigeForWoldItems(ItemStack instance, Operation<Item> original) {
         Item item = original.call(instance);
-        if (item instanceof VaultBattleStaffItem
-            || item instanceof VaultTridentItem
-            || item instanceof VaultPlushieItem
-            || item instanceof VaultLootSackItem
-            || item instanceof VaultRangItem) {
+        if(WoldConstants.ALL_WOLD_GEAR.contains(item)) {
             return ModItems.FOCUS; // just pretend that wold items are focuses that already use the expertise
         }
         return item;
