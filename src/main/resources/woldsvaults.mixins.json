@@ -385,6 +385,7 @@
     "vaulthunters.custom.MixinPlayerVaultStats",
     "vaulthunters.custom.MixinPlayerVaultStatsData",
     "vaulthunters.custom.MixinPylonBlock",
+    "vaulthunters.custom.MixinQuestBookItem",
     "vaulthunters.custom.MixinRaritySymbols",
     "vaulthunters.custom.MixinReclamationAltarTileEntity",
     "vaulthunters.custom.MixinRecoveryCost",
