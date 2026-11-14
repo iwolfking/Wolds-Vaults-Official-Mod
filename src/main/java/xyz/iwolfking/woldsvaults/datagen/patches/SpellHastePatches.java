@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import xyz.iwolfking.woldsvaults.config.patch.ConfigPatch;
+import xyz.iwolfking.vhapi.api.patches.ConfigPatch;
 import xyz.iwolfking.woldsvaults.datagen.ModSpellHasteProvider;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider.Node;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider.Patch;
