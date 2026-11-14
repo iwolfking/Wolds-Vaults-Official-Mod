@@ -15,7 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.message.LightningLashFxMessage;
 
@@ -65,7 +65,7 @@ public final class ArcLashBolts {
     private ArcLashBolts() {
     }
 
-    static void fire(ServerPlayer player, Vec3 from, Vec3 look, GearSetConfig.Lightning tuning, float damage, float strikeDamage) {
+    static void fire(ServerPlayer player, Vec3 from, Vec3 look, LightningFiendConfig tuning, float damage, float strikeDamage) {
         ServerLevel level = player.getLevel();
         int count = Math.max(1, tuning.arcLashBolts);
         double speed = Math.max(0.1, tuning.arcLashSpeed);

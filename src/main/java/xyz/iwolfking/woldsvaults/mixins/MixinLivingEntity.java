@@ -24,7 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import org.spongepowered.asm.mixin.Mixin;
-import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,7 +39,6 @@ import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 import javax.annotation.Nullable;
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 
 
 @Mixin(value = LivingEntity.class, priority = 900)
@@ -54,8 +53,8 @@ public abstract class MixinLivingEntity extends Entity {
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z", ordinal = 2), cancellable = true)
     private void doLevitates(Vec3 pTravelVector, CallbackInfo ci, @Local(ordinal = 1) float f3, @Local(ordinal = 1) Vec3 vec35) {
-        if (this.hasEffect(ModEffects.TIDAL_HOVER) && !this.isShiftKeyDown()) {
-            GearSetConfig.Riptide tuning = GearSetHelper.config().getRiptide();
+        RiptideConfig tuning = RiptideConfig.installed();
+        if (tuning != null && this.hasEffect(ModEffects.TIDAL_HOVER) && !this.isShiftKeyDown()) {
             double horizontal = f3 * tuning.hoverHorizontalFriction;
             this.setDeltaMovement(vec35.x * horizontal, vec35.y * tuning.hoverVerticalDamping, vec35.z * horizontal);
             ci.cancel();

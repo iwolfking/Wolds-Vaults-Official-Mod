@@ -14,8 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
-import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDash;
 import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideShockCone;
@@ -46,7 +45,10 @@ public abstract class MixinLivingEntityRiptide extends Entity {
         if (!((Object) this instanceof Player player) || !(player.getMainHandItem().getItem() instanceof VaultTridentItem)) {
             return;
         }
-        GearSetConfig.Riptide tuning = GearSetHelper.config().getRiptide();
+        RiptideConfig tuning = RiptideConfig.installed();
+        if (tuning == null) {
+            return;
+        }
         boolean pierce = RiptideDash.hasPierce(player);
         for (Entity entity : this.level.getEntities(this, previous.minmax(current).inflate(tuning.contactInflate()))) {
             if (!(entity instanceof LivingEntity target) || !RiptideShockCone.isTarget(player, target)) {

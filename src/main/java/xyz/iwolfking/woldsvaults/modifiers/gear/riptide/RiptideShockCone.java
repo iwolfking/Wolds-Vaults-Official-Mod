@@ -8,8 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
-import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.network.message.RiptideFxMessage;
 
@@ -32,7 +31,10 @@ public class RiptideShockCone implements RiptideDash.Listener {
         if (multiplier <= 0.0F) {
             return;
         }
-        GearSetConfig.Riptide tuning = GearSetHelper.config().getRiptide();
+        RiptideConfig tuning = RiptideConfig.installed();
+        if (tuning == null) {
+            return;
+        }
         Vec3 origin = player.position().add(0.0, player.getBbHeight() * 0.5, 0.0);
         Vec3 axis = dash.getDirection();
         double reach = Math.max(tuning.shockConeRadius, Math.max(tuning.shockConeAhead, tuning.shockConeBehind)) + 1.0;
@@ -101,7 +103,7 @@ public class RiptideShockCone implements RiptideDash.Listener {
     }
 
     /** Inside the cone whose apex is {@code shockConeAhead} blocks along the axis and whose base has radius {@code shockConeRadius}. */
-    static boolean inCone(LivingEntity entity, Vec3 origin, Vec3 axis, GearSetConfig.Riptide tuning) {
+    static boolean inCone(LivingEntity entity, Vec3 origin, Vec3 axis, RiptideConfig tuning) {
         Vec3 offset = entity.position().add(0.0, entity.getBbHeight() * 0.5, 0.0).subtract(origin);
         double along = offset.dot(axis);
         if (along > tuning.shockConeAhead || along < -tuning.shockConeBehind) {

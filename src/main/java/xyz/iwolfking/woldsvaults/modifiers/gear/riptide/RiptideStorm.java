@@ -11,7 +11,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
@@ -75,7 +75,8 @@ public class RiptideStorm implements RiptideDash.Listener {
         }
         RiptideDerivedHits.queue(player, target, multiplier * reference);
         boolean chilled = isChilled(target);
-        if (dash.countVisualBolt() <= GearSetHelper.config().getRiptide().stormVisualBoltsPerDash) {
+        RiptideConfig tuning = RiptideConfig.installed();
+        if (tuning != null && dash.countVisualBolt() <= tuning.stormVisualBoltsPerDash) {
             RiptideFxMessage.send(player, RiptideFxMessage.arc(player, target, chilled));
             player.getLevel().playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 0.7F, 1.35F + player.getRandom().nextFloat() * 0.3F);
         } else {

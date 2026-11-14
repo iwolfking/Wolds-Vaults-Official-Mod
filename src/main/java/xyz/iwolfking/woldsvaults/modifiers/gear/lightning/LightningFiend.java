@@ -33,8 +33,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
-import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
@@ -101,7 +100,7 @@ public final class LightningFiend {
         int age;
         int swept;
 
-        Travel(ServerLevel level, List<Vec3> path, int ticks, GearSetConfig.Lightning tuning) {
+        Travel(ServerLevel level, List<Vec3> path, int ticks, LightningFiendConfig tuning) {
             this.level = level;
             this.path = path;
             this.ticks = ticks;
@@ -146,12 +145,12 @@ public final class LightningFiend {
 
     /** Jumps from the struck enemy to the nearest one not struck yet, again and again, up to the chain count. */
     public static void chain(ServerPlayer attacker, LivingEntity from, float damage) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         int jumps = snapshot(attacker).getAttributeValue(ModGearAttributes.CHANNELING_CHAIN, VaultGearAttributeTypeMerger.intSum());
-        if (config == null || jumps <= 0 || damage <= 0.0F) {
+        if (tuning == null || jumps <= 0 || damage <= 0.0F) {
             return;
         }
-        float range = config.getLightning().chainRange;
+        float range = tuning.chainRange;
         Set<Integer> struck = new HashSet<>();
         struck.add(from.getId());
         LivingEntity current = from;
@@ -172,12 +171,11 @@ public final class LightningFiend {
      * thrower becomes lightning, its hits based on the attack damage they had with the trident in hand.
      */
     public static void onThrow(ServerPlayer player) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         float multiplier = snapshot(player).getAttributeValue(ModGearAttributes.LIGHTNING_DASH, VaultGearAttributeTypeMerger.floatSum());
-        if (config == null || multiplier <= 0.0F) {
+        if (tuning == null || multiplier <= 0.0F) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         Form form = FORMS.computeIfAbsent(player.getUUID(), id -> new Form());
         form.endTick = player.server.getTickCount() + tuning.formDurationTicks;
         form.charge = 0.0F;
@@ -194,11 +192,10 @@ public final class LightningFiend {
      */
     public static void addCharge(ServerPlayer player, LivingEntity target, float amount) {
         Form form = FORMS.get(player.getUUID());
-        GearSetConfig config = GearSetHelper.config();
-        if (form == null || config == null || amount <= 0.0F) {
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
+        if (form == null || tuning == null || amount <= 0.0F) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         float boss = ModConfigs.ENTITY_GROUPS.isInGroup(VaultMod.id("bosses"), target) ? tuning.chargeBossMultiplier : 1.0F;
         float charge = Math.min(tuning.chargeMax, form.charge + amount * boss);
         form.chargeDirty |= charge != form.charge;
@@ -207,27 +204,27 @@ public final class LightningFiend {
 
     /** Charge for the throw's hit on {@code target} (chargePerThrowHit). */
     public static void onThrowHit(ServerPlayer player, LivingEntity target) {
-        GearSetConfig config = GearSetHelper.config();
-        if (config != null) {
-            addCharge(player, target, config.getLightning().chargePerThrowHit);
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
+        if (tuning != null) {
+            addCharge(player, target, tuning.chargePerThrowHit);
         }
     }
 
     /** Charge for an Arc Lash bolt's contact with {@code target} (chargePerArcLash). */
     public static void onArcLashContact(ServerPlayer player, LivingEntity target) {
-        GearSetConfig config = GearSetHelper.config();
-        if (config != null) {
-            addCharge(player, target, config.getLightning().chargePerArcLash);
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
+        if (tuning != null) {
+            addCharge(player, target, tuning.chargePerArcLash);
         }
     }
 
     /** The form's resistance cap bonus for {@code entity} (formResistanceCapBonus while lightning, else 0). */
     public static float resistanceCapBonus(LivingEntity entity) {
-        GearSetConfig config = GearSetHelper.config();
-        if (config == null || !(entity instanceof ServerPlayer player) || !inForm(player)) {
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
+        if (tuning == null || !(entity instanceof ServerPlayer player) || !inForm(player)) {
             return 0.0F;
         }
-        return config.getLightning().formResistanceCapBonus;
+        return tuning.formResistanceCapBonus;
     }
 
     public static boolean inForm(ServerPlayer player) {
@@ -252,14 +249,13 @@ public final class LightningFiend {
      * locks on instead: straight through the target, however far, and on past it for rodOvershoot of a dash.
      */
     public static void dash(ServerPlayer player, Dash direction, float yaw) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         Form form = FORMS.get(player.getUUID());
         long now = player.server.getTickCount();
-        if (config == null || form == null || form.travel != null || now >= form.endTick || now < form.readyTick
+        if (tuning == null || form == null || form.travel != null || now >= form.endTick || now < form.readyTick
                 || !player.isAlive() || player.isSpectator() || player.isPassenger()) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         Vec3 start = player.position();
         Vec3 heading = heading(yaw, direction);
         float distance = tuning.dashDistance;
@@ -339,9 +335,9 @@ public final class LightningFiend {
                     travel.struck.add(mob.getId());
                     boolean marked = mob.getId() == form.markId;
                     hit(player, mob, marked ? form.damage * travel.markMultiplier : form.damage);
-                    GearSetConfig config = GearSetHelper.config();
-                    if (config != null) {
-                        addCharge(player, mob, marked ? config.getLightning().chargePerRod : config.getLightning().chargePerDash);
+                    LightningFiendConfig tuning = LightningFiendConfig.installed();
+                    if (tuning != null) {
+                        addCharge(player, mob, marked ? tuning.chargePerRod : tuning.chargePerDash);
                     }
                     player.getLevel().sendParticles(ParticleTypes.ELECTRIC_SPARK, center.x, center.y, center.z, 15, mob.getBbWidth() * 0.5, mob.getBbHeight() * 0.5, mob.getBbWidth() * 0.5, 0.5);
                     break;
@@ -358,13 +354,12 @@ public final class LightningFiend {
      * {@link ArcLashBolts}). At most once per arcLashCooldownTicks.
      */
     public static void arcLash(ServerPlayer player, Vec3 look) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         Form form = FORMS.get(player.getUUID());
         long now = player.server.getTickCount();
-        if (config == null || form == null || now >= form.endTick || now < form.lashReadyTick || !player.isAlive() || player.isSpectator()) {
+        if (tuning == null || form == null || now >= form.endTick || now < form.lashReadyTick || !player.isAlive() || player.isSpectator()) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         form.lashReadyTick = now + tuning.arcLashCooldownTicks;
         float channeling = form.attackDamage * channelingMultiplier(player);
         ArcLashBolts.fire(player, hand(player, look), look, tuning, form.attackDamage * tuning.arcLashDamage, channeling * tuning.arcLashStrikeDamage);
@@ -378,13 +373,12 @@ public final class LightningFiend {
      * time, kept until the target dies or the form ends. A miss does nothing; a mark costs rodCooldownTicks.
      */
     public static void lightningRod(ServerPlayer player, int targetId, Vec3 look) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         Form form = FORMS.get(player.getUUID());
         long now = player.server.getTickCount();
-        if (config == null || form == null || now >= form.endTick || now < form.rodReadyTick || !player.isAlive() || player.isSpectator()) {
+        if (tuning == null || form == null || now >= form.endTick || now < form.rodReadyTick || !player.isAlive() || player.isSpectator()) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         Mob target = aimed(player, targetId, look, tuning.rodRange, 10.0);
         if (target == null) {
             return;
@@ -409,13 +403,12 @@ public final class LightningFiend {
      * Ends the form.
      */
     public static void thunderstrike(ServerPlayer player) {
-        GearSetConfig config = GearSetHelper.config();
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
         Form form = FORMS.get(player.getUUID());
         long now = player.server.getTickCount();
-        if (config == null || form == null || form.travel != null || now >= form.endTick || !player.isAlive() || player.isSpectator()) {
+        if (tuning == null || form == null || form.travel != null || now >= form.endTick || !player.isAlive() || player.isSpectator()) {
             return;
         }
-        GearSetConfig.Lightning tuning = config.getLightning();
         float filled = tuning.chargeMax > 0.0F ? form.charge / tuning.chargeMax : 0.0F;
         float damage = form.attackDamage * tuning.thunderBaseDamage * (1.0F + (tuning.thunderMaxMultiplier - 1.0F) * filled * filled);
         float radius = tuning.thunderBaseRadius + (tuning.thunderMaxRadius - tuning.thunderBaseRadius) * filled;
@@ -456,7 +449,7 @@ public final class LightningFiend {
     }
 
     @Nullable
-    private static LivingEntity marked(ServerPlayer player, Form form, GearSetConfig.Lightning tuning) {
+    private static LivingEntity marked(ServerPlayer player, Form form, LightningFiendConfig tuning) {
         if (form.markId < 0) {
             return null;
         }
@@ -571,12 +564,11 @@ public final class LightningFiend {
     }
 
     private static void sendCharge(ServerPlayer player, Form form) {
-        GearSetConfig config = GearSetHelper.config();
-        if (!form.chargeDirty || config == null) {
+        LightningFiendConfig tuning = LightningFiendConfig.installed();
+        if (!form.chargeDirty || tuning == null) {
             return;
         }
         form.chargeDirty = false;
-        GearSetConfig.Lightning tuning = config.getLightning();
         ModNetwork.sendToClient(new LightningChargeMessage(form.charge, tuning.chargeMax, tuning.thunderMaxMultiplier), player);
     }
 

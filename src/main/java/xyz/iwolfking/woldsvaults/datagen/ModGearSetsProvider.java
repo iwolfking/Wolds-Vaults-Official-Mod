@@ -3,6 +3,8 @@ package xyz.iwolfking.woldsvaults.datagen;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
 
 import java.util.LinkedHashMap;
@@ -12,9 +14,8 @@ import static xyz.iwolfking.woldsvaults.config.GearSetConfig.grant;
 import static xyz.iwolfking.woldsvaults.config.GearSetConfig.tier;
 
 /**
- * Set gear: the pieces of each set, what each piece-count tier grants, and the shared riptide and lightning tuning
- * the set mechanics read. Every number a tier's tooltip quotes is formatted from the grant or tuning value it
- * describes, so the text cannot disagree with what the tier does.
+ * Set gear: the pieces of each set and what each piece-count tier grants. Every number a tier's tooltip quotes is
+ * formatted from the grant or mechanic tuning value it describes, so the text cannot disagree with what the tier does.
  */
 public class ModGearSetsProvider extends AbstractWoldsTableProvider {
     private static final int TICKS_PER_SECOND = 20;
@@ -26,58 +27,13 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
     @Override
     public void registerConfigs() {
         GearSetConfig table = new GearSetConfig();
-
-        GearSetConfig.Riptide riptide = new GearSetConfig.Riptide();
-        riptide.hoverHorizontalFriction = 0.8F;
-        riptide.hoverVerticalDamping = 0.5F;
-        riptide.shockConeAhead = 2.0F;
-        riptide.shockConeBehind = 3.0F;
-        riptide.shockConeRadius = 4.0F;
-        riptide.stormVisualBoltsPerDash = 3;
-        riptide.contactInflate = 0.5F;
-        riptide.stallSpeed = 0.1F;
-        riptide.launchGraceTicks = 3;
-        table.riptide = riptide;
-
-        GearSetConfig.Lightning lightning = new GearSetConfig.Lightning();
-        lightning.chainRange = 6.0F;
-        lightning.formDurationTicks = 200;
-        lightning.dashDistance = 7.0F;
-        lightning.dashWidth = 1.5F;
-        lightning.dashCooldownTicks = 10;
-        lightning.dashTravelTicks = 2;
-        lightning.arcLashRange = 12.0F;
-        lightning.arcLashDamage = 0.5F;
-        lightning.arcLashStrikeDamage = 0.05F;
-        lightning.arcLashConeAngle = 30.0F;
-        lightning.arcLashBolts = 5;
-        lightning.arcLashSpeed = 1.2F;
-        lightning.arcLashCooldownTicks = 10;
-        lightning.rodRange = 24.0F;
-        lightning.rodLockAngle = 60.0F;
-        lightning.rodOvershoot = 0.5F;
-        lightning.rodDamageMultiplier = 1.5F;
-        lightning.rodCooldownTicks = 10;
-        lightning.thunderBaseDamage = 5.0F;
-        lightning.thunderMaxMultiplier = 30.0F;
-        lightning.thunderBaseRadius = 3.0F;
-        lightning.thunderMaxRadius = 7.0F;
-        lightning.chargeMax = 500.0F;
-        lightning.chargePerThrowHit = 5.0F;
-        lightning.chargePerArcLash = 5.0F;
-        lightning.chargePerDash = 10.0F;
-        lightning.chargePerRod = 15.0F;
-        lightning.chargeBossMultiplier = 3.0F;
-        lightning.formResistanceCapBonus = 0.1F;
-        table.lightning = lightning;
-
         table.sets = new LinkedHashMap<>();
-        table.sets.put("woldsvaults:tidebreaker", tidebreaker(riptide));
-        table.sets.put("woldsvaults:lightning_fiend", lightningFiend(lightning));
+        table.sets.put("woldsvaults:tidebreaker", tidebreaker(ModRiptideProvider.riptide()));
+        table.sets.put("woldsvaults:lightning_fiend", lightningFiend(ModLightningFiendProvider.lightningFiend()));
         this.table("gear_sets", table);
     }
 
-    private static GearSetConfig.GearSet tidebreaker(GearSetConfig.Riptide riptide) {
+    private static GearSetConfig.GearSet tidebreaker(RiptideConfig riptide) {
         float damageMore = 1.0F;
         int hoverTicks = 30;
         float boostDamageReduction = 0.75F;
@@ -108,7 +64,7 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         return set;
     }
 
-    private static GearSetConfig.GearSet lightningFiend(GearSetConfig.Lightning lightning) {
+    private static GearSetConfig.GearSet lightningFiend(LightningFiendConfig lightning) {
         float channelingMore = 1.0F;
         int chain = 2;
         int pierce = 3;

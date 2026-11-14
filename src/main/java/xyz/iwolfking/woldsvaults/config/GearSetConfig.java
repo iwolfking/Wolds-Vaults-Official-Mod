@@ -19,75 +19,14 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Set gear, generated as {@code vault_configs/gear/sets/gear_sets.json}: which uniques form each set, and what each piece-count tier grants.
- * A grant is a gear attribute and value added to the wearer's attribute snapshot while the tier is active. Also
- * holds the shared riptide and lightning tuning the set mechanics read.
+ * A grant is a gear attribute and value added to the wearer's attribute snapshot while the tier is active. Each set's own
+ * mechanic keeps its tuning in its own table ({@link RiptideConfig}, {@link LightningFiendConfig}).
  */
 public class GearSetConfig extends Config implements WoldsTable {
-    @Expose public Riptide riptide;
-    @Expose public Lightning lightning;
     @Expose public Map<String, GearSet> sets;
 
     private transient Map<ResourceLocation, ResourceLocation> setByPiece;
     private transient Map<ResourceLocation, GearSet> setsById;
-
-    public static class Riptide {
-        @Expose public float hoverHorizontalFriction;
-        @Expose public float hoverVerticalDamping;
-        @Expose public float shockConeAhead;
-        @Expose public float shockConeBehind;
-        @Expose public float shockConeRadius;
-        @Expose public int stormVisualBoltsPerDash;
-        @Expose public float contactInflate;
-        @Expose public float stallSpeed;
-        @Expose public int launchGraceTicks;
-
-        /** Blocks the swept box that finds riptide contacts grows by on every side. */
-        public float contactInflate() {
-            return this.contactInflate;
-        }
-
-        /** Horizontal blocks per tick below which a dash that runs into a wall ends; faster dashes slide along it. */
-        public float stallSpeed() {
-            return this.stallSpeed;
-        }
-
-        /** Ticks after a launch during which a wall never ends the dash. */
-        public int launchGraceTicks() {
-            return this.launchGraceTicks;
-        }
-    }
-
-    public static class Lightning {
-        @Expose public float chainRange;
-        @Expose public int formDurationTicks;
-        @Expose public float dashDistance;
-        @Expose public float dashWidth;
-        @Expose public int dashCooldownTicks;
-        @Expose public int dashTravelTicks;
-        @Expose public float arcLashRange;
-        @Expose public float arcLashDamage;
-        @Expose public float arcLashStrikeDamage;
-        @Expose public float arcLashConeAngle;
-        @Expose public int arcLashBolts;
-        @Expose public float arcLashSpeed;
-        @Expose public int arcLashCooldownTicks;
-        @Expose public float rodRange;
-        @Expose public float rodLockAngle;
-        @Expose public float rodOvershoot;
-        @Expose public float rodDamageMultiplier;
-        @Expose public int rodCooldownTicks;
-        @Expose public float thunderBaseDamage;
-        @Expose public float thunderMaxMultiplier;
-        @Expose public float thunderBaseRadius;
-        @Expose public float thunderMaxRadius;
-        @Expose public float chargeMax;
-        @Expose public float chargePerThrowHit;
-        @Expose public float chargePerArcLash;
-        @Expose public float chargePerDash;
-        @Expose public float chargePerRod;
-        @Expose public float chargeBossMultiplier;
-        @Expose public float formResistanceCapBonus;
-    }
 
     public static class GearSet {
         @Expose public String name;
@@ -121,11 +60,9 @@ public class GearSetConfig extends Config implements WoldsTable {
         return "gear_sets";
     }
 
-    /** A config with no sets and zeroed tuning: nothing counts as a set piece on it. */
+    /** A config with no sets: nothing counts as a set piece on it. */
     public static GearSetConfig inert() {
         GearSetConfig config = new GearSetConfig();
-        config.riptide = new Riptide();
-        config.lightning = new Lightning();
         config.sets = new LinkedHashMap<>();
         return config;
     }
@@ -137,9 +74,6 @@ public class GearSetConfig extends Config implements WoldsTable {
     @Nullable
     @Override
     public String validate() {
-        if (this.riptide == null || this.lightning == null) {
-            return "the riptide or lightning tuning is missing";
-        }
         if (this.sets == null || this.sets.isEmpty()) {
             return "it defines no sets";
         }
@@ -217,14 +151,6 @@ public class GearSetConfig extends Config implements WoldsTable {
     public Map<ResourceLocation, GearSet> getSets() {
         this.index();
         return Collections.unmodifiableMap(this.setsById);
-    }
-
-    public Riptide getRiptide() {
-        return this.riptide;
-    }
-
-    public Lightning getLightning() {
-        return this.lightning;
     }
 
     /** The grants of one tier resolved to registered attributes; unknown attributes are logged and skipped. */

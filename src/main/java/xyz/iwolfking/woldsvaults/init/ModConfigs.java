@@ -21,6 +21,8 @@ import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.config.FocusAugmentsConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
 import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
@@ -51,6 +53,8 @@ public class ModConfigs {
     public static ExtractorCostsConfig EXTRACTOR_COSTS = ExtractorCostsConfig.inert();
     public static ObjectiveDifficultyConfig OBJECTIVE_DIFFICULTY;
     public static GearSetConfig GEAR_SETS;
+    public static RiptideConfig RIPTIDE;
+    public static LightningFiendConfig LIGHTNING_FIEND;
     public static FocusAugmentsConfig FOCUS_AUGMENTS;
     public static SpellHasteConfig SPELL_HASTE;
 
