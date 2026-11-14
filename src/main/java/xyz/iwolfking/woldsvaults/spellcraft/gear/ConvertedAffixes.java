@@ -20,8 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
@@ -49,7 +47,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * in for it. The grants in effect come from the open cast scope, the deferred scope of a spell step, or a toggle a
  * spell switched on, so a plain cast sees none of the converted affixes.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ConvertedAffixes {
     private static final String SPECIAL_MODIFICATION = "the_vault:ability_special_modification";
     private static final String ABILITY_AREA = "the_vault:ability_area_of_effect_percent";

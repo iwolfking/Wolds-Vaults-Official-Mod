@@ -5,21 +5,16 @@ import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBarData;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
-import xyz.iwolfking.woldsvaults.spellcraft.roll.SpellcraftRoller;
-import xyz.iwolfking.woldsvaults.spellcraft.source.EquippedSources;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -32,11 +27,7 @@ import java.util.UUID;
  * and syncs the bar to the client. VH code that reads the tree's selection (Vein Miner, the HUD tray) keeps working
  * because the selection follows the slot.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class SpellBars {
-    private static final int REFRESH_TICKS = 4;
-    private static final int ROLL_SCAN_TICKS = 40;
-    private static final int STAT_SYNC_TICKS = 20;
     private static final Map<UUID, State> STATES = new HashMap<>();
     private static boolean dispatching;
 
@@ -136,27 +127,6 @@ public final class SpellBars {
         } finally {
             dispatching = outer;
         }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) {
-            return;
-        }
-        if (player.tickCount % EquippedSources.SYNC_TICKS == 0) {
-            EquippedSources.sync(player);
-        }
-        HeldSlots.recast(player);
-        if (player.tickCount % STAT_SYNC_TICKS == 0) {
-            StatMirror.sync(player);
-        }
-        if (player.tickCount % REFRESH_TICKS != 0) {
-            return;
-        }
-        if (player.tickCount % ROLL_SCAN_TICKS == 0) {
-            SpellcraftRoller.rollMissingSpellcraft(player);
-        }
-        refresh(player);
     }
 
     @SubscribeEvent

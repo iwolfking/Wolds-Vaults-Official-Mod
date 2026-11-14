@@ -12,7 +12,9 @@ import xyz.iwolfking.woldsvaults.spellcraft.gear.ConvertedEtchings;
 import xyz.iwolfking.woldsvaults.spellcraft.hit.GlyphArea;
 import xyz.iwolfking.woldsvaults.spellcraft.hit.GlyphDamage;
 import xyz.iwolfking.woldsvaults.spellcraft.hit.ShotgunHits;
+import xyz.iwolfking.woldsvaults.spellcraft.play.SpellBars;
 import xyz.iwolfking.woldsvaults.spellcraft.play.SpellCharge;
+import xyz.iwolfking.woldsvaults.spellcraft.play.ToggleGuard;
 import xyz.iwolfking.woldsvaults.spellcraft.projectile.ProjectileGlyphs;
 import xyz.iwolfking.woldsvaults.spellcraft.projectile.ProjectilePhysics;
 import xyz.iwolfking.woldsvaults.spellcraft.projectile.ProjectileSizing;
@@ -20,6 +22,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.projectile.ProjectileSteering;
 import xyz.iwolfking.woldsvaults.spellcraft.roll.SpellcraftRoller;
 import xyz.iwolfking.woldsvaults.spellcraft.roll.UniqueSetRoller;
 import xyz.iwolfking.woldsvaults.spellcraft.scope.DeferredReach;
+import xyz.iwolfking.woldsvaults.spellcraft.source.EquippedSources;
 
 /**
  * Spellcraft setup: the Forge handlers that must run in a fixed order and the Vault Hunters hooks installed at common
@@ -34,6 +37,12 @@ public final class Spellcraft {
      * every annotated handler of the same priority: elemental procs read a hit before glyph damage scales it.
      */
     public static void registerHandlers() {
+        MinecraftForge.EVENT_BUS.register(EquippedSources.class);
+        MinecraftForge.EVENT_BUS.register(ToggleGuard.class);
+        MinecraftForge.EVENT_BUS.register(SpellBars.class);
+        MinecraftForge.EVENT_BUS.register(ConvertedEtchings.class);
+        MinecraftForge.EVENT_BUS.register(ConvertedAffixes.class);
+        MinecraftForge.EVENT_BUS.register(LingeringBuffs.class);
         MinecraftForge.EVENT_BUS.register(ToggleDiscounts.class);
         MinecraftForge.EVENT_BUS.register(ProjectileSteering.class);
         MinecraftForge.EVENT_BUS.register(ProjectileSizing.class);
