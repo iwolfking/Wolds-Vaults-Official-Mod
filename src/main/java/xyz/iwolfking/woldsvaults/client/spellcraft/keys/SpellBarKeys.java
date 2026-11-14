@@ -6,10 +6,10 @@ import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.spellcraft.bar.SkillMenuSpellBar;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientGlyphViews;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
+import xyz.iwolfking.woldsvaults.client.spellcraft.state.MirroredStats;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellSlotKeyMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
-import xyz.iwolfking.woldsvaults.spellcraft.play.StatMirror;
 
 import java.util.Arrays;
 
@@ -49,7 +49,7 @@ public final class SpellBarKeys {
     }
 
     public static void reset() {
-        StatMirror.clearClient();
+        MirroredStats.reset();
         Arrays.fill(DOWN, false);
         ClientSpellBar.reset();
         ClientGlyphViews.reset();

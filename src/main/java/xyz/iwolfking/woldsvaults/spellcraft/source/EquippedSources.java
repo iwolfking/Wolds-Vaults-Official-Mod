@@ -246,7 +246,7 @@ public final class EquippedSources {
     /** Sends the player's glyph candidates to their client when they changed since the last send. */
     public static void sync(ServerPlayer player) {
         Snapshot snapshot = get(player);
-        GlyphViewSyncMessage message = new GlyphViewSyncMessage(snapshot.shared(), snapshot.auto());
+        GlyphViewSyncMessage message = new GlyphViewSyncMessage(snapshot.shared());
         String signature = message.signature();
         if (!signature.equals(SENT.get(player.getUUID()))) {
             SENT.put(player.getUUID(), signature);
