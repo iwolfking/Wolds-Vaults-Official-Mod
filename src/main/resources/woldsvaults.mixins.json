@@ -520,7 +520,6 @@
     "vaulthunters.custom.MixinVaultGearRarity",
     "vaulthunters.custom.MixinVaultGearRecipe",
     "vaulthunters.custom.MixinVaultGearTierConfig",
-    "vaulthunters.custom.MixinVaultGearTooltipItem",
     "vaulthunters.custom.MixinVaultGlobeBlockEntity",
     "vaulthunters.custom.MixinVaultGrenade",
     "vaulthunters.custom.MixinVaultGridLayout",
@@ -792,6 +791,8 @@
     "vaulthunters.skills.modifications.MixinLightningOrbsAbility"
   ],
   "client": [
+    "vaulthunters.custom.MixinVaultGearTooltipItem",
+    "darkmodeeverywhere.MixinClientProxy",
     "vhatcaniroll.MixinVhatCanIRollItems",
     "vaultmapper.MixinVaultMapMultiCell",
     "vaultmapper.MixinVaultMapOverlayRendererMultiCell",

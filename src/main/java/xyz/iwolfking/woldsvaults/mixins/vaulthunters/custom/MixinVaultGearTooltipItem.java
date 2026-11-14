@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import iskallia.vault.client.data.ClientPatreonGearStats;
 import iskallia.vault.config.UniqueGearConfig;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.VaultGearType;
@@ -10,8 +11,12 @@ import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
 import iskallia.vault.gear.tooltip.VaultGearTooltipItem;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.gear.stats.PatreonGearStatHelper;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.TextUtil;
+import iskallia.vault.www.patreon.PatreonManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +28,6 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
-import xyz.iwolfking.woldsvaults.client.GearTooltipClient;
 
 import java.util.*;
 
@@ -115,7 +119,7 @@ public interface MixinVaultGearTooltipItem{
         if (!ModConfigs.isInitialized()) {
             return Collections.emptyList();
         } else {
-            boolean shiftDown = GearTooltipClient.isShiftDown();
+            boolean shiftDown = Screen.hasShiftDown();
             VaultGearData data = VaultGearData.read(stack);
             List<Component> tooltip = new ArrayList<>();
             VaultGearState state = data.getState();
@@ -215,7 +219,28 @@ public interface MixinVaultGearTooltipItem{
                 tooltip.add(ct);
             }
 
-            GearTooltipClient.addPatreonStats(stack, tooltip);
+
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft.player != null && PatreonManager.getInstance().isUserPatreon(minecraft.player.getUUID())) {
+                Item itemType = stack.getItem();
+                if (itemType instanceof VaultGearItem gearItem) {
+                    VaultGearType type = gearItem.getGearType(stack);
+                    if (type != VaultGearType.SWORD && type != VaultGearType.AXE) {
+                        if (PatreonGearStatHelper.isTrackableArmor(stack)) {
+                            double damageTaken = ClientPatreonGearStats.getDamageTaken(stack);
+                            if (damageTaken > (double) 0.0F) {
+                                String formatted = String.format(Locale.US, "%.1f", damageTaken);
+                                tooltip.add((new TextComponent("Damage Taken: ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(formatted)).withStyle(ChatFormatting.WHITE)));
+                            }
+                        }
+                    } else {
+                        int kills = ClientPatreonGearStats.getKills(stack);
+                        if (kills > 0) {
+                            tooltip.add((new TextComponent("Killed ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(String.valueOf(kills))).withStyle(ChatFormatting.WHITE)).append(" mobs"));
+                        }
+                    }
+                }
+            }
 
             return tooltip;
         }

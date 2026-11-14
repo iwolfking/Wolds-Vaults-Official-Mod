@@ -264,6 +264,7 @@ dependencies {
     // optional mods (usually conditional mixin)
     compileOnly fg.deobf("curse.maven:better-tridents-666941:4707885")
     compileOnly fg.deobf("curse.maven:advanced-peripherals-431725:4684137")
+    compileOnly fg.deobf("curse.maven:dark-mode-everywhere-574123:4645970")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
     compileOnly fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
     compileOnly fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
