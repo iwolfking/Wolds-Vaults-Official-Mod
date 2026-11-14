@@ -94,7 +94,6 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
     }
 
     private void applyMotion(float seconds, float ramp) {
-        // getAnimationProcessor() is a raw type here, so the bone list erases to Object
         for (Object entry : this.getAnimationProcessor().getModelRendererList()) {
             IBone bone = (IBone) entry;
             String suffix = ExtractorMotion.suffixOf(bone.getName());

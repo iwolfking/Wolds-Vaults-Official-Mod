@@ -18,15 +18,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.FOVModifierEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
 import xyz.iwolfking.woldsvaults.network.message.LightningAbilityMessage;
@@ -44,7 +40,6 @@ import java.util.List;
  * lashing with Arc Lash, a press of use marks a Lightning Rod target, aimed at whatever is under the crosshair, and a
  * press of pick block (middle click) calls down the Thunderstrike that ends the form.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class ClientLightningForm {
     private static final float DASH_FOV = 1.15F;
     private static final double AIM_RANGE = 32.0;
@@ -178,7 +173,6 @@ public final class ClientLightningForm {
         return mc.gameRenderer.getMainCamera().getYRot();
     }
 
-    @SubscribeEvent
     public static void onMovementInput(MovementInputUpdateEvent event) {
         if (isLightning(event.getPlayer())) {
             event.getInput().jumping = false;
@@ -186,7 +180,6 @@ public final class ClientLightningForm {
         }
     }
 
-    @SubscribeEvent
     public static void onClick(InputEvent.ClickInputEvent event) {
         if (isActive() && Minecraft.getInstance().player != null) {
             event.setSwingHand(false);
@@ -194,7 +187,6 @@ public final class ClientLightningForm {
         }
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -268,7 +260,6 @@ public final class ClientLightningForm {
         return hit == null ? -1 : hit.getEntity().getId();
     }
 
-    @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || event.side != LogicalSide.CLIENT || path == null || event.player != Minecraft.getInstance().player) {
             return;
@@ -297,7 +288,6 @@ public final class ClientLightningForm {
         }
     }
 
-    @SubscribeEvent
     public static void onFov(FOVModifierEvent event) {
         if (path != null && event.getEntity() == Minecraft.getInstance().player) {
             event.setNewfov(event.getNewfov() * DASH_FOV);

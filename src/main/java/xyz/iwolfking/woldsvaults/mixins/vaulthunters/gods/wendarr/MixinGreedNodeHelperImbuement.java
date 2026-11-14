@@ -12,7 +12,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrNodes;
 
 /**
- * Master Imbuer (r66): adds the Wendarr tree's imbuement chance on top of the greed tree's, since it is
+ * Master Imbuer: adds the Wendarr tree's imbuement chance on top of the greed tree's, since it is
  * not a gear attribute. Chance per point comes from {@code god_node_effects_wendarr.json}.
  */
 @Mixin(value = GreedNodeHelper.class, remap = false)

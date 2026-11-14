@@ -42,8 +42,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * Stage / Fabricate button and a status readout. Left rail: the seven deposit slots, each showing its ledger line's
  * item as a ghost (a tick once paid). Centre: the cost ledger, then the part's stats beside a turning 3D preview of
  * the part on the rig. Right rail: FE and fluid gauges. Bottom: materials and lock readout, the player inventory,
- * and build time and FE/t. While fabricating, both side edges glow like a forge. Layout spec:
- * {@code library/ui_preview/screens/extraction_forge_v2.py}.
+ * and build time and FE/t. While fabricating, both side edges glow like a forge.
  */
 public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForgeContainer> {
     private static final int W = ExtractorForgeContainer.IMAGE_WIDTH;

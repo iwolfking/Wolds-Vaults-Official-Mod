@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
-/** Exposes the palette list a treasure/vendoor door builds its room from (Barter Expert, r102). */
+/** Exposes the palette list a treasure/vendoor door builds its room from (Barter Expert). */
 @Mixin(value = TreasureDoorTileEntity.class, remap = false)
 public interface TreasureDoorPalettesAccessor {
     @Accessor("palettes")

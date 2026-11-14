@@ -19,9 +19,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.message.RiptideFxMessage;
 
 import java.util.ArrayList;
@@ -34,7 +31,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * arcs, the hover stance and halo, and arcane particles, ticks them, and draws them after particles each frame.
  */
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public final class RiptideFx {
     static final float[] TEAL = {0.30F, 1.0F, 0.85F};
     static final float[] VIOLET = {0.62F, 0.28F, 1.0F};
@@ -238,7 +234,6 @@ public final class RiptideFx {
         };
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -271,14 +266,12 @@ public final class RiptideFx {
         PENDING.clear();
     }
 
-    @SubscribeEvent
     public static void hideOffhandWhileRiptiding(RenderHandEvent event) {
         if (event.getHand() == InteractionHand.OFF_HAND && Minecraft.getInstance().player != null && Minecraft.getInstance().player.isAutoSpinAttack()) {
             event.setCanceled(true);
         }
     }
 
-    @SubscribeEvent
     public static void onRenderStage(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES || EFFECTS.isEmpty()) {
             return;

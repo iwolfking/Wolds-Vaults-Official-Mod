@@ -24,7 +24,7 @@ import java.util.List;
  * Vault Fabricator screen in the industrial style: centred title plate, pattern slot with full-height previous/next
  * buttons, a readout of the selected recipe's energy, fluid and time, the 5×5 grid with each cell's required item
  * as a ghost, red FE and blue fluid gauges the length of the grid (a white line marks what the recipe needs), and
- * the result slot with its progress bar. Layout spec: {@code library/ui_preview/screens/vault_fabricator_v2.py}.
+ * the result slot with its progress bar.
  */
 public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricatorContainer> {
     private static final int GRID_X = VaultFabricatorContainer.GRID_X;

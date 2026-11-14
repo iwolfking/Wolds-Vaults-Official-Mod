@@ -15,7 +15,6 @@ import java.util.function.Supplier;
  * Code-drawn machine chrome for the extraction stations (Vault Fabricator, Extraction Forge): a chamfered steel
  * housing with a hard outline and two-tone bevel, raised bolted plates, engraved labels, sharp slots, dark readout
  * windows, vertical gauges with a requirement marker, full-height metal buttons and the forge's ember glow.
- * The layout spec is {@code library/ui_preview/screens/industrial.py} in the pack repo.
  */
 public final class IndustrialStyle {
     public static final int OUTLINE = 0xFF101214;

@@ -21,7 +21,7 @@ public final class GlyphLineProviders {
 
     /**
      * One line a source grants. {@code transferable}: other arcana items may use it (always true for gear without
-     * arcana). {@code auto}: it augments plain base-bar casts of the ability it is locked to; only unique glyphs may be
+     * arcana). {@code auto}: it modifies plain base-bar casts of the ability it is locked to; only unique glyphs may be
      * auto lines: converted affixes on gear without arcana, and etchings on any source.
      */
     public record SourceLine(GlyphLine line, boolean transferable, boolean auto) {

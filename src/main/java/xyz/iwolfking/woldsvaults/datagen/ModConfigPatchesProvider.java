@@ -348,7 +348,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
     }
 
     /**
-     * Flat max mana cards leave every booster pool (ruling 2026-11-09): each pool entry naming a card whose attribute is
+     * Flat max mana cards leave every booster pool: each pool entry naming a card whose attribute is
      * {@code the_vault:mana_additive} is removed. Percent mana and mana regeneration cards stay.
      */
     private void flatManaCards() {

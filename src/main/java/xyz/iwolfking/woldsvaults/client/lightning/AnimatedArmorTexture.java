@@ -10,10 +10,7 @@ import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
@@ -28,7 +25,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * the next frame every {@link #FRAME_TICKS} ticks. Everything that binds the path animates: the armor on the body,
  * first-person sleeves, gear previews. If the strip can't be read it shows the plain texture at its own path.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class AnimatedArmorTexture extends AbstractTexture implements Tickable {
     private static final int FRAME_TICKS = 2;
     private static final Map<ResourceLocation, ResourceLocation> ANIMATED = Map.of(
@@ -112,7 +108,6 @@ public class AnimatedArmorTexture extends AbstractTexture implements Tickable {
         }
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
         if (event.phase != TickEvent.Phase.END || mc.level == null || mc.getOverlay() != null) {

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Casts an augmented spell slot. The trigger step is a real key press billed for the whole slot ({@link
+ * Casts a spell slot. The trigger step is a real key press billed for the whole slot ({@link
  * SlotManaBilling}), and when it does not go through nothing else casts. Every later step is a free extra cast, and a
  * toggle trigger runs them only when it switches on.
  */

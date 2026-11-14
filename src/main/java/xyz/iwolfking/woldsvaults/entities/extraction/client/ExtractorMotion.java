@@ -42,12 +42,9 @@ public final class ExtractorMotion {
     private static final float BOB_UNITS = 0.4F;
     private static final float BOB_PERIOD = 4.0F;
 
-    // a nodding derrick: a real stroke, not a vibration, and only while working
     private static final float PUMP_UNITS = 1.0F;
     private static final float PUMP_PERIOD = 0.7F;
 
-    // a lit segment travelling round a loop. Brightness is a per-SHEET knob, so a
-    // segment is lit by being drawn at all: outside its turn it is scaled to zero.
     private static final float CHASE_LAP_IDLE = 3.2F;
     private static final float CHASE_LAP_DRILL = 1.1F;
     private static final int CHASE_WINDOW = 3;

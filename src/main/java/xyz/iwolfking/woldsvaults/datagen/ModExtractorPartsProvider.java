@@ -19,8 +19,7 @@ import java.util.List;
 /**
  * Every number behind extractor parts, blueprints and assembly: series and their part names, which series each rarity
  * can roll, per-series and per-drill-class stat ranges, drill classes, attachments, affix pools, the blueprint quality
- * curve, the stat scaling families, attachment slots and the power cell restore base. Mirrors the "Extractor Parts and
- * Rolls" workbook tab.
+ * curve, the stat scaling families, attachment slots and the power cell restore base.
  */
 public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
 

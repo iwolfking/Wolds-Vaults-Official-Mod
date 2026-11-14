@@ -20,7 +20,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Unique focuses and wands with a fixed glyph set (table section {@code uniqueSets}). Budget and depth roll on the
@@ -29,8 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * scan and keeps its spells, and a unique with no set rolls like any carrier and logs one error per id.
  */
 public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
-    private static final Set<String> WARNED = ConcurrentHashMap.newKeySet();
-
     private record Plan(String uniqueId, String row, SpellcraftConfig.UniqueSet set, SpellcraftConfig.RarityRolls rolls) {
         String mark() {
             return this.uniqueId + "|" + this.row;
@@ -95,28 +92,24 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
     private static Plan plan(SpellcraftConfig config, VaultGearData data) {
         ResourceLocation key = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
         if (key == null) {
-            errorOnce("nokey", "Spellcraft: a unique focus or wand has no unique id; it rolls like any carrier");
+            WoldLogger.errorOnce("UniqueSetRoller:nokey", "Spellcraft: a unique focus or wand has no unique id; it rolls like any carrier");
             return null;
         }
         String uniqueId = key.toString();
         if (config.uniqueSets == null) {
-            if (WARNED.add("missing")) {
-                WoldLogger.error("Spellcraft: the spellcraft table has no uniqueSets section; unique focuses and wands roll like any carrier");
-            }
+            WoldLogger.errorOnce("UniqueSetRoller:missing", "Spellcraft: the spellcraft table has no uniqueSets section; unique focuses and wands roll like any carrier");
             return null;
         }
         SpellcraftConfig.UniqueSet set = config.uniqueSets.get(uniqueId);
         if (set == null) {
-            errorOnce("set:" + uniqueId, "Spellcraft: unique " + uniqueId + " has no glyph set; it rolls like any carrier");
+            WoldLogger.errorOnce("UniqueSetRoller:set:" + uniqueId, "Spellcraft: unique " + uniqueId + " has no glyph set; it rolls like any carrier");
             return null;
         }
         String row = AncientUniqueHelper.isAncient(data) ? set.ancientRarityRow : set.rarityRow;
         SpellcraftConfig.RarityRolls rolls = config.focus.rarities.get(row);
         if (rolls == null) {
-            if (WARNED.add("row:" + row)) {
-                WoldLogger.error("Spellcraft: unique set {} rolls on rarity row {}, which the focus rolls lack; it rolls like any carrier",
-                        uniqueId, row);
-            }
+            WoldLogger.errorOnce("UniqueSetRoller:row:" + row, "Spellcraft: unique set {} rolls on rarity row {}, which the focus rolls lack; it rolls like any carrier",
+                    uniqueId, row);
             return null;
         }
         return new Plan(uniqueId, row, set, rolls);
@@ -144,7 +137,7 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
                 continue;
             }
             if (isGearGlyph(config, type)) {
-                errorOnce("affix:" + type.id(), "Spellcraft: a unique set's signature glyph " + type.id()
+                WoldLogger.errorOnce("UniqueSetRoller:affix:" + type.id(), "Spellcraft: a unique set's signature glyph " + type.id()
                         + " has no granting affix on the item; it is stored as a rolled line instead");
             }
             GlyphLine rolled = SpellcraftRoller.rollLine(config, type, level, random);
@@ -173,11 +166,5 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
             }
         }
         return false;
-    }
-
-    private static void errorOnce(String key, String message) {
-        if (WARNED.add(key)) {
-            WoldLogger.error(message);
-        }
     }
 }

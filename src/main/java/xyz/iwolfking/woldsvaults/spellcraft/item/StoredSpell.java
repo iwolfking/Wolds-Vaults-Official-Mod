@@ -3,7 +3,7 @@ package xyz.iwolfking.woldsvaults.spellcraft.item;
 import java.util.List;
 
 /**
- * One augmented spell: a per-item id (kept across edits), a name, its tokens, the bar slot it overlays ({@link
+ * One spell: a per-item id (kept across edits), a name, its tokens, the bar slot it overlays ({@link
  * SpellcraftItemData#UNASSIGNED} for none) and its priority (0 for the table's default).
  */
 public record StoredSpell(int id, String name, List<String> tokens, int slot, int prio) {

@@ -7,12 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +22,6 @@ import java.util.Random;
  * down, but the tubes are much thicker than vanilla's proportions, which would be a hairline at this size. A bolt
  * re-forks every other tick and fades over {@link #FADE} ticks where it lands.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class LightningLashRenderer {
     private static final float LENGTH = 3.0F;
     private static final float WIDTH = 0.1F;
@@ -65,14 +60,12 @@ public final class LightningLashRenderer {
         }
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END && !BOLTS.isEmpty()) {
             BOLTS.removeIf(bolt -> ++bolt.age > bolt.flightTicks + FADE);
         }
     }
 
-    @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES || BOLTS.isEmpty()) {
             return;

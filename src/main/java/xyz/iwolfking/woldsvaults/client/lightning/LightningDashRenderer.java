@@ -10,14 +10,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
 
 import java.util.ArrayList;
@@ -36,7 +32,6 @@ import java.util.Random;
  * ticks, then eases back over {@link #FACE_BLEND}; only the drawn body and head turn, so the camera, which follows
  * the player's own facing even in third person, stays put.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class LightningDashRenderer {
     private static final int FADE = 12;
     private static final int LINGER = 2;
@@ -132,7 +127,6 @@ public final class LightningDashRenderer {
         return false;
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             STREAKS.removeIf(streak -> ++streak.age > streak.ticks + FADE);
@@ -141,7 +135,6 @@ public final class LightningDashRenderer {
         }
     }
 
-    @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         if (STREAKS.isEmpty()) {
             return;
@@ -175,7 +168,6 @@ public final class LightningDashRenderer {
         player.yHeadRotO = player.yHeadRot = head;
     }
 
-    @SubscribeEvent
     public static void onRenderPlayerPost(RenderPlayerEvent.Post event) {
         Player player = event.getPlayer();
         if (turnedId == player.getId()) {
@@ -197,7 +189,6 @@ public final class LightningDashRenderer {
         return latest;
     }
 
-    @SubscribeEvent
     public static void onRenderHand(RenderHandEvent event) {
         Player player = Minecraft.getInstance().player;
         if (!STREAKS.isEmpty() && player != null && isTravelling(player.getId())) {
@@ -205,7 +196,6 @@ public final class LightningDashRenderer {
         }
     }
 
-    @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES || STREAKS.isEmpty() && ARCS.isEmpty() && STRIKES.isEmpty()) {
             return;

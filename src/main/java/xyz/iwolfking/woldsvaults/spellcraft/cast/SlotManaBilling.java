@@ -17,7 +17,7 @@ import xyz.iwolfking.woldsvaults.spellcraft.scope.CastScope;
 import javax.annotation.Nullable;
 
 /**
- * Mana for slot casts of augmented spells. The trigger step checks and pays the whole slot: its own cost (after VH's
+ * Mana for slot casts of spells. The trigger step checks and pays the whole slot: its own cost (after VH's
  * mana attributes) plus every other ability in the spell, times the spell's mana factor, or the whole mana bar for a
  * Power Dump. Every other step is free, the Ethereal talents roll once per slot cast and free the whole slot when they
  * fire, and a trigger VH does not bill per cast (a toggle switching on) pays the other abilities' share here once per
