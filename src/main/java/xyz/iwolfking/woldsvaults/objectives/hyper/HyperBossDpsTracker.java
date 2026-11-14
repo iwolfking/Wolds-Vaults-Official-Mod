@@ -50,7 +50,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  *
  * <p>Damage whose source has no player (or player-owned pet) attached is credited to every player
  * currently fighting that boss under an {@code unattributed:} label, so in multiplayer those hits count
- * once per fighter. With {@code logHyperbossDamage} on, every hit, every blocked attack and a periodic
+ * once per fighter. With {@code enableDebugMode} on, every hit, every blocked attack and a periodic
  * per-source summary go to the log.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
@@ -167,7 +167,7 @@ public final class HyperBossDpsTracker {
     }
 
     private static boolean logging() {
-        return WoldsVaultsConfig.COMMON.logHyperbossDamage.get();
+        return WoldsVaultsConfig.COMMON.enableDebugMode.get();
     }
 
     /** Drops the player's fight statistics and clears their HUD. */

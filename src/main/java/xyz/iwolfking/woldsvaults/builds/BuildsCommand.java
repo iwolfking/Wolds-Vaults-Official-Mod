@@ -160,7 +160,7 @@ public final class BuildsCommand {
                 text.append(" (").append(build.get("name").getAsString()).append(")");
             }
             text.append(": sections ").append(String.join(", ", sections));
-            JsonObject source = Json.optObject(build, "source", "build");
+            JsonObject source = BuildJson.optObject(build, "source", "build");
             if (source != null) {
                 text.append("; source ").append(source);
             }

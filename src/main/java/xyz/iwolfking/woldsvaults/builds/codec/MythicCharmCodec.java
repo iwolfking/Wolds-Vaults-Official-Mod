@@ -17,7 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.models.MythicCharms;
@@ -52,21 +52,21 @@ public final class MythicCharmCodec {
      * materialized value that differs from the file's {@code value} is a fallback.
      */
     public static ItemStack read(JsonObject json, String path, BuildReport report) {
-        Json.onlyKeys(json, path, KEYS);
-        VaultGod god = GearCodec.enumByName(VaultGod.values(), Json.string(json, "god", path), path + ".god");
-        Integer units = Json.optInt(json, "units", path);
+        BuildJson.onlyKeys(json, path, KEYS);
+        VaultGod god = GearCodec.enumByName(VaultGod.values(), BuildJson.string(json, "god", path), path + ".god");
+        Integer units = BuildJson.optInt(json, "units", path);
         if (units == null) {
             throw new BuildException(path + ".units: missing (the piety units the build's values were materialized at)");
         }
         if (units < 0) {
             throw new BuildException(path + ".units: must be 0 or more, got " + units);
         }
-        Integer uses = Json.optInt(json, "uses", path);
+        Integer uses = BuildJson.optInt(json, "uses", path);
         if (uses == null) {
             uses = DEFAULT_USES;
             report.fallback(path + ": no vault uses given; using " + DEFAULT_USES + " like a fresh identification");
         }
-        JsonArray rolls = Json.optArray(json, "rolls", path);
+        JsonArray rolls = BuildJson.optArray(json, "rolls", path);
         if (rolls == null || rolls.size() == 0) {
             throw new BuildException(path + ".rolls: list the charm's draws");
         }
@@ -74,23 +74,23 @@ public final class MythicCharmCodec {
         List<JsonObject> entries = new ArrayList<>();
         for (int i = 0; i < rolls.size(); i++) {
             String entryPath = path + ".rolls[" + i + "]";
-            JsonObject entry = Json.asObject(rolls.get(i), entryPath);
-            Json.onlyKeys(entry, entryPath, ROLL_KEYS);
+            JsonObject entry = BuildJson.asObject(rolls.get(i), entryPath);
+            BuildJson.onlyKeys(entry, entryPath, ROLL_KEYS);
             VaultGearModifier.AffixType slot = GearCodec.enumByName(VaultGearModifier.AffixType.values(),
-                    Json.string(entry, "slot", entryPath), entryPath + ".slot");
-            String key = Json.string(entry, "key", entryPath);
+                    BuildJson.string(entry, "slot", entryPath), entryPath + ".slot");
+            String key = BuildJson.string(entry, "key", entryPath);
             if (!MythicCharmRolls.knowsKey(god, slot, key)) {
                 throw new BuildException(entryPath + ".key: a " + god.getName() + " mythic charm has no "
                         + slot.name().toLowerCase(Locale.ROOT) + " roll '" + key + "'");
             }
-            Integer quality = Json.optInt(entry, "q", entryPath);
+            Integer quality = BuildJson.optInt(entry, "q", entryPath);
             if (quality == null) {
                 if (!MythicCharmRolls.isTemporal(key)) {
                     throw new BuildException(entryPath + ".q: missing (the draw's quality step)");
                 }
                 quality = 0;
             }
-            boolean legendary = Boolean.TRUE.equals(Json.optBoolean(entry, "legendary", entryPath));
+            boolean legendary = Boolean.TRUE.equals(BuildJson.optBoolean(entry, "legendary", entryPath));
             draws.add(new MythicCharmRolls.StoredRoll(slot, key, quality, legendary));
             entries.add(entry);
         }
@@ -145,7 +145,7 @@ public final class MythicCharmCodec {
                 boolean temporal = MythicCharmRolls.isTemporal(draw.key());
                 Optional<VaultGearModifier<?>> expected = MythicCharmRolls.materializeDraw(god, draw, units);
                 if (!temporal && expected.isEmpty()) {
-                    double given = entry.has("value") ? Json.asDouble(entry.get("value"), entryPath + ".value") : 0.0;
+                    double given = entry.has("value") ? BuildJson.asDouble(entry.get("value"), entryPath + ".value") : 0.0;
                     if (given != 0.0) {
                         report.fallback(entryPath + ": dormant at " + units + " piety units (the game drops it), but the "
                                 + "build file has value " + given);
@@ -172,7 +172,7 @@ public final class MythicCharmCodec {
 
     private static void compareOne(VaultGearModifier<?> modifier, JsonObject entry, String path, BuildReport report) {
         String attribute = String.valueOf(modifier.getAttribute().getRegistryName());
-        String wanted = Json.optString(entry, "attribute", path);
+        String wanted = BuildJson.optString(entry, "attribute", path);
         if (wanted != null && !wanted.equals(attribute)) {
             report.fallback(path + ": the value lands on " + attribute + ", the build file names " + wanted);
         }
@@ -181,7 +181,7 @@ public final class MythicCharmCodec {
             report.fallback(path + ": no value given; the game materialized " + (game == null ? modifier.getValue() : game));
             return;
         }
-        double given = Json.asDouble(entry.get("value"), path + ".value");
+        double given = BuildJson.asDouble(entry.get("value"), path + ".value");
         if (game == null) {
             report.fallback(path + ": the game value " + modifier.getValue() + " has no number to compare with " + given);
             return;

@@ -790,8 +790,7 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
 
     /** One audit line per fight: player-damage multipliers and each runner's scaling gear. */
     private void logDamageAmplifierAudit() {
-        if (!WoldsVaultsConfig.COMMON.logHyperbossDamage.get()
-                && !WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
+        if (!WoldsVaultsConfig.COMMON.enableDebugMode.get()) {
             return;
         }
         long frenzy = VaultModifierUtils.getCountOfModifiers(vault, ResourceLocation.parse("the_vault:frenzy"));

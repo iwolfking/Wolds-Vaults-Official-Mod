@@ -82,7 +82,7 @@ public final class ConfigPatches {
         for (String failure : result.failures()) {
             WoldLogger.error("Config patch for {} did not apply {}; the upstream value stays", path, failure);
         }
-        WoldLogger.info("Applied config patch to {} ({} of {} ops)", path, patch.ops().size() - result.failures().size(), patch.ops().size());
+        WoldLogger.debug("Applied config patch to {} ({} of {} ops)", path, patch.ops().size() - result.failures().size(), patch.ops().size());
         return result.json();
     }
 

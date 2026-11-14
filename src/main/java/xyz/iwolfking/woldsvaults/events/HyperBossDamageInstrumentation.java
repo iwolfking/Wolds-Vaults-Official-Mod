@@ -34,8 +34,8 @@ import java.util.Collections;
 import java.util.UUID;
 
 /**
- * Per-hit damage diagnostics for the hyperboss, gated behind either {@code logHyperbossDamage}
- * or {@code enableDebugMode} (woldsvaults-common.toml): with both off every handler is a boolean
+ * Per-hit damage diagnostics for the hyperboss, gated behind {@code enableDebugMode}
+ * (woldsvaults-common.toml): with it off every handler is a boolean
  * check and normal gameplay logs nothing.
  *
  * <p>While on, each hyperboss hit logs a hurt-event chain sampled at every priority
@@ -61,8 +61,7 @@ public final class HyperBossDamageInstrumentation {
     }
 
     private static boolean off() {
-        return !WoldsVaultsConfig.COMMON.logHyperbossDamage.get()
-                && !WoldsVaultsConfig.COMMON.enableDebugMode.get();
+        return !WoldsVaultsConfig.COMMON.enableDebugMode.get();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

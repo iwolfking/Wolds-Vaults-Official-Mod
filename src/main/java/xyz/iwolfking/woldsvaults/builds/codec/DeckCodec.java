@@ -22,7 +22,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.api.util.DeckModifiersHelper;
 import xyz.iwolfking.woldsvaults.config.ImplicitDeckModifiersConfig;
 import xyz.iwolfking.vhapi.mixin.accessors.DeckModifiersConfigAccessor;
@@ -54,20 +54,20 @@ public final class DeckCodec {
 
     /** The deck item a spec describes. */
     public static ItemStack read(JsonObject json, String path, BuildReport report) {
-        Json.onlyKeys(json, path, DECK_KEYS);
-        String id = Json.string(json, "deck", path);
+        BuildJson.onlyKeys(json, path, DECK_KEYS);
+        String id = BuildJson.string(json, "deck", path);
         if (!ModConfigs.CARD_DECK.has(id)) {
             throw new BuildException(path + ".deck: no card deck '" + id + "' exists in this game");
         }
-        JsonArray cards = Json.optArray(json, "cards", path);
+        JsonArray cards = BuildJson.optArray(json, "cards", path);
         Map<String, JsonObject> wanted = new HashMap<>();
         Map<String, String> wantedPaths = new HashMap<>();
         if (cards != null) {
             for (int i = 0; i < cards.size(); i++) {
                 String cardPath = path + ".cards[" + i + "]";
-                JsonObject card = Json.asObject(cards.get(i), cardPath);
-                Json.onlyKeys(card, cardPath, CARD_KEYS);
-                String key = Json.intValue(card, "col", cardPath) + "," + Json.intValue(card, "row", cardPath);
+                JsonObject card = BuildJson.asObject(cards.get(i), cardPath);
+                BuildJson.onlyKeys(card, cardPath, CARD_KEYS);
+                String key = BuildJson.intValue(card, "col", cardPath) + "," + BuildJson.intValue(card, "row", cardPath);
                 if (wanted.put(key, card) != null) {
                     throw new BuildException(cardPath + ": two cards in the slot at column,row " + key);
                 }
@@ -75,7 +75,7 @@ public final class DeckCodec {
             }
         }
         RandomSource random = JavaRandom.ofNanoTime();
-        JsonArray forced = Json.optArray(json, "layout", path);
+        JsonArray forced = BuildJson.optArray(json, "layout", path);
         CardDeck deck = forced == null ? layout(id, wanted.keySet(), path, random)
                 : forcedLayout(id, forced, wanted.keySet(), path, random, report);
         Map<String, CardPos> slots = new HashMap<>();
@@ -84,8 +84,8 @@ public final class DeckCodec {
             CardPos pos = slots.get(entry.getKey());
             deck.setCard(pos, card(entry.getValue(), pos, wantedPaths.get(entry.getKey()), report));
         }
-        Integer sockets = Json.optInt(json, "sockets", path);
-        JsonArray cores = Json.optArray(json, "cores", path);
+        Integer sockets = BuildJson.optInt(json, "sockets", path);
+        JsonArray cores = BuildJson.optArray(json, "cores", path);
         int coreCount = cores == null ? 0 : cores.size();
         if (sockets != null) {
             if (sockets < coreCount) {
@@ -98,7 +98,7 @@ public final class DeckCodec {
             deck.setSocketCount(coreCount);
         }
         addModifiers(deck, cores, path + ".cores", random, report);
-        addImplicits(deck, id, Json.optArray(json, "implicits", path), path + ".implicits", random, report);
+        addImplicits(deck, id, BuildJson.optArray(json, "implicits", path), path + ".implicits", random, report);
         long socketed = deck.getModifiers().stream().filter(modifier -> !(modifier instanceof ImplicitDeckModifier)).count();
         if (socketed > deck.getSocketCount()) {
             report.bypassed(path + ": " + socketed + " cores need more than the deck's " + deck.getSocketCount()
@@ -127,7 +127,7 @@ public final class DeckCodec {
             WeightedList<String> pool = ((DeckModifiersConfigAccessor) ModConfigs.DECK_MODIFIERS).getPools().get(MYSTERY_POOL);
             for (int i = 0; i < listed.size(); i++) {
                 String entryPath = path + "[" + i + "]";
-                String implicitId = Json.asString(listed.get(i), entryPath);
+                String implicitId = BuildJson.asString(listed.get(i), entryPath);
                 if (pool == null || !pool.containsKey(implicitId)) {
                     report.bypassed(entryPath + ": " + implicitId + " is not in the Mystery implicit pool");
                 }
@@ -184,17 +184,17 @@ public final class DeckCodec {
         Set<String> have = new HashSet<>();
         for (int i = 0; i < slots.size(); i++) {
             String slotPath = path + ".layout[" + i + "]";
-            JsonObject slot = Json.asObject(slots.get(i), slotPath);
-            Json.onlyKeys(slot, slotPath, Set.of("row", "col", "arcane"));
-            int row = Json.intValue(slot, "row", slotPath);
-            int col = Json.intValue(slot, "col", slotPath);
+            JsonObject slot = BuildJson.asObject(slots.get(i), slotPath);
+            BuildJson.onlyKeys(slot, slotPath, Set.of("row", "col", "arcane"));
+            int row = BuildJson.intValue(slot, "row", slotPath);
+            int col = BuildJson.intValue(slot, "col", slotPath);
             if (row < 0 || col < 0) {
                 throw new BuildException(slotPath + ": rows and columns start at 0");
             }
             if (!have.add(col + "," + row)) {
                 throw new BuildException(slotPath + ": the slot at column,row " + col + "," + row + " is listed twice");
             }
-            boolean arcane = Boolean.TRUE.equals(Json.optBoolean(slot, "arcane", slotPath));
+            boolean arcane = Boolean.TRUE.equals(BuildJson.optBoolean(slot, "arcane", slotPath));
             deck.setCard(arcane ? new CardPos(col, row, "Arcane") : new CardPos(col, row), null);
         }
         if (!have.containsAll(wanted)) {
@@ -210,32 +210,32 @@ public final class DeckCodec {
     }
 
     private static Card card(JsonObject json, CardPos pos, String path, BuildReport report) {
-        String cardId = Json.string(json, "card", path);
+        String cardId = BuildJson.string(json, "card", path);
         if (cardId.startsWith("@")) {
             throw new BuildException(path + ".card: give a card id, not a pool");
         }
         CardEntry.Config config = ModConfigs.CARD_MODIFIERS.getRandom(cardId, JavaRandom.ofNanoTime()).orElseThrow(
                 () -> new BuildException(path + ".card: no card '" + cardId + "' exists in this game"));
-        int tier = Json.intValue(json, "tier", path);
+        int tier = BuildJson.intValue(json, "tier", path);
         if (tier < 1) {
             throw new BuildException(path + ".tier: card tiers start at 1");
         }
-        String colorName = Json.optString(json, "color", path);
+        String colorName = BuildJson.optString(json, "color", path);
         CardEntry.Color color = null;
         if (colorName != null) {
             color = GearCodec.enumByName(CardEntry.Color.values(), colorName, path + ".color");
             config.colors = new HashSet<>(config.colors == null ? Set.of() : config.colors);
             config.colors.add(color);
         }
-        JsonArray groups = Json.optArray(json, "groups", path);
+        JsonArray groups = BuildJson.optArray(json, "groups", path);
         if (groups != null) {
             config.groups = new HashSet<>(config.groups == null ? Set.of() : config.groups);
             for (int i = 0; i < groups.size(); i++) {
-                config.groups.add(Json.asString(groups.get(i), path + ".groups[" + i + "]"));
+                config.groups.add(BuildJson.asString(groups.get(i), path + ".groups[" + i + "]"));
             }
         }
         CardEntry entry = config.toEntry();
-        String scalerName = Json.optString(json, "scaler", path);
+        String scalerName = BuildJson.optString(json, "scaler", path);
         if (scalerName != null) {
             CardNeighborType neighbor = GearCodec.enumByName(CardNeighborType.values(), scalerName, path + ".scaler");
             entry.setScaler(scaler(neighbor, color, path));
@@ -250,7 +250,7 @@ public final class DeckCodec {
             entry.getCondition().onPopulate();
         }
         Card card = new Card(tier, List.of(entry));
-        Float wantedValue = json.has("value") ? (float) Json.asDouble(json.get("value"), path + ".value") : null;
+        Float wantedValue = json.has("value") ? (float) BuildJson.asDouble(json.get("value"), path + ".value") : null;
         if (wantedValue != null) {
             Float gameValue = cardValue(card, tier);
             if (gameValue == null) {
@@ -336,15 +336,15 @@ public final class DeckCodec {
         }
         for (int i = 0; i < list.size(); i++) {
             String corePath = path + "[" + i + "]";
-            JsonObject json = list.get(i).isJsonPrimitive() ? null : Json.asObject(list.get(i), corePath);
-            String id = json == null ? Json.asString(list.get(i), corePath) : Json.string(json, "id", corePath);
+            JsonObject json = list.get(i).isJsonPrimitive() ? null : BuildJson.asObject(list.get(i), corePath);
+            String id = json == null ? BuildJson.asString(list.get(i), corePath) : BuildJson.string(json, "id", corePath);
             if (json != null) {
-                Json.onlyKeys(json, corePath, CORE_KEYS);
+                BuildJson.onlyKeys(json, corePath, CORE_KEYS);
             }
             DeckModifier<?> modifier = ModConfigs.DECK_MODIFIERS.getById(id).orElseThrow(
                     () -> new BuildException(corePath + ": no deck core or modifier '" + id + "' exists in this game"));
             CompoundTag template = nbt(modifier, corePath);
-            String roll = json == null ? null : Json.optString(json, "roll", corePath);
+            String roll = json == null ? null : BuildJson.optString(json, "roll", corePath);
             if (roll != null) {
                 CompoundTag config = template.getCompound("config");
                 if (!config.getCompound("modifierValues").contains(roll)) {
@@ -362,7 +362,7 @@ public final class DeckCodec {
                 continue;
             }
             if (json != null && json.has("value")) {
-                setValue(deck, deck.getModifiers().size() - 1, (float) Json.asDouble(json.get("value"), corePath + ".value"),
+                setValue(deck, deck.getModifiers().size() - 1, (float) BuildJson.asDouble(json.get("value"), corePath + ".value"),
                         corePath, id, report);
             }
         }

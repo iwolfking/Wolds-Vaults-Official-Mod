@@ -17,7 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
@@ -179,9 +179,9 @@ public final class ItemCodec {
 
     /** Builds the stack a build JSON item describes. {@code defaultLevel} feeds authored gear without a level. */
     public static ItemStack read(JsonObject json, String path, int defaultLevel, BuildReport report) {
-        Json.onlyKeys(json, path, ITEM_KEYS);
+        BuildJson.onlyKeys(json, path, ITEM_KEYS);
         if (json.has("raw")) {
-            return readRaw(Json.string(json, "raw", path), path);
+            return readRaw(BuildJson.string(json, "raw", path), path);
         }
         if (json.has("pouch")) {
             return readPouch(json, path, defaultLevel, report);
@@ -193,28 +193,28 @@ public final class ItemCodec {
             return readCombined(json, path);
         }
         if (json.has("deck")) {
-            return DeckCodec.read(Json.object(json, "deck", path), path + ".deck", report);
+            return DeckCodec.read(BuildJson.object(json, "deck", path), path + ".deck", report);
         }
         if (json.has("mythic_charm")) {
-            return MythicCharmCodec.read(Json.object(json, "mythic_charm", path), path + ".mythic_charm", report);
+            return MythicCharmCodec.read(BuildJson.object(json, "mythic_charm", path), path + ".mythic_charm", report);
         }
-        ResourceLocation id = Json.id(Json.string(json, "item", path), path + ".item");
+        ResourceLocation id = BuildJson.id(BuildJson.string(json, "item", path), path + ".item");
         Item item = ForgeRegistries.ITEMS.getValue(id);
         if (item == null || item == Items.AIR || !ForgeRegistries.ITEMS.containsKey(id)) {
             throw new BuildException(path + ".item: no item '" + id + "' exists in this game");
         }
-        Integer count = Json.optInt(json, "count", path);
+        Integer count = BuildJson.optInt(json, "count", path);
         if (count != null && (count < 1 || count > 127)) {
             throw new BuildException(path + ".count: must be 1 to 127");
         }
         CompoundTag full = new CompoundTag();
-        String extra = Json.optString(json, "extra", path);
+        String extra = BuildJson.optString(json, "extra", path);
         if (extra != null) {
             full.merge(ValueCodec.parseCompound(extra, path + ".extra"));
         }
         full.putString("id", id.toString());
         full.putByte("Count", (byte) (count == null ? 1 : (int) count));
-        JsonObject gear = Json.optObject(json, "gear", path);
+        JsonObject gear = BuildJson.optObject(json, "gear", path);
         if (gear != null && full.getCompound("tag").contains(AttributeGearData.TAG_KEY)) {
             throw new BuildException(path + ": give the gear data either as 'gear' or inside 'extra', not both");
         }
@@ -245,12 +245,12 @@ public final class ItemCodec {
     }
 
     private static ItemStack readTrinket(JsonObject json, String path) {
-        ResourceLocation effectId = Json.id(Json.string(json, "trinket", path), path + ".trinket");
+        ResourceLocation effectId = BuildJson.id(BuildJson.string(json, "trinket", path), path + ".trinket");
         TrinketEffect<?> effect = TrinketEffectRegistry.getEffect(effectId);
         if (effect == null) {
             throw new BuildException(path + ".trinket: no trinket effect '" + effectId + "' exists in this game");
         }
-        Integer uses = Json.optInt(json, "uses", path);
+        Integer uses = BuildJson.optInt(json, "uses", path);
         if (uses == null) {
             throw new BuildException(path + ".uses: missing (vault uses on the trinket)");
         }
@@ -258,21 +258,21 @@ public final class ItemCodec {
     }
 
     private static ItemStack readCombined(JsonObject json, String path) {
-        JsonArray ids = Json.optArray(json, "combined", path);
+        JsonArray ids = BuildJson.optArray(json, "combined", path);
         if (ids == null || ids.size() < 2) {
             throw new BuildException(path + ".combined: list the two or more trinket effects to fuse");
         }
         List<TrinketEffect<?>> effects = new ArrayList<>();
         for (int i = 0; i < ids.size(); i++) {
             String entryPath = path + ".combined[" + i + "]";
-            ResourceLocation effectId = Json.id(Json.asString(ids.get(i), entryPath), entryPath);
+            ResourceLocation effectId = BuildJson.id(BuildJson.asString(ids.get(i), entryPath), entryPath);
             TrinketEffect<?> effect = TrinketEffectRegistry.getEffect(effectId);
             if (effect == null) {
                 throw new BuildException(entryPath + ": no trinket effect '" + effectId + "' exists in this game");
             }
             effects.add(effect);
         }
-        Integer uses = Json.optInt(json, "uses", path);
+        Integer uses = BuildJson.optInt(json, "uses", path);
         if (uses == null) {
             throw new BuildException(path + ".uses: missing (vault uses on the fused trinket)");
         }
@@ -280,7 +280,7 @@ public final class ItemCodec {
     }
 
     private static ItemStack readPouch(JsonObject json, String path, int defaultLevel, BuildReport report) {
-        ResourceLocation pouchId = Json.id(Json.string(json, "pouch", path), path + ".pouch");
+        ResourceLocation pouchId = BuildJson.id(BuildJson.string(json, "pouch", path), path + ".pouch");
         if (ModConfigs.TRINKET_POUCH.TRINKET_POUCH_CONFIGS == null
                 || !ModConfigs.TRINKET_POUCH.TRINKET_POUCH_CONFIGS.containsKey(pouchId)) {
             throw new BuildException(path + ".pouch: no trinket pouch '" + pouchId + "' exists in this game");
@@ -290,21 +290,21 @@ public final class ItemCodec {
         if (contents == null) {
             throw new BuildException(path + ".pouch: the pouch has no contents capability");
         }
-        JsonArray trinkets = Json.optArray(json, "trinkets", path);
+        JsonArray trinkets = BuildJson.optArray(json, "trinkets", path);
         int count = trinkets == null ? 0 : trinkets.size();
         if (count > PouchContents.SIZE) {
             throw new BuildException(path + ".trinkets: a pouch holds at most " + PouchContents.SIZE + " trinkets");
         }
         for (int i = 0; i < count; i++) {
             String entryPath = path + ".trinkets[" + i + "]";
-            ItemStack trinket = read(Json.asObject(trinkets.get(i), entryPath), entryPath, defaultLevel, report);
+            ItemStack trinket = read(BuildJson.asObject(trinkets.get(i), entryPath), entryPath, defaultLevel, report);
             if (!PouchHelper.isStoredItem(trinket) || trinket.getCount() != 1) {
                 throw new BuildException(entryPath + ": this pouch cannot hold " + describe(trinket));
             }
             contents.setStackInSlot(i, trinket);
         }
         List<Integer> active = new ArrayList<>();
-        JsonArray activeJson = Json.optArray(json, "active", path);
+        JsonArray activeJson = BuildJson.optArray(json, "active", path);
         if (activeJson == null) {
             for (int i = 0; i < count; i++) {
                 active.add(i);
@@ -315,7 +315,7 @@ public final class ItemCodec {
             }
         } else {
             for (int i = 0; i < activeJson.size(); i++) {
-                int index = Json.asInt(activeJson.get(i), path + ".active[" + i + "]");
+                int index = BuildJson.asInt(activeJson.get(i), path + ".active[" + i + "]");
                 if (index < 0 || index >= count) {
                     throw new BuildException(path + ".active[" + i + "]: no trinket at index " + index);
                 }

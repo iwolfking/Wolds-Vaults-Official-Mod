@@ -201,7 +201,7 @@ public final class BuildService {
     }
 
     private static void source(JsonObject build, BuildReport report) {
-        JsonObject source = Json.optObject(build, "source", "build");
+        JsonObject source = BuildJson.optObject(build, "source", "build");
         if (source == null) {
             return;
         }
@@ -212,12 +212,12 @@ public final class BuildService {
     }
 
     private static Prepared prepare(JsonObject build, ServerPlayer player, boolean keepInventory, BuildReport report) {
-        Json.onlyKeys(build, "build", BUILD_KEYS);
+        BuildJson.onlyKeys(build, "build", BUILD_KEYS);
         PlayerStateCodec.Plan state = PlayerStateCodec.plan(build, player, report);
         int greedTier = PlayerGreedTreeData.get(player.getServer()).getGreedTier(player);
-        JsonObject playerJson = Json.optObject(build, "player", "build");
-        JsonObject greed = playerJson == null ? null : Json.optObject(playerJson, "greed", "player");
-        Integer targetGreed = greed == null ? null : Json.optInt(greed, "tier", "player.greed");
+        JsonObject playerJson = BuildJson.optObject(build, "player", "build");
+        JsonObject greed = playerJson == null ? null : BuildJson.optObject(playerJson, "greed", "player");
+        Integer targetGreed = greed == null ? null : BuildJson.optInt(greed, "tier", "player.greed");
         EquipmentCodec.Plan items = null;
         if (EquipmentCodec.hasItems(build)) {
             items = EquipmentCodec.plan(build, player, state.targetLevel(), targetGreed == null ? greedTier : targetGreed, report);

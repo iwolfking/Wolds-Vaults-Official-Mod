@@ -34,7 +34,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.GodNodeCache;
@@ -197,25 +197,25 @@ public final class PlayerStateCodec {
         Plan plan = new Plan();
         ServerLevel level = player.getLevel();
         PlayerVaultStats current = PlayerVaultStatsData.get(level).getVaultStats(player);
-        JsonObject playerJson = Json.optObject(build, "player", "build");
+        JsonObject playerJson = BuildJson.optObject(build, "player", "build");
         plan.level = current.getVaultLevel();
         int greedTier = PlayerGreedTreeData.get(player.getServer()).getGreedTier(player);
         if (playerJson != null) {
-            Json.onlyKeys(playerJson, "player", PLAYER_KEYS);
-            Integer levelValue = Json.optInt(playerJson, "level", "player");
+            BuildJson.onlyKeys(playerJson, "player", PLAYER_KEYS);
+            Integer levelValue = BuildJson.optInt(playerJson, "level", "player");
             if (levelValue != null) {
                 if (levelValue < 0 || levelValue > ModConfigs.LEVELS_META.getMaxLevel()) {
                     throw new BuildException("player.level: must be 0 to " + ModConfigs.LEVELS_META.getMaxLevel());
                 }
                 plan.level = levelValue;
             }
-            Integer exp = Json.optInt(playerJson, "exp", "player");
+            Integer exp = BuildJson.optInt(playerJson, "exp", "player");
             plan.exp = exp == null ? 0 : exp;
-            JsonObject greed = Json.optObject(playerJson, "greed", "player");
+            JsonObject greed = BuildJson.optObject(playerJson, "greed", "player");
             if (greed != null) {
-                Json.onlyKeys(greed, "player.greed", Set.of("tier", "reputation"));
-                plan.greedTier = Json.optInt(greed, "tier", "player.greed");
-                Integer greedReputation = Json.optInt(greed, "reputation", "player.greed");
+                BuildJson.onlyKeys(greed, "player.greed", Set.of("tier", "reputation"));
+                plan.greedTier = BuildJson.optInt(greed, "tier", "player.greed");
+                Integer greedReputation = BuildJson.optInt(greed, "reputation", "player.greed");
                 plan.greedReputation = greedReputation == null ? 0 : greedReputation;
                 if (plan.greedTier != null) {
                     if (plan.greedTier < 0) {
@@ -228,12 +228,12 @@ public final class PlayerStateCodec {
                     }
                 }
             }
-            JsonObject reputation = Json.optObject(playerJson, "reputation", "player");
+            JsonObject reputation = BuildJson.optObject(playerJson, "reputation", "player");
             if (reputation != null) {
                 plan.reputation = new EnumMap<>(VaultGod.class);
                 for (Map.Entry<String, JsonElement> entry : reputation.entrySet()) {
                     VaultGod god = god(entry.getKey(), "player.reputation");
-                    int value = Json.asInt(entry.getValue(), "player.reputation." + entry.getKey());
+                    int value = BuildJson.asInt(entry.getValue(), "player.reputation." + entry.getKey());
                     if (value < 0 || value > 50) {
                         throw new BuildException("player.reputation." + entry.getKey() + ": god reputation runs 0 to 50");
                     }
@@ -243,16 +243,16 @@ public final class PlayerStateCodec {
         }
 
         SkillContext force = new SkillContext(FORCE_LEVEL, FORCE_POINTS, FORCE_POINTS, SkillSource.empty());
-        JsonObject abilities = Json.optObject(build, "abilities", "build");
+        JsonObject abilities = BuildJson.optObject(build, "abilities", "build");
         if (abilities != null) {
-            Json.onlyKeys(abilities, "abilities", Set.of("learned", "selected"));
+            BuildJson.onlyKeys(abilities, "abilities", Set.of("learned", "selected"));
             plan.abilities = ModConfigs.ABILITIES.get().orElseThrow(
                     () -> new BuildException("abilities: the ability config is not loaded")).copy();
-            JsonObject learned = Json.optObject(abilities, "learned", "abilities");
+            JsonObject learned = BuildJson.optObject(abilities, "learned", "abilities");
             if (learned != null) {
                 learnAbilities(plan.abilities, learned, plan.level, force, report);
             }
-            plan.selectedAbility = Json.optString(abilities, "selected", "abilities");
+            plan.selectedAbility = BuildJson.optString(abilities, "selected", "abilities");
             if (plan.selectedAbility != null) {
                 Skill selected = plan.abilities.getForId(plan.selectedAbility).orElse(null);
                 if (!(selected instanceof SpecializedSkill)) {
@@ -264,31 +264,31 @@ public final class PlayerStateCodec {
                 }
             }
         }
-        JsonObject talents = Json.optObject(build, "talents", "build");
+        JsonObject talents = BuildJson.optObject(build, "talents", "build");
         if (talents != null) {
             plan.talents = ModConfigs.TALENTS.get().orElseThrow(
                     () -> new BuildException("talents: the talent config is not loaded")).copy();
             learnTree(plan.talents, talents, "talents", plan.level, greedTier, force, report);
         }
-        JsonObject expertises = Json.optObject(build, "expertises", "build");
+        JsonObject expertises = BuildJson.optObject(build, "expertises", "build");
         if (expertises != null) {
             plan.expertises = ModConfigs.EXPERTISES.getAll().copy();
             learnTree(plan.expertises, expertises, "expertises", plan.level, greedTier, force, report);
         }
-        JsonObject prestige = Json.optObject(build, "prestige", "build");
+        JsonObject prestige = BuildJson.optObject(build, "prestige", "build");
         if (prestige != null) {
-            Json.onlyKeys(prestige, "prestige", Set.of("learned", "active"));
+            BuildJson.onlyKeys(prestige, "prestige", Set.of("learned", "active"));
             plan.prestige = ModConfigs.PRESTIGE_POWERS.get().orElseThrow(
                     () -> new BuildException("prestige: the prestige config is not loaded")).copy();
-            JsonObject learned = Json.optObject(prestige, "learned", "prestige");
+            JsonObject learned = BuildJson.optObject(prestige, "learned", "prestige");
             if (learned != null) {
                 learnTree(plan.prestige, learned, "prestige.learned", plan.level, greedTier, force, report);
             }
             plan.activePrestige = new ArrayList<>();
-            JsonArray active = Json.optArray(prestige, "active", "prestige");
+            JsonArray active = BuildJson.optArray(prestige, "active", "prestige");
             if (active != null) {
                 for (int i = 0; i < active.size(); i++) {
-                    String id = Json.asString(active.get(i), "prestige.active[" + i + "]");
+                    String id = BuildJson.asString(active.get(i), "prestige.active[" + i + "]");
                     Skill skill = plan.prestige.getForId(id).orElse(null);
                     if (!(skill instanceof TieredSkill tiered) || !(tiered.getChild() instanceof ActivatePrestigePower)) {
                         throw new BuildException("prestige.active[" + i + "]: '" + id + "' is not a learned toggleable prestige power");
@@ -302,7 +302,7 @@ public final class PlayerStateCodec {
             plan.stats = statsTag(current, playerJson, plan, report);
         }
 
-        JsonObject gods = Json.optObject(build, "gods", "build");
+        JsonObject gods = BuildJson.optObject(build, "gods", "build");
         if (gods != null) {
             plan.gods = new EnumMap<>(VaultGod.class);
             for (Map.Entry<String, JsonElement> entry : gods.entrySet()) {
@@ -310,7 +310,7 @@ public final class PlayerStateCodec {
                 String path = "gods." + entry.getKey();
                 int reputation = plan.reputation != null && plan.reputation.containsKey(god)
                         ? plan.reputation.get(god) : PlayerReputationData.getReputation(player.getUUID(), god);
-                plan.gods.put(god, godState(god, Json.asObject(entry.getValue(), path), path, reputation, report));
+                plan.gods.put(god, godState(god, BuildJson.asObject(entry.getValue(), path), path, reputation, report));
             }
         }
         return plan;
@@ -330,7 +330,7 @@ public final class PlayerStateCodec {
         for (Map.Entry<String, JsonElement> entry : learned.entrySet()) {
             String id = entry.getKey();
             String path = "abilities.learned." + id;
-            int tier = Json.asInt(entry.getValue(), path);
+            int tier = BuildJson.asInt(entry.getValue(), path);
             Skill skill = tree.getForId(id).orElse(null);
             if (skill == null) {
                 throw new BuildException(path + ": no ability or specialization '" + id + "' exists in this game");
@@ -359,7 +359,7 @@ public final class PlayerStateCodec {
         for (Map.Entry<String, JsonElement> entry : learned.entrySet()) {
             String id = entry.getKey();
             String path = section + "." + id;
-            int tier = Json.asInt(entry.getValue(), path);
+            int tier = BuildJson.asInt(entry.getValue(), path);
             Skill skill = tree.getForId(id).orElse(null);
             if (skill == null) {
                 throw new BuildException(path + ": no skill '" + id + "' exists in this game's " + section.split("\\.")[0]);
@@ -446,13 +446,13 @@ public final class PlayerStateCodec {
         CompoundTag tag = current.serializeNBT();
         tag.putInt("vaultLevel", plan.level);
         tag.putInt("exp", plan.exp);
-        JsonObject points = Json.optObject(playerJson, "points", "player");
+        JsonObject points = BuildJson.optObject(playerJson, "points", "player");
         if (points != null) {
-            Json.onlyKeys(points, "player.points", POINT_KEYS);
+            BuildJson.onlyKeys(points, "player.points", POINT_KEYS);
         }
-        JsonObject spent = Json.optObject(playerJson, "spent", "player");
+        JsonObject spent = BuildJson.optObject(playerJson, "spent", "player");
         if (spent != null) {
-            Json.onlyKeys(spent, "player.spent", POINT_KEYS);
+            BuildJson.onlyKeys(spent, "player.spent", POINT_KEYS);
         }
         int skillSpent = (plan.abilities == null ? 0 : plan.abilities.getSpentLearnPoints())
                 + (plan.talents == null ? 0 : plan.talents.getSpentLearnPoints());
@@ -512,7 +512,7 @@ public final class PlayerStateCodec {
             }
             return;
         }
-        int amount = Json.asInt(value, "player.points." + key);
+        int amount = BuildJson.asInt(value, "player.points." + key);
         if (amount < 0) {
             throw new BuildException("player.points." + key + ": must be 0 or more");
         }
@@ -520,18 +520,18 @@ public final class PlayerStateCodec {
     }
 
     private static void spentTotal(CompoundTag tag, @Nullable JsonObject spent, String key, String nbtKey, int computed) {
-        Integer value = spent == null ? null : Json.optInt(spent, key, "player.spent");
+        Integer value = spent == null ? null : BuildJson.optInt(spent, key, "player.spent");
         tag.putInt(nbtKey, value == null ? computed : value);
     }
 
     private static GodAlignmentData.GodState godState(VaultGod god, JsonObject json, String path, int reputation,
                                                       BuildReport report) {
-        Json.onlyKeys(json, path, GOD_KEYS);
+        BuildJson.onlyKeys(json, path, GOD_KEYS);
         GodTreeModel tree = GodNodeRegistry.tree(god).orElseThrow(
                 () -> new BuildException(path + ": the " + god.getName() + " god tree is not loaded"));
         GodAlignmentData.GodState state = new GodAlignmentData.GodState();
-        Long xp = Json.optLong(json, "xp", path);
-        Integer levelValue = Json.optInt(json, "level", path);
+        Long xp = BuildJson.optLong(json, "xp", path);
+        Integer levelValue = BuildJson.optInt(json, "level", path);
         if (xp != null && levelValue != null) {
             throw new BuildException(path + ": give either 'xp' or 'level', not both");
         }
@@ -543,18 +543,18 @@ public final class PlayerStateCodec {
         } else {
             state.xp = xp == null ? 0L : xp;
         }
-        Integer sacrifices = Json.optInt(json, "sacrifices", path);
+        Integer sacrifices = BuildJson.optInt(json, "sacrifices", path);
         state.sacrifices = sacrifices != null ? sacrifices : GodLevels.sacrificesForLevel(GodLevels.levelForXp(state.xp));
-        Integer bonus = Json.optInt(json, "bonus_points", path);
+        Integer bonus = BuildJson.optInt(json, "bonus_points", path);
         state.bonusPoints = bonus == null ? 0 : bonus;
-        Integer altar = Json.optInt(json, "altar_completions", path);
+        Integer altar = BuildJson.optInt(json, "altar_completions", path);
         state.altarCompletions = altar == null ? 0 : altar;
 
         List<String> nodeIds = new ArrayList<>();
-        JsonArray nodes = Json.optArray(json, "nodes", path);
+        JsonArray nodes = BuildJson.optArray(json, "nodes", path);
         if (nodes != null) {
             for (int i = 0; i < nodes.size(); i++) {
-                String id = Json.asString(nodes.get(i), path + ".nodes[" + i + "]");
+                String id = BuildJson.asString(nodes.get(i), path + ".nodes[" + i + "]");
                 GodNode node = tree.getNode(id);
                 if (node == null) {
                     throw new BuildException(path + ".nodes[" + i + "]: no node '" + id + "' in the " + god.getName() + " tree");
@@ -584,11 +584,11 @@ public final class PlayerStateCodec {
             report.bypassed(path + ": " + reputation + " reputation is short of the " + GodLevels.chartingReputation()
                     + " needed to chart the constellation");
         }
-        JsonArray transfers = Json.optArray(json, "transfers", path);
+        JsonArray transfers = BuildJson.optArray(json, "transfers", path);
         if (transfers != null) {
             int slots = GodLevels.minorTransferSlots(level);
             for (int i = 0; i < transfers.size(); i++) {
-                String effect = Json.asString(transfers.get(i), path + ".transfers[" + i + "]");
+                String effect = BuildJson.asString(transfers.get(i), path + ".transfers[" + i + "]");
                 state.minorTransfers.add(effect);
                 if (effect.isEmpty()) {
                     continue;

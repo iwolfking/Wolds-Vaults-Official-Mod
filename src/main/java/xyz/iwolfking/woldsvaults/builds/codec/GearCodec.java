@@ -34,7 +34,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AttributeGearDataAccessor;
 
 import javax.annotation.Nullable;
@@ -132,26 +132,26 @@ public final class GearCodec {
      * is the item level an authored item takes when it names none.
      */
     public static void read(ItemStack stack, JsonObject json, String path, int defaultLevel, BuildReport report) {
-        Json.onlyKeys(json, path, GEAR_KEYS);
-        boolean authored = Boolean.TRUE.equals(Json.optBoolean(json, "authored", path));
+        BuildJson.onlyKeys(json, path, GEAR_KEYS);
+        boolean authored = Boolean.TRUE.equals(BuildJson.optBoolean(json, "authored", path));
         VaultGearData data = VaultGearData.read(stack);
         if (!data.getAttributes().isEmpty() || !data.getModifiers(VaultGearModifier.AffixType.IMPLICIT).isEmpty()) {
             throw new BuildException(path + ": the item already carries gear data; remove 'vaultGearData' from its stack tag");
         }
-        String uniqueText = Json.optString(json, "unique", path);
-        ResourceLocation uniqueId = uniqueText == null ? null : Json.id(uniqueText, path + ".unique");
+        String uniqueText = BuildJson.optString(json, "unique", path);
+        ResourceLocation uniqueId = uniqueText == null ? null : BuildJson.id(uniqueText, path + ".unique");
         if (!authored && (uniqueId != null || json.has("ancient") || json.has("model") || json.has("etching"))) {
             throw new BuildException(path + ": 'unique', 'ancient', 'model' and 'etching' are shorthand for authored gear; add \"authored\": true");
         }
 
-        String state = Json.optString(json, "state", path);
+        String state = BuildJson.optString(json, "state", path);
         if (state == null) {
             requireAuthored(authored, path, "state");
             data.setState(VaultGearState.IDENTIFIED);
         } else {
             data.setState(enumByName(VaultGearState.values(), state, path + ".state"));
         }
-        String rarity = Json.optString(json, "rarity", path);
+        String rarity = BuildJson.optString(json, "rarity", path);
         if (rarity == null) {
             requireAuthored(authored, path, "rarity");
             VaultGearRarity fallback = uniqueId != null ? VaultGearRarity.UNIQUE : VaultGearRarity.OMEGA;
@@ -160,7 +160,7 @@ public final class GearCodec {
         } else {
             data.setRarity(enumByName(VaultGearRarity.values(), rarity, path + ".rarity"));
         }
-        Integer level = Json.optInt(json, "level", path);
+        Integer level = BuildJson.optInt(json, "level", path);
         if (level == null) {
             requireAuthored(authored, path, "level");
             report.fallback(path + ": no item level given; using the player's level " + defaultLevel);
@@ -170,7 +170,7 @@ public final class GearCodec {
             throw new BuildException(path + ".level: item levels run 0 to 100, got " + level);
         }
         data.setItemLevel(level);
-        JsonObject repairs = Json.optObject(json, "repairs", path);
+        JsonObject repairs = BuildJson.optObject(json, "repairs", path);
         if (repairs == null) {
             requireAuthored(authored, path, "repairs");
             if (stack.getItem() instanceof VaultGearItem gearItem && gearItem.canStoreRepairSlots(stack)) {
@@ -179,9 +179,9 @@ public final class GearCodec {
                 report.fallback(path + ": no repair slots given; rolled " + slots + " like a fresh identification");
             }
         } else {
-            Json.onlyKeys(repairs, path + ".repairs", Set.of("max", "used"));
-            data.setRepairSlots(Json.intValue(repairs, "max", path + ".repairs"));
-            data.setUsedRepairSlots(Json.intValue(repairs, "used", path + ".repairs"));
+            BuildJson.onlyKeys(repairs, path + ".repairs", Set.of("max", "used"));
+            data.setRepairSlots(BuildJson.intValue(repairs, "max", path + ".repairs"));
+            data.setUsedRepairSlots(BuildJson.intValue(repairs, "used", path + ".repairs"));
         }
         readUses(data, json, path);
         if (authored && !json.has("uses") && data instanceof UsesGearData usesData) {
@@ -206,13 +206,13 @@ public final class GearCodec {
         readModifiers(data, VaultGearModifier.AffixType.IMPLICIT, json, "implicits", path, authored, config, level, report);
         readModifiers(data, VaultGearModifier.AffixType.PREFIX, json, "prefixes", path, authored, config, level, report);
         readModifiers(data, VaultGearModifier.AffixType.SUFFIX, json, "suffixes", path, authored, config, level, report);
-        JsonArray attributes = Json.optArray(json, "attributes", path);
+        JsonArray attributes = BuildJson.optArray(json, "attributes", path);
         if (attributes == null) {
             requireAuthored(authored, path, "attributes");
         } else {
             for (int i = 0; i < attributes.size(); i++) {
                 String entryPath = path + ".attributes[" + i + "]";
-                JsonObject entry = Json.asObject(attributes.get(i), entryPath);
+                JsonObject entry = BuildJson.asObject(attributes.get(i), entryPath);
                 VaultGearAttributeInstance<?> instance = isModifierEntry(entry, entryPath)
                         ? readModifier(entry, entryPath, authored, config, level, report)
                         : readInstance(entry, entryPath);
@@ -226,7 +226,7 @@ public final class GearCodec {
             addAuthoredDefaults(stack, data, attributeList, config, level, path, report);
         }
         data.write(stack);
-        JsonObject etching = authored ? Json.optObject(json, "etching", path) : null;
+        JsonObject etching = authored ? BuildJson.optObject(json, "etching", path) : null;
         if (etching != null) {
             applyEtching(stack, etching, path + ".etching", report);
         }
@@ -242,8 +242,8 @@ public final class GearCodec {
      * tier.
      */
     private static void applyEtching(ItemStack stack, JsonObject json, String path, BuildReport report) {
-        Json.onlyKeys(json, path, Set.of("id", "value", "snbt", "greed_tier"));
-        ResourceLocation id = Json.id(Json.string(json, "id", path), path + ".id");
+        BuildJson.onlyKeys(json, path, Set.of("id", "value", "snbt", "greed_tier"));
+        ResourceLocation id = BuildJson.id(BuildJson.string(json, "id", path), path + ".id");
         VaultEtchingConfig.EtchingEntry entry = ModConfigs.ETCHINGS.getEtchingConfig(id);
         if (entry == null) {
             throw new BuildException(path + ".id: no etching '" + id + "' exists in this game");
@@ -259,7 +259,7 @@ public final class GearCodec {
         if (!groups.isEmpty() && groups.stream().noneMatch(group -> ModConfigs.ETCHINGS.getGroup(group).contains(gearItem.getGearType(stack)))) {
             throw new BuildException(path + ": etching " + id + " may not go on " + gearItem.getGearType(stack) + " (allowed groups " + groups + ")");
         }
-        Integer greedTier = Json.optInt(json, "greed_tier", path);
+        Integer greedTier = BuildJson.optInt(json, "greed_tier", path);
         int tier = greedTier == null ? Math.max(entry.getMinGreedTier(), 0) : greedTier;
         if (tier < entry.getMinGreedTier()) {
             throw new BuildException(path + ".greed_tier: etching " + id + " first drops at greed tier " + entry.getMinGreedTier() + ", not " + tier);
@@ -389,27 +389,27 @@ public final class GearCodec {
     }
 
     private static void readUses(VaultGearData data, JsonObject json, String path) {
-        JsonObject uses = Json.optObject(json, "uses", path);
+        JsonObject uses = BuildJson.optObject(json, "uses", path);
         if (uses == null) {
             return;
         }
         if (!(data instanceof UsesGearData usesData)) {
             throw new BuildException(path + ".uses: this item does not track vault uses in its gear data");
         }
-        Json.onlyKeys(uses, path + ".uses", Set.of("vault_uses", "used_vaults", "free_vault_uses"));
-        usesData.setVaultUses(Json.intValue(uses, "vault_uses", path + ".uses"));
+        BuildJson.onlyKeys(uses, path + ".uses", Set.of("vault_uses", "used_vaults", "free_vault_uses"));
+        usesData.setVaultUses(BuildJson.intValue(uses, "vault_uses", path + ".uses"));
         usesData.setUsedVaults(readUuids(uses, "used_vaults", path + ".uses"));
         usesData.setFreeVaultUses(readUuids(uses, "free_vault_uses", path + ".uses"));
     }
 
     private static List<UUID> readUuids(JsonObject parent, String key, String path) {
         List<UUID> ids = new LinkedList<>();
-        JsonArray array = Json.optArray(parent, key, path);
+        JsonArray array = BuildJson.optArray(parent, key, path);
         if (array == null) {
             return ids;
         }
         for (int i = 0; i < array.size(); i++) {
-            String text = Json.asString(array.get(i), path + "." + key + "[" + i + "]");
+            String text = BuildJson.asString(array.get(i), path + "." + key + "[" + i + "]");
             try {
                 ids.add(UUID.fromString(text));
             } catch (IllegalArgumentException e) {
@@ -422,14 +422,14 @@ public final class GearCodec {
     private static void readModifiers(VaultGearData data, VaultGearModifier.AffixType type, JsonObject json, String key,
                                       String path, boolean authored, Optional<VaultGearTierConfig> config, int level,
                                       BuildReport report) {
-        JsonArray array = Json.optArray(json, key, path);
+        JsonArray array = BuildJson.optArray(json, key, path);
         if (array == null) {
             requireAuthored(authored, path, key);
             return;
         }
         for (int i = 0; i < array.size(); i++) {
             String entryPath = path + "." + key + "[" + i + "]";
-            VaultGearModifier<?> modifier = readModifier(Json.asObject(array.get(i), entryPath), entryPath, authored,
+            VaultGearModifier<?> modifier = readModifier(BuildJson.asObject(array.get(i), entryPath), entryPath, authored,
                     config, level, report);
             if (!data.addModifier(type, modifier, true)) {
                 throw new BuildException(entryPath + ": the game rejects this modifier value");
@@ -438,7 +438,7 @@ public final class GearCodec {
     }
 
     private static boolean isModifierEntry(JsonObject entry, String path) {
-        Boolean flag = Json.optBoolean(entry, "modifier", path);
+        Boolean flag = BuildJson.optBoolean(entry, "modifier", path);
         if (flag != null) {
             return flag;
         }
@@ -446,8 +446,8 @@ public final class GearCodec {
     }
 
     private static VaultGearAttributeInstance<?> readInstance(JsonObject entry, String path) {
-        Json.onlyKeys(entry, path, ENTRY_KEYS);
-        VaultGearAttribute<?> attribute = attribute(Json.string(entry, "attribute", path), path + ".attribute");
+        BuildJson.onlyKeys(entry, path, ENTRY_KEYS);
+        VaultGearAttribute<?> attribute = attribute(BuildJson.string(entry, "attribute", path), path + ".attribute");
         return instance(attribute, entry, path);
     }
 
@@ -457,17 +457,17 @@ public final class GearCodec {
 
     private static VaultGearModifier<?> readModifier(JsonObject entry, String path, boolean authored,
                                                      Optional<VaultGearTierConfig> config, int level, BuildReport report) {
-        Json.onlyKeys(entry, path, ENTRY_KEYS);
+        BuildJson.onlyKeys(entry, path, ENTRY_KEYS);
         ResourceLocation identifier = null;
         if (entry.has("id") && !entry.get("id").isJsonNull()) {
-            identifier = Json.id(Json.string(entry, "id", path), path + ".id");
+            identifier = BuildJson.id(BuildJson.string(entry, "id", path), path + ".id");
         }
         VaultGearTierConfig.ModifierTierGroup tierGroup = null;
         if (authored && identifier != null) {
             ResourceLocation lookup = identifier;
             tierGroup = config.map(c -> c.getTierGroup(lookup)).orElse(null);
         }
-        String attributeText = Json.optString(entry, "attribute", path);
+        String attributeText = BuildJson.optString(entry, "attribute", path);
         VaultGearAttribute<?> attribute;
         if (attributeText != null) {
             attribute = attribute(attributeText, path + ".attribute");
@@ -494,7 +494,7 @@ public final class GearCodec {
                 throw new BuildException(path + ": no value given and " + identifier + " is not in this item's modifier config to "
                         + "generate one from");
             }
-            Integer givenTier = Json.optInt(entry, "tier", path);
+            Integer givenTier = BuildJson.optInt(entry, "tier", path);
             VaultGearTierConfig.ModifierTier<?> source = givenTier != null ? tierGroup.getModifierForTier(givenTier)
                     : tierGroup.getHighestForLevel(level);
             if (source == null) {
@@ -507,12 +507,12 @@ public final class GearCodec {
             modifier = modifier(attribute, entry, path);
         }
         modifier.setModifierIdentifier(identifier);
-        String group = Json.optString(entry, "group", path);
+        String group = BuildJson.optString(entry, "group", path);
         if (group == null && tierGroup != null) {
             group = tierGroup.getModifierGroup();
         }
         modifier.setModifierGroup(group == null ? "" : group);
-        Integer tier = Json.optInt(entry, "tier", path);
+        Integer tier = BuildJson.optInt(entry, "tier", path);
         if (tier == null && tierGroup != null) {
             VaultGearTierConfig.ModifierTier<?> highest = tierGroup.getHighestForLevel(level);
             if (highest != null) {
@@ -522,14 +522,14 @@ public final class GearCodec {
             }
         }
         modifier.setRolledTier(tier == null ? -1 : tier);
-        JsonArray categories = Json.optArray(entry, "categories", path);
+        JsonArray categories = BuildJson.optArray(entry, "categories", path);
         if (categories != null) {
             for (int i = 0; i < categories.size(); i++) {
-                String name = Json.asString(categories.get(i), path + ".categories[" + i + "]");
+                String name = BuildJson.asString(categories.get(i), path + ".categories[" + i + "]");
                 modifier.addCategory(enumByName(VaultGearModifier.AffixCategory.values(), name, path + ".categories[" + i + "]"));
             }
         }
-        Long added = Json.optLong(entry, "added", path);
+        Long added = BuildJson.optLong(entry, "added", path);
         if (added != null) {
             modifier.setGameTimeAdded(added);
         }
@@ -541,7 +541,7 @@ public final class GearCodec {
     }
 
     private static VaultGearAttribute<?> attribute(String text, String path) {
-        ResourceLocation id = Json.id(text, path);
+        ResourceLocation id = BuildJson.id(text, path);
         VaultGearAttribute<?> attribute = VaultGearAttributeRegistry.getAttribute(id);
         if (attribute == null) {
             throw new BuildException(path + ": no gear attribute '" + id + "' exists in this game");
@@ -553,8 +553,8 @@ public final class GearCodec {
                                                     @Nullable ResourceLocation uniqueId,
                                                     List<VaultGearAttributeInstance<?>> attributeList, String path,
                                                     BuildReport report) {
-        String modelText = Json.optString(json, "model", path);
-        boolean ancient = Boolean.TRUE.equals(Json.optBoolean(json, "ancient", path));
+        String modelText = BuildJson.optString(json, "model", path);
+        boolean ancient = Boolean.TRUE.equals(BuildJson.optBoolean(json, "ancient", path));
         if (ancient && uniqueId == null) {
             throw new BuildException(path + ".ancient: only a unique can be ancient");
         }
@@ -587,7 +587,7 @@ public final class GearCodec {
             }
         }
         if (modelText != null) {
-            attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.GEAR_MODEL, Json.id(modelText, path + ".model")));
+            attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.GEAR_MODEL, BuildJson.id(modelText, path + ".model")));
         }
         if (ancient) {
             attributeList.add(new VaultGearAttributeInstance<>(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE, true));

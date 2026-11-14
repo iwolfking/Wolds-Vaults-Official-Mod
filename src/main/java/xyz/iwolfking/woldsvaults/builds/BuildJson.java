@@ -10,8 +10,8 @@ import javax.annotation.Nullable;
 import java.util.Set;
 
 /** Strict readers for build JSON. Every failure is a {@link BuildException} naming the JSON path. */
-public final class Json {
-    private Json() {
+public final class BuildJson {
+    private BuildJson() {
     }
 
     @Nullable

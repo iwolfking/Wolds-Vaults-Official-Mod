@@ -20,7 +20,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
-import xyz.iwolfking.woldsvaults.builds.Json;
+import xyz.iwolfking.woldsvaults.builds.BuildJson;
 import xyz.iwolfking.woldsvaults.builds.codec.ItemCodec;
 import xyz.iwolfking.woldsvaults.gods.GodPiety;
 import xyz.iwolfking.woldsvaults.gods.charms.MythicCharmRolls;
@@ -124,9 +124,9 @@ public final class EquipmentCodec {
     public static Plan plan(JsonObject build, ServerPlayer player, int targetLevel, int targetGreedTier, BuildReport report) {
         Plan plan = new Plan();
         Inventory inventory = player.getInventory();
-        JsonObject equipment = Json.optObject(build, "equipment", "build");
+        JsonObject equipment = BuildJson.optObject(build, "equipment", "build");
         if (equipment != null) {
-            Json.onlyKeys(equipment, "equipment", EQUIPMENT_KEYS);
+            BuildJson.onlyKeys(equipment, "equipment", EQUIPMENT_KEYS);
             for (String key : ARMOR.keySet()) {
                 ItemStack stack = readOptional(equipment, key, "equipment", targetLevel, report);
                 if (stack != null) {
@@ -135,7 +135,7 @@ public final class EquipmentCodec {
             }
             plan.offhand = readOptional(equipment, "offhand", "equipment", targetLevel, report);
             plan.mainhand = readOptional(equipment, "mainhand", "equipment", targetLevel, report);
-            Integer selected = Json.optInt(equipment, "selected_slot", "equipment");
+            Integer selected = BuildJson.optInt(equipment, "selected_slot", "equipment");
             plan.selectedSlot = selected == null ? 0 : selected;
             if (plan.selectedSlot < 0 || plan.selectedSlot >= HOTBAR_SIZE) {
                 throw new BuildException("equipment.selected_slot: must be 0 to " + (HOTBAR_SIZE - 1));
@@ -146,7 +146,7 @@ public final class EquipmentCodec {
         if (plan.mainhand != null && plan.hotbar.containsKey(plan.selectedSlot)) {
             throw new BuildException("hotbar: slot " + plan.selectedSlot + " is the selected slot, which holds the mainhand item");
         }
-        JsonObject curios = Json.optObject(build, "curios", "build");
+        JsonObject curios = BuildJson.optObject(build, "curios", "build");
         if (curios != null) {
             Map<String, List<Tuple<ItemStack, Integer>>> slots = IntegrationCurios.getCuriosItemStacks(player);
             for (Map.Entry<String, JsonElement> entry : curios.entrySet()) {
@@ -167,7 +167,7 @@ public final class EquipmentCodec {
                         throw new BuildException(path + "[" + index + "]: this player has " + size + " '" + id
                                 + "' curio slot(s), so index " + index + " does not exist");
                     }
-                    placed.put(index, ItemCodec.read(Json.asObject(element, path + "[" + index + "]"),
+                    placed.put(index, ItemCodec.read(BuildJson.asObject(element, path + "[" + index + "]"),
                             path + "[" + index + "]", targetLevel, report));
                 }
                 plan.curios.put(id, placed);
@@ -184,27 +184,27 @@ public final class EquipmentCodec {
         if (element == null || element.isJsonNull()) {
             return null;
         }
-        return ItemCodec.read(Json.asObject(element, path + "." + key), path + "." + key, targetLevel, report);
+        return ItemCodec.read(BuildJson.asObject(element, path + "." + key), path + "." + key, targetLevel, report);
     }
 
     private static void readSlots(JsonObject build, String key, int from, int to, Map<Integer, ItemStack> into,
                                   int targetLevel, BuildReport report) {
-        JsonArray array = Json.optArray(build, key, "build");
+        JsonArray array = BuildJson.optArray(build, key, "build");
         if (array == null) {
             return;
         }
         for (int i = 0; i < array.size(); i++) {
             String path = key + "[" + i + "]";
-            JsonObject entry = Json.asObject(array.get(i), path);
-            Json.onlyKeys(entry, path, Set.of("slot", "stack"));
-            int slot = Json.intValue(entry, "slot", path);
+            JsonObject entry = BuildJson.asObject(array.get(i), path);
+            BuildJson.onlyKeys(entry, path, Set.of("slot", "stack"));
+            int slot = BuildJson.intValue(entry, "slot", path);
             if (slot < from || slot >= to) {
                 throw new BuildException(path + ".slot: " + key + " slots run " + from + " to " + (to - 1));
             }
             if (into.containsKey(slot)) {
                 throw new BuildException(path + ".slot: slot " + slot + " is listed twice");
             }
-            into.put(slot, ItemCodec.read(Json.object(entry, "stack", path), path + ".stack", targetLevel, report));
+            into.put(slot, ItemCodec.read(BuildJson.object(entry, "stack", path), path + ".stack", targetLevel, report));
         }
     }
 
