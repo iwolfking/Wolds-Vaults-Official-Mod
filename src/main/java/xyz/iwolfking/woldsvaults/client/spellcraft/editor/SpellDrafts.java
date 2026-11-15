@@ -285,6 +285,18 @@ final class SpellDrafts {
         SpellcraftDraw.click();
     }
 
+    void setPriority(int priority) {
+        SpellcraftConfig config = ModConfigs.SPELLCRAFT;
+        StoredSpell stored = stored(draft());
+        if (config == null || stored == null || priority < 1 || priority > config.rules.priorities) {
+            return;
+        }
+        if (priority != SpellcraftRules.priority(config, stored)) {
+            ModNetwork.sendToServer(new SpellPlaceMessage(this.inventorySlot, stored.id(), stored.slot(), priority));
+        }
+        SpellcraftDraw.click();
+    }
+
     List<String> errors(@Nullable Draft draft, @Nullable SpellcraftRules.ItemCheck check) {
         if (draft == null || check == null || draft.tokens.isEmpty()) {
             return List.of();

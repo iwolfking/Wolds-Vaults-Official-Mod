@@ -1,8 +1,5 @@
 package xyz.iwolfking.woldsvaults.client.spellcraft.bar;
 
-import iskallia.vault.skill.base.Skill;
-import iskallia.vault.skill.base.SpecializedSkill;
-import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -20,6 +17,7 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.gui.StatText;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.SlotCostStats;
+import xyz.iwolfking.woldsvaults.client.spellcraft.stats.StepStatRows;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.StepStats;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -243,33 +241,8 @@ final class SlotTooltip {
             }
             lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.total"), total, SpellcraftPalette.STAT_DAMAGE));
         }
-        if (step.splinter() != null) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.splinter"), StatText.hit(step.splinter()), SpellcraftPalette.STAT_DAMAGE));
-        }
-        if (step.splash() != null) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.splash"), StatText.hit(step.splash()), SpellcraftPalette.STAT_DAMAGE));
-        }
-        for (StepStats.Extra main : step.mains()) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat." + main.key()), main.value(), main.color()));
-        }
-        if (step.radius() >= 0.0F) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.radius"),
-                    SpellcraftNames.tr("fmt.blocks", StatText.compact(step.radius())), SpellcraftPalette.STAT_AREA));
-        }
-        if (step.splashRadius() >= 0.0F) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.splash_radius"),
-                    SpellcraftNames.tr("fmt.blocks", StatText.compact(step.splashRadius())), SpellcraftPalette.STAT_AREA));
-        }
-        if (step.velocity() >= 0.0F) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.velocity"),
-                    SpellcraftNames.tr("fmt.blocks_per_second", StatText.compact(step.velocity())), SpellcraftPalette.STAT_YELLOW));
-        }
-        if (step.durationTicks() >= 0) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat.duration"),
-                    SpellcraftNames.tr("fmt.seconds", StatText.seconds(step.durationTicks())), SpellcraftPalette.STAT_YELLOW));
-        }
-        for (StepStats.Extra extra : step.extras()) {
-            lines.add(labelled(indent + SpellcraftNames.tr("bar.stat." + extra.key()), extra.value(), extra.color()));
+        for (StepStatRows.Value value : StepStatRows.effects(step)) {
+            lines.add(labelled(indent + SpellcraftNames.tr(value.key()), value.text(), value.color()));
         }
         if (step.glyphs() != null) {
             glyphLine(step.glyphs(), step.relevance(), indent, lines);
@@ -290,10 +263,7 @@ final class SlotTooltip {
     }
 
     private static String tierSuffix(AbilityTree tree, String group) {
-        Skill skill = tree.getForId(group).orElse(null);
-        if (skill instanceof SpecializedSkill specialized && specialized.getSpecialization() instanceof TieredSkill tiered && tiered.isUnlocked()) {
-            return " " + tiered.getActualTier();
-        }
-        return "";
+        String tier = SpellcraftNames.tier(tree, group);
+        return tier.isEmpty() ? "" : " " + tier;
     }
 }

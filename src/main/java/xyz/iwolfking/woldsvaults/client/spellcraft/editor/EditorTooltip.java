@@ -6,7 +6,6 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftNames;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftPalette;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
-import xyz.iwolfking.woldsvaults.spellcraft.ability.SpellAbilities;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
 import xyz.iwolfking.woldsvaults.spellcraft.spell.SpellcraftRules;
 
@@ -43,15 +42,12 @@ final class EditorTooltip {
         if (lines != null) {
             return lines;
         }
-        lines = this.stats.stepperTooltip(draft, check, mouseX, mouseY);
-        if (lines != null) {
-            return lines;
-        }
         lines = this.title.tooltipAt(check, mouseX, mouseY);
         if (lines != null) {
             return lines;
         }
-        return this.stats.errorTooltip(draft, check, mouseX, mouseY);
+        lines = this.stats.tooltipAt(draft, check, mouseX, mouseY);
+        return lines == null ? List.of() : lines;
     }
 
     static void glyphLines(SpellcraftConfig config, GlyphType type, float potency, float quality, GlyphRelevance.Filter relevance,
@@ -63,21 +59,7 @@ final class EditorTooltip {
         if (!side.isEmpty()) {
             lines.add(GlyphText.tagged(side));
         }
-        List<String> fits = new ArrayList<>();
-        if (glyph.specs != null && !glyph.specs.isEmpty()) {
-            for (String spec : glyph.specs) {
-                String name = SpellAbilities.displayName(spec);
-                if (!fits.contains(name)) {
-                    fits.add(name);
-                }
-            }
-        } else {
-            for (List<String> set : glyph.requires) {
-                List<String> words = new ArrayList<>();
-                set.forEach(trait -> words.add(SpellcraftNames.capitalize(trait)));
-                fits.add(String.join(" + ", words));
-            }
-        }
+        List<String> fits = GlyphText.fits(glyph);
         if (!fits.isEmpty()) {
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.fits", String.join(", ", fits)), SpellcraftPalette.GREY));
         }

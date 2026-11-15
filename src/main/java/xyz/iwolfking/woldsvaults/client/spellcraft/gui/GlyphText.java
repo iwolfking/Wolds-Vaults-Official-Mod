@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TextComponent;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.GlyphRelevance;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.ability.SpellAbilities;
 import xyz.iwolfking.woldsvaults.spellcraft.gear.ConvertedEtchings;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphStacking;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
@@ -93,6 +94,31 @@ public final class GlyphText {
 
     public static String potency(SpellcraftConfig config, GlyphType type, float p) {
         return SpellcraftNames.capitalize(rawPotency(config, type, p));
+    }
+
+    /**
+     * What a glyph fits: the names of its abilities when it lists any, else each trait set it requires, joined with
+     * plus signs.
+     */
+    public static List<String> fits(SpellcraftConfig.GlyphDefinition glyph) {
+        List<String> fits = new ArrayList<>();
+        if (glyph.specs != null && !glyph.specs.isEmpty()) {
+            for (String spec : glyph.specs) {
+                String name = SpellAbilities.displayName(spec);
+                if (!fits.contains(name)) {
+                    fits.add(name);
+                }
+            }
+            return fits;
+        }
+        for (List<String> set : glyph.requires) {
+            List<String> words = new ArrayList<>();
+            set.forEach(trait -> words.add(SpellcraftNames.capitalize(trait)));
+            if (!words.isEmpty()) {
+                fits.add(String.join(" + ", words));
+            }
+        }
+        return fits;
     }
 
     private static String rawPotency(SpellcraftConfig config, GlyphType type, float p) {

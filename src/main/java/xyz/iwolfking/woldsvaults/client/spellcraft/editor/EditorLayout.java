@@ -12,15 +12,14 @@ final class EditorLayout {
     static final int PAD = 4;
     static final int TITLE_Y = 4;
     static final int TITLE_H = 22;
-    static final int POUCH_W = 118;
+    static final int POUCH_W = 168;
     static final int ROW = 21;
-    private static final int CELL = 22;
-    private static final int CELL_PITCH_Y = 26;
+    static final int ICON = 20;
+    private static final int CELL = 26;
+    private static final int CELL_PITCH_Y = 28;
     static final int TAB = 20;
     static final int WEAVE_TOP = 11;
-    static final int WEAVE_ROWS = 2;
-    static final int WEAVE_H = WEAVE_TOP + WEAVE_ROWS * CELL_PITCH_Y + 2;
-    static final int STAT_PITCH = 10;
+    static final int WEAVE_ROWS_MAX = 2;
     private static final int NAME_MIN_W = 60;
 
     record Cell(int index, int x, int y) {
@@ -53,8 +52,25 @@ final class EditorLayout {
         return bodyTop() + 4 + TAB + 3;
     }
 
-    static int weaveBottom() {
-        return weaveTop() + WEAVE_H;
+    /** The weave's height with {@code rows} rows of cells and equal margins above and below them. */
+    static int weaveHeight(int rows) {
+        return 2 * WEAVE_TOP + rows * CELL_PITCH_Y - (CELL_PITCH_Y - ICON);
+    }
+
+    static int weaveBottom(int rows) {
+        return weaveTop() + weaveHeight(rows);
+    }
+
+    /**
+     * How many weave rows to show: the rows the spell needs, at most {@link #WEAVE_ROWS_MAX}, and fewer when the
+     * stats box below would get too short for the spell column.
+     */
+    static int shownWeaveRows(int width, int height, int tokens) {
+        int shown = Math.min(WEAVE_ROWS_MAX, weaveRows(tokens, perRow(innerX0(), innerX1(width))));
+        while (shown > 1 && statsBottom(height) - statsTop(shown) < StatsPanel.spellColumnHeight()) {
+            shown--;
+        }
+        return Math.max(1, shown);
     }
 
     static boolean overTitle(double mouseX, double mouseY, int width) {
@@ -132,13 +148,13 @@ final class EditorLayout {
         return (tokens + 1 + perRow - 1) / perRow;
     }
 
-    static List<Cell> cells(int tokens, int scroll, int x0, int y0, int x1) {
+    static List<Cell> cells(int tokens, int scroll, int rows, int x0, int y0, int x1) {
         List<Cell> cells = new ArrayList<>();
         int count = tokens + 1;
         int perRow = perRow(x0, x1);
         for (int i = 0; i < count; i++) {
             int row = i / perRow - scroll;
-            if (row < 0 || row >= WEAVE_ROWS) {
+            if (row < 0 || row >= rows) {
                 continue;
             }
             cells.add(new Cell(i, x0 + 8 + (i % perRow) * CELL, y0 + WEAVE_TOP + row * CELL_PITCH_Y));
@@ -146,27 +162,15 @@ final class EditorLayout {
         return cells;
     }
 
-    static boolean overWeave(double mouseX, double mouseY, int width) {
-        return SpellcraftDraw.inside(mouseX, mouseY, innerX0(), weaveTop(), innerX1(width) - innerX0(), WEAVE_H);
+    static boolean overWeave(double mouseX, double mouseY, int width, int rows) {
+        return SpellcraftDraw.inside(mouseX, mouseY, innerX0(), weaveTop(), innerX1(width) - innerX0(), weaveHeight(rows));
     }
 
-    static int statsTop() {
-        return weaveTop() + WEAVE_H + 3;
+    static int statsTop(int rows) {
+        return weaveBottom(rows) + 3;
     }
 
     static int statsBottom(int height) {
         return bodyBottom(height) - PAD;
-    }
-
-    static int statsMid(int width) {
-        return (innerX0() + innerX1(width)) / 2;
-    }
-
-    static int statRows(int height) {
-        return (statsBottom(height) - statsTop() - 4) / STAT_PITCH;
-    }
-
-    static int statRowY(int row) {
-        return statsTop() + 4 + row * STAT_PITCH;
     }
 }

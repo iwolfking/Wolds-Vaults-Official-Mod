@@ -3,7 +3,6 @@ package xyz.iwolfking.woldsvaults.client.spellcraft.editor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SpecializedSkill;
-import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
@@ -32,6 +31,7 @@ final class PouchPanel {
     private static final int SCROLL_THUMB = 0xFF8B8B8B;
     private static final int BORROWED_MARK = 0xFFB46CF0;
     private static final int TRANSFER_MARK = 0xFF5FD87E;
+    private static final int FITS_TEXT = 0xFFE3CC7A;
 
     private final SpellcraftScreen screen;
     private final SpellDrafts drafts;
@@ -137,12 +137,28 @@ final class PouchPanel {
         String name = font.plainSubstrByWidth(line.type().displayName(), room - font.width(uses) - 3);
         font.drawShadow(pose, name, tx, y + 1, spent ? SpellcraftPalette.DARK : SpellcraftPalette.categoryColor(config, line.type()));
         font.drawShadow(pose, uses, right - font.width(uses), y + 1, spent ? SpellcraftPalette.DARK : SpellcraftPalette.WHITE);
-        String cost = config.glyph(line.type()).isUnique() ? "0/" + config.rules.uniqueMixCost : String.valueOf(line.cost());
+        SpellcraftConfig.GlyphDefinition definition = config.glyph(line.type());
+        String cost = definition.isUnique() ? "0/" + config.rules.uniqueMixCost : String.valueOf(line.cost());
         int cw = font.width(cost);
-        String potency = font.plainSubstrByWidth(GlyphText.potency(config, line.type(), line.potency()), room - cw - 9);
-        font.drawShadow(pose, potency, tx, y + 10, SpellcraftPalette.GREY);
+        List<String> fits = definition.isUnique() ? GlyphText.fits(definition) : List.of();
+        if (fits.isEmpty()) {
+            String potency = font.plainSubstrByWidth(GlyphText.potency(config, line.type(), line.potency()), room - cw - 9);
+            font.drawShadow(pose, potency, tx, y + 10, SpellcraftPalette.GREY);
+        } else {
+            font.drawShadow(pose, fitsText(font, fits, room - cw - 9), tx, y + 10, spent ? SpellcraftPalette.DARK : FITS_TEXT);
+        }
         GuiComponent.fill(pose, right - cw - 7, y + 12, right - cw - 3, y + 16, SpellcraftPalette.ARCANA);
         font.drawShadow(pose, cost, right - cw, y + 10, SpellcraftPalette.ARCANA);
+    }
+
+    /** The abilities a unique glyph fits, cut to the first name and a count of the rest when they don't fit in {@code room}. */
+    private static String fitsText(Font font, List<String> fits, int room) {
+        String all = String.join(", ", fits);
+        if (font.width(all) <= room || fits.size() == 1) {
+            return font.plainSubstrByWidth(all, room);
+        }
+        String more = " +" + (fits.size() - 1);
+        return font.plainSubstrByWidth(fits.get(0), room - font.width(more)) + more;
     }
 
     private boolean spellable(SpellcraftConfig config, String spec) {
@@ -159,7 +175,7 @@ final class PouchPanel {
         SpellcraftDraw.ability(pose, spec != null ? spec : group, lx0 + 3, y + 1, 16, usable ? 1.0F : 0.4F);
         int tx = lx0 + 23;
         int room = right - tx;
-        String tier = tier(tree, group);
+        String tier = SpellcraftNames.tier(tree, group);
         String name = font.plainSubstrByWidth(SpellcraftNames.groupName(tree, group), room - font.width(tier) - 3);
         font.drawShadow(pose, name, tx, y + 1, usable ? SpellcraftPalette.NAME_GOLD : SpellcraftPalette.DARK);
         font.drawShadow(pose, tier, right - font.width(tier), y + 1, usable ? SpellcraftPalette.WHITE : SpellcraftPalette.DARK);
@@ -175,14 +191,6 @@ final class PouchPanel {
         List<String> names = new ArrayList<>();
         traits.forEach(trait -> names.add(trait.toLowerCase(Locale.ROOT)));
         return String.join(" ", names);
-    }
-
-    private static String tier(AbilityTree tree, String group) {
-        Skill skill = tree.getForId(group).orElse(null);
-        if (skill instanceof SpecializedSkill specialized && specialized.getSpecialization() instanceof TieredSkill tiered) {
-            return String.valueOf(tiered.getActualTier());
-        }
-        return "";
     }
 
     @Nullable

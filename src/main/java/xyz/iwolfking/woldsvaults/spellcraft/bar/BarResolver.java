@@ -94,7 +94,7 @@ final class BarResolver {
     private void pickSlotWinners() {
         for (Map.Entry<Integer, List<Overlay>> entry : this.bySlot.entrySet()) {
             List<Overlay> overlays = new ArrayList<>(entry.getValue());
-            overlays.sort(Comparator.comparingInt(Overlay::prio).thenComparingInt(Overlay::order));
+            overlays.sort(Comparator.comparingInt((Overlay overlay) -> -overlay.prio()).thenComparingInt(Overlay::order));
             int top = overlays.get(0).prio();
             List<Overlay> tied = overlays.stream().filter(overlay -> overlay.prio() == top).toList();
             List<String> lower = new ArrayList<>();
@@ -112,7 +112,7 @@ final class BarResolver {
 
     private void claimGroups() {
         List<Integer> claimOrder = new ArrayList<>(this.winners.keySet());
-        claimOrder.sort(Comparator.comparingInt((Integer slot) -> this.winners.get(slot).prio()).thenComparingInt(slot -> slot));
+        claimOrder.sort(Comparator.comparingInt((Integer slot) -> -this.winners.get(slot).prio()).thenComparingInt(slot -> slot));
         int i = 0;
         while (i < claimOrder.size()) {
             int prio = this.winners.get(claimOrder.get(i)).prio();
