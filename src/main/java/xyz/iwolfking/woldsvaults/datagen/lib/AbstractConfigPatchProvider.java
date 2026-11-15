@@ -11,8 +11,8 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
-import xyz.iwolfking.woldsvaults.config.patch.ConfigPatch;
-import xyz.iwolfking.woldsvaults.config.patch.ConfigPatches;
+import xyz.iwolfking.vhapi.api.patches.ConfigPatch;
+import xyz.iwolfking.vhapi.api.patches.ConfigPatches;
 
 import java.io.File;
 import java.io.FileReader;
@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Writes field-level patches for base Vault Hunters configs to {@value ConfigPatches#RESOURCE_ROOT}. A patch holds
+ * Writes field-level patches for base Vault Hunters configs as VHAPI config patches, to
+ * {@code data/<modId>/vault_configs/patches/<path below config/the_vault/>}, where VHAPI reads them. A patch holds
  * only the values Wold's Vaults changes; everything else in the file stays upstream's. Before writing, each patch is
  * read back from the JSON it serializes to and applied to the seeded base config, and any op that does not resolve
  * fails the run, so a patch that no longer matches upstream never ships.
@@ -36,11 +37,13 @@ public abstract class AbstractConfigPatchProvider implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls().create();
     private static final String SEEDED_CONFIG_ROOT = "config/the_vault/";
     private final DataGenerator generator;
+    private final String outputRoot;
     private final Map<String, Patch> patches = new LinkedHashMap<>();
     private Map<String, ConfigPatch> built;
 
-    protected AbstractConfigPatchProvider(DataGenerator generator) {
+    protected AbstractConfigPatchProvider(DataGenerator generator, String modId) {
         this.generator = generator;
+        this.outputRoot = "data/" + modId + "/vault_configs/" + ConfigPatches.DIRECTORY + "/";
     }
 
     protected abstract void registerPatches();
@@ -90,7 +93,7 @@ public abstract class AbstractConfigPatchProvider implements DataProvider {
             if (!failures.isEmpty()) {
                 throw new IllegalStateException("Config patch for " + path + " does not apply to the seeded pack:\n  " + String.join("\n  ", failures));
             }
-            DataProvider.save(GSON, cache, written, this.generator.getOutputFolder().resolve(ConfigPatches.RESOURCE_ROOT + path));
+            DataProvider.save(GSON, cache, written, this.generator.getOutputFolder().resolve(this.outputRoot + path));
         }
     }
 

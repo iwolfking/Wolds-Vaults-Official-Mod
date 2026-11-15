@@ -5,14 +5,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.data.DataGenerator;
 import iskallia.vault.util.PlayerBerserkHelper;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.cast.LuckyReset;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider;
 import xyz.iwolfking.woldsvaults.datagen.patches.GreedTraderPatches;
 import xyz.iwolfking.woldsvaults.datagen.patches.SpellHastePatches;
 import xyz.iwolfking.woldsvaults.events.ExecuteEvents;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BerserkEffectAccessor;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
     private static final int PRESTIGE_HEADER_TEXT_COLOR = 0xFFFFFFFF;
 
     public ModConfigPatchesProvider(DataGenerator generator) {
-        super(generator);
+        super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override
@@ -244,7 +245,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
 
     private void descriptions() {
         Node berserk = patch("skill_descriptions.json").at("descriptions", "BerserkPower");
-        berserk.at(3).set("text", Math.round(berserkDamagePerStack() * 100) + "%");
+        berserk.at(3).set("text", Math.round(BerserkEffectAccessor.woldsvaults$getMultiplierPerStack() * 100) + "%");
         berserk.at(4).set("text", " every time you kill a mob, this effect can stack ");
         berserk.at(5).set("text", PlayerBerserkHelper.MAX_STACKS + " times");
         berserk.at(7).set("text", PlayerBerserkHelper.DURATION_TICKS / 20 + " seconds");
@@ -252,17 +253,6 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         Node spectralStrike = patch("abilities_descriptions.json").at("data", "Battle_Cry_Spectral_Strike", "description");
         spectralStrike.at(4).set("text", "of stacks on each qualifying hit: swings and fang hits add ");
         spectralStrike.at(6).set("text", "(a share of your base ability power per stack) as damage, and ability hits gain the same share per stack.\nThe stacks will fizzle after a ");
-    }
-
-    /** Berserk's attack damage per stack, a private constant of the base mod's berserk effect. */
-    private static float berserkDamagePerStack() {
-        try {
-            Field field = PlayerBerserkHelper.BerserkEffect.class.getDeclaredField("MULTIPLIER_PER_STACK");
-            field.setAccessible(true);
-            return field.getFloat(null);
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalStateException("Berserk's per-stack multiplier is no longer readable; update the BerserkPower text patch", e);
-        }
     }
 
     private void gearModifiers() {

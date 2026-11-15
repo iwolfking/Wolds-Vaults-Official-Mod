@@ -63,10 +63,6 @@
     "accessors.ChaosTaskAccessor",
     "accessors.ChainLightningProjectileAccessor",
     "vaulthunters.accessors.DeckModifierValueAccessor",
-    "vaulthunters.accessors.ConfigInvoker",
-    "vaulthunters.patches.MixinConfigPatches",
-    "vaulthunters.patches.MixinLootTablePatches",
-    "vaulthunters.patches.MixinVoidCrucibleCustomItemConfigPatches",
     "accessors.EvokerFangsAccessor",
     "accessors.MobEffectInstanceAccessor",
     "accessors.ResultSlotAccessor",
@@ -787,7 +783,8 @@
     "create.accessors.MixinFilterItem",
     "dungeons_library.MixinAbilityHelper",
     "trashslot.TrashSlotGuiHandlerMixin",
-    "vaulthunters.skills.modifications.MixinLightningOrbsAbility"
+    "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
+    "vaulthunters.accessors.BerserkEffectAccessor"
   ],
   "client": [
     "vaulthunters.custom.MixinVaultGearTooltipItem",

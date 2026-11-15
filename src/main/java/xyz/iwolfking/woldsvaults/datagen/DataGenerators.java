@@ -6,8 +6,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import xyz.iwolfking.vhapi.api.patches.ConfigPatches;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.config.patch.ConfigPatches;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
@@ -17,7 +17,7 @@ public class DataGenerators {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper efh = event.getExistingFileHelper();
         ModConfigPatchesProvider configPatches = new ModConfigPatchesProvider(gen);
-        ConfigPatches.useDataRunTable(configPatches.patches());
+        ConfigPatches.useDataRunPatches(WoldsVaults.MOD_ID, configPatches.patches());
 
 
 

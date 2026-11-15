@@ -12,14 +12,14 @@
     "the_vault:completion_crate_chaos": {
       "display": "Completion Crate (Chaos)",
       "lootTableKeys": {
-        "woldsvaults:chaos_crate_50": {
-          "level": 50
-        },
         "woldsvaults:chaos_crate_0": {
           "level": 0
         },
         "woldsvaults:chaos_crate_20": {
           "level": 20
+        },
+        "woldsvaults:chaos_crate_50": {
+          "level": 50
         },
         "woldsvaults:chaos_crate_100": {
           "level": 100
