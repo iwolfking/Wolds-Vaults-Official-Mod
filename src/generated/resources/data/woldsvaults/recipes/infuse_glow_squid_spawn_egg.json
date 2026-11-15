@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/glow_squid",
+  "entitytosacrifice": "minecraft:sacrifices/glow_squid",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/glow_squid",
+    "display_name": "entity.minecraft.glow_squid"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

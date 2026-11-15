@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/vault_red_gummy_soldier",
+  "entitytosacrifice": "the_vault:sacrifices/vault_red_gummy_soldier",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/vault_red_gummy_soldier",
+    "display_name": "entity.the_vault.vault_red_gummy_soldier"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

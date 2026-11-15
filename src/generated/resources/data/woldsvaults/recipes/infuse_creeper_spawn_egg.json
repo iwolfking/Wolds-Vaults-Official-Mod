@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/creeper",
+  "entitytosacrifice": "minecraft:sacrifices/creeper",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/creeper",
+    "display_name": "entity.minecraft.creeper"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

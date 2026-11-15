@@ -13,12 +13,10 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.init.ModItems;
-import xyz.iwolfking.woldsvaults.items.gear.VaultBattleStaffItem;
-import xyz.iwolfking.woldsvaults.items.gear.VaultRangItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class MercyEnchantmentAdderRecipe extends VanillaAnvilRecipe {
     public boolean onSimpleCraft(AnvilContext context) {
         ItemStack primary = context.getInput()[0];
         ItemStack secondary = context.getInput()[1];
-        if ((primary.getItem() instanceof SwordItem || primary.getItem() instanceof AxeItem || primary.getItem() instanceof ToolItem || primary.getItem() instanceof VaultBattleStaffItem || primary.getItem() instanceof TridentItem || primary.getItem() instanceof VaultRangItem) && secondary.getItem() == ModItems.MERCY_ORB) {
+        if ((primary.getItem() instanceof SwordItem || primary.getItem() instanceof AxeItem || primary.getItem() instanceof ToolItem || WoldConstants.ALL_WOLD_GEAR.contains(primary.getItem())) && secondary.getItem() == ModItems.MERCY_ORB) {
             ItemStack output = primary.copy();
             Map<Enchantment, Integer> stackEnchMap = EnchantmentHelper.getEnchantments(output);
             if(stackEnchMap.containsKey(EnsorcEnchantments.CURSE_MERCY.get())) {
@@ -55,7 +53,7 @@ public class MercyEnchantmentAdderRecipe extends VanillaAnvilRecipe {
     public void onRegisterJEI(IRecipeRegistration registry) {
         IVanillaRecipeFactory factory = registry.getVanillaRecipeFactory();
 
-        List<ItemStack> inputs = List.of(new ItemStack(ModItems.RANG), new ItemStack(ModItems.BATTLESTAFF), new ItemStack(ModItems.TRIDENT), new ItemStack(iskallia.vault.init.ModItems.SWORD), new ItemStack(iskallia.vault.init.ModItems.AXE));
+        List<ItemStack> inputs = List.of(new ItemStack(ModItems.RANG), new ItemStack(ModItems.BATTLESTAFF), new ItemStack(ModItems.TRIDENT), new ItemStack(iskallia.vault.init.ModItems.SWORD), new ItemStack(iskallia.vault.init.ModItems.AXE), new ItemStack(ModItems.SCEPTER), new ItemStack(ModItems.DAGGER_MAIN), new ItemStack(ModItems.VAULT_ROD));
         ItemStack secondary = new ItemStack(ModItems.MERCY_ORB);
         List<ItemStack> outputs = new ArrayList<>();
         for(ItemStack input : inputs) {

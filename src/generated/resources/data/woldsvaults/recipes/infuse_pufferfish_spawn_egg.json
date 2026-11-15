@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/pufferfish",
+  "entitytosacrifice": "minecraft:sacrifices/pufferfish",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/pufferfish",
+    "display_name": "entity.minecraft.pufferfish"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

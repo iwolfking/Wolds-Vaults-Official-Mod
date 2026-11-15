@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/elder_guardian",
+  "entitytosacrifice": "minecraft:sacrifices/elder_guardian",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/elder_guardian",
+    "display_name": "entity.minecraft.elder_guardian"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

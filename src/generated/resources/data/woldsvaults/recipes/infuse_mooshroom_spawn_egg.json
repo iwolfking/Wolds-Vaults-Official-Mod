@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/mooshroom",
+  "entitytosacrifice": "minecraft:sacrifices/mooshroom",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/mooshroom",
+    "display_name": "entity.minecraft.mooshroom"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "quark:sacrifices/frog",
+  "entitytosacrifice": "quark:sacrifices/frog",
+  "entity_to_sacrifice": {
+    "tag": "quark:sacrifices/frog",
+    "display_name": "entity.quark.frog"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

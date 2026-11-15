@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "quark:sacrifices/toretoise",
+  "entitytosacrifice": "quark:sacrifices/toretoise",
+  "entity_to_sacrifice": {
+    "tag": "quark:sacrifices/toretoise",
+    "display_name": "entity.quark.toretoise"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

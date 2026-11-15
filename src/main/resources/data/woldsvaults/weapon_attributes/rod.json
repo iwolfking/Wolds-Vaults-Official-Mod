@@ -1,0 +1,16 @@
+{
+  "attributes": {
+    "range_bonus": -3.0,
+    "category": "vault_rod",
+    "attacks": [
+      {
+        "hitbox": "FORWARD_BOX",
+        "upswing": 0.5,
+        "animation": "bettercombat:one_handed_punch",
+        "swing_sound": {
+          "id": "minecraft:entity/fishing_bobber/retrieve"
+        }
+      }
+    ]
+  }
+}

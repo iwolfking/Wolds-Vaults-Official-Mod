@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/jack",
+  "entitytosacrifice": "the_vault:sacrifices/jack",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/jack",
+    "display_name": "entity.the_vault.jack"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/salmon",
+  "entitytosacrifice": "minecraft:sacrifices/salmon",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/salmon",
+    "display_name": "entity.minecraft.salmon"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

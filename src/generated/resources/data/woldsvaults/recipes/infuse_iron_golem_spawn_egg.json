@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/iron_golem",
+  "entitytosacrifice": "minecraft:sacrifices/iron_golem",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/iron_golem",
+    "display_name": "entity.minecraft.iron_golem"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

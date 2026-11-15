@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/ender_dragon",
+  "entitytosacrifice": "minecraft:sacrifices/ender_dragon",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/ender_dragon",
+    "display_name": "entity.minecraft.ender_dragon"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

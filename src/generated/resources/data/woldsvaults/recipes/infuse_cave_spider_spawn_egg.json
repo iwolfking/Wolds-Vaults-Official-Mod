@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/cave_spider",
+  "entitytosacrifice": "minecraft:sacrifices/cave_spider",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/cave_spider",
+    "display_name": "entity.minecraft.cave_spider"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

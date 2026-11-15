@@ -19,6 +19,7 @@ public class CustomVaultGearModelRollRaritiesConfig {
     public static final Map<String, List<String>> MAP_MODEL_ROLLS = new HashMap<>();
     public static final Map<String, List<String>> SCEPTER_MODEL_ROLLS = new HashMap<>();
     public static final Map<String, List<String>> DAGGER_MODEL_ROLLS = new HashMap<>();
+    public static final Map<String, List<String>> ROD_MODEL_ROLLS = new HashMap<>();
 
 
     static {
@@ -39,6 +40,8 @@ public class CustomVaultGearModelRollRaritiesConfig {
         SCEPTER_MODEL_ROLLS.put(VaultGearRarity.SCRAPPY.name(), Scepters.REGISTRY.getIds().stream()
                 .map(ResourceLocation::toString).collect(Collectors.toList()));
         DAGGER_MODEL_ROLLS.put(VaultGearRarity.SCRAPPY.name(), Daggers.REGISTRY.getIds().stream()
+                .map(ResourceLocation::toString).collect(Collectors.toList()));
+        ROD_MODEL_ROLLS.put(VaultGearRarity.SCRAPPY.name(), VaultRods.REGISTRY.getIds().stream()
                 .map(ResourceLocation::toString).collect(Collectors.toList()));
     }
 

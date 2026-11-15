@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "thermal:sacrifices/basalz",
+  "entitytosacrifice": "thermal:sacrifices/basalz",
+  "entity_to_sacrifice": {
+    "tag": "thermal:sacrifices/basalz",
+    "display_name": "entity.thermal.basalz"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

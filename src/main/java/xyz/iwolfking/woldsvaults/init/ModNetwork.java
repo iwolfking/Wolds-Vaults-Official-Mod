@@ -100,6 +100,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, SpellPlaceMessage.class, SpellPlaceMessage::encode, SpellPlaceMessage::decode, SpellPlaceMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ServerboundStatSyncRequestMessage.class, ServerboundStatSyncRequestMessage::encode, ServerboundStatSyncRequestMessage::decode, ServerboundStatSyncRequestMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ClientboundStatSyncMessage.class, ClientboundStatSyncMessage::encode, ClientboundStatSyncMessage::decode, ClientboundStatSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, VaultRodAttackMessage.class, VaultRodAttackMessage::encode, VaultRodAttackMessage::decode, VaultRodAttackMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {

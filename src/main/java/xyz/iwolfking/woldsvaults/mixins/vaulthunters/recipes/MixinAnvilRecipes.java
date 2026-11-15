@@ -9,11 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.recipes.capstone.*;
-import xyz.iwolfking.woldsvaults.recipes.crystal.AdaptiveFocusVaultCrystalRecipe;
-import xyz.iwolfking.woldsvaults.recipes.crystal.ConcealedChaosModificationRecipe;
-import xyz.iwolfking.woldsvaults.recipes.crystal.GreedMedallionModificationRecipe;
-import xyz.iwolfking.woldsvaults.recipes.crystal.LayoutModificationRecipe;
-import xyz.iwolfking.woldsvaults.recipes.crystal.MapModificationRecipe;
+import xyz.iwolfking.woldsvaults.recipes.crystal.*;
 import xyz.iwolfking.woldsvaults.recipes.gear.AdaptiveFocusUniqueGearRecipe;
 import xyz.iwolfking.woldsvaults.recipes.gear.GearRepairAdderRecipe;
 import xyz.iwolfking.woldsvaults.recipes.gear.MercyEnchantmentAdderRecipe;
@@ -56,6 +52,7 @@ public abstract class MixinAnvilRecipes {
         woldsVaults$register(new AdaptiveFocusVaultCrystalRecipe());
         woldsVaults$register(new SoulboundEnchantmentRecipe());
         woldsVaults$register(new GreedMedallionModificationRecipe());
+        woldsVaults$register(new CompanionCrystalRecipe());
     }
 
     @Unique

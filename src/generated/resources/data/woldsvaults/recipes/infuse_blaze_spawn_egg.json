@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/blaze",
+  "entitytosacrifice": "minecraft:sacrifices/blaze",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/blaze",
+    "display_name": "entity.minecraft.blaze"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

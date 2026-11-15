@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "cloudstorage:sacrifices/bloviator",
+  "entitytosacrifice": "cloudstorage:sacrifices/bloviator",
+  "entity_to_sacrifice": {
+    "tag": "cloudstorage:sacrifices/bloviator",
+    "display_name": "entity.cloudstorage.bloviator"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

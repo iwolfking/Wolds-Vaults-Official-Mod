@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "the_vault:sacrifices/dungeon_black_widow_spider",
+  "entitytosacrifice": "the_vault:sacrifices/dungeon_black_widow_spider",
+  "entity_to_sacrifice": {
+    "tag": "the_vault:sacrifices/dungeon_black_widow_spider",
+    "display_name": "entity.the_vault.dungeon_black_widow_spider"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

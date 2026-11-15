@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "ars_nouveau:sacrifices/whirlisprig",
+  "entitytosacrifice": "ars_nouveau:sacrifices/whirlisprig",
+  "entity_to_sacrifice": {
+    "tag": "ars_nouveau:sacrifices/whirlisprig",
+    "display_name": "entity.ars_nouveau.whirlisprig"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

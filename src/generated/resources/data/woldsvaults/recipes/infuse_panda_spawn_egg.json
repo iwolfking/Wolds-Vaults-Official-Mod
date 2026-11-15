@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/panda",
+  "entitytosacrifice": "minecraft:sacrifices/panda",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/panda",
+    "display_name": "entity.minecraft.panda"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

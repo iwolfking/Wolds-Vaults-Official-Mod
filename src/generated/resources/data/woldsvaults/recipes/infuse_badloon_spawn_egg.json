@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "cloudstorage:sacrifices/badloon",
+  "entitytosacrifice": "cloudstorage:sacrifices/badloon",
+  "entity_to_sacrifice": {
+    "tag": "cloudstorage:sacrifices/badloon",
+    "display_name": "entity.cloudstorage.badloon"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

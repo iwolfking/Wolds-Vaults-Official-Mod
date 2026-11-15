@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/strider",
+  "entitytosacrifice": "minecraft:sacrifices/strider",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/strider",
+    "display_name": "entity.minecraft.strider"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

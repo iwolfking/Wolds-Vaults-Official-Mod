@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/drowned",
+  "entitytosacrifice": "minecraft:sacrifices/drowned",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/drowned",
+    "display_name": "entity.minecraft.drowned"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,0 +1,26 @@
+{
+  "itemRegistryName": "the_vault:rod",
+  "MODEL_ROLLS": {
+    "SCRAPPY": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "COMMON": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "RARE": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "EPIC": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "OMEGA": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "MYTHIC": [
+      "the_vault:gear/rod/vanilla"
+    ],
+    "UNIQUE": [
+      "the_vault:gear/rod/vanilla"
+    ]
+  }
+}

@@ -7,9 +7,10 @@ import iskallia.vault.recipe.anvil.VanillaAnvilRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.AnvilBlock;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 
-public abstract class AbstractCrystalModificationRecipe<T extends Item & IVaultCrystalModifier> extends VanillaAnvilRecipe {
+public abstract class AbstractCrystalModificationRecipe<T extends Item> extends VanillaAnvilRecipe {
 
     public boolean onSimpleCraft(AnvilContext context) {
         if (context.getBlockState().map((state) -> state.getBlock() instanceof AnvilBlock).orElse(false)) {
@@ -30,7 +31,9 @@ public abstract class AbstractCrystalModificationRecipe<T extends Item & IVaultC
                 return false;
             }
             else {
-                return getCraftingIngredient().applyCrystalRecipe(context, data, secondary, output);
+                if(secondary.getItem() instanceof IVaultCrystalModifier crystalModifier) {
+                    return crystalModifier.applyCrystalRecipe(context, data, secondary, output);
+                }
             }
         }
 

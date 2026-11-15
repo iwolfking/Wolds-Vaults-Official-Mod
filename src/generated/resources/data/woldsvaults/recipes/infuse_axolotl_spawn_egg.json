@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/axolotl",
+  "entitytosacrifice": "minecraft:sacrifices/axolotl",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/axolotl",
+    "display_name": "entity.minecraft.axolotl"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "minecraft:sacrifices/zoglin",
+  "entitytosacrifice": "minecraft:sacrifices/zoglin",
+  "entity_to_sacrifice": {
+    "tag": "minecraft:sacrifices/zoglin",
+    "display_name": "entity.minecraft.zoglin"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,

@@ -114,7 +114,7 @@ public class DynamicResultRitualRecipe extends RitualRecipe {
         public DynamicResultRitualRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             ResourceLocation customId = ResourceLocation.parse(GsonHelper.getAsString(json, this.jsonKey));
 
-            if ("entity_to_sacrifice".equals(this.jsonKey) && json.get("entity_to_sacrifice").isJsonPrimitive()) {
+            if ("entitytosacrifice".equals(this.jsonKey) && json.get("entitytosacrifice").isJsonPrimitive()) {
                 JsonObject sacrificeObj = new JsonObject();
                 sacrificeObj.addProperty("tag", customId.toString());
                 ResourceLocation entityId = OccultismEntityTagHelper.convertSacrificeTagToEntityId(customId);

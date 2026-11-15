@@ -4,19 +4,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class OccultismEntityTagHelper {
     public static ResourceLocation convertSacrificeTagToEntityId(ResourceLocation typeTagKey) {
-        String path = typeTagKey.getPath();
-        if (path.startsWith("sacrifices/")) {
-            path = path.substring("sacrifices/".length());
-        }
 
-        ResourceLocation entityId = path.contains(":")
-                ? ResourceLocation.parse(path)
-                : ResourceLocation.fromNamespaceAndPath("minecraft", path);
+        ResourceLocation strippedKey = ResourceLocUtils.removePrefixFromId("sacrifices/", typeTagKey);
 
-        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(entityId);
+        EntityType<?> entityType = ForgeRegistries.ENTITIES.getValue(strippedKey);
 
         if(entityType != null) {
             return entityType.getRegistryName();

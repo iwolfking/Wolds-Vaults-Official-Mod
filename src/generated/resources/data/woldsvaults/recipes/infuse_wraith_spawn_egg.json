@@ -1,6 +1,10 @@
 {
   "type": "woldsvaults:spawn_egg_ritual",
-  "entity_to_sacrifice": "quark:sacrifices/wraith",
+  "entitytosacrifice": "quark:sacrifices/wraith",
+  "entity_to_sacrifice": {
+    "tag": "quark:sacrifices/wraith",
+    "display_name": "entity.quark.wraith"
+  },
   "pentacle_id": "occultism:velara",
   "ritual_type": "occultism:craft",
   "duration": 10,
