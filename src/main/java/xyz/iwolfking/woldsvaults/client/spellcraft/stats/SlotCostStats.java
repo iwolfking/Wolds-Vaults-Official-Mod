@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Mana and cooldown numbers for the client screens, computed from the client's ability tree and attribute snapshot.
- * Mana is Vault Hunters' cost after the per-ability mana attributes. An augmented spell's cooldown repeats the server's
+ * Mana is Vault Hunters' cost after the per-ability mana attributes. A spell's cooldown repeats the server's
  * chain from {@code SpellCooldowns.spellCooldownTicks} and shares its {@code glyphedTicks} step.
  */
 public final class SlotCostStats {
@@ -70,7 +70,7 @@ public final class SlotCostStats {
         return new Numbers(mana, mana, ability.getCooldownTicks(), cooldown(ability));
     }
 
-    /** An augmented spell's summed mana before and after its mana factor, and its cooldown without and with glyphs. */
+    /** A spell's summed mana before and after its mana factor, and its cooldown without and with glyphs. */
     @Nullable
     public static Numbers spell(SpellcraftConfig config, AbilityTree tree, SpellModel model) {
         LocalPlayer player = player();

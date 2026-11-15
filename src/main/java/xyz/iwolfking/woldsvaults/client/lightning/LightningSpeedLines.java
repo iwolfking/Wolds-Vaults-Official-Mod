@@ -10,12 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import java.util.Random;
 
@@ -25,7 +21,6 @@ import java.util.Random;
  * lines hold through it and then fade out over {@link #FADE} ticks. Also the white-blue flash over the whole screen
  * of a viewer standing inside a Thunderstrike's bolt, fading over {@link #FLASH} ticks. Drawn under the HUD.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class LightningSpeedLines {
     private static final int FADE = 8;
     private static final int LINES = 48;
@@ -50,7 +45,6 @@ public final class LightningSpeedLines {
         flashAge = 0;
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -63,7 +57,6 @@ public final class LightningSpeedLines {
         }
     }
 
-    @SubscribeEvent
     public static void onOverlay(RenderGameOverlayEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || mc.player == null) {

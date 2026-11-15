@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Slot cooldowns. A cast writes its cooldown on the tier objects of every ability group in it, which keeps VH's gating,
- * sync, HUD and vault-exit reset working, and a spell waits for its slowest group. An augmented spell's cooldown is the
+ * sync, HUD and vault-exit reset working, and a spell waits for its slowest group. A spell's cooldown is the
  * longest cooldown of its abilities plus a share of the others, times its glyph cooldown factor, with its glyph haste
  * applied through spell haste.
  */
@@ -37,7 +37,7 @@ public final class SpellCooldowns {
     /**
      * VH is about to start an ability's cooldown. Returns true when the spell bar handles it instead: inside a slot
      * cast (the trigger starts the slot cooldown, every other step starts none), or for an ability that sits in an
-     * augmented slot (deferred cooldowns such as a toggle switching off).
+     * spell slot (deferred cooldowns such as a toggle switching off).
      */
     public static boolean onPutOnCooldown(Ability ability, int delayTicks, SkillContext context) {
         ServerPlayer player = context.getSource().as(ServerPlayer.class).orElse(null);
@@ -89,7 +89,7 @@ public final class SpellCooldowns {
     }
 
     /**
-     * An augmented spell's cooldown in ticks at the player's current haste: the chain (already divided by the player's
+     * A spell's cooldown in ticks at the player's current haste: the chain (already divided by the player's
      * capped haste) times the base-cooldown cut, times the player's factor over the spell's factor. At least one tick.
      */
     public static int spellCooldownTicks(SpellcraftConfig config, ServerPlayer player, AbilityTree tree, Collection<String> groups,

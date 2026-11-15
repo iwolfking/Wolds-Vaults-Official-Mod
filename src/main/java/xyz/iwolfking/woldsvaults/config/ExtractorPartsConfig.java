@@ -130,7 +130,7 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         }
     }
 
-    /** One row of the workbook: flat stat ranges, multiplier ranges and fixed specials for a part in a series. */
+    /** One row of the table: flat stat ranges, multiplier ranges and fixed specials for a part in a series. */
     public static class PartRollEntry {
         @Expose public LinkedHashMap<String, Range> stats = new LinkedHashMap<>();
         @Expose public LinkedHashMap<String, Range> multipliers = new LinkedHashMap<>();

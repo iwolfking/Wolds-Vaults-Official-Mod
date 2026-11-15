@@ -21,7 +21,7 @@ final class SpellTrigger {
     }
 
     /**
-     * A key on a slot holding an augmented or implicit spell: spells with Charge wind up while the key is held, and
+     * A key on a slot holding a spell or an implicit spell: spells with Charge wind up while the key is held, and
      * every spell casts on release. A LOCKED slot, a spell with a structural error or a spell with an ability group
      * still cooling down refuses with the reason, while inactive glyphs are skipped.
      */

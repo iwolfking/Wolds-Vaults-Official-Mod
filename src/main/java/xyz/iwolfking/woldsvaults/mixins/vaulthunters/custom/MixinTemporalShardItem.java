@@ -40,7 +40,7 @@ public abstract class MixinTemporalShardItem implements IdentifiableItem{
         }
     }
 
-    /** Clock Artificier (r81) and the charm's Temporal Shard Duration suffix, applied at the consumption site. */
+    /** Clock Artificier and the charm's Temporal Shard Duration suffix, applied at the consumption site. */
     @ModifyExpressionValue(method = "lambda$use$4", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/TemporalShardItem;getDuration(Lnet/minecraft/world/item/ItemStack;)I"))
     private static int woldsvaults$extendShardDuration(int duration, @Local(argsOnly = true) Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) {

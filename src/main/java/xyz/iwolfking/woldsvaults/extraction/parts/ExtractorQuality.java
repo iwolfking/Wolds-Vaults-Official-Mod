@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * The quality grade: an unbounded value in hundredths centred on the chest opener's item rarity, nudged by
  * blueprint rarity, and the per-stat multipliers it drives (linear for offense and utility,
- * geometric with a linear tail for defence). Formulas are documented in SPEC_EXTRACTOR_ASSEMBLY.md section 12.
+ * geometric with a linear tail for defence).
  */
 public final class ExtractorQuality {
     private ExtractorQuality() {

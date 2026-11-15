@@ -11,8 +11,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
@@ -38,7 +36,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * the glyphs of the spell that placed them, or plain for a totem placed from the base bar, which reads its owner's gear
  * auto line.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class LingeringBuffs {
     private static final Object LISTENER_OWNER = new Object();
     private static final Map<UUID, Map<String, Source>> NOTES = new ConcurrentHashMap<>();

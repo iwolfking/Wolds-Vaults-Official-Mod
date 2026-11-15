@@ -2,12 +2,8 @@ package xyz.iwolfking.woldsvaults.client.screens.stats;
 
 import iskallia.vault.client.gui.screen.player.StatisticsElementContainerScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.stats.ServerboundStatSyncRequestMessage;
 
@@ -17,7 +13,6 @@ import java.util.Map;
  * Server-computed Statistics tab values for the local player. While the tab is open the client asks for fresh values
  * every second; rows show a synced value while it is recent and fall back to their local calculation otherwise.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class StatSyncClient {
     private static final int REQUEST_INTERVAL_TICKS = 20;
     private static final long MAX_AGE_MILLIS = 3000L;
@@ -59,7 +54,6 @@ public final class StatSyncClient {
         return local;
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -75,7 +69,6 @@ public final class StatSyncClient {
         }
     }
 
-    @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
         values = Map.of();
         receivedAt = 0L;

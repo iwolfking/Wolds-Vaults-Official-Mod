@@ -44,7 +44,6 @@
     "vaulthunters.accessors.ToxicGrenadeEntityAccessor",
     "vaulthunters.accessors.VaultDecoyProjectileInvoker",
     "vaulthunters.spellcraft.bar.MixinAbilityTreeSpellBar",
-    "vaulthunters.spellcraft.haste.MixinStatMirrorHaste",
     "vaulthunters.spellcraft.haste.MixinStatMirrorArea",
     "vaulthunters.spellcraft.haste.MixinStatMirrorAbilityPower",
     "vaulthunters.spellcraft.cast.MixinSpellChargePoseFocusItem",

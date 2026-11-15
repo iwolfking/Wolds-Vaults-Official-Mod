@@ -13,7 +13,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns a blueprint (part type, rarity, quality) into a finished {@link PartData}: picks the series or
- * drill class allowed at that rarity, rolls every workbook range, scales by quality and adds affixes.
+ * drill class allowed at that rarity, rolls every range, scales by quality and adds affixes.
  */
 public final class ExtractorPartRoller {
     private ExtractorPartRoller() {

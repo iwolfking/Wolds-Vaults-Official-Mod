@@ -8,8 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
@@ -29,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * finds that slot different, the toggle goes through VH's own off path, which starts its cooldown from the slot now
  * holding it.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ToggleGuard {
     private static final Map<UUID, Map<String, String>> ACTIVE = new ConcurrentHashMap<>();
 

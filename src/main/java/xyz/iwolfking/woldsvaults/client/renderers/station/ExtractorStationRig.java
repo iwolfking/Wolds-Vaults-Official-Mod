@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The block-entity-rendered half of a station, transcribed from the art manifests
- * ({@code art/extractor_stations/out/<station>_manifest.json}) and the animation tables in
- * SPEC_EXTRACTOR_STATION_ART.md §5. Offsets and pivots are machine pixels relative to the
+ * The block-entity-rendered half of a station. Offsets and pivots are machine pixels relative to the
  * controller block's minimum corner in the facing=north frame; the renderer rotates the whole
  * group with the block's facing.
  */

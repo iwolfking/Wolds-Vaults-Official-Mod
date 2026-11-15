@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * An augmented spell read against its item's glyph view and the table: the timeline of steps with each glyph's line and
+ * A spell read against its item's glyph view and the table: the timeline of steps with each glyph's line and
  * state, the arcana it costs, its spell-wide mana, cooldown and haste factors, each step's stacked glyph stats, how
  * many ability casts one press makes, and every rule it breaks. The same model drives casting (server), the focus
  * screen and tooltips (client).

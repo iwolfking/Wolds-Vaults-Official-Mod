@@ -11,11 +11,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
@@ -26,7 +23,6 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
  * yellow ring around the slot filling clockwise from the top centre, and the strike's multiplier at that charge as a
  * small yellow number in the slot's top-right corner.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class LightningFormHud {
     private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/widgets.png");
     private static final ResourceLocation ARC_LASH = new ResourceLocation(WoldsVaults.MOD_ID, "textures/gui/lightning_form/arc_lash.png");
@@ -41,7 +37,6 @@ public final class LightningFormHud {
     private LightningFormHud() {
     }
 
-    @SubscribeEvent
     public static void onHudLayer(RenderGameOverlayEvent.PreLayer event) {
         if (!ClientLightningForm.isActive()) {
             return;

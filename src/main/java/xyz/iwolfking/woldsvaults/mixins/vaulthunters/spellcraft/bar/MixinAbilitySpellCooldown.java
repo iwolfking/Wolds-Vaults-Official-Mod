@@ -13,7 +13,7 @@ public abstract class MixinAbilitySpellCooldown {
 
     /**
      * Lets the spell bar start the cooldown instead: inside a slot cast the trigger starts the whole slot's cooldown
-     * and other steps start none, and an ability in an augmented slot gets that spell's cooldown when VH starts it
+     * and other steps start none, and an ability in a spell slot gets that spell's cooldown when VH starts it
      * later.
      */
     @Inject(method = "putOnCooldown(ILiskallia/vault/skill/base/SkillContext;)V", at = @At("HEAD"), cancellable = true)

@@ -20,9 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -48,7 +46,6 @@ import java.util.UUID;
  * hand gives nothing. Cached per player until VH's snapshot revision, a spellcraft edit, the player's level or the
  * equipment changes.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class EquippedSources {
     public static final int SYNC_TICKS = 4;
     private static final Map<UUID, Cached> CACHE = new HashMap<>();
@@ -249,7 +246,7 @@ public final class EquippedSources {
     /** Sends the player's glyph candidates to their client when they changed since the last send. */
     public static void sync(ServerPlayer player) {
         Snapshot snapshot = get(player);
-        GlyphViewSyncMessage message = new GlyphViewSyncMessage(snapshot.shared(), snapshot.auto());
+        GlyphViewSyncMessage message = new GlyphViewSyncMessage(snapshot.shared());
         String signature = message.signature();
         if (!signature.equals(SENT.get(player.getUUID()))) {
             SENT.put(player.getUUID(), signature);

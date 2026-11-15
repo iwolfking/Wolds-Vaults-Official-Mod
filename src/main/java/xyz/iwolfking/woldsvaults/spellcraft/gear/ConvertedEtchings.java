@@ -14,8 +14,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.buff.LingeringBuffs;
@@ -38,7 +36,6 @@ import java.util.Optional;
  * etching value, or nothing when the glyph is not active. Etchings on the table's removed list read as absent
  * everywhere.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ConvertedEtchings {
     private ConvertedEtchings() {
     }

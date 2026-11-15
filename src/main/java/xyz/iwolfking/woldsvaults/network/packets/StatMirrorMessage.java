@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.spellcraft.play.StatMirror;
+import xyz.iwolfking.woldsvaults.client.spellcraft.state.MirroredStats;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -29,7 +29,7 @@ public record StatMirrorMessage(UUID player, float[] values) {
     }
 
     public static void handle(StatMirrorMessage message, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StatMirror.receive(message.player, message.values)));
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MirroredStats.receive(message.player, message.values)));
         context.get().setPacketHandled(true);
     }
 }

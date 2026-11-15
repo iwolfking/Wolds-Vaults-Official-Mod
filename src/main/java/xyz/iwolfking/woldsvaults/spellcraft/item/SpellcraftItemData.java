@@ -22,7 +22,7 @@ import java.util.Set;
 
 /**
  * Spellcraft data on a focus or wand, in NBT {@code woldsvaults_spellcraft}: the rolled implicits (arcana budget,
- * depth, glyph lines) and the augmented spells built on it. Spell tokens are ability group ids and glyph ids, and the
+ * depth, glyph lines) and the spells built on it. Spell tokens are ability group ids and glyph ids, and the
  * first token is the trigger ability. An item that still holds an old {@code bar} list has its spell entries read as
  * slots and the rest dropped with one warning per item, and the next edit writes the current form.
  */

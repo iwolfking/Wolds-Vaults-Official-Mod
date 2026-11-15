@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
@@ -30,6 +31,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.client.screens.PouchScreen;
@@ -105,6 +107,16 @@ public class KeyInputEvents {
             ModNetwork.CHANNEL.sendToServer(new DepositBackpackPacket(menuSlot)
             );
         }
+    }
+
+    @SubscribeEvent
+    public static void onClickInput(InputEvent.ClickInputEvent event) {
+        ClientLightningForm.onClick(event);
+    }
+
+    @SubscribeEvent
+    public static void onMovementInput(MovementInputUpdateEvent event) {
+        ClientLightningForm.onMovementInput(event);
     }
 
 

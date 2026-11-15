@@ -15,24 +15,23 @@ import java.util.function.Supplier;
 
 /**
  * Server to client: the glyph candidates the player's equipped sources offer, so the client builds the same glyph views
- * as the server. {@code shared} holds every transferable line and {@code auto} the auto lines. The client does not
- * trust its own copy of curios and gear for this.
+ * as the server. {@code shared} holds every transferable line. The client does not trust its own copy of curios and
+ * gear for this.
  */
-public record GlyphViewSyncMessage(List<GlyphCandidate> shared, List<GlyphCandidate> auto) {
+public record GlyphViewSyncMessage(List<GlyphCandidate> shared) {
     private static final int MAX_LINES = 256;
 
     /** The candidates as one string; the server only resends when it changes. */
     public String signature() {
-        return this.shared + "|" + this.auto;
+        return this.shared.toString();
     }
 
     public static void encode(GlyphViewSyncMessage message, FriendlyByteBuf buffer) {
         write(buffer, message.shared);
-        write(buffer, message.auto);
     }
 
     public static GlyphViewSyncMessage decode(FriendlyByteBuf buffer) {
-        return new GlyphViewSyncMessage(read(buffer), read(buffer));
+        return new GlyphViewSyncMessage(read(buffer));
     }
 
     private static void write(FriendlyByteBuf buffer, List<GlyphCandidate> candidates) {
