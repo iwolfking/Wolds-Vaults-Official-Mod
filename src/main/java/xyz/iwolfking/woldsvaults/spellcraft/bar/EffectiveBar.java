@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * The bar a player actually casts. Every equipped arcana item lays its assigned spells over their slots: the lowest
+ * The bar a player actually casts. Every equipped arcana item lays its assigned spells over their slots: the highest
  * priority number wins a slot and a tie for the top is LOCKED. One ability group lives in only one slot, so overlays
  * claim their groups in priority order, an overlay needing a group a higher priority already holds is LOCKED, equal
  * priorities clashing on a group lock each other, and base slots claim last and are hidden when an overlay holds their

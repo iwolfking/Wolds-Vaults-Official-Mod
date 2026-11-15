@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.client.spellcraft.gui;
 import com.mojang.blaze3d.platform.InputConstants;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SpecializedSkill;
+import iskallia.vault.skill.base.TieredSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.Font;
@@ -65,6 +66,21 @@ public final class SpellcraftNames {
             }
         }
         return AbilityLookup.groupName(group);
+    }
+
+    /** An ability group's specialization tier, empty when it has no unlocked tiered specialization. */
+    public static String tier(@Nullable AbilityTree tree, String group) {
+        Skill skill = tree == null ? null : tree.getForId(group).orElse(null);
+        if (skill instanceof SpecializedSkill specialized && specialized.getSpecialization() instanceof TieredSkill tiered && tiered.isUnlocked()) {
+            return String.valueOf(tiered.getActualTier());
+        }
+        return "";
+    }
+
+    /** A stat label from a tooltip lang key, without the colon and space that end it there. */
+    public static String label(String key) {
+        String text = tr(key).stripTrailing();
+        return text.endsWith(":") ? text.substring(0, text.length() - 1) : text;
     }
 
     /** Upper-cases the first letter after leading colour tags, unless a digit, sign or space comes first. */

@@ -1,8 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.spellcraft.editor;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import iskallia.vault.client.gui.framework.ScreenTextures;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -31,6 +29,10 @@ final class WeavePanel {
     private static final int PAYLOAD = 0xFFB46CF0;
     private static final int THREAD_DIM = 0xFF3A2A55;
     private static final int PLUS = 0xFF8A8A8A;
+    private static final int CELL_EDGE = 0xFF5A4A80;
+    private static final int CELL_EDGE_DIM = 0xFF3A3050;
+    private static final int CELL_FILL = 0xFF1A1426;
+    private static final int HOVER = 0x80FFFFFF;
 
     private final SpellcraftScreen screen;
     private final SpellDrafts drafts;
@@ -55,11 +57,29 @@ final class WeavePanel {
         return -1;
     }
 
+    private int tokens() {
+        SpellDrafts.Draft draft = this.drafts.draft();
+        return draft == null ? 0 : draft.tokens.size();
+    }
+
+    /** The weave rows on screen for the current draft. */
+    int shownRows() {
+        return EditorLayout.shownWeaveRows(this.screen.width, this.screen.height, tokens());
+    }
+
+    private List<EditorLayout.Cell> cells(int x0, int y0, int x1) {
+        int shown = shownRows();
+        int rows = EditorLayout.weaveRows(tokens(), EditorLayout.perRow(x0, x1));
+        this.drafts.setWeaveScroll(Math.min(this.drafts.weaveScroll(), Math.max(0, rows - shown)));
+        return EditorLayout.cells(tokens(), this.drafts.weaveScroll(), shown, x0, y0, x1);
+    }
+
     void render(PoseStack pose, @Nullable SpellDrafts.Draft draft, @Nullable SpellModel model, int x0, int y0, int x1, int y1, int mouseX,
                 int mouseY) {
         Font font = this.screen.font();
+        int icon = EditorLayout.ICON;
         SpellcraftDraw.starfield(pose, x0, y0, x1, y1);
-        List<EditorLayout.Cell> cells = EditorLayout.cells(draft == null ? 0 : draft.tokens.size(), this.drafts.weaveScroll(), x0, y0, x1);
+        List<EditorLayout.Cell> cells = cells(x0, y0, x1);
         int size = draft == null ? 0 : draft.tokens.size();
         for (int k = 1; k < cells.size(); k++) {
             EditorLayout.Cell a = cells.get(k - 1);
@@ -68,8 +88,9 @@ final class WeavePanel {
                 continue;
             }
             boolean toAdd = b.index() == size;
-            GuiComponent.fill(pose, a.x() + 17, a.y() + 7, b.x() - 1, a.y() + 9, toAdd ? THREAD_DIM : SpellcraftPalette.ARCANE_LINE);
-            GuiComponent.fill(pose, a.x() + 17, a.y() + 7, b.x() - 1, a.y() + 8, toAdd ? THREAD_DIM : SpellcraftPalette.ARCANE_GLOW);
+            int mid = a.y() + icon / 2;
+            GuiComponent.fill(pose, a.x() + icon + 1, mid - 1, b.x() - 1, mid + 1, toAdd ? THREAD_DIM : SpellcraftPalette.ARCANE_LINE);
+            GuiComponent.fill(pose, a.x() + icon + 1, mid - 1, b.x() - 1, mid, toAdd ? THREAD_DIM : SpellcraftPalette.ARCANE_GLOW);
         }
         int payload = draft == null ? -1 : payloadStart(draft);
         if (payload >= 0) {
@@ -82,7 +103,7 @@ final class WeavePanel {
                 }
                 if (cell.y() != rowY) {
                     if (rowY != Integer.MIN_VALUE) {
-                        SpellcraftDraw.ring(pose, minX - 3, rowY - 3, maxX + 20, rowY + 20, PAYLOAD);
+                        SpellcraftDraw.ring(pose, minX - 4, rowY - 4, maxX + icon + 4, rowY + icon + 4, PAYLOAD);
                     }
                     rowY = cell.y();
                     minX = cell.x();
@@ -90,57 +111,62 @@ final class WeavePanel {
                 maxX = cell.x();
             }
             if (rowY != Integer.MIN_VALUE) {
-                SpellcraftDraw.ring(pose, minX - 3, rowY - 3, maxX + 20, rowY + 20, PAYLOAD);
+                SpellcraftDraw.ring(pose, minX - 4, rowY - 4, maxX + icon + 4, rowY + icon + 4, PAYLOAD);
             }
             EditorLayout.Cell first = cells.stream().filter(cell -> cell.index() == payload).findFirst().orElse(null);
             if (first != null && first.y() == y0 + EditorLayout.WEAVE_TOP) {
-                SpellcraftDraw.smallText(pose, font, SpellcraftNames.tr("screen.payload"), first.x() - 1, first.y() - 10, PAYLOAD, SpellBarStrip.KEY_SCALE);
+                SpellcraftDraw.smallText(pose, font, SpellcraftNames.tr("screen.payload"), first.x() - 1, first.y() - 11, PAYLOAD, SpellBarStrip.KEY_SCALE);
             }
         }
         for (EditorLayout.Cell cell : cells) {
             int x = cell.x();
             int y = cell.y();
             if (cell.index() == size) {
-                SpellcraftDraw.slot(pose, x, y, true);
-                GuiComponent.fill(pose, x + 5, y + 7, x + 11, y + 9, PLUS);
-                GuiComponent.fill(pose, x + 7, y + 5, x + 9, y + 11, PLUS);
+                cell(pose, x, y, true);
+                int m = icon / 2;
+                GuiComponent.fill(pose, x + m - 3, y + m - 1, x + m + 3, y + m + 1, PLUS);
+                GuiComponent.fill(pose, x + m - 1, y + m - 3, x + m + 1, y + m + 3, PLUS);
             } else {
                 String token = draft.tokens.get(cell.index());
                 GlyphType type = GlyphType.byId(token);
-                SpellcraftDraw.slot(pose, x, y, false);
+                cell(pose, x, y, false);
                 if (type != null) {
                     PlacedGlyph glyph = model == null ? null : model.glyphAt(cell.index());
-                    SpellcraftDraw.rune(pose, type, x, y, 16, glyph != null && !glyph.active());
+                    SpellcraftDraw.rune(pose, type, x, y, icon, glyph != null && !glyph.active());
                 } else {
                     String spec = AbilityLookup.specOf(this.screen.tree()).apply(token);
-                    SpellcraftDraw.ability(pose, spec != null ? spec : token, x, y, 16, 1.0F);
+                    SpellcraftDraw.ability(pose, spec != null ? spec : token, x, y, icon, 1.0F);
                 }
             }
             boolean marked = this.drafts.insertAt() == SpellDrafts.END ? cell.index() == size : cell.index() == this.drafts.insertAt() - 1;
             if (marked) {
-                RenderSystem.enableBlend();
-                ScreenTextures.INSET_SLOT_SELECT_FRAME.blit(pose, x - 3, y - 3);
+                SpellcraftDraw.ring(pose, x - 3, y - 3, x + icon + 3, y + icon + 3, SpellcraftPalette.ARCANE_GLOW);
             }
-            if (SpellcraftDraw.inside(mouseX, mouseY, x, y, 16, 16) && !this.strip.popupOpen()) {
-                GuiComponent.fill(pose, x, y, x + 16, y + 16, 0x80FFFFFF);
+            if (SpellcraftDraw.inside(mouseX, mouseY, x, y, icon, icon) && !this.strip.popupOpen()) {
+                GuiComponent.fill(pose, x, y, x + icon, y + icon, HOVER);
             }
         }
-        int perRow = EditorLayout.perRow(x0, x1);
-        int rows = EditorLayout.weaveRows(size, perRow);
-        if (rows > EditorLayout.WEAVE_ROWS) {
-            String more = SpellcraftNames.tr("screen.weave_rows", this.drafts.weaveScroll() + 1, Math.min(rows, this.drafts.weaveScroll() + EditorLayout.WEAVE_ROWS), rows);
+        int rows = EditorLayout.weaveRows(size, EditorLayout.perRow(x0, x1));
+        int shown = shownRows();
+        if (rows > shown) {
+            String more = SpellcraftNames.tr("screen.weave_rows", this.drafts.weaveScroll() + 1, Math.min(rows, this.drafts.weaveScroll() + shown), rows);
             float w = font.width(more) * SpellBarStrip.KEY_SCALE;
-            SpellcraftDraw.smallText(pose, font, more, x1 - 3 - w, y1 - 8, SpellcraftPalette.MUTED, SpellBarStrip.KEY_SCALE);
+            SpellcraftDraw.smallText(pose, font, more, x1 - 4 - w, y0 + 2, SpellcraftPalette.MUTED, SpellBarStrip.KEY_SCALE);
         }
+    }
+
+    /** A flat cell: one even border around a flat fill, with (x, y) the top left of the icon area. */
+    private static void cell(PoseStack pose, int x, int y, boolean empty) {
+        int icon = EditorLayout.ICON;
+        SpellcraftDraw.ring(pose, x - 1, y - 1, x + icon + 1, y + icon + 1, empty ? CELL_EDGE_DIM : CELL_EDGE);
+        GuiComponent.fill(pose, x, y, x + icon, y + icon, CELL_FILL);
     }
 
     @Nullable
     List<Component> tooltipAt(SpellcraftConfig config, @Nullable SpellDrafts.Draft draft, @Nullable SpellcraftRules.ItemCheck check, int mouseX, int mouseY) {
-        int wy0 = EditorLayout.weaveTop();
-        int rx0 = EditorLayout.innerX0();
-        int rx1 = EditorLayout.innerX1(this.screen.width);
-        for (EditorLayout.Cell cell : EditorLayout.cells(draft == null ? 0 : draft.tokens.size(), this.drafts.weaveScroll(), rx0, wy0, rx1)) {
-            if (!SpellcraftDraw.inside(mouseX, mouseY, cell.x(), cell.y(), 16, 16)) {
+        int icon = EditorLayout.ICON;
+        for (EditorLayout.Cell cell : cells(EditorLayout.innerX0(), EditorLayout.weaveTop(), EditorLayout.innerX1(this.screen.width))) {
+            if (!SpellcraftDraw.inside(mouseX, mouseY, cell.x(), cell.y(), icon, icon)) {
                 continue;
             }
             List<Component> lines = new ArrayList<>();
@@ -196,11 +222,9 @@ final class WeavePanel {
 
     boolean mouseClicked(double mouseX, double mouseY, int button) {
         SpellDrafts.Draft draft = this.drafts.draft();
-        int wy0 = EditorLayout.weaveTop();
-        int rx0 = EditorLayout.innerX0();
-        int rx1 = EditorLayout.innerX1(this.screen.width);
-        for (EditorLayout.Cell cell : EditorLayout.cells(draft == null ? 0 : draft.tokens.size(), this.drafts.weaveScroll(), rx0, wy0, rx1)) {
-            if (!SpellcraftDraw.inside(mouseX, mouseY, cell.x(), cell.y(), 16, 16)) {
+        int icon = EditorLayout.ICON;
+        for (EditorLayout.Cell cell : cells(EditorLayout.innerX0(), EditorLayout.weaveTop(), EditorLayout.innerX1(this.screen.width))) {
+            if (!SpellcraftDraw.inside(mouseX, mouseY, cell.x(), cell.y(), icon, icon)) {
                 continue;
             }
             int size = draft == null ? 0 : draft.tokens.size();
@@ -217,13 +241,10 @@ final class WeavePanel {
     }
 
     boolean mouseScrolled(double mouseX, double mouseY, int step) {
-        int rx0 = EditorLayout.innerX0();
-        int rx1 = EditorLayout.innerX1(this.screen.width);
-        if (EditorLayout.overWeave(mouseX, mouseY, this.screen.width)) {
-            SpellDrafts.Draft draft = this.drafts.draft();
-            int perRow = EditorLayout.perRow(rx0, rx1);
-            int rows = EditorLayout.weaveRows(draft == null ? 0 : draft.tokens.size(), perRow);
-            this.drafts.setWeaveScroll(Math.max(0, Math.min(Math.max(0, rows - EditorLayout.WEAVE_ROWS), this.drafts.weaveScroll() + step)));
+        int shown = shownRows();
+        if (EditorLayout.overWeave(mouseX, mouseY, this.screen.width, shown)) {
+            int rows = EditorLayout.weaveRows(tokens(), EditorLayout.perRow(EditorLayout.innerX0(), EditorLayout.innerX1(this.screen.width)));
+            this.drafts.setWeaveScroll(Math.max(0, Math.min(Math.max(0, rows - shown), this.drafts.weaveScroll() + step)));
             return true;
         }
         return false;

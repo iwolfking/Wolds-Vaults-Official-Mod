@@ -207,9 +207,10 @@ public class SpellcraftScreen extends Screen implements SpellBarStrip.Host {
         SpellcraftDraw.insetBlack(pose, EditorLayout.nameX(this.width, this.drafts.size()), EditorLayout.bodyTop() + 4 + 2, rx1 - EditorLayout.PAD,
                 EditorLayout.bodyTop() + 4 + EditorLayout.TAB - 2);
         this.nameBox.render(pose, mouseX, mouseY, partialTick);
-        int wy0 = EditorLayout.weaveTop();
-        this.weave.render(pose, draft, model, EditorLayout.innerX0(), wy0, EditorLayout.innerX1(this.width), EditorLayout.weaveBottom(), mouseX, mouseY);
-        this.stats.render(pose, config, tree, draft, check, model, EditorLayout.innerX0(), EditorLayout.statsTop(), EditorLayout.innerX1(this.width),
+        int rows = this.weave.shownRows();
+        this.weave.render(pose, draft, model, EditorLayout.innerX0(), EditorLayout.weaveTop(), EditorLayout.innerX1(this.width), EditorLayout.weaveBottom(rows),
+                mouseX, mouseY);
+        this.stats.render(pose, config, tree, draft, check, model, EditorLayout.innerX0(), EditorLayout.statsTop(rows), EditorLayout.innerX1(this.width),
                 EditorLayout.statsBottom(this.height));
         this.strip.render(pose, mouseX, mouseY);
         if (this.strip.popupOpen()) {

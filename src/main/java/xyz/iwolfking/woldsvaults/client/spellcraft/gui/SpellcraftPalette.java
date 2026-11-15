@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.spellcraft.gui;
 
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphStats;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
@@ -34,6 +35,10 @@ public final class SpellcraftPalette {
     public static final int STAT_INTENSITY = 0xFFFFAA00;
     public static final int STAT_YELLOW = 0xFFFFFF55;
     public static final int STAT_PLAIN = 0xFFD9C98A;
+    public static final int STAT_PROJECTILES = 0xFFE070E0;
+    private static final Map<Integer, Integer> ON_GREY = Map.of(
+            STAT_DAMAGE, 0xFF9E1B12, STAT_AREA, 0xFF1F6E2A, STAT_COOLDOWN, 0xFF0F5E72, STAT_MANA, 0xFF1F4FA0, STAT_INTENSITY, 0xFF8E4A00,
+            STAT_YELLOW, 0xFF6E5200, STAT_PLAIN, 0xFF5C4A12, STAT_PROJECTILES, 0xFF7A1F7A);
 
     private static final Map<String, Integer> CATEGORY_COLORS = Map.of(
             "power", STAT_DAMAGE, "flow", STAT_COOLDOWN, "path", STAT_AREA, "form", 0xFFE8B84A, "chaos", 0xFFB46CF0,
@@ -49,6 +54,17 @@ public final class SpellcraftPalette {
 
     private static String hexTag(int color) {
         return "<#" + String.format(Locale.ROOT, "%06X", color & 0xFFFFFF) + ">";
+    }
+
+    /** A stat colour made for dark tooltips, darkened to read on a grey inset. */
+    public static int onGrey(int color) {
+        Integer dark = ON_GREY.get(color);
+        if (dark == null) {
+            WoldLogger.errorOnce("spellcraft.on_grey." + Integer.toHexString(color),
+                    "Spellcraft UI: stat colour {} has no grey-inset variant; its numbers show black", Integer.toHexString(color));
+            return LABEL;
+        }
+        return dark;
     }
 
     public static int categoryColor(@Nullable SpellcraftConfig config, GlyphType type) {
