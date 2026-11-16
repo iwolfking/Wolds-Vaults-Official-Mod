@@ -89,7 +89,7 @@ public class MixinTieredLootTableGenerator implements DuckStrongboxTier {
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/loot/LootPool;addTree(Liskallia/vault/core/util/WeightedTree;D)Liskallia/vault/core/util/WeightedTree;")
     )
     private WeightedTree<LootEntry> alterItemRarityScaling(LootPool adjustedPool, WeightedTree<LootEntry> childPool, double weight, Operation<WeightedTree<LootEntry>> original) {
-        if (this.key != null && this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT) {
+        if (this.key != null && this.key.length - 1 == MythicLootScaling.MYTHIC_POOL_COUNT) {
             int index = adjustedPool.getChildren().size();
             double scale = this.woldsvaults$strongboxTier >= 0
                     ? StrongboxTierScaling.poolScale(index, this.itemRarity, this.woldsvaults$strongboxTier)
@@ -112,7 +112,7 @@ public class MixinTieredLootTableGenerator implements DuckStrongboxTier {
         if (this.woldsvaults$strongboxTier >= 0) {
             return null;
         }
-        if (this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT && this.key[0] > TieredCdfApprox.EXACT_ROLL_LIMIT) {
+        if (this.key.length - 1 == MythicLootScaling.MYTHIC_POOL_COUNT && this.key[0] > TieredCdfApprox.EXACT_ROLL_LIMIT) {
             return null;
         }
         return original.call(cache, cdfKey, factory);
