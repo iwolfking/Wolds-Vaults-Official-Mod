@@ -52,7 +52,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootOrnateChest(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "ornate_chest"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "ornate_chest"), loot -> loot.entry(entry -> entry
                 .rolls(12, 15)
                 .pool(80, pool -> pool
                         .item(2, "woldsvaults:supply_box", 1, 1)
@@ -113,7 +113,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootGildedChest(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "gilded_chest"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "gilded_chest"), loot -> loot.entry(entry -> entry
                 .rolls(12, 15)
                 .pool(70, pool -> pool
                         .item(8, "the_vault:gilded_sconce", 1, 1)
@@ -147,7 +147,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootLivingChest(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "living_chest"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "living_chest"), loot -> loot.entry(entry -> entry
                 .rolls(12, 15)
                 .pool(70, pool -> pool
                         .item(16, "the_vault:living_rock", 1, 2)
@@ -188,7 +188,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootWoodenChest(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "wooden_chest"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "wooden_chest"), loot -> loot.entry(entry -> entry
                 .rolls(12, 15)
                 .pool(70, pool -> pool
                         .item(14, "the_vault:wooden_chunk", 1, 3)
@@ -291,7 +291,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootOrnateStrongbox(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "ornate_strongbox"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "ornate_strongbox"), loot -> loot.entry(entry -> entry
                 .rolls(24, 26)
                 .pool(80, pool -> pool
                         .item(8, "the_vault:ornate_chain", 1, 1)
@@ -352,7 +352,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootGildedStrongbox(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "gilded_strongbox"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "gilded_strongbox"), loot -> loot.entry(entry -> entry
                 .rolls(23, 26)
                 .pool(70, pool -> pool
                         .item(6, "the_vault:gilded_sconce", 1, 1)
@@ -390,7 +390,7 @@ public final class GreedStageLootTables {
     }
 
     private static void lootLivingStrongbox(BiConsumer<ResourceLocation, Consumer<LootBuilder>> add) {
-        add.accept(GreedStageIds.id(2, "living_strongbox"), loot -> loot.entry(entry -> entry
+        add.accept(GreedStageIds.id(1, "living_strongbox"), loot -> loot.entry(entry -> entry
                 .rolls(24, 26)
                 .pool(70, pool -> pool
                         .item(16, "the_vault:living_rock", 1, 2)

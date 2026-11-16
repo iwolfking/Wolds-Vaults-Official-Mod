@@ -8,13 +8,15 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 /**
  * Picks the palette or pool id a vault reads. In a vault whose medallion rank is at or above a stage's unlock rank,
- * each normal id that stage pairs resolves to its stage id; every other id, and every id in a vault without a
+ * each normal id that stage pairs resolves to its stage id, the highest such stage winning; every other id, and every id in a vault without a
  * medallion, resolves to itself. Stage ids resolve to themselves.
  */
 public final class VaultStages {
@@ -26,7 +28,7 @@ public final class VaultStages {
     private record Redirect(ResourceLocation stageId, int unlockRank) {
     }
 
-    private record Lookup(Map<ResourceLocation, Redirect> palettes, Map<ResourceLocation, Redirect> pools) {
+    private record Lookup(Map<ResourceLocation, List<Redirect>> palettes, Map<ResourceLocation, List<Redirect>> pools) {
     }
 
     /** Rebuilds the lookup from the installed stage table; a null table leaves every id unchanged. */
@@ -35,19 +37,28 @@ public final class VaultStages {
             lookup = null;
             return;
         }
-        Map<ResourceLocation, Redirect> palettes = new HashMap<>();
-        Map<ResourceLocation, Redirect> pools = new HashMap<>();
+        Map<ResourceLocation, List<Redirect>> palettes = new HashMap<>();
+        Map<ResourceLocation, List<Redirect>> pools = new HashMap<>();
         for (GreedVaultStagesConfig.Stage stage : table.stages.values()) {
             collect(stage.palettes, stage.unlockRank, palettes);
             collect(stage.pools, stage.unlockRank, pools);
         }
-        lookup = new Lookup(Map.copyOf(palettes), Map.copyOf(pools));
+        lookup = new Lookup(highestFirst(palettes), highestFirst(pools));
     }
 
-    private static void collect(Map<String, String> pairs, int unlockRank, Map<ResourceLocation, Redirect> into) {
+    private static void collect(Map<String, String> pairs, int unlockRank, Map<ResourceLocation, List<Redirect>> into) {
         for (Map.Entry<String, String> pair : pairs.entrySet()) {
-            into.put(ResourceLocation.parse(pair.getKey()), new Redirect(ResourceLocation.parse(pair.getValue()), unlockRank));
+            into.computeIfAbsent(ResourceLocation.parse(pair.getKey()), key -> new ArrayList<>())
+                    .add(new Redirect(ResourceLocation.parse(pair.getValue()), unlockRank));
         }
+    }
+
+    private static Map<ResourceLocation, List<Redirect>> highestFirst(Map<ResourceLocation, List<Redirect>> redirects) {
+        Map<ResourceLocation, List<Redirect>> sorted = new HashMap<>();
+        redirects.forEach((id, list) -> sorted.put(id, list.stream()
+                .sorted((first, second) -> Integer.compare(second.unlockRank(), first.unlockRank()))
+                .toList()));
+        return Map.copyOf(sorted);
     }
 
     public static ResourceLocation resolvePalette(@Nullable Vault vault, ResourceLocation id) {
@@ -60,7 +71,7 @@ public final class VaultStages {
         return resolve(vault, id, current == null ? null : current.pools());
     }
 
-    private static ResourceLocation resolve(@Nullable Vault vault, ResourceLocation id, @Nullable Map<ResourceLocation, Redirect> redirects) {
+    private static ResourceLocation resolve(@Nullable Vault vault, ResourceLocation id, @Nullable Map<ResourceLocation, List<Redirect>> redirects) {
         if (vault == null || id == null) {
             return id;
         }
@@ -71,11 +82,20 @@ public final class VaultStages {
             }
             return id;
         }
-        Redirect redirect = redirects.get(id);
-        if (redirect == null) {
+        List<Redirect> candidates = redirects.get(id);
+        if (candidates == null) {
             return id;
         }
         Optional<GreedMedallionTier> tier = GreedMedallionVaultState.get(vault);
-        return tier.isPresent() && tier.get().getRankIndex() >= redirect.unlockRank() ? redirect.stageId() : id;
+        if (tier.isEmpty()) {
+            return id;
+        }
+        int rank = tier.get().getRankIndex();
+        for (Redirect redirect : candidates) {
+            if (rank >= redirect.unlockRank()) {
+                return redirect.stageId();
+            }
+        }
+        return id;
     }
 }

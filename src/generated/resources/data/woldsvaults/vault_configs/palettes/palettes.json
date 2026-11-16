@@ -6,14 +6,29 @@
       "1.0": "woldsvaults:greed/stage_1/ornate_chest_placeholder"
     },
     {
+      "id": "woldsvaults:greed/stage_2/ornate_chest_placeholder",
+      "name": "Greed Stage 2 Ornate Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/ornate_chest_placeholder"
+    },
+    {
       "id": "woldsvaults:greed/stage_1/gilded_chest_placeholder",
       "name": "Greed Stage 1 Gilded Chest Placeholder",
       "1.0": "woldsvaults:greed/stage_1/gilded_chest_placeholder"
     },
     {
+      "id": "woldsvaults:greed/stage_2/gilded_chest_placeholder",
+      "name": "Greed Stage 2 Gilded Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/gilded_chest_placeholder"
+    },
+    {
       "id": "woldsvaults:greed/stage_1/living_chest_placeholder",
       "name": "Greed Stage 1 Living Chest Placeholder",
       "1.0": "woldsvaults:greed/stage_1/living_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/living_chest_placeholder",
+      "name": "Greed Stage 2 Living Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/living_chest_placeholder"
     },
     {
       "id": "woldsvaults:greed/stage_2/room_base",
@@ -46,24 +61,9 @@
       "1.0": "woldsvaults:greed/stage_2/treasure"
     },
     {
-      "id": "woldsvaults:greed/stage_2/wooden_chest_placeholder",
-      "name": "Greed Stage 2 Wooden Chest Placeholder",
-      "1.0": "woldsvaults:greed/stage_2/wooden_chest_placeholder"
-    },
-    {
-      "id": "woldsvaults:greed/stage_2/gilded_chest_placeholder",
-      "name": "Greed Stage 2 Gilded Chest Placeholder",
-      "1.0": "woldsvaults:greed/stage_2/gilded_chest_placeholder"
-    },
-    {
-      "id": "woldsvaults:greed/stage_2/living_chest_placeholder",
-      "name": "Greed Stage 2 Living Chest Placeholder",
-      "1.0": "woldsvaults:greed/stage_2/living_chest_placeholder"
-    },
-    {
-      "id": "woldsvaults:greed/stage_2/ornate_chest_placeholder",
-      "name": "Greed Stage 2 Ornate Chest Placeholder",
-      "1.0": "woldsvaults:greed/stage_2/ornate_chest_placeholder"
+      "id": "woldsvaults:greed/stage_1/wooden_chest_placeholder",
+      "name": "Greed Stage 1 Wooden Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_1/wooden_chest_placeholder"
     },
     {
       "id": "woldsvaults:greed/stage_2/coin_stack_placeholder",

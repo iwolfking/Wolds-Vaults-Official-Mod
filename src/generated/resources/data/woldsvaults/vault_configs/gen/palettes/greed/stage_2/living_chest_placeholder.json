@@ -8,8 +8,8 @@
           "level": 0,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 5,
-            "the_vault:living_chest{LootTable:\"woldsvaults:greed/stage_2/living_chest\"}": 94,
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 5,
+            "the_vault:living_chest{LootTable:\"woldsvaults:greed/stage_1/living_chest\"}": 94,
             "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_2/enigma_chest\"}": 1
           },
           "failure": {
@@ -26,8 +26,8 @@
           "level": 0,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 5,
-            "the_vault:living_chest[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_2/living_chest\"}": 94,
+            "the_vault:living_chest[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_1/living_chest\"}": 94,
+            "the_vault:living_strongbox[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 5,
             "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_2/enigma_chest\"}": 1
           },
           "failure": {

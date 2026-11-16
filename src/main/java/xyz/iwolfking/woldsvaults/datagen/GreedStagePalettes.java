@@ -21,15 +21,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The palettes of the greed stages, registered into {@link ModVaultPalettesProvider}. Stage 1 adds enigma chests to
- * the normal chest placeholders. Stage 2 holds the room base chain, its chest, coin, ore, pylon, altar, vendor and
+ * The palettes of the greed stages, registered into {@link ModVaultPalettesProvider}. Stage 1 holds the chest
+ * placeholders with the stage chest and strongbox loot tables and a few enigma chests. Stage 2 holds the same chest
+ * placeholders with more enigma chests, and the room base chain, its coin, ore, pylon, altar, vendor and
  * dungeon placeholders, the treasure door and the challenge and omega room palettes. Stage 3 holds the treasure
  * room and trove palettes. Palettes that equal a normal palette apart from the ids they point at are derived from
  * the seeded normal palette; the rest are written out here.
  */
 public final class GreedStagePalettes {
-    /** One stage-1 enigma chest per this many chest placements, at every level. */
-    private static final int ENIGMA_ODDS = 200;
+    private static final List<String> CHESTS = List.of("ornate", "gilded", "living");
+    private static final int STAGE_1_CHEST_WEIGHT = 189;
+    private static final int STAGE_1_STRONGBOX_WEIGHT = 10;
+    private static final int STAGE_1_ENIGMA_WEIGHT = 1;
+    private static final int STAGE_2_CHEST_WEIGHT = 94;
+    private static final int STAGE_2_STRONGBOX_WEIGHT = 5;
+    private static final int STAGE_2_ENIGMA_WEIGHT = 1;
 
     /** Where the palettes go: {@link ModVaultPalettesProvider}'s {@code add}. */
     @FunctionalInterface
@@ -41,9 +47,10 @@ public final class GreedStagePalettes {
     }
 
     public static void register(Sink sink) {
-        enigmaPlaceholder(sink, "ornate");
-        enigmaPlaceholder(sink, "gilded");
-        enigmaPlaceholder(sink, "living");
+        for (String chest : CHESTS) {
+            chestPlaceholder(sink, 1, chest, STAGE_1_CHEST_WEIGHT, STAGE_1_STRONGBOX_WEIGHT, STAGE_1_ENIGMA_WEIGHT);
+            chestPlaceholder(sink, 2, chest, STAGE_2_CHEST_WEIGHT, STAGE_2_STRONGBOX_WEIGHT, STAGE_2_ENIGMA_WEIGHT);
+        }
         derived(sink, GreedStageIds.id(2, "room_base"), "generic/room_base",
                 Map.of("the_vault:generic/treasure", GreedStageIds.ref(2, "treasure")));
         derived(sink, GreedStageIds.id(2, "dungeon_door_placeholder"), "generic/dungeon_door_placeholder",
@@ -58,9 +65,6 @@ public final class GreedStagePalettes {
                 Map.of("the_vault:treasure_rooms/treasure_chest", GreedStageIds.ref(3, "treasure_chest")));
         paletteTreasure(sink);
         paletteWoodenChestPlaceholder(sink);
-        paletteGildedChestPlaceholder(sink);
-        paletteLivingChestPlaceholder(sink);
-        paletteOrnateChestPlaceholder(sink);
         paletteCoinStackPlaceholder(sink);
         paletteOrePlaceholder(sink);
         palettePylonPlaceholder(sink);
@@ -85,7 +89,7 @@ public final class GreedStagePalettes {
 
     private static void paletteTreasure(Sink sink) {
         sink.add(GreedStageIds.id(2, "treasure"), new PaletteBuilder(), p -> p
-                .reference(GreedStageIds.ref(2, "wooden_chest_placeholder"))
+                .reference(GreedStageIds.ref(1, "wooden_chest_placeholder"))
                 .reference(GreedStageIds.ref(2, "gilded_chest_placeholder"))
                 .reference(GreedStageIds.ref(2, "living_chest_placeholder"))
                 .reference(GreedStageIds.ref(2, "ornate_chest_placeholder"))
@@ -98,76 +102,45 @@ public final class GreedStagePalettes {
     }
 
     private static void paletteWoodenChestPlaceholder(Sink sink) {
-        sink.add(GreedStageIds.id(2, "wooden_chest_placeholder"), new PaletteBuilder(), p -> p
+        sink.add(GreedStageIds.id(1, "wooden_chest_placeholder"), new PaletteBuilder(), p -> p
                 .placeholder(PlaceholderBlock.Type.WOODEN_CHEST, ph -> ph
                         .probability(0, 1.0, success -> {
-                            success.put("the_vault:wooden_chest{LootTable:\"" + GreedStageIds.ref(2, "wooden_chest") + "\"}", 1);
+                            success.put("the_vault:wooden_chest{LootTable:\"" + GreedStageIds.ref(1, "wooden_chest") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         }))
                 .placeholder(PlaceholderBlock.Type.WOODEN_CHEST_WATERLOGGED, ph -> ph
                         .probability(0, 1.0, success -> {
-                            success.put("the_vault:wooden_chest[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "wooden_chest") + "\"}", 1);
+                            success.put("the_vault:wooden_chest[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(1, "wooden_chest") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:water", 1);
                         })));
     }
 
-    private static void paletteGildedChestPlaceholder(Sink sink) {
-        sink.add(GreedStageIds.id(2, "gilded_chest_placeholder"), new PaletteBuilder(), p -> p
-                .placeholder(PlaceholderBlock.Type.GILDED_CHEST, ph -> ph
+    /**
+     * A chest placeholder that places the stage-1 chest and strongbox loot tables and an enigma chest, at the given
+     * weights, at every level, dry and waterlogged.
+     */
+    private static void chestPlaceholder(Sink sink, int stage, String chest, int chestWeight, int strongboxWeight, int enigmaWeight) {
+        PlaceholderBlock.Type dry = PlaceholderBlock.Type.valueOf(chest.toUpperCase(Locale.ROOT) + "_CHEST");
+        PlaceholderBlock.Type wet = PlaceholderBlock.Type.valueOf(chest.toUpperCase(Locale.ROOT) + "_CHEST_WATERLOGGED");
+        String chestTable = GreedStageIds.ref(1, chest + "_chest");
+        String strongboxTable = GreedStageIds.ref(1, chest + "_strongbox");
+        String enigma = "the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(stage, "enigma_chest") + "\"}";
+        sink.add(GreedStageIds.id(stage, chest + "_chest_placeholder"), new PaletteBuilder(), p -> p
+                .placeholder(dry, ph -> ph
                         .probability(0, 1.0, success -> {
-                            success.put("the_vault:gilded_chest{LootTable:\"" + GreedStageIds.ref(2, "gilded_chest") + "\"}", 94);
-                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(2, "gilded_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
+                            success.put("the_vault:" + chest + "_chest{LootTable:\"" + chestTable + "\"}", chestWeight);
+                            success.put("the_vault:" + chest + "_strongbox{LootTable:\"" + strongboxTable + "\"}", strongboxWeight);
+                            success.put(enigma, enigmaWeight);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         }))
-                .placeholder(PlaceholderBlock.Type.GILDED_CHEST_WATERLOGGED, ph -> ph
+                .placeholder(wet, ph -> ph
                         .probability(0, 1.0, success -> {
-                            success.put("the_vault:gilded_chest[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "gilded_chest") + "\"}", 94);
-                            success.put("the_vault:gilded_strongbox[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "gilded_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
-                        }, failure -> {
-                            failure.put("minecraft:water", 1);
-                        })));
-    }
-
-    private static void paletteLivingChestPlaceholder(Sink sink) {
-        sink.add(GreedStageIds.id(2, "living_chest_placeholder"), new PaletteBuilder(), p -> p
-                .placeholder(PlaceholderBlock.Type.LIVING_CHEST, ph -> ph
-                        .probability(0, 1.0, success -> {
-                            success.put("the_vault:living_chest{LootTable:\"" + GreedStageIds.ref(2, "living_chest") + "\"}", 94);
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
-                        }, failure -> {
-                            failure.put("minecraft:air", 1);
-                        }))
-                .placeholder(PlaceholderBlock.Type.LIVING_CHEST_WATERLOGGED, ph -> ph
-                        .probability(0, 1.0, success -> {
-                            success.put("the_vault:living_chest[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "living_chest") + "\"}", 94);
-                            success.put("the_vault:living_strongbox[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
-                        }, failure -> {
-                            failure.put("minecraft:water", 1);
-                        })));
-    }
-
-    private static void paletteOrnateChestPlaceholder(Sink sink) {
-        sink.add(GreedStageIds.id(2, "ornate_chest_placeholder"), new PaletteBuilder(), p -> p
-                .placeholder(PlaceholderBlock.Type.ORNATE_CHEST, ph -> ph
-                        .probability(0, 1.0, success -> {
-                            success.put("the_vault:ornate_chest{LootTable:\"" + GreedStageIds.ref(2, "ornate_chest") + "\"}", 94);
-                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
-                        }, failure -> {
-                            failure.put("minecraft:air", 1);
-                        }))
-                .placeholder(PlaceholderBlock.Type.ORNATE_CHEST_WATERLOGGED, ph -> ph
-                        .probability(0, 1.0, success -> {
-                            success.put("the_vault:ornate_chest[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "ornate_chest") + "\"}", 94);
-                            success.put("the_vault:ornate_strongbox[waterlogged=true]{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 5);
-                            success.put("the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(2, "enigma_chest") + "\"}", 1);
+                            success.put("the_vault:" + chest + "_chest[waterlogged=true]{LootTable:\"" + chestTable + "\"}", chestWeight);
+                            success.put("the_vault:" + chest + "_strongbox[waterlogged=true]{LootTable:\"" + strongboxTable + "\"}", strongboxWeight);
+                            success.put(enigma, enigmaWeight);
                         }, failure -> {
                             failure.put("minecraft:water", 1);
                         })));
@@ -1283,64 +1256,64 @@ public final class GreedStagePalettes {
                         .add("woldsvaults:iskallian_leaves{LootTable:\"the_vault:iskallian_leaves_velara\"}", 1))
                 .placeholder(PlaceholderBlock.Type.LIVING_CHEST, ph -> ph
                         .probability(50, 1.0, success -> {
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 1);
+                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(1, "living_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(60, 1.0, success -> {
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 1);
+                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(1, "living_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(70, 1.0, success -> {
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 1);
+                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(1, "living_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(80, 1.0, success -> {
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 1);
+                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(1, "living_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(100, 1.0, success -> {
-                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(2, "living_strongbox") + "\"}", 1);
+                            success.put("the_vault:living_strongbox{LootTable:\"" + GreedStageIds.ref(1, "living_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         }))
                 .placeholder(PlaceholderBlock.Type.ORNATE_CHEST, ph -> ph
                         .probability(50, 1.0, success -> {
-                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 1);
+                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(1, "ornate_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(65, 1.0, success -> {
-                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 1);
+                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(1, "ornate_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(80, 1.0, success -> {
-                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 1);
+                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(1, "ornate_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(100, 1.0, success -> {
-                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(2, "ornate_strongbox") + "\"}", 1);
+                            success.put("the_vault:ornate_strongbox{LootTable:\"" + GreedStageIds.ref(1, "ornate_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         }))
                 .placeholder(PlaceholderBlock.Type.GILDED_CHEST, ph -> ph
                         .probability(50, 1.0, success -> {
-                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(2, "gilded_strongbox") + "\"}", 1);
+                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(1, "gilded_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(80, 1.0, success -> {
-                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(2, "gilded_strongbox") + "\"}", 1);
+                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(1, "gilded_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })
                         .probability(100, 1.0, success -> {
-                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(2, "gilded_strongbox") + "\"}", 1);
+                            success.put("the_vault:gilded_strongbox{LootTable:\"" + GreedStageIds.ref(1, "gilded_strongbox") + "\"}", 1);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
                         })));
@@ -1384,44 +1357,6 @@ public final class GreedStagePalettes {
                         .add("the_vault:placeholder[type=coin_stacks]", 1)
                         .add("minecraft:air", 0))
                 .reference(GreedStageIds.ref(2, "room_base")));
-    }
-
-    /**
-     * A stage-1 chest placeholder: the seeded normal placeholder with an enigma chest added to every level, so that
-     * one placement in {@link #ENIGMA_ODDS} is an enigma chest. Every existing weight is scaled by
-     * {@code ENIGMA_ODDS - 1} and the enigma chest gets the level's original weight sum, which keeps the weights
-     * whole numbers. Refuses a seeded placeholder without its dry and waterlogged targets.
-     */
-    private static void enigmaPlaceholder(Sink sink, String chest) {
-        String path = "generic/" + chest + "_chest_placeholder";
-        JsonObject palette = seededPalette(path).deepCopy();
-        String enigma = "the_vault:enigma_chest{LootTable:\"" + GreedStageIds.ref(1, "enigma_chest") + "\"}";
-        String target = chest.toUpperCase(Locale.ROOT) + "_CHEST";
-        List<String> expected = new ArrayList<>(List.of(target, target + "_WATERLOGGED"));
-        for (JsonElement element : palette.getAsJsonArray("tile_processors")) {
-            JsonObject processor = element.getAsJsonObject();
-            if (!"placeholder".equals(processor.get("type").getAsString())
-                    || !expected.remove(processor.get("target").getAsString())) {
-                continue;
-            }
-            for (JsonElement levelElement : processor.getAsJsonArray("levels")) {
-                JsonObject success = levelElement.getAsJsonObject().getAsJsonObject("success");
-                int sum = 0;
-                for (Map.Entry<String, JsonElement> entry : success.entrySet()) {
-                    int weight = wholeWeight(entry.getValue(), path);
-                    sum += weight;
-                    entry.setValue(new JsonPrimitive(weight * (ENIGMA_ODDS - 1)));
-                }
-                if (sum <= 0) {
-                    throw new IllegalStateException("Seeded " + path + " has a level with no chest to share with enigma chests");
-                }
-                success.addProperty(enigma, sum);
-            }
-        }
-        if (!expected.isEmpty()) {
-            throw new IllegalStateException("Seeded " + path + " has no placeholder for " + expected);
-        }
-        sink.add(GreedStageIds.id(1, chest + "_chest_placeholder"), new PaletteBuilder(), builder -> translate(builder, palette, path));
     }
 
     /**

@@ -8,7 +8,7 @@
           "level": 0,
           "probability": 1.0,
           "success": {
-            "the_vault:wooden_chest{LootTable:\"woldsvaults:greed/stage_2/wooden_chest\"}": 1
+            "the_vault:wooden_chest{LootTable:\"woldsvaults:greed/stage_1/wooden_chest\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -24,7 +24,7 @@
           "level": 0,
           "probability": 1.0,
           "success": {
-            "the_vault:wooden_chest[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_2/wooden_chest\"}": 1
+            "the_vault:wooden_chest[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_1/wooden_chest\"}": 1
           },
           "failure": {
             "minecraft:water": 1

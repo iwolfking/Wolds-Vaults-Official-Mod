@@ -17,7 +17,8 @@ import java.util.Set;
 
 /**
  * The greed stages: per stage, its unlock rank and its pairs of normal palette or pool id and stage id. Stage 1
- * (Looter 1) adds enigma chests to the normal chest placeholders. Stage 2 (Looter 3) swaps in the room base chain,
+ * (Looter 1) swaps in the stage chests and strongboxes with a few enigma chests. Stage 2 (Looter 3) pairs the same
+ * chest placeholders again with more enigma chests and swaps in the room base chain,
  * the treasure door, the vendoor pedestal tables (stock and Barter Expert) and the challenge and omega room pools.
  * Stage 3 (Hunter 2) swaps in the treasure rooms, their chests and the trove. Refuses a pair whose stage id the stage
  * content providers do not generate.
@@ -33,13 +34,17 @@ public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
         GreedVaultStagesConfig table = new GreedVaultStagesConfig();
         table.stages = new LinkedHashMap<>();
 
-        Stage enigmas = stage(MilestoneRankLadder.LOOTER_1);
-        palette(enigmas, "generic/ornate_chest_placeholder", GreedStageIds.id(1, "ornate_chest_placeholder"));
-        palette(enigmas, "generic/gilded_chest_placeholder", GreedStageIds.id(1, "gilded_chest_placeholder"));
-        palette(enigmas, "generic/living_chest_placeholder", GreedStageIds.id(1, "living_chest_placeholder"));
-        table.stages.put("1", enigmas);
+        Stage chests = stage(MilestoneRankLadder.LOOTER_1);
+        palette(chests, "generic/ornate_chest_placeholder", GreedStageIds.id(1, "ornate_chest_placeholder"));
+        palette(chests, "generic/gilded_chest_placeholder", GreedStageIds.id(1, "gilded_chest_placeholder"));
+        palette(chests, "generic/living_chest_placeholder", GreedStageIds.id(1, "living_chest_placeholder"));
+        palette(chests, "generic/wooden_chest_placeholder", GreedStageIds.id(1, "wooden_chest_placeholder"));
+        table.stages.put("1", chests);
 
         Stage rooms = stage(MilestoneRankLadder.LOOTER_3);
+        palette(rooms, "generic/ornate_chest_placeholder", GreedStageIds.id(2, "ornate_chest_placeholder"));
+        palette(rooms, "generic/gilded_chest_placeholder", GreedStageIds.id(2, "gilded_chest_placeholder"));
+        palette(rooms, "generic/living_chest_placeholder", GreedStageIds.id(2, "living_chest_placeholder"));
         palette(rooms, "generic/room_base", GreedStageIds.id(2, "room_base"));
         palette(rooms, "generic/treasure_door_placeholder", GreedStageIds.id(2, "treasure_door_placeholder"));
         palette(rooms, "vendor_rooms/vendor_rooms", GreedStageIds.id(2, "vendor_rooms/vendor_rooms"));

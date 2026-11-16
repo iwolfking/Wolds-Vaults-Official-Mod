@@ -41,13 +41,13 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
 
             stageTable("Enigma Chest", "enigma_chest", 1, builder);
             stageTable("Enigma Chest", "enigma_chest", 2, builder);
-            stageTable("Wooden Chest", "wooden_chest", 2, builder);
-            stageTable("Living Chest", "living_chest", 2, builder);
-            stageTable("Ornate Chest", "ornate_chest", 2, builder);
-            stageTable("Gilded Chest", "gilded_chest", 2, builder);
-            stageTable("Living Strongbox", "living_strongbox", 2, builder);
-            stageTable("Ornate Strongbox", "ornate_strongbox", 2, builder);
-            stageTable("Gilded Strongbox", "gilded_strongbox", 2, builder);
+            stageTable("Wooden Chest", "wooden_chest", 1, builder);
+            stageTable("Living Chest", "living_chest", 1, builder);
+            stageTable("Ornate Chest", "ornate_chest", 1, builder);
+            stageTable("Gilded Chest", "gilded_chest", 1, builder);
+            stageTable("Living Strongbox", "living_strongbox", 1, builder);
+            stageTable("Ornate Strongbox", "ornate_strongbox", 1, builder);
+            stageTable("Gilded Strongbox", "gilded_strongbox", 1, builder);
             stageTable("Wooden Dungeon Barrel", "wooden_dungeon_barrel", 2, builder);
             stageTable("Living Dungeon Barrel", "living_dungeon_barrel", 2, builder);
             stageTable("Ornate Dungeon Barrel", "ornate_dungeon_barrel", 2, builder);

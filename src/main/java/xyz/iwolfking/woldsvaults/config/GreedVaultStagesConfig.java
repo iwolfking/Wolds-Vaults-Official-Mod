@@ -13,7 +13,8 @@ import java.util.Set;
 /**
  * The greed stages, generated as {@code vault_configs/greed/stages/vault_stages.json}. Each stage, keyed by its
  * number, has the medallion rank it unlocks at and its pairs: the normal palette or pool id VH reads and the stage id
- * a vault at or above that rank reads instead.
+ * a vault at or above that rank reads instead. A normal id may be paired by several stages; the highest stage the
+ * vault has reached wins.
  */
 public class GreedVaultStagesConfig extends Config implements WoldsTable {
 
@@ -31,8 +32,8 @@ public class GreedVaultStagesConfig extends Config implements WoldsTable {
     }
 
     /**
-     * Null when the table can be installed. Refuses stages out of unlock order, malformed ids, a normal id paired
-     * twice, and any stage id that is also a normal id, so the redirect stays one-way.
+     * Null when the table can be installed. Refuses stages out of unlock order, malformed ids, and any stage id that
+     * is also a normal id, so the redirect stays one-way.
      */
     @Nullable
     @Override
@@ -83,9 +84,7 @@ public class GreedVaultStagesConfig extends Config implements WoldsTable {
             if (ResourceLocation.tryParse(pair.getKey()) == null || pair.getValue() == null || ResourceLocation.tryParse(pair.getValue()) == null) {
                 return "stage " + number + " has a malformed pair " + pair.getKey() + " -> " + pair.getValue();
             }
-            if (!normals.add(pair.getKey())) {
-                return "normal id " + pair.getKey() + " is paired more than once";
-            }
+            normals.add(pair.getKey());
             if (pair.getKey().equals(pair.getValue())) {
                 return "stage " + number + " pairs " + pair.getKey() + " with itself";
             }

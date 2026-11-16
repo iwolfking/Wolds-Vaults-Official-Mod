@@ -1,6 +1,14 @@
 {
   "excludeFromTooltip": [],
   "info": {
+    "the_vault:wooden_chest_stage_1": {
+      "display": "Wooden Chest (Greed Stage 1)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_1/wooden_chest": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:dungeon_pedestal": {
       "display": "Dungeon Pedestal",
       "lootTableKeys": {
@@ -9,14 +17,6 @@
         },
         "the_vault:dungeon_pedestal_lvl75": {
           "level": 75
-        }
-      }
-    },
-    "the_vault:wooden_chest_stage_2": {
-      "display": "Wooden Chest (Greed Stage 2)",
-      "lootTableKeys": {
-        "woldsvaults:greed/stage_2/wooden_chest": {
-          "level": 0
         }
       }
     },
@@ -61,10 +61,10 @@
         }
       }
     },
-    "the_vault:gilded_chest_stage_2": {
-      "display": "Gilded Chest (Greed Stage 2)",
+    "the_vault:gilded_chest_stage_1": {
+      "display": "Gilded Chest (Greed Stage 1)",
       "lootTableKeys": {
-        "woldsvaults:greed/stage_2/gilded_chest": {
+        "woldsvaults:greed/stage_1/gilded_chest": {
           "level": 0
         }
       }
@@ -93,10 +93,10 @@
         }
       }
     },
-    "the_vault:ornate_chest_stage_2": {
-      "display": "Ornate Chest (Greed Stage 2)",
+    "the_vault:ornate_chest_stage_1": {
+      "display": "Ornate Chest (Greed Stage 1)",
       "lootTableKeys": {
-        "woldsvaults:greed/stage_2/ornate_chest": {
+        "woldsvaults:greed/stage_1/ornate_chest": {
           "level": 0
         }
       }
@@ -109,18 +109,18 @@
         }
       }
     },
-    "the_vault:living_strongbox_stage_2": {
-      "display": "Living Strongbox (Greed Stage 2)",
+    "the_vault:living_strongbox_stage_1": {
+      "display": "Living Strongbox (Greed Stage 1)",
       "lootTableKeys": {
-        "woldsvaults:greed/stage_2/living_strongbox": {
+        "woldsvaults:greed/stage_1/living_strongbox": {
           "level": 0
         }
       }
     },
-    "the_vault:living_chest_stage_2": {
-      "display": "Living Chest (Greed Stage 2)",
+    "the_vault:living_chest_stage_1": {
+      "display": "Living Chest (Greed Stage 1)",
       "lootTableKeys": {
-        "woldsvaults:greed/stage_2/living_chest": {
+        "woldsvaults:greed/stage_1/living_chest": {
           "level": 0
         }
       }
@@ -271,14 +271,6 @@
         }
       }
     },
-    "the_vault:gilded_strongbox_stage_2": {
-      "display": "Gilded Strongbox (Greed Stage 2)",
-      "lootTableKeys": {
-        "woldsvaults:greed/stage_2/gilded_strongbox": {
-          "level": 0
-        }
-      }
-    },
     "the_vault:completion_crate_haunted_braziers": {
       "display": "Completion Crate Haunted Braziers",
       "lootTableKeys": {
@@ -304,19 +296,27 @@
         }
       }
     },
-    "the_vault:ornate_strongbox_stage_2": {
-      "display": "Ornate Strongbox (Greed Stage 2)",
-      "lootTableKeys": {
-        "woldsvaults:greed/stage_2/ornate_strongbox": {
-          "level": 0
-        }
-      }
-    },
     "the_vault:treasure_chest_wendarr": {
       "display": "Treasure Chest Wendarr",
       "lootTableKeys": {
         "the_vault:treasure_chest_wendarr": {
           "level": 50
+        }
+      }
+    },
+    "the_vault:ornate_strongbox_stage_1": {
+      "display": "Ornate Strongbox (Greed Stage 1)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_1/ornate_strongbox": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:gilded_strongbox_stage_1": {
+      "display": "Gilded Strongbox (Greed Stage 1)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_1/gilded_strongbox": {
+          "level": 0
         }
       }
     },

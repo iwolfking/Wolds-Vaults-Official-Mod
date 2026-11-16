@@ -5,13 +5,17 @@
       "palettes": {
         "the_vault:generic/ornate_chest_placeholder": "woldsvaults:greed/stage_1/ornate_chest_placeholder",
         "the_vault:generic/gilded_chest_placeholder": "woldsvaults:greed/stage_1/gilded_chest_placeholder",
-        "the_vault:generic/living_chest_placeholder": "woldsvaults:greed/stage_1/living_chest_placeholder"
+        "the_vault:generic/living_chest_placeholder": "woldsvaults:greed/stage_1/living_chest_placeholder",
+        "the_vault:generic/wooden_chest_placeholder": "woldsvaults:greed/stage_1/wooden_chest_placeholder"
       },
       "pools": {}
     },
     "2": {
       "unlockRank": 6,
       "palettes": {
+        "the_vault:generic/ornate_chest_placeholder": "woldsvaults:greed/stage_2/ornate_chest_placeholder",
+        "the_vault:generic/gilded_chest_placeholder": "woldsvaults:greed/stage_2/gilded_chest_placeholder",
+        "the_vault:generic/living_chest_placeholder": "woldsvaults:greed/stage_2/living_chest_placeholder",
         "the_vault:generic/room_base": "woldsvaults:greed/stage_2/room_base",
         "the_vault:generic/treasure_door_placeholder": "woldsvaults:greed/stage_2/treasure_door_placeholder",
         "the_vault:vendor_rooms/vendor_rooms": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms",

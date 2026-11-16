@@ -225,7 +225,7 @@
           "level": 50,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 1
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -235,7 +235,7 @@
           "level": 60,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 1
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -245,7 +245,7 @@
           "level": 70,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 1
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -255,7 +255,7 @@
           "level": 80,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 1
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -265,7 +265,7 @@
           "level": 100,
           "probability": 1.0,
           "success": {
-            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_2/living_strongbox\"}": 1
+            "the_vault:living_strongbox{LootTable:\"woldsvaults:greed/stage_1/living_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -281,7 +281,7 @@
           "level": 50,
           "probability": 1.0,
           "success": {
-            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_2/ornate_strongbox\"}": 1
+            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_1/ornate_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -291,7 +291,7 @@
           "level": 65,
           "probability": 1.0,
           "success": {
-            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_2/ornate_strongbox\"}": 1
+            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_1/ornate_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -301,7 +301,7 @@
           "level": 80,
           "probability": 1.0,
           "success": {
-            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_2/ornate_strongbox\"}": 1
+            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_1/ornate_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -311,7 +311,7 @@
           "level": 100,
           "probability": 1.0,
           "success": {
-            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_2/ornate_strongbox\"}": 1
+            "the_vault:ornate_strongbox{LootTable:\"woldsvaults:greed/stage_1/ornate_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -327,7 +327,7 @@
           "level": 50,
           "probability": 1.0,
           "success": {
-            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_2/gilded_strongbox\"}": 1
+            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_1/gilded_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -337,7 +337,7 @@
           "level": 80,
           "probability": 1.0,
           "success": {
-            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_2/gilded_strongbox\"}": 1
+            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_1/gilded_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1
@@ -347,7 +347,7 @@
           "level": 100,
           "probability": 1.0,
           "success": {
-            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_2/gilded_strongbox\"}": 1
+            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_1/gilded_strongbox\"}": 1
           },
           "failure": {
             "minecraft:air": 1

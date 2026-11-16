@@ -2,7 +2,7 @@
   "tile_processors": [
     {
       "type": "reference",
-      "id": "woldsvaults:greed/stage_2/wooden_chest_placeholder"
+      "id": "woldsvaults:greed/stage_1/wooden_chest_placeholder"
     },
     {
       "type": "reference",

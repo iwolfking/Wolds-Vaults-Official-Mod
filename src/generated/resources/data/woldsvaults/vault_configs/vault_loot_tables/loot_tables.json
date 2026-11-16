@@ -36,24 +36,24 @@
       "1.0": "woldsvaults:greed_crate_loot_7"
     },
     {
-      "id": "woldsvaults:greed/stage_2/ornate_chest",
-      "name": "Greed Stage 2 Ornate Chest",
-      "1.0": "woldsvaults:greed/stage_2/ornate_chest"
+      "id": "woldsvaults:greed/stage_1/ornate_chest",
+      "name": "Greed Stage 1 Ornate Chest",
+      "1.0": "woldsvaults:greed/stage_1/ornate_chest"
     },
     {
-      "id": "woldsvaults:greed/stage_2/gilded_chest",
-      "name": "Greed Stage 2 Gilded Chest",
-      "1.0": "woldsvaults:greed/stage_2/gilded_chest"
+      "id": "woldsvaults:greed/stage_1/gilded_chest",
+      "name": "Greed Stage 1 Gilded Chest",
+      "1.0": "woldsvaults:greed/stage_1/gilded_chest"
     },
     {
-      "id": "woldsvaults:greed/stage_2/living_chest",
-      "name": "Greed Stage 2 Living Chest",
-      "1.0": "woldsvaults:greed/stage_2/living_chest"
+      "id": "woldsvaults:greed/stage_1/living_chest",
+      "name": "Greed Stage 1 Living Chest",
+      "1.0": "woldsvaults:greed/stage_1/living_chest"
     },
     {
-      "id": "woldsvaults:greed/stage_2/wooden_chest",
-      "name": "Greed Stage 2 Wooden Chest",
-      "1.0": "woldsvaults:greed/stage_2/wooden_chest"
+      "id": "woldsvaults:greed/stage_1/wooden_chest",
+      "name": "Greed Stage 1 Wooden Chest",
+      "1.0": "woldsvaults:greed/stage_1/wooden_chest"
     },
     {
       "id": "woldsvaults:greed/stage_1/enigma_chest",
@@ -66,19 +66,19 @@
       "1.0": "woldsvaults:greed/stage_2/enigma_chest"
     },
     {
-      "id": "woldsvaults:greed/stage_2/ornate_strongbox",
-      "name": "Greed Stage 2 Ornate Strongbox",
-      "1.0": "woldsvaults:greed/stage_2/ornate_strongbox"
+      "id": "woldsvaults:greed/stage_1/ornate_strongbox",
+      "name": "Greed Stage 1 Ornate Strongbox",
+      "1.0": "woldsvaults:greed/stage_1/ornate_strongbox"
     },
     {
-      "id": "woldsvaults:greed/stage_2/gilded_strongbox",
-      "name": "Greed Stage 2 Gilded Strongbox",
-      "1.0": "woldsvaults:greed/stage_2/gilded_strongbox"
+      "id": "woldsvaults:greed/stage_1/gilded_strongbox",
+      "name": "Greed Stage 1 Gilded Strongbox",
+      "1.0": "woldsvaults:greed/stage_1/gilded_strongbox"
     },
     {
-      "id": "woldsvaults:greed/stage_2/living_strongbox",
-      "name": "Greed Stage 2 Living Strongbox",
-      "1.0": "woldsvaults:greed/stage_2/living_strongbox"
+      "id": "woldsvaults:greed/stage_1/living_strongbox",
+      "name": "Greed Stage 1 Living Strongbox",
+      "1.0": "woldsvaults:greed/stage_1/living_strongbox"
     },
     {
       "id": "woldsvaults:greed/stage_2/dungeon_boss",
