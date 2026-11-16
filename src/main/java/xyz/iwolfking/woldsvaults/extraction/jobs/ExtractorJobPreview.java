@@ -93,8 +93,9 @@ public final class ExtractorJobPreview {
                 result.shares.put(entry.getKey(), Math.max(0.0D, entry.getValue()) / total);
             }
         }
-        for (ExtractionObjectiveConfig.TierWindow window : spec.tierWindows) {
-            if (result.totalPower >= window.minPower) {
+        if (type.equals("maps")) {
+            ExtractionObjectiveConfig.TierWindow window = ExtractionPayouts.tierWindowFor(spec, result.totalPower);
+            if (window != null) {
                 result.tierMin = window.tierMin;
                 result.tierMax = window.tierMax;
             }
@@ -126,12 +127,6 @@ public final class ExtractorJobPreview {
         }
         Item item = spec.item == null || spec.item.isEmpty() ? null : ForgeRegistries.ITEMS.getValue(new ResourceLocation(spec.item));
         return item == null ? ExtractorJobUnits.humanize(spec.item) : new ItemStack(item).getHoverName().getString();
-    }
-
-    /** {@code m:ss} of a tick count. */
-    public static String formatTime(int ticks) {
-        int seconds = Math.max(0, ticks / 20);
-        return String.format("%d:%02d", seconds / 60, seconds % 60);
     }
 
     static final class ExtractorJobUnits {

@@ -141,16 +141,12 @@ public class ExtractionCommand {
     private static int payHeld(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ItemStack held = player.getMainHandItem();
-        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
+        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ensureLedger(held) : null;
         if (ledger == null) {
             source.sendFailure(new TextComponent("Hold an identified extractor blueprint in your main hand."));
             return 0;
         }
-        CompoundTag paid = new CompoundTag();
-        for (ExtractorCosts.CostLine line : CostLedger.lines(ledger)) {
-            paid.putLong(line.key(), line.amount());
-        }
-        ledger.put(CostLedger.PAID, paid);
+        CostLedger.payInFull(ledger);
         source.sendSuccess(new TextComponent("Paid the held blueprint's fabrication cost (dev)."), false);
         return 1;
     }
@@ -159,7 +155,7 @@ public class ExtractionCommand {
     private static int showHeldCost(CommandSourceStack source) throws CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
         ItemStack held = player.getMainHandItem();
-        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ledger(held) : null;
+        CompoundTag ledger = held.getItem() instanceof ExtractorBlueprintItem ? ExtractorBlueprintItem.ensureLedger(held) : null;
         if (ledger == null) {
             source.sendFailure(new TextComponent("Hold an identified extractor blueprint in your main hand."));
             return 0;

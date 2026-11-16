@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.blocks.tiles;
 
 import net.minecraft.nbt.CompoundTag;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractorDeployment;
 import xyz.iwolfking.woldsvaults.extraction.costs.CostLedger;
 import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
 
@@ -24,6 +25,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorAssemblerContainer;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -48,7 +50,7 @@ import net.minecraft.world.level.Level;
 public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implements MenuProvider, ExtractorStationTile {
     public static final int PART_SLOTS = ExtractorPartType.CORE_PARTS.length;
     public static final int ATTACHMENT_SLOT_START = PART_SLOTS;
-    public static final int ATTACHMENT_SLOTS = 3;
+    public static final int ATTACHMENT_SLOTS = ExtractorStats.MAX_HARDPOINTS;
     public static final int OUTPUT_SLOT = ATTACHMENT_SLOT_START + ATTACHMENT_SLOTS;
     public static final int REPAIR_SLOT = OUTPUT_SLOT + 1;
     public static final int SLOT_COUNT = REPAIR_SLOT + 1;
@@ -102,10 +104,8 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         }
         CompoundTag repair = data.getCompound(REPAIR_TAG);
         if (!CostLedger.hasCost(repair) || repair.getInt("ForDurability") != current) {
-            CompoundTag paid = repair.getCompound(CostLedger.PAID).copy();
             List<PartData> parts = ExtractorItem.getBuildParts(docked);
-            CostLedger.setCost(repair, ExtractorCosts.repairCost(parts, (double) (max - current) / max));
-            repair.put(CostLedger.PAID, paid);
+            CostLedger.recost(repair, ExtractorCosts.repairCost(parts, (double) (max - current) / max));
             repair.putInt("ForDurability", current);
         }
         return repair;
@@ -154,7 +154,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         ExtractorItem.setDurability(docked, max);
         this.workingTicks = WORK_CYCLE_TICKS;
         this.markDirtyAndDispatch();
-        WoldLogger.info("{} repaired an extractor from {} to {} durability at {}.", player.getName().getString(), before, max, this.getBlockPos());
+        WoldLogger.debug("{} repaired an extractor from {} to {} durability at {}.", player.getName().getString(), before, max, this.getBlockPos());
         tell(player, "Repaired " + (max - before) + " durability.");
     }
 
@@ -223,7 +223,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
     }
 
     public static boolean isDockable(ItemStack stack) {
-        return ExtractorItem.isAssembled(stack) && !ExtractorItem.isDeployed(stack);
+        return ExtractorItem.isAssembled(stack) && !ExtractorDeployment.isDeployed(stack);
     }
 
     public static boolean assemblyEmpty(BaseItemStackHandler inventory) {
@@ -238,17 +238,6 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
     /** An assembled, undeployed extractor may be docked only into an otherwise empty assembler. */
     public static boolean canDock(BaseItemStackHandler inventory, ItemStack stack) {
         return isDockable(stack) && assemblyEmpty(inventory);
-    }
-
-    @Nullable
-    public static PartData partIn(ItemStack stack) {
-        if (stack.getItem() instanceof ExtractorPartItem) {
-            return ExtractorPartItem.getPart(stack);
-        }
-        if (stack.getItem() instanceof ExtractorBlueprintItem) {
-            return ExtractorBlueprintItem.getPart(stack);
-        }
-        return null;
     }
 
     @Override
@@ -291,7 +280,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         }
         List<PartData> parts = new ArrayList<>();
         for (int slot = 0; slot < PART_SLOTS; slot++) {
-            PartData part = partIn(this.inventory.getStackInSlot(slot));
+            PartData part = ExtractorPartItem.rolledPart(this.inventory.getStackInSlot(slot));
             if (part != null) {
                 parts.add(part);
             }
@@ -340,7 +329,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         if (!docked.isEmpty()) {
             return ExtractorItem.getSlots(docked);
         }
-        return ExtractorStats.slotsFor(partIn(this.inventory.getStackInSlot(0)), partIn(this.inventory.getStackInSlot(1)));
+        return ExtractorStats.slotsFor(ExtractorPartItem.rolledPart(this.inventory.getStackInSlot(0)), ExtractorPartItem.rolledPart(this.inventory.getStackInSlot(1)));
     }
 
     /** The docked extractor's part for a part slot, as an untouchable display item; empty when nothing is docked. */
@@ -405,9 +394,11 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         if (!replacing && attachments.size() >= slots) {
             return "Every hardpoint is occupied.";
         }
-        for (int i = 0; i < attachments.size(); i++) {
-            if (i != hardpoint && attachments.get(i).attachmentId.equals(attachment.attachmentId)) {
-                return attachment.name + " is already installed; attachments do not stack.";
+        if (!ModConfigs.EXTRACTOR_PARTS.isStackable(attachment.attachmentId)) {
+            for (int i = 0; i < attachments.size(); i++) {
+                if (i != hardpoint && attachments.get(i).attachmentId.equals(attachment.attachmentId)) {
+                    return attachment.name + " is already installed and does not stack.";
+                }
             }
         }
         return null;
@@ -494,8 +485,8 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         }
         Set<String> seen = new HashSet<>();
         for (PartData attachment : attachments) {
-            if (!seen.add(attachment.attachmentId)) {
-                reasons.add(attachment.name + " is installed twice; attachments do not stack.");
+            if (!seen.add(attachment.attachmentId) && !ModConfigs.EXTRACTOR_PARTS.isStackable(attachment.attachmentId)) {
+                reasons.add(attachment.name + " is installed twice and does not stack.");
             }
         }
         return reasons;
@@ -520,7 +511,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         this.workingTicks = WORK_CYCLE_TICKS;
         this.invalidateGhosts();
         this.markDirtyAndDispatch();
-        WoldLogger.info("{} assembled an extractor from {} parts and {} attachments at {}.", player.getName().getString(), parts.size(), attachments.size(), this.getBlockPos());
+        WoldLogger.debug("{} assembled an extractor from {} parts and {} attachments at {}.", player.getName().getString(), parts.size(), attachments.size(), this.getBlockPos());
         tell(player, "Extractor assembled.");
     }
 

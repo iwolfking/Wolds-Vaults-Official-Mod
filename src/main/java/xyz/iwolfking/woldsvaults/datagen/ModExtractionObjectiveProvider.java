@@ -36,6 +36,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         table.DEPLOYMENT = new ExtractionObjectiveConfig.DeploymentEntry();
         table.DEPLOYMENT.initialEnergyFraction = 0.4F;
         table.DEPLOYMENT.healFractionOnJobComplete = 0.33F;
+        table.DEPLOYMENT.shieldReactivationTicks = 40;
         table.JOBS = jobs();
         table.WAVES = waves();
         table.THUMPER = thumper();
@@ -204,7 +205,6 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.liveMobCapPerVault = 1200;
         waves.focusOrder = new ArrayList<>(List.of(1, 0, 2));
         waves.surgeSiege = true;
-        waves.spawnDebugLog = true;
 
         waves.lanes = new ExtractionObjectiveConfig.LanesEntry();
         waves.lanes.engageSteps = 6;
@@ -218,6 +218,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.ram.hpReference = "the_vault:elite_zombie";
         waves.ram.hpEliteMultiple = 2.0F;
         waves.ram.speedMultiplier = 0.6F;
+        waves.ram.knockbackResistance = 1.0F;
         waves.ram.killSeconds = 60.0F;
         waves.ram.firstTicks = 900;
         waves.ram.maxPerRoom = 2;
@@ -457,7 +458,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         cache.cap = 40;
         cache.cellChance = 0.05D;
         cache.mobMargin = 2;
-        cache.pedestalClearance = 6;
+        cache.padClearance = 6;
         cache.minSpacing = 2;
         cache.playerClearance = 4;
         cache.cluster = true;

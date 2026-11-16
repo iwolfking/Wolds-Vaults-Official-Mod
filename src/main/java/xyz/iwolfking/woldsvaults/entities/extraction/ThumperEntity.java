@@ -37,7 +37,8 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
-import xyz.iwolfking.woldsvaults.items.ExtractorItem;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStat;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
 import xyz.iwolfking.woldsvaults.objectives.ExtractionObjective;
 import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 
@@ -47,30 +48,23 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * A thumper: one of the two secondary rigs of an extraction site room. It stands on a thumper pad, takes its pools as
- * fractions of the keyed extractor's stats, and is inert and invulnerable until the main rig drills. Shield then
+ * fractions of the bound extractor's stats, and is inert and invulnerable until the main rig drills. Shield then
  * armor-mitigated hull, like the main rig, but hull damage never wears the extractor; when its hull runs out it does
  * not die but becomes a wreck that keeps marking the pad, and the objective charges the loss to the main rig.
  */
 public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarget {
     private static final EntityDataAccessor<Boolean> DATA_ACTIVE = SynchedEntityData.defineId(ThumperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_WRECKED = SynchedEntityData.defineId(ThumperEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final int SHIELD_REACTIVATION_TICKS = 40;
     private static final int THUMP_PERIOD_TICKS = 30;
 
     private final AnimationFactory factory = new AnimationFactory(this);
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(4, ItemStack.EMPTY);
     private AnimationBuilder chain;
     private int chainState = -1;
-    private float shield;
-    private float maxShield;
-    private float shieldRegenPerTick;
-    private float healthRegenPerTick;
-    private float armor;
-    private float shieldToughness;
-    private int shieldDownTicks;
+    private final RigPool pool = new RigPool();
     private int siteIndex = -1;
     private int padIndex = -1;
-    private UUID rigKey;
+    private UUID rigId;
 
     public ThumperEntity(EntityType<? extends ThumperEntity> type, Level level) {
         super(type, level);
@@ -91,19 +85,17 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         this.entityData.define(DATA_WRECKED, false);
     }
 
-    /** Snapshots the keyed extractor's pools, scaled by the THUMPER fractions. */
-    public void initFromItem(ItemStack stack, ExtractionObjectiveConfig.ThumperEntry cfg, int siteIndex, int padIndex, UUID rigKey) {
-        CompoundTag data = ExtractorItem.getData(stack);
-        this.maxShield = data.getFloat("Shield") * cfg.shieldFraction;
-        this.shield = this.maxShield;
-        this.shieldRegenPerTick = data.getFloat("ShieldRegen") * cfg.shieldRegenFraction;
-        this.healthRegenPerTick = data.getFloat("HealthRegen") * cfg.healthRegenFraction;
-        this.armor = data.getFloat("Armor") * cfg.armorFraction;
-        this.shieldToughness = data.getFloat("ShieldToughness") * cfg.shieldToughnessFraction;
+    /** Snapshots the bound extractor's stat block, scaled by the THUMPER fractions. */
+    public void initFromItem(ExtractorStats.Block stats, ExtractionObjectiveConfig.ThumperEntry cfg, int siteIndex, int padIndex, UUID rigId) {
+        this.pool.init(stats.get(ExtractorStat.SHIELD) * cfg.shieldFraction,
+                stats.get(ExtractorStat.SHIELD_REGEN) / 20.0F * cfg.shieldRegenFraction,
+                stats.get(ExtractorStat.HEALTH_REGEN) / 20.0F * cfg.healthRegenFraction,
+                stats.get(ExtractorStat.ARMOR) * cfg.armorFraction,
+                stats.get(ExtractorStat.SHIELD_TOUGHNESS) * cfg.shieldToughnessFraction);
         this.siteIndex = siteIndex;
         this.padIndex = padIndex;
-        this.rigKey = rigKey;
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1.0F, data.getFloat("MaxHealth") * cfg.healthFraction));
+        this.rigId = rigId;
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1.0F, stats.get(ExtractorStat.HEALTH) * cfg.healthFraction));
         this.setHealth(this.getMaxHealth());
         this.setYRot(0.0F);
         this.setYHeadRot(0.0F);
@@ -149,8 +141,8 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         return this.entityData.get(DATA_WRECKED);
     }
 
-    public UUID getRigKey() {
-        return this.rigKey;
+    public UUID getRigId() {
+        return this.rigId;
     }
 
     @Override
@@ -169,32 +161,24 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
     }
 
     public float getShield() {
-        return this.shield;
+        return this.pool.getShield();
     }
 
     public float getMaxShield() {
-        return this.maxShield;
+        return this.pool.getMaxShield();
     }
 
     @Override
     public float ramHitDamage(float killSeconds) {
-        return this.shieldRegenPerTick * 20.0F + (this.maxShield + this.getMaxHealth()) / Math.max(1.0F, killSeconds);
+        return this.pool.ramHitDamage(this.getMaxHealth(), killSeconds);
     }
 
     @Override
     public void applyRamHit(LivingEntity ram, float damage) {
-        float taken = Math.min(this.shield, damage);
-        this.shield -= taken;
-        if (taken > 0.0F && this.shield <= 0.0F) {
-            this.shield = 0.0F;
-            this.shieldDownTicks = SHIELD_REACTIVATION_TICKS;
-            this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.HOSTILE, 0.8F, 0.9F);
-        }
-        float overflow = damage - taken;
+        float overflow = this.pool.ramHit(this, damage);
         if (overflow > 0.0F) {
             this.damageHull(DamageSource.mobAttack(ram), overflow);
         }
-        this.level.playSound(null, this.blockPosition(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.HOSTILE, 1.0F, 0.6F);
     }
 
     @Override
@@ -216,25 +200,15 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
             return true;
         }
-        if (this.shield > 0.0F) {
-            float absorbed = CombatRules.getDamageAfterAbsorb(amount, this.shieldToughness, 0.0F);
-            float taken = Math.min(this.shield, absorbed);
-            this.shield -= taken;
+        if (this.pool.isShieldUp()) {
+            float overflow = this.pool.shieldHit(this, amount);
             this.invulnerableTime = 0;
-            if (this.shield <= 0.0F) {
-                this.shield = 0.0F;
-                this.shieldDownTicks = SHIELD_REACTIVATION_TICKS;
-                this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.HOSTILE, 0.8F, 0.9F);
-            } else {
-                this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.HOSTILE, 0.5F, 1.6F);
-            }
-            float overflow = absorbed <= 0.0F ? 0.0F : amount * (1.0F - taken / absorbed);
             if (overflow > 0.0F) {
-                this.damageHull(source, CombatRules.getDamageAfterAbsorb(overflow, this.armor, 0.0F));
+                this.damageHull(source, this.pool.armorMitigate(overflow));
             }
             return true;
         }
-        return this.damageHull(source, CombatRules.getDamageAfterAbsorb(amount, this.armor, 0.0F));
+        return this.damageHull(source, this.pool.armorMitigate(amount));
     }
 
     private boolean damageHull(DamageSource source, float amount) {
@@ -254,7 +228,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         this.entityData.set(DATA_WRECKED, true);
         this.entityData.set(DATA_ACTIVE, false);
         this.setHealth(1.0F);
-        this.shield = 0.0F;
+        this.pool.dropShield();
         this.level.playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE, 1.0F, 0.8F);
         if (this.level instanceof ServerLevel server) {
             server.sendParticles(ParticleTypes.LARGE_SMOKE, this.getX(), this.getY() + 1.2D, this.getZ(), 30, 0.5D, 0.6D, 0.5D, 0.02D);
@@ -269,14 +243,8 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         if (this.isWrecked()) {
             return;
         }
-        if (this.shieldDownTicks > 0) {
-            this.shieldDownTicks--;
-        } else if (this.shield < this.maxShield) {
-            this.shield = Math.min(this.maxShield, this.shield + this.shieldRegenPerTick);
-        }
-        if (this.healthRegenPerTick > 0.0F && this.getHealth() < this.getMaxHealth()) {
-            this.heal(this.healthRegenPerTick);
-        }
+        this.pool.tickShield(this);
+        this.pool.tickHealth(this);
     }
 
     @Override
@@ -308,7 +276,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.level.playSound(null, this.blockPosition(), SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.25F, 0.5F);
         }
         if (this.tickCount % 100 == 0 && VaultUtils.getVault(this.level).isEmpty()) {
-            WoldLogger.info("Thumper entity {} found itself outside a vault and self-destructed.", this.getUUID());
+            WoldLogger.debug("Thumper entity {} found itself outside a vault and self-destructed.", this.getUUID());
             this.discard();
         }
     }
@@ -373,34 +341,22 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putFloat("WvShield", this.shield);
-        tag.putFloat("WvMaxShield", this.maxShield);
-        tag.putFloat("WvShieldRegen", this.shieldRegenPerTick);
-        tag.putFloat("WvHealthRegen", this.healthRegenPerTick);
-        tag.putFloat("WvArmor", this.armor);
-        tag.putFloat("WvShieldToughness", this.shieldToughness);
-        tag.putInt("WvShieldDown", this.shieldDownTicks);
+        this.pool.save(tag);
         tag.putInt("WvSiteIndex", this.siteIndex);
         tag.putInt("WvPadIndex", this.padIndex);
         tag.putBoolean("WvWrecked", this.isWrecked());
-        if (this.rigKey != null) {
-            tag.putUUID("WvRigKey", this.rigKey);
+        if (this.rigId != null) {
+            tag.putUUID("WvRigId", this.rigId);
         }
     }
 
     @Override
     public void readAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.shield = tag.getFloat("WvShield");
-        this.maxShield = tag.getFloat("WvMaxShield");
-        this.shieldRegenPerTick = tag.getFloat("WvShieldRegen");
-        this.healthRegenPerTick = tag.getFloat("WvHealthRegen");
-        this.armor = tag.getFloat("WvArmor");
-        this.shieldToughness = tag.getFloat("WvShieldToughness");
-        this.shieldDownTicks = tag.getInt("WvShieldDown");
+        this.pool.load(tag);
         this.siteIndex = tag.getInt("WvSiteIndex");
         this.padIndex = tag.getInt("WvPadIndex");
         this.entityData.set(DATA_WRECKED, tag.getBoolean("WvWrecked"));
-        this.rigKey = tag.hasUUID("WvRigKey") ? tag.getUUID("WvRigKey") : null;
+        this.rigId = tag.hasUUID("WvRigId") ? tag.getUUID("WvRigId") : null;
     }
 }

@@ -17,9 +17,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.opengl.GL11;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractorDeployment;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorAssemblerTileEntity;
 import net.minecraft.nbt.CompoundTag;
-import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorPreviewRenderer;
+import xyz.iwolfking.woldsvaults.client.renderers.station.ExtractorPreviewRenderer;
 import xyz.iwolfking.woldsvaults.extraction.costs.CostLedger;
 import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
 import xyz.iwolfking.woldsvaults.extraction.jobs.ExtractorJobPreview;
@@ -30,6 +31,7 @@ import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorTooltips;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
 import xyz.iwolfking.woldsvaults.items.ExtractorBlueprintItem;
 import xyz.iwolfking.woldsvaults.items.ExtractorItem;
+import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -422,7 +424,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
         ExtractorPartType type = ExtractorPartType.CORE_PARTS[index];
         String name = type.getDisplayName();
         ItemStack stack = slot.getItem();
-        PartData part = ExtractorAssemblerTileEntity.partIn(stack);
+        PartData part = ExtractorPartItem.rolledPart(stack);
         String detail;
         int color;
         if (part == null) {
@@ -507,7 +509,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             header.add(ExtractorTooltips.extractorName(series));
             headerColors.add(seriesColor);
             if (this.previewBlock != null) {
-                header.add(" (" + shortDurability(this.previewBlock.get(ExtractorStat.DURABILITY)) + ")");
+                header.add(" (" + ExtractorTooltips.formatCompact(this.previewBlock.get(ExtractorStat.DURABILITY)) + ")");
                 headerColors.add(ExtractorStat.DURABILITY.getColor() | 0xFF000000);
             }
             if (!docked) {
@@ -577,10 +579,10 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             }
             int n = this.previewParts.size();
             if (n == ExtractorAssemblerTileEntity.PART_SLOTS) {
-                this.drawFit(pose, "The drill class names no job; check extractor_parts.json.", labelX, y + 2, x1 - 6 - labelX, scale, BAD, false);
+                this.drawFit(pose, "This drill has no job, so the extractor cannot deploy.", labelX, y + 2, x1 - 6 - labelX, scale, BAD, false);
                 return;
             }
-            this.drawFit(pose, "Preview requires all 7 parts (" + n + "/7 installed).", labelX, y + 2, x1 - 6 - labelX, scale, TEXT_DIM, false);
+            this.drawFit(pose, "Preview requires all " + ExtractorAssemblerTileEntity.PART_SLOTS + " parts (" + n + "/" + ExtractorAssemblerTileEntity.PART_SLOTS + " installed).", labelX, y + 2, x1 - 6 - labelX, scale, TEXT_DIM, false);
             this.drawFit(pose, "Stats shown reflect the installed parts only.", labelX, y + 11, x1 - 6 - labelX, scale, TEXT_DIM, false);
             return;
         }
@@ -595,7 +597,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             this.drawFit(pose, "Cannot deploy: Power " + job.totalPower + " is below the " + job.job.minPower + " required.", valueX, y + 11, room, scale, BAD, false);
         } else {
             String cells = job.cells == 1 ? " Power Cell" : " Power Cells";
-            this.drawFit(pose, ExtractorJobPreview.formatTime(job.ticks) + " · " + ExtractorTooltips.formatNumber(job.energy) + " Energy · " + job.cells + cells,
+            this.drawFit(pose, ExtractorTooltips.formatTime(job.ticks) + " · " + ExtractorTooltips.formatNumber(job.energy) + " Energy · " + job.cells + cells,
                     valueX, y + 11, room, scale, 0xFFFFFFFF, false);
         }
         this.drawFit(pose, "Yield", labelX, y + 20, 28, scale, labelColor, false);
@@ -647,7 +649,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             CompoundTag data = ExtractorItem.getData(tile.getDocked());
             int durability = data.getInt("Durability");
             int maxDurability = data.getInt("MaxDurability");
-            this.drawFit(pose, "Durability " + shortDurability(durability) + " / " + shortDurability(maxDurability), textX, y0 + 36, room, 0.85F,
+            this.drawFit(pose, "Durability " + ExtractorTooltips.formatCompact(durability) + " / " + ExtractorTooltips.formatCompact(maxDurability), textX, y0 + 36, room, 0.85F,
                     durability >= maxDurability ? GOOD : GOLD, false);
             Slot repairSlot = this.menu.repairSlot();
             this.drawScaled(pose, "Repair", repairSlot.x + 8 - this.font.width("Repair") * 0.75F / 2.0F, repairSlot.y + 19, 0.75F, INK_DIM);
@@ -801,7 +803,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
                 return List.of(new TextComponent("Remove the parts and attachments before docking an extractor.").withStyle(ChatFormatting.RED),
                         ExtractorTooltips.hint("The highlighted slots must be empty."));
             }
-            if (carried.getItem() instanceof ExtractorItem && ExtractorItem.isDeployed(carried)) {
+            if (carried.getItem() instanceof ExtractorItem && ExtractorDeployment.isDeployed(carried)) {
                 return List.of(new TextComponent("A deployed extractor cannot be docked.").withStyle(ChatFormatting.RED));
             }
             if (!slot.hasItem()) {
@@ -853,21 +855,6 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
     @Override
     protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
         return false;
-    }
-
-    /**
-     * The extractor's wear pool written short enough to sit beside its name: 112,400 becomes {@code 112k}.
-     * The whole number would run the header past the panel on any well-built rig.
-     */
-    private static String shortDurability(float value) {
-        long rounded = Math.round(value);
-        if (rounded < 1000L) {
-            return String.valueOf(rounded);
-        }
-        if (rounded < 10000L) {
-            return String.format("%.1fk", rounded / 1000.0D);
-        }
-        return Math.round(rounded / 1000.0D) + "k";
     }
 
     /** Draws consecutive coloured runs as one line, shrinking them together so the whole line fits {@code maxWidth}. */

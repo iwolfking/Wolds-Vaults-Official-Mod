@@ -20,24 +20,20 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Turns a part's series or class, rarity and quality into what it costs, from {@code extractor_costs.json}.
  * {@code amount = floor(roll x scale(Q) x rarity)}, where the roll is uniform in the row's range and the scale
- * depends on the row's class: main rows grow as {@code (1 + Q/4)^K} (the exponent multiplied by
+ * depends on the row's class: main rows grow as {@code (1 + qualityStep x Q)^K} (the exponent multiplied by
  * {@code accelFactor} past {@code accelQuality}), Fabricator rows at {@code fabricatorRate x K}, and gated rows
  * at {@code gatedRate x K} measured from their gate, where they enter at exactly the listed amount.
  */
 public final class ExtractorCosts {
-    private static final Set<String> WARNED = new HashSet<>();
-
     private ExtractorCosts() {
     }
 
@@ -120,9 +116,8 @@ public final class ExtractorCosts {
     }
 
     private static void errorOnce(String id, String kind) {
-        if (WARNED.add(kind + ":" + id)) {
-            WoldLogger.error("extractor_costs.json names the {} '{}', which is not registered; that cost line is skipped.", kind, id);
-        }
+        WoldLogger.errorOnce("extractor_costs.unregistered." + kind + ":" + id,
+                "extractor_costs names the {} '{}', which is not registered; that cost line is skipped.", kind, id);
     }
 
     public static ExtractorCostsConfig config() {
@@ -138,12 +133,17 @@ public final class ExtractorCosts {
         return factor;
     }
 
+    /** The curve's base at quality {@code q}: {@code 1 + qualityStep x q}. */
+    private static double base(double q) {
+        return 1.0D + config().CURVE.qualityStep * q;
+    }
+
     /** The multiplier a row of the given class and gate reaches at quality {@code q}. */
     public static double scale(String scaling, double gate, double q) {
         ExtractorCostsConfig.CurveEntry curve = config().CURVE;
-        double p = 1.0D + 0.25D * q;
+        double p = base(q);
         if (ExtractorCostsConfig.SCALING_GATED.equals(scaling) || gate > 0.0D) {
-            return Math.pow(p / (1.0D + 0.25D * gate), curve.exponent * curve.gatedRate);
+            return Math.pow(p / base(gate), curve.exponent * curve.gatedRate);
         }
         if (ExtractorCostsConfig.SCALING_FABRICATOR.equals(scaling)) {
             return Math.pow(p, curve.exponent * curve.fabricatorRate);
@@ -151,7 +151,7 @@ public final class ExtractorCosts {
         if (q <= curve.accelQuality) {
             return Math.pow(p, curve.exponent);
         }
-        double pa = 1.0D + 0.25D * curve.accelQuality;
+        double pa = base(curve.accelQuality);
         return Math.pow(pa, curve.exponent) * Math.pow(p / pa, curve.exponent * curve.accelFactor);
     }
 
@@ -227,6 +227,10 @@ public final class ExtractorCosts {
         }
         double meanQ = qualitySum / parts.size();
         double meanR = raritySum / parts.size();
+        if (repair.coreItem == null || repair.coreItem.isEmpty()) {
+            WoldLogger.errorOnce("extractor_costs.repair_core", "extractor_costs has no REPAIR core item; repairs cost no Repair Cores.");
+            return new ArrayList<>(merged.values());
+        }
         long cores = (long) Math.max(1.0D, Math.floor(repair.coreBase * scale(ExtractorCostsConfig.SCALING_MAIN, 0.0D, meanQ) * meanR * missingFraction));
         CostLine core = new CostLine(repair.coreItem, false, cores);
         merged.merge(core.key(), core, (a, b) -> new CostLine(a.id(), a.fluid(), a.amount() + b.amount()));

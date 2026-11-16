@@ -7,9 +7,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.Random;
 
 /**
- * The quality grade: an unbounded value in hundredths centred on the chest opener's item rarity, nudged by
- * blueprint rarity, and the per-stat multipliers it drives (linear for offense and utility,
- * geometric with a linear tail for defence).
+ * Quality: an unbounded value in hundredths centred on the chest opener's item rarity, nudged by blueprint rarity,
+ * and the per-stat multipliers it drives (linear or geometric with a linear tail, per the table's scale families).
  */
 public final class ExtractorQuality {
     private ExtractorQuality() {
@@ -44,13 +43,6 @@ public final class ExtractorQuality {
         return Math.max(0.0F, Math.round(value * 100.0D) / 100.0F);
     }
 
-    public static double costMultiplier(double quality) {
-        ExtractorPartsConfig.QualityEntry q = config().QUALITY;
-        double knee = q.centerA * Math.pow(q.kneeIr / q.centerIrScale, q.centerB);
-        double base = Math.pow(1.0D + 0.25D * quality, q.costExponent);
-        return base * Math.pow(q.costTailRate, Math.max(0.0D, quality - knee));
-    }
-
     /** Multiplier a rolled base value receives at the given grade for the given stat. */
     public static double statMultiplier(ExtractorStat stat, double quality) {
         ExtractorPartsConfig.ScalesEntry scales = config().SCALES;
@@ -65,15 +57,5 @@ public final class ExtractorQuality {
             return 1.0D + linear * quality;
         }
         return 1.0D;
-    }
-
-    /** Bucket boundaries are whole grades: 3.99 is still "Early" alongside 3. */
-    public static String bucketLabel(double quality) {
-        for (ExtractorPartsConfig.BucketEntry bucket : config().QUALITY.buckets) {
-            if (Math.floor(quality) <= bucket.maxQuality) {
-                return bucket.label;
-            }
-        }
-        return "";
     }
 }

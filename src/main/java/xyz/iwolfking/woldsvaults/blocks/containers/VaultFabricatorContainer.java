@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import xyz.iwolfking.woldsvaults.blocks.containers.lib.WideContainerData;
 import xyz.iwolfking.woldsvaults.blocks.tiles.VaultFabricatorTileEntity;
+import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 import xyz.iwolfking.woldsvaults.items.FabricationPatternItem;
 
@@ -45,7 +46,7 @@ public class VaultFabricatorContainer extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(inventory, VaultFabricatorTileEntity.PATTERN_SLOT, PATTERN_X, GRID_Y));
         this.addSlot(new OutputSlot(inventory, VaultFabricatorTileEntity.OUTPUT_SLOT, OUTPUT_X, OUTPUT_Y));
         for (int cell = 0; cell < VaultFabricatorTileEntity.GRID_CELLS; cell++) {
-            this.addSlot(new SlotItemHandler(inventory, VaultFabricatorTileEntity.GRID_START + cell, GRID_X + (cell % 5) * 18, GRID_Y + (cell / 5) * 18));
+            this.addSlot(new SlotItemHandler(inventory, VaultFabricatorTileEntity.GRID_START + cell, GRID_X + (cell % ExtractorCostsConfig.GRID_SIZE) * 18, GRID_Y + (cell / ExtractorCostsConfig.GRID_SIZE) * 18));
         }
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {

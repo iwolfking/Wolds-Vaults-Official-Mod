@@ -59,7 +59,6 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
-import top.theillusivec4.curios.api.CuriosApi;
 import xyz.iwolfking.woldsvaults.blocks.containers.ExtractorCardMenu;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.extraction.jobs.GreedCardUpgrades;
@@ -67,6 +66,10 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
 import xyz.iwolfking.woldsvaults.items.ExtractorItem;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractorDeployment;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStat;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
+import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 import xyz.iwolfking.woldsvaults.objectives.ExtractionObjective;
 
 import javax.annotation.Nonnull;
@@ -92,41 +95,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     public static final int CARD_CONTAINER_SIZE = ExtractionObjectiveConfig.GreedInfuserEntry.SLOT_LIMIT;
     private static final double MENU_RANGE_SQ = 8.0D * 8.0D;
 
-    public static final String[] ALL_VARIANT_BONES = {
-            "chassis_s1_wooden", "chassis_s2_chromatic", "chassis_s3_suspension", "chassis_s4_armored",
-            "chassis_s5_echosteel", "legs_s1_wooden", "legs_s2_chromatic", "legs_s3_suspension",
-            "legs_s4_armored", "legs_s5_echosteel", "core_s1_combustion", "core_s2_turbine",
-            "core_s3_fusion", "core_s4_etg", "core_s5_echofluid", "radiator_s1_grating",
-            "radiator_s2_silkvent", "radiator_s3_painite", "radiator_s4_heatsink",
-            "radiator_s5_evaporator", "shield_s1_projector", "shield_s2_barrier",
-            "shield_s3_voidbender", "shield_s4_impact", "shield_s5_echoflare", "scanner_s1_probe",
-            "scanner_s2_calibrator", "scanner_s3_wutodite", "scanner_s4_vaulterite",
-            "scanner_s5_echolocator", "drill_standard", "drill_laser", "drill_greed",
-            "drill_archeology", "drill_excavator", "drill_refiner", "drill_heavy", "drill_juicer",
-            "drill_glue", "drill_crystal", "drill_containment", "attach_aux_radiator_s1",
-            "attach_shield_charger_s1", "attach_driver_override_s1", "attach_extra_plating_s1",
-            "attach_fuel_injector_s1", "attach_battery_array_s1", "attach_ore_cleaner_s1",
-            "attach_defense_turret_s1", "attach_system_reinforcement_s1", "attach_nanobots_s1",
-            "attach_aux_radiator_s2", "attach_shield_charger_s2", "attach_driver_override_s2",
-            "attach_extra_plating_s2", "attach_fuel_injector_s2", "attach_battery_array_s2",
-            "attach_ore_cleaner_s2", "attach_defense_turret_s2", "attach_system_reinforcement_s2",
-            "attach_nanobots_s2", "attach_aux_radiator_s3", "attach_shield_charger_s3",
-            "attach_driver_override_s3", "attach_extra_plating_s3", "attach_fuel_injector_s3",
-            "attach_battery_array_s3", "attach_ore_cleaner_s3", "attach_defense_turret_s3",
-            "attach_system_reinforcement_s3", "attach_nanobots_s3", "attach_aux_radiator_s4",
-            "attach_shield_charger_s4", "attach_driver_override_s4", "attach_extra_plating_s4",
-            "attach_fuel_injector_s4", "attach_battery_array_s4", "attach_ore_cleaner_s4",
-            "attach_defense_turret_s4", "attach_system_reinforcement_s4", "attach_nanobots_s4",
-            "attach_aux_radiator_s5", "attach_shield_charger_s5", "attach_driver_override_s5",
-            "attach_extra_plating_s5", "attach_fuel_injector_s5", "attach_battery_array_s5",
-            "attach_ore_cleaner_s5", "attach_defense_turret_s5", "attach_system_reinforcement_s5",
-            "attach_nanobots_s5"
-    };
-    /** Attachments are optional and up to three are installed at once, so they are
-     * absent here: an extractor with none shows none. */
-    public static final String DEFAULT_VARIANT_BONES = "chassis_s1_wooden,legs_s1_wooden,core_s1_combustion,radiator_s1_grating,shield_s1_projector,scanner_s1_probe,drill_standard";
     private static final int LOOT_ROWS = 6;
-    private static final int SHIELD_REACTIVATION_TICKS = 40;
 
     private final AnimationFactory factory = new AnimationFactory(this);
     private AnimationBuilder mainChain;
@@ -137,20 +106,13 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     private final NonNullList<ItemStack> armorItems = NonNullList.withSize(4, ItemStack.EMPTY);
     private final SimpleContainer loot = new SimpleContainer(9 * LOOT_ROWS);
 
-    /** Client-only blend between idle and drilling for the procedural motion in
-     * {@link xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorGeoModel};
-     * mirrors motion.py RAMP_SECONDS. Never synced -- it is derived from DATA_DRILLING. */
+    /** Seconds the client-side blend between idle and drilling motion takes; derived from DATA_DRILLING, never synced. */
     private static final float RAMP_SECONDS = 0.8F;
     private float drillRamp;
 
-    private float shield;
+    private final RigPool pool = new RigPool();
     private float energy;
     private float currentDurability;
-    private float maxShield;
-    private float armor;
-    private float shieldToughness;
-    private float shieldRegenPerTick;
-    private int shieldDownTicks;
     private int power;
     private int speed;
     private float energyCapacity;
@@ -162,7 +124,6 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     private float durabilityDrainMult = 1.0F;
     private float wearPerTick;
     private float[] attachmentDurability = new float[0];
-    private float healthRegenPerTick;
     private String jobId = "";
     private int siteIndex = -1;
     private UUID owner;
@@ -194,7 +155,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         super.defineSynchedData();
         this.entityData.define(DATA_DRILLING, false);
         this.entityData.define(DATA_JOB_DONE, false);
-        this.entityData.define(DATA_VARIANTS, DEFAULT_VARIANT_BONES);
+        this.entityData.define(DATA_VARIANTS, String.join(",", ExtractorStats.defaultVariantBones()));
         this.entityData.define(DATA_ARMED, false);
         this.entityData.define(DATA_FLUID_MB, 0);
         this.entityData.define(DATA_FLUID_LOCK, 0);
@@ -252,16 +213,14 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.entityData.set(DATA_VARIANTS, sanitizeVariants(variants));
     }
 
-    private static final Set<String> KNOWN_VARIANT_BONES = new HashSet<>(Arrays.asList(ALL_VARIANT_BONES));
-
     /**
-     * Drops bone names the current rig does not know (extractors built before the art rework carry
-     * frame_a_braced-style names) and falls back to the default loadout when nothing survives, so a
-     * stale item renders a whole machine instead of an empty skeleton.
+     * Drops bone names the rig does not know and falls back to the default loadout when nothing survives, so an
+     * item with stale bone names renders a whole machine.
      */
     public static String sanitizeVariants(String variants) {
+        String defaults = String.join(",", ExtractorStats.defaultVariantBones());
         if (variants == null || variants.isEmpty()) {
-            return DEFAULT_VARIANT_BONES;
+            return defaults;
         }
         List<String> kept = new ArrayList<>();
         List<String> dropped = new ArrayList<>();
@@ -270,35 +229,33 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             if (bone.isEmpty()) {
                 continue;
             }
-            (KNOWN_VARIANT_BONES.contains(bone) ? kept : dropped).add(bone);
+            (ExtractorStats.isKnownBone(bone) ? kept : dropped).add(bone);
         }
         if (!dropped.isEmpty()) {
             WoldLogger.error("Extractor variant bones {} do not exist on the current rig and were dropped{}.", dropped,
                     kept.isEmpty() ? "; the default loadout is rendered instead" : "");
         }
-        return kept.isEmpty() ? DEFAULT_VARIANT_BONES : String.join(",", kept);
+        return kept.isEmpty() ? defaults : String.join(",", kept);
     }
 
-    /** Snapshots the deploying item's stat block onto this entity and charges the initial energy. */
-    public void initFromItem(ItemStack stack, Player deployer, int siteIndex, float initialEnergyFraction) {
-        CompoundTag data = ExtractorItem.getData(stack);
-        this.maxShield = data.getFloat("Shield");
-        this.shield = this.maxShield;
-        this.armor = data.getFloat("Armor");
-        this.shieldToughness = data.getFloat("ShieldToughness");
-        this.shieldRegenPerTick = data.getFloat("ShieldRegen");
-        this.power = data.getInt("Power");
-        this.speed = data.getInt("Speed");
-        this.energyCapacity = data.getFloat("EnergyCapacity");
-        this.energyCostPerSecond = data.getFloat("EnergyCost");
-        this.energyPerCell = data.getFloat("EnergyPerCell");
-        this.drillQuantity = data.getFloat("Quantity");
-        this.drillRarity = data.getFloat("Rarity");
-        this.currentDurability = data.getInt("Durability");
-        this.maxDurability = data.getInt("MaxDurability");
-        this.jobId = data.getString("Job");
-        this.durabilityDrainMult = data.contains("DurabilityDrainMult") ? data.getFloat("DurabilityDrainMult") : 1.0F;
-        this.healthRegenPerTick = data.getFloat("HealthRegen");
+    /**
+     * Snapshots the deploying item's stat block (recomposed at deploy) onto this entity and charges the initial energy.
+     * Per-second rates in the block become per-tick values here.
+     */
+    public void initFromItem(ItemStack stack, ExtractorStats.Block stats, Player deployer, int siteIndex, float initialEnergyFraction) {
+        this.pool.init(stats.get(ExtractorStat.SHIELD), stats.get(ExtractorStat.SHIELD_REGEN) / 20.0F,
+                stats.get(ExtractorStat.HEALTH_REGEN) / 20.0F, stats.get(ExtractorStat.ARMOR), stats.get(ExtractorStat.SHIELD_TOUGHNESS));
+        this.power = Math.round(stats.get(ExtractorStat.POWER));
+        this.speed = Math.round(stats.get(ExtractorStat.SPEED));
+        this.energyCapacity = stats.get(ExtractorStat.ENERGY_CAPACITY);
+        this.energyCostPerSecond = stats.get(ExtractorStat.DRAIN);
+        this.energyPerCell = stats.get(ExtractorStat.ENERGY_PER_CELL);
+        this.drillQuantity = stats.get(ExtractorStat.QUANTITY);
+        this.drillRarity = stats.get(ExtractorStat.RARITY);
+        this.currentDurability = ExtractorItem.getDurability(stack);
+        this.maxDurability = Math.round(stats.get(ExtractorStat.DURABILITY));
+        this.jobId = ExtractorItem.getJob(stack);
+        this.durabilityDrainMult = stats.get(ExtractorStat.DURABILITY_DRAIN_MULT);
         this.attachmentDurability = readAttachmentDurability(stack);
         this.recomputeWearPerTick();
         this.siteIndex = siteIndex;
@@ -308,9 +265,9 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             this.placerDrillRate = WendarrExtractors.drillRateMultiplier(serverPlayer);
             this.placerDamageTaken = WendarrExtractors.damageTakenMultiplier(serverPlayer);
         }
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1.0F, data.getFloat("MaxHealth")));
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1.0F, stats.get(ExtractorStat.HEALTH)));
         this.setHealth(this.getMaxHealth());
-        this.entityData.set(DATA_VARIANTS, sanitizeVariants(data.getString("Variants")));
+        this.entityData.set(DATA_VARIANTS, sanitizeVariants(String.join(",", stats.variantBones)));
         this.energy = this.energyCapacity * initialEnergyFraction;
         this.setYRot(0.0F);
         this.setYHeadRot(0.0F);
@@ -333,19 +290,9 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             return true;
         }
         amount *= this.placerDamageTaken;
-        if (this.shield > 0.0F) {
-            float absorbed = CombatRules.getDamageAfterAbsorb(amount, this.shieldToughness, 0.0F);
-            float taken = Math.min(this.shield, absorbed);
-            this.shield -= taken;
+        if (this.pool.isShieldUp()) {
+            float overflow = this.pool.shieldHit(this, amount);
             this.invulnerableTime = 0;
-            if (this.shield <= 0.0F) {
-                this.shield = 0.0F;
-                this.shieldDownTicks = SHIELD_REACTIVATION_TICKS;
-                this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.HOSTILE, 0.8F, 0.9F);
-            } else {
-                this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.HOSTILE, 0.6F, 1.4F);
-            }
-            float overflow = absorbed <= 0.0F ? 0.0F : amount * (1.0F - taken / absorbed);
             if (overflow > 0.0F) {
                 this.hurtHull(source, overflow);
             }
@@ -356,7 +303,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     /** Damage that reaches the hull: armor-mitigated, charged against durability, then vanilla health. */
     private boolean hurtHull(DamageSource source, float amount) {
-        float mitigated = CombatRules.getDamageAfterAbsorb(amount, this.armor, 0.0F);
+        float mitigated = this.pool.armorMitigate(amount);
         float hpDamagePerDurability = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.hpDamagePerDurabilityPoint;
         if (hpDamagePerDurability > 0.0F) {
             this.currentDurability = Math.max(0.0F, this.currentDurability - mitigated / hpDamagePerDurability * this.durabilityDrainMult);
@@ -371,7 +318,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         if (!this.level.isClientSide()) {
             float loss = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.destructionLossFraction * this.maxDurability;
             int remaining = (int) Math.max(0.0F, this.currentDurability - loss);
-            writeBackToItem(this.level.getServer(), this.getUUID(), remaining, this.getMaxHealth(), this.attachmentDurability);
+            ExtractorDeployment.returnToHolder(this.level.getServer(), this.getUUID(), remaining, this.attachmentDurability);
             this.dropLoot();
             this.dropCards();
             VaultUtils.getVault(this.level).flatMap(ExtractionObjective::get)
@@ -390,27 +337,6 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         }
     }
 
-    /**
-     * Finds the deploying item (whoever now holds it) and writes the session's durability and health
-     * results onto it, re-arming it. Falls back to the item's own timed self-reset when nobody online
-     * holds it.
-     */
-    public static void writeBackToItem(MinecraftServer server, UUID entityId, int durability, float hp, float[] attachmentDurability) {
-        if (server == null) {
-            return;
-        }
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-                ItemStack stack = player.getInventory().getItem(i);
-                if (stack.getItem() instanceof ExtractorItem && entityId.equals(ExtractorItem.getDeployedEntity(stack))) {
-                    ExtractorItem.armWithResults(stack, durability, hp, attachmentDurability);
-                    return;
-                }
-            }
-        }
-        WoldLogger.info("No online player holds the extractor item keyed to entity {}; relying on the item's timed self-reset.", entityId);
-    }
-
     @Override
     public InteractionResult interactAt(Player player, Vec3 localHit, InteractionHand hand) {
         if (this.level.isClientSide()) {
@@ -420,7 +346,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             return InteractionResult.PASS;
         }
         ItemStack held = player.getItemInHand(hand);
-        boolean ownItem = held.getItem() instanceof ExtractorItem && this.getUUID().equals(ExtractorItem.getDeployedEntity(held));
+        boolean ownItem = held.getItem() instanceof ExtractorItem && this.getUUID().equals(ExtractorDeployment.getDeployedEntity(held));
         if (this.isArmed()) {
             if (ownItem) {
                 this.pickUpArmed(player, held);
@@ -470,7 +396,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     }
 
     private void pickUp(Player player, ItemStack held) {
-        ExtractorItem.armWithResults(held, (int) this.currentDurability, this.getHealth(), this.attachmentDurability);
+        ExtractorDeployment.returnToItem(held, (int) this.currentDurability, this.attachmentDurability);
         this.dropLoot();
         this.dropCards();
         int voided = this.getFluidAmount();
@@ -487,7 +413,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     /** Takes back a placed rig that was never started: its inserted cards go back to the player and the site frees up. */
     private void pickUpArmed(Player player, ItemStack held) {
-        ExtractorItem.armWithResults(held, (int) this.currentDurability, this.getHealth(), this.attachmentDurability);
+        ExtractorDeployment.returnToItem(held, (int) this.currentDurability, this.attachmentDurability);
         int returned = this.giveCardsTo(player);
         player.displayClientMessage(new TextComponent(returned > 0
                 ? String.format("Extractor collected; %d card%s returned.", returned, returned == 1 ? "" : "s")
@@ -515,19 +441,12 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     @Override
     public float ramHitDamage(float killSeconds) {
-        return this.shieldRegenPerTick * 20.0F + (this.maxShield + this.getMaxHealth()) / Math.max(1.0F, killSeconds);
+        return this.pool.ramHitDamage(this.getMaxHealth(), killSeconds);
     }
 
     @Override
     public void applyRamHit(LivingEntity ram, float damage) {
-        float taken = Math.min(this.shield, damage);
-        this.shield -= taken;
-        if (taken > 0.0F && this.shield <= 0.0F) {
-            this.shield = 0.0F;
-            this.shieldDownTicks = SHIELD_REACTIVATION_TICKS;
-            this.level.playSound(null, this.blockPosition(), SoundEvents.SHIELD_BREAK, SoundSource.HOSTILE, 0.8F, 0.9F);
-        }
-        float overflow = damage - taken;
+        float overflow = this.pool.ramHit(this, damage);
         if (overflow > 0.0F) {
             float hpDamagePerDurability = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.hpDamagePerDurabilityPoint;
             if (hpDamagePerDurability > 0.0F) {
@@ -536,7 +455,6 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             super.hurt(DamageSource.mobAttack(ram), overflow);
             this.invulnerableTime = 0;
         }
-        this.level.playSound(null, this.blockPosition(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.HOSTILE, 1.0F, 0.5F);
     }
 
     /** Charges a share of the destruction loss to the hull's durability: a wrecked thumper costs the main rig this. */
@@ -577,31 +495,11 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         if (this.energy >= this.energyCapacity || candidate.isEmpty()) {
             return 0;
         }
-        try {
-            IItemHandler handler = candidate
-                    .getCapability(net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper.getCapabilityInstance())
-                    .map(wrapper -> (IItemHandler) wrapper.getInventoryHandler())
-                    .orElse(null);
-            return handler == null ? 0 : this.depositFromHandler(handler);
-        } catch (Throwable t) {
-            WoldLogger.error("Sophisticated Backpacks cell sweep failed; only main-inventory cells were deposited.", t);
-            return 0;
-        }
+        return BackpackUtils.getBackpackInventory(candidate).map(this::depositFromHandler).orElse(0);
     }
 
     private int depositFromCurios(Player player) {
-        try {
-            return CuriosApi.getCuriosHelper().getEquippedCurios(player).map(curios -> {
-                int consumed = 0;
-                for (int i = 0; i < curios.getSlots(); i++) {
-                    consumed += this.depositFromBackpack(curios.getStackInSlot(i));
-                }
-                return consumed;
-            }).orElse(0);
-        } catch (Throwable t) {
-            WoldLogger.error("Curios cell sweep failed; equipped backpacks were skipped.", t);
-            return 0;
-        }
+        return player instanceof ServerPlayer serverPlayer ? this.depositFromBackpack(BackpackUtils.getCuriosBackpack(serverPlayer)) : 0;
     }
 
     private int depositFromHandler(IItemHandler handler) {
@@ -648,7 +546,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             }
         }
         if (!this.level.isClientSide() && this.tickCount % 100 == 0 && VaultUtils.getVault(this.level).isEmpty()) {
-            WoldLogger.info("Extractor entity {} found itself outside a vault and self-destructed.", this.getUUID());
+            WoldLogger.debug("Extractor entity {} found itself outside a vault and self-destructed.", this.getUUID());
             this.discard();
         }
     }
@@ -713,15 +611,10 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     @Override
     public void addAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putFloat("WvShield", this.shield);
-        tag.putFloat("WvMaxShield", this.maxShield);
+        this.pool.save(tag);
         tag.putFloat("WvEnergy", this.energy);
         tag.putFloat("WvDurability", this.currentDurability);
         tag.putInt("WvMaxDurability", this.maxDurability);
-        tag.putFloat("WvArmor", this.armor);
-        tag.putFloat("WvShieldToughness", this.shieldToughness);
-        tag.putFloat("WvShieldRegen", this.shieldRegenPerTick);
-        tag.putInt("WvShieldDown", this.shieldDownTicks);
         tag.putInt("WvPower", this.power);
         tag.putInt("WvSpeed", this.speed);
         tag.putFloat("WvEnergyCapacity", this.energyCapacity);
@@ -731,7 +624,6 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         tag.putFloat("WvRarity", this.drillRarity);
         tag.putString("WvJob", this.jobId);
         tag.putFloat("WvDurabilityDrainMult", this.durabilityDrainMult);
-        tag.putFloat("WvHealthRegen", this.healthRegenPerTick);
         tag.putInt("WvSiteIndex", this.siteIndex);
         tag.putBoolean("WvJobDone", this.isJobDone());
         if (this.owner != null) {
@@ -759,15 +651,10 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     @Override
     public void readAdditionalSaveData(@Nonnull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.shield = tag.getFloat("WvShield");
-        this.maxShield = tag.getFloat("WvMaxShield");
+        this.pool.load(tag);
         this.energy = tag.getFloat("WvEnergy");
         this.currentDurability = tag.getFloat("WvDurability");
         this.maxDurability = tag.getInt("WvMaxDurability");
-        this.armor = tag.getFloat("WvArmor");
-        this.shieldToughness = tag.getFloat("WvShieldToughness");
-        this.shieldRegenPerTick = tag.getFloat("WvShieldRegen");
-        this.shieldDownTicks = tag.getInt("WvShieldDown");
         this.power = tag.getInt("WvPower");
         this.speed = tag.getInt("WvSpeed");
         this.energyCapacity = tag.getFloat("WvEnergyCapacity");
@@ -777,7 +664,6 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.drillRarity = tag.getFloat("WvRarity");
         this.jobId = tag.getString("WvJob");
         this.durabilityDrainMult = tag.contains("WvDurabilityDrainMult") ? tag.getFloat("WvDurabilityDrainMult") : 1.0F;
-        this.healthRegenPerTick = tag.getFloat("WvHealthRegen");
         this.siteIndex = tag.getInt("WvSiteIndex");
         this.setJobDone(tag.getBoolean("WvJobDone"));
         if (tag.hasUUID("WvOwner")) {
@@ -826,37 +712,16 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     }
 
     public float getShield() {
-        return this.shield;
-    }
-
-    public void setShield(float shield) {
-        this.shield = Math.min(this.maxShield, Math.max(0.0F, shield));
+        return this.pool.getShield();
     }
 
     public float getMaxShield() {
-        return this.maxShield;
+        return this.pool.getMaxShield();
     }
 
-    public float getShieldRegenPerTick() {
-        return this.shieldRegenPerTick;
-    }
-
-    /** Shield regeneration; a shield that was knocked down stays offline for two seconds before it starts recharging. */
+    /** Shield recharge; a shield knocked down stays offline for the table's reactivation time first. */
     public void tickShieldRegen() {
-        if (this.shieldDownTicks > 0) {
-            this.shieldDownTicks--;
-            if (this.shieldDownTicks == 0 && this.maxShield > 0.0F) {
-                this.level.playSound(null, this.blockPosition(), SoundEvents.BEACON_POWER_SELECT, SoundSource.HOSTILE, 0.5F, 1.6F);
-            }
-            return;
-        }
-        if (this.shield < this.maxShield) {
-            this.setShield(this.shield + this.shieldRegenPerTick);
-        }
-    }
-
-    public boolean isShieldDown() {
-        return this.shieldDownTicks > 0;
+        this.pool.tickShield(this);
     }
 
     public float getEnergy() {
@@ -930,9 +795,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     /** Passive health regeneration granted by attachments; runs only while the extractor is drilling. */
     public void tickHealthRegen() {
-        if (this.healthRegenPerTick > 0.0F && this.getHealth() < this.getMaxHealth()) {
-            this.heal(this.healthRegenPerTick);
-        }
+        this.pool.tickHealth(this);
     }
 
     public float getDurabilityDrainMult() {

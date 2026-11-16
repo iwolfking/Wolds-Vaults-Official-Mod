@@ -1,5 +1,6 @@
 {
   "CURVE": {
+    "qualityStep": 0.25,
     "exponent": 2.04124233785225,
     "gatedRate": 0.5,
     "fabricatorRate": 0.66,
@@ -23,6 +24,11 @@
     "secondsPerQuality": 10.0,
     "energyCapacity": 2000000,
     "energyInput": 100000
+  },
+  "FABRICATOR": {
+    "energyCapacity": 2000000,
+    "energyInput": 100000,
+    "tankCapacity": 8000
   },
   "PARTS": {
     "chassis": {
@@ -2707,7 +2713,6 @@
   "COMPONENTS": {
     "blast_chamber": {
       "item": "woldsvaults:blast_chamber",
-      "tier": "basic",
       "grid": [
         "D P P P D",
         "P o c o P",
@@ -2729,7 +2734,6 @@
     },
     "vpu": {
       "item": "woldsvaults:vault_processing_unit",
-      "tier": "basic",
       "grid": [
         ". D . D .",
         "s . L . s",
@@ -2752,7 +2756,6 @@
     },
     "field_emitter": {
       "item": "woldsvaults:field_emitter",
-      "tier": "basic",
       "grid": [
         "e s e s e",
         "L D F D L",
@@ -2777,7 +2780,6 @@
     },
     "heat_exchanger": {
       "item": "woldsvaults:heat_exchanger",
-      "tier": "basic",
       "grid": [
         "c f c f c",
         "f I k I f",
@@ -2800,7 +2802,6 @@
     },
     "servo_actuator": {
       "item": "woldsvaults:servo_actuator",
-      "tier": "basic",
       "grid": [
         "a k a k a",
         "k i . i k",
@@ -2820,7 +2821,6 @@
     },
     "spine": {
       "item": "woldsvaults:structural_spine",
-      "tier": "advanced",
       "grid": [
         "A . A . A",
         ". c X c .",
@@ -2841,7 +2841,6 @@
     },
     "containment_ring": {
       "item": "woldsvaults:containment_ring",
-      "tier": "advanced",
       "grid": [
         ". K . K .",
         ". n . n .",
@@ -2861,7 +2860,6 @@
     },
     "phase_lattice": {
       "item": "woldsvaults:phase_lattice",
-      "tier": "advanced",
       "grid": [
         ". g . g .",
         "o . F . o",
@@ -2882,7 +2880,6 @@
     },
     "cryo_exchanger": {
       "item": "woldsvaults:cryogenic_exchanger",
-      "tier": "advanced",
       "grid": [
         ". A . A .",
         ". . H . .",
@@ -2903,7 +2900,6 @@
     },
     "qpu": {
       "item": "woldsvaults:quantum_processing_unit",
-      "tier": "advanced",
       "grid": [
         ". . . . .",
         ". V . V .",

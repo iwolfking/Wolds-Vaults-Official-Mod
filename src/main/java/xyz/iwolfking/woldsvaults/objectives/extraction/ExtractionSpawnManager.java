@@ -55,6 +55,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import java.util.Arrays;
 import xyz.iwolfking.woldsvaults.entities.extraction.RigTarget;
 
@@ -96,7 +97,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private final List<UUID> carriers = new ArrayList<>();
     private final Set<UUID> goalled = new HashSet<>();
     private final List<PendingPacket> pending = new ArrayList<>();
-    private final Set<Integer> fallbackLogged = new HashSet<>();
     private int sweepTimer;
     private int auraTimer;
     private int debugTimer;
@@ -143,7 +143,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             auraTimer = 0;
             pulseCarrierAuras(waves.carrier);
         }
-        if (waves.spawnDebugLog && ++debugTimer >= DEBUG_INTERVAL) {
+        if (WoldsVaultsConfig.COMMON.enableDebugMode.get() && ++debugTimer >= DEBUG_INTERVAL) {
             debugTimer = 0;
             this.states.values().forEach(this::logDebug);
         }
@@ -161,10 +161,10 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             return null;
         }
         double floor = floorFactor(waves.statFloor, extractor.getPower());
-        state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePedestals(site).size());
+        state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePads(site).size());
         state.nextRamTick = waves.ram.firstTicks;
         this.states.put(index, state);
-        WoldLogger.info("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}).",
+        WoldLogger.debug("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}).",
                 index, tier.name, extractor.getPower(), String.format("%.2f", floor),
                 String.format("%.2f", GreedMedallionEffects.mobStatMultiplier(vault)));
         return state;
@@ -246,7 +246,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (count <= 0) {
             return 0;
         }
-        float progress = objective.siteProgressFraction(state.site);
+        float progress = state.site.progressFraction();
         double multiplier = waves.roomCountMultiplier * (1.0D + (waves.rampAtFullProgress - 1.0D) * progress);
         double value = count * multiplier;
         int base = (int) Math.floor(value);
@@ -399,9 +399,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (grid != null && grid.isReady()) {
             return grid.caveHomes(cave);
         }
-        if (this.fallbackLogged.add(state.siteIndex)) {
-            WoldLogger.error("Extraction site {} has no room grid yet; caves use the authored pad groups instead of the baked fields.", state.siteIndex);
-        }
+        WoldLogger.errorOnce("extraction_grid_pending_" + state.siteIndex,
+                "Extraction site {} has no room grid yet; caves use the authored pad groups instead of the baked fields.", state.siteIndex);
         return objective.authoredCaveHomes(cave);
     }
 
@@ -608,7 +607,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             return;
         }
         Component name = BrutalBossesRegistry.BOSS_NAME_LIST.getRandom(world.getRandom())
-                .orElseGet(() -> new TextComponent("Brute").withStyle(ChatFormatting.RED));
+                .orElseGet(() -> new TranslatableComponent("entity.woldsvaults.extraction_brute").withStyle(ChatFormatting.RED));
         String modifiers = BrutalBossesRegistry.getRandomMobModifiers(Math.max(1, cfg.infernalModifierCount), true);
         Consumer<LivingEntity> beforeAdd = living -> {
             living.setCustomName(name);
@@ -646,6 +645,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         WoldLogger.error("Extraction site {} could not place a brutal boss at any of {} cave anchors; the wave goes on without it.", state.siteIndex, tries.size());
     }
 
+    /** Spawns a power cell carrier: a champion outside the live mob caps whose aura buffs nearby wave mobs. */
     private void spawnCarrier(RoomWaveState state, int cave, ExtractionObjectiveConfig.CarrierEntry carrierCfg) {
         LivingEntity rig = this.resolveRig(state, this.homePad(state, cave), cave);
         if (rig == null) {
@@ -664,7 +664,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         multiplyAttribute(carrier, Attributes.MAX_HEALTH, carrierCfg.healthMultiplier);
         carrier.setHealth(carrier.getMaxHealth());
         multiplyAttribute(carrier, Attributes.ATTACK_DAMAGE, carrierCfg.damageMultiplier);
-        carrier.setCustomName(new TextComponent("Power Cell Carrier").withStyle(ChatFormatting.YELLOW));
+        carrier.setCustomName(new TranslatableComponent("entity.woldsvaults.power_cell_carrier").withStyle(ChatFormatting.YELLOW));
         carrier.addEffect(new MobEffectInstance(MobEffects.GLOWING, Integer.MAX_VALUE, 0, false, false));
         carriers.add(carrier.getUUID());
     }
@@ -743,7 +743,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         state.rams.put(ram.getUUID(), targetPad);
         state.spawnedPerCave[cave]++;
         world.playSound(null, anchor, SoundEvents.RAID_HORN, SoundSource.HOSTILE, 4.0F, 0.5F);
-        WoldLogger.info("Extraction site {} sent a battering ram ({} HP) from cave {} at pad {}.", state.siteIndex,
+        WoldLogger.debug("Extraction site {} sent a battering ram ({} HP) from cave {} at pad {}.", state.siteIndex,
                 String.format("%.0f", ram.getMaxHealth()), cave, targetPad);
     }
 
@@ -762,7 +762,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             health.setBaseValue(health.getBaseValue() * cfg.hpEliteMultiple * referenceRaw / ramRaw);
         }
         ram.setHealth(ram.getMaxHealth());
-        setAttributeBase(ram, Attributes.KNOCKBACK_RESISTANCE, 1.0D);
+        setAttributeBase(ram, Attributes.KNOCKBACK_RESISTANCE, cfg.knockbackResistance);
         AttributeInstance speed = ram.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed == null) {
             WoldLogger.error("Battering ram {} has no movement speed attribute; it keeps its default speed.", cfg.entity);
@@ -834,8 +834,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (mob.getNavigation() instanceof GroundPathNavigation) {
             boolean wide = mob.getBbWidth() > 1.0F;
             mob.goalSelector.addGoal(0, new LaneFollowGoal(mob, siteIndex, () -> objective.gridFor(siteIndex), wide, this));
-        } else if (this.fallbackLogged.add(1000 + mob.getType().hashCode())) {
-            WoldLogger.info("Extraction wave mob type {} has no ground navigation; it skips lane pathing.", mob.getType().getRegistryName());
+        } else {
+            WoldLogger.errorOnce("extraction_lane_nav_" + mob.getType().getRegistryName(),
+                    "Extraction wave mob type {} has no ground navigation; it skips lane pathing.", mob.getType().getRegistryName());
         }
         mob.addTag(TAG_TARGETED);
         this.goalled.add(mob.getUUID());
@@ -945,7 +946,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             pads.append(pad == 0 ? "" : " ").append("pad").append(pad).append('=').append(n)
                     .append(n > 0 ? String.format(" (%.1fs walk)", state.walkTicksPerPad[pad] / 20.0D / n) : "");
         }
-        WoldLogger.info("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
+        WoldLogger.debug("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
                 state.siteIndex, caves, pads, state.live.size(), state.rams.size(), state.dropped, state.nudges);
         Arrays.fill(state.spawnedPerCave, 0);
         Arrays.fill(state.arrivedPerPad, 0);

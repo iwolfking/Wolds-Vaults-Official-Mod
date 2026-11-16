@@ -21,15 +21,11 @@ import xyz.iwolfking.woldsvaults.blocks.multiblock.ExtractorMultiblock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorAssemblerTileEntity;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorForgeTileEntity;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorStationTile;
-import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
-import xyz.iwolfking.woldsvaults.init.ModEntities;
 import xyz.iwolfking.woldsvaults.items.ExtractorItem;
 
 import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -40,11 +36,10 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTile> implements BlockEntityRenderer<T> {
     private static final float PX = 1.0F / 16.0F;
     private static final float PREVIEW_SCALE = 0.30F;
-    private static final Set<String> MISSING_MODELS = new HashSet<>();
 
     private final ExtractorStationRig rig;
     @Nullable
-    private ExtractorEntity previewEntity;
+    private ExtractorPreviewRenderer preview;
 
     public ExtractorStationRenderer(BlockEntityRendererProvider.Context context, ExtractorStationRig rig) {
         this.rig = rig;
@@ -98,9 +93,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
     private void renderPart(ExtractorStationRig.Part part, float t, BlockState state, PoseStack pose, MultiBufferSource buffers, int light, int overlay, RenderType renderType) {
         BakedModel model = Minecraft.getInstance().getModelManager().getModel(part.model());
         if (model == null || model == Minecraft.getInstance().getModelManager().getMissingModel()) {
-            if (MISSING_MODELS.add(part.model().toString())) {
-                WoldLogger.error("Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
-            }
+            WoldLogger.errorOnce("station_model." + part.model(), "Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
             return;
         }
         pose.pushPose();
@@ -136,29 +129,20 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         }
     }
 
-    /** The real extractor rig at vitrine scale, centred on machine-local (24, 15, 24), spinning while the cycle runs. */
+    /** The displayed extractor at vitrine scale, centred on machine-local (24, 15, 24), spinning while the cycle runs. */
     private void renderPreview(T tile, float t, boolean working, float partialTick, PoseStack pose, MultiBufferSource buffers, int packedLight) {
         ItemStack shown = tile.getDisplayExtractor();
         if (shown.isEmpty() || tile.getLevel() == null) {
             return;
         }
-        if (this.previewEntity == null) {
-            this.previewEntity = ModEntities.EXTRACTOR.create(tile.getLevel());
-            if (this.previewEntity == null) {
-                if (MISSING_MODELS.add("preview-entity")) {
-                    WoldLogger.error("Could not create a display extractor for the Assembler vitrine.");
-                }
-                return;
-            }
+        if (this.preview == null) {
+            this.preview = new ExtractorPreviewRenderer();
         }
-        ExtractorEntity entity = this.previewEntity;
-        entity.setPreviewVariants(ExtractorItem.getVariants(shown));
-        entity.tickCount++;
         pose.pushPose();
         pose.translate(8.0F * PX, 15.0F * PX, 8.0F * PX);
         pose.mulPose(Vector3f.YP.rotationDegrees(working ? 360.0F * t : 0.0F));
         pose.scale(PREVIEW_SCALE, PREVIEW_SCALE, PREVIEW_SCALE);
-        Minecraft.getInstance().getEntityRenderDispatcher().render(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTick, pose, buffers, packedLight);
+        this.preview.renderInWorld(ExtractorItem.getVariants(shown), pose, buffers, packedLight, partialTick);
         pose.popPose();
     }
 }

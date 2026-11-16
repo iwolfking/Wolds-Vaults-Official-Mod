@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.entities.extraction.client;
+package xyz.iwolfking.woldsvaults.client.renderers.station;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.core.util.Color;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
+import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorGeoRenderer;
 import xyz.iwolfking.woldsvaults.init.ModEntities;
 
 import javax.annotation.Nullable;
@@ -21,10 +22,9 @@ import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
- * Draws the real extractor rig inside a screen. The rig is rendered up to three times per frame: the parts that
- * are actually installed at full strength, the slots that are empty as a translucent grey wooden silhouette, and
- * blueprint-previewed parts as a translucent blue ghost. Each pass sets the entity's variant list and a tint, so
- * the picture follows whatever is in the assembler's slots with no extra art.
+ * Draws a display copy of the extractor rig: in a screen, up to three passes per frame (installed parts at full
+ * strength, empty slots as a translucent grey silhouette, blueprint-previewed parts as a translucent blue ghost), or
+ * once, untinted, into a world buffer for a station's vitrine. Each pass sets the display entity's variant list.
  */
 public class ExtractorPreviewRenderer extends ExtractorGeoRenderer {
     public enum Mode {
@@ -35,7 +35,6 @@ public class ExtractorPreviewRenderer extends ExtractorGeoRenderer {
 
     private static final Color GHOST_TINT = Color.ofRGBA(150, 165, 185, 115);
     private static final Color BLUEPRINT_TINT = Color.ofRGBA(143, 211, 255, 170);
-    private static boolean warnedNoEntity;
 
     private Mode mode = Mode.SOLID;
     @Nullable
@@ -80,9 +79,8 @@ public class ExtractorPreviewRenderer extends ExtractorGeoRenderer {
         Minecraft mc = Minecraft.getInstance();
         if (this.entity == null && mc.level != null) {
             this.entity = ModEntities.EXTRACTOR.create(mc.level);
-            if (this.entity == null && !warnedNoEntity) {
-                warnedNoEntity = true;
-                WoldLogger.error("Could not create a display extractor for the Assembler screen; the diagram stays empty.");
+            if (this.entity == null) {
+                WoldLogger.errorOnce("extractor_preview.entity", "Could not create a display extractor; extractor previews stay empty.");
             }
         }
         return this.entity;
@@ -121,6 +119,18 @@ public class ExtractorPreviewRenderer extends ExtractorGeoRenderer {
         modelView.popPose();
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
+    }
+
+    /** Draws the rig with the given comma-separated bones at the pose's origin into a world buffer, untinted. */
+    public void renderInWorld(String variants, PoseStack pose, MultiBufferSource buffers, int light, float partialTick) {
+        ExtractorEntity target = this.entity();
+        if (target == null) {
+            return;
+        }
+        target.tickCount++;
+        this.mode = Mode.SOLID;
+        target.setPreviewVariants(variants);
+        this.render(target, 0.0F, partialTick, pose, buffers, light);
     }
 
     private void pass(Mode passMode, List<String> bones, ExtractorEntity target, PoseStack pose, MultiBufferSource.BufferSource buffers) {

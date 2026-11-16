@@ -9,12 +9,14 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,7 +34,7 @@ public final class ExtractorTooltips {
     public static final String FRAME_TAG = "TooltipFrame";
     public static final String FRAME_BLUEPRINT = "blueprint";
     public static final String[] GROUP_NAMES = {"Core", "Defensive", "Energy", "Misc"};
-    /** The four stat groups every finished extractor is read in; the last group also takes whatever else is non-zero. */
+    /** The four stat groups every finished extractor is read in. Durability is shown on its own line, not in a group. */
     public static final ExtractorStat[][] GROUPS = {
             {ExtractorStat.POWER, ExtractorStat.SPEED, ExtractorStat.HEALTH, ExtractorStat.ARMOR},
             {ExtractorStat.SHIELD, ExtractorStat.SHIELD_TOUGHNESS, ExtractorStat.SHIELD_REGEN},
@@ -41,12 +43,7 @@ public final class ExtractorTooltips {
                     ExtractorStat.TURRET, ExtractorStat.EFFECT_RESISTANCE, ExtractorStat.ELITE_RESISTANCE, ExtractorStat.HEALING_EFFICIENCY}};
     private static final int EMPTY_AFFIX_COLOR = 0x555555;
     private static final int DEPLETED_COLOR = 0xFF5A5A;
-    private static final Map<String, Integer> SERIES_COLORS = Map.of(
-            ExtractorPartsConfig.SERIES_WOODEN, 0xE0B573,
-            ExtractorPartsConfig.SERIES_CHROMATIC, 0xC1BFD0,
-            ExtractorPartsConfig.SERIES_EXPERIMENTAL, 0x6FD8F0,
-            ExtractorPartsConfig.SERIES_ARMORED, 0xD98A2B,
-            ExtractorPartsConfig.SERIES_ECHOSTEEL, 0xB36BFF);
+    private static final int NO_SERIES_COLOR = 0xFFFFFF;
 
     private ExtractorTooltips() {
     }
@@ -55,23 +52,85 @@ public final class ExtractorTooltips {
         return DistExecutor.unsafeRunForDist(() -> Screen::hasShiftDown, () -> () -> false);
     }
 
+    /** The series' tooltip colour from the parts table; white for no series. */
     public static int seriesColor(String series) {
-        return SERIES_COLORS.getOrDefault(series, 0xFFFFFF);
+        if (series == null || series.isEmpty()) {
+            return NO_SERIES_COLOR;
+        }
+        ExtractorPartsConfig.SeriesEntry entry = ModConfigs.EXTRACTOR_PARTS.getSeries(series);
+        if (entry == null) {
+            unknown("series", series);
+            return NO_SERIES_COLOR;
+        }
+        return entry.color;
     }
 
     public static String seriesName(String series) {
         ExtractorPartsConfig.SeriesEntry entry = ModConfigs.EXTRACTOR_PARTS.getSeries(series);
-        return entry == null || entry.name == null ? series : entry.name;
+        if (entry == null || entry.name == null) {
+            unknown("series", series);
+            return series;
+        }
+        return entry.name;
     }
 
     public static String drillClassName(String drillClass) {
         ExtractorPartsConfig.DrillClassEntry entry = ModConfigs.EXTRACTOR_PARTS.DRILL_CLASSES.get(drillClass);
-        return entry == null || entry.name == null ? drillClass : entry.name;
+        if (entry == null || entry.name == null) {
+            unknown("drill class", drillClass);
+            return drillClass;
+        }
+        return entry.name;
     }
 
     public static String jobName(String drillClass) {
         ExtractorPartsConfig.DrillClassEntry entry = ModConfigs.EXTRACTOR_PARTS.DRILL_CLASSES.get(drillClass);
-        return entry == null || entry.job == null ? "" : titleCase(entry.job);
+        if (entry == null || entry.job == null) {
+            unknown("drill class", drillClass);
+            return "";
+        }
+        return titleCase(entry.job);
+    }
+
+    /**
+     * A part's name before its affix words: the drill class name plus "Drill", the attachment's name, or the series'
+     * name for that part type. An id the table does not know is shown as itself.
+     */
+    public static String partBaseName(ExtractorPartType type, String key) {
+        ExtractorPartsConfig cfg = ModConfigs.EXTRACTOR_PARTS;
+        if (type == ExtractorPartType.DRILL) {
+            ExtractorPartsConfig.DrillClassEntry entry = cfg.DRILL_CLASSES.get(key);
+            if (entry == null) {
+                unknown("drill class", key);
+                return key + " Drill";
+            }
+            return entry.name + " Drill";
+        }
+        if (type == ExtractorPartType.ATTACHMENT) {
+            ExtractorPartsConfig.AttachmentEntry entry = cfg.ATTACHMENTS.get(key);
+            if (entry == null) {
+                unknown("attachment", key);
+                return key;
+            }
+            return entry.name;
+        }
+        ExtractorPartsConfig.SeriesEntry series = cfg.getSeries(key);
+        if (series == null) {
+            unknown("series", key);
+            return key + " " + type.getDisplayName();
+        }
+        String name = series.partNames.get(type.getId());
+        if (name == null) {
+            unknown("part name", key + "/" + type.getId());
+            return series.name + " " + type.getDisplayName();
+        }
+        return name;
+    }
+
+    private static void unknown(String kind, String id) {
+        if (id != null && !id.isEmpty()) {
+            WoldLogger.errorOnce("extractor_tooltips." + kind + "." + id, "extractor_parts has no {} '{}'; it is shown by its id.", kind, id);
+        }
     }
 
     public static String rarityName(VaultGearRarity rarity) {
@@ -150,6 +209,27 @@ public final class ExtractorTooltips {
         return String.format("%.1f", value);
     }
 
+    /** Short enough for a header: exact below 10,000, then {@code 112k}, then {@code 1.25M}. */
+    public static String formatCompact(double value) {
+        double abs = Math.abs(value);
+        if (abs < 10_000.0D) {
+            return formatNumber(value);
+        }
+        if (abs < 1_000_000.0D) {
+            return Math.round(value / 1000.0D) + "k";
+        }
+        return String.format("%.2fM", value / 1_000_000.0D).replace(".00M", "M");
+    }
+
+    /** {@code 4m 30s}, or {@code 1h 05m} from an hour up; ticks at 20 per second, rounded up. */
+    public static String formatTime(int ticks) {
+        int seconds = Math.max(0, (ticks + 19) / 20);
+        if (seconds >= 3600) {
+            return String.format("%dh %02dm", seconds / 3600, (seconds % 3600) / 60);
+        }
+        return String.format("%dm %02ds", seconds / 60, seconds % 60);
+    }
+
     public static String formatSigned(double value) {
         return (value >= 0.0D ? "+" : "-") + formatNumber(Math.abs(value));
     }
@@ -178,14 +258,36 @@ public final class ExtractorTooltips {
         if (stat.getUnit() == ExtractorStat.Unit.FLAG) {
             return stat.getDisplayName();
         }
+        return valueText(stat, value, percent, signed) + " " + stat.getDisplayName();
+    }
+
+    /** The number of a stat readout with its unit and no name: {@code 402}, {@code +3.4%}, {@code 1.5/s}, {@code Yes}. */
+    public static String valueText(ExtractorStat stat, float value, boolean percent, boolean signed) {
+        if (stat.getUnit() == ExtractorStat.Unit.FLAG) {
+            return "Yes";
+        }
         String number = signed ? formatSigned(value) : formatNumber(value);
         if (percent || stat.getUnit() == ExtractorStat.Unit.PERCENT) {
-            return number + "% " + stat.getDisplayName();
+            return number + "%";
         }
         if (stat.getUnit() == ExtractorStat.Unit.RATE) {
-            return number + "/s " + stat.getDisplayName();
+            return number + "/s";
         }
-        return number + " " + stat.getDisplayName();
+        return number;
+    }
+
+    /** A part's flat values with its affixes included, in stat-group order, skipping the ones that round to nothing. */
+    public static Map<ExtractorStat, Float> partTotals(PartData part) {
+        Map<ExtractorStat, Float> totals = new LinkedHashMap<>();
+        for (ExtractorStat[] group : GROUPS) {
+            for (ExtractorStat stat : group) {
+                Float value = part.stats.get(stat);
+                if (value != null && (Math.abs(value) >= 0.05F || stat.getUnit() == ExtractorStat.Unit.FLAG)) {
+                    totals.put(stat, value);
+                }
+            }
+        }
+        return totals;
     }
 
     public static Component statLine(ExtractorStat stat, float value, boolean percent, boolean signed) {

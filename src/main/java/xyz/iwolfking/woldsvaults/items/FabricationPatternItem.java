@@ -56,7 +56,7 @@ public class FabricationPatternItem extends BasicItem {
     @Nullable
     public static ExtractorCostsConfig.ComponentEntry recipe(ItemStack stack) {
         String key = componentKey(stack);
-        return key == null || ModConfigs.EXTRACTOR_COSTS == null ? null : ModConfigs.EXTRACTOR_COSTS.componentFor(key);
+        return key == null ? null : ModConfigs.EXTRACTOR_COSTS.componentFor(key);
     }
 
     /** The display name of what a component recipe makes. */
@@ -87,7 +87,7 @@ public class FabricationPatternItem extends BasicItem {
             return;
         }
         Map<String, Integer> counts = new LinkedHashMap<>();
-        for (int cell = 0; cell < 25; cell++) {
+        for (int cell = 0; cell < ExtractorCostsConfig.GRID_SIZE * ExtractorCostsConfig.GRID_SIZE; cell++) {
             String id = recipe.cell(cell);
             if (id != null) {
                 counts.merge(id, 1, Integer::sum);

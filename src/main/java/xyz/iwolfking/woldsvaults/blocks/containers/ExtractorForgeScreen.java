@@ -16,11 +16,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorForgeTileEntity;
 import xyz.iwolfking.woldsvaults.client.screens.IndustrialStyle;
-import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorPreviewRenderer;
+import xyz.iwolfking.woldsvaults.client.renderers.station.ExtractorPreviewRenderer;
 import xyz.iwolfking.woldsvaults.extraction.costs.CostLedger;
 import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
@@ -105,7 +104,6 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             Map.entry(ExtractorStat.ELITE_RESISTANCE, "Elite Res"),
             Map.entry(ExtractorStat.HEALING_EFFICIENCY, "Healing"),
             Map.entry(ExtractorStat.TURRET, "Turret"));
-    private static boolean warnedPreview;
 
     private ExtractorPreviewRenderer preview;
     private int scroll;
@@ -250,10 +248,6 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
         return IndustrialStyle.WATER_GAUGE;
     }
 
-    private static String fluidName(ExtractorCosts.CostLine line) {
-        Fluid fluid = line.fluidType();
-        return fluid == null ? line.id() : new FluidStack(fluid, 1000).getDisplayName().getString();
-    }
 
     @Override
     public void render(PoseStack pose, int mouseX, int mouseY, float partialTicks) {
@@ -365,10 +359,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             try {
                 this.preview = new ExtractorPreviewRenderer();
             } catch (RuntimeException e) {
-                if (!warnedPreview) {
-                    warnedPreview = true;
-                    WoldLogger.error("Extraction Forge could not create its 3D preview renderer; the preview box stays empty.", e);
-                }
+                WoldLogger.errorOnce("extraction_forge.preview", "Extraction Forge could not create its 3D preview renderer; the preview box stays empty.", e);
                 return;
             }
         }
@@ -497,7 +488,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
                 String amounts = String.format("%,d/%,d%s", paid, line.amount(), line.fluid() ? " mB" : "");
                 int aw = this.font.width(amounts);
                 int ax = CX1 - 5 - aw;
-                String name = line.fluid() ? fluidName(line) : line.displayName().getString();
+                String name = line.displayName().getString();
                 this.font.drawShadow(pose, this.font.plainSubstrByWidth(name, ax - (CX0 + 16) - 6), CX0 + 16, ry + 1, IndustrialStyle.TEXT);
                 this.font.drawShadow(pose, amounts, ax, ry + 1, paid >= line.amount() ? IndustrialStyle.GREEN : IndustrialStyle.AMBER);
             }
@@ -520,21 +511,19 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             fill(pose, CX0 + 3, BAND_Y0 + 13, STATS_X1 - 3, BAND_Y0 + 14, RULE);
             int colW = (STATS_X1 - CX0 - 8 - 6) / 2;
             int shown = 0;
-            for (ExtractorStat[] group : ExtractorTooltips.GROUPS) {
-                for (ExtractorStat stat : group) {
-                    Float value = part.stats.get(stat);
-                    if (value == null || shown >= 6 || (Math.abs(value) < 0.05F && stat.getUnit() != ExtractorStat.Unit.FLAG)) {
-                        continue;
-                    }
-                    int sx = CX0 + 4 + (shown % 2) * (colW + 6);
-                    int sy = BAND_Y0 + 16 + (shown / 2) * 9;
-                    String text = statValue(stat, value);
-                    int vw = this.font.width(text);
-                    String label = this.font.plainSubstrByWidth(SHORT_NAMES.getOrDefault(stat, stat.getDisplayName()), colW - vw - 4);
-                    this.font.drawShadow(pose, label, sx, sy, IndustrialStyle.TEXT_DIM);
-                    this.font.drawShadow(pose, text, sx + colW - vw, sy, stat.getColor() | 0xFF000000);
-                    shown++;
+            for (Map.Entry<ExtractorStat, Float> entry : ExtractorTooltips.partTotals(part).entrySet()) {
+                if (shown >= 6) {
+                    break;
                 }
+                ExtractorStat stat = entry.getKey();
+                int sx = CX0 + 4 + (shown % 2) * (colW + 6);
+                int sy = BAND_Y0 + 16 + (shown / 2) * 9;
+                String text = ExtractorTooltips.valueText(stat, entry.getValue(), false, false);
+                int vw = this.font.width(text);
+                String label = this.font.plainSubstrByWidth(SHORT_NAMES.getOrDefault(stat, stat.getDisplayName()), colW - vw - 4);
+                this.font.drawShadow(pose, label, sx, sy, IndustrialStyle.TEXT_DIM);
+                this.font.drawShadow(pose, text, sx + colW - vw, sy, stat.getColor() | 0xFF000000);
+                shown++;
             }
         }
 
@@ -560,7 +549,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
         boolean active = state == State.ACTIVE;
         boolean known = total > 0 && state != State.DONE && state != State.IDLE && state != State.UNIDENTIFIED;
         this.font.drawShadow(pose, "Build time", tx, INV_Y + 3, IndustrialStyle.TEXT_DIM);
-        this.font.drawShadow(pose, known ? formatTime(active ? total - progress : total) : "-", tx, INV_Y + 13,
+        this.font.drawShadow(pose, known ? ExtractorTooltips.formatTime(active ? total - progress : total) : "-", tx, INV_Y + 13,
                 active ? IndustrialStyle.EMBER_TEXT : IndustrialStyle.TEXT);
         this.font.drawShadow(pose, "Power draw", tx, INV_Y + 29, IndustrialStyle.TEXT_DIM);
         this.font.drawShadow(pose, known ? this.font.plainSubstrByWidth(String.format("%,d FE/t", fePerTick), RRAIL_X1 - 4 - tx) : "-",
@@ -569,29 +558,6 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
 
     private void drawCentered(PoseStack pose, String text, int cx, int y, int color) {
         this.font.drawShadow(pose, text, cx - this.font.width(text) / 2.0F, y, color);
-    }
-
-    private static String statValue(ExtractorStat stat, float value) {
-        if (stat.getUnit() == ExtractorStat.Unit.FLAG) {
-            return "Yes";
-        }
-        String number = ExtractorTooltips.formatNumber(value);
-        if (stat.getUnit() == ExtractorStat.Unit.PERCENT) {
-            return number + "%";
-        }
-        if (stat.getUnit() == ExtractorStat.Unit.RATE) {
-            return number + "/s";
-        }
-        return number;
-    }
-
-    /** {@code 4m 30s}; ticks at 20 per second. */
-    static String formatTime(int ticks) {
-        int seconds = Math.max(0, (ticks + 19) / 20);
-        if (seconds >= 3600) {
-            return String.format("%dh %02dm", seconds / 3600, (seconds % 3600) / 60);
-        }
-        return String.format("%dm %02ds", seconds / 60, seconds % 60);
     }
 
     @Override
@@ -624,7 +590,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
                 List<Component> lines = new ArrayList<>();
                 if (i < fluids.size()) {
                     ExtractorCosts.CostLine line = fluids.get(i);
-                    lines.add(new TextComponent(fluidName(line)));
+                    lines.add(line.displayName());
                     lines.add(new TextComponent(String.format("%,d / %,d mB", Math.min(CostLedger.paid(ledger, line), line.amount()), line.amount())));
                     lines.add(new TextComponent("Pipe it in, or use a filled bucket on the forge once staged"));
                 } else {

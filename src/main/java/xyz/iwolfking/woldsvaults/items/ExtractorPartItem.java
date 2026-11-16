@@ -50,6 +50,18 @@ public class ExtractorPartItem extends BasicItem {
         return tag == null ? null : PartData.read(tag.getCompound(PartData.TAG));
     }
 
+    /** The rolled part a stack carries: a fabricated part's, or the one an identified blueprint describes; else null. */
+    @Nullable
+    public static PartData rolledPart(ItemStack stack) {
+        if (stack.getItem() instanceof ExtractorPartItem) {
+            return getPart(stack);
+        }
+        if (stack.getItem() instanceof ExtractorBlueprintItem) {
+            return ExtractorBlueprintItem.getPart(stack);
+        }
+        return null;
+    }
+
     public static boolean isPart(ItemStack stack, ExtractorPartType type) {
         return stack.getItem() instanceof ExtractorPartItem item && item.partType == type && getPart(stack) != null;
     }

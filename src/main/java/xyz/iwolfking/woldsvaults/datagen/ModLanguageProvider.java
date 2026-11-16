@@ -138,6 +138,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add("entity.woldsvaults.extractor", "Extractor");
         add("entity.woldsvaults.thumper", "Thumper");
         add("entity.woldsvaults.battering_ram", "Battering Ram");
+        add("entity.woldsvaults.power_cell_carrier", "Power Cell Carrier");
+        add("entity.woldsvaults.extraction_brute", "Brute");
         ModItems.EXTRACTOR_BLUEPRINTS.forEach((type, item) -> add(item, type.getDisplayName() + " Blueprint"));
         ModItems.EXTRACTOR_PARTS.forEach((type, item) -> add(item, "Extractor " + type.getDisplayName()));
         add(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK, "Extractor Assembler");

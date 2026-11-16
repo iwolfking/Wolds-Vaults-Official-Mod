@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.ToDoubleFunction;
+import javax.annotation.Nullable;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -59,7 +61,7 @@ public final class ExtractionPayouts {
             case "maps" -> payMaps(payout, spec, count, totalPower, extraPower, itemRarity, vault, pos, random);
             case "charms" -> payCharms(payout, spec, count, extraPower, itemRarity, vault, pos, random);
             case "uniques" -> payUniques(payout, spec, count, extraPower, itemRarity, vault, pos, random);
-            case "cards" -> WoldLogger.info("Extraction job '{}' upgraded {} greed card(s) in place.", jobId, extractor.upgradeCards());
+            case "cards" -> WoldLogger.debug("Extraction job '{}' upgraded {} greed card(s) in place.", jobId, extractor.upgradeCards());
             case "fluid" -> payFluid(jobId, spec, count, extractor);
             case "crystals" -> payout.addAll(AncientCrystals.roll(extractor, vault, random));
             case "seal" -> WoldLogger.error(
@@ -70,8 +72,52 @@ public final class ExtractionPayouts {
         for (ItemStack stack : payout) {
             total += stack.getCount();
         }
-        WoldLogger.info("Extraction job '{}' at power {} (quant {}, rarity {}) paid out {} items in {} stacks.", jobId, totalPower, (int) quant, (int) itemRarity, total, payout.size());
+        WoldLogger.debug("Extraction job '{}' at power {} (quant {}, rarity {}) paid out {} items in {} stacks.", jobId, totalPower, (int) quant, (int) itemRarity, total, payout.size());
         return payout;
+    }
+
+    /** True when this payout's job is armed as a Greed Infuser: placed idle until cards are inserted and started. */
+    public static boolean armsGreedInfuser(ExtractionObjectiveConfig.PayoutEntry spec) {
+        return "cards".equalsIgnoreCase(spec.type);
+    }
+
+    /**
+     * The map tier window for this power: the last window whose minimum power it reaches. Below every window the first
+     * one is used, with an error; the table validator makes that unreachable for a deployable rig.
+     */
+    @Nullable
+    public static ExtractionObjectiveConfig.TierWindow tierWindowFor(ExtractionObjectiveConfig.PayoutEntry spec, int totalPower) {
+        ExtractionObjectiveConfig.TierWindow chosen = null;
+        for (ExtractionObjectiveConfig.TierWindow window : spec.tierWindows) {
+            if (totalPower >= window.minPower) {
+                chosen = window;
+            }
+        }
+        if (chosen == null && !spec.tierWindows.isEmpty()) {
+            WoldLogger.errorOnce("extraction_tier_window_" + totalPower, "No map tier window covers power {}; using the first window.", totalPower);
+            chosen = spec.tierWindows.get(0);
+        }
+        return chosen;
+    }
+
+    /** Picks one item by weight (negative weights count as zero); null when every weight is zero. */
+    @Nullable
+    public static <T> T pickWeighted(List<T> items, ToDoubleFunction<T> weight, Random random) {
+        double total = 0.0D;
+        for (T item : items) {
+            total += Math.max(0.0D, weight.applyAsDouble(item));
+        }
+        if (total <= 0.0D) {
+            return null;
+        }
+        double pick = random.nextDouble() * total;
+        for (T item : items) {
+            pick -= Math.max(0.0D, weight.applyAsDouble(item));
+            if (pick < 0.0D) {
+                return item;
+            }
+        }
+        return items.get(items.size() - 1);
     }
 
     static int rollCount(ExtractionObjectiveConfig.PayoutEntry spec, ExtractionObjectiveConfig.JobEntry job, int totalPower, float quant, Random random) {
@@ -114,22 +160,15 @@ public final class ExtractionPayouts {
         return weights;
     }
 
+    /** Picks a rarity key by weight; the given fallback, with an error, when every weight is zero. */
     static String pickWeighted(Map<String, Double> weights, Random random, String fallback) {
-        double total = 0.0D;
-        for (double weight : weights.values()) {
-            total += Math.max(0.0D, weight);
-        }
-        if (total <= 0.0D) {
+        Map.Entry<String, Double> chosen = pickWeighted(new ArrayList<>(weights.entrySet()), Map.Entry::getValue, random);
+        if (chosen == null) {
+            WoldLogger.errorOnce("extraction_rarity_weights_" + weights.keySet(), "An extraction payout's rarity weights {} are all zero; it pays '{}'.",
+                    weights.keySet(), fallback);
             return fallback;
         }
-        double pick = random.nextDouble() * total;
-        for (Map.Entry<String, Double> entry : weights.entrySet()) {
-            pick -= Math.max(0.0D, entry.getValue());
-            if (pick < 0.0D) {
-                return entry.getKey();
-            }
-        }
-        return fallback;
+        return chosen.getKey();
     }
 
     private static void payItems(NonNullList<ItemStack> payout, ExtractionObjectiveConfig.PayoutEntry spec, int count, Vault vault, BlockPos pos) {
@@ -177,14 +216,13 @@ public final class ExtractionPayouts {
             WoldLogger.error("Vault map item {} is not registered; the maps job paid nothing.", MAP_ITEM);
             return;
         }
-        int tierMin = 1;
-        int tierMax = 3;
-        for (ExtractionObjectiveConfig.TierWindow window : spec.tierWindows) {
-            if (totalPower >= window.minPower) {
-                tierMin = window.tierMin;
-                tierMax = window.tierMax;
-            }
+        ExtractionObjectiveConfig.TierWindow window = tierWindowFor(spec, totalPower);
+        if (window == null) {
+            WoldLogger.error("The maps payout lists no tier windows; the maps job paid nothing.");
+            return;
         }
+        int tierMin = window.tierMin;
+        int tierMax = window.tierMax;
         Map<String, Double> weights = rarityWeights(spec, extraPower, itemRarity);
         for (int i = 0; i < count; i++) {
             ItemStack stack = new ItemStack(map);

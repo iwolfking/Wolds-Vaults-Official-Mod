@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters.extractor;
 
+import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 import com.simibubi.create.content.logistics.filter.ItemAttribute;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +34,7 @@ public class ExtractorPartAffixValueAttribute extends ExtractorPartAffixAttribut
 
     @Override
     public boolean appliesTo(ItemStack itemStack) {
-        PartData part = ExtractorFilterHelper.part(itemStack);
+        PartData part = ExtractorPartItem.rolledPart(itemStack);
         if (part == null) {
             return false;
         }
@@ -48,7 +49,7 @@ public class ExtractorPartAffixValueAttribute extends ExtractorPartAffixAttribut
     @Override
     public List<ItemAttribute> listAttributesOf(ItemStack itemStack) {
         List<ItemAttribute> attributes = new ArrayList<>();
-        PartData part = ExtractorFilterHelper.part(itemStack);
+        PartData part = ExtractorPartItem.rolledPart(itemStack);
         if (part == null) {
             return attributes;
         }
