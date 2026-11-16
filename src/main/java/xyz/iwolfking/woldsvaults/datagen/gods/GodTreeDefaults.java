@@ -659,7 +659,7 @@ public final class GodTreeDefaults {
         wendarrPiousDevotion(tree, "wendarr_br_1_0_pious_devotion", 108, 468);
         heavilyEffected(tree, "wendarr_br_1_1_heavily_effected", 108, 504);
         heavilyEffected(tree, "wendarr_br_2_0_heavily_effected", 180, 468);
-        tree.disabledMinor("wendarr_armored_extractors", "Armored Extractors", "wendarr_armored_extractors", icon("armour"), 180, 504);
+        tree.minor("wendarr_armored_extractors", "Armored Extractors", "wendarr_armored_extractors", icon("armour"), 180, 504);
         extractionSuperviser(tree, "wendarr_br_3_0_extraction_superviser", 234, 432);
         speedyCaster(tree, "wendarr_br_3_1_speedy_caster", 270, 450);
         extractionSuperviser(tree, "wendarr_br_4_0_extraction_superviser", 252, 360);
@@ -840,7 +840,7 @@ public final class GodTreeDefaults {
     }
 
     private static void extractionSuperviser(GodTreeBuilder tree, String id, int x, int y) {
-        tree.disabledStat(id, "Extraction Superviser", "wendarr_extraction_superviser", icon("mining_speed"), x, y);
+        tree.stat(id, "Extraction Supervisor", "wendarr_extraction_superviser", icon("mining_speed"), x, y);
     }
 
     public static GodTreeBuilder velara() {

@@ -147,7 +147,7 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
             playerEffect(modifierBuilder, WoldsVaults.id("exposed_mini"), xyz.iwolfking.woldsvaults.init.ModEffects.SHREDDED.getRegistryName(), 2, "Exposed", "#a8324c", "Your armor feels exposed... armor reduced by 15%", "Your armor feels exposed... armor reduced by 15%%", VaultMod.id("gui/modifiers/impossible"));
 
             poolReferenceWeight(modifierBuilder, WoldsVaults.id("challenge_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/challenge_rooms")), 3.0, "Challenge Vein", "#FF4500", "3x Challenge Room Chance", null, VaultMod.id("gui/modifiers/challenge_fortune"));
-            poolReferenceWeight(modifierBuilder, WoldsVaults.id("omega_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/omega_rooms")), 4.0, "Omega Vein", "#6AFF00", "4x Omega Room Chance", null, VaultMod.id("gui/modifiers/omega_fortune"));
+            poolReferenceWeight(modifierBuilder, WoldsVaults.id("omega_fortune_small"), resourceLocationBasicListBuilder -> resourceLocationBasicListBuilder.add(VaultMod.id("vault/rooms/omega_rooms")), OMEGA_VEIN_MULTIPLIER, "Omega Vein", "#6AFF00", Math.round(OMEGA_VEIN_MULTIPLIER) + "x Omega Room Chance", null, VaultMod.id("gui/modifiers/omega_fortune"));
 
             inventoryRestore(modifierBuilder, VaultMod.id("map_afterlife"), false, 0.0F, 1.0F, false, "Map Afterlife", "#3ffb9c", "No item loss on death.", null, VaultMod.id("gui/modifiers/afterlife"));
             inventoryRestore(modifierBuilder, VaultMod.id("oneup"), false, 0.0F, 1.0F, false, "Spirit Restore", "#3ffb9c", "No item loss on death.", null, VaultMod.id("gui/modifiers/afterlife"));
@@ -842,11 +842,12 @@ public class ModVaultModifiersProvider extends AbstractVaultModifierProvider {
         });
     }
 
-    private static final float OMEGA_CASCADING_CHANCE = 0.01F;
+    public static final float OMEGA_CASCADING_CHANCE = 0.01F;
     private static final float RENDING_HASTE = -0.5F;
     private static final float NULLIFYING_HASTE = -1.0F;
-    private static final int MASTER_OF_CHESTS_STACKS = 15;
-    private static final double OMEGA_SPROUT_MULTIPLIER = 2.0;
+    public static final int MASTER_OF_CHESTS_STACKS = 15;
+    public static final double OMEGA_SPROUT_MULTIPLIER = 2.0;
+    public static final double OMEGA_VEIN_MULTIPLIER = 4.0;
 
     private static int percent(float fraction) {
         return Math.round(fraction * 100.0F);

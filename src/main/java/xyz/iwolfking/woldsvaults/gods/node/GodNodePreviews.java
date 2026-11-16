@@ -61,6 +61,20 @@ public final class GodNodePreviews {
         return "log" + baseText + "(" + baseText + " + kills)";
     }
 
+    /** Banked Anger's multiplier, {@code log_base(base + damage taken)}. */
+    public static String bankedAngerFormula(double base) {
+        String baseText = number(base);
+        return "log" + baseText + "(" + baseText + " + damage taken)";
+    }
+
+    /** Power Dump's largest bonus, {@code per_mana x sqrt(sqrt_ref x max mana)}, per_mana written as a percent. */
+    public static String powerDumpFormula(double perMana, double sqrtRef) {
+        return number(perMana * 100.0D) + "% x sqrt(" + number(sqrtRef) + " x max mana)";
+    }
+
+    /** Legend of the Pear's time multiplier against the normal fruit curve, {@code e} being fruit efficiency. */
+    public static final String LEGEND_OF_THE_PEAR_FORMULA = "(1 + sqrt(e)) / (1 + e / (1 + e))";
+
     /** Paced Strikes' multiplier, {@code sqrt((reference + t) / reference)}. */
     public static String pacedStrikesFormula(double referenceMinutes) {
         String referenceText = number(referenceMinutes);

@@ -4,7 +4,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 
 /**
- * Every tuned number behind Ultra Rampaging, read from {@code god_node_effects_idona.json}.
+ * Every tuned number behind Ultra Rampaging, read from {@code gods/effects/idona.json}.
  * Component names are the config keys verbatim; the codec binds by component name.
  *
  * @param fury_per_hp_fraction_lost Fury per full bar of maximum health lost, scaled by the fraction lost.

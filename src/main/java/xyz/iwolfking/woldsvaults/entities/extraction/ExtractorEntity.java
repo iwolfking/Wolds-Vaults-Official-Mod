@@ -79,6 +79,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
+import xyz.iwolfking.woldsvaults.gods.trees.wendarr.WendarrExtractors;
 
 @SuppressWarnings({"deprecated", "removal"})
 public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTarget {
@@ -171,6 +172,8 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     private String cardTargetClass = "";
     private int placerCapacityFlat;
     private float placerCapacityMultiplier = 1.0F;
+    private float placerDrillRate = 1.0F;
+    private float placerDamageTaken = 1.0F;
     private final FluidTank heldFluid = new FluidTank(Integer.MAX_VALUE);
     private int fluidLockTicks;
 
@@ -302,6 +305,8 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.owner = deployer.getUUID();
         if (deployer instanceof ServerPlayer serverPlayer) {
             this.snapshotPlacerCapacity(serverPlayer.server);
+            this.placerDrillRate = WendarrExtractors.drillRateMultiplier(serverPlayer);
+            this.placerDamageTaken = WendarrExtractors.damageTakenMultiplier(serverPlayer);
         }
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1.0F, data.getFloat("MaxHealth")));
         this.setHealth(this.getMaxHealth());
@@ -324,9 +329,10 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             return false;
         }
         if (attacker.getTags().contains(ExtractionSpawnManager.TAG_RAM)) {
-            this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
+            this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds) * this.placerDamageTaken);
             return true;
         }
+        amount *= this.placerDamageTaken;
         if (this.shield > 0.0F) {
             float absorbed = CombatRules.getDamageAfterAbsorb(amount, this.shieldToughness, 0.0F);
             float taken = Math.min(this.shield, absorbed);
@@ -744,6 +750,8 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         tag.putString("WvCardTarget", this.cardTargetClass);
         tag.putInt("WvPlacerCapacityFlat", this.placerCapacityFlat);
         tag.putFloat("WvPlacerCapacityMult", this.placerCapacityMultiplier);
+        tag.putFloat("WvPlacerDrillRate", this.placerDrillRate);
+        tag.putFloat("WvPlacerDamageTaken", this.placerDamageTaken);
         tag.put("WvFluid", this.heldFluid.writeToNBT(new CompoundTag()));
         tag.putInt("WvFluidLock", this.fluidLockTicks);
     }
@@ -789,6 +797,8 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
         this.cardTargetClass = tag.getString("WvCardTarget");
         this.placerCapacityFlat = tag.getInt("WvPlacerCapacityFlat");
         this.placerCapacityMultiplier = tag.contains("WvPlacerCapacityMult") ? tag.getFloat("WvPlacerCapacityMult") : 1.0F;
+        this.placerDrillRate = tag.contains("WvPlacerDrillRate") ? tag.getFloat("WvPlacerDrillRate") : 1.0F;
+        this.placerDamageTaken = tag.contains("WvPlacerDamageTaken") ? tag.getFloat("WvPlacerDamageTaken") : 1.0F;
         this.heldFluid.readFromNBT(tag.getCompound("WvFluid"));
         this.fluidLockTicks = tag.getInt("WvFluidLock");
         this.syncFluid();
@@ -951,6 +961,11 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     public int getSiteIndex() {
         return this.siteIndex;
+    }
+
+    /** Drill progress per tick relative to normal, fixed from the placer's god nodes when placed. */
+    public float getPlacerDrillRate() {
+        return this.placerDrillRate;
     }
 
     public Optional<UUID> getOwner() {

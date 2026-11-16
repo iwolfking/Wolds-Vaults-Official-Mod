@@ -9,13 +9,9 @@ import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
-import xyz.iwolfking.woldsvaults.gods.GodVanillaAttributes;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.combat.VaultClockRate;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
@@ -35,8 +31,6 @@ public final class WendarrClockNodes {
     public static final ResourceLocation OMEGA_FORTUNE_SMALL = WoldsVaults.id("omega_fortune_small");
 
     private static final ResourceLocation SPEED_DEMON_DAMAGE_KEY = WoldsVaults.id("wendarr_speed_demon_damage");
-    private static final UUID SPEED_DEMON_ARMOR_UUID = GodVanillaAttributes.modifierId(
-            "wendarr_speed_demon", Attributes.ARMOR, AttributeModifier.Operation.MULTIPLY_TOTAL);
     private static final Object OWNER = new Object();
 
     private WendarrClockNodes() {
@@ -94,7 +88,6 @@ public final class WendarrClockNodes {
     static void clearAura(ServerPlayer player) {
         GodNodeState.clear(player.getUUID(), WendarrNodes.SPEED_DEMON);
         GlobalDamageMultiplierRegistry.remove(player, SPEED_DEMON_DAMAGE_KEY);
-        applyArmorBonus(player, 1.0F);
     }
 
     private static void mark(UUID vaultId, String effectId) {
@@ -135,19 +128,6 @@ public final class WendarrClockNodes {
             }
             GodNodeState.put(player.getUUID(), WendarrNodes.SPEED_DEMON, Boolean.TRUE);
             GlobalDamageMultiplierRegistry.register(player, SPEED_DEMON_DAMAGE_KEY, multiplier);
-            applyArmorBonus(player, multiplier);
-        }
-    }
-
-    private static void applyArmorBonus(ServerPlayer player, float multiplier) {
-        AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
-        if (armor == null) {
-            return;
-        }
-        armor.removeModifier(SPEED_DEMON_ARMOR_UUID);
-        if (multiplier != 1.0F) {
-            armor.addTransientModifier(new AttributeModifier(SPEED_DEMON_ARMOR_UUID, "WendarrSpeedDemonArmor",
-                    multiplier - 1.0F, AttributeModifier.Operation.MULTIPLY_BASE));
         }
     }
 

@@ -115,7 +115,8 @@
     },
     "wendarr_extraction_superviser": {
       "handler": "wendarr_extraction_superviser",
-      "values": []
+      "values": [],
+      "speed_bonus": 0.05
     },
     "wendarr_expert_eater": {
       "handler": "wendarr_expert_eater",
@@ -191,11 +192,12 @@
       "handler": "wendarr_gardener",
       "values": [],
       "extra_fruit_chance": 0.5,
-      "starfruit_upgrade_chance": 0.05
+      "starfruit_upgrade_chance": 0.2
     },
     "wendarr_armored_extractors": {
       "handler": "wendarr_armored_extractors",
-      "values": []
+      "values": [],
+      "damage_reduction": 0.25
     },
     "wendarr_the_deckless": {
       "handler": "wendarr_the_deckless",
@@ -213,7 +215,7 @@
     "wendarr_quick_search": {
       "handler": "wendarr_quick_search",
       "values": [],
-      "rate": 0.7
+      "rate": 0.6896551
     }
   }
 }

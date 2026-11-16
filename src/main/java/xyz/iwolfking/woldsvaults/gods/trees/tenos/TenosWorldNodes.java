@@ -5,12 +5,14 @@ import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.world.processor.tile.VaultLootTileProcessor;
 import iskallia.vault.block.PlaceholderBlock;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 
 /**
- * Omega Vault, Nose for Treasure and Master of Chests. The two modifier nodes deduplicate against
- * the vault's own modifier list, under ids declared in {@code vault_modifiers.json}.
+ * Omega Vault, Nose for Treasure and Master of Chests. Omega Vault attaches its modifier once; Master
+ * of Chests keeps one stack per runner with the node. Both count against the vault's own modifier list,
+ * under ids declared in {@code vault_modifiers.json}.
  */
 public final class TenosWorldNodes {
     public static final ResourceLocation MASTER_OF_CHESTS_CASCADE = WoldsVaults.id("tenos_master_of_chests");
@@ -41,8 +43,22 @@ public final class TenosWorldNodes {
         attachOnce(vault, OMEGA_FORTUNE_DOUBLE, "Omega Vault");
     }
 
+    /** Tops Master of Chests up to one stack per runner holding the node. Stacks are never removed. */
     public static void reconcileCascading(Vault vault) {
-        attachOnce(vault, MASTER_OF_CHESTS_CASCADE, "Master of Chests");
+        if (vault == null) {
+            return;
+        }
+        int holders = 0;
+        for (ServerPlayer player : TenosVaultUtil.runners(vault)) {
+            if (TenosNodes.isActive(player, TenosNodes.MASTER_OF_CHESTS)) {
+                holders++;
+            }
+        }
+        int missing = holders - (int) VaultModifierUtils.getCountOfModifiers(vault, MASTER_OF_CHESTS_CASCADE);
+        if (missing <= 0 || TenosVaultUtil.resolveModifier(MASTER_OF_CHESTS_CASCADE, "Master of Chests") == null) {
+            return;
+        }
+        VaultModifierUtils.addModifier(vault, MASTER_OF_CHESTS_CASCADE, missing);
     }
 
     private static void attachOnce(Vault vault, ResourceLocation modifier, String node) {

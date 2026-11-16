@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.lib.ICardDeckCache;
 import xyz.iwolfking.woldsvaults.gods.GodFocusGear;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
-import xyz.iwolfking.woldsvaults.gods.node.DeferredHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
@@ -63,8 +62,10 @@ public final class WendarrNodeHandlers {
         GodNodeHandlers.register(WendarrNodes.CLOCK_ARTIFICIER, ClockArtificierParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(WendarrNodes.TEMPORAL_BREAKING, TemporalBreakingHandler::new);
         GodNodeHandlers.register(WendarrNodes.MASTER_IMBUER, ListenerBoundHandler::new);
-        GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, DeferredHandler::new);
-        GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, DeferredHandler::new);
+        GodNodeHandlers.register(WendarrNodes.EXTRACTION_SUPERVISER, ExtractionSuperviserParams.class, ListenerBoundHandler::new);
+        GodNodeHandlers.register(WendarrNodes.ARMORED_EXTRACTORS, ArmoredExtractorsParams.class, ListenerBoundHandler::new);
+        GodNodePreviews.register(WendarrNodes.LEGEND_OF_THE_PEAR, () -> GodNodePreviews.LEGEND_OF_THE_PEAR_FORMULA,
+                WendarrFruit::previewLegendOfThePear);
         GodNodePreviews.register(WendarrNodes.PACED_STRIKES,
                 () -> GodNodePreviews.pacedStrikesFormula(params(WendarrNodes.PACED_STRIKES, PacedStrikesParams.class).reference_minutes()),
                 WendarrTimeHandlers::previewPacedStrikes);
@@ -236,5 +237,18 @@ public final class WendarrNodeHandlers {
     }
 
     public record ClockArtificierParams(float multiplier) implements GodEffectParams {
+    }
+
+    public record ExtractionSuperviserParams(float speed_bonus) implements GodEffectParams {
+    }
+
+    public record ArmoredExtractorsParams(float damage_reduction) implements GodEffectParams {
+        @Override
+        public void validate(String effectId) {
+            if (this.damage_reduction < 0.0F || this.damage_reduction > 1.0F) {
+                throw GodTreeConfigException.fail("God effect '" + effectId + "' has damage_reduction "
+                        + this.damage_reduction + "; it is a share of damage and must be between 0 and 1");
+            }
+        }
     }
 }

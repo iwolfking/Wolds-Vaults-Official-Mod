@@ -9,7 +9,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/** Wendarr (The Timekeeper) node effect ids; tuned values in {@code god_node_effects_wendarr.json}. */
+/** Wendarr (The Timekeeper) node effect ids; tuned values in {@code gods/effects/wendarr.json}. */
 public final class WendarrNodes {
     public static final VaultGod GOD = VaultGod.WENDARR;
 
