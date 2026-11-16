@@ -797,7 +797,6 @@
   "client": [
     "vaulthunters.custom.MixinVaultGearTooltipItem",
     "darkmodeeverywhere.MixinClientProxy",
-    "vhatcaniroll.MixinVhatCanIRollItems",
     "vaultmapper.MixinVaultMapMultiCell",
     "vaultmapper.MixinVaultMapOverlayRendererMultiCell",
     "AccessorParticleEngine",
