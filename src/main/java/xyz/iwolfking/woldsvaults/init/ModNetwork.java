@@ -3,6 +3,12 @@ package xyz.iwolfking.woldsvaults.init;
 import xyz.iwolfking.woldsvaults.stats.ClientboundStatSyncMessage;
 import xyz.iwolfking.woldsvaults.stats.ServerboundStatSyncRequestMessage;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkEvent;
+import java.util.function.Supplier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
@@ -101,6 +107,10 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundStatSyncRequestMessage.class, ServerboundStatSyncRequestMessage::encode, ServerboundStatSyncRequestMessage::decode, ServerboundStatSyncRequestMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ClientboundStatSyncMessage.class, ClientboundStatSyncMessage::encode, ClientboundStatSyncMessage::decode, ClientboundStatSyncMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, VaultRodAttackMessage.class, VaultRodAttackMessage::encode, VaultRodAttackMessage::decode, VaultRodAttackMessage::handle);
+        CHANNEL.registerMessage(id++, ArcaneBeamMessage.class, ArcaneBeamMessage::encode, ArcaneBeamMessage::decode, ArcaneBeamMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ArcanePrismMessage.class, ArcanePrismMessage::encode, ArcanePrismMessage::decode, ArcanePrismMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ArcanePrismSeedMessage.class, ArcanePrismSeedMessage::encode, ArcanePrismSeedMessage::decode, ArcanePrismSeedMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ArcaneSparkleMessage.class, ArcaneSparkleMessage::encode, ArcaneSparkleMessage::decode, ArcaneSparkleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static <T> void sendToServer(T message) {
@@ -117,5 +127,15 @@ public class ModNetwork {
 
     public static <T> void sendToLevel(T message, Level level) {
         CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), message);
+    }
+
+    public static void sendNear(ServerLevel level, Vec3 at, double range, Object message) {
+        CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(at.x, at.y, at.z, range, level.dimension())), message);
+    }
+
+    // client is a () -> () -> ... lambda: naming client classes only inside the inner one keeps them off dedicated servers
+    public static void onClient(Supplier<NetworkEvent.Context> context, Supplier<Runnable> client) {
+        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, client));
+        context.get().setPacketHandled(true);
     }
 }
