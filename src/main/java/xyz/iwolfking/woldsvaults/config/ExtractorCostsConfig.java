@@ -19,15 +19,13 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
     public static final String SCALING_MAIN = "main";
     public static final String SCALING_FABRICATOR = "fabricator";
     public static final String SCALING_GATED = "gated";
-    public static final List<String> RARITIES = List.of("scrappy", "common", "rare", "epic", "omega");
-    public static final List<String> SERIES = List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC,
-            ExtractorPartsConfig.SERIES_EXPERIMENTAL, ExtractorPartsConfig.SERIES_ARMORED, ExtractorPartsConfig.SERIES_ECHOSTEEL);
     public static final int GRID_SIZE = 5;
 
     @Expose public CurveEntry CURVE;
     @Expose public LinkedHashMap<String, Float> RARITY;
     @Expose public RepairEntry REPAIR;
     @Expose public ForgeEntry FORGE;
+    @Expose public FabricatorEntry FABRICATOR;
     @Expose public LinkedHashMap<String, LinkedHashMap<String, List<Ingredient>>> PARTS;
     @Expose public LinkedHashMap<String, List<Ingredient>> DRILLS;
     @Expose public LinkedHashMap<String, List<Ingredient>> ATTACHMENTS;
@@ -38,8 +36,12 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         return "extractor_costs";
     }
 
-    /** The quality curve: main rows scale as (1 + Q/4)^exponent, steeper past accelQuality; gated and Fabricator rows at reduced rates. */
+    /**
+     * The quality curve: a row's base is {@code 1 + qualityStep x Q}; main rows scale as base^exponent, steeper past
+     * accelQuality; gated and Fabricator rows at reduced rates.
+     */
     public static class CurveEntry {
+        @Expose public double qualityStep;
         @Expose public double exponent;
         @Expose public double gatedRate;
         @Expose public double fabricatorRate;
@@ -74,6 +76,13 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         }
     }
 
+    /** The Vault Fabricator's FE buffer, its input rate per tick and its fluid tank, in millibuckets. */
+    public static class FabricatorEntry {
+        @Expose public int energyCapacity;
+        @Expose public int energyInput;
+        @Expose public int tankCapacity;
+    }
+
     /** One cost row: an item or fluid id, its roll range at the row's gate, the gate, and its scaling class. */
     public static class Ingredient {
         @Expose public String id;
@@ -87,7 +96,6 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
     /** A Vault Fabricator recipe: a 5x5 grid of symbols, what each symbol is, an optional fluid, energy and time. */
     public static class ComponentEntry {
         @Expose public String item;
-        @Expose public String tier;
         @Expose public List<String> grid;
         @Expose public LinkedHashMap<String, String> legend;
         @Expose public String fluid;
@@ -122,17 +130,14 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
         return this.COMPONENTS.get(key);
     }
 
-    /** A config with no recipes, unit rarity factors and a zeroed curve: every part on it costs nothing. */
+    /** A config with no recipes, no rarity factors and a zeroed curve: no part on it can be priced. */
     public static ExtractorCostsConfig inert() {
         ExtractorCostsConfig config = new ExtractorCostsConfig();
         config.CURVE = new CurveEntry();
         config.RARITY = new LinkedHashMap<>();
-        for (String rarity : RARITIES) {
-            config.RARITY.put(rarity, 1.0F);
-        }
         config.REPAIR = new RepairEntry();
-        config.REPAIR.coreItem = "the_vault:repair_core";
         config.FORGE = new ForgeEntry();
+        config.FABRICATOR = new FabricatorEntry();
         config.PARTS = new LinkedHashMap<>();
         config.DRILLS = new LinkedHashMap<>();
         config.ATTACHMENTS = new LinkedHashMap<>();
@@ -147,14 +152,14 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
     @Nullable
     @Override
     public String validate() {
-        if (this.CURVE == null || this.CURVE.exponent <= 0.0D || this.CURVE.gatedRate <= 0.0D || this.CURVE.fabricatorRate <= 0.0D
+        if (this.CURVE == null || this.CURVE.qualityStep <= 0.0D || this.CURVE.exponent <= 0.0D || this.CURVE.gatedRate <= 0.0D || this.CURVE.fabricatorRate <= 0.0D
                 || this.CURVE.accelQuality <= 0.0D || this.CURVE.accelFactor <= 0.0D) {
             return "the CURVE block is missing or has a non-positive value";
         }
         if (this.RARITY == null) {
             return "the RARITY block is missing";
         }
-        for (String rarity : RARITIES) {
+        for (String rarity : ExtractorPartsConfig.RARITIES) {
             Float factor = this.RARITY.get(rarity);
             if (factor == null || factor <= 0.0F) {
                 return "RARITY has no positive factor for " + rarity;
@@ -168,18 +173,17 @@ public class ExtractorCostsConfig extends Config implements WoldsTable {
                 || this.FORGE.energyCapacity <= 0 || this.FORGE.energyInput <= 0) {
             return "the FORGE block is missing, has a negative rate, or has no energy capacity or input";
         }
+        if (this.FABRICATOR == null || this.FABRICATOR.energyCapacity <= 0 || this.FABRICATOR.energyInput <= 0
+                || this.FABRICATOR.tankCapacity <= 0) {
+            return "the FABRICATOR block is missing or has no energy capacity, energy input or tank capacity";
+        }
         if (this.PARTS == null) {
             return "the PARTS block is missing";
         }
-        for (ExtractorPartType type : ExtractorPartType.values()) {
-            if (type == ExtractorPartType.DRILL || type == ExtractorPartType.ATTACHMENT) {
-                continue;
-            }
-            for (String series : SERIES) {
-                String problem = checkRows("PARTS " + type.getId() + "/" + series, this.partRecipe(type.getId(), series));
-                if (problem != null) {
-                    return problem;
-                }
+        for (ExtractorPartType type : ExtractorPartsConfig.seriesTypes()) {
+            String problem = checkRecipes("PARTS " + type.getId(), this.PARTS.get(type.getId()));
+            if (problem != null) {
+                return problem;
             }
         }
         String problem = checkRecipes("DRILLS", this.DRILLS);

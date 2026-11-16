@@ -49,7 +49,7 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
             .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all())).register(FIELDS);
     public static final FieldKey<Integer> POINT = FieldKey.of("point", Integer.class)
             .with(Version.v1_0, Adapters.INT, DISK.all().or(CLIENT.all())).register(FIELDS);
-    public static final FieldKey<UUID> RIG_KEY = FieldKey.of("rig_key", UUID.class)
+    public static final FieldKey<UUID> RIG_ID = FieldKey.of("rig_id", UUID.class)
             .with(Version.v1_0, Adapters.UUID, DISK.all()).register(FIELDS);
     public static final FieldKey<long[]> CACHE_CHESTS = FieldKey.of("cache_chests", long[].class)
             .with(Version.v1_0, Adapters.LONG_ARRAY, DISK.all()).register(FIELDS);
@@ -117,12 +117,12 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
         return this.get(STATE) == STATE_ARMED;
     }
 
-    /** Width of the site's room in grid cells; sites saved before multi-cell rooms are single-cell. */
+    /** Width of the site's room in grid cells. */
     public int getSpan() {
-        return this.has(SPAN) ? this.get(SPAN) : 1;
+        return this.get(SPAN);
     }
 
-    /** Index of the pedestal the extractor was placed on, or -1 before the first placement. */
+    /** Index of the pad the extractor was placed on, or -1 before the first placement. */
     public int getPoint() {
         return this.has(POINT) ? this.get(POINT) : -1;
     }
@@ -152,6 +152,16 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
             }
         }
         return wrecked;
+    }
+
+    /** Drill progress as a fraction of the required ticks. */
+    public float progressFraction() {
+        return Math.min(1.0F, Math.max(0.0F, this.get(PROGRESS) / Math.max(1.0F, this.get(REQUIRED))));
+    }
+
+    /** The main rig's progress rate after wrecked thumpers: each wreck takes {@code lossPerWreck} off the full rate. */
+    public float progressRate(float lossPerWreck) {
+        return Math.max(0.0F, 1.0F - lossPerWreck * this.thumpersWrecked());
     }
 
     /** True while an extractor entity stands on this site; drives the placed HUD. */

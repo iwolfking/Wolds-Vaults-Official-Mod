@@ -20,7 +20,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -51,11 +50,8 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     public static final int PATTERN_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
     public static final int GRID_START = 2;
-    public static final int GRID_CELLS = 25;
+    public static final int GRID_CELLS = ExtractorCostsConfig.GRID_SIZE * ExtractorCostsConfig.GRID_SIZE;
     public static final int SLOT_COUNT = GRID_START + GRID_CELLS;
-    public static final int TANK_CAPACITY = 8000;
-    public static final int ENERGY_CAPACITY = 2_000_000;
-    public static final int ENERGY_INPUT = 100_000;
     public static final int DATA_PROGRESS = 0;
     public static final int DATA_TICKS = 1;
     public static final int DATA_ENERGY = 2;
@@ -64,7 +60,8 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
 
     private final BaseItemStackHandler inventory;
     private final FluidTank tank;
-    private final StoredEnergy energy = new StoredEnergy();
+    private final ExtractorStationEnergy energy = new ExtractorStationEnergy(() -> fabricatorConfig().energyCapacity,
+            () -> fabricatorConfig().energyInput, this::setChanged);
     private int progress;
     private final LazyOptional<IItemHandler> itemCapability;
     private final LazyOptional<IFluidHandler> fluidCapability;
@@ -81,7 +78,7 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     public VaultFabricatorTileEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.VAULT_FABRICATOR_TILE_ENTITY_TYPE, pos, state);
         this.inventory = createInventoryHandler(this::markDirtyAndDispatch, this);
-        this.tank = new FluidTank(TANK_CAPACITY, this::acceptsFluid) {
+        this.tank = new FluidTank(fabricatorConfig().tankCapacity, this::acceptsFluid) {
             @Override
             protected void onContentsChanged() {
                 VaultFabricatorTileEntity.this.setChanged();
@@ -90,6 +87,11 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
         this.itemCapability = LazyOptional.of(RoutingHandler::new);
         this.fluidCapability = LazyOptional.of(() -> this.tank);
         this.energyCapability = LazyOptional.of(() -> this.energy);
+    }
+
+    /** The Fabricator's energy and tank row of the costs table. */
+    public static ExtractorCostsConfig.FabricatorEntry fabricatorConfig() {
+        return ModConfigs.EXTRACTOR_COSTS.FABRICATOR;
     }
 
     public static BaseItemStackHandler createInventoryHandler(@Nullable Runnable onContentsChanged, @Nullable VaultFabricatorTileEntity tile) {
@@ -179,7 +181,7 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     public void load(CompoundTag tag) {
         super.load(tag);
         this.tank.readFromNBT(tag.getCompound("Tank"));
-        this.energy.set(tag.getInt("Energy"));
+        this.energy.load(tag.getInt("Energy"));
         this.progress = tag.getInt("Progress");
     }
 
@@ -210,6 +212,9 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     }
 
     private void tickCraft() {
+        if (this.tank.getCapacity() != fabricatorConfig().tankCapacity) {
+            this.tank.setCapacity(fabricatorConfig().tankCapacity);
+        }
         ExtractorCostsConfig.ComponentEntry recipe = this.recipe();
         Item product = recipe == null ? null : ExtractorCosts.resolveItem(recipe.item);
         if (recipe == null || product == null || !this.ready(recipe, product)) {
@@ -221,10 +226,9 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
         }
         int ticks = Math.max(1, recipe.ticks);
         int perTick = (int) Math.ceil((double) recipe.fe / ticks);
-        if (this.energy.getEnergyStored() < perTick) {
+        if (!this.energy.draw(perTick)) {
             return;
         }
-        this.energy.set(this.energy.getEnergyStored() - perTick);
         this.progress++;
         if (this.progress >= ticks) {
             for (int cell = 0; cell < GRID_CELLS; cell++) {
@@ -280,26 +284,6 @@ public class VaultFabricatorTileEntity extends BaseInventoryTileEntity implement
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player) {
         return VaultFabricatorContainer.create(windowId, playerInventory, this::isUsableByPlayer, this.inventory, this.data, this.getBlockPos());
-    }
-
-    /** An FE buffer that accepts power from any side and is drained only by crafting. */
-    private class StoredEnergy extends EnergyStorage {
-        StoredEnergy() {
-            super(ENERGY_CAPACITY, ENERGY_INPUT, 0);
-        }
-
-        void set(int value) {
-            this.energy = Math.max(0, Math.min(this.capacity, value));
-        }
-
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int received = super.receiveEnergy(maxReceive, simulate);
-            if (received > 0 && !simulate) {
-                VaultFabricatorTileEntity.this.setChanged();
-            }
-            return received;
-        }
     }
 
     /** Pipes see 27 slots; any insert is routed to the emptiest grid cell that wants the item, and only the output extracts. */

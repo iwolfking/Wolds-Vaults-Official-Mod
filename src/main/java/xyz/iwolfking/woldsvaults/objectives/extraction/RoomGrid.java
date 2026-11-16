@@ -40,7 +40,6 @@ public final class RoomGrid {
     private final BitSet passable;
     private int nextPlane;
     private boolean ready;
-    private boolean failed;
 
     private int[][] columns;
     private final IntOpenHashSet lane = new IntOpenHashSet();
@@ -69,10 +68,6 @@ public final class RoomGrid {
         return this.ready;
     }
 
-    public boolean hasFailed() {
-        return this.failed;
-    }
-
     public int padCount() {
         return this.pads.size();
     }
@@ -87,7 +82,7 @@ public final class RoomGrid {
 
     /** Reads the next few block planes; returns true once the whole room is read and the lane data is built. */
     public boolean tickBuild(Level level, int chestMobMargin, int chestPadClearance) {
-        if (this.ready || this.failed) {
+        if (this.ready) {
             return this.ready;
         }
         int end = Math.min(this.sx, this.nextPlane + PLANES_PER_TICK);
@@ -102,10 +97,10 @@ public final class RoomGrid {
     /** Reads every remaining plane in one go, for a fight that resumes after a restart. */
     public void buildNow(Level level, int chestMobMargin, int chestPadClearance) {
         long start = System.nanoTime();
-        while (!this.ready && !this.failed) {
+        while (!this.ready) {
             this.tickBuild(level, chestMobMargin, chestPadClearance);
         }
-        WoldLogger.info("Extraction site {} room grid built in one tick ({} ms).", this.siteIndex, (System.nanoTime() - start) / 1_000_000L);
+        WoldLogger.debug("Extraction site {} room grid built in one tick ({} ms).", this.siteIndex, (System.nanoTime() - start) / 1_000_000L);
     }
 
     private void readPlanes(Level level, int fromX, int toX) {
@@ -217,7 +212,7 @@ public final class RoomGrid {
                 widest = Math.max(widest, value);
             }
         }
-        WoldLogger.info("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots, {} of {} caves usable ({} ms).",
+        WoldLogger.debug("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots, {} of {} caves usable ({} ms).",
                 this.siteIndex, this.lane.size(), this.wide.size(), widest, this.chestCandidates.length,
                 this.caves.size() - this.badCaves.size(), this.caves.size(), (System.nanoTime() - start) / 1_000_000L);
         if (this.lane.isEmpty()) {

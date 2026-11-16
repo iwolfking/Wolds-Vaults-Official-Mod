@@ -83,6 +83,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
                 || this.SITES == null || this.FLUID_PAYOUT == null) {
             return "a DEFAULT_EXTRACTOR, DURABILITY, DEPLOYMENT, CELLS, SITES or FLUID_PAYOUT block is missing";
         }
+        if (this.DEPLOYMENT.shieldReactivationTicks < 0) {
+            return "DEPLOYMENT.shieldReactivationTicks is negative";
+        }
         if (this.JOBS == null || this.JOBS.isEmpty()) {
             return "it defines no JOBS";
         }
@@ -146,6 +149,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
                 || payout.tierWindows == null) {
             return "job " + id + " has a missing rarity or tier window table";
         }
+        if ("maps".equals(payout.type) && payout.tierWindows.stream().noneMatch(window -> window.minPower <= job.minPower)) {
+            return "maps job " + id + " has no tier window at or below its minimum power " + job.minPower;
+        }
         return null;
     }
 
@@ -167,7 +173,8 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         }
         RamEntry ram = waves.ram;
         if (ram == null || ram.entity == null || ram.hpReference == null || ram.maxPerRoom < 0 || ram.maxPerTarget < 0
-                || (ram.maxPerRoom > 0 && (ram.entity.isEmpty() || ram.killSeconds <= 0.0F || ram.hpEliteMultiple <= 0.0F || ram.speedMultiplier <= 0.0F))) {
+                || (ram.maxPerRoom > 0 && (ram.entity.isEmpty() || ram.killSeconds <= 0.0F || ram.hpEliteMultiple <= 0.0F || ram.speedMultiplier <= 0.0F
+                || ram.knockbackResistance < 0.0F || ram.knockbackResistance > 1.0F))) {
             return "WAVES ram is missing, has negative caps, or is enabled without an entity, kill time, HP multiple or speed";
         }
         if (waves.tiers == null || waves.tiers.isEmpty()) {
@@ -230,6 +237,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     public static class DeploymentEntry {
         @Expose public float initialEnergyFraction;
         @Expose public float healFractionOnJobComplete;
+        @Expose public int shieldReactivationTicks;
     }
 
     /**
@@ -448,6 +456,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public String hpReference;
         @Expose public float hpEliteMultiple;
         @Expose public float speedMultiplier;
+        @Expose public float knockbackResistance;
         @Expose public float killSeconds;
         @Expose public int firstTicks;
         @Expose public int maxPerRoom;
@@ -471,7 +480,6 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public int liveMobCapPerVault;
         @Expose public List<Integer> focusOrder = new ArrayList<>();
         @Expose public boolean surgeSiege;
-        @Expose public boolean spawnDebugLog;
         @Expose public LanesEntry lanes;
         @Expose public RamEntry ram;
         @Expose public StatFloorEntry statFloor;
@@ -511,7 +519,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     /**
      * Cache chests placed in a site room while its main rig drills: every {@code intervalTicks} a batch of
      * {@code batchMin..batchMax} chests, at most {@code cap} standing at once. Spots are standable, player-reachable cells
-     * at least {@code mobMargin} columns from any mob lane and {@code pedestalClearance} from pads and room walls. In
+     * at least {@code mobMargin} columns from any mob lane and {@code padClearance} from pads and room walls. In
      * cluster mode a batch is one pile within {@code clusterRadius} of a centre that keeps {@code clusterSpacing} from
      * other chests; chests stay {@code minSpacing} apart and centres {@code playerClearance} from players. A player break
      * drops one power cell with chance {@code cellChance}.
@@ -523,7 +531,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public int cap;
         @Expose public double cellChance;
         @Expose public int mobMargin;
-        @Expose public int pedestalClearance;
+        @Expose public int padClearance;
         @Expose public int minSpacing;
         @Expose public int playerClearance;
         @Expose public boolean cluster;

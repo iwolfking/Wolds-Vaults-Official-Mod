@@ -8,12 +8,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import xyz.iwolfking.woldsvaults.blocks.tiles.VaultFabricatorTileEntity;
 import xyz.iwolfking.woldsvaults.client.screens.IndustrialStyle;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.extraction.costs.ExtractorCosts;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorTooltips;
 import xyz.iwolfking.woldsvaults.items.FabricationPatternItem;
 
 import javax.annotation.Nullable;
@@ -99,12 +98,12 @@ public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricat
         ExtractorCostsConfig.ComponentEntry recipe = this.recipe();
         int energy = this.menu.data(VaultFabricatorTileEntity.DATA_ENERGY);
         int fluid = this.menu.data(VaultFabricatorTileEntity.DATA_FLUID);
-        float feMarker = recipe == null ? -1.0F : (float) recipe.fe / VaultFabricatorTileEntity.ENERGY_CAPACITY;
-        float fluidMarker = recipe == null || recipe.fluidAmount <= 0 ? -1.0F : (float) recipe.fluidAmount / VaultFabricatorTileEntity.TANK_CAPACITY;
+        float feMarker = recipe == null ? -1.0F : (float) recipe.fe / energyCapacity();
+        float fluidMarker = recipe == null || recipe.fluidAmount <= 0 ? -1.0F : (float) recipe.fluidAmount / tankCapacity();
         IndustrialStyle.gauge(pose, x + FE_X, y + GAUGE_Y0, x + FE_X + GAUGE_W, y + GAUGE_Y1,
-                (float) energy / VaultFabricatorTileEntity.ENERGY_CAPACITY, IndustrialStyle.FE_GAUGE, feMarker);
+                (float) energy / energyCapacity(), IndustrialStyle.FE_GAUGE, feMarker);
         IndustrialStyle.gauge(pose, x + FLUID_X, y + GAUGE_Y0, x + FLUID_X + GAUGE_W, y + GAUGE_Y1,
-                (float) fluid / VaultFabricatorTileEntity.TANK_CAPACITY, IndustrialStyle.WATER_GAUGE, fluidMarker);
+                (float) fluid / tankCapacity(), IndustrialStyle.WATER_GAUGE, fluidMarker);
 
         IndustrialStyle.bigSlot(pose, x + OUT_X, y + OUT_Y);
         int ticks = this.menu.data(VaultFabricatorTileEntity.DATA_TICKS);
@@ -144,7 +143,7 @@ public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricat
             return;
         }
         boolean hasFluid = recipe.fluid != null && !recipe.fluid.isEmpty() && recipe.fluidAmount > 0;
-        this.font.drawShadow(pose, this.font.plainSubstrByWidth(compactEnergy(recipe.fe) + " FE", room), tx, ty + 9, IndustrialStyle.RED_TEXT);
+        this.font.drawShadow(pose, this.font.plainSubstrByWidth(ExtractorTooltips.formatCompact(recipe.fe) + " FE", room), tx, ty + 9, IndustrialStyle.RED_TEXT);
         this.font.drawShadow(pose, this.font.plainSubstrByWidth(hasFluid ? fluidName(recipe.fluid) : "No fluid", room), tx, ty + 18,
                 hasFluid ? IndustrialStyle.BLUE_TEXT : IndustrialStyle.TEXT_DIM);
         this.font.drawShadow(pose, this.font.plainSubstrByWidth(hasFluid ? String.format("%,d mB", recipe.fluidAmount) : "- mB", room), tx, ty + 27,
@@ -152,20 +151,16 @@ public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricat
         this.font.drawShadow(pose, this.font.plainSubstrByWidth(String.format("%.1f s", recipe.ticks / 20.0F), room), tx, ty + 36, IndustrialStyle.TEXT);
     }
 
-    /** {@code 30k}, {@code 1.25M}; exact below ten thousand. */
-    static String compactEnergy(long value) {
-        if (value >= 1_000_000L) {
-            return String.format("%.2fM", value / 1_000_000.0D).replace(".00M", "M");
-        }
-        if (value >= 10_000L) {
-            return (value / 1000L) + "k";
-        }
-        return String.format("%,d", value);
+    private static String fluidName(String id) {
+        return new ExtractorCosts.CostLine(id, true, 0L).displayName().getString();
     }
 
-    private static String fluidName(String id) {
-        Fluid fluid = ExtractorCosts.resolveFluid(id);
-        return fluid == null ? id : new FluidStack(fluid, 1000).getDisplayName().getString();
+    private static int energyCapacity() {
+        return Math.max(1, VaultFabricatorTileEntity.fabricatorConfig().energyCapacity);
+    }
+
+    private static int tankCapacity() {
+        return Math.max(1, VaultFabricatorTileEntity.fabricatorConfig().tankCapacity);
     }
 
     private boolean over(int mouseX, int mouseY, int x0, int y0, int x1, int y1) {
@@ -181,7 +176,7 @@ public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricat
         if (this.over(mouseX, mouseY, FE_X, GAUGE_Y0, FE_X + GAUGE_W, GAUGE_Y1)) {
             List<Component> lines = new ArrayList<>();
             lines.add(new TextComponent(String.format("%,d / %,d FE", this.menu.data(VaultFabricatorTileEntity.DATA_ENERGY),
-                    VaultFabricatorTileEntity.ENERGY_CAPACITY)));
+                    energyCapacity())));
             if (recipe != null) {
                 lines.add(new TextComponent(String.format("Recipe needs %,d FE", recipe.fe)));
             }
@@ -191,7 +186,7 @@ public class VaultFabricatorScreen extends AbstractContainerScreen<VaultFabricat
         if (this.over(mouseX, mouseY, FLUID_X, GAUGE_Y0, FLUID_X + GAUGE_W, GAUGE_Y1)) {
             List<Component> lines = new ArrayList<>();
             lines.add(new TextComponent(String.format("%,d / %,d mB", this.menu.data(VaultFabricatorTileEntity.DATA_FLUID),
-                    VaultFabricatorTileEntity.TANK_CAPACITY)));
+                    tankCapacity())));
             if (recipe != null && recipe.fluid != null && !recipe.fluid.isEmpty() && recipe.fluidAmount > 0) {
                 lines.add(new TextComponent(String.format("Recipe needs %,d mB %s", recipe.fluidAmount, fluidName(recipe.fluid))));
             }

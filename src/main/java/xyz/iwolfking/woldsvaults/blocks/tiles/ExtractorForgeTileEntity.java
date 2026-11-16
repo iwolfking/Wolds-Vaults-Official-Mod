@@ -47,8 +47,8 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * deposit slots of the menu, item pipes, fluid pipes and filled buckets used on the forge all pay into it, and
  * nothing is refunded or taken back out. Once every line is paid, Fabricate runs the job: it draws
  * {@code FORGE.fePerTickPerQuality} × quality FE per tick for {@code FORGE.secondsPerQuality} × quality seconds
- * from the energy buffer, stalling while the buffer is short, and then puts the finished part in slot 0. Slots 2–8
- * held items in the old deposit flow; anything still in them is dropped at the forge on the first tick.
+ * from the energy buffer, stalling while the buffer is short, and then puts the finished part in slot 0. Slots 2–8 hold
+ * nothing; on the first tick anything found in them, or a non-blueprint in slot 1, is returned to the world.
  */
 public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements MenuProvider, ExtractorStationTile {
     public static final int BLUEPRINT_SLOT = 0;
@@ -65,7 +65,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     public static final int DATA_COUNT = 6;
 
     private final BaseItemStackHandler inventory;
-    private final ForgeEnergy energy = new ForgeEnergy();
+    private final ExtractorStationEnergy energy = new ExtractorStationEnergy(() -> forgeConfig().energyCapacity, () -> forgeConfig().energyInput, this::setChanged);
     private boolean fabricating;
     private int progress;
     private int totalTicks;
@@ -77,7 +77,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     private final ContainerData data = new WideContainerData(
             () -> this.progress,
             () -> this.fabricating ? this.totalTicks : this.previewTicks(),
-            () -> this.energy.stored,
+            this.energy::getEnergyStored,
             () -> this.energy.getMaxEnergyStored(),
             () -> this.fabricating ? this.fePerTick : this.previewFePerTick(),
             () -> this.fabricating ? 1 : 0);
@@ -116,13 +116,20 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         return ModConfigs.EXTRACTOR_COSTS.FORGE;
     }
 
-    /** The staged blueprint's cost ledger, or null when nothing is staged: only a staged blueprint takes payment. */
+    /**
+     * The staged blueprint's cost ledger, or null when nothing is staged: only a staged blueprint takes payment. On the
+     * server a staged blueprint with no cost gets one rolled first.
+     */
     @Nullable
     public CompoundTag ledger() {
-        return stagedLedger(this.inventory.getStackInSlot(STAGED_SLOT));
+        ItemStack staged = this.inventory.getStackInSlot(STAGED_SLOT);
+        if (this.level == null || this.level.isClientSide() || stagedLedger(staged) == null) {
+            return stagedLedger(staged);
+        }
+        return ExtractorBlueprintItem.ensureLedger(staged);
     }
 
-    /** The cost ledger of a staged blueprint stack, or null if the stack is not an identified blueprint. */
+    /** The cost ledger of a blueprint stack as stored, or null if the stack is not an identified blueprint. */
     @Nullable
     public static CompoundTag stagedLedger(ItemStack staged) {
         if (!(staged.getItem() instanceof ExtractorBlueprintItem) || !ExtractorBlueprintItem.isIdentified(staged)) {
@@ -170,7 +177,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.progress = tag.getInt("Progress");
         this.totalTicks = tag.getInt("TotalTicks");
         this.fePerTick = tag.getInt("FePerTick");
-        this.energy.stored = Math.max(0, tag.getInt("Energy"));
+        this.energy.load(tag.getInt("Energy"));
         FluidStack legacy = FluidStack.loadFluidStackFromNBT(tag.getCompound("Tank"));
         if (!legacy.isEmpty()) {
             WoldLogger.error("Extraction Forge at {} held {} mB of {} in its old tank; the forge no longer has a tank and the fluid was discarded.",
@@ -185,7 +192,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         tag.putInt("Progress", this.progress);
         tag.putInt("TotalTicks", this.totalTicks);
         tag.putInt("FePerTick", this.fePerTick);
-        tag.putInt("Energy", this.energy.stored);
+        tag.putInt("Energy", this.energy.getEnergyStored());
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, ExtractorForgeTileEntity tile) {
@@ -204,10 +211,9 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
             this.stopJob();
             return;
         }
-        if (this.energy.stored < this.fePerTick) {
+        if (!this.energy.draw(this.fePerTick)) {
             return;
         }
-        this.energy.stored -= this.fePerTick;
         this.progress++;
         this.setChanged();
         if (this.progress >= this.totalTicks) {
@@ -226,7 +232,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
             this.inventory.setStackInSlot(BLUEPRINT_SLOT, blueprint);
         } else {
             this.inventory.setStackInSlot(BLUEPRINT_SLOT, ExtractorPartItem.create(partItem, part));
-            WoldLogger.info("Extraction Forge at {} fabricated {} ({}) in {} ticks at {} FE/t.",
+            WoldLogger.debug("Extraction Forge at {} fabricated {} ({}) in {} ticks at {} FE/t.",
                     this.getBlockPos(), part.name, part.describeOrigin(), this.totalTicks, this.fePerTick);
         }
         this.inventory.setStackInSlot(STAGED_SLOT, ItemStack.EMPTY);
@@ -241,7 +247,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.markDirtyAndDispatch();
     }
 
-    /** Slots 2–8 and a part in slot 1 come from the old deposit/output flow; return them to the world. */
+    /** Returns anything in slots 2–8, and a non-blueprint in slot 1, to the blueprint slot or the world. */
     private void clearLegacyContents() {
         if (this.level == null) {
             return;
@@ -369,6 +375,10 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         if (this.level == null || this.level.isClientSide()) {
             return;
         }
+        ItemStack candidate = this.inventory.getStackInSlot(BLUEPRINT_SLOT);
+        if (candidate.getItem() instanceof ExtractorBlueprintItem) {
+            ExtractorBlueprintItem.ensureLedger(candidate);
+        }
         String refusal = this.stageRefusal();
         if (refusal != null) {
             tell(player, refusal);
@@ -379,7 +389,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.inventory.setStackInSlot(BLUEPRINT_SLOT, ItemStack.EMPTY);
         this.markDirtyAndDispatch();
         PartData part = ExtractorBlueprintItem.getPart(blueprint);
-        WoldLogger.info("{} staged {} at the Extraction Forge at {}.", player.getName().getString(), part.name, this.getBlockPos());
+        WoldLogger.debug("{} staged {} at the Extraction Forge at {}.", player.getName().getString(), part.name, this.getBlockPos());
     }
 
     /** Null when Fabricate may fire, else the reason it may not. */
@@ -420,53 +430,12 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.progress = 0;
         this.fabricating = true;
         this.markDirtyAndDispatch();
-        WoldLogger.info("{} started fabricating at the Extraction Forge at {}: Q{}, {} ticks at {} FE/t.",
+        WoldLogger.debug("{} started fabricating at the Extraction Forge at {}: Q{}, {} ticks at {} FE/t.",
                 player.getName().getString(), this.getBlockPos(), quality, this.totalTicks, this.fePerTick);
     }
 
     private static void tell(Player player, String message) {
         player.displayClientMessage(new TextComponent(message).withStyle(ChatFormatting.YELLOW), false);
-    }
-
-    /** The forge's FE buffer; capacity and input rate come from the FORGE block of extractor_costs. */
-    private class ForgeEnergy implements IEnergyStorage {
-        private int stored;
-
-        @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
-            int room = Math.max(0, this.getMaxEnergyStored() - this.stored);
-            int received = Math.min(room, Math.min(maxReceive, forgeConfig().energyInput));
-            if (received > 0 && !simulate) {
-                this.stored += received;
-                ExtractorForgeTileEntity.this.setChanged();
-            }
-            return Math.max(0, received);
-        }
-
-        @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
-            return 0;
-        }
-
-        @Override
-        public int getEnergyStored() {
-            return this.stored;
-        }
-
-        @Override
-        public int getMaxEnergyStored() {
-            return Math.max(0, forgeConfig().energyCapacity);
-        }
-
-        @Override
-        public boolean canExtract() {
-            return false;
-        }
-
-        @Override
-        public boolean canReceive() {
-            return true;
-        }
     }
 
     /** What pipes see: slot 0 hands out a finished part; every other slot pays into the staged blueprint's ledger. */

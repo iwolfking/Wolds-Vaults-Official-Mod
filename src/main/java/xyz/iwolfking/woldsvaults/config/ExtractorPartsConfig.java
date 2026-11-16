@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
 import iskallia.vault.gear.VaultGearRarity;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStat;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -21,11 +23,6 @@ import java.util.Map;
  * costs are deliberately absent; they live in {@link ExtractorCostsConfig}.
  */
 public class ExtractorPartsConfig extends Config implements WoldsTable {
-    public static final String SERIES_WOODEN = "wooden";
-    public static final String SERIES_CHROMATIC = "chromatic";
-    public static final String SERIES_EXPERIMENTAL = "experimental";
-    public static final String SERIES_ARMORED = "armored";
-    public static final String SERIES_ECHOSTEEL = "echosteel";
     public static final List<String> RARITIES = List.of("scrappy", "common", "rare", "epic", "omega");
     public static final List<String> AFFIX_POOL_NAMES = List.of("hardware_prefix", "hardware_suffix", "mechanical_prefix", "mechanical_suffix");
 
@@ -71,7 +68,12 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
 
     public List<String> getSeriesFor(VaultGearRarity rarity) {
         List<String> allowed = SERIES_BY_RARITY.get(rarityKey(rarity));
-        return allowed == null ? new ArrayList<>() : allowed;
+        if (allowed == null) {
+            WoldLogger.errorOnce("extractor_parts.series_by_rarity." + rarityKey(rarity),
+                    "extractor_parts has no SERIES_BY_RARITY entry for {}; no series can roll at it.", rarityKey(rarity));
+            return new ArrayList<>();
+        }
+        return allowed;
     }
 
     @Nullable
@@ -81,11 +83,34 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
     }
 
     public int getAffixCount(VaultGearRarity rarity) {
-        return AFFIX_COUNT.getOrDefault(rarityKey(rarity), 0);
+        Integer count = AFFIX_COUNT.get(rarityKey(rarity));
+        if (count == null) {
+            WoldLogger.errorOnce("extractor_parts.affix_count." + rarityKey(rarity),
+                    "extractor_parts has no AFFIX_COUNT for {}; parts of that rarity roll no affixes.", rarityKey(rarity));
+            return 0;
+        }
+        return count;
     }
 
     public int getRarityDropWeight(VaultGearRarity rarity) {
-        return RARITY_DROP_WEIGHTS.getOrDefault(rarityKey(rarity), 0);
+        Integer weight = RARITY_DROP_WEIGHTS.get(rarityKey(rarity));
+        if (weight == null) {
+            WoldLogger.errorOnce("extractor_parts.drop_weight." + rarityKey(rarity),
+                    "extractor_parts has no RARITY_DROP_WEIGHTS entry for {}; blueprints never drop at it.", rarityKey(rarity));
+            return 0;
+        }
+        return weight;
+    }
+
+    /** Whether more than one of this attachment may sit on one extractor; an unknown attachment does not stack. */
+    public boolean isStackable(String attachmentId) {
+        AttachmentEntry entry = ATTACHMENTS.get(attachmentId);
+        if (entry == null) {
+            WoldLogger.errorOnce("extractor_parts.attachment." + attachmentId,
+                    "extractor_parts has no attachment '{}'; it is treated as not stackable.", attachmentId);
+            return false;
+        }
+        return entry.stackable;
     }
 
     public static class Range {
@@ -107,6 +132,7 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
 
     public static class SeriesEntry {
         @Expose public String name;
+        @Expose public int color;
         @Expose public String rigSuffix;
         @Expose public LinkedHashMap<String, String> partNames = new LinkedHashMap<>();
         @Expose public LinkedHashMap<String, String> rigBones = new LinkedHashMap<>();
@@ -114,8 +140,9 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         public SeriesEntry() {
         }
 
-        public SeriesEntry(String name, String rigSuffix, String chassis, String core, String legs, String shield, String radiator, String scanner) {
+        public SeriesEntry(String name, int color, String rigSuffix, String chassis, String core, String legs, String shield, String radiator, String scanner) {
             this.name = name;
+            this.color = color;
             this.rigSuffix = rigSuffix;
             this.rigBones.put(ExtractorPartType.CHASSIS.getId(), chassis);
             this.rigBones.put(ExtractorPartType.POWER_CORE.getId(), core);
@@ -123,10 +150,6 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
             this.rigBones.put(ExtractorPartType.SHIELD_ARRAY.getId(), shield);
             this.rigBones.put(ExtractorPartType.RADIATOR.getId(), radiator);
             this.rigBones.put(ExtractorPartType.SCANNER.getId(), scanner);
-        }
-
-        public String partName(ExtractorPartType type, String fallback) {
-            return this.partNames.getOrDefault(type.getId(), fallback);
         }
     }
 
@@ -245,23 +268,7 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         @Expose public LinkedHashMap<String, Float> rarityWidth = new LinkedHashMap<>();
         @Expose public float widthBase;
         @Expose public float widthSlope;
-        @Expose public float costExponent;
-        @Expose public float costTailRate;
         @Expose public float rollNoise;
-        @Expose public List<BucketEntry> buckets = new ArrayList<>();
-    }
-
-    public static class BucketEntry {
-        @Expose public int maxQuality;
-        @Expose public String label;
-
-        public BucketEntry() {
-        }
-
-        public BucketEntry(int maxQuality, String label) {
-            this.maxQuality = maxQuality;
-            this.label = label;
-        }
     }
 
     public static class ScalesEntry {
@@ -319,12 +326,16 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         if (this.SERIES == null || this.SERIES_BY_RARITY == null || this.RARITY_DROP_WEIGHTS == null) {
             return "the SERIES, SERIES_BY_RARITY or RARITY_DROP_WEIGHTS block is missing";
         }
-        for (String id : List.of(SERIES_WOODEN, SERIES_CHROMATIC, SERIES_EXPERIMENTAL, SERIES_ARMORED, SERIES_ECHOSTEEL)) {
-            SeriesEntry series = this.SERIES.get(id);
+        if (this.SERIES.isEmpty()) {
+            return "SERIES defines no series";
+        }
+        for (Map.Entry<String, SeriesEntry> entry : this.SERIES.entrySet()) {
+            String id = entry.getKey();
+            SeriesEntry series = entry.getValue();
             if (series == null || series.name == null || series.rigSuffix == null || series.partNames == null || series.rigBones == null) {
-                return "series " + id + " is missing or has no name, rig suffix, part names or rig bones";
+                return "series " + id + " has no name, rig suffix, part names or rig bones";
             }
-            for (ExtractorPartType type : hardwareTypes()) {
+            for (ExtractorPartType type : seriesTypes()) {
                 if (!series.partNames.containsKey(type.getId()) || !series.rigBones.containsKey(type.getId())) {
                     return "series " + id + " has no part name or rig bone for " + type.getId();
                 }
@@ -355,7 +366,7 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         if (this.PARTS == null || this.DRILL_CLASSES == null || this.DRILL_CLASSES.isEmpty()) {
             return "the PARTS block is missing or DRILL_CLASSES is missing or empty";
         }
-        for (ExtractorPartType type : hardwareTypes()) {
+        for (ExtractorPartType type : seriesTypes()) {
             for (String series : this.SERIES.keySet()) {
                 String problem = checkRoll(type.getId() + "/" + series, this.getRoll(type, series));
                 if (problem != null) {
@@ -420,25 +431,19 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
     @Nullable
     private String checkCurves() {
         QualityEntry quality = this.QUALITY;
-        if (quality == null || quality.buckets == null || quality.buckets.isEmpty()
-                || quality.rarityMult == null || quality.rarityFlat == null || quality.rarityWidth == null) {
-            return "the QUALITY block is missing, has no buckets or is missing a rarity table";
+        if (quality == null || quality.rarityMult == null || quality.rarityFlat == null || quality.rarityWidth == null) {
+            return "the QUALITY block is missing or is missing a rarity table";
         }
         for (String rarity : RARITIES) {
             if (!quality.rarityMult.containsKey(rarity) || !quality.rarityFlat.containsKey(rarity) || !quality.rarityWidth.containsKey(rarity)) {
                 return "QUALITY has no multiplier, flat bonus or width for " + rarity;
             }
         }
-        for (BucketEntry bucket : quality.buckets) {
-            if (bucket == null || bucket.label == null) {
-                return "QUALITY has an unlabelled bucket";
-            }
-        }
         if (this.SCALES == null || this.SCALES.linear == null || this.SCALES.geometric == null) {
             return "the SCALES block or one of its families is missing";
         }
-        if (this.SLOTS == null || this.SLOTS.chassis == null || this.SLOTS.max < 0) {
-            return "the SLOTS block is missing or has a negative maximum";
+        if (this.SLOTS == null || this.SLOTS.chassis == null || this.SLOTS.max < 0 || this.SLOTS.max > ExtractorStats.MAX_HARDPOINTS) {
+            return "the SLOTS block is missing or its maximum is outside 0.." + ExtractorStats.MAX_HARDPOINTS;
         }
         for (String rarity : RARITIES) {
             if (!this.SLOTS.chassis.containsKey(rarity)) {
@@ -476,7 +481,8 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
         return value == null || value.isEmpty();
     }
 
-    private static List<ExtractorPartType> hardwareTypes() {
+    /** The part types that roll a series: every core part except the drill. */
+    public static List<ExtractorPartType> seriesTypes() {
         List<ExtractorPartType> types = new ArrayList<>();
         for (ExtractorPartType type : ExtractorPartType.values()) {
             if (type != ExtractorPartType.DRILL && type != ExtractorPartType.ATTACHMENT) {
@@ -484,10 +490,5 @@ public class ExtractorPartsConfig extends Config implements WoldsTable {
             }
         }
         return types;
-    }
-
-    public Map<String, Float> getSpecials(ExtractorPartType type, String key) {
-        PartRollEntry entry = getRoll(type, key);
-        return entry == null ? new LinkedHashMap<>() : entry.specials;
     }
 }

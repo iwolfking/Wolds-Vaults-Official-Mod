@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractorDeployment;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.GlyphAffixLine;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,7 +42,7 @@ public class ClientSetupEvents {
     private static void registerItemProperties(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ItemProperties.register(ModItems.EXTRACTOR, WoldsVaults.id("deployed"),
-                    (pStack, pLevel, pEntity, pSeed) -> ExtractorItem.isDeployed(pStack) ? 1.0F : 0.0F);
+                    (pStack, pLevel, pEntity, pSeed) -> ExtractorDeployment.isDeployed(pStack) ? 1.0F : 0.0F);
             ExtractorIcons.register();
             ItemProperties.register(ModBlocks.MOBILE_FLUID_TANK.asItem(), WoldsVaults.id("fill"),
                     (pStack, pLevel, pEntity, pSeed) -> MobileFluidTankItem.fillLevel(

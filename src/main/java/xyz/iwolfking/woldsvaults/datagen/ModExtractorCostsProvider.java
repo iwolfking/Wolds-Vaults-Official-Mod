@@ -4,7 +4,9 @@ import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.ComponentEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig.Ingredient;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
+import xyz.iwolfking.woldsvaults.init.ModItems;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,7 +24,8 @@ import java.util.Map;
  * row around their class recipe; attachments a housing and two POG. Vault Fabricator components have fixed recipes.
  */
 public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
-    private static final double K = Math.log(500.0D) / Math.log(21.0D);
+    private static final double QUALITY_STEP = 0.25D;
+    private static final double K = Math.log(500.0D) / Math.log(1.0D + 80.0D * QUALITY_STEP);
     private static final double GATE_ADV = 15.0D;
     private static final double GATE_APEX = 35.0D;
     private static final double RATE_GATED = 0.5D;
@@ -80,48 +83,46 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
                 "formation_core", "ae2:formation_core", "annihilation_core", "ae2:annihilation_core", "singularity", "ae2:singularity",
                 "capacitor_basic", "powah:capacitor_basic", "crystal_niotic", "powah:crystal_niotic",
                 "snowball", "minecraft:snowball", "glass", "minecraft:glass", "spyglass", "minecraft:spyglass");
-        items("blast_chamber", "woldsvaults:blast_chamber", "vpu", "woldsvaults:vault_processing_unit",
-                "field_emitter", "woldsvaults:field_emitter", "heat_exchanger", "woldsvaults:heat_exchanger",
-                "servo_actuator", "woldsvaults:servo_actuator", "spine", "woldsvaults:structural_spine",
-                "containment_ring", "woldsvaults:containment_ring", "phase_lattice", "woldsvaults:phase_lattice",
-                "cryo_exchanger", "woldsvaults:cryogenic_exchanger", "qpu", "woldsvaults:quantum_processing_unit");
+        for (String[] component : ModItems.EXTRACTOR_COMPONENT_IDS) {
+            ITEMS.put(component[0], WoldsVaults.id(component[1]).toString());
+        }
 
         fluids("molten_painite", "woldsvaults:molten_painite", "molten_echo", "woldsvaults:molten_echo",
                 "molten_larimar", "woldsvaults:molten_larimar", "coolant", "woldsvaults:coolant",
                 "prismatic_glue", "woldsvaults:prismatic_glue", "destabilized_redstone", "thermal:redstone",
                 "energized_glowstone", "thermal:glowstone", "water", "minecraft:water");
 
-        component("blast_chamber", "basic", "", 0, 40_000, 100,
+        component("blast_chamber", "", 0, 40_000, 100,
                 grid("D P P P D", "P o c o P", "P c R c P", "P o c o P", "D P P P D"),
                 legend("D", "vault_diamond", "P", "vault_plating", "c", "carbon", "o", "soot", "R", "rf_coil"));
-        component("vpu", "basic", "destabilized_redstone", 250, 50_000, 100,
+        component("vpu", "destabilized_redstone", 250, 50_000, 100,
                 grid(". D . D .", "s . L . s", "K s C s K", "s . E . s", ". . . . ."),
                 legend("D", "vault_diamond", "K", "knowledge_shard", "s", "silicon", "L", "logic_processor",
                         "C", "calculation_processor", "E", "engineering_processor"));
-        component("field_emitter", "basic", "energized_glowstone", 500, 60_000, 120,
+        component("field_emitter", "energized_glowstone", 500, 60_000, 120,
                 grid("e s e s e", "L D F D L", "e . V . e", "L P A . L", "e s e s e"),
                 legend("s", "signalum", "e", "vault_essence", "L", "perfect_larimar", "D", "vault_diamond",
                         "P", "pog", "F", "formation_core", "A", "annihilation_core", "V", "vpu"));
-        component("heat_exchanger", "basic", "water", 1000, 30_000, 100,
+        component("heat_exchanger", "water", 1000, 30_000, 100,
                 grid("c f c f c", "f I k I f", "L k S k L", "S I k I S", "c f c S c"),
                 legend("c", "copper_sheet", "f", "fluid_pipe", "I", "invar", "k", "chromatic_steel",
                         "L", "perfect_larimar", "S", "snowball"));
-        component("servo_actuator", "basic", "", 0, 20_000, 100,
+        component("servo_actuator", "", 0, 20_000, 100,
                 grid("a k a k a", "k i . i k", "a . . . a", "k i . i k", "a k a k a"),
                 legend("a", "andesite_alloy", "k", "ornate_chain", "i", "chromatic_iron"));
-        component("spine", "advanced", "", 0, 200_000, 300,
+        component("spine", "", 0, 200_000, 300,
                 grid("A . A . A", ". c X c .", "A . D . A", ". c X c .", "A . A . A"),
                 legend("A", "vault_alloy", "c", "carbon", "X", "servo_actuator", "D", "vault_diamond"));
-        component("containment_ring", "advanced", "", 0, 400_000, 400,
+        component("containment_ring", "", 0, 400_000, 400,
                 grid(". K . K .", ". n . n .", ". . B . .", ". n B n .", ". K . K ."),
                 legend("B", "blast_chamber", "K", "bcs", "n", "crystal_niotic"));
-        component("phase_lattice", "advanced", "", 0, 400_000, 400,
+        component("phase_lattice", "", 0, 400_000, 400,
                 grid(". g . g .", "o . F . o", ". . X . .", "o . F . o", ". g . g ."),
                 legend("g", "chromatic_gold", "o", "perfect_black_opal", "F", "field_emitter", "X", "echo_pog"));
-        component("cryo_exchanger", "advanced", "coolant", 250, 300_000, 300,
+        component("cryo_exchanger", "coolant", 250, 300_000, 300,
                 grid(". A . A .", ". . H . .", "L P . P L", ". . H . .", ". A . A ."),
                 legend("A", "vault_alloy", "H", "heat_exchanger", "L", "extraordinary_larimar", "P", "pog"));
-        component("qpu", "advanced", "destabilized_redstone", 500, 500_000, 400,
+        component("qpu", "destabilized_redstone", 500, 500_000, 400,
                 grid(". . . . .", ". V . V .", ". . X . .", ". V I V .", ". . . . ."),
                 legend("V", "vpu", "X", "singularity", "I", "pogominium"));
 
@@ -237,6 +238,7 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
     public void registerConfigs() {
         ExtractorCostsConfig table = new ExtractorCostsConfig();
         table.CURVE = new ExtractorCostsConfig.CurveEntry();
+        table.CURVE.qualityStep = QUALITY_STEP;
         table.CURVE.exponent = K;
         table.CURVE.gatedRate = RATE_GATED;
         table.CURVE.fabricatorRate = RATE_FABRICATOR;
@@ -261,10 +263,15 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
         table.FORGE.energyCapacity = 2_000_000;
         table.FORGE.energyInput = 100_000;
 
+        table.FABRICATOR = new ExtractorCostsConfig.FabricatorEntry();
+        table.FABRICATOR.energyCapacity = 2_000_000;
+        table.FABRICATOR.energyInput = 100_000;
+        table.FABRICATOR.tankCapacity = 8_000;
+
         table.PARTS = new LinkedHashMap<>();
         for (String part : PART_TYPES) {
             LinkedHashMap<String, List<Ingredient>> bySeries = new LinkedHashMap<>();
-            for (String series : ExtractorCostsConfig.SERIES) {
+            for (String series : ModExtractorPartsProvider.SERIES) {
                 bySeries.put(series, export(partRecipe(part, series)));
             }
             table.PARTS.put(part, bySeries);
@@ -295,6 +302,9 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
 
     /** Base material at the part type's share (or an override range), then the signature rows, then the shared rows. */
     private static List<Row> partRecipe(String part, String series) {
+        if (!BASE.containsKey(series) || !SIGNATURE.get(part).containsKey(series)) {
+            throw new IllegalStateException("No base material or signature rows for series '" + series + "' on " + part);
+        }
         List<Row> rows = new ArrayList<>();
         for (Row base : BASE.get(series)) {
             Row override = BASE_OVERRIDE.get(slot(part, series, base.key()));
@@ -385,9 +395,9 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
         return legend;
     }
 
-    private static void component(String key, String tier, String fluid, int fluidAmount, int fe, int ticks,
+    private static void component(String key, String fluid, int fluidAmount, int fe, int ticks,
                                   List<String> grid, Map<String, String> legend) {
-        COMPONENTS.put(key, new Component(tier, fluid, fluidAmount, fe, ticks, grid, legend));
+        COMPONENTS.put(key, new Component(fluid, fluidAmount, fe, ticks, grid, legend));
     }
 
     /** One cost row by ingredient key: its roll range at the gate and the gate (0 for ungated rows). */
@@ -395,12 +405,11 @@ public class ModExtractorCostsProvider extends AbstractWoldsTableProvider {
     }
 
     /** A Fabricator recipe with its legend and fluid still named by ingredient key. */
-    private record Component(String tier, String fluid, int fluidAmount, int fe, int ticks, List<String> grid, Map<String, String> legend) {
+    private record Component(String fluid, int fluidAmount, int fe, int ticks, List<String> grid, Map<String, String> legend) {
 
         ComponentEntry export(String key) {
             ComponentEntry entry = new ComponentEntry();
             entry.item = id(key);
-            entry.tier = this.tier;
             entry.grid = new ArrayList<>(this.grid);
             entry.legend = new LinkedHashMap<>();
             this.legend.forEach((symbol, ingredient) -> entry.legend.put(symbol, id(ingredient)));

@@ -4,7 +4,6 @@ import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.AffixEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.AttachmentEntry;
-import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.BucketEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.DrillClassEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.EffectEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig.PartRollEntry;
@@ -22,6 +21,13 @@ import java.util.List;
  * curve, the stat scaling families, attachment slots and the power cell restore base.
  */
 public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
+    private static final String WOODEN = "wooden";
+    private static final String CHROMATIC = "chromatic";
+    private static final String EXPERIMENTAL = "experimental";
+    private static final String ARMORED = "armored";
+    private static final String ECHOSTEEL = "echosteel";
+    /** Every series this table defines, in table order; the costs provider prices exactly these. */
+    public static final List<String> SERIES = List.of(WOODEN, CHROMATIC, EXPERIMENTAL, ARMORED, ECHOSTEEL);
 
     public ModExtractorPartsProvider(DataGenerator generator) {
         super(generator, "extraction/parts");
@@ -43,32 +49,32 @@ public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
         table.SLOTS = slots();
         table.CELL_RESTORE_BASE = 200.0F;
 
-        ExtractorPartsConfig.SeriesEntry wooden = new ExtractorPartsConfig.SeriesEntry("Wooden", "s1",
+        ExtractorPartsConfig.SeriesEntry wooden = new ExtractorPartsConfig.SeriesEntry("Wooden", 0xE0B573, "s1",
                 "chassis_s1_wooden", "core_s1_combustion", "legs_s1_wooden", "shield_s1_projector", "radiator_s1_grating", "scanner_s1_probe");
-        ExtractorPartsConfig.SeriesEntry chromatic = new ExtractorPartsConfig.SeriesEntry("Chromatic Steel", "s2",
+        ExtractorPartsConfig.SeriesEntry chromatic = new ExtractorPartsConfig.SeriesEntry("Chromatic Steel", 0xC1BFD0, "s2",
                 "chassis_s2_chromatic", "core_s2_turbine", "legs_s2_chromatic", "shield_s2_barrier", "radiator_s2_silkvent", "scanner_s2_calibrator");
-        ExtractorPartsConfig.SeriesEntry experimental = new ExtractorPartsConfig.SeriesEntry("Experimental", "s3",
+        ExtractorPartsConfig.SeriesEntry experimental = new ExtractorPartsConfig.SeriesEntry("Experimental", 0x6FD8F0, "s3",
                 "chassis_s3_suspension", "core_s3_fusion", "legs_s3_suspension", "shield_s3_voidbender", "radiator_s3_painite", "scanner_s3_wutodite");
-        ExtractorPartsConfig.SeriesEntry armored = new ExtractorPartsConfig.SeriesEntry("Armored", "s4",
+        ExtractorPartsConfig.SeriesEntry armored = new ExtractorPartsConfig.SeriesEntry("Armored", 0xD98A2B, "s4",
                 "chassis_s4_armored", "core_s4_etg", "legs_s4_armored", "shield_s4_impact", "radiator_s4_heatsink", "scanner_s4_vaulterite");
-        ExtractorPartsConfig.SeriesEntry echosteel = new ExtractorPartsConfig.SeriesEntry("Echosteel", "s5",
+        ExtractorPartsConfig.SeriesEntry echosteel = new ExtractorPartsConfig.SeriesEntry("Echosteel", 0xB36BFF, "s5",
                 "chassis_s5_echosteel", "core_s5_echofluid", "legs_s5_echosteel", "shield_s5_echoflare", "radiator_s5_evaporator", "scanner_s5_echolocator");
         names(wooden, "Wooden Chassis", "Combustion Engine", "Wooden Supports", "Shield Projector", "Iron Grating", "Radio Probe");
         names(chromatic, "Chromatic Steel Chassis", "Essence Turbine", "Chromatic Steel Legs", "Essence Barrier", "Silk Vents", "Chromatic Calibrator");
         names(experimental, "Suspension Chassis", "Fusion Core", "Suspension Rig", "Void Bender", "Liquid Painite Cycler", "Quantum Wutodite Sensor");
         names(armored, "Armored Chassis", "Echoreactive Thermoisotope Generator", "Armored Legs", "Impact Shield", "Heat Sink", "Vaulterite Detector");
         names(echosteel, "Echosteel Chassis", "Echofluid Reactor", "Echosteel Legs", "Echoflare Deflector", "Echo Evaporator", "Echolocator");
-        table.SERIES.put(ExtractorPartsConfig.SERIES_WOODEN, wooden);
-        table.SERIES.put(ExtractorPartsConfig.SERIES_CHROMATIC, chromatic);
-        table.SERIES.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, experimental);
-        table.SERIES.put(ExtractorPartsConfig.SERIES_ARMORED, armored);
-        table.SERIES.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, echosteel);
+        table.SERIES.put(WOODEN, wooden);
+        table.SERIES.put(CHROMATIC, chromatic);
+        table.SERIES.put(EXPERIMENTAL, experimental);
+        table.SERIES.put(ARMORED, armored);
+        table.SERIES.put(ECHOSTEEL, echosteel);
 
-        table.SERIES_BY_RARITY.put("scrappy", new ArrayList<>(List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC)));
-        table.SERIES_BY_RARITY.put("common", new ArrayList<>(List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC, ExtractorPartsConfig.SERIES_ARMORED)));
-        table.SERIES_BY_RARITY.put("rare", new ArrayList<>(List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC, ExtractorPartsConfig.SERIES_ARMORED, ExtractorPartsConfig.SERIES_EXPERIMENTAL)));
-        table.SERIES_BY_RARITY.put("epic", new ArrayList<>(List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC, ExtractorPartsConfig.SERIES_ARMORED, ExtractorPartsConfig.SERIES_EXPERIMENTAL, ExtractorPartsConfig.SERIES_ECHOSTEEL)));
-        table.SERIES_BY_RARITY.put("omega", new ArrayList<>(List.of(ExtractorPartsConfig.SERIES_WOODEN, ExtractorPartsConfig.SERIES_CHROMATIC, ExtractorPartsConfig.SERIES_ARMORED, ExtractorPartsConfig.SERIES_EXPERIMENTAL, ExtractorPartsConfig.SERIES_ECHOSTEEL)));
+        table.SERIES_BY_RARITY.put("scrappy", new ArrayList<>(List.of(WOODEN, CHROMATIC)));
+        table.SERIES_BY_RARITY.put("common", new ArrayList<>(List.of(WOODEN, CHROMATIC, ARMORED)));
+        table.SERIES_BY_RARITY.put("rare", new ArrayList<>(List.of(WOODEN, CHROMATIC, ARMORED, EXPERIMENTAL)));
+        table.SERIES_BY_RARITY.put("epic", new ArrayList<>(List.of(WOODEN, CHROMATIC, ARMORED, EXPERIMENTAL, ECHOSTEEL)));
+        table.SERIES_BY_RARITY.put("omega", new ArrayList<>(List.of(WOODEN, CHROMATIC, ARMORED, EXPERIMENTAL, ECHOSTEEL)));
 
         table.RARITY_DROP_WEIGHTS.put("scrappy", 45);
         table.RARITY_DROP_WEIGHTS.put("common", 25);
@@ -77,20 +83,20 @@ public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
         table.RARITY_DROP_WEIGHTS.put("omega", 5);
 
         LinkedHashMap<String, PartRollEntry> chassis = new LinkedHashMap<>();
-        chassis.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.HEALTH, 3000, 5000).stat(ExtractorStat.ARMOR, 2, 5).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 40000, 50000));
-        chassis.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.HEALTH, 3500, 6000).stat(ExtractorStat.ARMOR, 3, 8).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 45000, 55000));
-        chassis.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.HEALTH, 2000, 3500).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 30000, 40000)
+        chassis.put(WOODEN, new PartRollEntry().stat(ExtractorStat.HEALTH, 3000, 5000).stat(ExtractorStat.ARMOR, 2, 5).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 40000, 50000));
+        chassis.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.HEALTH, 3500, 6000).stat(ExtractorStat.ARMOR, 3, 8).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 45000, 55000));
+        chassis.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.HEALTH, 2000, 3500).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 30000, 40000)
                 .special(ExtractorStat.QUANTITY, 10).special(ExtractorStat.RARITY, 10));
-        chassis.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.HEALTH, 4000, 8000).stat(ExtractorStat.ARMOR, 5, 10).stat(ExtractorStat.DRAIN, 3, 4).stat(ExtractorStat.DURABILITY, 50000, 60000));
-        chassis.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.HEALTH, 3500, 6000).stat(ExtractorStat.ARMOR, 3, 8).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 60000, 70000));
+        chassis.put(ARMORED, new PartRollEntry().stat(ExtractorStat.HEALTH, 4000, 8000).stat(ExtractorStat.ARMOR, 5, 10).stat(ExtractorStat.DRAIN, 3, 4).stat(ExtractorStat.DURABILITY, 50000, 60000));
+        chassis.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.HEALTH, 3500, 6000).stat(ExtractorStat.ARMOR, 3, 8).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 60000, 70000));
         table.PARTS.put(ExtractorPartType.CHASSIS.getId(), chassis);
 
         LinkedHashMap<String, PartRollEntry> cores = new LinkedHashMap<>();
-        cores.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.POWER, 30, 40).stat(ExtractorStat.SPEED, 40, 60).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.ENERGY_CAPACITY, 700, 900).stat(ExtractorStat.ENERGY_PER_CELL, 15, 30).stat(ExtractorStat.DURABILITY, 10000, 15000));
-        cores.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.POWER, 35, 50).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 8, 10).stat(ExtractorStat.ENERGY_CAPACITY, 900, 1100).stat(ExtractorStat.ENERGY_PER_CELL, 75, 100).stat(ExtractorStat.DURABILITY, 15000, 20000));
-        cores.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.POWER, 50, 65).stat(ExtractorStat.SPEED, 55, 80).stat(ExtractorStat.DRAIN, 12, 15).stat(ExtractorStat.ENERGY_CAPACITY, 900, 1100).stat(ExtractorStat.ENERGY_PER_CELL, 50, 75).stat(ExtractorStat.DURABILITY, 8000, 10000));
-        cores.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.POWER, 35, 50).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 9, 11).stat(ExtractorStat.ENERGY_CAPACITY, 1400, 1800).stat(ExtractorStat.ENERGY_PER_CELL, 120, 150).stat(ExtractorStat.DURABILITY, 25000, 30000));
-        cores.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.POWER, 45, 55).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 10, 12).stat(ExtractorStat.ENERGY_CAPACITY, 1200, 1500).stat(ExtractorStat.ENERGY_PER_CELL, 100, 130).stat(ExtractorStat.DURABILITY, 25000, 30000));
+        cores.put(WOODEN, new PartRollEntry().stat(ExtractorStat.POWER, 30, 40).stat(ExtractorStat.SPEED, 40, 60).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.ENERGY_CAPACITY, 700, 900).stat(ExtractorStat.ENERGY_PER_CELL, 15, 30).stat(ExtractorStat.DURABILITY, 10000, 15000));
+        cores.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.POWER, 35, 50).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 8, 10).stat(ExtractorStat.ENERGY_CAPACITY, 900, 1100).stat(ExtractorStat.ENERGY_PER_CELL, 75, 100).stat(ExtractorStat.DURABILITY, 15000, 20000));
+        cores.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.POWER, 50, 65).stat(ExtractorStat.SPEED, 55, 80).stat(ExtractorStat.DRAIN, 12, 15).stat(ExtractorStat.ENERGY_CAPACITY, 900, 1100).stat(ExtractorStat.ENERGY_PER_CELL, 50, 75).stat(ExtractorStat.DURABILITY, 8000, 10000));
+        cores.put(ARMORED, new PartRollEntry().stat(ExtractorStat.POWER, 35, 50).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 9, 11).stat(ExtractorStat.ENERGY_CAPACITY, 1400, 1800).stat(ExtractorStat.ENERGY_PER_CELL, 120, 150).stat(ExtractorStat.DURABILITY, 25000, 30000));
+        cores.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.POWER, 45, 55).stat(ExtractorStat.SPEED, 50, 75).stat(ExtractorStat.DRAIN, 10, 12).stat(ExtractorStat.ENERGY_CAPACITY, 1200, 1500).stat(ExtractorStat.ENERGY_PER_CELL, 100, 130).stat(ExtractorStat.DURABILITY, 25000, 30000));
         table.PARTS.put(ExtractorPartType.POWER_CORE.getId(), cores);
 
         LinkedHashMap<String, PartRollEntry> drills = new LinkedHashMap<>();
@@ -108,36 +114,36 @@ public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
         table.PARTS.put(ExtractorPartType.DRILL.getId(), drills);
 
         LinkedHashMap<String, PartRollEntry> legs = new LinkedHashMap<>();
-        legs.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.HEALTH, 1000, 2000).stat(ExtractorStat.ARMOR, 0, 2).stat(ExtractorStat.DRAIN, -1, 0).stat(ExtractorStat.DURABILITY, 15000, 20000));
-        legs.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.HEALTH, 1500, 2500).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 20000, 25000));
-        legs.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.HEALTH, 500, 1000).stat(ExtractorStat.ARMOR, 0, 1).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 10000, 15000)
+        legs.put(WOODEN, new PartRollEntry().stat(ExtractorStat.HEALTH, 1000, 2000).stat(ExtractorStat.ARMOR, 0, 2).stat(ExtractorStat.DRAIN, -1, 0).stat(ExtractorStat.DURABILITY, 15000, 20000));
+        legs.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.HEALTH, 1500, 2500).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 20000, 25000));
+        legs.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.HEALTH, 500, 1000).stat(ExtractorStat.ARMOR, 0, 1).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 10000, 15000)
                 .special(ExtractorStat.QUANTITY, 10).special(ExtractorStat.RARITY, 10));
-        legs.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.HEALTH, 2000, 3000).stat(ExtractorStat.ARMOR, 3, 5).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 25000, 30000));
-        legs.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.HEALTH, 1250, 1750).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 30000, 35000));
+        legs.put(ARMORED, new PartRollEntry().stat(ExtractorStat.HEALTH, 2000, 3000).stat(ExtractorStat.ARMOR, 3, 5).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 25000, 30000));
+        legs.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.HEALTH, 1250, 1750).stat(ExtractorStat.ARMOR, 1, 3).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 30000, 35000));
         table.PARTS.put(ExtractorPartType.LEGS.getId(), legs);
 
         LinkedHashMap<String, PartRollEntry> shields = new LinkedHashMap<>();
-        shields.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.SHIELD, 600, 1200).stat(ExtractorStat.SHIELD_TOUGHNESS, 0, 1).stat(ExtractorStat.SHIELD_REGEN, 60, 80).stat(ExtractorStat.DRAIN, 3, 5).stat(ExtractorStat.DURABILITY, 10000, 15000));
-        shields.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.SHIELD, 750, 1500).stat(ExtractorStat.SHIELD_TOUGHNESS, 0, 1).stat(ExtractorStat.SHIELD_REGEN, 70, 90).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 12000, 17000));
-        shields.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.SHIELD, 1500, 2500).stat(ExtractorStat.SHIELD_TOUGHNESS, 2, 3).stat(ExtractorStat.SHIELD_REGEN, 125, 175).stat(ExtractorStat.DRAIN, 8, 12).stat(ExtractorStat.DURABILITY, 8000, 10000));
-        shields.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.SHIELD, 1000, 1750).stat(ExtractorStat.SHIELD_TOUGHNESS, 1, 2).stat(ExtractorStat.SHIELD_REGEN, 60, 80).stat(ExtractorStat.DRAIN, 5, 7).stat(ExtractorStat.DURABILITY, 15000, 20000));
-        shields.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.SHIELD, 800, 1600).stat(ExtractorStat.SHIELD_TOUGHNESS, 1, 2).stat(ExtractorStat.SHIELD_REGEN, 75, 100).stat(ExtractorStat.DRAIN, 5, 7).stat(ExtractorStat.DURABILITY, 16000, 20000));
+        shields.put(WOODEN, new PartRollEntry().stat(ExtractorStat.SHIELD, 600, 1200).stat(ExtractorStat.SHIELD_TOUGHNESS, 0, 1).stat(ExtractorStat.SHIELD_REGEN, 60, 80).stat(ExtractorStat.DRAIN, 3, 5).stat(ExtractorStat.DURABILITY, 10000, 15000));
+        shields.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.SHIELD, 750, 1500).stat(ExtractorStat.SHIELD_TOUGHNESS, 0, 1).stat(ExtractorStat.SHIELD_REGEN, 70, 90).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 12000, 17000));
+        shields.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.SHIELD, 1500, 2500).stat(ExtractorStat.SHIELD_TOUGHNESS, 2, 3).stat(ExtractorStat.SHIELD_REGEN, 125, 175).stat(ExtractorStat.DRAIN, 8, 12).stat(ExtractorStat.DURABILITY, 8000, 10000));
+        shields.put(ARMORED, new PartRollEntry().stat(ExtractorStat.SHIELD, 1000, 1750).stat(ExtractorStat.SHIELD_TOUGHNESS, 1, 2).stat(ExtractorStat.SHIELD_REGEN, 60, 80).stat(ExtractorStat.DRAIN, 5, 7).stat(ExtractorStat.DURABILITY, 15000, 20000));
+        shields.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.SHIELD, 800, 1600).stat(ExtractorStat.SHIELD_TOUGHNESS, 1, 2).stat(ExtractorStat.SHIELD_REGEN, 75, 100).stat(ExtractorStat.DRAIN, 5, 7).stat(ExtractorStat.DURABILITY, 16000, 20000));
         table.PARTS.put(ExtractorPartType.SHIELD_ARRAY.getId(), shields);
 
         LinkedHashMap<String, PartRollEntry> radiators = new LinkedHashMap<>();
-        radiators.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.DRAIN, -2, -1).stat(ExtractorStat.POWER, 5, 10).stat(ExtractorStat.SPEED, 3, 5).mult(ExtractorStat.DRAIN_MULT, 0.95F, 0.95F).stat(ExtractorStat.DURABILITY, 5000, 10000));
-        radiators.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.DRAIN, -3, -2).stat(ExtractorStat.POWER, 4, 8).stat(ExtractorStat.SPEED, 5, 10).mult(ExtractorStat.DRAIN_MULT, 0.95F, 0.95F).stat(ExtractorStat.DURABILITY, 8000, 16000));
-        radiators.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.DRAIN, -8, -6).stat(ExtractorStat.POWER, 5, 10).stat(ExtractorStat.SPEED, 0, 1).mult(ExtractorStat.DRAIN_MULT, 1.0F, 1.0F).mult(ExtractorStat.DURABILITY_DRAIN_MULT, 1.5F, 1.5F).stat(ExtractorStat.DURABILITY, 3000, 6000));
-        radiators.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.DRAIN, -1, 0).stat(ExtractorStat.POWER, 3, 6).stat(ExtractorStat.SPEED, 3, 5).mult(ExtractorStat.DRAIN_MULT, 0.85F, 0.85F).stat(ExtractorStat.DURABILITY, 10000, 20000));
-        radiators.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.DRAIN, -4, -2).stat(ExtractorStat.POWER, 4, 8).stat(ExtractorStat.SPEED, 4, 6).mult(ExtractorStat.DRAIN_MULT, 0.9F, 0.9F).stat(ExtractorStat.DURABILITY, 12000, 18000));
+        radiators.put(WOODEN, new PartRollEntry().stat(ExtractorStat.DRAIN, -2, -1).stat(ExtractorStat.POWER, 5, 10).stat(ExtractorStat.SPEED, 3, 5).mult(ExtractorStat.DRAIN_MULT, 0.95F, 0.95F).stat(ExtractorStat.DURABILITY, 5000, 10000));
+        radiators.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.DRAIN, -3, -2).stat(ExtractorStat.POWER, 4, 8).stat(ExtractorStat.SPEED, 5, 10).mult(ExtractorStat.DRAIN_MULT, 0.95F, 0.95F).stat(ExtractorStat.DURABILITY, 8000, 16000));
+        radiators.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.DRAIN, -8, -6).stat(ExtractorStat.POWER, 5, 10).stat(ExtractorStat.SPEED, 0, 1).mult(ExtractorStat.DRAIN_MULT, 1.0F, 1.0F).mult(ExtractorStat.DURABILITY_DRAIN_MULT, 1.5F, 1.5F).stat(ExtractorStat.DURABILITY, 3000, 6000));
+        radiators.put(ARMORED, new PartRollEntry().stat(ExtractorStat.DRAIN, -1, 0).stat(ExtractorStat.POWER, 3, 6).stat(ExtractorStat.SPEED, 3, 5).mult(ExtractorStat.DRAIN_MULT, 0.85F, 0.85F).stat(ExtractorStat.DURABILITY, 10000, 20000));
+        radiators.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.DRAIN, -4, -2).stat(ExtractorStat.POWER, 4, 8).stat(ExtractorStat.SPEED, 4, 6).mult(ExtractorStat.DRAIN_MULT, 0.9F, 0.9F).stat(ExtractorStat.DURABILITY, 12000, 18000));
         table.PARTS.put(ExtractorPartType.RADIATOR.getId(), radiators);
 
         LinkedHashMap<String, PartRollEntry> scanners = new LinkedHashMap<>();
-        scanners.put(ExtractorPartsConfig.SERIES_WOODEN, new PartRollEntry().stat(ExtractorStat.SPEED, 10, 15).stat(ExtractorStat.QUANTITY, 10, 15).stat(ExtractorStat.RARITY, 10, 25).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 5000, 10000));
-        scanners.put(ExtractorPartsConfig.SERIES_CHROMATIC, new PartRollEntry().stat(ExtractorStat.SPEED, 15, 20).stat(ExtractorStat.QUANTITY, 15, 25).stat(ExtractorStat.RARITY, 10, 15).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 8000, 16000));
-        scanners.put(ExtractorPartsConfig.SERIES_EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.SPEED, 20, 25).stat(ExtractorStat.QUANTITY, 30, 40).stat(ExtractorStat.RARITY, 15, 25).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 3000, 6000));
-        scanners.put(ExtractorPartsConfig.SERIES_ARMORED, new PartRollEntry().stat(ExtractorStat.SPEED, 0, 5).stat(ExtractorStat.QUANTITY, 10, 15).stat(ExtractorStat.RARITY, 30, 40).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 10000, 20000));
-        scanners.put(ExtractorPartsConfig.SERIES_ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.SPEED, 15, 20).stat(ExtractorStat.QUANTITY, 20, 30).stat(ExtractorStat.RARITY, 20, 30).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 12000, 18000));
+        scanners.put(WOODEN, new PartRollEntry().stat(ExtractorStat.SPEED, 10, 15).stat(ExtractorStat.QUANTITY, 10, 15).stat(ExtractorStat.RARITY, 10, 25).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 5000, 10000));
+        scanners.put(CHROMATIC, new PartRollEntry().stat(ExtractorStat.SPEED, 15, 20).stat(ExtractorStat.QUANTITY, 15, 25).stat(ExtractorStat.RARITY, 10, 15).stat(ExtractorStat.DRAIN, 1, 2).stat(ExtractorStat.DURABILITY, 8000, 16000));
+        scanners.put(EXPERIMENTAL, new PartRollEntry().stat(ExtractorStat.SPEED, 20, 25).stat(ExtractorStat.QUANTITY, 30, 40).stat(ExtractorStat.RARITY, 15, 25).stat(ExtractorStat.DRAIN, 4, 6).stat(ExtractorStat.DURABILITY, 3000, 6000));
+        scanners.put(ARMORED, new PartRollEntry().stat(ExtractorStat.SPEED, 0, 5).stat(ExtractorStat.QUANTITY, 10, 15).stat(ExtractorStat.RARITY, 30, 40).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 10000, 20000));
+        scanners.put(ECHOSTEEL, new PartRollEntry().stat(ExtractorStat.SPEED, 15, 20).stat(ExtractorStat.QUANTITY, 20, 30).stat(ExtractorStat.RARITY, 20, 30).stat(ExtractorStat.DRAIN, 2, 3).stat(ExtractorStat.DURABILITY, 12000, 18000));
         table.PARTS.put(ExtractorPartType.SCANNER.getId(), scanners);
 
         table.DRILL_CLASSES.put("standard", new DrillClassEntry("Standard", "arcane_essence", "drill_standard", "scrappy", 0.0F));
@@ -213,8 +219,6 @@ public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
         quality.kneeLogK = 21.0F;
         quality.widthBase = 0.5F;
         quality.widthSlope = 0.15F;
-        quality.costExponent = 1.6F;
-        quality.costTailRate = 1.12F;
         quality.rollNoise = 0.0F;
         quality.rarityMult.put("scrappy", 1.00F);
         quality.rarityMult.put("common", 1.03F);
@@ -231,10 +235,6 @@ public class ModExtractorPartsProvider extends AbstractWoldsTableProvider {
         quality.rarityWidth.put("rare", 1.25F);
         quality.rarityWidth.put("epic", 1.4F);
         quality.rarityWidth.put("omega", 1.6F);
-        quality.buckets.add(new BucketEntry(3, "Early"));
-        quality.buckets.add(new BucketEntry(8, "Mid"));
-        quality.buckets.add(new BucketEntry(20, "Late"));
-        quality.buckets.add(new BucketEntry(Integer.MAX_VALUE, "Endgame"));
         return quality;
     }
 

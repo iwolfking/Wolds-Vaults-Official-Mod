@@ -33,7 +33,7 @@ public enum ExtractorPartType {
         return this.displayName;
     }
 
-    /** Structural parts roll from the mechanical affix pools, hardware parts from the hardware pools. */
+    /** Structural parts roll from the mechanical affix pools; the other part types roll from the hardware affix pools. */
     public boolean isStructural() {
         return this.structural;
     }

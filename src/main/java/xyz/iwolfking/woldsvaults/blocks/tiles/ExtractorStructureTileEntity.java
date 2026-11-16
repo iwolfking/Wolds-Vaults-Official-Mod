@@ -52,7 +52,7 @@ public class ExtractorStructureTileEntity extends BlockEntity {
 
     /**
      * Every cell of the Extraction Forge forwards pipe capabilities to the controller, so the forge can be fed from
-     * any face. Assembler cells forward too, but the assembler itself exposes nothing.
+     * any face. Assembler cells expose nothing: the assembler is hand-operated.
      */
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {

@@ -30,7 +30,7 @@ public final class BlueprintDrops {
             for (ItemStack stack : data.getLoot()) {
                 if (stack.getItem() instanceof ExtractorBlueprintItem && !ExtractorBlueprintItem.hasQuality(stack)) {
                     ExtractorBlueprintItem.stamp(stack, points, RANDOM);
-                    WoldLogger.info("Stamped {} at {} item-rarity points: {} Q{}", stack.getItem().getRegistryName(),
+                    WoldLogger.debug("Stamped {} at {} item-rarity points: {} Q{}", stack.getItem().getRegistryName(),
                             (int) points, ExtractorBlueprintItem.getBlueprintRarity(stack), ExtractorBlueprintItem.getQuality(stack));
                 }
             }

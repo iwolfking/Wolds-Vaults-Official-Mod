@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Style;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 
 import javax.annotation.Nullable;
@@ -118,8 +119,8 @@ public class PartData {
     }
 
     /**
-     * Attachments rolled before they had a pool of their own stored their durability as an ordinary
-     * stat, which fed the extractor's pool. Those roll into the attachment's own pool here.
+     * Reads a part, or null when the tag is empty or names no part type. An attachment that stores its durability as an
+     * ordinary stat has it moved into its own wear pool. Unknown rarities, stats and affix stats are logged and skipped.
      */
     @Nullable
     public static PartData read(@Nullable CompoundTag tag) {
@@ -129,6 +130,7 @@ public class PartData {
         PartData data = new PartData();
         ExtractorPartType type = ExtractorPartType.byId(tag.getString("Type"));
         if (type == null) {
+            WoldLogger.errorOnce("part_data.type." + tag.getString("Type"), "Extractor part data names unknown part type '{}'; the part is ignored.", tag.getString("Type"));
             return null;
         }
         data.type = type;
@@ -136,7 +138,11 @@ public class PartData {
         data.drillClass = tag.getString("DrillClass");
         data.attachmentId = tag.getString("Attachment");
         VaultGearRarity rarity = ExtractorPartsConfig.rarityOf(tag.getString("Rarity"));
-        data.rarity = rarity == null ? VaultGearRarity.SCRAPPY : rarity;
+        if (rarity == null) {
+            WoldLogger.errorOnce("part_data.rarity." + tag.getString("Rarity"), "Extractor part data has unknown rarity '{}'; read as scrappy.", tag.getString("Rarity"));
+            rarity = VaultGearRarity.SCRAPPY;
+        }
+        data.rarity = rarity;
         data.quality = tag.getFloat("Quality");
         data.name = tag.getString("Name");
         data.baseName = tag.contains("BaseName") ? tag.getString("BaseName") : data.name;
@@ -156,7 +162,10 @@ public class PartData {
         for (int i = 0; i < affixList.size(); i++) {
             CompoundTag a = affixList.getCompound(i);
             ExtractorStat stat = ExtractorStat.byId(a.getString("Stat"));
-            if (stat != null) {
+            if (stat == null) {
+                WoldLogger.errorOnce("part_data.affix_stat." + a.getString("Stat"), "Extractor affix '{}' names unknown stat '{}'; the affix is ignored.",
+                        a.getString("Id"), a.getString("Stat"));
+            } else {
                 boolean prefix = a.contains("Prefix") ? a.getBoolean("Prefix") : !a.getString("Id").startsWith("of_");
                 data.affixes.add(new Affix(a.getString("Id"), stat, a.getFloat("Value"), a.getBoolean("Percent"), prefix));
             }
@@ -173,7 +182,9 @@ public class PartData {
     private static void readMap(CompoundTag tag, Map<ExtractorStat, Float> into) {
         for (String key : tag.getAllKeys()) {
             ExtractorStat stat = ExtractorStat.byId(key);
-            if (stat != null) {
+            if (stat == null) {
+                WoldLogger.errorOnce("part_data.stat." + key, "Extractor part data has unknown stat '{}'; it is ignored.", key);
+            } else {
                 into.put(stat, tag.getFloat(key));
             }
         }

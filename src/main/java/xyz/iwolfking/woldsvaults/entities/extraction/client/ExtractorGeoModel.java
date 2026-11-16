@@ -6,6 +6,7 @@ import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
+import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorStats;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
     @Override
     public void setCustomAnimations(ExtractorEntity entity, int instanceId, AnimationEvent animationEvent) {
         super.setCustomAnimations(entity, instanceId, animationEvent);
-        for (String bone : ExtractorEntity.ALL_VARIANT_BONES) {
+        for (String bone : ExtractorStats.allBones()) {
             this.setBoneHidden(bone, true);
         }
         String chassis = null;
@@ -80,10 +81,7 @@ public class ExtractorGeoModel extends AnimatedGeoModel<ExtractorEntity> {
      * Turns an attachment onto the hardpoint it occupies.
      *
      * <p>Every attachment is modelled once, on the +X mount, pivoted on the rig's centre
-     * line — so the other two hardpoints are the same bone turned about Y. That is what
-     * keeps ten attachments at fifty bones instead of a hundred and fifty. The angles here
-     * must match MOUNT_ROT90 in the generator's model.py, which pre-rotates the chassis
-     * blanks by the same amounts so a blank and the module replacing it land together.
+     * line; the other hardpoints turn the same bone about Y by the mount's angle.
      */
     private void setBoneRotationY(String name, float degrees) {
         IBone bone = this.getAnimationProcessor().getBone(name);

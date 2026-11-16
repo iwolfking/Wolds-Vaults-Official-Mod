@@ -24,8 +24,8 @@ import java.util.function.Supplier;
  * ever refunded; the ledger travels with the item it is written on.
  */
 public final class CostLedger {
-    public static final String COST = "Cost";
-    public static final String PAID = "Paid";
+    private static final String COST = "Cost";
+    private static final String PAID = "Paid";
 
     private CostLedger() {
     }
@@ -39,9 +39,20 @@ public final class CostLedger {
         root.put(PAID, new CompoundTag());
     }
 
-    public static void clear(CompoundTag root) {
-        root.remove(COST);
-        root.remove(PAID);
+    /** Replaces the owed lines and keeps everything already paid, so earlier payments count toward the new cost. */
+    public static void recost(CompoundTag root, List<CostLine> lines) {
+        CompoundTag paid = root.getCompound(PAID).copy();
+        root.put(COST, ExtractorCosts.writeLines(lines));
+        root.put(PAID, paid);
+    }
+
+    /** Marks every owed line as fully paid without taking anything. */
+    public static void payInFull(CompoundTag root) {
+        CompoundTag paid = new CompoundTag();
+        for (CostLine line : lines(root)) {
+            paid.putLong(line.key(), line.amount());
+        }
+        root.put(PAID, paid);
     }
 
     public static List<CostLine> lines(@Nullable CompoundTag root) {
@@ -151,34 +162,6 @@ public final class CostLedger {
             return true;
         }
         return false;
-    }
-
-    /** Lines that are still owed and resolvable, for automation and display. */
-    public static List<CostLine> openLines(@Nullable CompoundTag root) {
-        List<CostLine> open = new ArrayList<>();
-        if (!hasCost(root)) {
-            return open;
-        }
-        for (CostLine line : lines(root)) {
-            boolean resolvable = line.fluid() ? line.fluidType() != null : line.item() != null;
-            if (resolvable && remaining(root, line) > 0) {
-                open.add(line);
-            }
-        }
-        return open;
-    }
-
-    /** Overall progress 0..1 across every line, weighting each line equally. */
-    public static float progress(@Nullable CompoundTag root) {
-        List<CostLine> lines = lines(root);
-        if (lines.isEmpty()) {
-            return 0.0F;
-        }
-        float sum = 0.0F;
-        for (CostLine line : lines) {
-            sum += line.amount() <= 0 ? 1.0F : Math.min(1.0F, (float) paid(root, line) / line.amount());
-        }
-        return sum / lines.size();
     }
 
     /** An insert-only item handler over the ledger: one virtual slot per item line, each accepting only what is owed. */

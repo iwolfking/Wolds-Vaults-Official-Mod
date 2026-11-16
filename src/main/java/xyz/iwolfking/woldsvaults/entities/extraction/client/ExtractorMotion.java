@@ -5,14 +5,9 @@ import java.util.regex.Pattern;
 /**
  * Procedural motion for the extractor rig, keyed on bone-name suffixes.
  *
- * <p>Animation files address bones by name, and the rule that keeps 33 part variants
- * affordable is that the shipped animations only ever touch slot bones and the fixed
- * drive. If every scanner and radiator needed its own track, each new part would become
- * animation work. So a part opts into motion purely by NAMING a bone with a suffix, and
- * this class applies the transform after the controllers have run.
- *
- * <p>These constants are mirrored exactly in the art generator's {@code tools/motion.py},
- * which is what the review renders are produced from. Change one, change the other.
+ * <p>The animation files touch only slot bones and the fixed drive. A part bone opts into
+ * motion by its name's suffix, and this class applies that transform after the animation
+ * controllers have run.
  */
 public final class ExtractorMotion {
     /** A chase bone is "<part>_chase<i>of<n>": one lit segment of an n-segment loop. */

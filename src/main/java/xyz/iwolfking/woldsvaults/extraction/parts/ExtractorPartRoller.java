@@ -146,17 +146,14 @@ public final class ExtractorPartRoller {
             }
             data.drillClass = key;
             data.series = preset != null && config().getSeries(preset) != null ? preset : defaultSeries(rarity, random);
-            ExtractorPartsConfig.DrillClassEntry drillClass = config().DRILL_CLASSES.get(key);
-            data.name = drillClass == null ? key + " Drill" : drillClass.name + " Drill";
         } else {
             key = preset != null ? preset : rollSeries(rarity, random);
             if (key == null) {
                 return null;
             }
             data.series = key;
-            ExtractorPartsConfig.SeriesEntry series = config().getSeries(key);
-            data.name = series == null ? key + " " + type.getDisplayName() : series.partName(type, series.name + " " + type.getDisplayName());
         }
+        data.name = ExtractorTooltips.partBaseName(type, key);
         ExtractorPartsConfig.PartRollEntry roll = config().getRoll(type, key);
         if (roll == null) {
             WoldLogger.error("extractor_parts.json has no PARTS.{} row for '{}'; the part rolled with no stats.", type.getId(), key);
@@ -181,9 +178,11 @@ public final class ExtractorPartRoller {
         }
         for (Map.Entry<String, Float> entry : roll.specials.entrySet()) {
             ExtractorStat stat = ExtractorStat.byId(entry.getKey());
-            if (stat != null) {
-                data.addStat(stat, (float) (entry.getValue() * ExtractorQuality.statMultiplier(stat, quality)));
+            if (stat == null) {
+                WoldLogger.error("Unknown extractor special stat '{}' in PARTS.{}.{}; skipped.", entry.getKey(), type.getId(), key);
+                continue;
             }
+            data.addStat(stat, (float) (entry.getValue() * ExtractorQuality.statMultiplier(stat, quality)));
         }
         data.baseName = data.name;
         rollAffixes(data, random);
@@ -191,9 +190,15 @@ public final class ExtractorPartRoller {
         return data;
     }
 
+    /** The series a drill or attachment carries for its tooltip frame: a roll at its rarity, else the table's first series. */
     private static String defaultSeries(VaultGearRarity rarity, Random random) {
         String series = rollSeries(rarity, random);
-        return series == null ? ExtractorPartsConfig.SERIES_WOODEN : series;
+        if (series != null) {
+            return series;
+        }
+        String first = config().SERIES.isEmpty() ? "" : config().SERIES.keySet().iterator().next();
+        WoldLogger.error("No series rolls at rarity {}; the part takes series '{}' for its tooltip frame.", rarity, first);
+        return first;
     }
 
     @Nullable
@@ -213,8 +218,8 @@ public final class ExtractorPartRoller {
         data.series = defaultSeries(rarity, random);
         data.rarity = rarity;
         data.quality = quality;
-        data.name = entry.name;
-        data.baseName = entry.name;
+        data.name = ExtractorTooltips.partBaseName(ExtractorPartType.ATTACHMENT, id);
+        data.baseName = data.name;
         data.addStat(ExtractorStat.DRAIN, (float) (entry.drain.lerp(random.nextFloat()) * ExtractorQuality.statMultiplier(ExtractorStat.DRAIN, quality)));
         data.maxDurability = Math.max(0, Math.round((float) (entry.durability.lerp(random.nextFloat()) * ExtractorQuality.statMultiplier(ExtractorStat.DURABILITY, quality))));
         data.durability = data.maxDurability;

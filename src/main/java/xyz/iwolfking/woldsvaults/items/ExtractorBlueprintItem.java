@@ -32,7 +32,6 @@ import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorQuality;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorTooltips;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
-import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
 import java.util.List;
 import java.util.Random;
@@ -94,9 +93,18 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
         return getData(stack).getBoolean("Identified");
     }
 
+    /** The blueprint's rarity; scrappy while it has none stamped yet. */
     public static VaultGearRarity getBlueprintRarity(ItemStack stack) {
-        VaultGearRarity rarity = ExtractorPartsConfig.rarityOf(getData(stack).getString("Rarity"));
-        return rarity == null ? VaultGearRarity.SCRAPPY : rarity;
+        String key = getData(stack).getString("Rarity");
+        if (key.isEmpty()) {
+            return VaultGearRarity.SCRAPPY;
+        }
+        VaultGearRarity rarity = ExtractorPartsConfig.rarityOf(key);
+        if (rarity == null) {
+            WoldLogger.errorOnce("extractor_blueprint.rarity." + key, "Extractor blueprint has unknown rarity '{}'; read as scrappy.", key);
+            return VaultGearRarity.SCRAPPY;
+        }
+        return rarity;
     }
 
     /** Stamps rarity (if absent) and quality from the given item-rarity points; used at chest-open and by dev commands. */
@@ -122,19 +130,25 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
         return stack.getItem() instanceof ExtractorBlueprintItem item && item.partType == type && getPart(stack) != null;
     }
 
-    /**
-     * The blueprint's fabrication ledger, rolling a cost first for blueprints identified before costs existed
-     * (logged, since that roll should normally happen at identification). Null for unidentified blueprints.
-     */
+    /** The identified blueprint's fabrication ledger as stored, which may have no cost yet; null for unidentified blueprints. */
     @Nullable
     public static CompoundTag ledger(ItemStack stack) {
+        return getPart(stack) == null ? null : stack.getOrCreateTag().getCompound(TAG);
+    }
+
+    /**
+     * The fabrication ledger, rolling the cost first when an identified blueprint has none (logged: the roll belongs to
+     * identification). Server side only; clients read {@link #ledger} and see the cost once it syncs.
+     */
+    @Nullable
+    public static CompoundTag ensureLedger(ItemStack stack) {
         PartData part = getPart(stack);
         if (part == null) {
             return null;
         }
         CompoundTag data = stack.getOrCreateTag().getCompound(TAG);
         if (!CostLedger.hasCost(data)) {
-            WoldLogger.error("Blueprint {} was identified before fabrication costs existed; rolling its cost now.", part.name);
+            WoldLogger.error("Blueprint {} has no fabrication cost; rolling it now.", part.name);
             CostLedger.setCost(data, ExtractorCosts.roll(part, RANDOM));
             stack.getOrCreateTag().put(TAG, data);
         }
@@ -252,17 +266,7 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
     }
 
     private String previewName(String preview) {
-        ExtractorPartsConfig cfg = ModConfigs.EXTRACTOR_PARTS;
-        if (this.partType == ExtractorPartType.DRILL) {
-            ExtractorPartsConfig.DrillClassEntry entry = cfg.DRILL_CLASSES.get(preview);
-            return (entry == null ? preview : entry.name) + " Drill";
-        }
-        if (this.partType == ExtractorPartType.ATTACHMENT) {
-            ExtractorPartsConfig.AttachmentEntry entry = cfg.ATTACHMENTS.get(preview);
-            return entry == null ? preview : entry.name;
-        }
-        ExtractorPartsConfig.SeriesEntry series = cfg.getSeries(preview);
-        return series == null ? preview : series.partName(this.partType, series.name + " " + this.partType.getDisplayName());
+        return ExtractorTooltips.partBaseName(this.partType, preview);
     }
 
     @Override

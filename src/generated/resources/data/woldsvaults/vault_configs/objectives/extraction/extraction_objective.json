@@ -24,7 +24,8 @@
   },
   "DEPLOYMENT": {
     "initialEnergyFraction": 0.4,
-    "healFractionOnJobComplete": 0.33
+    "healFractionOnJobComplete": 0.33,
+    "shieldReactivationTicks": 40
   },
   "JOBS": {
     "arcane_essence": {
@@ -388,7 +389,6 @@
       2
     ],
     "surgeSiege": true,
-    "spawnDebugLog": true,
     "lanes": {
       "engageSteps": 6,
       "rangedEngageBlocks": 12.0,
@@ -401,6 +401,7 @@
       "hpReference": "the_vault:elite_zombie",
       "hpEliteMultiple": 2.0,
       "speedMultiplier": 0.6,
+      "knockbackResistance": 1.0,
       "killSeconds": 60.0,
       "firstTicks": 900,
       "maxPerRoom": 2,
@@ -1676,7 +1677,7 @@
     "cap": 40,
     "cellChance": 0.05,
     "mobMargin": 2,
-    "pedestalClearance": 6,
+    "padClearance": 6,
     "minSpacing": 2,
     "playerClearance": 4,
     "cluster": true,

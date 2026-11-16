@@ -33,8 +33,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * rolls, a raised capacity, a pre-rolled objective and an ancient sigil, flagged so maps and sigils are refused.
  */
 public final class AncientCrystals {
-    private static final Set<String> REPORTED = new HashSet<>();
-
     private AncientCrystals() {
     }
 
@@ -45,7 +43,7 @@ public final class AncientCrystals {
     public static NonNullList<ItemStack> roll(ExtractorEntity extractor, Vault vault, Random random) {
         ExtractionObjectiveConfig.AncientCrystalEntry cfg = config();
         NonNullList<ItemStack> crystals = NonNullList.create();
-        double tries = cfg.crystalRolls + (cfg.quantityPerExtraRoll > 0.0F ? Math.max(0.0F, extractor.getDrillQuantity()) / cfg.quantityPerExtraRoll : 0.0D);
+        double tries = tries(extractor.getDrillQuantity());
         int whole = (int) Math.floor(tries);
         if (random.nextDouble() < tries - whole) {
             whole++;
@@ -131,22 +129,10 @@ public final class AncientCrystals {
     }
 
     private static Optional<VaultModifier<?>> draw(List<ExtractionObjectiveConfig.ModifierSource> sources, int level, Random random) {
-        double total = 0.0D;
-        for (ExtractionObjectiveConfig.ModifierSource source : sources) {
-            total += Math.max(0.0F, source.weight);
-        }
-        if (total <= 0.0D) {
+        ExtractionObjectiveConfig.ModifierSource chosen = ExtractionPayouts.pickWeighted(sources, source -> source.weight, random);
+        if (chosen == null) {
             report("sources", "An ancient crystal modifier bucket has no weighted sources in extraction_objective.json ANCIENT_CRYSTAL; its rolls were skipped.");
             return Optional.empty();
-        }
-        double pick = random.nextDouble() * total;
-        ExtractionObjectiveConfig.ModifierSource chosen = sources.get(sources.size() - 1);
-        for (ExtractionObjectiveConfig.ModifierSource source : sources) {
-            pick -= Math.max(0.0F, source.weight);
-            if (pick < 0.0D) {
-                chosen = source;
-                break;
-            }
         }
         String id = "greed_trader".equals(chosen.type) ? drawTrader(chosen.pool, random) : drawVaultPool(chosen.pool, level, random);
         if (id == null) {
@@ -214,23 +200,12 @@ public final class AncientCrystals {
 
     @Nullable
     private static String rollSigil(ExtractionObjectiveConfig.AncientCrystalEntry cfg, Random random) {
-        double total = 0.0D;
-        for (ExtractionObjectiveConfig.WeightedId sigil : cfg.sigils) {
-            total += Math.max(0.0F, sigil.weight);
-        }
-        if (total <= 0.0D) {
+        ExtractionObjectiveConfig.WeightedId picked = ExtractionPayouts.pickWeighted(cfg.sigils, sigil -> sigil.weight, random);
+        if (picked == null) {
             WoldLogger.error("extraction_objective.json ANCIENT_CRYSTAL lists no sigils; the ancient crystal has none.");
             return null;
         }
-        double pick = random.nextDouble() * total;
-        String chosen = cfg.sigils.get(cfg.sigils.size() - 1).id;
-        for (ExtractionObjectiveConfig.WeightedId sigil : cfg.sigils) {
-            pick -= Math.max(0.0F, sigil.weight);
-            if (pick < 0.0D) {
-                chosen = sigil.id;
-                break;
-            }
-        }
+        String chosen = picked.id;
         if (ModConfigs.SIGIL_DEFINITIONS.get(chosen).isEmpty()) {
             report("sigil:" + chosen, "Ancient sigil '" + chosen + "' has no sigils/definitions.json entry; the crystal was made without a sigil.");
             return null;
@@ -239,8 +214,6 @@ public final class AncientCrystals {
     }
 
     private static void report(String key, String message) {
-        if (REPORTED.add(key)) {
-            WoldLogger.error(message);
-        }
+        WoldLogger.errorOnce("extraction_ancient_crystal_" + key, message);
     }
 }

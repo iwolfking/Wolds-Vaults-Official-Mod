@@ -305,7 +305,6 @@ public class ExtractorAssemblerContainer extends AbstractContainerMenu {
         }
     }
 
-    /** The output slot doubles as the dock: a finished extractor lands here and an assembled one may be placed here. */
     /** Pays the docked extractor's repair cost; only usable while an extractor is docked. */
     class RepairSlot extends SlotItemHandler {
         RepairSlot(int x, int y) {
@@ -318,6 +317,7 @@ public class ExtractorAssemblerContainer extends AbstractContainerMenu {
         }
     }
 
+    /** The output slot doubles as the dock: a finished extractor lands here and an assembled one may be placed here. */
     class DockSlot extends SlotItemHandler {
         DockSlot(int x, int y) {
             super(ExtractorAssemblerContainer.this.inventory, ExtractorAssemblerTileEntity.OUTPUT_SLOT, x, y);

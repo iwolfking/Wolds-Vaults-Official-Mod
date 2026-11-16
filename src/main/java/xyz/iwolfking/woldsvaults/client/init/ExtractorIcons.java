@@ -3,49 +3,26 @@ package xyz.iwolfking.woldsvaults.client.init;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorPartType;
 import xyz.iwolfking.woldsvaults.extraction.parts.PartData;
+import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * Picks a part item's icon from the variant stored in its {@link PartData}.
  *
- * <p>There is one ITEM per part type but thirty-plus icons, because the series, drill class
- * or attachment id lives in NBT rather than in the registry. So the icon is chosen by a
- * vanilla item-model override keyed on {@code woldsvaults:variant}, and this class is the
- * one place the index is defined.
- *
- * <p>The lists below MUST stay in the same order as the overrides in
- * {@code models/item/extractor_*.json}. Both are generated from ORDER in the art
- * repository's {@code extractor_items/tools/assets.py} -- regenerate rather than editing
- * either by hand.
+ * <p>There is one item per part type but many icons, because the series, drill class or attachment id lives in NBT
+ * rather than in the registry. The icon is chosen by a vanilla item-model override keyed on {@code woldsvaults:variant}:
+ * its value is the 1-based position of the part's id in the parts table (series, drill classes or attachments, in
+ * table order), so the overrides in {@code models/item/extractor_*.json} follow the table's entry order.
  */
 public final class ExtractorIcons {
-    private static final Map<String, List<String>> ORDER = new LinkedHashMap<>();
-
-    static {
-        List<String> series = List.of("wooden", "chromatic", "experimental", "armored", "echosteel");
-        ORDER.put("chassis", series);
-        ORDER.put("legs", series);
-        ORDER.put("power_core", series);
-        ORDER.put("shield_array", series);
-        ORDER.put("radiator", series);
-        ORDER.put("scanner", series);
-        ORDER.put("drill", List.of("standard", "laser", "greed_infuser", "archeology",
-                "excavator", "refiner", "heavy", "juicer", "glue_derrick", "crystal",
-                "containment"));
-        ORDER.put("attachment", List.of("auxiliary_radiator", "secondary_shield_charger",
-                "driver_override", "extra_plating", "fuel_injector", "battery_array",
-                "ore_cleaner", "defense_turret", "system_reinforcement",
-                "regenerative_nanobots"));
-    }
-
     private ExtractorIcons() {
     }
 
@@ -61,16 +38,21 @@ public final class ExtractorIcons {
         }
     }
 
+    /** The table's ids for a part type, in the order the icons are numbered. */
+    private static List<String> order(ExtractorPartType type) {
+        ExtractorPartsConfig cfg = ModConfigs.EXTRACTOR_PARTS;
+        return switch (type) {
+            case DRILL -> new ArrayList<>(cfg.DRILL_CLASSES.keySet());
+            case ATTACHMENT -> new ArrayList<>(cfg.ATTACHMENTS.keySet());
+            default -> new ArrayList<>(cfg.SERIES.keySet());
+        };
+    }
+
     /**
-     * 1-based index of the stack's variant within its type, or 1 when it has no part data
-     * yet -- a creative-tab stack has none, and falling back to the first icon is better
-     * than a missing texture.
+     * 1-based index of the stack's variant within its type, or 1 when it has no part data yet: a creative-tab stack
+     * has none, and the first icon is better than a missing texture.
      */
     private static float variantOf(ItemStack stack, ExtractorPartType type) {
-        List<String> order = ORDER.get(type.getId());
-        if (order == null) {
-            return 1.0F;
-        }
         PartData part = ExtractorPartItem.getPart(stack);
         if (part == null) {
             return 1.0F;
@@ -80,9 +62,10 @@ public final class ExtractorIcons {
             case ATTACHMENT -> part.attachmentId;
             default -> part.series;
         };
-        int index = order.indexOf(key);
+        int index = order(type).indexOf(key);
         if (index < 0) {
-            WoldLogger.error("Extractor {} has unknown variant '{}'; showing the first icon.", type.getId(), key);
+            WoldLogger.errorOnce("extractor_icons." + type.getId() + "." + key,
+                    "Extractor {} has variant '{}', which the parts table does not list; showing the first icon.", type.getId(), key);
             return 1.0F;
         }
         return index + 1.0F;

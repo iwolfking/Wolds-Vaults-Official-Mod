@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.integration.vaultfilters.extractor;
 
+import xyz.iwolfking.woldsvaults.items.ExtractorPartItem;
 import net.joseph.vaultfilters.attributes.abstracts.StringAttribute;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.extraction.parts.ExtractorTooltips;
@@ -12,7 +13,7 @@ public class ExtractorPartSeriesAttribute extends StringAttribute {
 
     @Override
     public String getValue(ItemStack itemStack) {
-        PartData part = ExtractorFilterHelper.part(itemStack);
+        PartData part = ExtractorPartItem.rolledPart(itemStack);
         if (part == null || part.series == null || part.series.isEmpty()) {
             return null;
         }
