@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckStrongboxTier;
 import xyz.iwolfking.woldsvaults.gods.trees.tenos.TenosChestRolls;
 import xyz.iwolfking.woldsvaults.loot.MythicLootScaling;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
@@ -25,24 +25,24 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Mixin(value = TieredLootTableGenerator.class, remap = false)
-public class MixinTieredLootTableGenerator implements DuckMapTier {
+public class MixinTieredLootTableGenerator implements DuckStrongboxTier {
     @Shadow
     private double[] key;
     @Shadow
     public float itemRarity;
 
-    /** Map tier (0-5) of the mapped strongbox this rolls for, set before {@code generate()}; -1 for none. */
+    /** Strongbox tier (0-5) of the tiered strongbox this rolls for, set before {@code generate()}; -1 for none. */
     @Unique
-    private int woldsvaults$mapTier = -1;
+    private int woldsvaults$strongboxTier = -1;
 
     @Override
-    public int getMapTier() {
-        return this.woldsvaults$mapTier;
+    public int getStrongboxTier() {
+        return this.woldsvaults$strongboxTier;
     }
 
     @Override
-    public void setMapTier(int tier) {
-        this.woldsvaults$mapTier = tier;
+    public void setStrongboxTier(int tier) {
+        this.woldsvaults$strongboxTier = tier;
     }
 
     @ModifyExpressionValue(
@@ -59,7 +59,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
             at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/roll/IntRoll;get(Liskallia/vault/core/random/RandomSource;)I")
     )
     private int addStrongboxBaseRolls(int roll) {
-        int adjusted = this.woldsvaults$mapTier >= 0 ? roll + StrongboxTierScaling.baseRollBonus(this.woldsvaults$mapTier) : roll;
+        int adjusted = this.woldsvaults$strongboxTier >= 0 ? roll + StrongboxTierScaling.baseRollBonus(this.woldsvaults$strongboxTier) : roll;
         Entity source = ((TieredLootTableGenerator) (Object) this).getSource();
         if (source instanceof Player player) {
             adjusted = (int) Math.round(adjusted * GreedMedallionEffects.chestRollMultiplier(player));
@@ -67,14 +67,14 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return adjusted;
     }
 
-    /** Mapped strongboxes cap at 72-162 rolls by tier instead of 54; Tenos chest nodes lift the cap of other chests. */
+    /** Tiered strongboxes cap at 72-162 rolls by tier instead of 54; Tenos chest nodes lift the cap of other chests. */
     @ModifyExpressionValue(
             method = "generate",
             at = @At(value = "FIELD", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator;maxRolls:I", opcode = Opcodes.GETFIELD)
     )
     private int raiseStrongboxMaxRolls(int maxRolls) {
-        if (this.woldsvaults$mapTier >= 0) {
-            return StrongboxTierScaling.maxRolls(this.woldsvaults$mapTier);
+        if (this.woldsvaults$strongboxTier >= 0) {
+            return StrongboxTierScaling.maxRolls(this.woldsvaults$strongboxTier);
         }
         Entity source = ((TieredLootTableGenerator) (Object) this).getSource();
         return source instanceof Player player ? maxRolls + TenosChestRolls.bonusRolls(player) : maxRolls;
@@ -82,7 +82,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
 
     /**
      * Replaces the uniform {@code weight * (1 + itemRarity)} sub-pool scaling with per-pool curves on
-     * 5-pool tables - strongbox curves for a mapped strongbox, mythic otherwise. 4-pool tables keep theirs.
+     * 5-pool tables - strongbox curves for a tiered strongbox, mythic otherwise. 4-pool tables keep theirs.
      */
     @WrapOperation(
             method = "generateEntry",
@@ -91,8 +91,8 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
     private WeightedTree<LootEntry> alterItemRarityScaling(LootPool adjustedPool, WeightedTree<LootEntry> childPool, double weight, Operation<WeightedTree<LootEntry>> original) {
         if (this.key != null && this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT) {
             int index = adjustedPool.getChildren().size();
-            double scale = this.woldsvaults$mapTier >= 0
-                    ? StrongboxTierScaling.poolScale(index, this.itemRarity, this.woldsvaults$mapTier)
+            double scale = this.woldsvaults$strongboxTier >= 0
+                    ? StrongboxTierScaling.poolScale(index, this.itemRarity, this.woldsvaults$strongboxTier)
                     : MythicLootScaling.poolScale(index, this.itemRarity);
             weight = this.key[index + 1] * scale;
         }
@@ -109,7 +109,7 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
             at = @At(value = "INVOKE", target = "Ljava/util/Map;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;")
     )
     private Object routeCdfBuild(Map<Object, Object> cache, Object cdfKey, Function<Object, Object> factory, Operation<Object> original) {
-        if (this.woldsvaults$mapTier >= 0) {
+        if (this.woldsvaults$strongboxTier >= 0) {
             return null;
         }
         if (this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT && this.key[0] > TieredCdfApprox.EXACT_ROLL_LIMIT) {
@@ -127,6 +127,6 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         if (cdf != null) {
             return original.call(cdf, frequencies);
         }
-        return this.woldsvaults$mapTier >= 0 ? 1.0 : TieredCdfApprox.cdf(this.key, frequencies);
+        return this.woldsvaults$strongboxTier >= 0 ? 1.0 : TieredCdfApprox.cdf(this.key, frequencies);
     }
 }

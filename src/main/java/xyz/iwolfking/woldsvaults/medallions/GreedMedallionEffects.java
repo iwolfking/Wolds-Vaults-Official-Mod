@@ -41,6 +41,14 @@ public final class GreedMedallionEffects {
         return GreedMedallionVaultState.get(level).map(tier -> multiplier(tier.getMobSpawnBonus())).orElse(1.0D);
     }
 
+    /**
+     * The strongbox tier of this level's vault as {@code StrongboxTierScaling} counts it (the displayed tier minus one),
+     * or -1 when its strongboxes are untiered.
+     */
+    public static int strongboxTier(Level level) {
+        return GreedMedallionVaultState.get(level).map(tier -> tier.getStrongboxTier() - 1).orElse(-1);
+    }
+
     public static double objectiveDifficultyMultiplier(Vault vault) {
         return GreedMedallionVaultState.get(vault).map(tier -> multiplier(tier.getObjectiveDifficultyBonus())).orElse(1.0D);
     }
