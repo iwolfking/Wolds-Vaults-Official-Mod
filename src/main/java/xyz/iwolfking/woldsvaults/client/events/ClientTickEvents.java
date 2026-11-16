@@ -5,6 +5,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.arcane.LaserBeams;
+import xyz.iwolfking.woldsvaults.client.arcane.PrismRenderer;
 import xyz.iwolfking.woldsvaults.client.fx.RiptideFx;
 import xyz.iwolfking.woldsvaults.client.lightning.AnimatedArmorTexture;
 import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
@@ -30,6 +32,8 @@ public final class ClientTickEvents {
         LightningSpeedLines.onClientTick(event);
         LightningLashRenderer.onClientTick(event);
         LightningDashRenderer.onClientTick(event);
+        LaserBeams.onClientTick(event);
+        PrismRenderer.onClientTick(event);
         ClientLightningForm.onClientTick(event);
         AnimatedArmorTexture.onClientTick(event);
         RiptideFx.onClientTick(event);

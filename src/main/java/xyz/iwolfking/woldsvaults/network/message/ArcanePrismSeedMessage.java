@@ -2,8 +2,10 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.client.arcane.PrismRenderer;
 
 import java.util.function.Supplier;
 
@@ -32,8 +34,9 @@ public record ArcanePrismSeedMessage(Vec3 start, int targetId, Vec3 aim, long la
         return new ArcanePrismSeedMessage(start, targetId, aim, buffer.readLong(), buffer.readVarInt());
     }
 
-    public static void handle(ArcanePrismSeedMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.arcane.LaserBeams.addSeed(message.start, message.targetId, message.aim,
-                message.launched, message.flightTicks));
+    public static void handle(ArcanePrismSeedMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> PrismRenderer.addSeed(message.start, message.targetId, message.aim, message.launched, message.flightTicks)));
+        context.setPacketHandled(true);
     }
 }

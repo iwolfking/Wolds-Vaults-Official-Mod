@@ -5,6 +5,8 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.arcane.LaserBeams;
+import xyz.iwolfking.woldsvaults.client.arcane.PrismRenderer;
 import xyz.iwolfking.woldsvaults.client.fx.RiptideFx;
 import xyz.iwolfking.woldsvaults.client.lightning.LightningDashRenderer;
 import xyz.iwolfking.woldsvaults.client.lightning.LightningLashRenderer;
@@ -21,5 +23,7 @@ public final class RenderLevelEvents {
         LightningLashRenderer.onRenderLevel(event);
         LightningDashRenderer.onRenderLevel(event);
         RiptideFx.onRenderStage(event);
+        LaserBeams.onRenderLevel(event);
+        PrismRenderer.onRenderLevel(event);
     }
 }

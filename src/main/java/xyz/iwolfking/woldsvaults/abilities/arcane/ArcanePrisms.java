@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.modifiers.arcane;
+package xyz.iwolfking.woldsvaults.abilities.arcane;
 
 import com.mojang.math.Vector3f;
 import iskallia.vault.entity.IPlayerAttackIgnore;
@@ -22,11 +22,17 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.api.util.DerivedHit;
+import xyz.iwolfking.woldsvaults.api.util.ElementHelper;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ArcanePrismAbilityInvoker;
 import xyz.iwolfking.woldsvaults.network.message.ArcanePrismMessage;
@@ -48,27 +54,24 @@ import java.util.Map;
  * to by then.</li>
  * <li>The beams: in place of Vault Hunters' pulses, the pyramid's four beams (eight with the split etching, the extra
  * four at half strength) shine for the whole time it lasts, sweeping round as it turns. Every {@link #BEAM_TICKS}
- * ticks, everything a beam touched since the last hit is hurt, with no cooldown, ignoring the brief immunity after a
- * hit. Each hit is worth that share of a pulse, so a mob held in the beams (the one the Prism is anchored on) takes
- * what the pulses gave it, and anything swept takes damage for as long as a beam is on it. Vault Hunters' target cap
- * still holds: at most maxTargets enemies hit by each kind of beam at a time. The beams don't knock mobs back, and a
- * mob's hurt sound plays at most every {@link #HURT_SOUND_TICKS} ticks.</li>
+ * ticks, everything a beam touched since the last hit is hurt for that share of a pulse, through the brief immunity
+ * after a hit ({@link DerivedHit}) and without knockback. Vault Hunters' target cap holds for each kind of beam in each
+ * hit. A mob's hurt sound plays at most every {@link #HURT_SOUND_TICKS} ticks.</li>
+ * <li>Elements: the elements the cast was made under stay with its Prism. The beam's hits carry none; once every pulse
+ * interval each mob gets those elements' effects for the damage the beams dealt it in that interval, as a pulse would
+ * have.</li>
  * <li>Bent light: a beam that something bends ({@link BeamOptics}) stops there and carries on along the path it is
- * given. That light hurts what it touches in the same way, for the share the bender sets, on top of the beams
- * themselves.</li>
+ * given. That light hurts what it touches in the same way, for the share the bender sets.</li>
  * </ul>
  * The server works out the beams a few times a tick, so a fast sweep can't skip over anything. Clients trace the same
  * paths every frame to draw them.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class ArcanePrisms {
-    // how often the beams hurt what they touch
+    public static final float SPIN_DEGREES_PER_TICK = 3.0F;
     private static final int BEAM_TICKS = 2;
-    // checks of the beams a tick, between hits
     private static final int SUBSTEPS = 4;
     private static final int HURT_SOUND_TICKS = 10;
-    private static final float SPLIT_SHARE = 0.5F;
-    // the seed's flight: blocks a tick, and its shortest and longest time in the air
     private static final double SEED_SPEED = 1.8;
     private static final int SEED_MIN_TICKS = 3;
     private static final int SEED_MAX_TICKS = 16;
@@ -76,14 +79,15 @@ public final class ArcanePrisms {
 
     private static final List<Seed> SEEDS = new ArrayList<>();
     private static final List<Prism> PRISMS = new ArrayList<>();
-    // set while a landed seed has Vault Hunters place its Prism, so that placing goes ahead
-    private static boolean landing;
-    // the mob a beam is hurting right now (the server thread only), whether to hush its hurt sound, and the share of a
-    // full hit that this one counts for
+    @Nullable
+    private static Seed landing;
+    @Nullable
+    private static Prism beamPrism;
     @Nullable
     private static LivingEntity beamTarget;
+    @Nullable
+    private static DamageSource beamSource;
     private static boolean hushed;
-    private static float hitShare = 1.0F;
 
     private static final class Seed {
         final ArcanePrismAbility ability;
@@ -94,10 +98,11 @@ public final class ArcanePrisms {
         final Vec3 forward;
         final float damageMultiplier;
         final long lands;
-        // where it lands: the target's middle, or where that was when it last lived
+        final List<ElementalType> elements;
         Vec3 at;
 
-        Seed(ArcanePrismAbility ability, ServerPlayer caster, @Nullable LivingEntity target, Vec3 at, Vec3 forward, float damageMultiplier, long lands) {
+        Seed(ArcanePrismAbility ability, ServerPlayer caster, @Nullable LivingEntity target, Vec3 at, Vec3 forward, float damageMultiplier, long lands,
+             List<ElementalType> elements) {
             this.ability = ability;
             this.caster = caster;
             this.level = caster.getLevel();
@@ -106,25 +111,31 @@ public final class ArcanePrisms {
             this.forward = forward;
             this.damageMultiplier = damageMultiplier;
             this.lands = lands;
+            this.elements = elements;
         }
     }
 
-    // heard: when each mob's hurt sound last played, by entity id
-    private record Prism(ServerLevel level, ServerPlayer caster, Vec3 position, double yaw, long created, int duration, int interval, float reach,
-                         float percent, float beamWidth, int maxTargets, boolean split, BeamOptics.Lens lens, Map<Integer, Long> heard) {
+    /**
+     * A placed Prism. {@code heard} holds when each mob's hurt sound last played and {@code elementDamage} the damage
+     * the beams dealt each mob since the last element release, both by entity id.
+     */
+    private record Prism(ServerLevel level, ServerPlayer caster, Vec3 position, double heading, long created, int duration, int interval, float reach,
+                         float percent, float beamWidth, int maxTargets, boolean split, BeamOptics.Lens lens, List<ElementalType> elements,
+                         Map<Integer, Long> heard, Map<Integer, Float> elementDamage) {
     }
 
     private ArcanePrisms() {
     }
 
-    // Vault Hunters is about to place a Prism at position: launch the seed that carries it there instead, unless this
-    // is a seed landing. Returns whether the placing should wait for the seed.
+    /**
+     * Called as Vault Hunters is about to place a Prism at {@code position}: launches the seed that carries it there,
+     * unless this is a seed landing. Returns whether the placing should wait for the seed.
+     */
     public static boolean launch(ArcanePrismAbility ability, ServerPlayer caster, Vec3 position, Vec3 forward, float damageMultiplier) {
-        if (landing) {
+        if (landing != null) {
             return false;
         }
         ServerLevel level = caster.getLevel();
-        // Vault Hunters aims the Prism at the middle of the mob it picked
         LivingEntity target = level.getEntitiesOfClass(LivingEntity.class, new AABB(position, position).inflate(0.05),
                         entity -> entity != caster && entity.getBoundingBox().getCenter().distanceToSqr(position) < 1.0E-4)
                 .stream().findFirst().orElse(null);
@@ -132,33 +143,32 @@ public final class ArcanePrisms {
         double distance = hand.distanceTo(position);
         int flight = Mth.clamp(Mth.ceil(distance / SEED_SPEED), SEED_MIN_TICKS, SEED_MAX_TICKS);
         long now = level.getGameTime();
-        SEEDS.add(new Seed(ability, caster, target, position, forward, damageMultiplier, now + flight));
-        ModNetwork.sendNear(level, hand.lerp(position, 0.5), 96.0 + distance / 2.0,
+        SEEDS.add(new Seed(ability, caster, target, position, forward, damageMultiplier, now + flight, ElementHelper.getActiveElements()));
+        ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> caster),
                 new ArcanePrismSeedMessage(hand, target == null ? -1 : target.getId(), position, now, flight));
         level.playSound(null, hand.x, hand.y, hand.z, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.2F, 1.7F);
         level.playSound(null, hand.x, hand.y, hand.z, SoundEvents.ILLUSIONER_CAST_SPELL, SoundSource.PLAYERS, 0.5F, 1.6F);
         return true;
     }
 
-    // A Prism placed (by a landed seed): remember it, to turn its beams and hurt what they touch for as long as it
-    // lasts, and have nearby clients draw it.
+    /**
+     * A Prism placed by a landed seed: remembers it, with the elements its cast was made under, to turn its beams and
+     * hurt what they touch for as long as it lasts, and has nearby clients draw it.
+     */
     public static void created(ServerPlayer caster, Vec3 position, Vec3 forward, int durationTicks, int intervalTicks, float radius,
                                float percentAbilityPower, float beamWidth, int maxTargets) {
         ServerLevel level = caster.getLevel();
         long now = level.getGameTime();
-        double yaw = Math.atan2(forward.z, forward.x);
+        double heading = Math.atan2(forward.z, forward.x);
         float reach = BeamOptics.bender().prismReach(caster, radius);
         boolean split = EtchingHelper.getEtchings(caster, EtchingGearAttributes.PRISM_SPLIT).stream()
                 .findFirst().map(VaultGearAttributeInstance::getValue).orElse(false);
         BeamOptics.Lens lens = BeamOptics.bender().lens();
-        PRISMS.add(new Prism(level, caster, position, yaw, now, Math.max(1, durationTicks), Math.max(1, intervalTicks), reach, percentAbilityPower,
-                beamWidth, maxTargets, split, lens, new HashMap<>()));
-        ModNetwork.sendNear(level, position, 96.0 + reach, new ArcanePrismMessage(position, (float) yaw, now, durationTicks, reach, split, (float) lens.bentLength(), (float) lens.bentRadius()));
-    }
-
-    // The share of a full hit the damage being dealt now counts for: less for a beam's frequent hits.
-    public static float hitShare() {
-        return beamTarget == null ? 1.0F : hitShare;
+        List<ElementalType> elements = landing == null ? ElementHelper.getActiveElements() : landing.elements;
+        PRISMS.add(new Prism(level, caster, position, heading, now, Math.max(1, durationTicks), Math.max(1, intervalTicks), reach, percentAbilityPower,
+                beamWidth, maxTargets, split, lens, elements, new HashMap<>(), new HashMap<>()));
+        ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> caster),
+                new ArcanePrismMessage(position, (float) heading, now, durationTicks, reach, split, (float) lens.bentLength(), (float) lens.bentRadius()));
     }
 
     @SubscribeEvent
@@ -167,25 +177,28 @@ public final class ArcanePrisms {
             return;
         }
         tickSeeds();
-        PRISMS.removeIf(prism -> prism.caster().isRemoved() || !prism.caster().isAlive() || prism.caster().level != prism.level()
-                || prism.level().getGameTime() - prism.created() >= prism.duration());
         for (Prism prism : List.copyOf(PRISMS)) {
-            tick(prism);
+            if (prism.caster().isRemoved() || !prism.caster().isAlive() || prism.caster().level != prism.level()) {
+                PRISMS.remove(prism);
+            } else if (prism.level().getGameTime() - prism.created() >= prism.duration()) {
+                releaseElements(prism);
+                PRISMS.remove(prism);
+            } else {
+                tick(prism);
+            }
         }
     }
 
-    // a beam's hits don't knock the mob about
     @SubscribeEvent
-    public static void onKnockBack(LivingKnockBackEvent event) {
-        if (beamTarget != null && event.getEntityLiving() == beamTarget) {
-            event.setCanceled(true);
+    public static void onBeamHurt(LivingHurtEvent event) {
+        if (beamPrism != null && event.getEntityLiving() == beamTarget && event.getSource() == beamSource && !beamPrism.elements().isEmpty()) {
+            beamPrism.elementDamage().merge(beamTarget.getId(), event.getAmount(), Float::sum);
         }
     }
 
-    // nor make it cry out every hit (its death cry still plays)
     @SubscribeEvent
     public static void onSound(PlaySoundAtEntityEvent event) {
-        if (beamTarget != null && hushed && !beamTarget.isDeadOrDying() && event.getCategory() == beamTarget.getSoundSource()) {
+        if (beamTarget != null && hushed && event.getEntity() == beamTarget && !beamTarget.isDeadOrDying()) {
             event.setCanceled(true);
         }
     }
@@ -194,7 +207,10 @@ public final class ArcanePrisms {
     public static void onServerStopping(ServerStoppingEvent event) {
         SEEDS.clear();
         PRISMS.clear();
+        landing = null;
+        beamPrism = null;
         beamTarget = null;
+        beamSource = null;
     }
 
     private static void tickSeeds() {
@@ -214,21 +230,26 @@ public final class ArcanePrisms {
             }
         }
         for (Seed seed : landed) {
-            landing = true;
+            landing = seed;
             try {
                 ((ArcanePrismAbilityInvoker) seed.ability).woldsvaults$createPrism(seed.caster, seed.at, seed.forward, seed.damageMultiplier);
             } finally {
-                landing = false;
+                landing = null;
             }
         }
     }
 
-    // Every BEAM_TICKS ticks: every beam's path (bent by anything in its way), checked a few times a tick since the last hit
-    // against every enemy near enough, then a hit on each one any of them touched, once for each kind of beam (main,
-    // split, bent light).
+    /**
+     * Releases a Prism's elements once per pulse interval, then every {@link #BEAM_TICKS} ticks traces every beam's
+     * path (bent by anything in its way) a few times a tick since the last hit, against every enemy near enough, and
+     * hurts each one any of them touched, once for each kind of beam (main, split, bent light).
+     */
     private static void tick(Prism prism) {
         long now = prism.level().getGameTime();
         long age = now - prism.created();
+        if (age > 0 && age % prism.interval() == 0) {
+            releaseElements(prism);
+        }
         if (age < 0 || age % BEAM_TICKS != 0) {
             return;
         }
@@ -242,7 +263,6 @@ public final class ArcanePrisms {
         if (targets.isEmpty()) {
             return;
         }
-        // what each kind of beam touched since the last hit, and the strongest share it touched it with
         Map<LivingEntity, Float> main = new LinkedHashMap<>();
         Map<LivingEntity, Float> split = new LinkedHashMap<>();
         Map<LivingEntity, Float> bent = new LinkedHashMap<>();
@@ -250,13 +270,13 @@ public final class ArcanePrisms {
         int checks = age == 0 ? 1 : BEAM_TICKS * SUBSTEPS;
         for (int step = 1; step <= checks; step++) {
             float time = age == 0 ? 0.0F : age - BEAM_TICKS + (float) step / SUBSTEPS;
-            double spin = prism.yaw() + Math.toRadians(ArcanePrismMessage.SPIN_DEGREES_PER_TICK) * time;
+            double spin = prism.heading() + Math.toRadians(SPIN_DEGREES_PER_TICK) * time;
             for (int k = 0; k < beams; k++) {
                 boolean splitBeam = prism.split() && k % 2 == 1;
                 double a = spin + k * Math.PI * 2.0 / beams;
                 Vec3 dir = new Vec3(Math.cos(a), 0.0, Math.sin(a));
                 List<BeamOptics.Ray> rays = paths.trace(prism.position(), dir, prism.reach(), prism.caster());
-                float share = splitBeam ? SPLIT_SHARE : 1.0F;
+                float share = splitBeam ? WoldConstants.ARCANE_PRISM_SPLIT_DAMAGE_MULTIPLIER : 1.0F;
                 for (BeamOptics.Ray ray : rays) {
                     if (ray.inside()) {
                         continue;
@@ -264,7 +284,6 @@ public final class ArcanePrisms {
                     boolean isBent = ray.bentBy() != null;
                     Map<LivingEntity, Float> touched = isBent ? bent : splitBeam ? split : main;
                     for (LivingEntity target : targets) {
-                        // the target cap counts enemies the beams themselves hit at once
                         boolean overCap = !isBent && !touched.containsKey(target) && prism.maxTargets() > 0 && touched.size() >= prism.maxTargets();
                         if (!overCap && touched.getOrDefault(target, 0.0F) < share && BeamOptics.touches(target, ray.from(), ray.to(), prism.beamWidth())) {
                             touched.put(target, share);
@@ -274,22 +293,22 @@ public final class ArcanePrisms {
             }
         }
         float hit = AbilityPowerHelper.getAbilityPower(prism.caster()) * prism.percent() * BEAM_TICKS / prism.interval();
-        float fraction = (float) BEAM_TICKS / prism.interval();
-        main.forEach((target, share) -> hurt(prism, target, source, hit * share, fraction, now));
-        split.forEach((target, share) -> hurt(prism, target, source, hit * share, fraction, now));
-        bent.forEach((target, share) -> hurt(prism, target, source, hit * share * bentShare, fraction, now));
+        main.forEach((target, share) -> hurt(prism, target, source, hit * share, now));
+        split.forEach((target, share) -> hurt(prism, target, source, hit * share, now));
+        bent.forEach((target, share) -> hurt(prism, target, source, hit * share * bentShare, now));
     }
 
-    // whom Vault Hunters' own Prism hurts (leaving out other players, which it only hurts where the vault allows it)
     private static boolean canHurt(ServerPlayer caster, LivingEntity target, DamageSource source) {
         return target instanceof Mob mob && mob.isAlive() && !(mob instanceof EternalEntity) && !(mob instanceof PetEntity)
                 && !IPlayerAttackIgnore.isIgnoredByPlayerAttack(caster, target) && !target.isInvulnerableTo(source);
     }
 
-    // A beam's hit, flagged as Vault Hunters flags the Prism's own (ability power, effect and area damage). It goes
-    // through the immunity a mob has just after being hurt, and leaves that immunity as it was, so the beam doesn't
-    // blunt the next hit from anything else either. Sparks and the hurt sound come at most every HURT_SOUND_TICKS.
-    private static void hurt(Prism prism, LivingEntity target, DamageSource source, float damage, float fraction, long now) {
+    /**
+     * A beam's hit, flagged as Vault Hunters flags the Prism's own (ability power, effect and area damage) and dealt
+     * without knockback through {@link DerivedHit}, so it lands through the immunity left by an earlier hit and leaves
+     * that immunity as it was. Sparks and the hurt sound come at most every {@link #HURT_SOUND_TICKS} ticks.
+     */
+    private static void hurt(Prism prism, LivingEntity target, DamageSource source, float damage, long now) {
         if (damage <= 0.0F || !target.isAlive()) {
             return;
         }
@@ -297,22 +316,38 @@ public final class ArcanePrisms {
         boolean loud = heard == null || now - heard >= HURT_SOUND_TICKS;
         if (loud) {
             prism.heard().put(target.getId(), now);
-            ArcaneLasers.sparkle(prism.level(), target.getBoundingBox().getCenter(), HIT_SPARK, 5, 0.25);
+            ArcaneLasers.sparkle(target, target.getBoundingBox().getCenter(), HIT_SPARK, 5, 0.25);
         }
-        int immune = target.invulnerableTime;
+        beamPrism = prism;
         beamTarget = target;
+        beamSource = source;
         hushed = !loud;
-        hitShare = fraction;
-        target.invulnerableTime = 0;
         try {
-            ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ActiveFlags.IS_EFFECT_ATTACKING.runIfNotSet(
-                    () -> ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> target.hurt(source, damage))));
+            WoldActiveFlags.IS_NO_KNOCKBACK_DAMAGE.runWithFlag(() -> ActiveFlags.IS_AP_ATTACKING.runIfNotSet(() -> ActiveFlags.IS_EFFECT_ATTACKING.runIfNotSet(
+                    () -> ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> DerivedHit.deal(target, source, damage)))));
         } finally {
+            beamPrism = null;
             beamTarget = null;
+            beamSource = null;
             hushed = false;
-            hitShare = 1.0F;
-            target.invulnerableTime = immune;
         }
+    }
+
+    /**
+     * Applies a Prism's elements to every mob its beams hurt since the last release, each for the damage the beams
+     * dealt it in that time, the way a pulse's hit would have.
+     */
+    private static void releaseElements(Prism prism) {
+        if (prism.elementDamage().isEmpty()) {
+            return;
+        }
+        Map<Integer, Float> dealt = new HashMap<>(prism.elementDamage());
+        prism.elementDamage().clear();
+        dealt.forEach((id, amount) -> {
+            if (prism.level().getEntity(id) instanceof LivingEntity target && target.isAlive()) {
+                ElementHelper.applyElementalEffects(target, prism.caster(), amount, prism.elements(), true);
+            }
+        });
     }
 
     static Vec3 castingHand(ServerPlayer player) {

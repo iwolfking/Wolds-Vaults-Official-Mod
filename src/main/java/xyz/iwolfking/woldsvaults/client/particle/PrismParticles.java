@@ -19,16 +19,17 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
+import xyz.iwolfking.woldsvaults.client.init.ModParticles;
 
 import java.util.Random;
 
 /**
  * The glowing particles Arcane's lasers shed, drawn full bright and additively and tinted by whoever spawns them
  * (setColor): twinkling star sparks and a flare that blooms and fades, whose spawn speed carries its size instead of a
- * velocity. Also the helpers that spawn tinted particles.
+ * velocity, and the helpers that spawn them.
  */
 public final class PrismParticles {
-    // Particles drawn with additive blending (light adds up, black is see-through), without writing depth.
     public static final ParticleRenderType ADDITIVE = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager textures) {
@@ -64,16 +65,28 @@ public final class PrismParticles {
         }
     }
 
-    // flares and rings take their size in place of a velocity
+    /** Flares and rings take their size in place of a velocity. */
     public static void spawnSized(ParticleOptions type, Vec3 at, double size, Vector3f color) {
         spawn(type, at, new Vec3(size, 0.0, 0.0), color);
+    }
+
+    /** A small puff of glowing sparks in the color, scattered within {@code spread} of {@code at}. */
+    public static void sparkle(Vec3 at, Vector3f color, int count, float spread) {
+        if (Minecraft.getInstance().level == null) {
+            return;
+        }
+        Vector3f glow = ColorUtil.lighten(color, 0.45F);
+        for (int i = 0; i < Math.max(1, count); i++) {
+            Vec3 p = at.add(spread(spread), spread(spread), spread(spread));
+            spawn(ModParticles.PRISM_SPARK.get(), p, randomDirection(1.0, 0.0).scale(0.03), glow);
+        }
     }
 
     public static double spread(double amount) {
         return (RANDOM.nextDouble() * 2.0 - 1.0) * amount;
     }
 
-    // a random direction, its height squashed by upScale and lifted by upBias so pieces mostly fly up and out
+    /** A random direction, its height squashed by upScale and lifted by upBias so pieces mostly fly up and out. */
     public static Vec3 randomDirection(double upScale, double upBias) {
         double theta = RANDOM.nextDouble() * Math.PI * 2.0;
         double y = RANDOM.nextDouble() * 2.0 - 1.0;
@@ -92,7 +105,7 @@ public final class PrismParticles {
         }
     }
 
-    // A glowing spark that twinkles as it drifts, or (as a flare) a soft glow that blooms out and fades.
+    /** A glowing spark that twinkles as it drifts, or (as a flare) a soft glow that blooms out and fades. */
     public static class Glow extends FullBright {
         private final boolean flare;
         private final float baseSize;

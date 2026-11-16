@@ -3,12 +3,6 @@ package xyz.iwolfking.woldsvaults.init;
 import xyz.iwolfking.woldsvaults.stats.ClientboundStatSyncMessage;
 import xyz.iwolfking.woldsvaults.stats.ServerboundStatSyncRequestMessage;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-import java.util.function.Supplier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
@@ -127,15 +121,5 @@ public class ModNetwork {
 
     public static <T> void sendToLevel(T message, Level level) {
         CHANNEL.send(PacketDistributor.DIMENSION.with(level::dimension), message);
-    }
-
-    public static void sendNear(ServerLevel level, Vec3 at, double range, Object message) {
-        CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(at.x, at.y, at.z, range, level.dimension())), message);
-    }
-
-    // client is a () -> () -> ... lambda: naming client classes only inside the inner one keeps them off dedicated servers
-    public static void onClient(Supplier<NetworkEvent.Context> context, Supplier<Runnable> client) {
-        context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, client));
-        context.get().setPacketHandled(true);
     }
 }

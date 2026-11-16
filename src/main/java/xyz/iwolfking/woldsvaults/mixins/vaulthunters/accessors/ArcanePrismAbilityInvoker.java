@@ -6,7 +6,6 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-// places a Prism once its seed has landed
 @Mixin(value = ArcanePrismAbility.class, remap = false)
 public interface ArcanePrismAbilityInvoker {
     @Invoker("createPrism")

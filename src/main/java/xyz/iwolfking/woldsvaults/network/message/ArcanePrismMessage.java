@@ -2,31 +2,29 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.client.arcane.PrismRenderer;
 
 import java.util.function.Supplier;
 
 /**
- * An Arcane: Prism pyramid placed, for clients to draw. It carries where the pyramid is, the angle it first faced, the
- * game time it appeared and how long it lasts. It also carries how far its beams reach, whether it has the split
- * etching's four extra beams, and how far bent light carries and how wide a thing is to it. Its beams turn at
- * {@link #SPIN_DEGREES_PER_TICK} from that first angle on both sides, and clients bend them the same way the server
- * does, so what is drawn is what hits.
+ * An Arcane: Prism pyramid placed, for clients to draw. It carries where the pyramid is, the heading its first beam
+ * faced (radians from +X), the game time it appeared and how long it lasts. It also carries how far its beams reach,
+ * whether it has the split etching's four extra beams, and how far bent light carries and how wide a thing is to it.
  */
-public record ArcanePrismMessage(Vec3 position, float yaw, long created, int durationTicks, float reach, boolean split, float bentRange, float bentRadius) {
-    public static final float SPIN_DEGREES_PER_TICK = 3.0F;
-
+public record ArcanePrismMessage(Vec3 position, float heading, long created, int durationTicks, float reach, boolean split, float bentLength, float bentRadius) {
     public static void encode(ArcanePrismMessage message, FriendlyByteBuf buffer) {
         buffer.writeDouble(message.position.x);
         buffer.writeDouble(message.position.y);
         buffer.writeDouble(message.position.z);
-        buffer.writeFloat(message.yaw);
+        buffer.writeFloat(message.heading);
         buffer.writeLong(message.created);
         buffer.writeVarInt(message.durationTicks);
         buffer.writeFloat(message.reach);
         buffer.writeBoolean(message.split);
-        buffer.writeFloat(message.bentRange);
+        buffer.writeFloat(message.bentLength);
         buffer.writeFloat(message.bentRadius);
     }
 
@@ -36,8 +34,10 @@ public record ArcanePrismMessage(Vec3 position, float yaw, long created, int dur
                 buffer.readBoolean(), buffer.readFloat(), buffer.readFloat());
     }
 
-    public static void handle(ArcanePrismMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.arcane.LaserBeams.addPrism(message.position, message.yaw, message.created,
-                message.durationTicks, message.reach, message.split, message.bentRange, message.bentRadius));
+    public static void handle(ArcanePrismMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> PrismRenderer.addPrism(message.position, message.heading,
+                message.created, message.durationTicks, message.reach, message.split, message.bentLength, message.bentRadius)));
+        context.setPacketHandled(true);
     }
 }

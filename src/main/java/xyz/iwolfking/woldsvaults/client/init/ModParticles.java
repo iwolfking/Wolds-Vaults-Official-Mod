@@ -23,7 +23,6 @@ public class ModParticles {
 
 
     public static final RegistryObject<SimpleParticleType> ELIXIR_ORB = REGISTRY.register("elixir_orb", () -> new SimpleParticleType(true));
-    // Arcane lasers: twinkling sparks and a blooming flare
     public static final RegistryObject<SimpleParticleType> PRISM_SPARK = REGISTRY.register("prism_spark", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> PRISM_FLARE = REGISTRY.register("prism_flare", () -> new SimpleParticleType(true));
 
@@ -35,7 +34,6 @@ public class ModParticles {
 
         particleManager.register(ELIXIR_ORB.get(), ElixirOrbParticle.Provider::new);
         particleManager.register(PRISM_SPARK.get(), sprites -> (type, level, x, y, z, xd, yd, zd) -> new PrismParticles.Glow(level, x, y, z, xd, yd, zd, sprites, false));
-        // xd is the flare's size
         particleManager.register(PRISM_FLARE.get(), sprites -> (type, level, x, y, z, xd, yd, zd) -> new PrismParticles.Glow(level, x, y, z, xd, yd, zd, sprites, true));
     }
 }
