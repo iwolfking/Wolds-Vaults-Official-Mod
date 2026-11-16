@@ -723,6 +723,7 @@
     "vaulthunters.greed.MixinSkillBonusTierCacheGreedNodes",
     "vaulthunters.medallions.MixinCrateLootGenerator",
     "vaulthunters.medallions.MixinVaultMedallionRank",
+    "vaulthunters.medallions.stages.MixinTemplatePoolOmegaRooms",
     "vaulthunters.modifiers.MixinVaultModifierTypeRegistry",
     "vaulthunters.multicell.MixinArchitectObjectiveMultiCell",
     "vaulthunters.multicell.MixinClassicLayoutsMultiCell",

@@ -41,6 +41,11 @@ public final class GreedMedallionEffects {
         return GreedMedallionVaultState.get(level).map(tier -> multiplier(tier.getMobSpawnBonus())).orElse(1.0D);
     }
 
+    /** The factor on the {@code omega_rooms} reference's weight in this vault's room pools. */
+    public static double omegaRoomWeightMultiplier(Vault vault) {
+        return GreedMedallionVaultState.get(vault).map(tier -> multiplier(tier.getOmegaRoomWeightBonus())).orElse(1.0D);
+    }
+
     /**
      * The strongbox tier of this level's vault as {@code StrongboxTierScaling} counts it (the displayed tier minus one),
      * or -1 when its strongboxes are untiered.
