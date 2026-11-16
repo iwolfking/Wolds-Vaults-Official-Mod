@@ -1,21 +1,18 @@
 package xyz.iwolfking.woldsvaults.medallions.champion;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
-import iskallia.vault.init.ModConfigs;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
+import xyz.iwolfking.woldsvaults.medallions.GreedKills;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
-import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinSpawner;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
 import java.util.function.ToDoubleFunction;
 
@@ -24,14 +21,13 @@ import java.util.function.ToDoubleFunction;
  * ores and dangerous kills and bleeds away every tick, so it measures pace rather than total progress.
  */
 public final class VaultChampionRage {
-    private static final ResourceLocation GROUP_HORDE = VaultMod.id("horde");
-    private static final ResourceLocation GROUP_TANK = VaultMod.id("tank");
     private static final Object OWNER = new Object();
 
     private VaultChampionRage() {
     }
 
-    static void register() {
+    /** Registers the chest and ore rage listeners. */
+    public static void register() {
         CommonEvents.CHEST_LOOT_GENERATION.post().register(OWNER, data ->
                 award(data.getPlayer(), config -> config.getRage().chestLooted));
         CommonEvents.ORE_LOOT_GENERATION_EVENT.register(OWNER, data ->
@@ -40,7 +36,7 @@ public final class VaultChampionRage {
 
     /** Rage for a kill, doubled when what died was an elite champion. */
     public static void onKill(LivingEntity killed, LivingDeathEvent event, ServerLevel level) {
-        ServerPlayer killer = GreedAssassinSpawner.resolveKiller(event);
+        ServerPlayer killer = GreedKills.resolveKiller(event);
         if (killer == null || killed instanceof TheVesselEntity) {
             return;
         }
@@ -58,10 +54,10 @@ public final class VaultChampionRage {
         if (GreedAssassins.isAssassin(killed)) {
             return rage.assassinKill;
         }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_TANK, killed)) {
+        if (GreedKills.isTank(killed)) {
             return rage.tankKill;
         }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_HORDE, killed)) {
+        if (GreedKills.isHorde(killed)) {
             return rage.hordeKill;
         }
         return 0.0D;
@@ -75,11 +71,8 @@ public final class VaultChampionRage {
         if (vault == null || !vault.has(Vault.ID)) {
             return;
         }
-        GreedMedallionTier tier = GreedMedallionVaultState.get(vault).orElse(null);
+        GreedMedallionTier tier = GreedMedallionVaultState.huntRank(vault).orElse(null);
         if (tier == null || !tier.vaultChampionHunts()) {
-            return;
-        }
-        if (VaultUtils.isHeraldVault(vault) || VaultUtils.isRebirthVault(vault)) {
             return;
         }
         VaultChampionState.PlayerState state = VaultChampionState.get(vault, player.getUUID());

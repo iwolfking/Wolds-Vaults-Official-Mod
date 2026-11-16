@@ -12,14 +12,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.medallions.GreedKills;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
-import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
- * The payout for killing a greed assassin: coins worth half the medallion's base value plus Assassin Assassinator
- * progress, and no greed reputation directly.
+ * The payout for killing a greed assassin: the assassin greed coins of the rank it was spawned under plus Assassin
+ * Assassinator progress, and no greed reputation directly.
  */
 public final class GreedAssassinKills {
     private GreedAssassinKills() {
@@ -27,7 +28,7 @@ public final class GreedAssassinKills {
 
     public static void handleKill(LivingEntity killed, LivingDeathEvent event, ServerLevel level) {
         GreedAssassinRegistry.forget(killed);
-        ServerPlayer player = GreedAssassinSpawner.resolveKiller(event);
+        ServerPlayer player = GreedKills.resolveKiller(event);
         if (player == null) {
             return;
         }
@@ -37,7 +38,10 @@ public final class GreedAssassinKills {
             WoldLogger.error("Greed assassin died with no medallion tier on it and in no medallion vault - dropping no coins.");
             return;
         }
-        int coinCount = Math.max(1, tier.getBaseGreedCoins() / 2);
+        int coinCount = tier.getAssassinGreedCoins();
+        if (coinCount <= 0) {
+            return;
+        }
         ItemStack coins = new ItemStack(ModItems.GREED_COIN, coinCount);
         ItemEntity coinEntity = new ItemEntity(killed.level, killed.getX(), killed.getY(), killed.getZ(), coins);
         coinEntity.setNoPickUpDelay();

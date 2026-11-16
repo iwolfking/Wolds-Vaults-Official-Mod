@@ -9,7 +9,6 @@ import iskallia.vault.core.event.common.FruitEatenEvent;
 import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultLevel;
 import iskallia.vault.core.vault.VaultRegistry;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
@@ -104,7 +103,7 @@ public abstract class MixinRunner extends Listener {
             if(medallion == null) {
                 return;
             }
-            if(vault.get(Vault.LEVEL).get(VaultLevel.VALUE) < 100 || GreedCrateLoot.isExcludedVault(vault)) {
+            if(!GreedCrateLoot.paysOut(vault)) {
                 return;
             }
 

@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.medallions.assassins;
 
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.entity.EntityScaler;
-import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.init.ModEntities;
 import iskallia.vault.init.ModSounds;
 import net.minecraft.ChatFormatting;
@@ -19,35 +18,20 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 
 /**
- * Places greed assassins for {@link GreedAssassinFury}: a kill feeds the fury meter, and an armed squad is spawned
- * here around the player, stamped with the medallion tier it was spawned under.
+ * Places the squads {@link GreedAssassinFury} arms around the player, each assassin stamped with the medallion tier
+ * it was spawned under.
  */
 public final class GreedAssassinSpawner {
-    private static final int MIN_SPAWN_DISTANCE = 24;
-    private static final int SPAWN_DISTANCE_RANGE = 8;
     private static final int SPAWN_ATTEMPTS = 40;
     private static final int MAX_Y_SEARCH = 5;
 
     private GreedAssassinSpawner() {
-    }
-
-    public static void trySpawn(LivingEntity killed, LivingDeathEvent event, ServerLevel level) {
-        GreedAssassinFury.onKill(killed, event, level);
-    }
-
-    /** The player credited with a kill, following an Eternal back to its owner. */
-    public static ServerPlayer resolveKiller(LivingDeathEvent event) {
-        Entity killer = event.getSource().getEntity();
-        if (killer instanceof EternalEntity eternal) {
-            killer = eternal.getOwner().right().orElse(null);
-        }
-        return killer instanceof ServerPlayer player ? player : null;
     }
 
     private static EntityType<?> randomAssassinType(ServerLevel level) {
@@ -104,9 +88,13 @@ public final class GreedAssassinSpawner {
     }
 
     private static BlockPos findDistantSpawnPos(ServerLevel level, BlockPos playerPos, EntityType<?> entityType) {
+        GreedMedallionsConfig.Assassins settings = GreedMedallionTier.assassinSettings();
+        if (settings == null) {
+            return null;
+        }
         for (int attempt = 0; attempt < SPAWN_ATTEMPTS; attempt++) {
             double angle = Math.PI * 2 * level.random.nextDouble();
-            double distance = MIN_SPAWN_DISTANCE + SPAWN_DISTANCE_RANGE * level.random.nextDouble();
+            double distance = settings.spawnDistanceMin + settings.spawnDistanceRange * level.random.nextDouble();
             int x = playerPos.getX() + (int) (Math.cos(angle) * distance);
             int z = playerPos.getZ() + (int) (Math.sin(angle) * distance);
             BlockPos found = findValidFloorPos(level, x, z, playerPos.getY(), entityType);

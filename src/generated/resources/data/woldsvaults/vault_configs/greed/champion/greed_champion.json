@@ -1,44 +1,44 @@
 {
   "ranks": {
     "10": {
-      "healthPool": 2000000.0,
-      "damageMultiplier": 1.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 41.666666666666664,
       "movementSpeedMultiplier": 1.5,
       "attackSpeedMultiplier": 2.0
     },
     "11": {
-      "healthPool": 2000000.0,
-      "damageMultiplier": 2.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 48.611111111111114,
       "movementSpeedMultiplier": 1.8,
       "attackSpeedMultiplier": 2.4
     },
     "12": {
-      "healthPool": 2000000.0,
-      "damageMultiplier": 4.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 55.55555555555555,
       "movementSpeedMultiplier": 2.1,
       "attackSpeedMultiplier": 2.8
     },
     "13": {
-      "healthPool": 1.0E7,
-      "damageMultiplier": 8.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 62.5,
       "movementSpeedMultiplier": 2.5,
       "attackSpeedMultiplier": 3.3
     },
     "14": {
-      "healthPool": 1.0E7,
-      "damageMultiplier": 15.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 69.44444444444443,
       "movementSpeedMultiplier": 3.0,
       "attackSpeedMultiplier": 3.9
     },
     "15": {
-      "healthPool": 1.0E7,
-      "damageMultiplier": 30.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 76.38888888888889,
       "movementSpeedMultiplier": 3.5,
       "attackSpeedMultiplier": 4.4
     },
     "16": {
-      "healthPool": 1.0E8,
-      "damageMultiplier": 100.0,
+      "healthPool": 5000000.0,
+      "damageMultiplier": 83.33333333333333,
       "movementSpeedMultiplier": 4.0,
       "attackSpeedMultiplier": 5.0
     }

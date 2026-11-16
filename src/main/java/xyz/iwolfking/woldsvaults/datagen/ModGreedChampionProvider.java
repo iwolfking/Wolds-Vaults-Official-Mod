@@ -4,16 +4,24 @@ import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig.Rank;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import java.util.LinkedHashMap;
 
 /**
  * The Vault Champion. Ranks are keyed by the summoning medallion's rank index (health pool, then damage, movement
- * speed and attack speed multipliers); a medallion with no entry never summons one. The other blocks set level
+ * speed and attack speed multipliers); a medallion with no entry never summons one. Every rank shares one health pool;
+ * the spawner multiplies pool and damage by the medallion's mob multiplier. The other blocks set level
  * scaling, the hunt and leash, the forced lightning storm, the flat true damage of Champions and assassins, the
  * effect-piercing aura, rage accrual and the arming roll, and the per-rank rewards.
  */
 public class ModGreedChampionProvider extends AbstractWoldsTableProvider {
+
+    private static final int FIRST_RANK = MilestoneRankLadder.MASTER_1;
+    private static final double HEALTH_POOL = 5_000_000.0D;
+    private static final double LEGEND_DAMAGE_MULTIPLIER = 250.0D / 3.0D;
+    private static final double[] MOVEMENT_SPEED_MULTIPLIER = {1.5D, 1.8D, 2.1D, 2.5D, 3.0D, 3.5D, 4.0D};
+    private static final double[] ATTACK_SPEED_MULTIPLIER = {2.0D, 2.4D, 2.8D, 3.3D, 3.9D, 4.4D, 5.0D};
 
     public ModGreedChampionProvider(DataGenerator generator) {
         super(generator, "greed/champion");
@@ -23,13 +31,11 @@ public class ModGreedChampionProvider extends AbstractWoldsTableProvider {
     public void registerConfigs() {
         GreedChampionConfig table = new GreedChampionConfig();
         table.ranks = new LinkedHashMap<>();
-        table.ranks.put("10", Rank.of(2_000_000.0D, 1.0D, 1.5D, 2.0D));
-        table.ranks.put("11", Rank.of(2_000_000.0D, 2.0D, 1.8D, 2.4D));
-        table.ranks.put("12", Rank.of(2_000_000.0D, 4.0D, 2.1D, 2.8D));
-        table.ranks.put("13", Rank.of(10_000_000.0D, 8.0D, 2.5D, 3.3D));
-        table.ranks.put("14", Rank.of(10_000_000.0D, 15.0D, 3.0D, 3.9D));
-        table.ranks.put("15", Rank.of(10_000_000.0D, 30.0D, 3.5D, 4.4D));
-        table.ranks.put("16", Rank.of(100_000_000.0D, 100.0D, 4.0D, 5.0D));
+        for (int rank = FIRST_RANK; rank <= MilestoneRankLadder.LEGEND_RANK; rank++) {
+            int i = rank - FIRST_RANK;
+            table.ranks.put(String.valueOf(rank), Rank.of(HEALTH_POOL, damageMultiplier(rank),
+                    MOVEMENT_SPEED_MULTIPLIER[i], ATTACK_SPEED_MULTIPLIER[i]));
+        }
 
         table.scaling = new GreedChampionConfig.Scaling();
         table.scaling.baseAttackDamage = 24.0D;
@@ -83,5 +89,11 @@ public class ModGreedChampionProvider extends AbstractWoldsTableProvider {
         table.rewards.greedCoinsPerRank = 5;
         table.rewards.greedyTicketsPerRank = 2;
         this.table("greed_champion", table);
+    }
+
+    /** Half the Legend damage multiplier at the first Champion rank, rising linearly to the full value at Legend. */
+    private static double damageMultiplier(int rank) {
+        double share = (rank - FIRST_RANK) / (double) (MilestoneRankLadder.LEGEND_RANK - FIRST_RANK);
+        return LEGEND_DAMAGE_MULTIPLIER * (0.5D + 0.5D * share);
     }
 }

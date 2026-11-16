@@ -1,10 +1,6 @@
 package xyz.iwolfking.woldsvaults.medallions.champion;
 
-import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.modifier.modifier.MobAttributeModifier;
-import iskallia.vault.core.vault.modifier.spi.ModifierContext;
-import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.entity.EntityScaler;
 import iskallia.vault.entity.boss.TheVesselEntity;
 import iskallia.vault.entity.champion.ChampionPromoter;
@@ -29,8 +25,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
-import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.MobAttributeModifierSettable;
+import xyz.iwolfking.woldsvaults.medallions.GreedModifierInheritance;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,8 +39,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 
 /**
  * Builds a Vault Champion and puts it in the world. It is pre-tagged {@code vault_scaled} so the automatic
- * {@code EntityScaler} pass leaves the authored {@code greed_champion.json} numbers alone, and
- * {@code no_champion} so the elite promoter skips it. It spawns dormant for the arrival pause.
+ * {@code EntityScaler} pass leaves the Champion table's numbers alone, and {@code no_champion} so the elite promoter
+ * skips it. It spawns dormant for the arrival pause.
  */
 public final class VaultChampionSpawner {
     private static final int SPAWN_ATTEMPTS = 40;
@@ -60,7 +57,7 @@ public final class VaultChampionSpawner {
         GreedChampionConfig config = VaultChampion.config();
         GreedChampionConfig.Rank stats = config.getRank(tier.getRankIndex());
         if (stats == null) {
-            WoldLogger.error("Greed medallion rank {} passes the champion gate but greed_champion.json has no "
+            WoldLogger.error("Greed medallion rank {} passes the champion gate but the Champion table has no "
                     + "stat block for it - no champion was spawned.", tier.getRankIndex());
             return null;
         }
@@ -89,7 +86,7 @@ public final class VaultChampionSpawner {
         champion.setHealth(champion.getMaxHealth());
         applySize(champion, config.getScaling().sizeMultiplier);
         announce(level, vault, spawnPos);
-        WoldLogger.info("Vault Champion spawned at rank {} for {}: pool {}, attack damage {}, speed {}.",
+        WoldLogger.debug("Vault Champion spawned at rank {} for {}: pool {}, attack damage {}, speed {}.",
                 tier.getRankIndex(), summoner.getGameProfile().getName(),
                 VaultChampionKills.poolOf(champion), attributeOf(champion, Attributes.ATTACK_DAMAGE),
                 attributeOf(champion, Attributes.MOVEMENT_SPEED));
@@ -106,7 +103,7 @@ public final class VaultChampionSpawner {
         GreedChampionConfig.Scaling scaling = config.getScaling();
         double levelFactor = levelFactor(vault, scaling);
         VaultDifficulty difficulty = difficultyOf(vault, level);
-        double medallionFactor = 1.0D + tier.getMobHealthDamageBonus() / 100.0D;
+        double medallionFactor = GreedMedallionEffects.mobStatMultiplier(tier);
 
         double pool = stats.healthPool * levelFactor * difficulty.getBossHealthMultiplier() * medallionFactor;
         double damage = scaling.baseAttackDamage * levelFactor * stats.damageMultiplier
@@ -131,10 +128,6 @@ public final class VaultChampionSpawner {
      * Max-health modifiers are refused, stripped by diffing against a snapshot so pre-existing ones survive.
      */
     private static void inheritVaultModifiers(Vault vault, TheVesselEntity champion) {
-        if (!vault.has(Vault.MODIFIERS)) {
-            return;
-        }
-        Modifiers modifiers = vault.get(Vault.MODIFIERS);
         AttributeInstance maxHealth = champion.getAttribute(Attributes.MAX_HEALTH);
         Set<UUID> preexisting = new HashSet<>();
         if (maxHealth != null) {
@@ -142,18 +135,7 @@ public final class VaultChampionSpawner {
                 preexisting.add(modifier.getId());
             }
         }
-        int applied = 0;
-        for (Modifiers.Entry entry : modifiers.getEntries()) {
-            VaultModifier<?> modifier = entry.getModifier().orElse(null);
-            ModifierContext context = modifiers.getContext(entry);
-            if (modifier instanceof MobAttributeModifier mob) {
-                mob.applyToEntity(champion, context.getUUID(), context);
-                applied++;
-            } else if (modifier instanceof MobAttributeModifierSettable settable) {
-                settable.applyToEntity(champion, context.getUUID(), context);
-                applied++;
-            }
-        }
+        int applied = GreedModifierInheritance.apply(vault, champion);
         if (maxHealth != null) {
             List<AttributeModifier> added = new ArrayList<>();
             for (AttributeModifier modifier : maxHealth.getModifiers()) {
@@ -172,7 +154,12 @@ public final class VaultChampionSpawner {
     }
 
     private static double levelFactor(Vault vault, GreedChampionConfig.Scaling scaling) {
-        if (scaling.levelAnchor <= 0 || !vault.has(Vault.LEVEL)) {
+        if (scaling.levelAnchor <= 0) {
+            return 1.0D;
+        }
+        if (!vault.has(Vault.LEVEL)) {
+            WoldLogger.error("Vault has no level; the Vault Champion is scaled as if it were level {}.",
+                    scaling.levelAnchor);
             return 1.0D;
         }
         return Math.max(0.01D, vault.get(Vault.LEVEL).get() / (double) scaling.levelAnchor);
@@ -180,11 +167,13 @@ public final class VaultChampionSpawner {
 
     private static VaultDifficulty difficultyOf(Vault vault, ServerLevel level) {
         UUID owner = vault.has(Vault.OWNER) ? vault.get(Vault.OWNER) : null;
-        if (owner == null) {
+        VaultDifficulty difficulty = owner == null ? null : WorldSettings.get(level).getPlayerDifficulty(owner);
+        if (difficulty == null) {
+            WoldLogger.error("No difficulty resolved for vault owner {}; the Vault Champion uses Normal boss multipliers.",
+                    owner);
             return VaultDifficulty.NORMAL;
         }
-        VaultDifficulty difficulty = WorldSettings.get(level).getPlayerDifficulty(owner);
-        return difficulty == null ? VaultDifficulty.NORMAL : difficulty;
+        return difficulty;
     }
 
     private static void setBase(TheVesselEntity champion, Attribute attribute,

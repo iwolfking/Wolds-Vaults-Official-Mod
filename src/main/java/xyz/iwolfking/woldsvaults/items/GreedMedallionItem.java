@@ -54,6 +54,9 @@ public class GreedMedallionItem extends Item {
     /** The medallion's effect table, one line per non-zero column. The tier name is not printed. */
     public static void addSummary(GreedMedallionTier tier, List<Component> tooltip) {
         addLine(tooltip, "Base Greed Coins: " + tier.getBaseGreedCoins(), ChatFormatting.GOLD);
+        if (tier.getAssassinGreedCoins() != 0) {
+            addLine(tooltip, "Greed Coins per Assassin: " + tier.getAssassinGreedCoins(), ChatFormatting.GOLD);
+        }
         addLine(tooltip, "+" + tier.getMobHealthDamageBonus() + "% Mob Health/Damage", ChatFormatting.RED);
         if (tier.getCrateLootBonus() != 0) {
             addLine(tooltip, "+" + tier.getCrateLootBonus() + "% Crate Loot", ChatFormatting.YELLOW);
@@ -65,10 +68,10 @@ public class GreedMedallionItem extends Item {
             addLine(tooltip, "+" + tier.getChestRollsBonus() + "% Chest Rolls", ChatFormatting.YELLOW);
         }
         if (tier.getTrapDisarmPenalty() != 0) {
-            addLine(tooltip, "-" + tier.getTrapDisarmPenalty() + "% Trap Disarm", ChatFormatting.RED);
+            addLine(tooltip, tier.getTrapDisarmPenalty() + "% subtracted from Trap Disarm", ChatFormatting.RED);
         }
         if (tier.getMobSpawnBonus() != 0) {
-            addLine(tooltip, "+" + tier.getMobSpawnBonus() + "% Mobs", ChatFormatting.RED);
+            addLine(tooltip, "+" + tier.getMobSpawnBonus() + "% Mob Spawns", ChatFormatting.RED);
         }
         if (tier.getObjectiveDifficultyBonus() != 0) {
             addLine(tooltip, "+" + tier.getObjectiveDifficultyBonus() + "% Objective Difficulty", ChatFormatting.RED);

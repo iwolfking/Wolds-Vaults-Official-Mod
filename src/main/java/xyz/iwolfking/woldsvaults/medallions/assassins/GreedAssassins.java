@@ -1,13 +1,12 @@
 package xyz.iwolfking.woldsvaults.medallions.assassins;
 
-import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.entity.entity.PetEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 
@@ -29,18 +28,13 @@ public final class GreedAssassins {
         return entity != null && entity.getTags().contains(GREED_ASSASSIN_TAG);
     }
 
-    /** The medallion of the vault this level belongs to, empty for any other level; this is the spawn gate. */
-    public static Optional<GreedMedallionTier> medallionOf(Level level) {
-        return VaultUtils.getVault(level).flatMap(GreedMedallionVaultState::get);
-    }
-
     public static void setTier(Entity entity, GreedMedallionTier tier) {
         entity.getPersistentData().putInt(RANK_KEY, tier.getRankIndex());
     }
 
     /**
-     * The tier stamped on the assassin at spawn, falling back to the vault's live medallion state when there is no
-     * stamp.
+     * The tier stamped on the assassin at spawn, falling back to its vault's medallion when there is no stamp; the
+     * fallback logs an error.
      */
     public static Optional<GreedMedallionTier> getTier(Entity entity) {
         if (entity == null) {
@@ -50,7 +44,9 @@ public final class GreedAssassins {
         if (data.contains(RANK_KEY)) {
             return GreedMedallionTier.byRankIndex(data.getInt(RANK_KEY));
         }
-        return medallionOf(entity.level);
+        WoldLogger.errorOnce("greed-assassin-unstamped", "A greed assassin carries no medallion rank stamp; using its "
+                + "vault's medallion instead.");
+        return GreedMedallionVaultState.get(entity);
     }
 
     /**

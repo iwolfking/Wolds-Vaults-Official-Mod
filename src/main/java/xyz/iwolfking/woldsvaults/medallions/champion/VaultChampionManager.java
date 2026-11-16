@@ -21,7 +21,6 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassinRegistry;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,14 +39,11 @@ public final class VaultChampionManager {
     private static final int ADOPTION_INTERVAL_TICKS = 100;
     private static final int MISSING_GRACE_TICKS = 6000;
 
-    private static boolean rankCoverageChecked;
-
     private VaultChampionManager() {
     }
 
     public static void tick(MinecraftServer server) {
         GreedChampionConfig config = VaultChampion.config();
-        verifyRankCoverage(config);
         int tick = server.getTickCount();
         if (tick % AURA_INTERVAL_TICKS == 0) {
             recomputeAura(server, config);
@@ -87,30 +83,10 @@ public final class VaultChampionManager {
         }
     }
 
-    /**
-     * Warns once a session about ranks {@code greed_medallions.json} lets summon a Champion but
-     * {@code gods/greed_champion.json} has no stat block for; they build rage and never spawn.
-     */
-    private static void verifyRankCoverage(GreedChampionConfig config) {
-        if (rankCoverageChecked) {
-            return;
-        }
-        rankCoverageChecked = true;
-        List<Integer> missing = new ArrayList<>();
-        for (GreedMedallionTier tier : GreedMedallionTier.values()) {
-            if (tier.vaultChampionHunts() && config.getRank(tier.getRankIndex()) == null) {
-                missing.add(tier.getRankIndex());
-            }
-        }
-        if (!missing.isEmpty()) {
-            WoldLogger.error("greed_medallions.json lets medallion ranks {} summon a Vault Champion but "
-                    + "gods/greed_champion.json has no stat block for them - those ranks build rage and never spawn "
-                    + "anything. Add a ranks entry for each, or raise gates.vaultChampionHunts.", missing);
-        }
-    }
-
-    public static void resetSessionState() {
-        rankCoverageChecked = false;
+    /** Drops every rage meter, Champion record and aura member; the server is stopping. */
+    public static void clearAll() {
+        VaultChampionState.clearAll();
+        VaultChampionAura.clear();
     }
 
     /**
@@ -174,7 +150,7 @@ public final class VaultChampionManager {
         tracked.add(champion.getUUID());
         VaultChampionSpawner.applySize(champion, VaultChampion.config().getScaling().sizeMultiplier);
         VaultChampionKills.syncBar(vault, champion);
-        WoldLogger.info("Re-adopted a Vault Champion in vault {} summoned by {}: {} of {} damage already "
+        WoldLogger.debug("Re-adopted a Vault Champion in vault {} summoned by {}: {} of {} damage already "
                         + "dealt to it.", vaultId, summoner, (long) VaultChampionKills.dealtOf(champion),
                 (long) VaultChampionKills.poolOf(champion));
     }
@@ -299,11 +275,14 @@ public final class VaultChampionManager {
         if (state.isArmed() || state.getLiveChampion() != null) {
             return;
         }
-        if (VaultUtils.isHeraldVault(vault) || VaultUtils.isRebirthVault(vault)) {
+        GreedMedallionTier tier = GreedMedallionVaultState.huntRank(vault).orElse(null);
+        if (tier == null || !tier.vaultChampionHunts()) {
             return;
         }
-        GreedMedallionTier tier = GreedMedallionVaultState.get(vault).orElse(null);
-        if (tier == null || !tier.vaultChampionHunts() || config.getRank(tier.getRankIndex()) == null) {
+        if (config.getRank(tier.getRankIndex()) == null) {
+            WoldLogger.errorOnce("greed-champion-rank-" + tier.getRankIndex(), "Medallion rank {} builds rage for a "
+                    + "Vault Champion but the Champion table has no stat block for it; no Champion spawns at that rank.",
+                    tier.getRankIndex());
             return;
         }
         GreedChampionConfig.Rage rage = config.getRage();

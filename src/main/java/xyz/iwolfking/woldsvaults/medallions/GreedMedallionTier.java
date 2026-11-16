@@ -1,18 +1,17 @@
 package xyz.iwolfking.woldsvaults.medallions;
 
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The sixteen greed medallion tiers; a tier's rank index follows the greed rank convention (Scavenger 1 = 1
  * through Legend = 16) and compares directly against {@code PlayerGreedTreeData#getGreedTier}. Every number
- * a tier carries is pack data in {@code config/the_vault/gods/greed_medallions.json}: percent columns are
- * whole percents, and {@code trapDisarmPenalty} is a magnitude consumers subtract.
+ * a tier carries comes from the generated medallion table: percent columns are whole percents, and
+ * {@code trapDisarmPenalty} is a magnitude consumers subtract.
  */
 public enum GreedMedallionTier {
     SCAVENGER_1(1),
@@ -35,10 +34,10 @@ public enum GreedMedallionTier {
     private static GreedMedallionsConfig.Tier[] tiers;
     private static GreedMedallionsConfig.Gates gates;
     private static GreedMedallionsConfig.Fury fury;
+    private static GreedMedallionsConfig.Assassins assassins;
+    private static GreedMedallionsConfig.Crate crate;
 
     private static final GreedMedallionsConfig.Tier NO_BONUSES = new GreedMedallionsConfig.Tier();
-    private static final AtomicBoolean WARNED = new AtomicBoolean();
-    private static final AtomicBoolean FURY_WARNED = new AtomicBoolean();
 
     private final int rankIndex;
 
@@ -46,7 +45,7 @@ public enum GreedMedallionTier {
         this.rankIndex = rankIndex;
     }
 
-    /** Installs the generated medallion table; the installer has already checked every rank, the gates and the fury block. */
+    /** Installs the generated medallion table; the installer has already checked every rank and block. */
     public static void load(GreedMedallionsConfig config) {
         GreedMedallionsConfig.Tier[] applied = new GreedMedallionsConfig.Tier[values().length + 1];
         for (GreedMedallionTier tier : values()) {
@@ -55,16 +54,26 @@ public enum GreedMedallionTier {
         tiers = applied;
         gates = config.gates;
         fury = config.fury;
+        assassins = config.assassins;
+        crate = config.crate;
     }
 
     /** The assassin fury curve, or null until the medallion table is installed, in which case no assassins spawn. */
     @Nullable
     public static GreedMedallionsConfig.Fury furyCurve() {
-        if (fury == null && FURY_WARNED.compareAndSet(false, true)) {
-            WoldLogger.error("Greed assassin fury was read before the greed/medallions/greed_medallions table was "
-                    + "installed; no greed assassins spawn until it is");
-        }
-        return fury;
+        return installed(fury);
+    }
+
+    /** What greed assassins do once spawned, or null until the medallion table is installed. */
+    @Nullable
+    public static GreedMedallionsConfig.Assassins assassinSettings() {
+        return installed(assassins);
+    }
+
+    /** The completion crate coin settings, or null until the medallion table is installed. */
+    @Nullable
+    public static GreedMedallionsConfig.Crate crateSettings() {
+        return installed(crate);
     }
 
     public static Optional<GreedMedallionTier> byRankIndex(int rankIndex) {
@@ -96,6 +105,10 @@ public enum GreedMedallionTier {
 
     public int getBaseGreedCoins() {
         return this.row().baseGreedCoins;
+    }
+
+    public int getAssassinGreedCoins() {
+        return this.row().assassinGreedCoins;
     }
 
     public int getMobHealthDamageBonus() {
@@ -138,45 +151,59 @@ public enum GreedMedallionTier {
         return this.row().assassinRecoverySeconds;
     }
 
+    public int getOmegaRoomWeightBonus() {
+        return this.row().omegaRoomWeightBonus;
+    }
+
+    /** The gear roll type that replaces {@code Omega+} in this rank's vaults; null until the table is installed. */
+    @Nullable
+    public String getOmegaPlusRollType() {
+        return this.row().omegaPlusRollType;
+    }
+
+    /** The displayed strongbox tier of this rank's vaults, 0 for untiered strongboxes. */
+    public int getStrongboxTier() {
+        return this.row().strongboxTier;
+    }
+
     public boolean assassinsInheritVaultModifiers() {
-        return gates() != null && this.rankIndex >= gates.assassinsInheritVaultModifiers;
+        return installed(gates) != null && this.rankIndex >= gates.assassinsInheritVaultModifiers;
     }
 
     public boolean assassinsInflictNegativeEffects() {
-        return gates() != null && this.rankIndex >= gates.assassinsInflictNegativeEffects;
+        return installed(gates) != null && this.rankIndex >= gates.assassinsInflictNegativeEffects;
     }
 
     public boolean assassinsGainBuffingAuras() {
-        return gates() != null && this.rankIndex >= gates.assassinsGainBuffingAuras;
+        return installed(gates) != null && this.rankIndex >= gates.assassinsGainBuffingAuras;
     }
 
     public boolean assassinsGainInfernalModifiers() {
-        return gates() != null && this.rankIndex >= gates.assassinsGainInfernalModifiers;
+        return installed(gates) != null && this.rankIndex >= gates.assassinsGainInfernalModifiers;
     }
 
-    /**
-     * From this rank up a medallion builds rage and can summon a Vault Champion; each such rank needs an entry in
-     * {@code gods/greed_champion.json}.
-     */
+    /** From this rank up a medallion builds rage and can summon a Vault Champion, if the Champion table has its rank. */
     public boolean vaultChampionHunts() {
-        return gates() != null && this.rankIndex >= gates.vaultChampionHunts;
+        return installed(gates) != null && this.rankIndex >= gates.vaultChampionHunts;
     }
 
     /** From this rank up, the arming roll uses the higher legend chance rather than the base one. */
     public boolean vaultChampionEnraged() {
-        return gates() != null && this.rankIndex >= gates.vaultChampionEnraged;
+        return installed(gates) != null && this.rankIndex >= gates.vaultChampionEnraged;
     }
 
     private GreedMedallionsConfig.Tier row() {
-        return tiers == null ? NO_BONUSES : tiers[this.rankIndex];
+        GreedMedallionsConfig.Tier[] installed = installed(tiers);
+        return installed == null ? NO_BONUSES : installed[this.rankIndex];
     }
 
     @Nullable
-    private static GreedMedallionsConfig.Gates gates() {
-        if (gates == null && WARNED.compareAndSet(false, true)) {
-            WoldLogger.error("Greed medallions were read before the greed/medallions/greed_medallions table was installed; "
-                    + "medallions add nothing until it is");
+    private static <T> T installed(@Nullable T block) {
+        if (block == null) {
+            WoldLogger.errorOnce("greed-medallion-table-missing", "Greed medallions were read before the "
+                    + "greed/medallions/greed_medallions table was installed; medallions add nothing and no assassins "
+                    + "spawn until it is");
         }
-        return gates;
+        return block;
     }
 }

@@ -1,56 +1,68 @@
 package xyz.iwolfking.woldsvaults.medallions;
 
 import iskallia.vault.core.vault.Vault;
-import net.minecraftforge.event.server.ServerStoppingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
+import iskallia.vault.core.vault.VaultUtils;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Per-vault registry of the active greed medallion, set when a vault is built from a medallion-bearing crystal and
- * released when it ends. Nothing here persists.
+ * The one way to read which greed medallion a vault was opened with. The rank is set when the vault is built from a
+ * medallion-bearing crystal and saved with the vault's own data, so it survives a server restart and ends with the
+ * vault. Server side only: clients never receive it.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GreedMedallionVaultState {
-    private static final Map<UUID, GreedMedallionTier> ACTIVE = new ConcurrentHashMap<>();
-
     private GreedMedallionVaultState() {
     }
 
-    public static void set(UUID vaultId, GreedMedallionTier tier) {
-        if (vaultId != null && tier != null) {
-            ACTIVE.put(vaultId, tier);
+    public static void set(Vault vault, GreedMedallionTier tier) {
+        if (vault == null || tier == null) {
+            WoldLogger.error("Greed medallion {} could not be written to vault {}; the vault runs without it.",
+                    tier, vault);
+            return;
         }
-    }
-
-    public static Optional<GreedMedallionTier> get(UUID vaultId) {
-        return vaultId == null ? Optional.empty() : Optional.ofNullable(ACTIVE.get(vaultId));
+        ((GreedMedallionVault) vault).woldsvaults$setMedallionRank(tier.getRankIndex());
     }
 
     public static Optional<GreedMedallionTier> get(Vault vault) {
-        if (vault == null || !vault.has(Vault.ID)) {
+        if (vault == null) {
             return Optional.empty();
         }
-        return get(vault.get(Vault.ID));
-    }
-
-    public static void release(UUID vaultId) {
-        if (vaultId != null) {
-            ACTIVE.remove(vaultId);
+        int rank = ((GreedMedallionVault) vault).woldsvaults$getMedallionRank();
+        if (rank <= 0) {
+            return Optional.empty();
         }
+        Optional<GreedMedallionTier> tier = GreedMedallionTier.byRankIndex(rank);
+        if (tier.isEmpty()) {
+            WoldLogger.errorOnce("greed-medallion-vault-rank-" + rank,
+                    "A vault carries greed medallion rank {}, which matches no tier; it runs without medallion effects.",
+                    rank);
+        }
+        return tier;
     }
 
-    public static void clearAll() {
-        ACTIVE.clear();
+    /** The medallion of the vault this level belongs to; empty for any other level and on the client. */
+    public static Optional<GreedMedallionTier> get(Level level) {
+        if (level == null || level.isClientSide) {
+            return Optional.empty();
+        }
+        return VaultUtils.getVault(level).flatMap(GreedMedallionVaultState::get);
     }
 
-    @SubscribeEvent
-    public static void onServerStopping(ServerStoppingEvent event) {
-        clearAll();
+    public static Optional<GreedMedallionTier> get(Entity entity) {
+        return entity == null ? Optional.empty() : get(entity.getLevel());
+    }
+
+    /**
+     * The medallion greed assassins and the Vault Champion hunt under: the vault's medallion, except in herald and
+     * rebirth vaults, where neither appears.
+     */
+    public static Optional<GreedMedallionTier> huntRank(Vault vault) {
+        if (vault == null || VaultUtils.isHeraldVault(vault) || VaultUtils.isRebirthVault(vault)) {
+            return Optional.empty();
+        }
+        return get(vault);
     }
 }

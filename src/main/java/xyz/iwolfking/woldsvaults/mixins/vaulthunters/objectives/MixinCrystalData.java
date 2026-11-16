@@ -152,7 +152,7 @@ public abstract class MixinCrystalData extends CrystalEntry implements ISerializ
                     this.woldsvaults$medallionRank);
             return;
         }
-        GreedMedallionVaultState.set(vault.get(Vault.ID), tier.get());
+        GreedMedallionVaultState.set(vault, tier.get());
     }
 
     /** Exempts greed challenge vaults from random theme infusion while their theme configures. */

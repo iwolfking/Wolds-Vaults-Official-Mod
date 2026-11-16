@@ -1,11 +1,8 @@
 package xyz.iwolfking.woldsvaults.medallions.assassins;
 
-import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.entity.champion.ChampionLogic;
-import iskallia.vault.init.ModConfigs;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import xyz.iwolfking.woldsvaults.api.util.VaultMobUtils;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
+import xyz.iwolfking.woldsvaults.medallions.GreedKills;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 
@@ -31,9 +29,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * rank's recovery time. All state is keyed by vault and dropped when the vault ends.
  */
 public final class GreedAssassinFury {
-    private static final ResourceLocation GROUP_TANK = VaultMod.id("tank");
-    private static final ResourceLocation GROUP_HORDE = VaultMod.id("horde");
-    private static final ResourceLocation GROUP_ASSASSIN = VaultMod.id("assassin");
     private static final double TICKS_PER_SECOND = 20.0D;
     private static final Map<UUID, Map<UUID, State>> VAULTS = new ConcurrentHashMap<>();
 
@@ -104,7 +99,7 @@ public final class GreedAssassinFury {
         if (killed instanceof Player || GreedAssassins.isAssassin(killed)) {
             return;
         }
-        ServerPlayer player = GreedAssassinSpawner.resolveKiller(event);
+        ServerPlayer player = GreedKills.resolveKiller(event);
         if (player == null) {
             return;
         }
@@ -112,8 +107,8 @@ public final class GreedAssassinFury {
         if (vault == null || !vault.has(Vault.ID)) {
             return;
         }
-        GreedMedallionTier tier = GreedMedallionVaultState.get(vault).orElse(null);
-        if (tier == null || VaultUtils.isHeraldVault(vault) || VaultUtils.isRebirthVault(vault)) {
+        GreedMedallionTier tier = GreedMedallionVaultState.huntRank(vault).orElse(null);
+        if (tier == null) {
             return;
         }
         GreedMedallionsConfig.Fury curve = GreedMedallionTier.furyCurve();
@@ -160,13 +155,13 @@ public final class GreedAssassinFury {
         if (VaultMobUtils.isEliteMob(killed) || ChampionLogic.isChampion(killed)) {
             return curve.eliteKill;
         }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_TANK, killed)) {
+        if (GreedKills.isTank(killed)) {
             return curve.tankKill;
         }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_ASSASSIN, killed)) {
+        if (GreedKills.isAssassinType(killed)) {
             return curve.assassinKill;
         }
-        if (ModConfigs.ENTITY_GROUPS.isInGroup(GROUP_HORDE, killed)) {
+        if (GreedKills.isHorde(killed)) {
             return curve.hordeKill;
         }
         return 0.0D;

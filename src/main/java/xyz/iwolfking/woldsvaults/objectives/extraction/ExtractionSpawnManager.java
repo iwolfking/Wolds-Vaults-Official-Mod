@@ -38,6 +38,7 @@ import xyz.iwolfking.woldsvaults.entities.extraction.LaneFollowGoal;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 import xyz.iwolfking.woldsvaults.objectives.ExtractionObjective;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.lib.ObjectiveManager;
@@ -75,7 +76,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     public static final String TAG_BOSS = "wv_ext_boss";
     public static final String TAG_CARRIER = "wv_ext_carrier";
     public static final String TAG_RAM = "wv_ext_ram";
-    public static final String TAG_GREED_CHAMPION = "greed_champion";
 
     private static final int SPAWN_ATTEMPTS = 24;
     private static final int DEFAULT_SEARCH_RADIUS = 3;
@@ -206,7 +206,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
 
     private static double rankFactor(int medallionRank) {
         return GreedMedallionTier.byRankIndex(medallionRank)
-                .map(tier -> GreedMedallionEffects.multiplier(tier.getMobHealthDamageBonus()))
+                .map(GreedMedallionEffects::mobStatMultiplier)
                 .orElseGet(() -> {
                     WoldLogger.error("Extraction stat floor anchor names medallion rank {}, which does not exist; treating it as no floor.", medallionRank);
                     return 1.0D;
@@ -809,7 +809,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         int siteIndex = objective.siteIndex(site);
         AABB bounds = objective.siteRoomBounds(site);
         for (Mob mob : world.getEntitiesOfClass(Mob.class, bounds)) {
-            if (!mob.isAlive() || this.goalled.contains(mob.getUUID()) || mob.getTags().contains(TAG_GREED_CHAMPION)) {
+            if (!mob.isAlive() || this.goalled.contains(mob.getUUID()) || VaultChampion.isChampion(mob)) {
                 continue;
             }
             boolean wave = mob.getTags().contains(TAG_WAVE);
@@ -824,7 +824,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     }
 
     private void attachGoals(LivingEntity living, ExtractionSite site, int siteIndex, LivingEntity rig) {
-        if (!(living instanceof Mob mob) || mob.getTags().contains(TAG_GREED_CHAMPION) || rig == null) {
+        if (!(living instanceof Mob mob) || VaultChampion.isChampion(mob) || rig == null) {
             return;
         }
         mob.targetSelector.addGoal(0, new ExtractorTargetGoal(mob, rig.getUUID(), m -> {
