@@ -13,6 +13,7 @@ import iskallia.vault.core.vault.objective.rune.RuneBossFights;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
+import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.objectives.AlchemyObjective;
 import xyz.iwolfking.woldsvaults.objectives.BallisticBingoObjective;
 import xyz.iwolfking.woldsvaults.objectives.BrutalBossesObjective;
@@ -34,13 +35,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  */
 public final class GreedCrateLoot {
     private static final String TABLE_PREFIX = "greed_crate_loot_";
-    private static final double DEFAULT_MULTIPLIER = 1.0D;
-    private static final double MINOR_MULTIPLIER = 1.2D;
-    private static final double MAJOR_MULTIPLIER = 1.5D;
-    private static final double BALLISTIC_MULTIPLIER = 1.6D;
-    private static final double DOUBLE_MULTIPLIER = 2.0D;
-    private static final double BINGO_LINE_GROWTH = 1.025D;
-    private static final double BALLISTIC_LINE_GROWTH = 1.03D;
     private static final ResourceLocation GREEDY_CRATE_TIER = WoldsVaults.id("greedy_crate_tier");
 
     private GreedCrateLoot() {
@@ -78,42 +72,63 @@ public final class GreedCrateLoot {
     }
 
     /**
-     * The objective's coin multiplier; an unlisted objective falls back to 1x, and several qualifying objectives
-     * resolve to the largest of the set.
+     * Whether a completion crate from this vault gets greed coins and greed crate loot: the vault must be at least the
+     * table's minimum level and not an excluded kind.
+     */
+    public static boolean paysOut(Vault vault) {
+        GreedMedallionsConfig.Crate crate = GreedMedallionTier.crateSettings();
+        if (crate == null || vault == null) {
+            return false;
+        }
+        if (!vault.has(Vault.LEVEL)) {
+            WoldLogger.error("A medallion vault has no level; its completion crate gets no greed coins or greed crate loot.");
+            return false;
+        }
+        return vault.get(Vault.LEVEL).get() >= crate.minimumVaultLevel && !isExcludedVault(vault);
+    }
+
+    /**
+     * The objective's coin multiplier from the table's crate block; an unlisted objective is 1x, and several
+     * qualifying objectives resolve to the largest of the set.
      */
     public static double objectiveMultiplier(Vault vault) {
-        double multiplier = DEFAULT_MULTIPLIER;
+        GreedMedallionsConfig.Crate crate = GreedMedallionTier.crateSettings();
+        double multiplier = 1.0D;
+        if (crate == null) {
+            return multiplier;
+        }
         if (HyperVaultObjective.get(vault).isPresent()) {
-            multiplier = Math.max(multiplier, DOUBLE_MULTIPLIER);
+            multiplier = Math.max(multiplier, crate.doubleObjectiveMultiplier);
         }
         if (!objectives(vault, CorruptedObjective.class).isEmpty()) {
-            multiplier = Math.max(multiplier, DOUBLE_MULTIPLIER);
+            multiplier = Math.max(multiplier, crate.doubleObjectiveMultiplier);
         }
         if (!objectives(vault, AlchemyObjective.class).isEmpty()
                 || !objectives(vault, ChaosObjective.class).isEmpty()) {
-            multiplier = Math.max(multiplier, MAJOR_MULTIPLIER);
+            multiplier = Math.max(multiplier, crate.majorObjectiveMultiplier);
         }
         if (!objectives(vault, BrutalBossesObjective.class).isEmpty()
                 || !objectives(vault, ZealotObjective.class).isEmpty()
                 || !objectives(vault, UnhingedScavengerObjective.class).isEmpty()
                 || !objectives(vault, EnchantedElixirObjective.class).isEmpty()) {
-            multiplier = Math.max(multiplier, MINOR_MULTIPLIER);
+            multiplier = Math.max(multiplier, crate.minorObjectiveMultiplier);
         }
         for (BallisticBingoObjective objective : objectives(vault, BallisticBingoObjective.class)) {
-            multiplier = Math.max(multiplier,
-                    BALLISTIC_MULTIPLIER * Math.pow(BALLISTIC_LINE_GROWTH, Math.max(0, objective.getBingos())));
+            multiplier = Math.max(multiplier, crate.ballisticObjectiveMultiplier
+                    * Math.pow(crate.ballisticLineGrowth, Math.max(0, objective.getBingos())));
         }
         for (BingoObjective objective : objectives(vault, BingoObjective.class)) {
-            multiplier = Math.max(multiplier,
-                    MAJOR_MULTIPLIER * Math.pow(BINGO_LINE_GROWTH, Math.max(0, objective.getBingos())));
+            multiplier = Math.max(multiplier, crate.majorObjectiveMultiplier
+                    * Math.pow(crate.bingoLineGrowth, Math.max(0, objective.getBingos())));
         }
         for (ScavengerBingoObjective objective : objectives(vault, ScavengerBingoObjective.class)) {
-            multiplier = Math.max(multiplier,
-                    MAJOR_MULTIPLIER * Math.pow(BINGO_LINE_GROWTH, Math.max(0, objective.getCompletedBingos())));
+            multiplier = Math.max(multiplier, crate.majorObjectiveMultiplier
+                    * Math.pow(crate.bingoLineGrowth, Math.max(0, objective.getCompletedBingos())));
         }
         int runes = collectedRunes(vault);
         if (runes >= 0) {
-            multiplier = Math.max(multiplier, MINOR_MULTIPLIER * Math.max(1.0D, Math.log10(Math.max(1, runes))));
+            multiplier = Math.max(multiplier,
+                    crate.minorObjectiveMultiplier * Math.max(1.0D, Math.log10(Math.max(1, runes))));
         }
         return multiplier;
     }

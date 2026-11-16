@@ -9,7 +9,6 @@ import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -72,7 +71,6 @@ public final class VaultChampion {
     }
 
     private static final GreedChampionConfig INERT = GreedChampionConfig.inert();
-    private static final AtomicBoolean WARNED = new AtomicBoolean();
 
     /**
      * The installed champion table, or an inert one with no ranks until it is installed; never null, since Vessel
@@ -83,10 +81,8 @@ public final class VaultChampion {
         if (config != null) {
             return config;
         }
-        if (WARNED.compareAndSet(false, true)) {
-            WoldLogger.error("The Vault Champion was read before the greed/champion/greed_champion table was installed; "
-                    + "no Champion can spawn until it is");
-        }
+        WoldLogger.errorOnce("greed-champion-table-missing", "The Vault Champion was read before the "
+                + "greed/champion/greed_champion table was installed; no Champion can spawn until it is");
         return INERT;
     }
 

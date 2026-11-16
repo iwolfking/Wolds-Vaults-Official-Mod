@@ -722,7 +722,7 @@
     "vaulthunters.greed.MixinGreedNodeHelperNodesDisabled",
     "vaulthunters.greed.MixinSkillBonusTierCacheGreedNodes",
     "vaulthunters.medallions.MixinCrateLootGenerator",
-    "vaulthunters.medallions.MixinVaultNaturalSpawner",
+    "vaulthunters.medallions.MixinVaultMedallionRank",
     "vaulthunters.modifiers.MixinVaultModifierTypeRegistry",
     "vaulthunters.multicell.MixinArchitectObjectiveMultiCell",
     "vaulthunters.multicell.MixinClassicLayoutsMultiCell",

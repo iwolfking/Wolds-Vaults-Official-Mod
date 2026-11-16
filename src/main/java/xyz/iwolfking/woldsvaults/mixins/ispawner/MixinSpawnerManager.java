@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperSpawnSoftCap;
 
 import java.util.Collection;
@@ -31,12 +32,15 @@ public class MixinSpawnerManager {
     public SpawnerSettings settings;
 
     /**
-     * Collapses the spawner's per-modifier attempt map into one capped term inside a hyper
-     * vault. SpawnerManager#spawn accumulates {@code attempts += base * modifier} over
+     * Collapses the spawner's per-modifier attempt map into one term in a greed medallion vault
+     * or a hyper vault. SpawnerManager#spawn accumulates {@code attempts += base * modifier} over
      * {@code attemptModifiers.values()}, so returning a single entry makes the burst
-     * {@code base * (1 + effective)} while leaving every other spawner untouched. The term is
-     * soft-capped first, then clamped to the density headroom around the spawner; it can go
-     * negative, which shrinks or zeroes the base attempts too.
+     * {@code base * (1 + effective)} while leaving every other spawner untouched.
+     *
+     * <p>The medallion multiplies the summed vault spawn affixes:
+     * {@code 1 + effective = (1 + sum) * medallion factor}. In a hyper vault that term is then
+     * soft-capped and clamped to the density headroom around the spawner; it can go negative,
+     * which shrinks or zeroes the base attempts too.
      *
      * <p>Redirecting the iteration source rather than the stored local is deliberate: the
      * {@code attempts} local is also decremented once per spawned mob inside the loop below,
@@ -47,23 +51,31 @@ public class MixinSpawnerManager {
             method = "spawn",
             at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;")
     )
-    private Collection<Double> woldsVaults$softCapSpawnAttempts(Map<UUID, Double> attemptModifiers,
-                                                                Level world,
-                                                                Random random,
-                                                                SpawnerBlockEntity entity,
-                                                                SpawnerExecution execution) {
+    private Collection<Double> woldsVaults$scaleSpawnAttempts(Map<UUID, Double> attemptModifiers,
+                                                              Level world,
+                                                              Random random,
+                                                              SpawnerBlockEntity entity,
+                                                              SpawnerExecution execution) {
         double baseAttempts = this.settings.getAttempts();
-        if (baseAttempts <= 0.0 || !HyperSpawnSoftCap.appliesTo(world)) {
+        if (baseAttempts <= 0.0) {
+            return attemptModifiers.values();
+        }
+        double medallion = GreedMedallionEffects.mobSpawnMultiplier(world);
+        boolean hyper = HyperSpawnSoftCap.appliesTo(world);
+        if (medallion == 1.0 && !hyper) {
             return attemptModifiers.values();
         }
         double summed = 0.0;
         for (double modifier : attemptModifiers.values()) {
             summed += modifier;
         }
-        double effective = HyperSpawnSoftCap.effectiveIncrease(summed);
-        int nearbyMonsters = HyperSpawnSoftCap.countNearbyMonsters(world, ((BlockEntity) (Object) entity).getBlockPos());
-        effective = HyperSpawnSoftCap.densityCappedIncrease(baseAttempts, effective, nearbyMonsters);
-        if (effective >= summed) {
+        double effective = (1.0 + summed) * medallion - 1.0;
+        if (hyper) {
+            effective = HyperSpawnSoftCap.effectiveIncrease(effective);
+            int nearbyMonsters = HyperSpawnSoftCap.countNearbyMonsters(world, ((BlockEntity) (Object) entity).getBlockPos());
+            effective = HyperSpawnSoftCap.densityCappedIncrease(baseAttempts, effective, nearbyMonsters);
+        }
+        if (effective == summed) {
             return attemptModifiers.values();
         }
         return List.of(effective);

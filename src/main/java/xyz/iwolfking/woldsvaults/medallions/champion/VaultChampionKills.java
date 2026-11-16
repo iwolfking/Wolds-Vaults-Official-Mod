@@ -1,6 +1,8 @@
 package xyz.iwolfking.woldsvaults.medallions.champion;
 
+import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.init.ModSounds;
 import net.minecraft.ChatFormatting;
@@ -18,6 +20,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
+import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
+import xyz.iwolfking.woldsvaults.gods.combat.FuryIncome;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.message.ChampionHudMessage;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
@@ -35,9 +39,42 @@ public final class VaultChampionKills {
     private static final String DEALT_KEY = "woldsvaults:greed_champion_dealt";
     private static final String DEFEATED_KEY = "woldsvaults:greed_champion_defeated";
     private static final String WAKE_KEY = "woldsvaults:greed_champion_wake";
-    private static final float SCIENTIFIC_THRESHOLD = 1.0E10F;
 
     private VaultChampionKills() {
+    }
+
+    /**
+     * Registers the pool as a final damage stage, after every reduction, cap and floor in the pack; the hit that
+     * empties it marks the Champion defeated and pays the slayer's god fury.
+     */
+    public static void registerDamagePool() {
+        FinalDamageStage.register(VaultMod.id("greed_champion_pool"), FinalDamageStage.ORDER_FLOOR + 100,
+                (event, amount) -> {
+                    if (amount > 0.0F && VaultChampion.isChampion(event.getEntityLiving())
+                            && accumulate(event.getEntityLiving(), amount)) {
+                        markDefeated(event.getEntityLiving());
+                        if (event.getSource().getEntity() instanceof ServerPlayer slayer) {
+                            FuryIncome.awardKill(slayer, event.getEntityLiving());
+                        }
+                    }
+                    return amount;
+                });
+    }
+
+    /**
+     * The Champion's own per-tick business: waking from its arrival pause, and the deferred defeat once its pool is
+     * empty.
+     */
+    public static void tick(LivingEntity entity) {
+        if (!(entity instanceof TheVesselEntity champion) || !(champion.level instanceof ServerLevel level)
+                || !VaultChampion.isChampion(champion)) {
+            return;
+        }
+        if (isDefeated(champion)) {
+            defeat(VaultUtils.getVault(level).orElse(null), level, champion);
+            return;
+        }
+        tickWake(champion);
     }
 
     public static void setPool(Entity champion, double pool) {

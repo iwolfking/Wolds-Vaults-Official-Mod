@@ -2,9 +2,7 @@ package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
 import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.entity.entity.PetEntity;
-import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModEffects;
-import iskallia.vault.VaultMod;
 import iskallia.vault.gear.item.VaultGearItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -17,14 +15,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.items.gear.VaultBattleStaffItem;
+import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
 import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampion;
 
 import java.util.regex.Pattern;
 
 /** Shared target and weapon classification for the Idona nodes. */
 public final class IdonaTargeting {
-    private static final ResourceLocation GREED_ASSASSIN_GROUP = VaultMod.id("greed_assassin");
-
     /** Item ids Better Combat treats as two-handed, mirroring its fallback compatibility config. */
     private static final Pattern TWO_HANDED_ITEMS =
             Pattern.compile("claymore|great_?sword|scythe|halberd|spear|lance|battle_?staff");
@@ -41,7 +38,7 @@ public final class IdonaTargeting {
     }
 
     public static boolean isGreedAssassin(Entity entity) {
-        return ModConfigs.ENTITY_GROUPS != null && ModConfigs.ENTITY_GROUPS.isInGroup(GREED_ASSASSIN_GROUP, entity);
+        return GreedAssassins.isAssassin(entity);
     }
 
     public static boolean isGreedChampion(Entity entity) {

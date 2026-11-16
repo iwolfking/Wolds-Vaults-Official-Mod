@@ -85,6 +85,7 @@ import net.minecraft.world.level.block.Block;
 import xyz.iwolfking.woldsvaults.extraction.jobs.ExtractionPayouts;
 import xyz.iwolfking.woldsvaults.extraction.jobs.GreedCardUpgrades;
 import iskallia.vault.world.data.PlayerGreedTreeData;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -666,7 +667,7 @@ public class ExtractionObjective extends Objective {
         }
         int rank = GreedMedallionVaultState.get(vault).map(GreedMedallionTier::getRankIndex).orElse(0);
         if (rank < job.minRank) {
-            String needed = GreedMedallionTier.byRankIndex(job.minRank).map(tier -> tier.getBand() + " " + tier.getTierInBand()).orElse("rank " + job.minRank);
+            String needed = GreedMedallionTier.byRankIndex(job.minRank).map(GreedMedallionDisplay::getDisplayName).orElse("rank " + job.minRank);
             player.displayClientMessage(new TextComponent("This job needs a " + needed + " greed medallion or better on the crystal.").withStyle(ChatFormatting.RED), true);
             return InteractionResult.FAIL;
         }
