@@ -795,7 +795,9 @@
     "dungeons_library.MixinAbilityHelper",
     "trashslot.TrashSlotGuiHandlerMixin",
     "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
-    "vaulthunters.accessors.BerserkEffectAccessor"
+    "vaulthunters.accessors.BerserkEffectAccessor",
+    "vaulthunters.ancient.MixinLootInitializationLootRank",
+    "vaulthunters.ancient.MixinRuneBossObjectiveLootRank"
   ],
   "client": [
     "vaulthunters.custom.MixinVaultGearTooltipItem",
