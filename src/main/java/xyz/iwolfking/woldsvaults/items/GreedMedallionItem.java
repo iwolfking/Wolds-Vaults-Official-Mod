@@ -11,7 +11,10 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.api.util.DamageNumberFormat;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionGearRolls;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 
 import java.util.List;
@@ -75,6 +78,16 @@ public class GreedMedallionItem extends Item {
         }
         if (tier.getObjectiveDifficultyBonus() != 0) {
             addLine(tooltip, "+" + tier.getObjectiveDifficultyBonus() + "% Objective Difficulty", ChatFormatting.RED);
+        }
+        if (tier.getOmegaRoomWeightBonus() != 0) {
+            addLine(tooltip, "+" + tier.getOmegaRoomWeightBonus() + "% Omega Rooms", ChatFormatting.YELLOW);
+        }
+        if (tier.getStrongboxTier() != 0) {
+            addLine(tooltip, "Strongbox Tier " + tier.getStrongboxTier(), ChatFormatting.YELLOW);
+        }
+        if (tier.getOmegaPlusRollType() != null && !WoldConstants.OMEGA_PLUS_ROLL_TYPE.equals(tier.getOmegaPlusRollType())) {
+            GreedMedallionGearRolls.mythicChance(tier).ifPresent(chance ->
+                    addLine(tooltip, DamageNumberFormat.percent(chance) + " Mythic Chance on Omega+ Gear", ChatFormatting.YELLOW));
         }
         tooltip.add(new TextComponent(GreedMedallionDisplay.getParadigmLine(tier)).withStyle(ChatFormatting.DARK_PURPLE));
         tooltip.add(new TextComponent("Requires greed rank " + GreedMedallionDisplay.getDisplayName(tier) + " to apply")
