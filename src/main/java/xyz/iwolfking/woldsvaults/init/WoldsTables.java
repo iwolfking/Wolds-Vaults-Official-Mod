@@ -32,6 +32,7 @@ import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.core.WoldsTableLoader;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.medallions.stages.VaultStages;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRegistry;
 
@@ -193,6 +194,7 @@ public final class WoldsTables {
             GreedMedallionTier.load(ModConfigs.GREED_MEDALLIONS);
         }
         ModConfigs.GREED_VAULT_STAGES = require(GREED_VAULT_STAGES, "vault_stages");
+        VaultStages.load(ModConfigs.GREED_VAULT_STAGES);
         ModConfigs.GREED_CHAMPION = require(GREED_CHAMPION, "greed_champion");
     }
 

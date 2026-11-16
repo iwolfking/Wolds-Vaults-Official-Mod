@@ -1,14 +1,14 @@
 package xyz.iwolfking.woldsvaults.loot;
 
 /**
- * Item-rarity -> sub-pool weight multipliers for the 5-pool (mapped vault) tiered chest tables.
+ * Item-rarity -> sub-pool weight multipliers for the 5-pool (mythic) tiered chest tables.
  * Pools 0-2 behave exactly like vanilla; pool 3 (omega) gains a ramped exponent and pool 4
  * (mythic) a steeper offset one, so their share keeps growing at high rarity instead of
  * converging to the base-weight ratio.
  */
 public final class MythicLootScaling {
-    /** Sub-pool count of a mapped chest table (4 vanilla tiers + mythic); other tables are untouched. */
-    public static final int MAPPED_POOL_COUNT = 5;
+    /** Sub-pool count of a mythic chest table (4 vanilla tiers + mythic); other tables are untouched. */
+    public static final int MYTHIC_POOL_COUNT = 5;
 
     /** Ramp normalized to 1 at itemRarity 200 (+20000%). */
     private static final double LREF = Math.log10(201.0);

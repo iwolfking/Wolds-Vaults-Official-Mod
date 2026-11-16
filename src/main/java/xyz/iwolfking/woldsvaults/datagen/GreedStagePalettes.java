@@ -69,6 +69,7 @@ public final class GreedStagePalettes {
         paletteDungeonRoomsGildedChestPlaceholder(sink);
         paletteTreasureDoorPlaceholder(sink);
         paletteVendorRoomsVendorRooms(sink);
+        paletteVendorRoomsBarterExpert(sink);
         paletteCometObservatoryBase(sink);
         paletteCoveBase(sink);
         paletteGraveyardBase(sink);
@@ -359,6 +360,20 @@ public final class GreedStagePalettes {
                         .add("the_vault:altar_chest_placeable", 1)
                         .add("minecraft:air", 10))
                 .templateStackTile("@the_vault:vault_lootables", "STRUCTURE_VENDOR_ROOM"));
+    }
+
+    private static void paletteVendorRoomsBarterExpert(Sink sink) {
+        sink.add(GreedStageIds.id(2, "vendor_rooms/barter_expert"), new PaletteBuilder(), p -> p
+                .placeholder(PlaceholderBlock.Type.VENDOR_PEDESTAL, ph -> ph
+                        .probability(0, 1.0, success -> {
+                            success.put("the_vault:shop_pedestal", 20);
+                            success.put("woldsvaults:rare_shop_pedestal", 25);
+                            success.put("woldsvaults:god_shop_pedestal", 18);
+                            success.put("woldsvaults:omega_shop_pedestal", 17);
+                            success.put("woldsvaults:blacksmith_shop_pedestal", 15);
+                        }, failure -> {
+                            failure.put("minecraft:air", 1);
+                        })));
     }
 
     private static void paletteCometObservatoryBase(Sink sink) {
