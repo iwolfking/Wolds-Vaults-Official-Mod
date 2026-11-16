@@ -12,9 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -25,7 +23,6 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ModAncientGearModels {
     private static final List<String> GEAR_TYPES = List.of("sword", "axe", "helmet", "chestplate", "leggings", "boots", "shield", "focus", "wand", "magnet", "jewel", "battlestaff", "rang", "trident", "plushie");
-    private static final Set<ResourceLocation> LOGGED_MISSING = new HashSet<>();
 
     private ModAncientGearModels() {
     }
@@ -42,8 +39,8 @@ public final class ModAncientGearModels {
     public static BakedModel get(Item item) {
         ResourceLocation id = item.getRegistryName();
         if (id == null || !GEAR_TYPES.contains(id.getPath())) {
-            if (id != null && LOGGED_MISSING.add(id)) {
-                WoldLogger.error("No unidentified-ancient sprite exists for gear item {}; it keeps the normal unidentified sprite.", id);
+            if (id != null) {
+                WoldLogger.errorOnce("ancient-sprite-missing-" + id, "No unidentified-ancient sprite exists for gear item {}; it keeps the normal unidentified sprite.", id);
             }
             return null;
         }

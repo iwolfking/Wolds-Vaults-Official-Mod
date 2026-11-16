@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearCommonConfigAccessor;
@@ -45,7 +44,6 @@ public class MixinModConfigs {
      */
     @Inject(method = "register", at = @At(value = "FIELD", target = "Liskallia/vault/init/ModConfigs;VAULT_GEAR_CONFIG:Ljava/util/Map;", opcode = Opcodes.PUTSTATIC, shift = At.Shift.AFTER), remap = false)
     private static void registerAncientUniqueConfigs(CallbackInfo ci) {
-        AncientUniqueHelper.invalidateConfigCache();
         Set<ResourceLocation> baseGearConfigs = new HashSet<>(VAULT_GEAR_CONFIG.keySet());
         VAULT_GEAR_CONFIG.put(UniqueRollTables.ANCIENT_TABLE, new VaultGearTierConfig(UniqueRollTables.ANCIENT_TABLE).readConfig());
         for (ResourceLocation loc : baseGearConfigs) {

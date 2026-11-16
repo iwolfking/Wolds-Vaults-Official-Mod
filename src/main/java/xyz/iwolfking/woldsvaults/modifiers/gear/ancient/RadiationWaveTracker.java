@@ -14,7 +14,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
@@ -22,19 +21,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import xyz.iwolfking.woldsvaults.config.AncientsConfig;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 /**
  * Irradiates mobs near a player wearing the ancient Plague Steppers. Exposure is cumulative - Slowness I
  * on entry, a level per further five seconds, capped at III - and decays at the same rate on leaving.
  */
-@Mod.EventBusSubscriber
 public class RadiationWaveTracker {
     private static final Map<Integer, Integer> exposureTicks = new HashMap<>();
-    private static final int SCAN_INTERVAL_TICKS = 10;
-    private static final int ESCALATION_TICKS = 100;
-    private static final int MAX_AMPLIFIER = 2;
-    private static final int SLOW_DURATION_TICKS = 60;
 
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
@@ -47,7 +43,15 @@ public class RadiationWaveTracker {
             return;
         }
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null || server.getTickCount() % SCAN_INTERVAL_TICKS != 0) {
+        if (server == null) {
+            return;
+        }
+        AncientsConfig.Effects effects = Ancients.effects();
+        if (effects == null) {
+            return;
+        }
+        int scanInterval = effects.radiationScanIntervalTicks;
+        if (server.getTickCount() % scanInterval != 0) {
             return;
         }
 
@@ -68,9 +72,9 @@ public class RadiationWaveTracker {
                     continue;
                 }
                 exposedThisScan.add(mob.getId());
-                int exposure = exposureTicks.merge(mob.getId(), SCAN_INTERVAL_TICKS, Integer::sum);
-                int amplifier = Math.min(MAX_AMPLIFIER, exposure / ESCALATION_TICKS);
-                mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, SLOW_DURATION_TICKS, amplifier, false, true));
+                int exposure = exposureTicks.merge(mob.getId(), scanInterval, Integer::sum);
+                int amplifier = Math.min(effects.radiationMaxAmplifier, exposure / effects.radiationEscalationTicks);
+                mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effects.radiationSlowDurationTicks, amplifier, false, true));
             }
         }
 
@@ -78,7 +82,7 @@ public class RadiationWaveTracker {
             if (exposedThisScan.contains(entry.getKey())) {
                 return false;
             }
-            int remaining = entry.getValue() - SCAN_INTERVAL_TICKS;
+            int remaining = entry.getValue() - scanInterval;
             entry.setValue(remaining);
             return remaining <= 0;
         });

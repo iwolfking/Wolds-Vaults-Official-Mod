@@ -27,7 +27,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import xyz.iwolfking.woldsvaults.config.AncientsConfig;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.items.gear.VaultTridentItem;
 
@@ -41,15 +42,9 @@ import java.util.UUID;
  * the change in {@code position()} and the wall from a ray cast, since {@code getDeltaMovement} and
  * {@code horizontalCollision} are meaningless for a client-driven player.
  */
-@Mod.EventBusSubscriber
 public class CrashwaveTracker {
     private static final Map<UUID, Vec3> lastPosition = new HashMap<>();
     private static final Map<UUID, Integer> nextAllowedTick = new HashMap<>();
-    private static final float REFERENCE_SPEED = 6.0F;
-    private static final float ATTACK_DAMAGE_MULTIPLIER = 2.0F;
-    private static final int RETRIGGER_COOLDOWN_TICKS = 10;
-    private static final double MIN_LOOKAHEAD = 0.9;
-    private static final double LOOKAHEAD_FACTOR = 1.3;
     private static final Vector3f EMBER_HOT = new Vector3f(1.0F, 0.3F, 0.08F);
     private static final Vector3f EMBER_DEEP = new Vector3f(0.72F, 0.06F, 0.04F);
 
@@ -95,6 +90,11 @@ public class CrashwaveTracker {
             lastPosition.remove(id);
             return;
         }
+        AncientsConfig.Effects effects = Ancients.effects();
+        if (effects == null) {
+            lastPosition.remove(id);
+            return;
+        }
 
         Vec3 position = player.position();
         Vec3 previous = lastPosition.put(id, position);
@@ -105,7 +105,7 @@ public class CrashwaveTracker {
         Vec3 travel = position.subtract(previous);
         double perTick = travel.length();
         float impactSpeed = (float) (perTick * 20.0);
-        if (impactSpeed < REFERENCE_SPEED) {
+        if (impactSpeed < effects.crashwaveReferenceSpeed) {
             return;
         }
 
@@ -114,22 +114,22 @@ public class CrashwaveTracker {
             return;
         }
 
-        Vec3 impact = findImpactPoint(player, position, travel, perTick);
+        Vec3 impact = findImpactPoint(player, position, travel, perTick, effects);
         if (impact == null) {
             return;
         }
 
-        nextAllowedTick.put(id, currentTick + RETRIGGER_COOLDOWN_TICKS);
-        triggerCrashwave(player, stack, baseRadius, impactSpeed, impact);
+        nextAllowedTick.put(id, currentTick + effects.crashwaveRetriggerTicks);
+        triggerCrashwave(player, baseRadius, impactSpeed, impact, effects);
     }
 
     /**
      * Where the player is about to hit terrain, or null if the path ahead is clear. The ray reaches a
      * little past this tick's travel; fluids are ignored, so plunging into water is not a crash.
      */
-    private static Vec3 findImpactPoint(ServerPlayer player, Vec3 position, Vec3 travel, double perTick) {
+    private static Vec3 findImpactPoint(ServerPlayer player, Vec3 position, Vec3 travel, double perTick, AncientsConfig.Effects effects) {
         Vec3 from = position.add(0.0, player.getBbHeight() * 0.5, 0.0);
-        Vec3 to = from.add(travel.normalize().scale(Math.max(MIN_LOOKAHEAD, perTick * LOOKAHEAD_FACTOR)));
+        Vec3 to = from.add(travel.normalize().scale(Math.max(effects.crashwaveMinLookahead, perTick * effects.crashwaveLookaheadFactor)));
         BlockHitResult hit = player.level.clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
         return hit.getType() == HitResult.Type.BLOCK ? hit.getLocation() : null;
     }
@@ -138,10 +138,10 @@ public class CrashwaveTracker {
      * Emits the wave: damage by the square root of the speed ratio, radius by its cube root. Dealt inside
      * {@code IS_SHOCKING_COLLISION}, not {@code IS_AOE_ATTACKING}, which skips the multiplier pass.
      */
-    private static void triggerCrashwave(ServerPlayer player, ItemStack trident, int baseRadius, float impactSpeed, Vec3 impact) {
-        float speedRatio = impactSpeed / REFERENCE_SPEED;
+    private static void triggerCrashwave(ServerPlayer player, int baseRadius, float impactSpeed, Vec3 impact, AncientsConfig.Effects effects) {
+        float speedRatio = impactSpeed / effects.crashwaveReferenceSpeed;
         double attackDamage = player.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        float damage = (float) (ATTACK_DAMAGE_MULTIPLIER * attackDamage * Math.sqrt(speedRatio));
+        float damage = (float) (effects.crashwaveDamageMultiplier * attackDamage * Math.sqrt(speedRatio));
         float radius = (float) (baseRadius * Math.cbrt(speedRatio));
 
         List<LivingEntity> targets = EntityHelper.getNearby(player.level, player.blockPosition(), radius, LivingEntity.class);

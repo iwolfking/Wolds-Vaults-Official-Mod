@@ -12,13 +12,17 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearTierConfigAccessor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
-import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Resolves unique and ancient unique modifier rolls. A unique's tier table may hold a row scoped to that unique,
@@ -32,6 +36,7 @@ public final class UniqueRollTables {
 
     private static final ThreadLocal<VaultGearData> ROLLING = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> RESOLVING = ThreadLocal.withInitial(() -> false);
+    private static final Map<ResourceLocation, Boolean> ANCIENT_TABLE_USABLE = new ConcurrentHashMap<>();
 
     private UniqueRollTables() {
     }
@@ -68,7 +73,7 @@ public final class UniqueRollTables {
             if (found != null) {
                 return config.generateModifier(found, level, random);
             }
-            if (data == null || !AncientUniqueHelper.isAncient(data)) {
+            if (data == null || !Ancients.isAncient(data)) {
                 return null;
             }
             VaultGearTierConfig regular = ModConfigs.VAULT_GEAR_CONFIG.get(VaultGearTierConfig.UNIQUE_ITEM);
@@ -97,6 +102,73 @@ public final class UniqueRollTables {
         return config.getTierGroup(identifier) != null ? identifier : null;
     }
 
+    /**
+     * Resolves the shared ancient tier table for an ancient item; empty when the item is not ancient, the unique has
+     * no ancient name, or the table is missing or cannot roll any of the unique's identifiers.
+     */
+    public static Optional<VaultGearTierConfig> getAncientConfig(VaultGearData data) {
+        if (!Ancients.isAncient(data)) {
+            return Optional.empty();
+        }
+        ResourceLocation uniqueKey = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
+        if (uniqueKey == null) {
+            return Optional.empty();
+        }
+        if (!Ancients.isAncientCapable(uniqueKey)) {
+            WoldLogger.errorOnce("ancient-unnamed-" + uniqueKey, "Ancient unique {} has no ancient name; falling back to the normal unique config.", uniqueKey);
+            return Optional.empty();
+        }
+        VaultGearTierConfig config = ModConfigs.VAULT_GEAR_CONFIG.get(ANCIENT_TABLE);
+        if (config == null) {
+            WoldLogger.error("Ancient tier table {} is not registered; falling back to the normal unique config.", ANCIENT_TABLE);
+            return Optional.empty();
+        }
+        if (!isAncientTableUsable(config, uniqueKey)) {
+            return Optional.empty();
+        }
+        addSealRows(config);
+        return Optional.of(config);
+    }
+
+    /**
+     * Gives the ancient table the unique table's seal rows (CORRUPTED_IMPLICIT), so ancient uniques take seals like
+     * regular uniques: corrupting an ancient, and loading a sealed ancient from a build, both read the ancient table.
+     */
+    private static void addSealRows(VaultGearTierConfig ancient) {
+        VaultGearTierConfig.AttributeGroup existing = ancient.getModifierGroup(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT);
+        if (existing != null && !existing.isEmpty()) {
+            return;
+        }
+        VaultGearTierConfig unique = ModConfigs.VAULT_GEAR_CONFIG.get(VaultGearTierConfig.UNIQUE_ITEM);
+        VaultGearTierConfig.AttributeGroup seals = unique == null ? null
+                : unique.getModifierGroup(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT);
+        if (seals == null || seals.isEmpty()) {
+            WoldLogger.error("The unique tier table has no seal rows; ancient uniques cannot take seals.");
+            return;
+        }
+        ((VaultGearTierConfigAccessor) ancient).getModifierGroup().put(VaultGearTierConfig.ModifierAffixTagGroup.CORRUPTED_IMPLICIT, seals);
+        WoldLogger.debug("Gave the ancient tier table the unique table's {} seal row(s).", seals.size());
+    }
+
+    /** Whether the ancient table resolves at least one of the unique's modifier identifiers; memoised per unique. */
+    private static boolean isAncientTableUsable(VaultGearTierConfig config, ResourceLocation uniqueKey) {
+        Boolean cached = ANCIENT_TABLE_USABLE.get(uniqueKey);
+        if (cached != null) {
+            return cached;
+        }
+        boolean usable = resolvesAny(config, uniqueKey);
+        if (!usable) {
+            WoldLogger.error("Ancient tier table {} resolves none of {}'s modifier identifiers - the vault_configs overlay did not load. Falling back to the normal unique config.", ANCIENT_TABLE, uniqueKey);
+        }
+        ANCIENT_TABLE_USABLE.put(uniqueKey, usable);
+        return usable;
+    }
+
+    /** Forgets which uniques the ancient table resolves; called once the reloaded tables are installed. */
+    public static void invalidateAncientTableCache() {
+        ANCIENT_TABLE_USABLE.clear();
+    }
+
     /** Whether the table can roll at least one of the unique's identifiers. */
     public static boolean resolvesAny(VaultGearTierConfig config, ResourceLocation uniqueKey) {
         UniqueGearConfig.Entry entry = ModConfigs.UNIQUE_GEAR.getEntry(uniqueKey).orElse(null);
@@ -123,7 +195,7 @@ public final class UniqueRollTables {
         List<String> dead = new ArrayList<>();
         for (Map.Entry<ResourceLocation, UniqueGearConfig.Entry> unique : ModConfigs.UNIQUE_GEAR.getRegistry().entrySet()) {
             ResourceLocation uniqueKey = unique.getKey();
-            boolean ancientCapable = ancient != null && AncientUniqueHelper.getAncientName(uniqueKey).isPresent();
+            boolean ancientCapable = ancient != null && Ancients.isAncientCapable(uniqueKey);
             unique.getValue().getModifierIdentifiers().values().stream().flatMap(List::stream).forEach(identifier -> {
                 boolean inRegular = resolve(regular, uniqueKey, identifier) != null;
                 boolean inAncient = ancientCapable && resolve(ancient, uniqueKey, identifier) != null;

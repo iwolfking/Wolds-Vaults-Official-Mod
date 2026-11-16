@@ -15,7 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
 
 import java.util.List;
 import java.util.Random;
@@ -23,7 +23,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The retired stackable "unidentified ancient unique". Unidentified ancients are now real unidentified gear
- * ({@link AncientUniqueHelper#createUnidentifiedAncient}); any leftover stack of this item converts itself into
+ * ({@link AncientItems#createUnidentifiedAncient}); any leftover stack of this item converts itself into
  * that many rolled pieces the first time it ticks in a player's inventory, then this item can be dropped.
  */
 public class LegacyUnidentifiedAncientItem extends BasicItem {
@@ -44,7 +44,7 @@ public class LegacyUnidentifiedAncientItem extends BasicItem {
         ItemStack first = ItemStack.EMPTY;
         int produced = 0;
         for (int i = 0; i < count; i++) {
-            ItemStack ancient = AncientUniqueHelper.rollUnidentifiedAncient(RANDOM);
+            ItemStack ancient = AncientItems.rollUnidentifiedAncient(RANDOM);
             if (ancient.isEmpty()) {
                 break;
             }
@@ -60,7 +60,7 @@ public class LegacyUnidentifiedAncientItem extends BasicItem {
             WoldLogger.error("A legacy unidentified ancient unique could not convert because no ancient could be rolled; leaving the stack as is.");
             return;
         }
-        WoldLogger.info("Converted {} legacy unidentified ancient unique(s) held by {} into unidentified ancient gear.", produced, player.getGameProfile().getName());
+        WoldLogger.debug("Converted {} legacy unidentified ancient unique(s) held by {} into unidentified ancient gear.", produced, player.getGameProfile().getName());
         if (produced >= count && itemSlot >= 0 && itemSlot < player.getInventory().getContainerSize() && player.getInventory().getItem(itemSlot) == stack) {
             player.getInventory().setItem(itemSlot, first);
             return;

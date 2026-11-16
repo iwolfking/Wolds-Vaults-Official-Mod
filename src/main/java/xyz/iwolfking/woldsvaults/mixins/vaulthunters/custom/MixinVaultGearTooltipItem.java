@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 
 import java.util.*;
 
@@ -99,7 +100,7 @@ public interface MixinVaultGearTooltipItem{
             case IDENTIFIED -> {
                 Optional<GearSetConfig.GearSet> set = GearSetHelper.setOf(stack).flatMap(GearSetHelper.config()::getSet);
                 if (set.isPresent()) {
-                    boolean ancient = data.getFirstValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE).orElse(false);
+                    boolean ancient = Ancients.isAncient(data);
                     int color = ancient ? set.get().ancientColorRgb() : set.get().colorRgb();
                     tooltip.add(new TranslatableComponent("tooltip.the_vault.rarity")
                             .append(new TextComponent(ancient ? "Ancient Set" : "Set").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)))));

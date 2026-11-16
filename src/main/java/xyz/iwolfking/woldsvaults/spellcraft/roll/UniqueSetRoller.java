@@ -5,7 +5,7 @@ import iskallia.vault.init.ModGearAttributes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
 import xyz.iwolfking.woldsvaults.spellcraft.item.GlyphLine;
@@ -105,7 +105,7 @@ public final class UniqueSetRoller implements SpellcraftRoller.UniqueSets {
             WoldLogger.errorOnce("UniqueSetRoller:set:" + uniqueId, "Spellcraft: unique " + uniqueId + " has no glyph set; it rolls like any carrier");
             return null;
         }
-        String row = AncientUniqueHelper.isAncient(data) ? set.ancientRarityRow : set.rarityRow;
+        String row = Ancients.isAncient(data) ? set.ancientRarityRow : set.rarityRow;
         SpellcraftConfig.RarityRolls rolls = config.focus.rarities.get(row);
         if (rolls == null) {
             WoldLogger.errorOnce("UniqueSetRoller:row:" + row, "Spellcraft: unique set {} rolls on rarity row {}, which the focus rolls lack; it rolls like any carrier",

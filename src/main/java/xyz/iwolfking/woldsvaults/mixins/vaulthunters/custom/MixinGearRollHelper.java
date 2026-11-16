@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.*;
@@ -33,12 +35,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 import xyz.iwolfking.woldsvaults.expertises.EclecticGearExpertise;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientChance;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.prestige.CraftingPotentialPrestigePower;
 
@@ -174,15 +179,18 @@ public class MixinGearRollHelper {
         }
     }
 
-    /** Marks the unique being rolled so its modifier lookups can use unique-scoped and ancient rows. */
-    @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At("HEAD"))
-    private static void beginUniqueRoll(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
+    /**
+     * Marks the unique being rolled for the whole of its roll, so its modifier lookups can use unique-scoped and
+     * ancient rows, and clears the mark even when the roll throws.
+     */
+    @WrapMethod(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V")
+    private static void wrapUniqueRoll(VaultGearData data, ItemStack stack, Player player, Operation<Void> original) {
         UniqueRollTables.beginUniqueRoll(data);
-    }
-
-    @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At("RETURN"))
-    private static void endUniqueRoll(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
-        UniqueRollTables.endUniqueRoll();
+        try {
+            original.call(data, stack, player);
+        } finally {
+            UniqueRollTables.endUniqueRoll();
+        }
     }
 
     /**
@@ -191,18 +199,18 @@ public class MixinGearRollHelper {
      */
     @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getConfig(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"))
     private static void rollAncientUnique(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
-        boolean preset = AncientUniqueHelper.isAncient(data);
-        if(!preset && !AncientUniqueHelper.rollAncient(data, player, rand)) {
+        boolean preset = Ancients.isAncient(data);
+        if(!preset && !AncientChance.rollIdentify(data, player, rand)) {
             return;
         }
 
-        data.createOrReplaceAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE, true);
-        data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY)
-                .flatMap(AncientUniqueHelper::getAncientName)
-                .ifPresent(name -> data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_NAME, name));
+        ResourceLocation uniqueKey = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
+        if(!AncientItems.markAncient(data, uniqueKey)) {
+            WoldLogger.errorOnce("ancient-identify-unnamed-" + uniqueKey, "Ancient unique {} has no ancient name; it keeps its unique name.", uniqueKey);
+        }
         data.write(stack);
 
-        if(player instanceof ServerPlayer serverPlayer && AncientUniqueHelper.hasAncientProvenance(data)) {
+        if(player instanceof ServerPlayer serverPlayer && AncientChance.hasRankSource(data)) {
             Milestones.onAncientUniqueIdentified(serverPlayer);
         }
     }

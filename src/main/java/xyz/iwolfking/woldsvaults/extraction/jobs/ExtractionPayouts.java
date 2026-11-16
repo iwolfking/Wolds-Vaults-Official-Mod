@@ -1,11 +1,7 @@
 package xyz.iwolfking.woldsvaults.extraction.jobs;
 
-import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
-import iskallia.vault.config.UniqueGearConfig;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.init.ModConfigs;
-import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.BoosterPackItem;
 import iskallia.vault.util.LootInitialization;
 import net.minecraft.core.BlockPos;
@@ -17,7 +13,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -253,10 +249,9 @@ public final class ExtractionPayouts {
                                    Vault vault, BlockPos pos, Random random) {
         Map<String, Double> weights = rarityWeights(spec, extraPower, itemRarity);
         List<ResourceLocation> keys = new ArrayList<>(ModConfigs.UNIQUE_GEAR.getRegistry().keySet());
-        keys.removeIf(GearSetHelper::isSetPiece);
         for (int i = 0; i < count; i++) {
             if ("ancient".equals(pickWeighted(weights, random, "unique"))) {
-                ItemStack ancient = AncientUniqueHelper.rollUnidentifiedAncient(random, false);
+                ItemStack ancient = AncientItems.rollUnidentifiedAncient(random);
                 if (!ancient.isEmpty()) {
                     payout.add(LootInitialization.initializeVaultLoot(ancient, vault, pos));
                 }
@@ -276,22 +271,8 @@ public final class ExtractionPayouts {
 
     /** An unidentified piece of gear locked to one unique; it rolls into that unique when identified. */
     static ItemStack createUnidentifiedUnique(ResourceLocation key, Vault vault, BlockPos pos) {
-        UniqueGearConfig.Entry entry = ModConfigs.UNIQUE_GEAR.getEntry(key).orElse(null);
-        if (entry == null) {
-            WoldLogger.error("Unique {} has no registry entry; skipped.", key);
-            return ItemStack.EMPTY;
-        }
-        ItemStack stack = new ItemStack(entry.getItem());
-        if (stack.isEmpty()) {
-            WoldLogger.error("Unique {} resolved to an empty base item; skipped.", key);
-            return ItemStack.EMPTY;
-        }
-        VaultGearData data = VaultGearData.read(stack);
-        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, "Unique");
-        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_UNIQUE_POOL, ModConfigs.UNIQUE_GEAR.findPoolForUnique(key).orElse(UniqueGearConfig.DEFAULT_POOL));
-        data.createOrReplaceAttributeValue(ModGearAttributes.UNIQUE_ITEM_KEY, key);
-        data.write(stack);
-        return LootInitialization.initializeVaultLoot(stack, vault, pos);
+        ItemStack stack = AncientItems.createUnidentifiedUnique(key);
+        return stack.isEmpty() ? ItemStack.EMPTY : LootInitialization.initializeVaultLoot(stack, vault, pos);
     }
 
     private static String capitalize(String value) {

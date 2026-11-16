@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 
 import java.util.*;
@@ -77,7 +78,7 @@ public class AdaptiveFocusUniqueGearRecipe extends VanillaAnvilRecipe {
         ItemStack swordInput = new ItemStack(iskallia.vault.init.ModItems.SWORD);
         VaultGearData data = VaultGearData.read(swordInput);
         data.setItemLevel(0);
-        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, "Unique");
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, WoldConstants.UNIQUE_ROLL_TYPE);
         data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_UNIQUE_POOL, VaultMod.id("inflated_justice"));
         data.write(swordInput);
         if(swordInput.getItem() instanceof IdentifiableItem identifiableItem) {

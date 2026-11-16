@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 
 /**
  * Paints a background under and a frame over any ancient unique in a container slot: dark green for set pieces,
@@ -43,7 +43,7 @@ public final class AncientSlotDecorator {
         if (stack.isEmpty() || !stack.hasTag()) {
             return false;
         }
-        return GearDataCache.of(stack).hasAttribute(ModGearAttributes.ANCIENT_UNIQUE);
+        return Ancients.isAncient(GearDataCache.of(stack));
     }
 
     /** Depth testing is off, so the quad lands by draw order: background under the item, frame over it. */

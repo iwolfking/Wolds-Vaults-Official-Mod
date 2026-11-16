@@ -31,7 +31,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
 import xyz.iwolfking.woldsvaults.builds.BuildException;
 import xyz.iwolfking.woldsvaults.builds.BuildReport;
 import xyz.iwolfking.woldsvaults.builds.BuildJson;
@@ -567,14 +567,6 @@ public final class GearCodec {
             }
             attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.UNIQUE_ITEM_KEY, uniqueId));
             String name = entry.getName();
-            if (ancient) {
-                Optional<String> ancientName = AncientUniqueHelper.getAncientName(uniqueId);
-                if (ancientName.isPresent()) {
-                    name = ancientName.get();
-                } else {
-                    report.fallback(path + ": ancient " + uniqueId + " has no ancient name; it keeps the unique name " + name);
-                }
-            }
             if (name != null) {
                 attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.GEAR_NAME, name));
             }
@@ -589,8 +581,8 @@ public final class GearCodec {
         if (modelText != null) {
             attributeList.add(new VaultGearAttributeInstance<>(ModGearAttributes.GEAR_MODEL, BuildJson.id(modelText, path + ".model")));
         }
-        if (ancient) {
-            attributeList.add(new VaultGearAttributeInstance<>(xyz.iwolfking.woldsvaults.init.ModGearAttributes.ANCIENT_UNIQUE, true));
+        if (ancient && !AncientItems.markAncient(data, uniqueId)) {
+            report.fallback(path + ": ancient " + uniqueId + " has no ancient name; it keeps the unique name");
         }
     }
 

@@ -41,7 +41,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import java.util.UUID;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
@@ -65,10 +66,10 @@ public class MixinVaultGearHelper {
             return;
         }
         GearDataCache cache = GearDataCache.of(stack);
-        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
+        if (cache.getState() != VaultGearState.UNIDENTIFIED || !Ancients.isAncient(cache)) {
             return;
         }
-        Style style = defaultName.getStyle().withColor(TextColor.fromRgb(AncientUniqueHelper.ANCIENT_COLOR));
+        Style style = defaultName.getStyle().withColor(TextColor.fromRgb(WoldConstants.ANCIENT_COLOR));
         cir.setReturnValue(new TextComponent("Unidentified Ancient ").setStyle(style).append(defaultName.copy().setStyle(style)));
     }
 
@@ -83,7 +84,7 @@ public class MixinVaultGearHelper {
             return;
         }
         GearSetHelper.setOf(stack).flatMap(GearSetHelper.config()::getSet).ifPresent(set -> {
-            boolean ancient = cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE);
+            boolean ancient = Ancients.isAncient(cache);
             Style style = Style.EMPTY.withColor(TextColor.fromRgb(ancient ? set.ancientColorRgb() : set.colorRgb()));
             String name = cache.getGearName();
             cir.setReturnValue(name == null ? defaultName.copy().setStyle(style) : new TextComponent(name).setStyle(style));

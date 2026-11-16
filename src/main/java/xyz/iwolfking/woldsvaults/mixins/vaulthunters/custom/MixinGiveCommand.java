@@ -21,7 +21,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 
 import javax.annotation.Nullable;
 
@@ -49,13 +50,13 @@ public class MixinGiveCommand {
             player.sendMessage(new TextComponent("Unknown unique item: " + uniqueName).withStyle(ChatFormatting.RED), Util.NIL_UUID);
             return 0;
         }
-        String ancientName = AncientUniqueHelper.getAncientName(uniqueKey).orElse(null);
+        String ancientName = Ancients.getAncientName(uniqueKey).orElse(null);
         if (ancientName == null) {
             player.sendMessage(new TextComponent(uniqueKey + " has no ancient variant.").withStyle(ChatFormatting.RED), Util.NIL_UUID);
             return 0;
         }
 
-        ItemStack stack = AncientUniqueHelper.createAncientUnique(uniqueKey, player, level);
+        ItemStack stack = AncientItems.createAncientUnique(uniqueKey, player, level);
         if (stack.isEmpty()) {
             player.sendMessage(new TextComponent("Failed to create an ancient " + uniqueKey + "; see the log for why.").withStyle(ChatFormatting.RED), Util.NIL_UUID);
             return 0;

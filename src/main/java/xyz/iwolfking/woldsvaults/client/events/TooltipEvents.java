@@ -26,7 +26,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositUpgradeWrapper;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
@@ -51,7 +51,6 @@ import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import java.util.ArrayList;
 import java.util.Collections;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class TooltipEvents {
@@ -126,13 +125,13 @@ public class TooltipEvents {
             return;
         }
         GearDataCache cache = GearDataCache.of(stack);
-        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
+        if (cache.getState() != VaultGearState.UNIDENTIFIED || !Ancients.isAncient(cache)) {
             return;
         }
         List<Component> tooltip = event.getToolTip();
         int at = Math.min(1, tooltip.size());
         tooltip.add(at, new TextComponent("Identifies into an Ancient unique").withStyle(ChatFormatting.DARK_GRAY));
-        tooltip.add(at, new TextComponent("Ancient Unique").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(AncientUniqueHelper.ANCIENT_COLOR)).withBold(true)));
+        tooltip.add(at, new TextComponent("Ancient Unique").withStyle(Style.EMPTY.withColor(TextColor.fromRgb(WoldConstants.ANCIENT_COLOR)).withBold(true)));
     }
 
     /** Crystals made by the Ancient Crystals extraction job say so right under their name. */
