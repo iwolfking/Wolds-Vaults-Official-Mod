@@ -14,6 +14,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
+import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -249,6 +250,7 @@ public final class ExtractionPayouts {
                                    Vault vault, BlockPos pos, Random random) {
         Map<String, Double> weights = rarityWeights(spec, extraPower, itemRarity);
         List<ResourceLocation> keys = new ArrayList<>(ModConfigs.UNIQUE_GEAR.getRegistry().keySet());
+        keys.removeIf(GearSetHelper::isSetPiece);
         for (int i = 0; i < count; i++) {
             if ("ancient".equals(pickWeighted(weights, random, "unique"))) {
                 ItemStack ancient = AncientItems.rollUnidentifiedAncient(random);
