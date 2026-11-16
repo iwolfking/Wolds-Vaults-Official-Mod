@@ -397,7 +397,7 @@ dependencies {
     implementation fg.deobf('local:vhroller:1.5.0')
     implementation fg.deobf('local:forgified-sgui:1.0.2')
     implementation fg.deobf('local:black_market_tweaks:1.8')
-    implementation fg.deobf('local:vhapi:5.6.0')
+    implementation fg.deobf('local:vhapi:5.8.0')
     implementation fg.deobf('local:vault_hunters_extra_commands:1.8.0')
     implementation fg.deobf('local:vault_hunters_extra_rules:2.1.1')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
