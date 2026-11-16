@@ -16,6 +16,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
+import xyz.iwolfking.woldsvaults.client.screens.stats.StatRowStyle;
+import xyz.iwolfking.woldsvaults.client.screens.stats.StatScreenLayout;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.StatLabelElementBuilderAccessor;
 
 import java.beans.Introspector;
@@ -25,9 +27,12 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * The H screen's stat lists as text, captured on the client at Save and replayed on the armory's Gear tab. The
- * rows are what the player's own H screen showed at that moment; nothing is recomputed later.
+ * rows are what the player's own H screen showed at that moment; nothing is recomputed later. Replayed rows get the
+ * H screen's layout: categories, value colours and compact numbers.
  */
 public final class ArmoryStats extends StatisticsElementContainerScreenData {
+    public static final String PROMINENT = "prominent";
+
     private ArmoryStats(Player player) {
         super(player);
     }
@@ -36,7 +41,7 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
     public static CompoundTag capture(Player player) {
         ArmoryStats data = new ArmoryStats(player);
         CompoundTag tag = new CompoundTag();
-        tag.put("prominent", rows(data.getStatListProminent()));
+        tag.put(PROMINENT, rows(data.getStatListProminent()));
         tag.put("player", rows(data.getStatListPlayer()));
         CompoundTag reputation = new CompoundTag();
         for (VaultGod god : VaultGod.values()) {
@@ -56,6 +61,10 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
                 StatLabelElementBuilderAccessor accessor = (StatLabelElementBuilderAccessor) builder;
                 CompoundTag row = new CompoundTag();
                 row.putString("label", accessor.woldsvaults$getLabelSupplier().get());
+                String key = ((StatRowStyle) builder).woldsvaults$getStatKey();
+                if (key != null) {
+                    row.putString("key", key);
+                }
                 Object value = accessor.woldsvaults$getFinalValueSupplier().get();
                 MutableComponent shown = accessor.woldsvaults$getValueFormatFunction().apply(value);
                 row.putString("value", Component.Serializer.toJson(shown));
@@ -72,7 +81,7 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
         return list;
     }
 
-    /** The saved rows as builders the H screen's list elements accept. */
+    /** The saved rows as builders the H screen's list elements accept, styled as the H screen styles that list. */
     public static List<StatLabelElementBuilder<?>> builders(CompoundTag stats, String key) {
         List<StatLabelElementBuilder<?>> out = new ArrayList<>();
         ListTag list = stats.getList(key, Tag.TAG_COMPOUND);
@@ -92,8 +101,17 @@ public final class ArmoryStats extends StatisticsElementContainerScreenData {
             for (int j = 0; j < lines.size(); j++) {
                 description.add(lines.getString(j));
             }
-            out.add(new StatLabelElementBuilder<String>(() -> label, () -> description, () -> label,
-                    ignored -> shown.copy(), TextColor.fromRgb(row.getInt("color"))));
+            StatLabelElementBuilder<String> builder = new StatLabelElementBuilder<>(() -> label, () -> description, () -> label,
+                    ignored -> shown.copy(), TextColor.fromRgb(row.getInt("color")));
+            if (row.contains("key", Tag.TAG_STRING)) {
+                ((StatRowStyle) builder).woldsvaults$setStatKey(row.getString("key"));
+            }
+            out.add(builder);
+        }
+        if (PROMINENT.equals(key)) {
+            StatScreenLayout.colorProminent(out);
+        } else {
+            StatScreenLayout.colorPlayer(out);
         }
         return out;
     }

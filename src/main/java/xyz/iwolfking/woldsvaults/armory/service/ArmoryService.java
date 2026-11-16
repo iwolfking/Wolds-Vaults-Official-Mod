@@ -24,7 +24,7 @@ import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
- * Save, Stow and Load. Each action first builds its whole move list (and, for Load, the tree plan), checks it
+ * Save, Store and Load. Each action first builds its whole move list (and, for Load, the tree plan), checks it
  * (excess room, curio equip rules, tree gates) and only then moves anything: a refusal leaves the player, the page
  * and the excess untouched.
  */
@@ -91,18 +91,18 @@ public final class ArmoryService {
     }
 
     /** Moves every marked slot's item into the page; page items it replaces go to excess. */
-    public static void stow(ServerPlayer player, ArmoryBlockEntity armory, int pageIndex) {
+    public static void store(ServerPlayer player, ArmoryBlockEntity armory, int pageIndex) {
         if (armory.isCreative()) {
-            refuse(player, "Stow", List.of("The Creative Armory hands out copies; it does not store items"));
+            refuse(player, "Store", List.of("The Creative Armory hands out copies; it does not store items"));
             return;
         }
         if (PouchHelper.locked(player)) {
-            refuse(player, "Stow", List.of("The armory cannot be used from inside a vault"));
+            refuse(player, "Store", List.of("The armory cannot be used from inside a vault"));
             return;
         }
         ArmoryPage page = armory.page(pageIndex);
         if (page.build() == null) {
-            refuse(player, "Stow", List.of("Build " + (pageIndex + 1) + " has no save yet; save a build first"));
+            refuse(player, "Store", List.of("Build " + (pageIndex + 1) + " has no save yet; save a build first"));
             return;
         }
         List<ItemStack> toExcess = new ArrayList<>();
@@ -119,7 +119,7 @@ public final class ArmoryService {
         }
         int shortfall = excessShortfall(armory.excess(), toExcess);
         if (shortfall > 0) {
-            refuse(player, "Stow", List.of("Excess needs " + shortfall + " more free slots"));
+            refuse(player, "Store", List.of("Excess needs " + shortfall + " more free slots"));
             return;
         }
         int moved = 0;
@@ -130,7 +130,7 @@ public final class ArmoryService {
                 continue;
             }
             if (!PlayerSlots.set(player, key, ItemStack.EMPTY)) {
-                WoldLogger.warn("Armory: could not take {} out of {}'s {} during Stow; left in place",
+                WoldLogger.warn("Armory: could not take {} out of {}'s {} during Store; left in place",
                         current.getHoverName().getString(), player.getGameProfile().getName(), key);
                 continue;
             }
@@ -144,7 +144,7 @@ public final class ArmoryService {
         }
         armory.setChanged();
         afterMove(player);
-        tell(player, ChatFormatting.GREEN, "Stowed " + moved + " items in Build " + (pageIndex + 1) + ".");
+        tell(player, ChatFormatting.GREEN, "Stored " + moved + " items in Build " + (pageIndex + 1) + ".");
     }
 
     /** Equips the page's items, then applies the saved trees the upgrades allow; all or nothing. */

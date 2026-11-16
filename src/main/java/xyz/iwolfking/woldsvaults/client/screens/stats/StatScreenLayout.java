@@ -29,16 +29,23 @@ public final class StatScreenLayout {
     private StatScreenLayout() {
     }
 
-    /** Colours the prominent rows beside the player model, matched by label. */
+    /** Keys and colours the prominent rows beside the player model, matched by label, and shows synced values. */
     public static void styleProminent(List<StatLabelElementBuilder<?>> rows) {
-        StatScreenConfig table = table();
+        colorProminent(rows);
         for (StatLabelElementBuilder<?> row : rows) {
-            String label = label(row);
-            String key = StatSources.PROMINENT_PREFIX + label;
-            ((StatRowStyle) row).woldsvaults$setStatKey(key);
+            String key = ((StatRowStyle) row).woldsvaults$getStatKey();
             if (StatSources.has(key)) {
                 ((StatRowStyle) row).woldsvaults$syncFrom(key);
             }
+        }
+    }
+
+    /** Keys and colours the prominent rows by label without touching their values. */
+    public static void colorProminent(List<StatLabelElementBuilder<?>> rows) {
+        StatScreenConfig table = table();
+        for (StatLabelElementBuilder<?> row : rows) {
+            String label = label(row);
+            ((StatRowStyle) row).woldsvaults$setStatKey(StatSources.PROMINENT_PREFIX + label);
             if (table == null) {
                 continue;
             }
@@ -51,16 +58,24 @@ public final class StatScreenLayout {
         }
     }
 
-    /** Keys and colours the player stat rows; rows not built from a gear attribute are keyed by label. */
+    /** Keys and colours the player stat rows and shows synced values; rows not built from a gear attribute are keyed by label. */
     public static void stylePlayer(List<StatLabelElementBuilder<?>> rows) {
+        colorPlayer(rows);
+        for (StatLabelElementBuilder<?> row : rows) {
+            StatRowStyle style = (StatRowStyle) row;
+            if (StatSources.has(style.woldsvaults$getStatKey())) {
+                style.woldsvaults$syncFrom(style.woldsvaults$getStatKey());
+            }
+        }
+    }
+
+    /** Keys and colours the player stat rows without touching their values; unkeyed rows are keyed by label. */
+    public static void colorPlayer(List<StatLabelElementBuilder<?>> rows) {
         StatScreenConfig table = table();
         for (StatLabelElementBuilder<?> row : rows) {
             StatRowStyle style = (StatRowStyle) row;
             if (style.woldsvaults$getStatKey() == null) {
                 style.woldsvaults$setStatKey(StatScreenConfig.LABEL_PREFIX + label(row));
-            }
-            if (StatSources.has(style.woldsvaults$getStatKey())) {
-                style.woldsvaults$syncFrom(style.woldsvaults$getStatKey());
             }
             if (table == null) {
                 continue;

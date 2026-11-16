@@ -133,10 +133,16 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         return WoldsVaults.id("wolds_jei_integration");
     }
 
-    /** Hides the creative Armory, an admin block with no recipe, from the ingredient list. */
+    /**
+     * Hides the creative Armory, an admin block with no recipe, and the extractor parts, which only come from
+     * identified blueprints, from the ingredient list. The unidentified blueprints stay listed with their drop sources.
+     */
     @Override
     public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, List.of(new ItemStack(ModBlocks.CREATIVE_ARMORY_BLOCK)));
+        List<ItemStack> hidden = new ArrayList<>();
+        hidden.add(new ItemStack(ModBlocks.CREATIVE_ARMORY_BLOCK));
+        ModItems.EXTRACTOR_PARTS.values().forEach(part -> hidden.add(new ItemStack(part)));
+        jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hidden);
     }
 
     /**

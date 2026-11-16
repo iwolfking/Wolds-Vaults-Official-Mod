@@ -68,7 +68,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private RemotePlayer model;
     private ArmoryClientState shownState;
     private Button loadButton;
-    private Button stowButton;
+    private Button storeButton;
     private Button confirmButton;
     private Button cancelButton;
     private boolean confirming;
@@ -115,7 +115,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
                 () -> this.shownState.hasBuild() ? this.shownState.savedLevel() : 0)
                 .layout((screen, gui, parent, world) -> world.translateX(model.right()).translateY(model.bottom())));
         StatLabelListElement<?> prominent = this.gear(new StatLabelListElement<>(Spatials.positionXY(4, 4).width(82),
-                ArmoryStats.builders(this.shownState.stats(), "prominent"))
+                ArmoryStats.builders(this.shownState.stats(), ArmoryStats.PROMINENT))
                 .layout((screen, gui, parent, world) -> world.translateX(model.right()).translateY(model.top())));
         NineSliceElement<?> separator = this.gear(new NineSliceElement<>(Spatials.positionXYZ(8, -2, -5).width(3).height(-4),
                 ScreenTextures.INSET_VERTICAL_SEPARATOR)
@@ -259,8 +259,8 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         if (this.openInfo.tab() != ArmoryTab.EXCESS) {
             this.loadButton = this.titleButton("Load", x, y, button -> this.click(ArmoryMenu.BUTTON_LOAD));
             x = this.loadButton.x - BUTTON_GAP;
-            this.stowButton = this.titleButton("Stow", x, y, button -> this.click(ArmoryMenu.BUTTON_STOW));
-            x = this.stowButton.x - BUTTON_GAP;
+            this.storeButton = this.titleButton("Store", x, y, button -> this.click(ArmoryMenu.BUTTON_STORE));
+            x = this.storeButton.x - BUTTON_GAP;
             this.titleButton("Save", x, y, button -> this.save());
         }
         int popupWidth = 140;
@@ -296,8 +296,8 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
                 lines.add(new TextComponent(info.creative() ? "Records your trees and copies of your marked gear"
                         : "Records your trees and what is in each marked slot").withStyle(ChatFormatting.GRAY));
             }
-            case "Stow" -> {
-                lines.add(new TextComponent("Stow"));
+            case "Store" -> {
+                lines.add(new TextComponent("Store"));
                 lines.add(new TextComponent(info.creative() ? "The Creative Armory does not store items"
                         : "Moves your marked gear into this build").withStyle(ChatFormatting.GRAY));
                 if (!info.creative() && !this.shownState.hasBuild()) {
@@ -321,8 +321,8 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         if (this.loadButton != null) {
             this.loadButton.active = this.menu.info().loadRefusals().isEmpty();
         }
-        if (this.stowButton != null) {
-            this.stowButton.active = !this.openInfo.creative() && this.shownState.hasBuild();
+        if (this.storeButton != null) {
+            this.storeButton.active = !this.openInfo.creative() && this.shownState.hasBuild();
         }
     }
 

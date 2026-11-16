@@ -42,7 +42,7 @@ public class ArmoryMenu extends AbstractElementContainer {
     public static final int EXCESS_COLUMNS = 16;
     public static final int EXCESS_VISIBLE_ROWS = 5;
     public static final int CURIO_VISIBLE = 8;
-    public static final int BUTTON_STOW = 11;
+    public static final int BUTTON_STORE = 11;
     public static final int BUTTON_LOAD = 12;
     public static final int BUTTON_MARK = 20;
     public static final int HIDDEN = -10_000;
@@ -239,8 +239,8 @@ public class ArmoryMenu extends AbstractElementContainer {
         if (!(player instanceof ServerPlayer serverPlayer) || this.armory == null) {
             return false;
         }
-        if (id == BUTTON_STOW) {
-            ArmoryService.stow(serverPlayer, this.armory, this.page);
+        if (id == BUTTON_STORE) {
+            ArmoryService.store(serverPlayer, this.armory, this.page);
         } else if (id == BUTTON_LOAD) {
             ArmoryService.load(serverPlayer, this.armory, this.page);
         } else if (id >= BUTTON_MARK && id < BUTTON_MARK + SlotKeys.size()) {
