@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.client.init.ModAncientGearModels;
-import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 
 /**
  * The base mod's gear item overrides hand every unidentified piece its plain unidentified sprite. Unidentified gear
@@ -28,7 +28,7 @@ public class MixinDynamicBakedModelOverrides {
             return;
         }
         GearDataCache cache = GearDataCache.of(stack);
-        if (cache.getState() != VaultGearState.UNIDENTIFIED || !cache.hasAttribute(ModGearAttributes.ANCIENT_UNIQUE)) {
+        if (cache.getState() != VaultGearState.UNIDENTIFIED || !Ancients.isAncient(cache)) {
             return;
         }
         BakedModel ancient = ModAncientGearModels.get(stack.getItem());

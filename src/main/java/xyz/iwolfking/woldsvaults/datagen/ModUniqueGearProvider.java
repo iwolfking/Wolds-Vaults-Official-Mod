@@ -8,11 +8,20 @@ import xyz.iwolfking.vhapi.api.datagen.AbstractUniqueGearProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
     public ModUniqueGearProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
+    }
+
+    /** The ids of every unique this provider defines. */
+    public static Set<ResourceLocation> definedUniqueIds() {
+        Set<ResourceLocation> ids = new HashSet<>();
+        new ModUniqueGearProvider(null).addGear(generated -> ids.add(generated.id()));
+        return ids;
     }
 
     @Override

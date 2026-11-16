@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.api.util.GreedShopHelper;
 
 import net.minecraft.world.item.ItemStack;
-import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
 
 import java.util.Random;
 import java.util.UUID;
@@ -36,7 +36,7 @@ public abstract class MixinPlayerGreedTraderData {
         if (!"ancient_unique".equals(poolEntry.getType())) {
             return;
         }
-        cir.setReturnValue(AncientUniqueHelper.rollUnidentifiedAncient(random));
+        cir.setReturnValue(AncientItems.rollUnidentifiedAncient(random));
     }
 
     /**
