@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * What each greed medallion does to its vault, one row per rank. The mob health and damage multiplier rises linearly
- * through Scavenger and Looter, cubically from Hunter 1 to Champion 3 and jumps at Legend; crate coins rise linearly from
+ * through Scavenger and Looter, cubically from Hunter 1 to Champion 3 (rounded to whole numbers, and to fives from 20 up) and jumps at Legend; crate coins rise linearly from
  * {@link #FIRST_CRATE_COINS} to {@link #LEGEND_CRATE_COINS}. Each rank's assassin slowdown recovery time is
  * {@link #LEGEND_RECOVERY_SECONDS} scaled by the Legend fury multiplier over its own, so every rank's long-run spawn
  * rate stays proportional to its multiplier.
@@ -24,15 +24,16 @@ public class ModGreedMedallionsProvider extends AbstractWoldsTableProvider {
     private static final int FIRST_CRATE_COINS = 2;
     private static final int LEGEND_CRATE_COINS = 25;
     private static final double SCAVENGER_MOB_MULTIPLIER = 1.5D;
-    private static final double SCAVENGER_MOB_STEP = 0.75D;
-    private static final double LOOTER_MOB_MULTIPLIER = 4.0D;
-    private static final double LOOTER_MOB_STEP = 2.0D;
-    private static final double HUNTER_MOB_MULTIPLIER = 10.0D;
+    private static final double SCAVENGER_MOB_STEP = 0.25D;
+    private static final double LOOTER_MOB_MULTIPLIER = 2.5D;
+    private static final double LOOTER_MOB_STEP = 1.25D;
+    private static final double HUNTER_MOB_MULTIPLIER = 8.0D;
     private static final double CHAMPION_3_MOB_MULTIPLIER = 2000.0D;
     private static final double LEGEND_MOB_MULTIPLIER = 5000.0D;
-    private static final int OMEGA_PLUS_HIGH_RANK = MilestoneRankLadder.HUNTER_2;
+    private static final int OMEGA_PLUS_HIGH_RANK = MilestoneRankLadder.LOOTER_3;
     private static final int FIRST_STRONGBOX_RANK = MilestoneRankLadder.LOOTER_3;
     private static final int MAX_STRONGBOX_TIER = 6;
+    private static final double CUBIC_ROUND_TO_FIVE_FROM = 20.0D;
 
     private static final int[] ASSASSIN_GREED_COINS = {1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7};
     private static final int[] CRATE_LOOT_BONUS = {0, 5, 5, 10, 15, 20, 25, 25, 30, 35, 35, 40, 40, 45, 45, 50};
@@ -152,9 +153,17 @@ public class ModGreedMedallionsProvider extends AbstractWoldsTableProvider {
         if (rank <= MilestoneRankLadder.CHAMPION_3) {
             double share = (rank - MilestoneRankLadder.HUNTER_1)
                     / (double) (MilestoneRankLadder.CHAMPION_3 - MilestoneRankLadder.HUNTER_1);
-            return HUNTER_MOB_MULTIPLIER + (CHAMPION_3_MOB_MULTIPLIER - HUNTER_MOB_MULTIPLIER) * Math.pow(share, 3.0D);
+            return roundCubic(HUNTER_MOB_MULTIPLIER + (CHAMPION_3_MOB_MULTIPLIER - HUNTER_MOB_MULTIPLIER) * Math.pow(share, 3.0D));
         }
         return LEGEND_MOB_MULTIPLIER;
+    }
+
+    /** Rounds a cubic-band multiplier to a whole number, or to the nearest 5 from {@link #CUBIC_ROUND_TO_FIVE_FROM} up. */
+    private static double roundCubic(double multiplier) {
+        if (multiplier < CUBIC_ROUND_TO_FIVE_FROM) {
+            return Math.round(multiplier);
+        }
+        return 5.0D * Math.round(multiplier / 5.0D);
     }
 
     /** Tier 1 at the first strongbox rank, one more per rank after it, capped at {@link #MAX_STRONGBOX_TIER}. */
