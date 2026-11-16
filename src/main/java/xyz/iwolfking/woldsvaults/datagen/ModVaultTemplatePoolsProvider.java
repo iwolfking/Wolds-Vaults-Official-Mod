@@ -12,6 +12,7 @@ public class ModVaultTemplatePoolsProvider extends AbstractTemplatePoolProvider 
 
     @Override
     protected void registerPools() {
+        GreedStagePools.register(this::addPool);
         addPool(pool -> pool.id(WoldsVaults.id("vault/rooms/special/extraction"))
                 .addEntry(1, VaultMod.id("vault/rooms/special/extraction1"), palettes -> {
                 }));

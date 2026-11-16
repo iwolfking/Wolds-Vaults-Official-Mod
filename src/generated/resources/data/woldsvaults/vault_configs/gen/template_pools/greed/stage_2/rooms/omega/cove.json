@@ -1,0 +1,11 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "the_vault:vault/rooms/omega/cove1",
+      "palettes": [
+        "woldsvaults:greed/stage_2/cove/base"
+      ]
+    }
+  }
+]

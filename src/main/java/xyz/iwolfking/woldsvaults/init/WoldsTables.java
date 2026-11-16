@@ -18,6 +18,7 @@ import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMilestonesConfig;
 import xyz.iwolfking.woldsvaults.config.GreedRanksConfig;
+import xyz.iwolfking.woldsvaults.config.GreedVaultStagesConfig;
 import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
@@ -63,6 +64,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GreedRanksConfig> GREED_RANKS = new WoldsTableLoader<>(new GreedRanksConfig(), "greed/ranks");
     public static final WoldsTableLoader<GreedMilestonesConfig> GREED_MILESTONES = new WoldsTableLoader<>(new GreedMilestonesConfig(), "greed/milestones");
     public static final WoldsTableLoader<GreedMedallionsConfig> GREED_MEDALLIONS = new WoldsTableLoader<>(new GreedMedallionsConfig(), "greed/medallions");
+    public static final WoldsTableLoader<GreedVaultStagesConfig> GREED_VAULT_STAGES = new WoldsTableLoader<>(new GreedVaultStagesConfig(), "greed/stages");
     public static final WoldsTableLoader<GreedChampionConfig> GREED_CHAMPION = new WoldsTableLoader<>(new GreedChampionConfig(), "greed/champion");
     public static final WoldsTableLoader<SpellcraftConfig> SPELLCRAFT = new WoldsTableLoader<>(new SpellcraftConfig(), "spellcraft");
     public static final WoldsTableLoader<SpellHasteConfig> SPELL_HASTE = new WoldsTableLoader<>(new SpellHasteConfig(), "spell_haste");
@@ -89,6 +91,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GREED_RANKS);
         LoaderRegistry.addConfigProcessor(GREED_MILESTONES);
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
+        LoaderRegistry.addConfigProcessor(GREED_VAULT_STAGES);
         LoaderRegistry.addConfigProcessor(GREED_CHAMPION);
         LoaderRegistry.addConfigProcessor(SPELLCRAFT);
         LoaderRegistry.addConfigProcessor(SPELL_HASTE);
@@ -189,6 +192,7 @@ public final class WoldsTables {
         if (ModConfigs.GREED_MEDALLIONS != null) {
             GreedMedallionTier.load(ModConfigs.GREED_MEDALLIONS);
         }
+        ModConfigs.GREED_VAULT_STAGES = require(GREED_VAULT_STAGES, "vault_stages");
         ModConfigs.GREED_CHAMPION = require(GREED_CHAMPION, "greed_champion");
     }
 

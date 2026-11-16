@@ -1,6 +1,166 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:greed/stage_1/ornate_chest_placeholder",
+      "name": "Greed Stage 1 Ornate Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_1/ornate_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_1/gilded_chest_placeholder",
+      "name": "Greed Stage 1 Gilded Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_1/gilded_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_1/living_chest_placeholder",
+      "name": "Greed Stage 1 Living Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_1/living_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/room_base",
+      "name": "Greed Stage 2 Room Base",
+      "1.0": "woldsvaults:greed/stage_2/room_base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/dungeon_door_placeholder",
+      "name": "Greed Stage 2 Dungeon Door Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/dungeon_door_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/vendor/base",
+      "name": "Greed Stage 2 Vendor Base",
+      "1.0": "woldsvaults:greed/stage_2/vendor/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/x-mark/base",
+      "name": "Greed Stage 2 X-mark Base",
+      "1.0": "woldsvaults:greed/stage_2/x-mark/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_rooms",
+      "name": "Greed Stage 3 Treasure Rooms",
+      "1.0": "woldsvaults:greed/stage_3/treasure_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/treasure",
+      "name": "Greed Stage 2 Treasure",
+      "1.0": "woldsvaults:greed/stage_2/treasure"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wooden_chest_placeholder",
+      "name": "Greed Stage 2 Wooden Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/wooden_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/gilded_chest_placeholder",
+      "name": "Greed Stage 2 Gilded Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/gilded_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/living_chest_placeholder",
+      "name": "Greed Stage 2 Living Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/living_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/ornate_chest_placeholder",
+      "name": "Greed Stage 2 Ornate Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/ornate_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/coin_stack_placeholder",
+      "name": "Greed Stage 2 Coin Stack Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/coin_stack_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/ore_placeholder",
+      "name": "Greed Stage 2 Ore Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/ore_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/pylon_placeholder",
+      "name": "Greed Stage 2 Pylon Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/pylon_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/god_altars",
+      "name": "Greed Stage 2 God Altars",
+      "1.0": "woldsvaults:greed/stage_2/god_altars"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/vendor_pedestal_placeholder",
+      "name": "Greed Stage 2 Vendor Pedestal Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/vendor_pedestal_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/dungeon_rooms/gilded_chest_placeholder",
+      "name": "Greed Stage 2 Dungeon Rooms Gilded Chest Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/dungeon_rooms/gilded_chest_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/treasure_door_placeholder",
+      "name": "Greed Stage 2 Treasure Door Placeholder",
+      "1.0": "woldsvaults:greed/stage_2/treasure_door_placeholder"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms",
+      "name": "Greed Stage 2 Vendor Rooms Vendor Rooms",
+      "1.0": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/comet_observatory/base",
+      "name": "Greed Stage 2 Comet Observatory Base",
+      "1.0": "woldsvaults:greed/stage_2/comet_observatory/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/cove/base",
+      "name": "Greed Stage 2 Cove Base",
+      "1.0": "woldsvaults:greed/stage_2/cove/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/graveyard/base",
+      "name": "Greed Stage 2 Graveyard Base",
+      "1.0": "woldsvaults:greed/stage_2/graveyard/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/laboratory/base",
+      "name": "Greed Stage 2 Laboratory Base",
+      "1.0": "woldsvaults:greed/stage_2/laboratory/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/labyrinth/base",
+      "name": "Greed Stage 2 Labyrinth Base",
+      "1.0": "woldsvaults:greed/stage_2/labyrinth/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/raid/base",
+      "name": "Greed Stage 2 Raid Base",
+      "1.0": "woldsvaults:greed/stage_2/raid/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wardens_garden/base",
+      "name": "Greed Stage 2 Wardens Garden Base",
+      "1.0": "woldsvaults:greed/stage_2/wardens_garden/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wildwest/base",
+      "name": "Greed Stage 2 Wildwest Base",
+      "1.0": "woldsvaults:greed/stage_2/wildwest/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wolds_dinner/base",
+      "name": "Greed Stage 2 Wolds Dinner Base",
+      "1.0": "woldsvaults:greed/stage_2/wolds_dinner/base"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest",
+      "name": "Greed Stage 3 Treasure Chest",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/trove/base",
+      "name": "Greed Stage 3 Trove Base",
+      "1.0": "woldsvaults:greed/stage_3/trove/base"
+    },
+    {
       "id": "woldsvaults:extraction/idona",
       "name": "Extraction Idona",
       "1.0": "woldsvaults:extraction/idona"

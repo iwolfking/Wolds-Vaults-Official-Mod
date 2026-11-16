@@ -1,0 +1,50 @@
+[
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/labyrinth",
+    "weight": 3
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/graveyard",
+    "weight": 5
+  },
+  {
+    "reference": "the_vault:vault/rooms/challenge/aquarium",
+    "weight": 5
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/crystal_caves",
+    "weight": 5
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/dragon",
+    "weight": 2
+  },
+  {
+    "reference": "the_vault:vault/rooms/challenge/village",
+    "weight": 10
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/wildwest",
+    "weight": 5
+  },
+  {
+    "reference": "the_vault:vault/rooms/challenge/factory",
+    "weight": 6
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/x-mark",
+    "weight": 10
+  },
+  {
+    "reference": "the_vault:vault/rooms/challenge/pirate_cave",
+    "weight": 5
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/raid/rooms",
+    "weight": 4
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/laboratory",
+    "weight": 3
+  }
+]

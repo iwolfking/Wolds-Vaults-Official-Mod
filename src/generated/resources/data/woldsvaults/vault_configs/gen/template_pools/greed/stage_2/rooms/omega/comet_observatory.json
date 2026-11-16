@@ -1,0 +1,11 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "the_vault:vault/rooms/omega/comet_observatory",
+      "palettes": [
+        "woldsvaults:greed/stage_2/comet_observatory/base"
+      ]
+    }
+  }
+]

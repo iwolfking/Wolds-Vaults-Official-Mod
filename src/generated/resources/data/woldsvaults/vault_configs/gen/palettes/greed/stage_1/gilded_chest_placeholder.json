@@ -1,0 +1,134 @@
+{
+  "tile_processors": [
+    {
+      "type": "placeholder",
+      "target": "GILDED_CHEST",
+      "levels": [
+        {
+          "level": 0,
+          "probability": 1.0,
+          "success": {
+            "the_vault:gilded_chest{LootTable:\"the_vault:gilded_chest_lvl0\"}": 199,
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 1
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        },
+        {
+          "level": 20,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 1,
+            "the_vault:gilded_chest{LootTable:\"the_vault:gilded_chest_lvl20\"}": 199
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        },
+        {
+          "level": 50,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 20,
+            "the_vault:gilded_strongbox{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199,
+            "the_vault:gilded_chest{LootTable:\"the_vault:gilded_chest_lvl50\"}": 3781
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        },
+        {
+          "level": 80,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 12,
+            "the_vault:gilded_strongbox{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199,
+            "the_vault:gilded_chest{LootTable:\"the_vault:gilded_chest_lvl50\"}": 2189
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        },
+        {
+          "level": 100,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 8,
+            "the_vault:gilded_strongbox{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199,
+            "the_vault:gilded_chest{LootTable:\"the_vault:gilded_chest_lvl50\"}": 1393
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        }
+      ]
+    },
+    {
+      "type": "placeholder",
+      "target": "GILDED_CHEST_WATERLOGGED",
+      "levels": [
+        {
+          "level": 0,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 1,
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"the_vault:gilded_chest_lvl0\"}": 199
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        },
+        {
+          "level": 20,
+          "probability": 1.0,
+          "success": {
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"the_vault:gilded_chest_lvl20\"}": 199,
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 1
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        },
+        {
+          "level": 50,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 20,
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"the_vault:gilded_chest_lvl50\"}": 3781,
+            "the_vault:gilded_strongbox[waterlogged=true]{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        },
+        {
+          "level": 80,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 12,
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"the_vault:gilded_chest_lvl50\"}": 2189,
+            "the_vault:gilded_strongbox[waterlogged=true]{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        },
+        {
+          "level": 100,
+          "probability": 1.0,
+          "success": {
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_1/enigma_chest\"}": 8,
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"the_vault:gilded_chest_lvl50\"}": 1393,
+            "the_vault:gilded_strongbox[waterlogged=true]{LootTable:\"the_vault:gilded_strongbox_lvl50\"}": 199
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

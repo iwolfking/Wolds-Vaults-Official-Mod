@@ -28,6 +28,7 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
     @Override
     protected void registerPalettes() {
+        GreedStagePalettes.register(this::add);
         extractionSitePalette("idona", "auxiliaryblocks:red_crystal", "auxiliaryblocks:red_gelatin", "auxiliaryblocks:red_frameless_glass", "minecraft:red_stained_glass");
         extractionSitePalette("tenos", "auxiliaryblocks:blue_crystal", "auxiliaryblocks:cyan_gelatin", "auxiliaryblocks:blue_frameless_glass", "auxiliaryblocks:indigo_crystal");
         extractionSitePalette("velara", "auxiliaryblocks:green_crystal", "auxiliaryblocks:lime_gelatin", "auxiliaryblocks:green_frameless_glass", "auxiliaryblocks:lime_frameless_glass");

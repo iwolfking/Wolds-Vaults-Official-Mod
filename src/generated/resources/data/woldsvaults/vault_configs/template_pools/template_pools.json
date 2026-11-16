@@ -1,6 +1,121 @@
 {
   "keys": [
     {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge",
+      "name": "Greed Stage 2 Rooms Challenge",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega",
+      "name": "Greed Stage 2 Rooms Omega",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms",
+      "name": "Greed Stage 2 Vendor Rooms Vendor Rooms",
+      "1.0": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/vendor_rooms/etching_rooms",
+      "name": "Greed Stage 2 Vendor Rooms Etching Rooms",
+      "1.0": "woldsvaults:greed/stage_2/vendor_rooms/etching_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/rooms/trove",
+      "name": "Greed Stage 3 Rooms Trove",
+      "1.0": "woldsvaults:greed/stage_3/rooms/trove"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/crystal_caves",
+      "name": "Greed Stage 2 Rooms Challenge Crystal Caves",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/crystal_caves"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/dragon",
+      "name": "Greed Stage 2 Rooms Challenge Dragon",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/dragon"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/graveyard",
+      "name": "Greed Stage 2 Rooms Challenge Graveyard",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/graveyard"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/laboratory",
+      "name": "Greed Stage 2 Rooms Challenge Laboratory",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/laboratory"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/labyrinth",
+      "name": "Greed Stage 2 Rooms Challenge Labyrinth",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/labyrinth"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/raid/base_rooms",
+      "name": "Greed Stage 2 Rooms Challenge Raid Base Rooms",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/raid/base_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/raid/easter_rooms",
+      "name": "Greed Stage 2 Rooms Challenge Raid Easter Rooms",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/raid/easter_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/raid/orcish_rooms",
+      "name": "Greed Stage 2 Rooms Challenge Raid Orcish Rooms",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/raid/orcish_rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/raid/rooms",
+      "name": "Greed Stage 2 Rooms Challenge Raid Rooms",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/raid/rooms"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/wildwest",
+      "name": "Greed Stage 2 Rooms Challenge Wildwest",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/wildwest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/x-mark",
+      "name": "Greed Stage 2 Rooms Challenge X-mark",
+      "1.0": "woldsvaults:greed/stage_2/rooms/challenge/x-mark"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/blacksmith",
+      "name": "Greed Stage 2 Rooms Omega Blacksmith",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/blacksmith"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/comet_observatory",
+      "name": "Greed Stage 2 Rooms Omega Comet Observatory",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/comet_observatory"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/cove",
+      "name": "Greed Stage 2 Rooms Omega Cove",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/cove"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/mush_room",
+      "name": "Greed Stage 2 Rooms Omega Mush Room",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/mush_room"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/vendor",
+      "name": "Greed Stage 2 Rooms Omega Vendor",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/vendor"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/wardens_garden",
+      "name": "Greed Stage 2 Rooms Omega Wardens Garden",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/wardens_garden"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/rooms/omega/wolds_dinner",
+      "name": "Greed Stage 2 Rooms Omega Wolds Dinner",
+      "1.0": "woldsvaults:greed/stage_2/rooms/omega/wolds_dinner"
+    },
+    {
       "id": "woldsvaults:vault/rooms/special/extraction",
       "name": "Vault Rooms Special Extraction",
       "1.0": "woldsvaults:vault/rooms/special/extraction"

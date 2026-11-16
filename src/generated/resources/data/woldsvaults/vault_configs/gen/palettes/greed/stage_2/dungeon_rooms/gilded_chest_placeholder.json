@@ -1,0 +1,57 @@
+{
+  "tile_processors": [
+    {
+      "type": "leveled",
+      "levels": [
+        {
+          "level": 0,
+          "type": "weighted_target",
+          "target": "the_vault:placeholder",
+          "output": {
+            "the_vault:placeholder{ Hidden: 1b }": 1
+          }
+        }
+      ]
+    },
+    {
+      "type": "placeholder",
+      "target": "WOODEN_CHEST",
+      "levels": [
+        {
+          "level": 50,
+          "probability": 0.75,
+          "success": {
+            "the_vault:ornate_barrel{LootTable:\"woldsvaults:greed/stage_2/ornate_dungeon_barrel\"}": 1,
+            "the_vault:gilded_barrel{LootTable:\"woldsvaults:greed/stage_2/gilded_dungeon_barrel\"}": 1,
+            "the_vault:living_barrel{LootTable:\"woldsvaults:greed/stage_2/living_dungeon_barrel\"}": 1,
+            "the_vault:wooden_barrel{LootTable:\"woldsvaults:greed/stage_2/wooden_dungeon_barrel\"}": 1
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        }
+      ]
+    },
+    {
+      "type": "placeholder",
+      "target": "COIN_STACKS",
+      "levels": [
+        {
+          "level": 50,
+          "probability": 1.0,
+          "success": {
+            "the_vault:ornate_barrel{LootTable:\"woldsvaults:greed/stage_2/ornate_dungeon_barrel\"}": 1,
+            "the_vault:gilded_barrel{LootTable:\"woldsvaults:greed/stage_2/gilded_dungeon_barrel\"}": 1,
+            "the_vault:living_barrel{LootTable:\"woldsvaults:greed/stage_2/living_dungeon_barrel\"}": 1,
+            "the_vault:wooden_barrel{LootTable:\"woldsvaults:greed/stage_2/wooden_dungeon_barrel\"}": 1
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}
