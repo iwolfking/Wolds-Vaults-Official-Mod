@@ -34,6 +34,8 @@ import xyz.iwolfking.woldsvaults.medallions.champion.VaultChampionRage;
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class GreedMedallionEvents {
     private static final Object OWNER = new Object();
+    /** VH listener priority that runs after the vault's own priority-0 loot listener has stamped gear roll types. */
+    private static final int AFTER_VAULT_LOOT = -1;
 
     private GreedMedallionEvents() {
     }
@@ -61,6 +63,10 @@ public final class GreedMedallionEvents {
             }
             VaultChampionManager.releaseVault(vault, ServerLifecycleHooks.getCurrentServer());
         });
+        CommonEvents.CHEST_LOOT_GENERATION.post().register(OWNER, data ->
+                GreedMedallionGearRolls.upgradeOmegaPlus(data.getTileEntity().getLevel(), data.getLoot()), AFTER_VAULT_LOOT);
+        CommonEvents.LOOTABLE_BLOCK_GENERATION_EVENT.post().register(OWNER, data ->
+                GreedMedallionGearRolls.upgradeOmegaPlus(data.getTileEntity().getLevel(), data.getLoot()), AFTER_VAULT_LOOT);
         CommonEvents.PLAYER_STAT.of(PlayerStat.TRAP_DISARM_CHANCE).register(OWNER, data -> {
             if (!(data.getEntity() instanceof ServerPlayer player)) {
                 return;
