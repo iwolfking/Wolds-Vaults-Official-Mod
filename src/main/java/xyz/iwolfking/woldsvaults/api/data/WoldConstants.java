@@ -57,4 +57,8 @@ public class WoldConstants {
     public static final double HEALTH_REDUCTION_DEFAULT_MULT = 1.0849795594911;
     public static final double HEALTH_REDUCTION_DEFAULT_MULT_SCALING = 0.827;
     public static final double EXTENDED_MODIFIER_TICKS = 2400.0D;
+
+    public static final float ARCANE_PRISM_SPLIT_DAMAGE_MULTIPLIER = 0.5F;
+    public static final double ARCANE_RAIL_RANGE = 128.0D;
+    public static final double ARCANE_RAY_EYE_DROP = 0.5D;
 }

@@ -26,6 +26,17 @@ public class ElementHelper {
         return elementalTypes;
     }
 
+    /** The elements whose attack flags are set right now, as a new mutable list. */
+    public static List<ElementalType> getActiveElements() {
+        List<ElementalType> elementalTypes = new ArrayList<>();
+        for (ElementalType type : ElementalType.values()) {
+            if (type.getFlag().isSet()) {
+                elementalTypes.add(type);
+            }
+        }
+        return elementalTypes;
+    }
+
     public static void runWithElements(List<ElementalType> elementalTypes, Runnable action) {
         runWithElementsRecursive(elementalTypes, 0, action);
     }

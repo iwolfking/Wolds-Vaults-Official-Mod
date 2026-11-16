@@ -6,6 +6,8 @@ import net.minecraftforge.client.event.FOVModifierEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.arcane.LaserBeams;
+import xyz.iwolfking.woldsvaults.client.arcane.PrismRenderer;
 import xyz.iwolfking.woldsvaults.client.champion.ClientChampionHud;
 import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatSyncClient;
@@ -35,6 +37,8 @@ public final class ClientPlayerEvents {
         ActiveGodResolver.invalidateAll();
         SpellBarKeys.reset();
         StatSyncClient.onLoggedOut(event);
+        LaserBeams.clear();
+        PrismRenderer.clear();
     }
 
     @SubscribeEvent
