@@ -71,7 +71,8 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         etchings();
         deckCores();
         flatManaCards();
-        mapChestLoot();
+        greedStages();
+        royaleWeapons();
         sigils();
         misc();
         GreedTraderPatches.register(patch("greed/greed_trader.json"));
@@ -399,13 +400,36 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         values.at(core, "modifierValues", "greater", "value").set("min", greaterMin).set("max", greaterMax);
     }
 
-    private void mapChestLoot() {
-        mythicCharm("living_chest_100_map", 0.12, 0.03);
-        mythicCharm("living_strongbox_100_map", 0.106, 0.018);
-        blueprints("ornate_chest_100_map", 2.0, 0.56, "power_core", "radiator", "shield_array", "scanner", "drill");
-        blueprints("ornate_strongbox_100_map", 6.4, 4.5, "chassis", "power_core", "drill", "legs", "shield_array", "radiator", "scanner", "attachment");
-        blueprints("wooden_chest_map", 0.36, 0.31, "chassis", "legs", "attachment", "drill");
-        royaleWeapons();
+    /**
+     * Adds what the greed stage loot tables and rooms name in base configs: the roll-type pools of stage gear, and
+     * the stage raid room's reward and curse actions, copied from the seeded actions they started from.
+     */
+    private void greedStages() {
+        Node rollPools = patch("gear/gear_roll_type_pools.json").at("pooledOutcomes");
+        rollPools.add(GreedStageLootTables.STAGE_LOOT_ROLLS, rollTypes("Rare+", 97, "Omega+", 3));
+        rollPools.add(GreedStageLootTables.STAGE_DUNGEON_ROLLS, rollTypes("Rare+", 20, "Epic+", 4, "Omega+", 1, "Chaotic", 1));
+        rollPools.add(GreedStageLootTables.STAGE_TREASURE_ROLLS, rollTypes("Rare+", 40, "Epic+", 12, "Omega", 8, "Omega+", 1));
+        JsonObject seededActions = seeded("challenge/actions.json").getAsJsonObject().getAsJsonObject("values");
+        Node actions = patch("challenge/actions.json").at("values");
+        actions.add("greed_stage_positive_base", seededActions.get("positive_base_map").deepCopy());
+        actions.add("greed_stage_negative", seededActions.get("negative_map").deepCopy());
+    }
+
+    /** A single-level roll-type pool from alternating roll type names and weights. */
+    private static JsonArray rollTypes(Object... typesAndWeights) {
+        JsonArray outcomes = new JsonArray();
+        for (int i = 0; i < typesAndWeights.length; i += 2) {
+            JsonObject outcome = new JsonObject();
+            outcome.addProperty("value", (String) typesAndWeights[i]);
+            outcome.addProperty("weight", (Integer) typesAndWeights[i + 1]);
+            outcomes.add(outcome);
+        }
+        JsonObject level = new JsonObject();
+        level.addProperty("level", 0);
+        level.add("rollTypeOutcomes", outcomes);
+        JsonArray levels = new JsonArray();
+        levels.add(level);
+        return levels;
     }
 
     /** Adds the scepter and dagger to the Vault Royale tables upstream left out, each at the trident's weight. */
@@ -438,28 +462,6 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         entry.addProperty("weight", weight);
         entry.add("item", stack);
         return entry;
-    }
-
-    private void mythicCharm(String table, double rareWeight, double jackpotWeight) {
-        JsonObject nbt = new JsonObject();
-        nbt.addProperty("the_vault:gear_roll_type", "Mythic");
-        Patch loot = patch("gen/1.0/loot_tables/" + table + ".json");
-        lootPool(loot, 2).append(lootEntry(rareWeight, "woldsvaults:mythic_vault_charm", nbt));
-        lootPool(loot, 0.00445).append(lootEntry(jackpotWeight, "woldsvaults:mythic_vault_charm", nbt));
-    }
-
-    private void blueprints(String table, double rareWeight, double jackpotWeight, String... parts) {
-        Patch loot = patch("gen/1.0/loot_tables/" + table + ".json");
-        for (String part : parts) {
-            lootPool(loot, 2).append(lootEntry(rareWeight, "woldsvaults:" + part + "_blueprint", null));
-        }
-        for (String part : parts) {
-            lootPool(loot, 0.00445).append(lootEntry(jackpotWeight, "woldsvaults:" + part + "_blueprint", null));
-        }
-    }
-
-    private static Node lootPool(Patch loot, double poolWeight) {
-        return loot.at("entries", 0, "pool", where("weight", poolWeight), "pool");
     }
 
     private static JsonObject lootEntry(double weight, String item, JsonObject nbt) {

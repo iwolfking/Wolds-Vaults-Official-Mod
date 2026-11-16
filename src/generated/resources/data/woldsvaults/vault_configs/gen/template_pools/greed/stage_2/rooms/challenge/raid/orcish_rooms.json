@@ -1,0 +1,11 @@
+[
+  {
+    "reference": {
+      "id": "woldsvaults:greed/stage_2/rooms/challenge/raid/base_rooms",
+      "palettes": [
+        "the_vault:raid/orcish"
+      ]
+    },
+    "weight": 1
+  }
+]

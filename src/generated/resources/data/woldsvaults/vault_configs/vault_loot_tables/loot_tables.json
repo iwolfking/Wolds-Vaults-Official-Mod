@@ -36,6 +36,111 @@
       "1.0": "woldsvaults:greed_crate_loot_7"
     },
     {
+      "id": "woldsvaults:greed/stage_2/ornate_chest",
+      "name": "Greed Stage 2 Ornate Chest",
+      "1.0": "woldsvaults:greed/stage_2/ornate_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/gilded_chest",
+      "name": "Greed Stage 2 Gilded Chest",
+      "1.0": "woldsvaults:greed/stage_2/gilded_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/living_chest",
+      "name": "Greed Stage 2 Living Chest",
+      "1.0": "woldsvaults:greed/stage_2/living_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wooden_chest",
+      "name": "Greed Stage 2 Wooden Chest",
+      "1.0": "woldsvaults:greed/stage_2/wooden_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_1/enigma_chest",
+      "name": "Greed Stage 1 Enigma Chest",
+      "1.0": "woldsvaults:greed/stage_1/enigma_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/enigma_chest",
+      "name": "Greed Stage 2 Enigma Chest",
+      "1.0": "woldsvaults:greed/stage_2/enigma_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/ornate_strongbox",
+      "name": "Greed Stage 2 Ornate Strongbox",
+      "1.0": "woldsvaults:greed/stage_2/ornate_strongbox"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/gilded_strongbox",
+      "name": "Greed Stage 2 Gilded Strongbox",
+      "1.0": "woldsvaults:greed/stage_2/gilded_strongbox"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/living_strongbox",
+      "name": "Greed Stage 2 Living Strongbox",
+      "1.0": "woldsvaults:greed/stage_2/living_strongbox"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/dungeon_boss",
+      "name": "Greed Stage 2 Dungeon Boss",
+      "1.0": "woldsvaults:greed/stage_2/dungeon_boss"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/dungeon_pedestal",
+      "name": "Greed Stage 2 Dungeon Pedestal",
+      "1.0": "woldsvaults:greed/stage_2/dungeon_pedestal"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/wooden_dungeon_barrel",
+      "name": "Greed Stage 2 Wooden Dungeon Barrel",
+      "1.0": "woldsvaults:greed/stage_2/wooden_dungeon_barrel"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/gilded_dungeon_barrel",
+      "name": "Greed Stage 2 Gilded Dungeon Barrel",
+      "1.0": "woldsvaults:greed/stage_2/gilded_dungeon_barrel"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/living_dungeon_barrel",
+      "name": "Greed Stage 2 Living Dungeon Barrel",
+      "1.0": "woldsvaults:greed/stage_2/living_dungeon_barrel"
+    },
+    {
+      "id": "woldsvaults:greed/stage_2/ornate_dungeon_barrel",
+      "name": "Greed Stage 2 Ornate Dungeon Barrel",
+      "1.0": "woldsvaults:greed/stage_2/ornate_dungeon_barrel"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest",
+      "name": "Greed Stage 3 Treasure Chest",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest_idona",
+      "name": "Greed Stage 3 Treasure Chest Idona",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest_idona"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest_tenos",
+      "name": "Greed Stage 3 Treasure Chest Tenos",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest_tenos"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest_velara",
+      "name": "Greed Stage 3 Treasure Chest Velara",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest_velara"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_chest_wendarr",
+      "name": "Greed Stage 3 Treasure Chest Wendarr",
+      "1.0": "woldsvaults:greed/stage_3/treasure_chest_wendarr"
+    },
+    {
+      "id": "woldsvaults:greed/stage_3/treasure_pillar",
+      "name": "Greed Stage 3 Treasure Pillar",
+      "1.0": "woldsvaults:greed/stage_3/treasure_pillar"
+    },
+    {
       "id": "woldsvaults:mob_gem_drops",
       "name": "Mob Gem Drops",
       "1.0": "woldsvaults:mob_gem_drops"
@@ -49,11 +154,6 @@
       "id": "woldsvaults:trove_sand",
       "name": "Trove Sand",
       "1.0": "woldsvaults:trove_sand"
-    },
-    {
-      "id": "woldsvaults:trove_sand_map",
-      "name": "Trove Sand Map",
-      "1.0": "woldsvaults:trove_sand_map"
     },
     {
       "id": "the_vault:survival_gear_cache",

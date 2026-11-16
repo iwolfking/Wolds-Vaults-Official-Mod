@@ -1,0 +1,11 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "the_vault:vault/rooms/omega/wardens_garden",
+      "palettes": [
+        "woldsvaults:greed/stage_2/wardens_garden/base"
+      ]
+    }
+  }
+]
