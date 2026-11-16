@@ -91,6 +91,7 @@ public class ModConfigs {
     public static GreedMilestonesConfig GREED_MILESTONES;
     public static GreedMedallionsConfig GREED_MEDALLIONS;
     public static GreedChampionConfig GREED_CHAMPION;
+    public static ThemeDropsConfig THEME_DROPS;
     public static GreedVaultStagesConfig GREED_VAULT_STAGES;
     public static StatScreenConfig STAT_SCREEN;
     public static ArmoryConfig ARMORY;

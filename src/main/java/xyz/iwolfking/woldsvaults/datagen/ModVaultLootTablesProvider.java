@@ -20,8 +20,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
+    private final DataGenerator generator;
+
     protected ModVaultLootTablesProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
+        this.generator = generator;
     }
 
     private static final List<Item> gearItems = WoldConstants.ALL_VAULT_GEAR_ITEMS.get();
@@ -30,6 +33,7 @@ public class ModVaultLootTablesProvider extends AbstractLootTableProvider {
     public void registerLootTables() {
         GreedCrateLootTables.register(this::add);
         GreedStageLootTables.register(this::add);
+        ModThemeDropPayloadsProvider.register(this::add, new ModUniqueGearProvider(this.generator).baseItems());
         add(WoldsVaults.id("mob_gem_drops"), lootBuilder -> {
             lootBuilder.entry(entryBuilder -> {
                 entryBuilder.pool(1, poolBuilder -> {

@@ -4,10 +4,13 @@ import iskallia.vault.config.UniqueCodexConfig;
 import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import xyz.iwolfking.vhapi.api.datagen.AbstractUniqueGearProvider;
 import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearBuilder;
 import xyz.iwolfking.vhapi.api.datagen.lib.gear.UniqueGearEntry;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
@@ -647,6 +650,13 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 //                .build()
 //        ));
 
+    }
+
+    /** The base gear item of every unique this provider writes, by unique id. */
+    public Map<ResourceLocation, Item> baseItems() {
+        Map<ResourceLocation, Item> items = new LinkedHashMap<>();
+        this.addGear(generated -> items.put(generated.id(), generated.entry().item()));
+        return items;
     }
 
     private GeneratedEntry entry(String id, UniqueGearEntry data) {
