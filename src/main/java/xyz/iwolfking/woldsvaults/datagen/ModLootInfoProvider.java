@@ -39,16 +39,13 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             genericSingleton("Wooden Dungeon Barrel", VaultMod.id("wooden_dungeon_barrel"), 0, builder);
             genericSingleton("Survival Gear Cache", VaultMod.id("survival_gear_cache"), 0, builder);
 
-            mapChest("Enigma", builder);
-            mapChest("Wooden", builder);
-            mapChest("Living", builder);
-            mapChest("Ornate", builder);
-            mapChest("Gilded", builder);
-            mapChest("Treasure", builder);
-
-            builder.lootInfo(VaultMod.id("treasure_pedestal_map"), "Treasure Pedestal (Map)", map -> {
-                map.put(VaultMod.id("treasure_chest_stand_map"), 100);
-            });
+            stageTable("Enigma Chest", "enigma_chest", 1, builder);
+            stageTable("Enigma Chest", "enigma_chest", 2, builder);
+            stageTable("Wooden Chest", "wooden_chest", 2, builder);
+            stageTable("Living Chest", "living_chest", 2, builder);
+            stageTable("Ornate Chest", "ornate_chest", 2, builder);
+            stageTable("Gilded Chest", "gilded_chest", 2, builder);
+            stageTable("Treasure Chest", "treasure_chest", 3, builder);
 
             completionCrate("brutal_bosses", builder);
             completionCrate("unhinged_scavenger", builder);
@@ -65,12 +62,11 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             genericSingleton("Treasure Chest Tenos", VaultMod.id("treasure_chest_tenos"), 50, builder);
             genericSingleton("Treasure Chest Wendarr", VaultMod.id("treasure_chest_wendarr"), 50, builder);
             genericSingleton("Treasure Chest Idona", VaultMod.id("treasure_chest_idona"), 50, builder);
-            genericSingleton("Treasure Chest Velara Map", VaultMod.id("treasure_chest_velara_map"), 100, builder);
-            genericSingleton("Treasure Chest Tenos Map", VaultMod.id("treasure_chest_tenos_map"), 100, builder);
-            genericSingleton("Treasure Chest Wendarr Map", VaultMod.id("treasure_chest_wendarr_map"), 100, builder);
-            genericSingleton("Treasure Chest Idona Map", VaultMod.id("treasure_chest_idona_map"), 100, builder);
+            stageTable("Treasure Chest Velara", "treasure_chest_velara", 3, builder);
+            stageTable("Treasure Chest Tenos", "treasure_chest_tenos", 3, builder);
+            stageTable("Treasure Chest Wendarr", "treasure_chest_wendarr", 3, builder);
+            stageTable("Treasure Chest Idona", "treasure_chest_idona", 3, builder);
             genericSingleton("Trove Sand", WoldsVaults.id("trove_sand"), 0, builder);
-            genericSingleton("Trove Sand Map", WoldsVaults.id("trove_sand_map"), 100, builder);
         });
 
         add("vanilla_completion_overrides", builder -> {
@@ -116,9 +112,10 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
         });
     }
 
-    public void mapChest(String chestType, Builder builder) {
-        builder.lootInfo(VaultMod.id(chestType.toLowerCase() + "_chest_map"), chestType + " Chest (Map)", map -> {
-            map.put(VaultMod.id(chestType.toLowerCase() + "_chest_map"), 100);
+    /** A greed stage loot table, listed as "Name (Greed Stage n)" under the group {@code <table>_stage_<n>}. */
+    public void stageTable(String name, String table, int stage, Builder builder) {
+        builder.lootInfo(VaultMod.id(table + "_stage_" + stage), name + " (Greed Stage " + stage + ")", map -> {
+            map.put(GreedStageIds.id(stage, table), 0);
         });
     }
 
