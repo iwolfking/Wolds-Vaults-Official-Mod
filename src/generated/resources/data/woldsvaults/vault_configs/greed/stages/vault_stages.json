@@ -13,7 +13,9 @@
       "unlockRank": 6,
       "palettes": {
         "the_vault:generic/room_base": "woldsvaults:greed/stage_2/room_base",
-        "the_vault:generic/treasure_door_placeholder": "woldsvaults:greed/stage_2/treasure_door_placeholder"
+        "the_vault:generic/treasure_door_placeholder": "woldsvaults:greed/stage_2/treasure_door_placeholder",
+        "the_vault:vendor_rooms/vendor_rooms": "woldsvaults:greed/stage_2/vendor_rooms/vendor_rooms",
+        "woldsvaults:vendor_rooms/barter_expert": "woldsvaults:greed/stage_2/vendor_rooms/barter_expert"
       },
       "pools": {
         "the_vault:vault/rooms/challenge_rooms": "woldsvaults:greed/stage_2/rooms/challenge",

@@ -4,6 +4,7 @@ import iskallia.vault.VaultMod;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.vhapi.api.datagen.gen.AbstractTemplatePoolProvider.TemplatePoolBuilder;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedVaultStagesConfig;
 import xyz.iwolfking.woldsvaults.config.GreedVaultStagesConfig.Stage;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
@@ -17,8 +18,9 @@ import java.util.Set;
 /**
  * The greed stages: per stage, its unlock rank and its pairs of normal palette or pool id and stage id. Stage 1
  * (Looter 1) adds enigma chests to the normal chest placeholders. Stage 2 (Looter 3) swaps in the room base chain,
- * the treasure door and the challenge and omega room pools. Stage 3 (Hunter 2) swaps in the treasure rooms, their
- * chests and the trove. Refuses a pair whose stage id the stage content providers do not generate.
+ * the treasure door, the vendoor pedestal tables (stock and Barter Expert) and the challenge and omega room pools.
+ * Stage 3 (Hunter 2) swaps in the treasure rooms, their chests and the trove. Refuses a pair whose stage id the stage
+ * content providers do not generate.
  */
 public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
 
@@ -40,6 +42,8 @@ public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
         Stage rooms = stage(MilestoneRankLadder.LOOTER_3);
         palette(rooms, "generic/room_base", GreedStageIds.id(2, "room_base"));
         palette(rooms, "generic/treasure_door_placeholder", GreedStageIds.id(2, "treasure_door_placeholder"));
+        palette(rooms, "vendor_rooms/vendor_rooms", GreedStageIds.id(2, "vendor_rooms/vendor_rooms"));
+        palette(rooms, WoldsVaults.id("vendor_rooms/barter_expert"), GreedStageIds.id(2, "vendor_rooms/barter_expert"));
         pool(rooms, "vault/rooms/challenge_rooms", GreedStageIds.id(2, "rooms/challenge"));
         pool(rooms, "vault/rooms/omega_rooms", GreedStageIds.id(2, "rooms/omega"));
         table.stages.put("2", rooms);
@@ -63,7 +67,11 @@ public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
     }
 
     private static void palette(Stage stage, String normal, ResourceLocation stageId) {
-        stage.palettes.put(VaultMod.id(normal).toString(), stageId.toString());
+        palette(stage, VaultMod.id(normal), stageId);
+    }
+
+    private static void palette(Stage stage, ResourceLocation normal, ResourceLocation stageId) {
+        stage.palettes.put(normal.toString(), stageId.toString());
     }
 
     private static void pool(Stage stage, String normal, ResourceLocation stageId) {
