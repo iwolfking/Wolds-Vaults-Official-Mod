@@ -15,7 +15,8 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
  * One armory build page: the saved trees, the slot marks, the saved layout ({@code expected}: a ghost copy, or
- * {@link ItemStack#EMPTY} for "saved empty", or absent for unset) and the real items the page holds.
+ * {@link ItemStack#EMPTY} for "saved empty", or absent for unset), the real items the page holds and, on a Creative
+ * Armory page, the contents copies of the linked items in each slot.
  */
 public final class ArmoryPage {
     @Nullable
@@ -23,6 +24,7 @@ public final class ArmoryPage {
     private final Set<String> marks = new LinkedHashSet<>();
     private final Map<String, ItemStack> expected = new HashMap<>();
     private final Map<String, ItemStack> stored = new HashMap<>();
+    private final Map<String, CompoundTag> contents = new HashMap<>();
 
     public ArmoryPage() {
         for (String key : SlotKeys.ALL) {
@@ -75,6 +77,20 @@ public final class ArmoryPage {
         return this.stored;
     }
 
+    /** The contents copies saved with a creative page's slot, keyed by contents id; null when it has none. */
+    @Nullable
+    public CompoundTag contents(String key) {
+        return this.contents.get(key);
+    }
+
+    public void setContents(String key, @Nullable CompoundTag copies) {
+        if (copies == null || copies.isEmpty()) {
+            this.contents.remove(key);
+        } else {
+            this.contents.put(key, copies);
+        }
+    }
+
     /** The saved layout entry: null when unset, EMPTY for saved-empty, otherwise a ghost copy. */
     @Nullable
     public ItemStack expected(String key) {
@@ -121,8 +137,8 @@ public final class ArmoryPage {
     }
 
     /**
-     * Writes the page. With {@code slim}, ghosts shrink to item id and name and stored items are left out, for the
-     * dropped block item ({@code BlockEntityTag} must stay small).
+     * Writes the page. With {@code slim}, ghosts shrink to item id and name and stored items and contents copies are
+     * left out, for the dropped block item ({@code BlockEntityTag} must stay small).
      */
     public CompoundTag save(boolean slim) {
         CompoundTag tag = new CompoundTag();
@@ -139,6 +155,9 @@ public final class ArmoryPage {
             CompoundTag stored = new CompoundTag();
             this.stored.forEach((key, stack) -> stored.put(key, stack.save(new CompoundTag())));
             tag.put("stored", stored);
+            CompoundTag contents = new CompoundTag();
+            this.contents.forEach(contents::put);
+            tag.put("contents", contents);
         }
         return tag;
     }
@@ -188,6 +207,10 @@ public final class ArmoryPage {
             if (!stack.isEmpty()) {
                 page.stored.put(key, stack);
             }
+        }
+        CompoundTag contents = tag.getCompound("contents");
+        for (String key : contents.getAllKeys()) {
+            page.contents.put(key, contents.getCompound(key));
         }
         return page;
     }

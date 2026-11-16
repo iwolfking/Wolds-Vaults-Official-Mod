@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.armory.service;
 
-import iskallia.vault.item.CompanionItem;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -9,7 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
@@ -20,7 +18,9 @@ import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -36,7 +36,7 @@ public final class ArmoryService {
     public record Preview(List<String> refusals, List<String> notes) {
     }
 
-    private record Move(String key, ItemStack incoming, ItemStack outgoing) {
+    private record Move(String key, ItemStack incoming, ItemStack outgoing, @Nullable CreativeCopies.Issue issue) {
     }
 
     private static final class LoadPlan {
@@ -57,7 +57,10 @@ public final class ArmoryService {
         }
     }
 
-    /** Saves the player's trees and the layout of every marked slot. Items do not move (normal armory). */
+    /**
+     * Saves the player's trees and the layout of every marked slot. Items do not move. A Creative Armory also keeps a
+     * copy of each item and of its linked contents, and refuses when those contents pass the page limit.
+     */
     public static void save(ServerPlayer player, ArmoryBlockEntity armory, int pageIndex, CompoundTag stats, boolean overwrite) {
         ArmoryPage page = armory.page(pageIndex);
         if (PouchHelper.locked(player)) {
@@ -68,6 +71,14 @@ public final class ArmoryService {
             refuse(player, "Save", List.of("Build " + (pageIndex + 1) + " already has a save; confirm the overwrite"));
             return;
         }
+        Map<String, CreativeCopies.Capture> captures = new HashMap<>();
+        if (armory.isCreative()) {
+            List<String> refusals = captureAll(player, page, captures);
+            if (!refusals.isEmpty()) {
+                refuse(player, "Save", refusals);
+                return;
+            }
+        }
         CompoundTag snapshot = stats.copy();
         snapshot.putInt("selected", player.getInventory().selected);
         page.setBuild(SavedBuild.capture(player, snapshot));
@@ -75,12 +86,15 @@ public final class ArmoryService {
         for (String key : SlotKeys.ALL) {
             if (!page.isMarked(key)) {
                 page.setExpected(key, null);
+                page.setContents(key, null);
                 continue;
             }
             ItemStack current = PlayerSlots.get(player, key);
             page.setExpected(key, current.isEmpty() ? ItemStack.EMPTY : current);
             if (armory.isCreative()) {
                 page.setStored(key, current.isEmpty() ? ItemStack.EMPTY : current.copy());
+                CreativeCopies.Capture capture = captures.get(key);
+                page.setContents(key, capture == null ? null : capture.contents());
             }
             if (!current.isEmpty()) {
                 recorded++;
@@ -88,6 +102,53 @@ public final class ArmoryService {
         }
         armory.setChanged();
         tell(player, ChatFormatting.GREEN, "Saved Build " + (pageIndex + 1) + ": trees and " + recorded + " items recorded.");
+    }
+
+    /** Copies the linked contents of every marked item into {@code captures}; the refusals, empty when all fit. */
+    private static List<String> captureAll(ServerPlayer player, ArmoryPage page, Map<String, CreativeCopies.Capture> captures) {
+        List<String> refusals = new ArrayList<>();
+        long bytes = 0;
+        for (String key : SlotKeys.ALL) {
+            ItemStack current = page.isMarked(key) ? PlayerSlots.get(player, key) : ItemStack.EMPTY;
+            if (current.isEmpty()) {
+                continue;
+            }
+            CreativeCopies.Capture capture = CreativeCopies.capture(current);
+            if (capture.refusal() != null) {
+                refusals.add(capture.refusal());
+                continue;
+            }
+            if (!capture.contents().isEmpty()) {
+                bytes += CreativeCopies.sizeBytes(capture.contents());
+            }
+            captures.put(key, capture);
+        }
+        if (refusals.isEmpty() && bytes > CreativeCopies.limitBytes()) {
+            refusals.add("Container contents come to " + (bytes + 1023) / 1024 + " KB; a page holds at most "
+                    + CreativeCopies.limitKb() + " KB");
+        }
+        return refusals;
+    }
+
+    /**
+     * Hands a Creative Armory page slot's item to {@code player} as an issued copy. The slot keeps its layout, so
+     * Load still delivers it. Returns EMPTY when there is nothing to take or the copy is refused.
+     */
+    public static ItemStack take(ServerPlayer player, ArmoryBlockEntity armory, int pageIndex, String key) {
+        ArmoryPage page = armory.page(pageIndex);
+        ItemStack stored = page.stored(key);
+        if (!armory.isCreative() || stored.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        CreativeCopies.Issue issue = CreativeCopies.issue(stored, page.contents(key));
+        if (issue.refusal() != null) {
+            refuse(player, "Take", List.of(issue.refusal()));
+            return ItemStack.EMPTY;
+        }
+        page.setStored(key, ItemStack.EMPTY);
+        issue.commit(player);
+        armory.setChanged();
+        return issue.stack();
     }
 
     /** Moves every marked slot's item into the page; page items it replaces go to excess. */
@@ -172,6 +233,9 @@ public final class ArmoryService {
                 plan.notes.add("Skipped " + move.incoming().getHoverName().getString() + ": the slot refused it");
                 continue;
             }
+            if (move.issue() != null) {
+                move.issue().commit(player);
+            }
             if (!creative && !move.incoming().isEmpty()) {
                 page.setStored(move.key(), ItemStack.EMPTY);
             }
@@ -248,12 +312,14 @@ public final class ArmoryService {
                 plan.notes.add(incoming.getHoverName().getString() + " cannot be worn yet; it stays on the page");
                 continue;
             }
+            CreativeCopies.Issue issue = null;
             if (creative && !incoming.isEmpty()) {
-                if (isBackpackWithContents(incoming)) {
-                    plan.notes.add("Skipped " + incoming.getHoverName().getString() + ": a copy would share its contents");
+                issue = CreativeCopies.issue(incoming, page.contents(key));
+                if (issue.refusal() != null) {
+                    plan.notes.add("Skipped: " + issue.refusal());
                     continue;
                 }
-                stripOwner(incoming);
+                incoming = issue.stack();
             }
             ItemStack outgoing = PlayerSlots.get(player, key);
             if (incoming.isEmpty() && outgoing.isEmpty()) {
@@ -262,7 +328,7 @@ public final class ArmoryService {
             if (!outgoing.isEmpty()) {
                 toExcess.add(outgoing);
             }
-            plan.moves.add(new Move(key, incoming, outgoing));
+            plan.moves.add(new Move(key, incoming, outgoing, issue));
         }
         if (missing > 0) {
             plan.notes.add(missing + " saved item" + (missing == 1 ? " is" : "s are") + " not in the armory; those slots are skipped");
@@ -319,18 +385,6 @@ public final class ArmoryService {
             if (!player.getInventory().add(rest)) {
                 player.drop(rest, false);
             }
-        }
-    }
-
-    private static boolean isBackpackWithContents(ItemStack stack) {
-        return "sophisticatedbackpacks".equals(ForgeRegistries.ITEMS.getKey(stack.getItem()).getNamespace())
-                && stack.hasTag() && stack.getTag().contains("contentsUuid");
-    }
-
-    private static void stripOwner(ItemStack stack) {
-        if (stack.getItem() instanceof CompanionItem && stack.hasTag()) {
-            stack.getTag().remove("Owner");
-            stack.getTag().remove("OwnerName");
         }
     }
 

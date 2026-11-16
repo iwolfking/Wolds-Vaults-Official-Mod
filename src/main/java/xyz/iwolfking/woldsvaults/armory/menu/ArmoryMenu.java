@@ -8,6 +8,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
 import iskallia.vault.container.slot.spi.IGhostSlot;
 import iskallia.vault.container.spi.AbstractElementContainer;
 import net.minecraft.world.inventory.Slot;
@@ -254,6 +255,35 @@ public class ArmoryMenu extends AbstractElementContainer {
         return true;
     }
 
+    /**
+     * On a Creative Armory, a click or shift-click with an empty cursor on a page slot takes an issued copy through
+     * {@link ArmoryService#take}, and a middle click does nothing; the slot itself never lets an item out.
+     */
+    @Override
+    public void clicked(int slotId, int button, ClickType type, Player player) {
+        boolean pageSlot = slotId >= PAGE_START && slotId < EXCESS_START;
+        if (this.info.creative() && pageSlot && type == ClickType.CLONE) {
+            return;
+        }
+        boolean take = type == ClickType.PICKUP || type == ClickType.QUICK_MOVE;
+        if (!this.info.creative() || !pageSlot || !take || !this.getCarried().isEmpty()) {
+            super.clicked(slotId, button, type, player);
+            return;
+        }
+        if (!(player instanceof ServerPlayer serverPlayer) || this.armory == null) {
+            return;
+        }
+        ItemStack taken = ArmoryService.take(serverPlayer, this.armory, this.page, keyOf(slotId));
+        if (taken.isEmpty()) {
+            return;
+        }
+        if (type == ClickType.PICKUP) {
+            this.setCarried(taken);
+        } else if (!player.getInventory().add(taken)) {
+            player.drop(taken, false);
+        }
+    }
+
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot slot = this.slots.get(index);
@@ -335,6 +365,11 @@ public class ArmoryMenu extends AbstractElementContainer {
         @Override
         public boolean mayPlace(ItemStack stack) {
             return accepts(this.key, stack, ArmoryMenu.this.player);
+        }
+
+        @Override
+        public boolean mayPickup(Player player) {
+            return !ArmoryMenu.this.info.creative();
         }
 
         @Nullable

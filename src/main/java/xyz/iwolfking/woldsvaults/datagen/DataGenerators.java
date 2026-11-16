@@ -118,6 +118,7 @@ public class DataGenerators {
             gen.addProvider(new ModLightningFiendProvider(gen));
             gen.addProvider(new ModSpellcraftProvider(gen));
             gen.addProvider(new ModSpellHasteProvider(gen));
+            gen.addProvider(new ModArmoryProvider(gen));
             gen.addProvider(new ModObjectiveDifficultyProvider(gen));
             gen.addProvider(new ModHyperObjectiveProvider(gen));
             gen.addProvider(new ModExtractorCostsProvider(gen));

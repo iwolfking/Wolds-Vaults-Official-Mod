@@ -10,6 +10,7 @@ import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorCostsConfig;
 import xyz.iwolfking.woldsvaults.config.ExtractorPartsConfig;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
@@ -69,6 +70,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<GreedChampionConfig> GREED_CHAMPION = new WoldsTableLoader<>(new GreedChampionConfig(), "greed/champion");
     public static final WoldsTableLoader<SpellcraftConfig> SPELLCRAFT = new WoldsTableLoader<>(new SpellcraftConfig(), "spellcraft");
     public static final WoldsTableLoader<SpellHasteConfig> SPELL_HASTE = new WoldsTableLoader<>(new SpellHasteConfig(), "spell_haste");
+    public static final WoldsTableLoader<ArmoryConfig> ARMORY = new WoldsTableLoader<>(new ArmoryConfig(), "armory");
     public static final WoldsTableLoader<StatScreenConfig> STAT_SCREEN = new WoldsTableLoader<>(new StatScreenConfig(), "gui/stat_screen");
 
     private WoldsTables() {
@@ -97,6 +99,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(SPELLCRAFT);
         LoaderRegistry.addConfigProcessor(SPELL_HASTE);
         LoaderRegistry.addConfigProcessor(STAT_SCREEN);
+        LoaderRegistry.addConfigProcessor(ARMORY);
     }
 
     /** Installs the tables after the loaders have run; lowest priority so every loader has gathered first. */
@@ -124,6 +127,7 @@ public final class WoldsTables {
         ModConfigs.SPELL_HASTE = require(SPELL_HASTE, "spell_haste");
         ModConfigs.SPELLCRAFT = require(SPELLCRAFT, "spellcraft");
         ModConfigs.STAT_SCREEN = require(STAT_SCREEN, "player_stats");
+        ModConfigs.ARMORY = require(ARMORY, "armory");
         WoldLogger.info("Installed the generated Wold's Vaults tables");
     }
 

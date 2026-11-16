@@ -1,0 +1,57 @@
+{
+  "contentsLimitKb": 128,
+  "linkedItems": [
+    {
+      "namespace": "sophisticatedbackpacks",
+      "key": "contentsUuid",
+      "store": "BACKPACK"
+    },
+    {
+      "namespace": "sophisticatedstorage",
+      "key": "uuid",
+      "store": "STORAGE_ITEM"
+    },
+    {
+      "namespace": "sophisticatedvault",
+      "key": "uuid",
+      "store": "STORAGE_ITEM"
+    },
+    {
+      "namespace": "refinedstorage",
+      "key": "Id",
+      "store": "NONE"
+    },
+    {
+      "namespace": "extrastorage",
+      "key": "Id",
+      "store": "NONE"
+    }
+  ],
+  "ownerTags": [
+    {
+      "item": "the_vault:companion",
+      "keys": [
+        "Owner",
+        "OwnerName"
+      ]
+    },
+    {
+      "item": "sophisticatedbackpacks:identification_upgrade",
+      "keys": [
+        "Owner"
+      ]
+    },
+    {
+      "item": "sophisticatedbackpacks:identification_upgrade_advanced",
+      "keys": [
+        "Owner"
+      ]
+    },
+    {
+      "item": "sophisticatedstorage:identification_upgrade",
+      "keys": [
+        "Owner"
+      ]
+    }
+  ]
+}

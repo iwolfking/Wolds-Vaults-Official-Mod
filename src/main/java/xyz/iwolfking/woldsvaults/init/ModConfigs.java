@@ -25,6 +25,7 @@ import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 
 public class ModConfigs {
@@ -92,6 +93,7 @@ public class ModConfigs {
     public static GreedChampionConfig GREED_CHAMPION;
     public static GreedVaultStagesConfig GREED_VAULT_STAGES;
     public static StatScreenConfig STAT_SCREEN;
+    public static ArmoryConfig ARMORY;
 
     public static final Map<VaultGod, GodTreeConfig> GOD_TREES = new EnumMap<>(VaultGod.class);
     public static final Map<VaultGod, GodTreeGuiStylesConfig> GOD_TREE_GUI_STYLES = new EnumMap<>(VaultGod.class);

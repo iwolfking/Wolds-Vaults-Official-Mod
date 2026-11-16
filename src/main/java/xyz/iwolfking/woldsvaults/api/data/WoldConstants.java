@@ -38,6 +38,7 @@ public class WoldConstants {
             ComboAttribute.Config.class
     ));
     public static final UUID SECOND_CHANCE_HEALTH_REDUCTION_UUID = UUID.fromString("377c9fce-a8bd-4a3a-8123-180b5d633a23");
+    public static final String SOPHISTICATED_STORAGE_MOD = "sophisticatedstorage";
 
     //Caps
     public static final float DODGE_PERCENT_CAP = 0.75F;
