@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 /**
- * Field Medic: a multiplier on healing the player gives to allies, never to themselves. The healer
- * is carried on a thread local pushed from mixins.
+ * Field Medic: a multiplier on group healing the player gives to allies, never to themselves. The healer
+ * is carried on a thread local pushed by every group heal: Heal Group (mixin) and Savior.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraFieldMedic {

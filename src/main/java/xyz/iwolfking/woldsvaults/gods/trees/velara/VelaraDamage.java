@@ -15,16 +15,20 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.combat.FinalDamageStage;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
 /**
- * Every Velara node that changes damage the player takes, on {@link FinalDamageStage}. The syphon
- * runs at {@link FinalDamageStage#ORDER_SPLIT}, ahead of every reduction.
+ * Every Velara node that changes damage the player takes. Reductions run on {@link FinalDamageStage};
+ * Sacrifice's syphon runs on {@link LivingHurtEvent}, before armor and resistance, so each share of a
+ * hit is mitigated once, by the player who takes it.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class VelaraDamage {
     private static final ResourceLocation ADAPTIVE_ARMOR = WoldsVaults.id("velara_adaptive_armor");
     private static final ResourceLocation FLEETING_PHYSICALITY = WoldsVaults.id("velara_fleeting_physicality");
     private static final ResourceLocation MAGIC_ARMOR = WoldsVaults.id("velara_magic_armor");
-    private static final ResourceLocation SACRIFICE_SYPHON = WoldsVaults.id("velara_sacrifice_syphon");
+    private static final Map<LivingHurtEvent, Float> RAW_HITS = new WeakHashMap<>();
 
     private VelaraDamage() {
     }
@@ -33,7 +37,6 @@ public final class VelaraDamage {
         FinalDamageStage.register(ADAPTIVE_ARMOR, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::adaptiveArmor);
         FinalDamageStage.register(FLEETING_PHYSICALITY, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::fleetingPhysicality);
         FinalDamageStage.register(MAGIC_ARMOR, FinalDamageStage.ORDER_REDUCTION, VelaraDamage::magicArmor);
-        FinalDamageStage.register(SACRIFICE_SYPHON, FinalDamageStage.ORDER_SPLIT, VelaraDamage::sacrificeSyphon);
     }
 
     private static ServerPlayer defender(LivingDamageEvent event) {
@@ -79,27 +82,46 @@ public final class VelaraDamage {
     }
 
     /**
-     * Sacrifice's syphon: moves a share of the unmitigated hit onto the shepherd, where it runs
-     * through their own mitigation. A delivery that throws leaves the whole hit behind.
+     * Records the raw hit on a protected player before any attacker or defender modifier changes it.
+     * The shepherd's share is cut from this amount, and their own hurt pipeline applies the modifiers once.
      */
-    private static float sacrificeSyphon(LivingDamageEvent event, float amount) {
-        if (VelaraActiveFlags.IS_SACRIFICE_SYPHONING.isSet() || amount <= 0.0F) {
-            return amount;
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void recordRawHit(LivingHurtEvent event) {
+        if (protectedPlayer(event) != null) {
+            RAW_HITS.put(event, event.getAmount());
         }
-        ServerPlayer player = defender(event);
-        if (player == null || VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
-            return amount;
+    }
+
+    /**
+     * Sacrifice's syphon: once the hit has survived every cancellation, moves a share of it onto the
+     * shepherd, who takes the raw share through their own mitigation. A delivery that throws leaves the
+     * whole hit behind.
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void sacrificeSyphon(LivingHurtEvent event) {
+        Float raw = RAW_HITS.remove(event);
+        if (raw == null || event.isCanceled()) {
+            return;
         }
-        ServerPlayer shepherd = VelaraSacrificeFlocks.getShepherd(player);
+        ServerPlayer player = protectedPlayer(event);
+        ServerPlayer shepherd = player == null ? null : VelaraSacrificeFlocks.getShepherd(player);
         if (shepherd == null) {
-            return amount;
+            return;
         }
-        float syphoned = amount * VelaraValues.sacrificeSyphon();
-        float delivered = syphoned * (1.0F - VelaraValues.sacrificeResistance());
-        if (!deliver(shepherd, event.getSource(), delivered)) {
-            return amount;
+        float share = VelaraValues.sacrificeSyphon();
+        float delivered = raw * share * (1.0F - VelaraValues.sacrificeResistance());
+        if (deliver(shepherd, event.getSource(), delivered)) {
+            event.setAmount(event.getAmount() * (1.0F - share));
         }
-        return amount - syphoned;
+    }
+
+    private static ServerPlayer protectedPlayer(LivingHurtEvent event) {
+        if (VelaraActiveFlags.IS_SACRIFICE_SYPHONING.isSet() || event.getAmount() <= 0.0F
+                || !(event.getEntityLiving() instanceof ServerPlayer player)
+                || VelaraNodes.isActive(player, VelaraNodes.IMMORTAL)) {
+            return null;
+        }
+        return VelaraSacrificeFlocks.getShepherd(player) == null ? null : player;
     }
 
     /** Hands the shepherd their share. Returns false only if the delivery threw. */

@@ -9,7 +9,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/** Tenos node effect ids; tuned values in {@code god_node_effects_tenos.json}. */
+/** Tenos node effect ids; tuned values in {@code gods/effects/tenos.json}. */
 public final class TenosNodes {
     public static final VaultGod GOD = VaultGod.TENOS;
 

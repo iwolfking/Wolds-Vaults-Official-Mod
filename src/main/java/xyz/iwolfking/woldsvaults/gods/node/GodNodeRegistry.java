@@ -131,7 +131,7 @@ public final class GodNodeRegistry {
         GodEffect effect = effects.get(effectId);
         if (effect == null) {
             throw GodTreeConfigException.fail(god.getName() + " effect '" + effectId + "' was read before the "
-                    + "god node registry finished loading, or is missing from god_node_effects_"
+                    + "god node registry finished loading, or is missing from gods/effects/"
                     + god.getName().toLowerCase(Locale.ROOT) + ".json");
         }
         return effect.params(type);

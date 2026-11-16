@@ -7,6 +7,8 @@ import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.world.data.DownedPlayerManager;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraFieldMedic;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.gods.ultimates.DownedPlayerManagerInvoker;
 
 import java.util.ArrayList;
@@ -39,15 +41,20 @@ public class SaviorAbility extends GodUltimateAbility {
         UltimateLevels.Savior values = UltimateLevels.savior(level);
         Optional<Vault> vault = ServerVaults.get(player.level);
         List<ServerPlayer> targets = collectTargets(player, vault.orElse(null));
-        for (ServerPlayer target : targets) {
-            if (DownedPlayerManager.isPlayerDowned(target)) {
-                continue;
+        LivingEntity previousHealer = VelaraFieldMedic.pushHealer(player);
+        try {
+            for (ServerPlayer target : targets) {
+                if (DownedPlayerManager.isPlayerDowned(target)) {
+                    continue;
+                }
+                target.heal(values.healing());
+                target.setAbsorptionAmount(Math.max(target.getAbsorptionAmount(), values.absorption()));
+                SaviorState.apply(target, values.resistance(), values.durationTicks());
             }
-            target.heal(values.healing());
-            target.setAbsorptionAmount(Math.max(target.getAbsorptionAmount(), values.absorption()));
-            SaviorState.apply(target, values.resistance(), values.durationTicks());
+            vault.ifPresent(activeVault -> reviveDowned(player, activeVault, targets, values));
+        } finally {
+            VelaraFieldMedic.popHealer(previousHealer);
         }
-        vault.ifPresent(activeVault -> reviveDowned(player, activeVault, targets, values));
         return ActionResult.successCooldownImmediate();
     }
 

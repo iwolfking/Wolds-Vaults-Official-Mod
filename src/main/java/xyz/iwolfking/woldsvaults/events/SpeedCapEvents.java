@@ -66,6 +66,16 @@ public class SpeedCapEvents {
         speedAttribute.addTransientModifier(new AttributeModifier(SPEED_CAP_MODIFIER_UUID, "WoldsWeightedBootsSpeedCap", amount, AttributeModifier.Operation.MULTIPLY_TOTAL));
     }
 
+    /** The movement speed attribute value with the Weighted Boots cap divided back out. */
+    public static double uncappedValue(AttributeInstance speedAttribute) {
+        double value = speedAttribute.getValue();
+        AttributeModifier cap = speedAttribute.getModifier(SPEED_CAP_MODIFIER_UUID);
+        if (cap != null && 1.0D + cap.getAmount() > 0.0D) {
+            value /= 1.0D + cap.getAmount();
+        }
+        return value;
+    }
+
     private static int getActiveCapPercent(ServerPlayer player) {
         int cap = 0;
         for (TrinketHelper.TrinketStack<SpeedLimitTrinketEffect> trinketStack : TrinketHelper.getTrinkets(player, SpeedLimitTrinketEffect.class)) {

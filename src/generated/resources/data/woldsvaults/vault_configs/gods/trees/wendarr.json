@@ -718,15 +718,15 @@
       "type": "minor",
       "effect": "wendarr_armored_extractors",
       "cost": 1,
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "wendarr_br_3_0_extraction_superviser",
-      "name": "Extraction Superviser",
+      "name": "Extraction Supervisor",
       "type": "stat",
       "effect": "wendarr_extraction_superviser",
       "cost": 1,
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "wendarr_br_3_1_speedy_caster",
@@ -738,11 +738,11 @@
     },
     {
       "id": "wendarr_br_4_0_extraction_superviser",
-      "name": "Extraction Superviser",
+      "name": "Extraction Supervisor",
       "type": "stat",
       "effect": "wendarr_extraction_superviser",
       "cost": 1,
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "wendarr_br_4_1_pious_devotion",

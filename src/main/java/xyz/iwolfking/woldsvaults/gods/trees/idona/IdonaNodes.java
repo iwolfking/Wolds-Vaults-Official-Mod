@@ -9,7 +9,7 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeGate;
 import xyz.iwolfking.woldsvaults.gods.GodVaultUtil;
 
-/** Idona node effect ids; tuned values in {@code god_node_effects_idona.json}. */
+/** Idona node effect ids; tuned values in {@code gods/effects/idona.json}. */
 public final class IdonaNodes {
     public static final VaultGod GOD = VaultGod.IDONA;
 

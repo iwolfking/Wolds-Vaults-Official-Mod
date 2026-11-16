@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.core.vault.stat.StatCollector;
 import iskallia.vault.core.vault.stat.StatsCollector;
 import iskallia.vault.core.vault.time.TickClock;
@@ -14,9 +15,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.AABB;
+import xyz.iwolfking.woldsvaults.events.SpeedCapEvents;
 import xyz.iwolfking.woldsvaults.gods.combat.GlobalDamageMultiplierRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeTicker;
 import xyz.iwolfking.woldsvaults.gods.node.TickContributor;
 
@@ -40,7 +43,7 @@ public final class IdonaTickHandlers {
     private IdonaTickHandlers() {
     }
 
-    /** Kinetic Impact: more damage per percent of movement speed above base, sprint divided out. */
+    /** Kinetic Impact: more damage per percent of movement speed above base, sprint and the Weighted Boots cap divided out. */
     public record KineticImpactHandler(GodEffect effect) implements TickContributor {
         @Override
         public void tick(GodNodeContext context) {
@@ -50,7 +53,7 @@ public final class IdonaTickHandlers {
             if (speed == null) {
                 return;
             }
-            double value = speed.getValue();
+            double value = SpeedCapEvents.uncappedValue(speed);
             AttributeModifier sprint = speed.getModifier(SPRINT_MODIFIER_UUID);
             if (sprint != null && 1.0D + sprint.getAmount() > 0.0D) {
                 value /= 1.0D + sprint.getAmount();
@@ -129,32 +132,59 @@ public final class IdonaTickHandlers {
         public void tick(GodNodeContext context) {
             ServerPlayer player = context.player();
             ResourceLocation key = IdonaNodes.key(context.effectId());
-            Optional<Vault> vault = ServerVaults.get(player.level);
-            if (vault.isEmpty() || !vault.get().has(Vault.STATS)) {
+            Optional<Double> taken = vaultDamageTaken(player);
+            if (taken.isEmpty()) {
                 GlobalDamageMultiplierRegistry.remove(player, key);
                 return;
-            }
-            StatsCollector stats = vault.get().get(Vault.STATS);
-            StatCollector collector = stats.get(player.getUUID());
-            if (collector == null) {
-                GlobalDamageMultiplierRegistry.remove(player, key);
-                return;
-            }
-            double taken = Math.max(0.0D, collector.getDamageTaken());
-            if (!Double.isFinite(taken)) {
-                WoldLogger.error("Banked Anger read a non-finite damage-taken total for {}; treating it as zero.",
-                        player.getGameProfile().getName());
-                taken = 0.0D;
             }
             double base = this.effect.params(IdonaNodeHandlers.BankedAngerParams.class).base();
-            double curve = Math.log(base + taken) / Math.log(base);
-            GlobalDamageMultiplierRegistry.register(player, key, (float) Math.pow(curve, context.points()));
+            GlobalDamageMultiplierRegistry.register(player, key,
+                    (float) Math.pow(bankedAngerCurve(base, taken.get()), context.points()));
         }
 
         @Override
         public void onDeactivated(ServerPlayer player, String effectId) {
             GlobalDamageMultiplierRegistry.remove(player, IdonaNodes.key(effectId));
         }
+    }
+
+    /** The damage the player has taken in their current vault, or empty outside one. */
+    private static Optional<Double> vaultDamageTaken(ServerPlayer player) {
+        Optional<Vault> vault = ServerVaults.get(player.level);
+        if (vault.isEmpty() || !vault.get().has(Vault.STATS)) {
+            return Optional.empty();
+        }
+        StatsCollector stats = vault.get().get(Vault.STATS);
+        StatCollector collector = stats.get(player.getUUID());
+        if (collector == null) {
+            return Optional.empty();
+        }
+        double taken = Math.max(0.0D, collector.getDamageTaken());
+        if (!Double.isFinite(taken)) {
+            WoldLogger.error("Banked Anger read a non-finite damage-taken total for {}; treating it as zero.",
+                    player.getGameProfile().getName());
+            taken = 0.0D;
+        }
+        return Optional.of(taken);
+    }
+
+    private static double bankedAngerCurve(double base, double taken) {
+        return Math.log(base + taken) / Math.log(base);
+    }
+
+    static GodNodePreviews.Preview previewBankedAnger(ServerPlayer player) {
+        double base = IdonaNodeHandlers.params(IdonaNodes.BANKED_ANGER, IdonaNodeHandlers.BankedAngerParams.class).base();
+        Optional<Double> taken = vaultDamageTaken(player);
+        double damage = taken.orElse(0.0D);
+        double factor = bankedAngerCurve(base, damage);
+        String baseText = GodNodePreviews.number(base);
+        return new GodNodePreviews.Working(VaultGod.IDONA)
+                .formula("Damage multiplier", GodNodePreviews.bankedAngerFormula(base))
+                .input("damage taken", "the damage you have taken this vault",
+                        taken.isEmpty() ? "0 (not in a vault)" : GodNodePreviews.number(damage))
+                .result("log" + baseText + "(" + GodNodePreviews.number(base + damage) + ")", factor)
+                .inactive(!IdonaNodes.isActive(player, IdonaNodes.BANKED_ANGER))
+                .build(factor);
     }
 
     /** Crushing Blows: a stacking multiplier in the base mod's attack-damage registry. */

@@ -9,12 +9,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import xyz.iwolfking.woldsvaults.api.util.WoldEventHelper;
 import xyz.iwolfking.woldsvaults.gods.combat.UltraRampagingConfig;
 import xyz.iwolfking.woldsvaults.gods.node.CombatContributor;
-import xyz.iwolfking.woldsvaults.gods.node.DeferredHandler;
 import xyz.iwolfking.woldsvaults.gods.node.GodDamageContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffect;
 import xyz.iwolfking.woldsvaults.gods.node.GodEffectParams;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeContext;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeHandlers;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodStatSink;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
@@ -64,6 +64,13 @@ public final class IdonaNodeHandlers {
         GodNodeHandlers.register(IdonaNodes.POWER_DUMP, PowerDumpParams.class, ListenerBoundHandler::new);
         GodNodeHandlers.register(IdonaNodes.ULTRA_RAMPAGING, UltraRampagingConfig.class,
                 IdonaTickHandlers.UltraRampagingHandler::new);
+        GodNodePreviews.register(IdonaNodes.BANKED_ANGER,
+                () -> GodNodePreviews.bankedAngerFormula(params(IdonaNodes.BANKED_ANGER, BankedAngerParams.class).base()),
+                IdonaTickHandlers::previewBankedAnger);
+        GodNodePreviews.register(IdonaNodes.POWER_DUMP, () -> {
+            PowerDumpParams params = params(IdonaNodes.POWER_DUMP, PowerDumpParams.class);
+            return GodNodePreviews.powerDumpFormula(params.per_mana(), params.sqrt_ref());
+        }, IdonaPowerDump::preview);
     }
 
     /** The loaded parameters of one Idona effect. Throws naming the effect if it is absent. */

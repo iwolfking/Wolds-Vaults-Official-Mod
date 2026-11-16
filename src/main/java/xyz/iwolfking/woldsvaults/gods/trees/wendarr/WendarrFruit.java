@@ -1,6 +1,10 @@
 package xyz.iwolfking.woldsvaults.gods.trees.wendarr;
 
+import iskallia.vault.core.vault.influence.VaultGod;
+import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.item.ItemVaultFruit;
+import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -9,6 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.gods.GodNodeState;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 
 /** The Wendarr fruit family. A call that finds no active node returns its input unchanged. */
@@ -31,6 +36,21 @@ public final class WendarrFruit {
             }
         }
         return shaped;
+    }
+
+    static GodNodePreviews.Preview previewLegendOfThePear(ServerPlayer player) {
+        float efficiency = AttributeSnapshotHelper.getInstance().getSnapshot(player)
+                .getAttributeValue(ModGearAttributes.FRUIT_EFFECTIVENESS, VaultGearAttributeTypeMerger.floatSum());
+        double e = Math.max(0.0D, efficiency);
+        double pear = 1.0D + Math.sqrt(e);
+        double normal = 1.0D + e / (1.0D + e);
+        double factor = pear / normal;
+        return new GodNodePreviews.Working(VaultGod.WENDARR)
+                .formula("Fruit time multiplier", GodNodePreviews.LEGEND_OF_THE_PEAR_FORMULA)
+                .input("e", "your Fruit Efficiency (negative counts as 0)", GodNodePreviews.number(e))
+                .result(GodNodePreviews.number(pear) + " / " + GodNodePreviews.number(normal), factor)
+                .inactive(!WendarrNodes.isActive(player, WendarrNodes.LEGEND_OF_THE_PEAR))
+                .build(factor);
     }
 
     /** The fruit rot chance. Reductions compose multiplicatively; a saved fruit never rots. */

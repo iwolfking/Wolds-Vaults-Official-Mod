@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.gods.trees.idona;
 
+import iskallia.vault.core.vault.influence.VaultGod;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.etching.EtchingHelper;
 import iskallia.vault.mana.Mana;
@@ -12,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import xyz.iwolfking.woldsvaults.api.cast.CastContext;
 import xyz.iwolfking.woldsvaults.api.cast.CastTag;
+import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
 import xyz.iwolfking.woldsvaults.spellcraft.scope.CastScope;
 import xyz.iwolfking.woldsvaults.spellcraft.scope.CastBilling;
 import xyz.iwolfking.woldsvaults.spellcraft.projectile.SpellParticles;
@@ -53,6 +55,20 @@ public final class IdonaPowerDump {
     public static float largestBonus(ServerPlayer player, float maxManaScale) {
         IdonaNodeHandlers.PowerDumpParams params = params();
         return params.per_mana() * (float) Math.sqrt(params.sqrt_ref() * Math.max(0.0F, Mana.getMax(player)) * maxManaScale);
+    }
+
+    static GodNodePreviews.Preview preview(ServerPlayer player) {
+        IdonaNodeHandlers.PowerDumpParams params = params();
+        float maxMana = Math.max(0.0F, Mana.getMax(player));
+        float bonus = largestBonus(player);
+        return new GodNodePreviews.Working(VaultGod.IDONA)
+                .formula("Largest bonus", GodNodePreviews.powerDumpFormula(params.per_mana(), params.sqrt_ref()))
+                .input("max mana", "your maximum mana", GodNodePreviews.number(maxMana))
+                .result(GodNodePreviews.number(params.per_mana() * 100.0F) + "% x sqrt("
+                        + GodNodePreviews.number(params.sqrt_ref() * maxMana) + ")", 1.0F + bonus)
+                .note("A cast from a full bar gets the whole bonus; each cast gets it in proportion to the share of your bar it spent above its cost.")
+                .inactive(!IdonaNodes.isActive(player, IdonaNodes.POWER_DUMP))
+                .build(1.0F + bonus);
     }
 
     /** The Power Core scale for the running slot cast: the etching's roll when the slot was fully charged, else 1. */

@@ -31,7 +31,7 @@ public final class TenosVaultHandlers {
         }
     }
 
-    /** Master of Chests: attaches {@code woldsvaults:tenos_master_of_chests} once per vault. */
+    /** Master of Chests: one stack of {@code woldsvaults:tenos_master_of_chests} per runner with the node. */
     public record MasterOfChestsHandler(GodEffect effect) implements VaultContributor, TickContributor {
         @Override
         public void onVaultStart(GodNodeContext context, Vault vault) {

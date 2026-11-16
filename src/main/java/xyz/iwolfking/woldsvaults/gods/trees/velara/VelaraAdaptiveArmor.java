@@ -8,14 +8,15 @@ import xyz.iwolfking.woldsvaults.gods.GodNodeState;
 import java.util.UUID;
 
 /**
- * Adaptive Armor's consecutive-hit stacks, keyed on the attacker. A different attacker restarts the
- * run at one; damage with no entity behind it clears it.
+ * Adaptive Armor's consecutive-hit stacks, keyed on the attacker. Each hit is reduced by the stacks
+ * earlier hits built, then adds one. A different attacker restarts the run; damage with no entity
+ * behind it clears it.
  */
 public final class VelaraAdaptiveArmor {
     private VelaraAdaptiveArmor() {
     }
 
-    /** Advances the run and returns the multiplier. Stacks apply to the hit that creates them. */
+    /** Returns the multiplier for this hit from the stacks already built, then advances the run. */
     public static float advanceAndGetMultiplier(ServerPlayer defender, DamageSource source) {
         Entity attacker = source.getEntity();
         if (attacker == null) {
@@ -27,11 +28,11 @@ public final class VelaraAdaptiveArmor {
         synchronized (run) {
             if (!attackerId.equals(run.attackerId)) {
                 run.attackerId = attackerId;
-                run.stacks = 1;
-            } else {
-                run.stacks = Math.min(run.stacks + 1, VelaraValues.adaptiveArmorMaxStacks());
+                run.stacks = 0;
             }
-            return 1.0F - VelaraValues.adaptiveArmorPerStack() * run.stacks;
+            float multiplier = 1.0F - VelaraValues.adaptiveArmorPerStack() * run.stacks;
+            run.stacks = Math.min(run.stacks + 1, VelaraValues.adaptiveArmorMaxStacks());
+            return multiplier;
         }
     }
 

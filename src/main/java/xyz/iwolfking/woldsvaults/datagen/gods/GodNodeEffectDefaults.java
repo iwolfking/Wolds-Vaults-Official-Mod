@@ -175,7 +175,7 @@ public final class GodNodeEffectDefaults {
         put(map, "velara_utilized", "velara_utilized", new float[]{}, "ability_levels", 3);
     }
 
-    /** Wendarr's shipped effect table; the two extraction effects bind deferred types and are inert. */
+    /** Wendarr's shipped effect table. */
     private static void wendarr(GodNodeEffectsConfig.EffectMap map) {
         put(map, "wendarr_start_top", GEAR_ATTRIBUTE_SCALED, new float[]{0.02F},
                 "attribute", "the_vault:movement_speed", "secondAttribute", "the_vault:cooldown_reduction",
@@ -206,7 +206,7 @@ public final class GodNodeEffectDefaults {
                 "attribute", "the_vault:fruit_effectiveness");
         put(map, "wendarr_pious_devotion", PIETY, new float[]{10.0F});
         put(map, "wendarr_master_imbuer", "wendarr_master_imbuer", new float[]{0.05F});
-        put(map, "wendarr_extraction_superviser", "wendarr_extraction_superviser", new float[]{});
+        put(map, "wendarr_extraction_superviser", "wendarr_extraction_superviser", new float[]{}, "speed_bonus", 0.05F);
         put(map, "wendarr_expert_eater", "wendarr_expert_eater", new float[]{}, "save_chance", 0.1F);
         put(map, "wendarr_pristine_condition", "wendarr_pristine_condition", new float[]{}, "rot_multiplier", 0.85F);
         put(map, "wendarr_efficient_steps", "wendarr_efficient_steps", new float[]{}, "ratio", 0.25F);
@@ -224,12 +224,12 @@ public final class GodNodeEffectDefaults {
         put(map, "wendarr_clock_artificier", "wendarr_clock_artificier", new float[]{}, "multiplier", 1.5F);
         put(map, "wendarr_pylon_whisperer", "wendarr_pylon_whisperer", new float[]{}, "boost", 1.5F);
         put(map, "wendarr_gardener", "wendarr_gardener", new float[]{},
-                "extra_fruit_chance", 0.5F, "starfruit_upgrade_chance", 0.05F);
-        put(map, "wendarr_armored_extractors", "wendarr_armored_extractors", new float[]{});
+                "extra_fruit_chance", 0.5F, "starfruit_upgrade_chance", 0.2F);
+        put(map, "wendarr_armored_extractors", "wendarr_armored_extractors", new float[]{}, "damage_reduction", 0.25F);
         put(map, "wendarr_the_deckless", "wendarr_the_deckless", new float[]{},
                 "fruit_per_slot", 0.01F, "speed_per_slot", 0.05F, "cooldown_per_slot", 0.15F);
         put(map, "wendarr_speed_demon", "wendarr_speed_demon", new float[]{}, "rate", 0.75F, "stat_multiplier", 1.1F);
-        put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 0.7F);
+        put(map, "wendarr_quick_search", "wendarr_quick_search", new float[]{}, "rate", 1.0F / 1.45F);
     }
 
     /** Tenos's shipped effect table. */

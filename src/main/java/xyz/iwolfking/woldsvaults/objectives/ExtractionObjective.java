@@ -1393,9 +1393,9 @@ public class ExtractionObjective extends Objective {
             return;
         }
         extractor.setDrillingAnim(true);
-        float rate = this.isStaged(site)
+        float rate = extractor.getPlacerDrillRate() * (this.isStaged(site)
                 ? Math.max(0.0F, 1.0F - ModConfigs.EXTRACTION_OBJECTIVE.THUMPER.progressLossPerThumper * site.thumpersWrecked())
-                : 1.0F;
+                : 1.0F);
         site.modify(ExtractionSite.PROGRESS, progress -> progress + rate);
         for (int slot = 0; slot < ExtractionSite.THUMPER_SLOTS; slot++) {
             ThumperEntity thumper = this.getThumper(world, site, slot);
