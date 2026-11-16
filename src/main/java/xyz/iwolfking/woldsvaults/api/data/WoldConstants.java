@@ -49,6 +49,8 @@ public class WoldConstants {
     public static final String MYSTERY_DECK_ID = "mystery";
     public static final String OMEGA_PLUS_ROLL_TYPE = "Omega+";
     public static final String OMEGA_PLUS_HIGH_ROLL_TYPE = "Omega+ High";
+    public static final String MYTHIC_ROLL_TYPE = "Mythic";
+    public static final String SCRAPPY_PLUS_PLUS_ROLL_TYPE = "Scrappy++";
     public static final ResourceLocation OMEGA_ROOMS_POOL = VaultMod.id("vault/rooms/omega_rooms");
 
     public static final double HEALTH_REDUCTION_DEFAULT_MULT = 1.0849795594911;
