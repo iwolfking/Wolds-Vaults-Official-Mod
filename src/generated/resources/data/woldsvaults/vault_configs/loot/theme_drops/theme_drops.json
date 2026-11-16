@@ -1,0 +1,26 @@
+{
+  "themeGroups": {
+    "underwater": [
+      "the_vault:classic_vault_undersea",
+      "the_vault:classic_vault_sea_floor",
+      "the_vault:classic_vault_flooded",
+      "the_vault:classic_vault_shipwreck",
+      "the_vault:vault_lost_depths"
+    ]
+  },
+  "rules": {
+    "tidebreaker": {
+      "themeGroup": "underwater",
+      "minRank": 1,
+      "chests": [
+        "the_vault:ornate_chest",
+        "the_vault:ornate_strongbox"
+      ],
+      "shares": {
+        "3": 0.001,
+        "4": 0.01
+      },
+      "payload": "woldsvaults:theme_drops/tidebreaker"
+    }
+  }
+}

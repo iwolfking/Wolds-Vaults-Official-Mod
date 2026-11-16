@@ -33,6 +33,13 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         this.table("gear_sets", table);
     }
 
+    /** The unique ids of the Tidebreaker set's pieces. */
+    public static List<String> tidebreakerPieces() {
+        return List.of(
+                "woldsvaults:tidebreaker_reign", "woldsvaults:tidebreaker_heart", "woldsvaults:tidebreaker_leggings",
+                "woldsvaults:tidebreaker_greaves", "woldsvaults:tidebreaker_tideripper", "woldsvaults:tidebreaker_hurricane");
+    }
+
     private static GearSetConfig.GearSet tidebreaker(RiptideConfig riptide) {
         float damageMore = 1.0F;
         int hoverTicks = 30;
@@ -43,9 +50,7 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         set.name = "Tidebreaker";
         set.color = "#1C8F3A";
         set.ancientColor = "#1C8F3A";
-        set.pieces = List.of(
-                "woldsvaults:tidebreaker_reign", "woldsvaults:tidebreaker_heart", "woldsvaults:tidebreaker_leggings",
-                "woldsvaults:tidebreaker_greaves", "woldsvaults:tidebreaker_tideripper", "woldsvaults:tidebreaker_hurricane");
+        set.pieces = tidebreakerPieces();
         set.tiers = List.of(
                 tier(2, "Riptide pierces through enemies and deals " + percent(damageMore) + " more damage.",
                         grant("woldsvaults:riptide_pierce", new JsonPrimitive(true)),

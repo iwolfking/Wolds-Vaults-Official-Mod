@@ -112,6 +112,7 @@ public class DataGenerators {
             gen.addProvider(new ModGreedMedallionsProvider(gen));
             gen.addProvider(new ModGreedVaultStagesProvider(gen));
             gen.addProvider(new ModGreedChampionProvider(gen));
+            gen.addProvider(new ModThemeDropsProvider(gen));
             gen.addProvider(new ModStatScreenProvider(gen));
             gen.addProvider(new ModGearSetsProvider(gen));
             gen.addProvider(new ModRiptideProvider(gen));
