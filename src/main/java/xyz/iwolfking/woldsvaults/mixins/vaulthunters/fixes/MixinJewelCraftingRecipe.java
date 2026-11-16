@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.data.discovery.ClientRecipeDiscoveryData;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -105,7 +106,7 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
         VaultGearData data = VaultGearData.read(stack);
         data.setItemLevel(vaultLevel);
         data.setRarity(VaultGearRarity.UNIQUE);
-        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, "Unique");
+        data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_ROLL_TYPE, WoldConstants.UNIQUE_ROLL_TYPE);
         ResourceLocation pool = iskallia.vault.init.ModConfigs.UNIQUE_GEAR.findPoolForUnique(getId()).orElse(null);
         if(pool != null) {
             data.createOrReplaceAttributeValue(ModGearAttributes.GEAR_UNIQUE_POOL, pool);
