@@ -738,6 +738,7 @@
     "vaulthunters.multicell.MixinGridGeneratorMultiCell",
     "vaulthunters.multicell.MixinVaultGridLayoutMultiCell",
     "vaulthunters.multicell.MixinVaultMultiCell",
+    "vaulthunters.themedrops.MixinTieredLootTableGeneratorThemeDrops",
     "vaulthunters.objectives.MixinArchitectObjective",
     "vaulthunters.objectives.MixinCrystalData",
     "vaulthunters.objectives.MixinNullCrystalModel",

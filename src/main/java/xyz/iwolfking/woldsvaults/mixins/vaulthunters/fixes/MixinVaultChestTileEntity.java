@@ -2,8 +2,10 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.core.Version;
+import iskallia.vault.core.data.key.LootTableKey;
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.world.loot.generator.TieredLootTableGenerator;
 import iskallia.vault.init.ModBlocks;
@@ -22,8 +24,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckStrongboxTier;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckThemeDrops;
 import xyz.iwolfking.woldsvaults.loot.StrongboxTierScaling;
 import xyz.iwolfking.woldsvaults.loot.VaultChestSlots;
+import xyz.iwolfking.woldsvaults.loot.themedrops.ThemeDropInjections;
+import xyz.iwolfking.woldsvaults.loot.themedrops.ThemeDrops;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 
 import java.util.ArrayList;
@@ -81,13 +86,20 @@ public class MixinVaultChestTileEntity {
                 : -1;
     }
 
+    /** Hands the new generator this chest's context: its strongbox tier and the theme drops resolved for it. */
     @ModifyExpressionValue(
             method = "generateLootTable",
             at = @At(value = "NEW", target = "iskallia/vault/core/world/loot/generator/TieredLootTableGenerator")
     )
-    private TieredLootTableGenerator passStrongboxTierToGenerator(TieredLootTableGenerator generator) {
+    private TieredLootTableGenerator passChestContextToGenerator(TieredLootTableGenerator generator, @Local LootTableKey key,
+                                                                 @Local(argsOnly = true) Version version) {
         if (this.woldsvaults$strongboxTier >= 0) {
             ((DuckStrongboxTier) (Object) generator).setStrongboxTier(this.woldsvaults$strongboxTier);
+        }
+        VaultChestTileEntity self = (VaultChestTileEntity) (Object) this;
+        ThemeDropInjections themeDrops = ThemeDrops.resolve(self.getBlockState().getBlock(), self.getLevel(), key, version);
+        if (themeDrops != null) {
+            ((DuckThemeDrops) (Object) generator).setThemeDrops(themeDrops);
         }
         return generator;
     }

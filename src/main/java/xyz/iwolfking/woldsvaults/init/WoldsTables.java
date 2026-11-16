@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
 import xyz.iwolfking.woldsvaults.config.StatScreenConfig;
+import xyz.iwolfking.woldsvaults.config.ThemeDropsConfig;
 import xyz.iwolfking.woldsvaults.config.WoldsTable;
 import xyz.iwolfking.woldsvaults.config.gods.GodLevelsConfig;
 import xyz.iwolfking.woldsvaults.config.gods.GodNodeEffectsConfig;
@@ -32,6 +33,7 @@ import xyz.iwolfking.woldsvaults.config.gods.GodTreeGuiStylesConfig;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodeRegistry;
 import xyz.iwolfking.woldsvaults.gods.node.GodTreeConfigException;
 import xyz.iwolfking.woldsvaults.integration.vhapi.loaders.core.WoldsTableLoader;
+import xyz.iwolfking.woldsvaults.loot.themedrops.ThemeDrops;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.stages.VaultStages;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
@@ -71,6 +73,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<SpellcraftConfig> SPELLCRAFT = new WoldsTableLoader<>(new SpellcraftConfig(), "spellcraft");
     public static final WoldsTableLoader<SpellHasteConfig> SPELL_HASTE = new WoldsTableLoader<>(new SpellHasteConfig(), "spell_haste");
     public static final WoldsTableLoader<ArmoryConfig> ARMORY = new WoldsTableLoader<>(new ArmoryConfig(), "armory");
+    public static final WoldsTableLoader<ThemeDropsConfig> THEME_DROPS = new WoldsTableLoader<>(new ThemeDropsConfig(), "loot/theme_drops");
     public static final WoldsTableLoader<StatScreenConfig> STAT_SCREEN = new WoldsTableLoader<>(new StatScreenConfig(), "gui/stat_screen");
 
     private WoldsTables() {
@@ -96,6 +99,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(GREED_MEDALLIONS);
         LoaderRegistry.addConfigProcessor(GREED_VAULT_STAGES);
         LoaderRegistry.addConfigProcessor(GREED_CHAMPION);
+        LoaderRegistry.addConfigProcessor(THEME_DROPS);
         LoaderRegistry.addConfigProcessor(SPELLCRAFT);
         LoaderRegistry.addConfigProcessor(SPELL_HASTE);
         LoaderRegistry.addConfigProcessor(STAT_SCREEN);
@@ -114,6 +118,8 @@ public final class WoldsTables {
         ModConfigs.GOD_LEVELS = require(GOD_LEVELS, "god_levels");
         installGodTrees();
         installGreedProgression();
+        ModConfigs.THEME_DROPS = require(THEME_DROPS, "theme_drops");
+        ThemeDrops.load(ModConfigs.THEME_DROPS);
         ModConfigs.GEAR_SETS = require(GEAR_SETS, "gear_sets");
         ModConfigs.RIPTIDE = require(RIPTIDE, "riptide");
         ModConfigs.LIGHTNING_FIEND = require(LIGHTNING_FIEND, "lightning_fiend");
