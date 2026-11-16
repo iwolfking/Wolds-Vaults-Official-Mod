@@ -27,6 +27,16 @@ public abstract class MixinLootInfoGroupDefinitionRegistry {
         register("gilded_chest_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_CHEST));
         register("wooden_chest_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_CHEST));
         register("treasure_chest_stage_3", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
+        register("living_strongbox_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.LIVING_STRONGBOX));
+        register("ornate_strongbox_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.ORNATE_STRONGBOX));
+        register("gilded_strongbox_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_STRONGBOX));
+        register("wooden_dungeon_barrel_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.WOODEN_BARREL));
+        register("living_dungeon_barrel_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.LIVING_BARREL));
+        register("ornate_dungeon_barrel_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.ORNATE_BARREL));
+        register("gilded_dungeon_barrel_stage_2", () -> new ItemStack(iskallia.vault.init.ModBlocks.GILDED_BARREL));
+        register("dungeon_pedestal_stage_2", () -> new ItemStack(ModBlocks.DUNGEON_PEDESTAL_BLOCK));
+        register("dungeon_boss_stage_2", () -> new ItemStack(Blocks.WITHER_SKELETON_SKULL));
+        register("treasure_pillar_stage_3", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_PEDESTAL));
         register("treasure_chest_velara", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
         register("treasure_chest_velara_stage_3", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));
         register("treasure_chest_tenos", () -> new ItemStack(iskallia.vault.init.ModBlocks.TREASURE_CHEST));

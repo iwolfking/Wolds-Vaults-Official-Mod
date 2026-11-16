@@ -69,6 +69,14 @@
         }
       }
     },
+    "the_vault:treasure_pillar_stage_3": {
+      "display": "Treasure Pillar (Greed Stage 3)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_3/treasure_pillar": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:hellish_sand": {
       "display": "Hellish Sand",
       "lootTableKeys": {
@@ -97,6 +105,14 @@
       "display": "Trove Sand",
       "lootTableKeys": {
         "woldsvaults:trove_sand": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:living_strongbox_stage_2": {
+      "display": "Living Strongbox (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/living_strongbox": {
           "level": 0
         }
       }
@@ -255,6 +271,14 @@
         }
       }
     },
+    "the_vault:gilded_strongbox_stage_2": {
+      "display": "Gilded Strongbox (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/gilded_strongbox": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:completion_crate_haunted_braziers": {
       "display": "Completion Crate Haunted Braziers",
       "lootTableKeys": {
@@ -272,11 +296,35 @@
         }
       }
     },
+    "the_vault:wooden_dungeon_barrel_stage_2": {
+      "display": "Wooden Dungeon Barrel (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/wooden_dungeon_barrel": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:ornate_strongbox_stage_2": {
+      "display": "Ornate Strongbox (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/ornate_strongbox": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:treasure_chest_wendarr": {
       "display": "Treasure Chest Wendarr",
       "lootTableKeys": {
         "the_vault:treasure_chest_wendarr": {
           "level": 50
+        }
+      }
+    },
+    "the_vault:living_dungeon_barrel_stage_2": {
+      "display": "Living Dungeon Barrel (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/living_dungeon_barrel": {
+          "level": 0
         }
       }
     },
@@ -293,6 +341,14 @@
       "lootTableKeys": {
         "the_vault:iskallian_leaves": {
           "level": 40
+        }
+      }
+    },
+    "the_vault:gilded_dungeon_barrel_stage_2": {
+      "display": "Gilded Dungeon Barrel (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/gilded_dungeon_barrel": {
+          "level": 0
         }
       }
     },
@@ -313,10 +369,34 @@
         }
       }
     },
+    "the_vault:dungeon_boss_stage_2": {
+      "display": "Dungeon Boss (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/dungeon_boss": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:ornate_dungeon_barrel_stage_2": {
+      "display": "Ornate Dungeon Barrel (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/ornate_dungeon_barrel": {
+          "level": 0
+        }
+      }
+    },
     "the_vault:enigma_chest_stage_2": {
       "display": "Enigma Chest (Greed Stage 2)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/enigma_chest": {
+          "level": 0
+        }
+      }
+    },
+    "the_vault:dungeon_pedestal_stage_2": {
+      "display": "Dungeon Pedestal (Greed Stage 2)",
+      "lootTableKeys": {
+        "woldsvaults:greed/stage_2/dungeon_pedestal": {
           "level": 0
         }
       }
