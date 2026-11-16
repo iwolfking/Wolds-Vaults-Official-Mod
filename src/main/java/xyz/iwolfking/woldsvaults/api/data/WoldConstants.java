@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.api.data;
 
 import com.google.common.base.Suppliers;
+import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
 import iskallia.vault.gear.item.VaultGearItem;
@@ -46,6 +47,9 @@ public class WoldConstants {
     public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
     public static final String DELOOT_RESEARCH = "Delooting Pro";
     public static final String MYSTERY_DECK_ID = "mystery";
+    public static final String OMEGA_PLUS_ROLL_TYPE = "Omega+";
+    public static final String OMEGA_PLUS_HIGH_ROLL_TYPE = "Omega+ High";
+    public static final ResourceLocation OMEGA_ROOMS_POOL = VaultMod.id("vault/rooms/omega_rooms");
 
     public static final double HEALTH_REDUCTION_DEFAULT_MULT = 1.0849795594911;
     public static final double HEALTH_REDUCTION_DEFAULT_MULT_SCALING = 0.827;

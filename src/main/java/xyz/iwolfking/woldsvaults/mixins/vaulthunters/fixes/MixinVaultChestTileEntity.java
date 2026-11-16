@@ -5,8 +5,6 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import iskallia.vault.block.entity.VaultChestTileEntity;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.random.RandomSource;
-import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultUtils;
 import iskallia.vault.core.world.loot.generator.TieredLootTableGenerator;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.util.VaultRarity;
@@ -23,23 +21,23 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.api.util.VaultMapTierCache;
-import xyz.iwolfking.woldsvaults.api.util.ducks.DuckMapTier;
+import xyz.iwolfking.woldsvaults.api.util.ducks.DuckStrongboxTier;
 import xyz.iwolfking.woldsvaults.loot.StrongboxTierScaling;
 import xyz.iwolfking.woldsvaults.loot.VaultChestSlots;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Chest sizes, loot placement, and the mapped-strongbox tier wiring. A strongbox takes the running
- * vault's map tier - -1 outside a tiered vault - for its loot pools and rarity.
+ * Chest sizes, loot placement, and the strongbox tier wiring. A strongbox takes the strongbox tier of its
+ * vault's greed medallion - -1 when the vault has none - for its loot pools and rarity.
  */
 @Mixin(value = VaultChestTileEntity.class, remap = false)
 public class MixinVaultChestTileEntity {
-    /** Map tier of the vault this chest generates in; -1 for everything but mapped strongboxes. */
+    /** Strongbox tier of the vault this chest generates in; -1 for everything but tiered strongboxes. */
     @Unique
-    private int woldsvaults$mapTier = -1;
+    private int woldsvaults$strongboxTier = -1;
 
     /**
      * @author iwolfking
@@ -76,13 +74,10 @@ public class MixinVaultChestTileEntity {
     }
 
     @Inject(method = "generateLootTable", at = @At("HEAD"))
-    private void resolveStrongboxMapTier(Version version, Player player, List<ItemStack> loot, RandomSource random, CallbackInfo ci) {
+    private void resolveStrongboxTier(Version version, Player player, List<ItemStack> loot, RandomSource random, CallbackInfo ci) {
         VaultChestTileEntity self = (VaultChestTileEntity) (Object) this;
-        this.woldsvaults$mapTier = woldsvaults$isStrongbox(self.getBlockState().getBlock())
-                ? VaultUtils.getVault(self.getLevel())
-                        .filter(vault -> vault.has(Vault.ID))
-                        .map(vault -> VaultMapTierCache.get(vault.get(Vault.ID)))
-                        .orElse(-1)
+        this.woldsvaults$strongboxTier = woldsvaults$isStrongbox(self.getBlockState().getBlock())
+                ? GreedMedallionEffects.strongboxTier(self.getLevel())
                 : -1;
     }
 
@@ -90,38 +85,38 @@ public class MixinVaultChestTileEntity {
             method = "generateLootTable",
             at = @At(value = "NEW", target = "iskallia/vault/core/world/loot/generator/TieredLootTableGenerator")
     )
-    private TieredLootTableGenerator passMapTierToGenerator(TieredLootTableGenerator generator) {
-        if (this.woldsvaults$mapTier >= 0) {
-            ((DuckMapTier) (Object) generator).setMapTier(this.woldsvaults$mapTier);
+    private TieredLootTableGenerator passStrongboxTierToGenerator(TieredLootTableGenerator generator) {
+        if (this.woldsvaults$strongboxTier >= 0) {
+            ((DuckStrongboxTier) (Object) generator).setStrongboxTier(this.woldsvaults$strongboxTier);
         }
         return generator;
     }
 
-    /** Strongboxes never compute the CDF percentile, so their rarity tracks the map tier instead. */
+    /** Strongboxes never compute the CDF percentile, so their rarity tracks the strongbox tier instead. */
     @ModifyExpressionValue(
             method = "generateLootTable",
             at = @At(value = "INVOKE", target = "Liskallia/vault/config/VaultChestConfig;getRarity(D)Liskallia/vault/util/VaultRarity;")
     )
-    private VaultRarity rarityFromMapTier(VaultRarity rarity) {
-        return this.woldsvaults$mapTier >= 0 ? StrongboxTierScaling.rarityForTier(this.woldsvaults$mapTier) : rarity;
+    private VaultRarity rarityFromStrongboxTier(VaultRarity rarity) {
+        return this.woldsvaults$strongboxTier >= 0 ? StrongboxTierScaling.rarityForTier(this.woldsvaults$strongboxTier) : rarity;
     }
 
     /** The sweep that refills generatedStacksCount; only tiered strongboxes count their whole box. */
     @ModifyConstant(method = "generateChestLoot", constant = @Constant(intValue = 27))
     private int woldsvaults$strongboxStackSweep(int cap) {
-        return this.woldsvaults$mapTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
+        return this.woldsvaults$strongboxTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
     }
 
     /** The threshold above which fillLoot merges and re-splits stacks; raised for tiered strongboxes. */
     @ModifyConstant(method = "fillLoot", constant = @Constant(intValue = 27))
     private int woldsvaults$strongboxMergeThreshold(int cap) {
-        return this.woldsvaults$mapTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
+        return this.woldsvaults$strongboxTier >= 0 ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;
     }
 
     /** The slot scan: any chest with hidden slots, and any tiered strongbox, offers its whole container. */
     @ModifyConstant(method = "getAvailableSlots", constant = @Constant(intValue = 27))
     private int woldsvaults$slotScanLimit(int cap) {
-        if (this.woldsvaults$mapTier >= 0) {
+        if (this.woldsvaults$strongboxTier >= 0) {
             return ((VaultChestTileEntity) (Object) this).getContainerSize();
         }
         return this.woldsvaults$hasHiddenSlots() ? ((VaultChestTileEntity) (Object) this).getContainerSize() : cap;

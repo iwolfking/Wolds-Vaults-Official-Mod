@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.AncientUniqueHelper;
 import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.init.ModItems;
@@ -71,15 +72,19 @@ public class MixinModConfigs {
         VaultGearTypeConfig.RollType mythicRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 1)));
         ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(12000284);
 
-        VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 96, VaultGearRarity.valueOf("MYTHIC"), 4)));
+        VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 98, VaultGearRarity.valueOf("MYTHIC"), 2)));
         ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusRoll).setColor(3125022);
+
+        VaultGearTypeConfig.RollType omegaPlusHighRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 95, VaultGearRarity.valueOf("MYTHIC"), 5)));
+        ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusHighRoll).setColor(3125022);
 
         VaultGearTypeConfig.RollType mapLoot = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.SCRAPPY, 20, VaultGearRarity.COMMON, 25, VaultGearRarity.RARE, 30, VaultGearRarity.EPIC, 14, VaultGearRarity.OMEGA, 10, VaultGearRarity.valueOf("MYTHIC"), 1)));
         ((VaultGearRollTypeConfigRollTypeAccessor)mapLoot).setColor(13818334);
 
 
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Mythic", mythicRoll);
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Omega+", omegaPlusRoll);
+        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put(WoldConstants.OMEGA_PLUS_ROLL_TYPE, omegaPlusRoll);
+        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put(WoldConstants.OMEGA_PLUS_HIGH_ROLL_TYPE, omegaPlusHighRoll);
         ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Scrappy++", mapLoot);
 
 

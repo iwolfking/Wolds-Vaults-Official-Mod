@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import net.minecraft.data.DataGenerator;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig.Effect;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig.Tier;
@@ -29,8 +30,6 @@ public class ModGreedMedallionsProvider extends AbstractWoldsTableProvider {
     private static final double HUNTER_MOB_MULTIPLIER = 10.0D;
     private static final double CHAMPION_3_MOB_MULTIPLIER = 2000.0D;
     private static final double LEGEND_MOB_MULTIPLIER = 5000.0D;
-    private static final String OMEGA_PLUS = "Omega+";
-    private static final String OMEGA_PLUS_HIGH = "Omega+ High";
     private static final int OMEGA_PLUS_HIGH_RANK = MilestoneRankLadder.HUNTER_2;
     private static final int FIRST_STRONGBOX_RANK = MilestoneRankLadder.LOOTER_3;
     private static final int MAX_STRONGBOX_TIER = 6;
@@ -65,7 +64,7 @@ public class ModGreedMedallionsProvider extends AbstractWoldsTableProvider {
                     .assassins(ASSASSIN_FURY_GAIN[i], ASSASSIN_SQUAD_TARGET[i],
                             LEGEND_RECOVERY_SECONDS * legendGain / ASSASSIN_FURY_GAIN[i])
                     .omegaRoomWeightBonus(OMEGA_ROOM_WEIGHT_BONUS[i])
-                    .omegaPlusRollType(rank >= OMEGA_PLUS_HIGH_RANK ? OMEGA_PLUS_HIGH : OMEGA_PLUS)
+                    .omegaPlusRollType(rank >= OMEGA_PLUS_HIGH_RANK ? WoldConstants.OMEGA_PLUS_HIGH_ROLL_TYPE : WoldConstants.OMEGA_PLUS_ROLL_TYPE)
                     .strongboxTier(strongboxTier(rank));
             table.tiers.put(String.valueOf(rank), tier);
         }
