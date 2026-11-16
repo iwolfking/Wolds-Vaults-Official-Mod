@@ -29,7 +29,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import xyz.iwolfking.woldsvaults.config.AncientsConfig;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
 import xyz.iwolfking.woldsvaults.gods.trees.idona.IdonaState;
 import xyz.iwolfking.woldsvaults.init.ModGearAttributes;
 import xyz.iwolfking.woldsvaults.spellcraft.scope.ChainScope;
@@ -38,16 +40,17 @@ import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 public class AncientModifierEvents {
-    private static final float CLEAVE_DAMAGE_PERCENT = 0.6F;
-    private static final String EARTHQUAKE_ABILITY_ID = "Earthquake_Base";
 
     /**
-     * Registers the ancient-unique handlers. The lucky cleave is bound at setup, not from an annotated
-     * subscriber, so it runs after the_vault's LOWEST-priority {@code doLuckyHit} has scaled the hit.
+     * Registers every ancient-only effect handler, in this order: the lucky cleave, the quaking hit, the crashwave
+     * tracker and the radiation wave tracker. The lucky cleave is bound at setup, not from an annotated subscriber,
+     * so it runs after the_vault's LOWEST-priority {@code doLuckyHit} has scaled the hit.
      */
-    public static void init() {
+    public static void register() {
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, AncientModifierEvents::luckyHitCleave);
         CommonEvents.ENTITY_STUNNED.register(AncientModifierEvents.class, AncientModifierEvents::quakingHit);
+        MinecraftForge.EVENT_BUS.register(CrashwaveTracker.class);
+        MinecraftForge.EVENT_BUS.register(RadiationWaveTracker.class);
     }
 
     private static void luckyHitCleave(LivingHurtEvent event) {
@@ -93,10 +96,14 @@ public class AncientModifierEvents {
         if (aoeSize <= 0) {
             return;
         }
+        AncientsConfig.Effects effects = Ancients.effects();
+        if (effects == null) {
+            return;
+        }
 
         LivingEntity attacked = event.getEntityLiving();
         Level world = attacker.level;
-        float cleaveDamage = event.getAmount() * CLEAVE_DAMAGE_PERCENT;
+        float cleaveDamage = event.getAmount() * effects.luckyHitCleavePercent;
 
         ActiveFlags.IS_AOE_ATTACKING.runIfNotSet(() -> {
             List<Mob> nearby = EntityHelper.getNearby(world, attacked.blockPosition(), aoeSize, Mob.class);
@@ -149,9 +156,13 @@ public class AncientModifierEvents {
             return;
         }
 
-        EarthquakeAbility quake = resolveEarthquake(quakeLevel);
+        AncientsConfig.Effects effects = Ancients.effects();
+        if (effects == null) {
+            return;
+        }
+        EarthquakeAbility quake = resolveEarthquake(effects.quakingHitAbility, quakeLevel);
         if (quake == null) {
-            WoldLogger.error("quaking_hit could not resolve ability {} tier {}; no earthquake was cast", EARTHQUAKE_ABILITY_ID, quakeLevel);
+            WoldLogger.error("quaking_hit could not resolve ability {} tier {}; no earthquake was cast", effects.quakingHitAbility, quakeLevel);
             return;
         }
         quake.triggerExplosion(player, target.position(), true);
@@ -162,8 +173,8 @@ public class AncientModifierEvents {
      * than the player's tree. Only {@code triggerExplosion} is safe; {@code onAction} would put the
      * shared instance on cooldown.
      */
-    private static EarthquakeAbility resolveEarthquake(int level) {
-        Skill skill = ModConfigs.ABILITIES.getAbilityById(EARTHQUAKE_ABILITY_ID).orElse(null);
+    private static EarthquakeAbility resolveEarthquake(String abilityId, int level) {
+        Skill skill = ModConfigs.ABILITIES.getAbilityById(abilityId).orElse(null);
         if (!(skill instanceof TieredSkill tiered)) {
             return null;
         }

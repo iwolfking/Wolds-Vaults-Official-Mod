@@ -147,7 +147,7 @@ public class WoldsVaults {
         event.enqueueWork(RampageListenerFix::init);
         FuryIncome.init();
         GodSacrifices.validateItems();
-        AncientModifierEvents.init();
+        AncientModifierEvents.register();
         new AdditionalModels();
         ModVaultFilterAttributes.initAttributes();
         if (ModList.get().isLoaded("create")) {
