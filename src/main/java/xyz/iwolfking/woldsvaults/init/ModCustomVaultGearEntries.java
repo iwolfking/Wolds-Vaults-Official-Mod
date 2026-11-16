@@ -34,6 +34,5 @@ public class ModCustomVaultGearEntries {
         if (ModList.get().isLoaded("vault_hunters_jewel_sorting")) {
             SortableVaultItems.addGear(ModItems.BATTLESTAFF, ModItems.TRIDENT, ModItems.PLUSHIE, ModItems.LOOT_SACK, ModItems.RANG, ModItems.MAP, ModItems.SCEPTER, ModItems.DAGGER_MAIN, ModItems.DAGGER_SUB);
         }
-        // add item to VHCIRWoldsItems to show up as extra tab
     }
 }
