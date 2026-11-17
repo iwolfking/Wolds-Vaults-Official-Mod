@@ -1,0 +1,30 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/decor/inverted_pyramid/relic1",
+      "palettes": []
+    }
+  },
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/decor/inverted_pyramid/relic2",
+      "palettes": []
+    }
+  },
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/decor/inverted_pyramid/relic3",
+      "palettes": []
+    }
+  },
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/decor/inverted_pyramid/relic4",
+      "palettes": []
+    }
+  }
+]

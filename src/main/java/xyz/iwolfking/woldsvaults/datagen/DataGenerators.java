@@ -41,6 +41,7 @@ public class DataGenerators {
             gen.addProvider(new ModVaultThemesProvider(gen));
             gen.addProvider(new ModVaultTemplatesProvider(gen));
             gen.addProvider(new ModVaultTemplatePoolsProvider(gen));
+            gen.addProvider(new ModVaultRoomsProvider(gen, efh));
             gen.addProvider(new ModVaultGearTiersProvider(gen));
             gen.addProvider(new ModAncientGearModifiersProvider(gen));
             gen.addProvider(new ModVaultModifierPoolsProvider(gen));

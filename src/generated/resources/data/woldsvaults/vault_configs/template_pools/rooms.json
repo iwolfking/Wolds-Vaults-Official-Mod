@@ -1,0 +1,69 @@
+{
+  "keys": [
+    {
+      "id": "woldsvaults:vault/rooms/mythic/magical_forest",
+      "name": "Magical Forest",
+      "1.0": "woldsvaults:vault/rooms/mythic/magical_forest"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/fortress",
+      "name": "Fortress",
+      "1.0": "woldsvaults:vault/rooms/mythic/fortress"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/babel",
+      "name": "Babel",
+      "1.0": "woldsvaults:vault/rooms/mythic/babel"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/dragon_den",
+      "name": "Dragon Den",
+      "1.0": "woldsvaults:vault/rooms/mythic/dragon_den"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/inverted_pyramid",
+      "name": "Inverted Pyramid",
+      "1.0": "woldsvaults:vault/rooms/mythic/inverted_pyramid"
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/ruins",
+      "name": "Inverted Pyramid Ruins",
+      "1.0": "woldsvaults:vault/decor/inverted_pyramid/ruins"
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/relic",
+      "name": "Inverted Pyramid Relic",
+      "1.0": "woldsvaults:vault/decor/inverted_pyramid/relic"
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/interior",
+      "name": "Inverted Pyramid Interior",
+      "1.0": "woldsvaults:vault/decor/inverted_pyramid/interior"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins",
+      "name": "Inverted Pyramid Ruins",
+      "1.0": "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/grand_canyon",
+      "name": "Grand Canyon",
+      "1.0": "woldsvaults:vault/rooms/mythic/grand_canyon"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/hellscape",
+      "name": "Hellscape",
+      "1.0": "woldsvaults:vault/rooms/mythic/hellscape"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/test/pocket_hub",
+      "name": "Pocket Test Hub",
+      "1.0": "woldsvaults:vault/rooms/test/pocket_hub"
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic_rooms",
+      "name": "Mythic Rooms",
+      "1.0": "woldsvaults:vault/rooms/mythic_rooms"
+    }
+  ]
+}
