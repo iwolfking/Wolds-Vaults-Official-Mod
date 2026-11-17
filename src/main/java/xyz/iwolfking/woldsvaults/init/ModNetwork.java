@@ -37,6 +37,7 @@ import xyz.iwolfking.woldsvaults.network.packets.TimeTrialLeaderboardS2CPacket;
 import xyz.iwolfking.woldsvaults.network.packets.UpdateFloatingTextPacket;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryNavMessage;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryRenameMessage;
 import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
 import xyz.iwolfking.woldsvaults.network.packets.GlyphViewSyncMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage;
@@ -75,6 +76,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundArmoryNavMessage.class, ServerboundArmoryNavMessage::encode, ServerboundArmoryNavMessage::decode, ServerboundArmoryNavMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ServerboundArmorySaveMessage.class, ServerboundArmorySaveMessage::encode, ServerboundArmorySaveMessage::decode, ServerboundArmorySaveMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, ClientboundArmoryStateMessage.class, ClientboundArmoryStateMessage::encode, ClientboundArmoryStateMessage::decode, ClientboundArmoryStateMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, ServerboundArmoryRenameMessage.class, ServerboundArmoryRenameMessage::encode, ServerboundArmoryRenameMessage::decode, ServerboundArmoryRenameMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, BossDpsSnapshotMessage.class, BossDpsSnapshotMessage::encode, BossDpsSnapshotMessage::decode, BossDpsSnapshotMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ServerboundResetBossDpsMessage.class, ServerboundResetBossDpsMessage::encode, ServerboundResetBossDpsMessage::decode, ServerboundResetBossDpsMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, LightningFormMessage.class, LightningFormMessage::encode, LightningFormMessage::decode, LightningFormMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));

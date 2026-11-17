@@ -19,8 +19,11 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
  * Armory page, the contents copies of the linked items in each slot.
  */
 public final class ArmoryPage {
+    public static final int MAX_NAME_LENGTH = 24;
     @Nullable
     private SavedBuild build;
+    @Nullable
+    private String name;
     private final Set<String> marks = new LinkedHashSet<>();
     private final Map<String, ItemStack> expected = new HashMap<>();
     private final Map<String, ItemStack> stored = new HashMap<>();
@@ -37,6 +40,16 @@ public final class ArmoryPage {
 
     public void setBuild(@Nullable SavedBuild build) {
         this.build = build;
+    }
+
+    /** The player's name for this page; null when unnamed (the title then names the page's weapon). */
+    @Nullable
+    public String name() {
+        return this.name;
+    }
+
+    public void setName(@Nullable String name) {
+        this.name = name == null || name.isBlank() ? null : name;
     }
 
     public boolean hasSave() {
@@ -141,6 +154,9 @@ public final class ArmoryPage {
         if (this.build != null) {
             tag.put("build", this.build.save());
         }
+        if (this.name != null) {
+            tag.putString("name", this.name);
+        }
         ListTag marks = new ListTag();
         this.marks.forEach(key -> marks.add(StringTag.valueOf(key)));
         tag.put("marks", marks);
@@ -174,6 +190,9 @@ public final class ArmoryPage {
         ArmoryPage page = new ArmoryPage();
         if (tag.contains("build", Tag.TAG_COMPOUND)) {
             page.build = SavedBuild.load(tag.getCompound("build"));
+        }
+        if (tag.contains("name", Tag.TAG_STRING)) {
+            page.setName(tag.getString("name"));
         }
         if (tag.contains("marks", Tag.TAG_LIST)) {
             page.marks.clear();

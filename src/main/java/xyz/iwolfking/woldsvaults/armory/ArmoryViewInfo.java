@@ -10,25 +10,30 @@ import java.util.List;
 
 /**
  * What every armory screen needs about the block and the open page: position, page, tab, upgrades, the 8 page
- * tabs (icon, title, saved) and the Load preview (refusal reasons, or the notes Load would produce).
+ * tabs (icon, title, player-given name or empty, saved) and the Load preview (refusal reasons, or the notes Load
+ * would produce).
  */
 public record ArmoryViewInfo(BlockPos pos, int page, ArmoryTab tab, boolean creative, boolean skillsUpgrade,
                              boolean godsUpgrade, List<ItemStack> pageIcons, List<String> pageTitles,
-                             List<Boolean> pageSaved, List<String> loadRefusals, List<String> loadNotes) {
+                             List<String> pageNames, List<Boolean> pageSaved, List<String> loadRefusals,
+                             List<String> loadNotes) {
 
     public static ArmoryViewInfo of(ArmoryBlockEntity armory, int page, ArmoryTab tab, List<String> refusals, List<String> notes) {
         List<ItemStack> icons = new ArrayList<>();
         List<String> titles = new ArrayList<>();
+        List<String> names = new ArrayList<>();
         List<Boolean> saved = new ArrayList<>();
         for (int i = 0; i < ArmoryBlockEntity.PAGES; i++) {
             ArmoryPage p = armory.page(i);
             ItemStack icon = p.icon();
             icons.add(icon.isEmpty() ? ItemStack.EMPTY : ArmoryPage.ghost(icon));
-            titles.add(icon.isEmpty() ? "Build " + (i + 1) : "Build " + (i + 1) + ": " + icon.getHoverName().getString());
+            String shown = p.name() != null ? p.name() : icon.isEmpty() ? null : icon.getHoverName().getString();
+            titles.add(shown == null ? "Build " + (i + 1) : "Build " + (i + 1) + ": " + shown);
+            names.add(p.name() == null ? "" : p.name());
             saved.add(p.hasSave());
         }
         return new ArmoryViewInfo(armory.getBlockPos(), page, tab, armory.isCreative(), armory.hasSkillsUpgrade(),
-                armory.hasGodsUpgrade(), icons, titles, saved, refusals, notes);
+                armory.hasGodsUpgrade(), icons, titles, names, saved, refusals, notes);
     }
 
     public void write(FriendlyByteBuf buf) {
@@ -42,6 +47,7 @@ public record ArmoryViewInfo(BlockPos pos, int page, ArmoryTab tab, boolean crea
         for (int i = 0; i < this.pageIcons.size(); i++) {
             buf.writeItem(this.pageIcons.get(i));
             buf.writeUtf(this.pageTitles.get(i));
+            buf.writeUtf(this.pageNames.get(i));
             buf.writeBoolean(this.pageSaved.get(i));
         }
         writeLines(buf, this.loadRefusals);
@@ -58,18 +64,20 @@ public record ArmoryViewInfo(BlockPos pos, int page, ArmoryTab tab, boolean crea
         int count = buf.readVarInt();
         List<ItemStack> icons = new ArrayList<>();
         List<String> titles = new ArrayList<>();
+        List<String> names = new ArrayList<>();
         List<Boolean> saved = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             icons.add(buf.readItem());
             titles.add(buf.readUtf());
+            names.add(buf.readUtf());
             saved.add(buf.readBoolean());
         }
-        return new ArmoryViewInfo(pos, page, tab, creative, skills, gods, icons, titles, saved, readLines(buf), readLines(buf));
+        return new ArmoryViewInfo(pos, page, tab, creative, skills, gods, icons, titles, names, saved, readLines(buf), readLines(buf));
     }
 
     public ArmoryViewInfo withTab(ArmoryTab tab) {
         return new ArmoryViewInfo(this.pos, this.page, tab, this.creative, this.skillsUpgrade, this.godsUpgrade,
-                this.pageIcons, this.pageTitles, this.pageSaved, this.loadRefusals, this.loadNotes);
+                this.pageIcons, this.pageTitles, this.pageNames, this.pageSaved, this.loadRefusals, this.loadNotes);
     }
 
     private static void writeLines(FriendlyByteBuf buf, List<String> lines) {

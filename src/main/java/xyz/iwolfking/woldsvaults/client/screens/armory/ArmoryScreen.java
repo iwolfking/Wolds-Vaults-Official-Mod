@@ -22,6 +22,7 @@ import iskallia.vault.client.gui.screen.player.element.VaultLevelBarElement;
 import iskallia.vault.core.vault.influence.VaultGod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -32,6 +33,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.glfw.GLFW;
+import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.SlotKeys;
@@ -39,6 +42,7 @@ import xyz.iwolfking.woldsvaults.integration.curios.ArmoryCurioSlots;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryClientState;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryMenu;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryRenameMessage;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.client.screens.CompactButton;
@@ -62,6 +66,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private static final int BUTTON_PAD = 10;
     private static final int BUTTON_GAP = 2;
     private static final int LIST_X = 180;
+    private static final int NAME_BOX_WIDTH = 140;
 
     private final ArmoryViewInfo openInfo;
     @Nullable
@@ -75,6 +80,10 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private Button cancelButton;
     private boolean confirming;
     private final List<Button> titleButtons = new ArrayList<>();
+    private LabelElement<?> titleLabel;
+    @Nullable
+    private EditBox nameBox;
+    private int titleRight;
     private final List<IElement> gearElements = new ArrayList<>();
 
     public ArmoryScreen(ArmoryMenu menu, Inventory inventory, Component title) {
@@ -84,8 +93,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         this.setGuiSize(Spatials.size(GUI_WIDTH, GUI_HEIGHT));
         this.elementStore.removeElements(SkillTabContainerElement.class);
         this.elementStore.removeElements(element -> element instanceof LabelElement<?>);
-        this.addElement(new LabelElement<>(Spatials.positionXY(this.getTabContentSpatial()).translateXYZ(8, 6, 2),
-                this.getTabTitle().withStyle(ChatFormatting.BLACK), LabelTextStyle.defaultStyle()));
+        this.titleLabel = this.addTitleLabel(this.getTabTitle());
         this.addElement(ArmoryTabs.topStrip(Spatials.positionXYZ(15, -28, 1), this.openInfo)
                 .layout((screen, gui, parent, world) -> world.translateXY(this.getTabContentSpatial())));
         this.addElement(new NineSliceElement<>(Spatials.positionXY(this.getTabContentSpatial()).height(this.getTabContentSpatial()),
@@ -100,6 +108,58 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
             case EXCESS -> this.addExcessTab();
             default -> this.addGearTab();
         }
+    }
+
+    private LabelElement<?> addTitleLabel(MutableComponent text) {
+        return this.addElement(new LabelElement<>(Spatials.positionXY(this.getTabContentSpatial()).translateXYZ(8, 6, 2),
+                text.withStyle(ChatFormatting.BLACK), LabelTextStyle.defaultStyle()));
+    }
+
+    private void setTitleLabel(MutableComponent text) {
+        this.removeElement(this.titleLabel);
+        this.titleLabel = this.addTitleLabel(text);
+    }
+
+    private String buildPrefix() {
+        return "Build " + (this.menu.page() + 1) + ":";
+    }
+
+    private boolean canRename() {
+        return this.menu.tab() != ArmoryTab.EXCESS;
+    }
+
+    private boolean overTitle(double mouseX, double mouseY) {
+        ISpatial title = this.getTabContentSpatial();
+        return this.canRename() && mouseX >= title.x() + 6 && mouseX < this.titleRight
+                && mouseY >= title.y() + 3 && mouseY < title.y() + 16;
+    }
+
+    /** Swaps the page title for a name field after the "Build N:" prefix. */
+    private void startRename() {
+        ISpatial title = this.getTabContentSpatial();
+        this.setTitleLabel(new TextComponent(this.buildPrefix()));
+        int x = title.x() + 8 + this.font.width(this.buildPrefix()) + 4;
+        int width = Math.min(NAME_BOX_WIDTH, this.titleRight - x);
+        this.nameBox = new EditBox(this.font, x, title.y() + 4, width, 11, new TextComponent("Build name"));
+        this.nameBox.setMaxLength(ArmoryPage.MAX_NAME_LENGTH);
+        this.nameBox.setValue(this.menu.info().pageNames().get(this.menu.page()));
+        this.nameBox.setFocus(true);
+        this.nameBox.setCanLoseFocus(false);
+        this.addRenderableWidget(this.nameBox);
+    }
+
+    /** Ends the rename; {@code save} sends the field's text when it changed the page's name. */
+    private void stopRename(boolean save) {
+        if (this.nameBox == null) {
+            return;
+        }
+        String name = this.nameBox.getValue().strip();
+        this.removeWidget(this.nameBox);
+        this.nameBox = null;
+        if (save && !name.equals(this.menu.info().pageNames().get(this.menu.page()))) {
+            ModNetwork.sendToServer(new ServerboundArmoryRenameMessage(this.menu.containerId, name));
+        }
+        this.setTitleLabel(this.getTabTitle());
     }
 
     private void addBuildTabs() {
@@ -232,13 +292,14 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
 
     @Override
     public MutableComponent getTabTitle() {
-        if (this.openInfo == null) {
+        if (this.menu == null) {
             return new TextComponent("Armory");
         }
-        if (this.openInfo.tab() == ArmoryTab.EXCESS) {
+        ArmoryViewInfo info = this.menu.info();
+        if (info.tab() == ArmoryTab.EXCESS) {
             return new TextComponent("Excess storage");
         }
-        return new TextComponent(this.openInfo.pageTitles().get(this.openInfo.page()));
+        return new TextComponent(info.pageTitles().get(info.page()));
     }
 
     @Override
@@ -256,6 +317,10 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     protected void init() {
         super.init();
         this.titleButtons.clear();
+        if (this.nameBox != null) {
+            this.nameBox = null;
+            this.setTitleLabel(this.getTabTitle());
+        }
         ISpatial title = this.getTabContentSpatial();
         int x = title.right() - 5;
         int y = title.y() + 4;
@@ -264,8 +329,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
             x = this.loadButton.x - BUTTON_GAP;
             this.storeButton = this.titleButton("Store", x, y, button -> this.click(ArmoryMenu.BUTTON_STORE));
             x = this.storeButton.x - BUTTON_GAP;
-            this.titleButton("Save", x, y, button -> this.save());
+            x = this.titleButton("Save", x, y, button -> this.save()).x;
         }
+        this.titleRight = x - 4;
         int popupWidth = 140;
         int popupX = (this.width - popupWidth) / 2;
         int popupY = this.height / 2;
@@ -361,8 +427,14 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     @Override
     protected void containerTick() {
         super.containerTick();
+        if (this.nameBox != null) {
+            this.nameBox.tick();
+        }
         if (this.menu.state() != this.shownState) {
             this.shownState = this.menu.state();
+            if (this.nameBox == null) {
+                this.setTitleLabel(this.getTabTitle());
+            }
             this.addBuildTabs();
             this.rebuildForState();
             this.refreshButtons();
@@ -382,6 +454,15 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.confirming) {
             return this.confirmButton.mouseClicked(mouseX, mouseY, button) || this.cancelButton.mouseClicked(mouseX, mouseY, button) || true;
+        }
+        if (this.nameBox != null) {
+            if (this.nameBox.isMouseOver(mouseX, mouseY)) {
+                return this.nameBox.mouseClicked(mouseX, mouseY, button);
+            }
+            this.stopRename(true);
+        } else if (button == 0 && this.overTitle(mouseX, mouseY)) {
+            this.startRename();
+            return true;
         }
         for (Button title : this.titleButtons) {
             if (title.mouseClicked(mouseX, mouseY, button)) {
@@ -405,11 +486,37 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (this.nameBox == null) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+            this.stopRename(true);
+        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            this.stopRename(false);
+        } else {
+            this.nameBox.keyPressed(keyCode, scanCode, modifiers);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean charTyped(char codePoint, int modifiers) {
+        if (this.nameBox != null) {
+            return this.nameBox.charTyped(codePoint, modifiers);
+        }
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         super.render(poseStack, mouseX, mouseY, partialTick);
         this.renderMarks(poseStack);
         if (!this.confirming) {
             this.renderPageSlotTooltip(poseStack, mouseX, mouseY);
+            if (this.nameBox == null && this.overTitle(mouseX, mouseY)) {
+                this.renderTooltip(poseStack, new TextComponent("Click to rename this build"), mouseX, mouseY);
+            }
             return;
         }
         poseStack.pushPose();

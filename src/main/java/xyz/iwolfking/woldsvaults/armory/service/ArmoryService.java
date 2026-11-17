@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.armory.service;
 
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.SharedConstants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -155,6 +156,20 @@ public final class ArmoryService {
         issue.commit(player);
         armory.setChanged();
         return issue.stack();
+    }
+
+    /**
+     * Names a page, or clears its name when {@code name} is blank. Formatting codes and control characters are
+     * dropped; a name over {@link ArmoryPage#MAX_NAME_LENGTH} is refused.
+     */
+    public static void rename(ServerPlayer player, ArmoryBlockEntity armory, int pageIndex, String name) {
+        String clean = SharedConstants.filterText(name).strip();
+        if (clean.length() > ArmoryPage.MAX_NAME_LENGTH) {
+            refuse(player, "Rename", List.of("A build name holds at most " + ArmoryPage.MAX_NAME_LENGTH + " characters"));
+            return;
+        }
+        armory.page(pageIndex).setName(clean);
+        armory.setChanged();
     }
 
     /** Moves every marked slot's item into the page; page items it replaces go to excess. */
