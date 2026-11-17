@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.armory.menu;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -416,6 +419,17 @@ public class ArmoryMenu extends AbstractElementContainer {
             return !ArmoryMenu.this.info.creative();
         }
 
+        /** The slot type's outline icon while the slot shows neither an item nor a ghost. */
+        @Nullable
+        @Override
+        public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+            if (this.getGhostItemStack() != null) {
+                return null;
+            }
+            ResourceLocation icon = emptyIcon(this.key);
+            return icon == null ? null : Pair.of(InventoryMenu.BLOCK_ATLAS, icon);
+        }
+
         @Nullable
         @Override
         public ItemStack getGhostItemStack() {
@@ -425,6 +439,23 @@ public class ArmoryMenu extends AbstractElementContainer {
             ItemStack expected = ArmoryMenu.this.state.expected(this.key);
             return expected == null || expected.isEmpty() ? null : expected;
         }
+    }
+
+    @Nullable
+    private static ResourceLocation emptyIcon(String key) {
+        if (SlotKeys.isCurio(key)) {
+            return ArmoryCurioSlots.icon(key);
+        }
+        if (key.equals(SlotKeys.OFFHAND)) {
+            return InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD;
+        }
+        return switch (key) {
+            case "armor:head" -> InventoryMenu.EMPTY_ARMOR_SLOT_HELMET;
+            case "armor:chest" -> InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE;
+            case "armor:legs" -> InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS;
+            case "armor:feet" -> InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS;
+            default -> null;
+        };
     }
 
     public static boolean accepts(String key, ItemStack stack, Player player) {

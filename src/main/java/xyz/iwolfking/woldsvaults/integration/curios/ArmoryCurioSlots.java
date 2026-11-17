@@ -1,6 +1,9 @@
 package xyz.iwolfking.woldsvaults.integration.curios;
 
 import iskallia.vault.integration.IntegrationCurios;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -65,6 +68,16 @@ public final class ArmoryCurioSlots {
     public static boolean canEquip(Player player, String key, ItemStack stack) {
         SlotContext context = new SlotContext(SlotKeys.curioId(key), player, SlotKeys.curioIndex(key), false, true);
         return CuriosApi.getCuriosHelper().getCurio(stack).map(curio -> curio.canEquip(context)).orElse(true);
+    }
+
+    /** The empty-slot icon Curios draws for the slot type of {@code key}. Client only. */
+    public static ResourceLocation icon(String key) {
+        return CuriosApi.getIconHelper().getIcon(SlotKeys.curioId(key));
+    }
+
+    /** The slot type's display name, as the Curios screen shows it. */
+    public static Component name(String key) {
+        return new TranslatableComponent("curios.identifier." + SlotKeys.curioId(key));
     }
 
     /** Whether {@code stack} is tagged for the curio slot type of {@code key}. */

@@ -35,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
 import xyz.iwolfking.woldsvaults.armory.SlotKeys;
+import xyz.iwolfking.woldsvaults.integration.curios.ArmoryCurioSlots;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryClientState;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryMenu;
@@ -452,6 +453,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         List<Component> lines = new ArrayList<>();
         ItemStack expected = this.menu.state().expected(key);
         boolean marked = this.menu.state().isMarked(key);
+        if (SlotKeys.isCurio(key)) {
+            lines.add(ArmoryCurioSlots.name(key).copy().withStyle(ChatFormatting.GOLD));
+        }
         if (expected != null && !expected.isEmpty()) {
             lines.add(new TextComponent("Missing: ").append(expected.getHoverName()));
             lines.add(new TextComponent("Load skips this slot until the item is back").withStyle(ChatFormatting.GRAY));
