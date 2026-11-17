@@ -57,7 +57,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private static final int GUI_WIDTH = 350;
     private static final int GUI_HEIGHT = 186;
     private static final int MARK_COLOR = 0xFF55D46A;
-    private static final int BUTTON_HEIGHT = 13;
+    private static final int BUTTON_HEIGHT = 11;
     private static final int BUTTON_PAD = 10;
     private static final int BUTTON_GAP = 2;
     private static final int LIST_X = 180;
@@ -255,8 +255,8 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         super.init();
         this.titleButtons.clear();
         ISpatial title = this.getTabContentSpatial();
-        int x = title.right() - 4;
-        int y = title.y() + 3;
+        int x = title.right() - 5;
+        int y = title.y() + 4;
         if (this.openInfo.tab() != ArmoryTab.EXCESS) {
             this.loadButton = this.titleButton("Load", x, y, button -> this.click(ArmoryMenu.BUTTON_LOAD));
             x = this.loadButton.x - BUTTON_GAP;
