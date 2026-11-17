@@ -62,7 +62,11 @@
       "the_vault:gear/armor/lightning_fiend/helmet",
       "the_vault:gear/armor/lightning_fiend/chestplate",
       "the_vault:gear/armor/lightning_fiend/leggings",
-      "the_vault:gear/armor/lightning_fiend/boots"
+      "the_vault:gear/armor/lightning_fiend/boots",
+      "the_vault:gear/armor/simons_set/helmet",
+      "the_vault:gear/armor/simons_set/chestplate",
+      "the_vault:gear/armor/simons_set/leggings",
+      "the_vault:gear/armor/simons_set/boots"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],

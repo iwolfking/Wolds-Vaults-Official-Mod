@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.models;
 
 import iskallia.vault.VaultMod;
 import iskallia.vault.dynamodel.DynamicModelProperties;
+import iskallia.vault.dynamodel.model.armor.ArmorLayers;
 import iskallia.vault.dynamodel.model.armor.ArmorModel;
 import iskallia.vault.dynamodel.model.item.HandHeldModel;
 import iskallia.vault.dynamodel.model.item.PlainItemModel;
@@ -12,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.vhapi.VHAPI;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.models.armor.layers.BoxArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.HeatwaveArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.LightningFiendArmorLayers;
 import xyz.iwolfking.woldsvaults.models.armor.layers.TidebreakerArmorLayers;
@@ -23,6 +25,7 @@ public class AdditionalModels {
     public static final HandHeldModel LEVIATHAN_AXE;
     public static final ArmorModel TIDEBREAKER;
     public static final ArmorModel LIGHTNING_FIEND;
+    public static final ArmorModel SIMONS_SET;
     public static final PlainItemModel BLOODSEEKING_MAGNET;
     public static final PlainItemModel OTHERWORLDLY_MAGNET;
     public static final PlainItemModel HEART_MAGNET;
@@ -130,10 +133,22 @@ public class AdditionalModels {
                 .addSlot(EquipmentSlot.LEGS)
                 .addSlot(EquipmentSlot.FEET);
 
+        SIMONS_SET = armor("gear/armor/simons_set", "Simon's Set", new BoxArmorLayers(),
+                EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
         PASTA = new ArmorModel(VaultMod.id("gear/armor/pasta"), "Pasta Strainer")
                 .properties(new DynamicModelProperties().allowTransmogrification())
                 .usingLayers(new PastaArmorLayers())
                 .addSlot(EquipmentSlot.HEAD);
+    }
+
+    private static ArmorModel armor(String path, String name, ArmorLayers layers, EquipmentSlot... slots) {
+        ArmorModel model = new ArmorModel(VaultMod.id(path), name)
+                .properties(new DynamicModelProperties())
+                .usingLayers(layers);
+        for (EquipmentSlot slot : slots) {
+            model.addSlot(slot);
+        }
+        return model;
     }
 
 

@@ -109,6 +109,65 @@
           ]
         }
       ]
+    },
+    "woldsvaults:simons_set": {
+      "name": "Simon's Set",
+      "color": "#FFD23F",
+      "ancientColor": "#FFD23F",
+      "pieces": [
+        "woldsvaults:simons_helmet",
+        "woldsvaults:simons_chestplate",
+        "woldsvaults:simons_leggings",
+        "woldsvaults:simons_boots"
+      ],
+      "tiers": [
+        {
+          "pieces": 2,
+          "text": "Right click to shoot a prism seed: it grows into a crystal where it lands (one at a time, 4 second cooldown). Damage you deal within 6 blocks of a crystal grows it: Seed, Shard, Cluster, Geode. Unfed crystals shrink a stage every 10 seconds. Arcane, Rail and Prism beams refract from crystal to crystal, and your Prism beams reach 50% further. Brittle: each crystal you have costs 2% Resistance.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_crystals",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "pieces": 3,
+          "text": "Lucky Hits from your swings near your crystals make the one you planted bud a new seed around it (up to 4 crystals). With 3 or more Shards, sneak and right click to Resonate: the crystals light up biggest first, then repeat; aim and left click them in that order and each turn bursts for 100% of your ability power per detonation value (Shard 1, Cluster 2, Geode 3.5). Every sequence you get right in a row makes the next one a step longer and the explosions 10% stronger. A wrong click shatters the rest for 50% damage and ends the streak.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_budding",
+              "value": 4
+            },
+            {
+              "attribute": "woldsvaults:simon_sequence",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "pieces": 4,
+          "text": "Lucky Hits from your swings near a Geode give it a facet (up to 3): +25% burst damage, then a slowing burst, then a Flawless crystal that leaves a shard field. Budded seeds have a 5% chance to be Prismatic, standing in for any crystal in the sequence. A Lucky Hit roll on each correct click fractures the crystal so it bursts twice, and finishing a chain collapses every burst into one final blast.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_facets",
+              "value": 3
+            },
+            {
+              "attribute": "woldsvaults:simon_prismatic",
+              "value": 0.05
+            },
+            {
+              "attribute": "woldsvaults:simon_fracture",
+              "value": true
+            },
+            {
+              "attribute": "woldsvaults:simon_finale",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
     }
   }
 }

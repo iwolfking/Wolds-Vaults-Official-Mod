@@ -47,19 +47,23 @@
       "FEET": [
         "woldsvaults:plague_steppers",
         "woldsvaults:tidebreaker_greaves",
-        "woldsvaults:lightning_fiend_talons"
+        "woldsvaults:lightning_fiend_talons",
+        "woldsvaults:simons_boots"
       ],
       "HEAD": [
         "woldsvaults:tidebreaker_reign",
-        "woldsvaults:lightning_fiend_crown"
+        "woldsvaults:lightning_fiend_crown",
+        "woldsvaults:simons_helmet"
       ],
       "CHEST": [
         "woldsvaults:tidebreaker_heart",
-        "woldsvaults:lightning_fiend_mantle"
+        "woldsvaults:lightning_fiend_mantle",
+        "woldsvaults:simons_chestplate"
       ],
       "LEGS": [
         "woldsvaults:tidebreaker_leggings",
-        "woldsvaults:lightning_fiend_legguards"
+        "woldsvaults:lightning_fiend_legguards",
+        "woldsvaults:simons_leggings"
       ]
     }
   },
@@ -1071,6 +1075,90 @@
         ]
       },
       "uniqueId": "woldsvaults:lightning_fiend_pure_lightning"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Yellow. Watch which one lights up next.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Chestplate",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Blue. Light bends around it, and so do spells.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_chestplate"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Green. Every hit you land feeds the crystals.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Boots",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Red. Run to the next crystal before you forget the order.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_boots"
     }
   ]
 }

@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.SpellHasteConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
+import xyz.iwolfking.woldsvaults.config.SimonConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
 import xyz.iwolfking.woldsvaults.config.GreedMedallionsConfig;
@@ -63,6 +64,7 @@ public final class WoldsTables {
     public static final WoldsTableLoader<RiptideConfig> RIPTIDE = new WoldsTableLoader<>(new RiptideConfig(), "gear/riptide");
     public static final WoldsTableLoader<AncientsConfig> ANCIENTS = new WoldsTableLoader<>(new AncientsConfig(), "gear/ancients");
     public static final WoldsTableLoader<LightningFiendConfig> LIGHTNING_FIEND = new WoldsTableLoader<>(new LightningFiendConfig(), "gear/lightning_fiend");
+    public static final WoldsTableLoader<SimonConfig> SIMON = new WoldsTableLoader<>(new SimonConfig(), "gear/simon");
     public static final WoldsTableLoader<ObjectiveDifficultyConfig> OBJECTIVE_DIFFICULTY = new WoldsTableLoader<>(new ObjectiveDifficultyConfig(), "objectives/difficulty");
     public static final WoldsTableLoader<HyperObjectiveConfig> HYPER_OBJECTIVE = new WoldsTableLoader<>(new HyperObjectiveConfig(), "objectives/hyper");
     public static final WoldsTableLoader<MultiCellRoomsConfig> MULTI_CELL_ROOMS = new WoldsTableLoader<>(new MultiCellRoomsConfig(), "layout/multi_cell_rooms");
@@ -93,6 +95,7 @@ public final class WoldsTables {
         LoaderRegistry.addConfigProcessor(RIPTIDE);
         LoaderRegistry.addConfigProcessor(ANCIENTS);
         LoaderRegistry.addConfigProcessor(LIGHTNING_FIEND);
+        LoaderRegistry.addConfigProcessor(SIMON);
         LoaderRegistry.addConfigProcessor(OBJECTIVE_DIFFICULTY);
         LoaderRegistry.addConfigProcessor(HYPER_OBJECTIVE);
         LoaderRegistry.addConfigProcessor(MULTI_CELL_ROOMS);
@@ -130,6 +133,7 @@ public final class WoldsTables {
         Ancients.load(require(ANCIENTS, "ancients"));
         UniqueRollTables.invalidateAncientTableCache();
         ModConfigs.LIGHTNING_FIEND = require(LIGHTNING_FIEND, "lightning_fiend");
+        ModConfigs.SIMON = require(SIMON, "simon");
         ModConfigs.OBJECTIVE_DIFFICULTY = require(OBJECTIVE_DIFFICULTY, "objective_difficulty");
         ModConfigs.HYPER_OBJECTIVE = require(HYPER_OBJECTIVE, "hyper_objective");
         MultiCellRoomsConfig multiCell = require(MULTI_CELL_ROOMS, "multi_cell_rooms");

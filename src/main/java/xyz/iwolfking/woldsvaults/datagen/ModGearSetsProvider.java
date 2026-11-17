@@ -5,6 +5,7 @@ import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
+import xyz.iwolfking.woldsvaults.config.SimonConfig;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
 
 import java.util.LinkedHashMap;
@@ -30,6 +31,7 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         table.sets = new LinkedHashMap<>();
         table.sets.put("woldsvaults:tidebreaker", tidebreaker(ModRiptideProvider.riptide()));
         table.sets.put("woldsvaults:lightning_fiend", lightningFiend(ModLightningFiendProvider.lightningFiend()));
+        table.sets.put("woldsvaults:simons_set", simon(ModSimonProvider.simon()));
         this.table("gear_sets", table);
     }
 
@@ -97,6 +99,52 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
                                 + "you, dealing more damage the more lightning strikes you land while in lightning form.",
                         grant("woldsvaults:lightning_dash", new JsonPrimitive(dashDamage))));
         return set;
+    }
+
+    private static GearSetConfig.GearSet simon(SimonConfig simon) {
+        int crystals = 1;
+        int budding = 4;
+        float sequence = 1.0F;
+        int facets = 3;
+        float prismatic = 0.05F;
+        float finale = 1.0F;
+        GearSetConfig.GearSet set = new GearSetConfig.GearSet();
+        set.name = "Simon's Set";
+        set.color = "#FFD23F";
+        set.ancientColor = "#FFD23F";
+        set.pieces = List.of("woldsvaults:simons_helmet", "woldsvaults:simons_chestplate", "woldsvaults:simons_leggings", "woldsvaults:simons_boots");
+        set.tiers = List.of(
+                tier(2, "Right click to shoot a prism seed: it grows into a crystal where it lands (one at a time, "
+                                + seconds(simon.plantCooldownTicks) + " second cooldown). Damage you deal within " + number(simon.growRadius)
+                                + " blocks of a crystal grows it: Seed, Shard, Cluster, Geode. Unfed crystals shrink a stage every "
+                                + seconds(simon.shrinkTicks) + " seconds. Arcane, Rail and Prism beams refract from crystal to crystal, and "
+                                + "your Prism beams reach " + percent(simon.prismReach - 1.0F) + " further. Brittle: each crystal you have costs "
+                                + percent(simon.brittleResistance) + " Resistance.",
+                        grant("woldsvaults:simon_crystals", new JsonPrimitive(crystals))),
+                tier(3, "Lucky Hits from your swings near your crystals make the one you planted bud a new seed around it (up to "
+                                + budding + " crystals). With " + simon.resonateMinCrystals + " or more Shards, sneak and right click to "
+                                + "Resonate: the crystals light up biggest first, then repeat; aim and left click them in that order and each "
+                                + "turn bursts for " + percent(sequence) + " of your ability power per detonation value (Shard "
+                                + number(simon.detonationValues[1]) + ", Cluster " + number(simon.detonationValues[2]) + ", Geode "
+                                + number(simon.detonationValues[3]) + "). Every sequence you get right in a row makes the next one a step "
+                                + "longer and the explosions " + percent(simon.streakDamage) + " stronger. A wrong click shatters the rest for "
+                                + percent(simon.failDamage) + " damage and ends the streak.",
+                        grant("woldsvaults:simon_budding", new JsonPrimitive(budding)),
+                        grant("woldsvaults:simon_sequence", new JsonPrimitive(sequence))),
+                tier(4, "Lucky Hits from your swings near a Geode give it a facet (up to " + facets + "): +"
+                                + percent(simon.facetDamage) + " burst damage, then a slowing burst, then a Flawless crystal that leaves a "
+                                + "shard field. Budded seeds have a " + percent(prismatic) + " chance to be Prismatic, standing in for any "
+                                + "crystal in the sequence. A Lucky Hit roll on each correct click fractures the crystal so it bursts twice, "
+                                + "and finishing a chain collapses every burst into one final blast.",
+                        grant("woldsvaults:simon_facets", new JsonPrimitive(facets)),
+                        grant("woldsvaults:simon_prismatic", new JsonPrimitive(prismatic)),
+                        grant("woldsvaults:simon_fracture", new JsonPrimitive(true)),
+                        grant("woldsvaults:simon_finale", new JsonPrimitive(finale))));
+        return set;
+    }
+
+    private static String seconds(int ticks) {
+        return number(ticks / (float) TICKS_PER_SECOND);
     }
 
     private static String number(float value) {
