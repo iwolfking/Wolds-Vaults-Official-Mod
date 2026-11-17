@@ -102,6 +102,14 @@
       "category": "Offensive",
       "color": "thornsDamage"
     },
+    "the_vault:hit_hearts": {
+      "category": "Offensive",
+      "color": "regret"
+    },
+    "the_vault:lucky_hit_chance": {
+      "category": "Offensive",
+      "color": "luckyHit"
+    },
     "the_vault:mana_additive": {
       "category": "Offensive",
       "color": "manaCost"
@@ -182,10 +190,6 @@
       "category": "Looting",
       "color": "blocks"
     },
-    "the_vault:hit_hearts": {
-      "category": "Looting",
-      "color": "regret"
-    },
     "the_vault:item_quantity": {
       "category": "Looting",
       "color": "itemquantity"
@@ -193,10 +197,6 @@
     "the_vault:item_rarity": {
       "category": "Looting",
       "color": "itemrarity"
-    },
-    "the_vault:lucky_hit_chance": {
-      "category": "Looting",
-      "color": "luckyHit"
     },
     "the_vault:soul_chance": {
       "category": "Looting",

@@ -64,6 +64,8 @@ public class ModStatScreenProvider extends AbstractWoldsTableProvider {
         stat(stats, ModGearAttributes.DAMAGE_HORDE, OFFENSIVE, "damage");
         stat(stats, xyz.iwolfking.woldsvaults.init.ModGearAttributes.ECHOING_DAMAGE, OFFENSIVE, "damage");
         stat(stats, xyz.iwolfking.woldsvaults.init.ModGearAttributes.THORNS_FLAT_PERCENT, OFFENSIVE, "thornsDamage");
+        stat(stats, ModGearAttributes.HIT_HEARTS, OFFENSIVE, "regret");
+        stat(stats, ModGearAttributes.LUCKY_HIT_CHANCE, OFFENSIVE, "luckyHit");
         stat(stats, ModGearAttributes.MANA_ADDITIVE, OFFENSIVE, "manaCost");
         stat(stats, ModGearAttributes.MANA_REGEN_ADDITIVE_PERCENTILE, OFFENSIVE, "manaCost");
         stat(stats, xyz.iwolfking.woldsvaults.init.ModGearAttributes.CHAINING_DAMAGE, OFFENSIVE, "chaining");
@@ -86,10 +88,8 @@ public class ModStatScreenProvider extends AbstractWoldsTableProvider {
 
         stat(stats, ModGearAttributes.COPIOUSLY, LOOTING, "fortune");
         stat(stats, xyz.iwolfking.woldsvaults.init.ModGearAttributes.DISMANTLE_CHANCE, LOOTING, "blocks");
-        stat(stats, ModGearAttributes.HIT_HEARTS, LOOTING, "regret");
         stat(stats, ModGearAttributes.ITEM_QUANTITY, LOOTING, "itemquantity");
         stat(stats, ModGearAttributes.ITEM_RARITY, LOOTING, "itemrarity");
-        stat(stats, ModGearAttributes.LUCKY_HIT_CHANCE, LOOTING, "luckyHit");
         stat(stats, ModGearAttributes.SOUL_QUANTITY, LOOTING, "soulchance");
         stat(stats, ModGearAttributes.TRAP_DISARMING, LOOTING, "chance");
 

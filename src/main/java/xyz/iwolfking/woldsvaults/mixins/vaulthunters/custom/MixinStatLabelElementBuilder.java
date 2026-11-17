@@ -24,7 +24,6 @@ import xyz.iwolfking.woldsvaults.client.screens.stats.StatNumberFormat;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatRowStyle;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatSyncClient;
 import xyz.iwolfking.woldsvaults.client.screens.stats.StatValueColor;
-import xyz.iwolfking.woldsvaults.client.screens.stats.StatValueStyle;
 import xyz.iwolfking.woldsvaults.stats.StatSources;
 
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ import java.util.function.Supplier;
 
 /**
  * H-screen stat rows: values above 999 are shown in compact form with the exact value added to the shift tooltip,
- * and a row given a value colour draws its value in that colour with a shadow while its name stays black and is cut
- * short with "..." before it reaches the value.
+ * and a row given a value colour draws its value in that colour while its name stays black and is cut short with
+ * "..." before it reaches the value.
  */
 @Mixin(value = StatLabelElementBuilder.class, remap = false)
 public abstract class MixinStatLabelElementBuilder<V extends Comparable<V>> implements StatRowStyle {
@@ -123,7 +122,7 @@ public abstract class MixinStatLabelElementBuilder<V extends Comparable<V>> impl
         StatLabelElement[] row = new StatLabelElement[1];
         Supplier<String> fitted = () -> woldsvaults$fit((String) label.get(), row[0],
                 compact.apply(value.get()).getString());
-        row[0] = original.call(position, size, fitted, value, compact, new StatValueStyle(), textColor,
+        row[0] = original.call(position, size, fitted, value, compact, style, textColor,
                 new StatValueColor((Supplier<TextColor>) valueColor, textColor, color));
         return row[0];
     }
