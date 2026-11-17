@@ -36,7 +36,9 @@ import java.util.function.Function;
 public final class SpellBarStrip {
     public static final int HEIGHT = 24;
     public static final int BAND = 27;
-    static final int PICK = 20;
+    static final int PICK = 18;
+    static final int PICK_Y = 3;
+    private static final int PICK_ICON = 1;
     private static final int SLOT_PITCH = 18;
     static final int KEYS_H = 16;
     private static final int KEYS_PAD = 8;
@@ -192,7 +194,7 @@ public final class SpellBarStrip {
 
     private void drawPicker(PoseStack pose, int k, boolean selected, @Nullable ItemStack stack) {
         int px = pickX(k);
-        int py = this.y0 + 2;
+        int py = this.y0 + PICK_Y;
         if (selected) {
             SpellcraftDraw.insetGrey(pose, px, py, px + PICK, py + PICK);
         } else {
@@ -201,10 +203,10 @@ public final class SpellBarStrip {
         if (stack == null) {
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, selected ? 1.0F : 0.55F);
-            ScreenTextures.TAB_ICON_ABILITIES.blit(pose, px + 2, py + 2, 0, 16, 16);
+            ScreenTextures.TAB_ICON_ABILITIES.blit(pose, px + PICK_ICON, py + PICK_ICON, 0, 16, 16);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         } else {
-            Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, px + 2, py + 2);
+            Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, px + PICK_ICON, py + PICK_ICON);
         }
         if (selected) {
             SpellcraftDraw.ring(pose, px, py, px + PICK, py + PICK, stack == null ? SpellcraftPalette.WHITE : SpellcraftPalette.ARCANE_GLOW);
@@ -304,12 +306,12 @@ public final class SpellBarStrip {
             this.armedSlot = -1;
             return false;
         }
-        if (SpellcraftDraw.inside(mouseX, mouseY, pickX(0), this.y0 + 2, PICK, PICK)) {
+        if (SpellcraftDraw.inside(mouseX, mouseY, pickX(0), this.y0 + PICK_Y, PICK, PICK)) {
             this.showEffective = false;
             SpellcraftDraw.click();
             return true;
         }
-        if (this.host.effectiveView() != null && SpellcraftDraw.inside(mouseX, mouseY, pickX(1), this.y0 + 2, PICK, PICK)) {
+        if (this.host.effectiveView() != null && SpellcraftDraw.inside(mouseX, mouseY, pickX(1), this.y0 + PICK_Y, PICK, PICK)) {
             this.showEffective = true;
             SpellcraftDraw.click();
             return true;

@@ -40,6 +40,7 @@ import xyz.iwolfking.woldsvaults.armory.menu.ArmoryClientState;
 import xyz.iwolfking.woldsvaults.armory.menu.ArmoryMenu;
 import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.client.screens.CompactButton;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         if (this.buildTabs != null) {
             this.removeElement(this.buildTabs);
         }
-        this.buildTabs = this.addElement(ArmoryTabs.buildTabs(Spatials.positionXY(-3, 3), this.menu.info())
+        this.buildTabs = this.addElement(ArmoryTabs.buildTabs(Spatials.positionXY(0, 3), this.menu.info())
                 .layout((screen, gui, parent, world) -> world.translateX(gui.right()).translateY(this.getTabContentSpatial().bottom())));
     }
 
@@ -267,9 +268,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
         int popupX = (this.width - popupWidth) / 2;
         int popupY = this.height / 2;
         int buttonWidth = (popupWidth - 16 - 4) / 2;
-        this.confirmButton = this.addRenderableWidget(new Button(popupX + 8, popupY + 4, buttonWidth, 15,
+        this.confirmButton = this.addRenderableWidget(new CompactButton(popupX + 8, popupY + 4, buttonWidth, 15,
                 new TextComponent("Overwrite"), button -> this.sendSave(true)));
-        this.cancelButton = this.addRenderableWidget(new Button(popupX + popupWidth - 8 - buttonWidth, popupY + 4, buttonWidth, 15,
+        this.cancelButton = this.addRenderableWidget(new CompactButton(popupX + popupWidth - 8 - buttonWidth, popupY + 4, buttonWidth, 15,
                 new TextComponent("Cancel"), button -> this.setConfirming(false)));
         this.setConfirming(false);
         this.refreshButtons();
@@ -277,7 +278,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
 
     private Button titleButton(String label, int right, int y, Button.OnPress onPress) {
         int width = this.font.width(label) + BUTTON_PAD;
-        return this.titleButton(new Button(right - width, y, width, BUTTON_HEIGHT, new TextComponent(label), onPress,
+        return this.titleButton(new CompactButton(right - width, y, width, BUTTON_HEIGHT, new TextComponent(label), onPress,
                 (button, poseStack, mouseX, mouseY) -> this.renderComponentTooltip(poseStack, this.buttonTooltip(label), mouseX, mouseY)));
     }
 

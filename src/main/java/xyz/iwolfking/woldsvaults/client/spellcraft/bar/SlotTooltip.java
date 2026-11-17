@@ -36,12 +36,12 @@ final class SlotTooltip {
 
     static List<Component> tooltip(SpellBarStrip strip, int mouseX, int mouseY) {
         List<Component> lines = new ArrayList<>();
-        if (SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(0), strip.y0() + 2, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
+        if (SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(0), strip.y0() + SpellBarStrip.PICK_Y, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
             lines.add(new TextComponent(SpellcraftNames.tr("bar.default")));
             return lines;
         }
         SpellBarView item = strip.host().effectiveView();
-        if (item != null && SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(1), strip.y0() + 2, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
+        if (item != null && SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(1), strip.y0() + SpellBarStrip.PICK_Y, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
             lines.add(new TextComponent(SpellcraftNames.tr("bar.item"))
                     .withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftPalette.ARCANE_GLOW & 0xFFFFFF))));
             return lines;

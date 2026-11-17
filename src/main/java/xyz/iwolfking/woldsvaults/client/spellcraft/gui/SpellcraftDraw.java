@@ -10,13 +10,13 @@ import iskallia.vault.init.ModTextureAtlases;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.client.screens.CompactButton;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
 
 import javax.annotation.Nullable;
@@ -29,9 +29,6 @@ import java.util.Set;
 public final class SpellcraftDraw {
     private static final Map<GlyphType, ResourceLocation> RUNES = new EnumMap<>(GlyphType.class);
     private static final Set<String> MISSING_ICONS = new HashSet<>();
-    private static final float BUTTON_LIT_R = 1.0F;
-    private static final float BUTTON_LIT_G = 0.85F;
-    private static final float BUTTON_LIT_B = 0.25F;
 
     static {
         for (GlyphType type : GlyphType.values()) {
@@ -187,31 +184,11 @@ public final class SpellcraftDraw {
         button(pose, font, x, y, w, h, label, hovered, 1.0F, false);
     }
 
-    /** A vanilla button at any size, its label drawn at {@code scale}; a lit button is tinted yellow. */
+    /** A compact button, its label drawn at {@code scale}; a lit button is tinted yellow. */
     public static void button(PoseStack pose, Font font, int x, int y, int w, int h, String label, boolean hovered, float scale,
                               boolean lit) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, AbstractWidget.WIDGETS_LOCATION);
-        if (lit) {
-            RenderSystem.setShaderColor(BUTTON_LIT_R, BUTTON_LIT_G, BUTTON_LIT_B, 1.0F);
-        } else {
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        int v = 46 + (hovered ? 2 : 1) * 20;
-        int half = w / 2;
-        GuiComponent.blit(pose, x, y, 0, v, half, h - 1, 256, 256);
-        GuiComponent.blit(pose, x + half, y, 200 - (w - half), v, w - half, h - 1, 256, 256);
-        GuiComponent.blit(pose, x, y + h - 1, 0, v + 19, half, 1, 256, 256);
-        GuiComponent.blit(pose, x + half, y + h - 1, 200 - (w - half), v + 19, w - half, 1, 256, 256);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        String text = font.plainSubstrByWidth(label, (int) ((w - 4) / scale));
-        pose.pushPose();
-        pose.translate(x + (w - font.width(text) * scale) / 2.0F, y + (h - 8 * scale) / 2.0F, 0.0F);
-        pose.scale(scale, scale, 1.0F);
-        font.drawShadow(pose, text, 0.0F, 0.0F, hovered ? 0xFFFFFFA0 : 0xFFE0E0E0);
-        pose.popPose();
+        CompactButton.draw(pose, font, x, y, w, h, label, hovered ? CompactButton.STATE_HOVERED : CompactButton.STATE_NORMAL,
+                hovered ? 0xFFFFFFA0 : 0xFFE0E0E0, scale, lit);
     }
 
     public static void click() {

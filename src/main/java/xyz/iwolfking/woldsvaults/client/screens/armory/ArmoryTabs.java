@@ -100,7 +100,7 @@ public final class ArmoryTabs {
                 NineSliceElement<?> background = new NineSliceElement<>(Spatials.size(BUILD_TAB_SIZE + (selected ? 3 : 0), BUILD_TAB_SIZE),
                         selected ? ScreenTextures.TAB_BACKGROUND_RIGHT_9 : ScreenTextures.TAB_BACKGROUND_RIGHT_9_DISABLED);
                 ItemStack icon = info.pageIcons().get(i);
-                ItemStackDisplayElement<?> display = new ItemStackDisplayElement<>(Spatials.positionXYZ(selected ? 3 : 2, 2, 10), icon);
+                ItemStackDisplayElement<?> display = new ItemStackDisplayElement<>(Spatials.positionXYZ(selected ? 4 : 1, 2, 10), icon);
                 String title = info.pageTitles().get(i) + (info.pageSaved().get(i) ? "" : " (empty)");
                 this.addElement(new TabElement<>(Spatials.positionY(BUILD_TAB_PITCH * i).positionX(selected ? -3 : 0), background,
                         display, () -> open(info, page, info.tab())).tooltip(() -> new TextComponent(title)));
