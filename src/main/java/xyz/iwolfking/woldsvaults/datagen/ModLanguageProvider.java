@@ -127,6 +127,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.DECO_TENOS_ALTAR_BLOCK, "God Altar (Tenos - Decorative)");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK, "Owned Crafting Table");
+        add(ModBlocks.DECORATIVE_CRYSTAL, "Decorative Prism Crystal");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
         add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
         add(ModBlocks.SUPPRESSOR_BLOCK, "Universal Suppressor");

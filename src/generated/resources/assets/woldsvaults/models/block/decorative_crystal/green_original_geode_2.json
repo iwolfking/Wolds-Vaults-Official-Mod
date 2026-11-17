@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:block/decorative_crystal/base_original_geode_2",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/green"
+  }
+}

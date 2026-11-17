@@ -4,6 +4,7 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +19,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
+import xyz.iwolfking.woldsvaults.entities.simon.SimonCrystalEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
 import xyz.iwolfking.woldsvaults.init.ModFluids;
@@ -48,6 +50,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateDecoMonolith();
         generateDecoObelisk();
         generateXLBackpack();
+        generateDecorativeCrystal();
         ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
             vaultCrate(crateBlock, efh, WoldsVaults.id("block/vault_crate_" + s));
             //generateGenericItemModelBlockState(crateBlock);
@@ -460,6 +463,27 @@ public class ModBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent("xl_backpack", modLoc("block/xl_backpack"));
     }
 
+    private void generateDecorativeCrystal() {
+        DecorativeCrystalModels.generate(this);
+        getVariantBuilder(ModBlocks.DECORATIVE_CRYSTAL).forAllStates(state -> {
+            Direction facing = state.getValue(DecorativeCrystalBlock.FACING);
+            String look = state.getValue(DecorativeCrystalBlock.PRISMATIC) ? "prismatic" : state.getValue(DecorativeCrystalBlock.COLOR).id;
+            String model = DecorativeCrystalModels.name(look, state.getValue(DecorativeCrystalBlock.SHAPE), state.getValue(DecorativeCrystalBlock.STAGE), state.getValue(DecorativeCrystalBlock.VARIANT));
+            // the models grow up from the bottom of the block, so these tip them over to grow out of the side it faces
+            int x = facing == Direction.UP ? 0 : facing == Direction.DOWN ? 180 : 90;
+            int y = facing == Direction.EAST ? 90 : facing == Direction.SOUTH ? 180 : facing == Direction.WEST ? 270 : 0;
+            return ConfiguredModel.builder().modelFile(models().getExistingFile(modLoc(model))).rotationX(x).rotationY(y).build();
+        });
+        itemModels().withExistingParent("decorative_crystal", modLoc(DecorativeCrystalModels.name("red", DecorativeCrystalBlock.Shape.ORIGINAL, SimonCrystalEntity.SHARD, 0))).transforms()
+                .transform(ItemTransforms.TransformType.GUI).rotation(30.0F, 225.0F, 0.0F).scale(0.625F).end()
+                .transform(ItemTransforms.TransformType.GROUND).translation(0.0F, 3.0F, 0.0F).scale(0.25F).end()
+                .transform(ItemTransforms.TransformType.FIXED).scale(0.5F).end()
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND).rotation(75.0F, 45.0F, 0.0F).translation(0.0F, 2.5F, 0.0F).scale(0.375F).end()
+                .transform(ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, 45.0F, 0.0F).scale(0.4F).end()
+                .end();
+    }
+
+    // the markers draw nothing, so their models only carry a particle texture for breaking them
     private void simpleBlockWithTextures(Block block, ModelFile parent, String frameKey, ResourceLocation frameTex, String topKey, ResourceLocation topTex, String crateKey, ResourceLocation crateTex) {
         ModelFile model = models().withExistingParent(block.getRegistryName().getPath(), parent.getLocation())
                 .texture(frameKey, frameTex)

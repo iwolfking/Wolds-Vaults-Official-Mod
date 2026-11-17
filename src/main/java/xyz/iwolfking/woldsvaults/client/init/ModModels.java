@@ -14,6 +14,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
@@ -22,6 +24,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import xyz.iwolfking.woldsvaults.client.bullet.BulletBillModel;
+import xyz.iwolfking.woldsvaults.client.simon.FacetedModel;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
 import xyz.iwolfking.woldsvaults.entities.astral.client.model.LoginarModel;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
@@ -31,8 +34,14 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(value = {Dist.CLIENT}, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModModels {
+    @SubscribeEvent
+    public static void onModelRegistry(ModelRegistryEvent event) {
+        ModelLoaderRegistry.registerLoader(FacetedModel.LOADER_ID, new FacetedModel.Loader());
+    }
+
     public static void setupRenderLayers() {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.SURVIVAL_MOB_BARRIER, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DECORATIVE_CRYSTAL, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.ISKALLIAN_LEAVES_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.GATEWAY_CHANNELING_BLOCK, RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_ALTAR, RenderType.translucent());

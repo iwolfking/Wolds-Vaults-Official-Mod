@@ -143,6 +143,7 @@ public class ModBlocks {
     public static final BlockEntityType<TrinketFusionForgeTileEntity> TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE;
 
     //Shop Pedestals
+    public static final DecorativeCrystalBlock DECORATIVE_CRYSTAL = new DecorativeCrystalBlock();
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock GOD_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock BLACKSMITH_VENDOR_PEDESTAL = new ShopPedestalBlock();
@@ -428,6 +429,7 @@ public class ModBlocks {
         registerBlock(event, DECO_OBELISK_BLOCK, WoldsVaults.id("obelisk"));
         registerBlock(event, DECO_LODESTONE_BLOCK, WoldsVaults.id("lodestone"));
         registerBlock(event, DECO_MONOLITH_BLOCK, WoldsVaults.id("monolith"));
+        registerBlock(event, DECORATIVE_CRYSTAL, WoldsVaults.id("decorative_crystal"));
         registerBlock(event, SURVIVAL_MOB_BARRIER, WoldsVaults.id("mob_barrier_red"));
         registerBlock(event, VAULT_PALLADIUM_PILE, VaultMod.id("vault_palladium"));
         registerBlock(event, VAULT_IRIDIUM_PILE, VaultMod.id("vault_iridium"));
@@ -601,6 +603,7 @@ public class ModBlocks {
         registerBlockItem(event, DECO_OBELISK_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DECO_LODESTONE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DECO_MONOLITH_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, DECORATIVE_CRYSTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, SURVIVAL_MOB_BARRIER, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, AUGMENT_CRAFTING_TABLE, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, MOD_BOX_WORKSTATION, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
