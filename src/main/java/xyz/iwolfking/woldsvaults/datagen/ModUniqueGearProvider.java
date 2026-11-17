@@ -646,6 +646,16 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(setPiece("woldsvaults:simons_boots", "Simon's Boots", "the_vault:gear/armor/simons_set/boots",
                 "Not yet obtainable (Simon's Set)", "Simon's Set. Red. Run to the next crystal before you forget the order.", SetPiece.BOOTS));
 
+        consumer.accept(setPiece("woldsvaults:bullet_bill_helmet", "Bullet Bill's Helmet", "the_vault:gear/armor/bullet_bill/helmet",
+                "Not yet obtainable (Bullet Bill set)", "Bullet Bill set. Look where you want to go; the rest takes care of itself.", SetPiece.HELMET));
+        consumer.accept(setPiece("woldsvaults:bullet_bill_leggings", "Bullet Bill's Leggings", "the_vault:gear/armor/bullet_bill/leggings",
+                "Not yet obtainable (Bullet Bill set)", "Bullet Bill set. Who needs legs once they're airborne?", SetPiece.LEGGINGS));
+
+        consumer.accept(setPiece("woldsvaults:banzai_bill_helmet", "Banzai Bill Helmet", "the_vault:gear/armor/banzai_bill/helmet",
+                "Not yet obtainable (Bullet Bill set, rare)", "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out five times the size.", SetPiece.HELMET));
+        consumer.accept(setPiece("woldsvaults:king_bill_helmet", "King Bill Helmet", "the_vault:gear/armor/king_bill/helmet",
+                "Not yet obtainable (Bullet Bill set, ultra rare)", "Bullet Bill set, in place of the helmet. Ten times the size, red hot, and everything nearby burns.", SetPiece.HELMET));
+
 //        consumer.accept(entry("woldsvaults:titans_blade", new UniqueGearBuilder("Titan's Blade", ModItems.SWORD)
 //                .model("the_vault:gear/sword/titan")
 //                .base("the_vault:base_durability")

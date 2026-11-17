@@ -114,6 +114,9 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Float> SIMON_PRISMATIC = woldsAttr("simon_prismatic", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Prismatic Seed Chance", 16765503));
     public static final VaultGearAttribute<Boolean> SIMON_FRACTURE = woldsAttr("simon_fracture", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fracturing Strikes", 16765503), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Float> SIMON_FINALE = woldsAttr("simon_finale", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Prism Collapse Damage", 16765503));
+    public static final VaultGearAttribute<Integer> BULLET_BILL = woldsAttr("bullet_bill", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Bullet Bill Ticks", 12170182));
+    public static final VaultGearAttribute<Float> BULLET_BILL_DASH = woldsAttr("bullet_bill_dash", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Dash Damage", 12170182));
+    public static final VaultGearAttribute<Float> BULLET_BILL_DETONATION = woldsAttr("bullet_bill_detonation", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Detonation Damage", 12170182));
     public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
@@ -316,6 +319,9 @@ public class ModGearAttributes {
                       registry.register(SIMON_PRISMATIC);
                       registry.register(SIMON_FRACTURE);
                       registry.register(SIMON_FINALE);
+                      registry.register(BULLET_BILL);
+                      registry.register(BULLET_BILL_DASH);
+                      registry.register(BULLET_BILL_DETONATION);
        }
   
     public static void registerVanillaAssociations() {

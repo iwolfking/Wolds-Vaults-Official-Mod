@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.datagen;
 
 import com.google.gson.JsonPrimitive;
 import net.minecraft.data.DataGenerator;
+import xyz.iwolfking.woldsvaults.config.BulletBillConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
@@ -32,6 +33,7 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         table.sets.put("woldsvaults:tidebreaker", tidebreaker(ModRiptideProvider.riptide()));
         table.sets.put("woldsvaults:lightning_fiend", lightningFiend(ModLightningFiendProvider.lightningFiend()));
         table.sets.put("woldsvaults:simons_set", simon(ModSimonProvider.simon()));
+        table.sets.put("woldsvaults:bullet_bill", bulletBill(ModBulletBillProvider.bulletBill()));
         this.table("gear_sets", table);
     }
 
@@ -140,6 +142,40 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
                         grant("woldsvaults:simon_prismatic", new JsonPrimitive(prismatic)),
                         grant("woldsvaults:simon_fracture", new JsonPrimitive(true)),
                         grant("woldsvaults:simon_finale", new JsonPrimitive(finale))));
+        return set;
+    }
+
+    private static GearSetConfig.GearSet bulletBill(BulletBillConfig bill) {
+        int formTicks = 100;
+        int moreTicks = 100;
+        float dash = 1.0F;
+        float detonation = 1.0F;
+        GearSetConfig.GearSet set = new GearSetConfig.GearSet();
+        set.name = "Bullet Bill";
+        set.color = "#B9B3C6";
+        set.ancientColor = "#B9B3C6";
+        set.pieces = List.of("woldsvaults:bullet_bill_helmet", "woldsvaults:bullet_bill_leggings");
+        set.variants = new LinkedHashMap<>();
+        set.variants.put("woldsvaults:banzai_bill_helmet", "woldsvaults:bullet_bill_helmet");
+        set.variants.put("woldsvaults:king_bill_helmet", "woldsvaults:bullet_bill_helmet");
+        set.tiers = List.of(
+                tier(1, "Double tap jump to become a Bullet Bill for " + seconds(formTicks) + " seconds. You fly where you look; hold "
+                                + "jump to fire your jets and accelerate, picking up speed in a dive and losing it in a climb. No fall damage "
+                                + "while a Bullet Bill or on the landing after. " + seconds(bill.cooldownTicks) + " second cooldown once it "
+                                + "ends. A Banzai Bill Helmet makes your Bullet Bill " + number(bill.banzaiScale) + " times larger; a King "
+                                + "Bill Helmet makes it " + number(bill.kingScale) + " times larger, light red, and burns enemies around it.",
+                        grant("woldsvaults:bullet_bill", new JsonPrimitive(formTicks))),
+                tier(2, "Your Bullet Bill flies for " + seconds(moreTicks) + " seconds longer. Bullet Dash as a Bullet Bill sends you "
+                                + "into a spin: you pulse red and fly " + percent(bill.boostSpeed - 1.0F) + " faster for "
+                                + seconds(bill.boostTicks) + " second, and the dash deals " + percent(dash) + " more damage. Right click "
+                                + "while flying to arm your detonation: the next time you crash into a block you explode, hitting every "
+                                + "enemy nearby for your Bullet Dash damage times your speed in blocks per tick. The faster you crash, the "
+                                + "wider the blast. Once armed you keep flying past the end of your time until you crash, or explode where "
+                                + "you are " + seconds(bill.detonationOvertimeTicks) + " seconds later. A bigger Bullet Bill reaches "
+                                + "further with both.",
+                        grant("woldsvaults:bullet_bill", new JsonPrimitive(moreTicks)),
+                        grant("woldsvaults:bullet_bill_dash", new JsonPrimitive(dash)),
+                        grant("woldsvaults:bullet_bill_detonation", new JsonPrimitive(detonation))));
         return set;
     }
 

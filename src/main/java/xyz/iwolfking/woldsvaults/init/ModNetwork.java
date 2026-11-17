@@ -116,6 +116,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ArcanePrismMessage.class, ArcanePrismMessage::encode, ArcanePrismMessage::decode, ArcanePrismMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ArcanePrismSeedMessage.class, ArcanePrismSeedMessage::encode, ArcanePrismSeedMessage::decode, ArcanePrismSeedMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ArcaneSparkleMessage.class, ArcaneSparkleMessage::encode, ArcaneSparkleMessage::decode, ArcaneSparkleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, BulletBillMessage.class, BulletBillMessage::encode, BulletBillMessage::decode, BulletBillMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, BulletBillActionMessage.class, BulletBillActionMessage::encode, BulletBillActionMessage::decode, BulletBillActionMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {

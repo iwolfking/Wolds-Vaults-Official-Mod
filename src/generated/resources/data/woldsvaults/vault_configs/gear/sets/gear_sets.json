@@ -168,6 +168,49 @@
           ]
         }
       ]
+    },
+    "woldsvaults:bullet_bill": {
+      "name": "Bullet Bill",
+      "color": "#B9B3C6",
+      "ancientColor": "#B9B3C6",
+      "pieces": [
+        "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:bullet_bill_leggings"
+      ],
+      "variants": {
+        "woldsvaults:banzai_bill_helmet": "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:king_bill_helmet": "woldsvaults:bullet_bill_helmet"
+      },
+      "tiers": [
+        {
+          "pieces": 1,
+          "text": "Double tap jump to become a Bullet Bill for 5 seconds. You fly where you look; hold jump to fire your jets and accelerate, picking up speed in a dive and losing it in a climb. No fall damage while a Bullet Bill or on the landing after. 20 second cooldown once it ends. A Banzai Bill Helmet makes your Bullet Bill 5 times larger; a King Bill Helmet makes it 10 times larger, light red, and burns enemies around it.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:bullet_bill",
+              "value": 100
+            }
+          ]
+        },
+        {
+          "pieces": 2,
+          "text": "Your Bullet Bill flies for 5 seconds longer. Bullet Dash as a Bullet Bill sends you into a spin: you pulse red and fly 75% faster for 1 second, and the dash deals 100% more damage. Right click while flying to arm your detonation: the next time you crash into a block you explode, hitting every enemy nearby for your Bullet Dash damage times your speed in blocks per tick. The faster you crash, the wider the blast. Once armed you keep flying past the end of your time until you crash, or explode where you are 10 seconds later. A bigger Bullet Bill reaches further with both.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:bullet_bill",
+              "value": 100
+            },
+            {
+              "attribute": "woldsvaults:bullet_bill_dash",
+              "value": 1.0
+            },
+            {
+              "attribute": "woldsvaults:bullet_bill_detonation",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
     }
   }
 }

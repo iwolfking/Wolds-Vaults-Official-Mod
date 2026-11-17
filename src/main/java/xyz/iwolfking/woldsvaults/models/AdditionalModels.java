@@ -26,6 +26,9 @@ public class AdditionalModels {
     public static final ArmorModel TIDEBREAKER;
     public static final ArmorModel LIGHTNING_FIEND;
     public static final ArmorModel SIMONS_SET;
+    public static final ArmorModel BULLET_BILL;
+    public static final ArmorModel BANZAI_BILL;
+    public static final ArmorModel KING_BILL;
     public static final PlainItemModel BLOODSEEKING_MAGNET;
     public static final PlainItemModel OTHERWORLDLY_MAGNET;
     public static final PlainItemModel HEART_MAGNET;
@@ -135,6 +138,10 @@ public class AdditionalModels {
 
         SIMONS_SET = armor("gear/armor/simons_set", "Simon's Set", new BoxArmorLayers(),
                 EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
+        BULLET_BILL = armor("gear/armor/bullet_bill", "Bullet Bill", new BoxArmorLayers(), EquipmentSlot.HEAD, EquipmentSlot.LEGS);
+        BANZAI_BILL = armor("gear/armor/banzai_bill", "Banzai Bill", new BoxArmorLayers(), EquipmentSlot.HEAD);
+        KING_BILL = armor("gear/armor/king_bill", "King Bill", new BoxArmorLayers(), EquipmentSlot.HEAD);
+
         PASTA = new ArmorModel(VaultMod.id("gear/armor/pasta"), "Pasta Strainer")
                 .properties(new DynamicModelProperties().allowTransmogrification())
                 .usingLayers(new PastaArmorLayers())

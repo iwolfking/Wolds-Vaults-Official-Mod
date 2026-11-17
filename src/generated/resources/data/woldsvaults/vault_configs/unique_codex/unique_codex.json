@@ -53,7 +53,10 @@
       "HEAD": [
         "woldsvaults:tidebreaker_reign",
         "woldsvaults:lightning_fiend_crown",
-        "woldsvaults:simons_helmet"
+        "woldsvaults:simons_helmet",
+        "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:banzai_bill_helmet",
+        "woldsvaults:king_bill_helmet"
       ],
       "CHEST": [
         "woldsvaults:tidebreaker_heart",
@@ -63,7 +66,8 @@
       "LEGS": [
         "woldsvaults:tidebreaker_leggings",
         "woldsvaults:lightning_fiend_legguards",
-        "woldsvaults:simons_leggings"
+        "woldsvaults:simons_leggings",
+        "woldsvaults:bullet_bill_leggings"
       ]
     }
   },
@@ -1159,6 +1163,90 @@
         ]
       },
       "uniqueId": "woldsvaults:simons_boots"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Look where you want to go; the rest takes care of itself.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Who needs legs once they're airborne?",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Banzai Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out five times the size.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:banzai_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "King Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. Ten times the size, red hot, and everything nearby burns.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, ultra rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:king_bill_helmet"
     }
   ]
 }
