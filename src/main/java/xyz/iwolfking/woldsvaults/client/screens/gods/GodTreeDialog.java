@@ -27,6 +27,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import xyz.iwolfking.woldsvaults.client.screens.greed.GreedTheme;
 import xyz.iwolfking.woldsvaults.gods.ClientGodNodePreviews;
+import xyz.iwolfking.woldsvaults.gods.GodAlignmentData;
 import xyz.iwolfking.woldsvaults.gods.GodCarryover;
 import xyz.iwolfking.woldsvaults.gods.GodLevels;
 import xyz.iwolfking.woldsvaults.gods.node.GodNodePreviews;
@@ -268,20 +269,37 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                     + " to see it.\n\n")
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(accent))));
         }
-        desc.append(new TextComponent("Complete god altars or run god maps to earn god experience. Altars pay "
-                + "whether or not you have initiated; mapped vaults only pay once the Initiation offering is "
-                + "made, and every level past that takes its own sacrifice at the Greed Cauldron. Each level "
-                + "grants god points to spend on this constellation, and so does every "
-                + GodLevels.reputationPerGodPoint() + " reputation with them.\n\n")
-                .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
-        desc.append(new TextComponent("Equipping a god's charm makes their constellation active: minor and "
-                + "major stars only function while their god is active, and stat stars carry over to other "
-                + "gods at " + Math.round(GodCarryover.FOREIGN_TREE_SCALE * 100.0F) + "%.\n\n")
-                .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xDDDDDD))));
+        int body = 0xDDDDDD;
+        desc.append(colored("The Tree of ", body)).append(colored(this.god.getName(), accent))
+                .append(colored(", the god of " + domain(this.god) + ". Complete god altars or run god maps aligned with "
+                        + "this god to earn ", body))
+                .append(colored(this.god.getName(), accent))
+                .append(colored(" experience. You must complete the sacrifice at the Greed Cauldron to benefit from god "
+                        + "maps, and an additional offering is required for each level up. Leveling up with a god grants "
+                        + "god points for that tree, which can be spent to gain powerful gameplay altering nodes.\n\n"
+                        + "To activate a god tree, you must equip a god charm aligned with that god. Minor and Major nodes "
+                        + "will only function while a god's tree is active, and stat nodes will apply at "
+                        + Math.round(GodCarryover.FOREIGN_TREE_SCALE * 100.0F) + "% efficiency if another god's charm is "
+                        + "equipped instead. You also gain "
+                        + Math.round((GodAlignmentData.GOD_CHARM_XP_MULTIPLIER - 1.0D) * 100.0D) + "% more experience "
+                        + "for a given god while wearing their charm, from all sources.\n\n", body));
         desc.append(new TextComponent("Click a star to inspect it. Every star costs one point and "
                 + "must connect to a star you already own, starting from the marked start stars.")
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
         return desc;
+    }
+
+    private static String domain(VaultGod god) {
+        return switch (god) {
+            case IDONA -> "battle";
+            case VELARA -> "life";
+            case TENOS -> "loot";
+            case WENDARR -> "time";
+        };
+    }
+
+    private static MutableComponent colored(String text, int color) {
+        return new TextComponent(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)));
     }
 
     private boolean isCharmActive() {

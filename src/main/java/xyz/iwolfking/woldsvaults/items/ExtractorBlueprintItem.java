@@ -278,7 +278,7 @@ public class ExtractorBlueprintItem extends BasicItem implements IdentifiableIte
             if (data.getBoolean("HasQuality")) {
                 tooltip.add(ExtractorTooltips.quality(data.getFloat("Quality")));
             } else {
-                tooltip.add(new TextComponent("Quality: not yet stamped").withStyle(ChatFormatting.DARK_GRAY));
+                tooltip.add(new TextComponent("Quality: unknown").withStyle(ChatFormatting.DARK_GRAY));
             }
             tooltip.add(new TextComponent("Rarity: ").withStyle(ChatFormatting.WHITE)
                     .append(new TextComponent(ExtractorTooltips.rarityName(rarity)).withStyle(PartData.style(rarity))));

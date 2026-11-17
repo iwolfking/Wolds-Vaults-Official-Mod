@@ -580,7 +580,7 @@ public class ExtractorForgeScreen extends AbstractContainerScreen<ExtractorForge
             this.renderComponentTooltip(pose, List.of(
                     new TextComponent(String.format("%,d / %,d FE", this.menu.data(ExtractorForgeTileEntity.DATA_ENERGY),
                             this.menu.data(ExtractorForgeTileEntity.DATA_CAPACITY))),
-                    new TextComponent("Fabricating draws FE every tick and pauses while the buffer is short")), mouseX, mouseY);
+                    new TextComponent("Requires power to actively fabricate")), mouseX, mouseY);
             return;
         }
         List<ExtractorCosts.CostLine> fluids = fluidLines(ledger);
