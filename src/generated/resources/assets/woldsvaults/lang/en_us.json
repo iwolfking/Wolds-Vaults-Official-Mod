@@ -479,6 +479,7 @@
   "create.item_attributes.woldsvaults_spellcraft_depth.inverted": "has a depth below %1$s (glyphs per spell)",
   "create.item_attributes.woldsvaults_spellcraft_glyph": "has the \"%1$s\" glyph",
   "create.item_attributes.woldsvaults_spellcraft_glyph.inverted": "doesn't have the \"%1$s\" glyph",
+  "curios.identifier.angelring": "Angel Ring",
   "curios.identifier.green_trinket": "Green Trinket",
   "curios.identifier.shard_pouch": "Shard Pouch",
   "curios.identifier.trinket_pouch": "Trinket Pouch",

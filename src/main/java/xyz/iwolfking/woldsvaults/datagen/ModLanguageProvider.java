@@ -339,6 +339,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("item.woldsvaults.auric_crystal", "Auric Crystal");
         add("curios.identifier.shard_pouch", "Shard Pouch");
         add("curios.identifier.trinket_pouch", "Trinket Pouch");
+        add("curios.identifier.angelring", "Angel Ring");
         add("item.woldsvaults.trinket_pouch_stored_trinkets", "Stored Trinkets: ");
         add("key.woldsvaults.open_trinket_pouch", "Open Trinket Pouch");
         add("key.category.woldsvaults.spell_bar", "Wold's Vaults - Spell Bar");
