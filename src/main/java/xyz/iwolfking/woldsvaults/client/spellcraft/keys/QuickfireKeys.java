@@ -20,11 +20,12 @@ final class QuickfireKeys {
     }
 
     /**
-     * Unbinds Vault Hunters' quick-fire keys and removes them from the Controls list, since abilities are cast from
-     * spell slots.
+     * Saves the quick-fire binds for the one-time move onto spell slots, then unbinds Vault Hunters' quick-fire keys and
+     * removes them from the Controls list, since abilities are cast from spell slots.
      */
     static void hide(Minecraft minecraft) {
         retired = true;
+        QuickfireBindMigration.capture(ModKeybinds.abilityQuickfireKey);
         List<KeyMapping> kept = new ArrayList<>();
         int hidden = 0;
         for (KeyMapping mapping : minecraft.options.keyMappings) {

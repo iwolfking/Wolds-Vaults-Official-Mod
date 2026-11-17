@@ -15,8 +15,8 @@ import java.util.Arrays;
 
 /**
  * Polls the 16 spell slot keys each client tick, sending a press when one goes down and a release when it comes up;
- * opening a screen releases any held slot. The same tick retires Vault Hunters' quick-fire keys and counts cooldowns
- * down, and {@link #reset()} clears the client spellcraft caches on logout.
+ * opening a screen releases any held slot. The same tick retires Vault Hunters' quick-fire keys, moves their binds onto
+ * spell slots once and counts cooldowns down, and {@link #reset()} clears the client spellcraft caches on logout.
  */
 public final class SpellBarKeys {
     private static final boolean[] DOWN = new boolean[SpellcraftItemData.SLOTS];
@@ -32,6 +32,7 @@ public final class SpellBarKeys {
         if (!QuickfireKeys.retired() && minecraft.options != null) {
             QuickfireKeys.hide(minecraft);
         }
+        QuickfireBindMigration.applyIfReady(minecraft);
         if (minecraft.player != null && !minecraft.isPaused()) {
             ClientCooldownTicker.tick();
         }
