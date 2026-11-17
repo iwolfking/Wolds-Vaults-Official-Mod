@@ -6,8 +6,7 @@
     "back": "woldsvaults:block/creative_armory_back_upper",
     "trim": "woldsvaults:block/creative_armory_trim",
     "top": "woldsvaults:block/creative_armory_top",
-    "particle": "woldsvaults:block/creative_armory_side_upper",
-    "pog": "the_vault:item/omega_pog"
+    "particle": "woldsvaults:block/creative_armory_side_upper"
   },
   "elements": [
     {
@@ -120,29 +119,6 @@
         },
         "down": {
           "texture": "#top",
-          "uv": [
-            1,
-            1,
-            15,
-            15
-          ]
-        }
-      }
-    },
-    {
-      "from": [
-        1,
-        -1,
-        1.9
-      ],
-      "to": [
-        15,
-        13,
-        1.9
-      ],
-      "faces": {
-        "north": {
-          "texture": "#pog",
           "uv": [
             1,
             1,
