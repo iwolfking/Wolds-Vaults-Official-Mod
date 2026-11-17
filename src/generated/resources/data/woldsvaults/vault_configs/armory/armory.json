@@ -25,9 +25,29 @@
       "namespace": "extrastorage",
       "key": "Id",
       "store": "NONE"
+    },
+    {
+      "namespace": "industrialforegoing",
+      "key": "Id",
+      "store": "NONE"
+    },
+    {
+      "namespace": "ae2things",
+      "key": "diskuuid",
+      "store": "NONE"
+    },
+    {
+      "namespace": "rftoolsstorage",
+      "key": "uuid",
+      "store": "NONE"
+    },
+    {
+      "namespace": "ae2",
+      "key": "plot_id",
+      "store": "NONE"
     }
   ],
-  "ownerTags": [
+  "strippedTags": [
     {
       "item": "the_vault:companion",
       "keys": [
@@ -51,6 +71,37 @@
       "item": "sophisticatedstorage:identification_upgrade",
       "keys": [
         "Owner"
+      ]
+    },
+    {
+      "item": "the_vault:vault_doll",
+      "keys": [
+        "vaultUUID",
+        "xpPoints",
+        "completedBy",
+        "vaultLevel"
+      ]
+    },
+    {
+      "item": "woldsvaults:extractor",
+      "keys": [
+        "Extractor.RigId",
+        "Extractor.Deployed",
+        "Extractor.DeployVault",
+        "Extractor.DeployEntity",
+        "Extractor.ResetCounter"
+      ]
+    },
+    {
+      "item": "woldsvaults:mythic_vault_charm",
+      "keys": [
+        "woldsMythicBlessingId"
+      ]
+    },
+    {
+      "item": "the_vault:rang",
+      "keys": [
+        "RangFlightId"
       ]
     }
   ]
