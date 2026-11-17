@@ -798,7 +798,9 @@
     "vaulthunters.skills.modifications.MixinLightningOrbsAbility",
     "vaulthunters.accessors.BerserkEffectAccessor",
     "vaulthunters.ancient.MixinLootInitializationLootRank",
-    "vaulthunters.ancient.MixinRuneBossObjectiveLootRank"
+    "vaulthunters.ancient.MixinRuneBossObjectiveLootRank",
+    "vaulthunters.accessors.AbilitiesGUIConfigLookupAccessor",
+    "vhapi.MixinAbilitiesGUIConfigLoader"
   ],
   "client": [
     "vaulthunters.custom.MixinVaultGearTooltipItem",
