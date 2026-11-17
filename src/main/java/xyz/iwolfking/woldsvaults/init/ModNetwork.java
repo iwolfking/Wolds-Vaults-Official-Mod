@@ -119,6 +119,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, BulletBillMessage.class, BulletBillMessage::encode, BulletBillMessage::decode, BulletBillMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, BulletBillActionMessage.class, BulletBillActionMessage::encode, BulletBillActionMessage::decode, BulletBillActionMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, DecorativeCrystalMessage.class, DecorativeCrystalMessage::encode, DecorativeCrystalMessage::decode, DecorativeCrystalMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, LoadingZoneFadeMessage.class, LoadingZoneFadeMessage::encode, LoadingZoneFadeMessage::decode, LoadingZoneFadeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, LoadingZoneConfigMessage.class, LoadingZoneConfigMessage::encode, LoadingZoneConfigMessage::decode, LoadingZoneConfigMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {

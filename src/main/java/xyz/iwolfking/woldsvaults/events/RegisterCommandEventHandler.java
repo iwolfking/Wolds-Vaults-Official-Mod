@@ -16,5 +16,6 @@ public class RegisterCommandEventHandler {
         ExtractionCommand.register(event.getDispatcher());
         HyperTestCommand.register(event.getDispatcher());
         SpellcraftCommand.register(event.getDispatcher());
+        PocketTestCommand.register(event.getDispatcher());
     }
 }

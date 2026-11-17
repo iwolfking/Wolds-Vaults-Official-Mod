@@ -51,6 +51,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateDecoObelisk();
         generateXLBackpack();
         generateDecorativeCrystal();
+        generateLoadingZoneMarkers();
         ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
             vaultCrate(crateBlock, efh, WoldsVaults.id("block/vault_crate_" + s));
             //generateGenericItemModelBlockState(crateBlock);
@@ -484,6 +485,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     // the markers draw nothing, so their models only carry a particle texture for breaking them
+    private void generateLoadingZoneMarkers() {
+        for (Block block : new Block[] {ModBlocks.LOADING_ZONE_POST, ModBlocks.LOADING_ZONE_ARRIVAL}) {
+            String name = block.getRegistryName().getPath();
+            ModelFile model = models().getBuilder("block/" + name).texture("particle", modLoc("item/" + name));
+            getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder().modelFile(model).build());
+            itemModels().withExistingParent(name, mcLoc("item/generated")).texture("layer0", modLoc("item/" + name));
+        }
+    }
+
     private void simpleBlockWithTextures(Block block, ModelFile parent, String frameKey, ResourceLocation frameTex, String topKey, ResourceLocation topTex, String crateKey, ResourceLocation crateTex) {
         ModelFile model = models().withExistingParent(block.getRegistryName().getPath(), parent.getLocation())
                 .texture(frameKey, frameTex)

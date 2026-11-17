@@ -144,6 +144,8 @@ public class ModBlocks {
 
     //Shop Pedestals
     public static final DecorativeCrystalBlock DECORATIVE_CRYSTAL = new DecorativeCrystalBlock();
+    public static final LoadingZonePostBlock LOADING_ZONE_POST = new LoadingZonePostBlock();
+    public static final LoadingZoneArrivalBlock LOADING_ZONE_ARRIVAL = new LoadingZoneArrivalBlock();
     public static final ShopPedestalBlock ETCHING_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock GOD_VENDOR_PEDESTAL = new ShopPedestalBlock();
     public static final ShopPedestalBlock BLACKSMITH_VENDOR_PEDESTAL = new ShopPedestalBlock();
@@ -245,6 +247,7 @@ public class ModBlocks {
     public static final TimeTrialTrophyBlock TIME_TRIAL_TROPHY_BLOCK;
     public static final LockedTreasureContainerBlock LOCKED_TREASURE_CONTAINER_BLOCK;
     public static final BlockEntityType<ConfigurableFloatingTextTileEntity> CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY;
+    public static final BlockEntityType<LoadingZoneMarkerTileEntity> LOADING_ZONE_MARKER_TILE_ENTITY;
     public static final BlockEntityType<TimeTrialTrophyBlockEntity> TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE;
 
     public static final Map<String, VaultCrateBlock> CUSTOM_VAULT_CRATES = new HashMap<>();
@@ -347,6 +350,7 @@ public class ModBlocks {
         DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(DollDismantlingTileEntity::new, new Block[]{DOLL_DISMANTLING_BLOCK}).build(null);
         CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(CrateCrackerTileEntity::new, new Block[]{CRATE_CRACKER_BLOCK}).build(null);
         CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY = BlockEntityType.Builder.of(ConfigurableFloatingTextTileEntity::new, new Block[]{CONFIGURABLE_FLOATING_TEXT_BLOCK}).build(null);
+        LOADING_ZONE_MARKER_TILE_ENTITY = BlockEntityType.Builder.of(LoadingZoneMarkerTileEntity::new, LOADING_ZONE_POST, LOADING_ZONE_ARRIVAL).build(null);
         TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TimeTrialTrophyBlockEntity::new, new Block[]{TIME_TRIAL_TROPHY_BLOCK}).build(null);
         TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(TrinketFusionForgeTileEntity::new, new Block[]{TRINKET_FUSION_BLOCK}).build(null);
         OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.of(OwnedCraftingTableTileEntity::new, new Block[]{OWNED_CRAFTING_TABLE_BLOCK}).build(null);
@@ -430,6 +434,8 @@ public class ModBlocks {
         registerBlock(event, DECO_LODESTONE_BLOCK, WoldsVaults.id("lodestone"));
         registerBlock(event, DECO_MONOLITH_BLOCK, WoldsVaults.id("monolith"));
         registerBlock(event, DECORATIVE_CRYSTAL, WoldsVaults.id("decorative_crystal"));
+        registerBlock(event, LOADING_ZONE_POST, WoldsVaults.id("loading_zone_post"));
+        registerBlock(event, LOADING_ZONE_ARRIVAL, WoldsVaults.id("loading_zone_arrival"));
         registerBlock(event, SURVIVAL_MOB_BARRIER, WoldsVaults.id("mob_barrier_red"));
         registerBlock(event, VAULT_PALLADIUM_PILE, VaultMod.id("vault_palladium"));
         registerBlock(event, VAULT_IRIDIUM_PILE, VaultMod.id("vault_iridium"));
@@ -580,6 +586,7 @@ public class ModBlocks {
         registerTileEntity(event, DOLL_DISMANTLING_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("doll_dismantler_tile_entity"));
         registerTileEntity(event, CRATE_CRACKER_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("crate_cracker_tile_entity"));
         registerTileEntity(event, CONFIGURABLE_FLOATING_TEXT_TILE_ENTITY, WoldsVaults.id("configurable_floating_text_entity"));
+        registerTileEntity(event, LOADING_ZONE_MARKER_TILE_ENTITY, WoldsVaults.id("loading_zone_marker"));
         registerTileEntity(event, TIME_TRIAL_TROPHY_BLOCK_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("time_trial_trophy_entity"));
         registerTileEntity(event, TRINKET_FUSION_FORGE_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("trinket_fusion_forge_tile_entity"));
         registerTileEntity(event, OWNED_CRAFTING_TABLE_TILE_ENTITY_BLOCK_ENTITY_TYPE, WoldsVaults.id("owned_crafting_table_tile_entity"));
@@ -604,6 +611,8 @@ public class ModBlocks {
         registerBlockItem(event, DECO_LODESTONE_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DECO_MONOLITH_BLOCK, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, DECORATIVE_CRYSTAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, LOADING_ZONE_POST, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
+        registerBlockItem(event, LOADING_ZONE_ARRIVAL, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, SURVIVAL_MOB_BARRIER, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, AUGMENT_CRAFTING_TABLE, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
         registerBlockItem(event, MOD_BOX_WORKSTATION, 64, properties -> properties.tab(ModCreativeTabs.WOLDS_VAULTS));
