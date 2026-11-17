@@ -360,10 +360,13 @@ public class ModLanguageProvider extends LanguageProvider {
         add("key.woldsvaults.spell_slot_16", "Spell Slot 16");
         add("woldsvaults.spellcraft.bar.default", "Default bar");
         add("woldsvaults.spellcraft.bar.item", "Equipped bar");
-        add("woldsvaults.spellcraft.bar.keys", "Keys");
-        add("woldsvaults.spellcraft.bar.keys_hint", "Bind the spell slot keys (Controls)");
-        add("woldsvaults.spellcraft.bar.key", "Slot %s, key %s");
-        add("woldsvaults.spellcraft.bar.no_key", "Slot %s, no key bound");
+        add("woldsvaults.spellcraft.bar.keys", "Set Binds");
+        add("woldsvaults.spellcraft.bar.keys_hint", "Bind spell slots: click a slot, then press a key");
+        add("woldsvaults.spellcraft.bar.keys_hint_on", "Binding: click a slot, then press a key or an extra mouse button. Right-click a slot to clear its bind. Click here to finish");
+        add("woldsvaults.spellcraft.bar.bind_armed", "Press a key to bind slot %s. Esc clears it");
+        add("woldsvaults.spellcraft.bar.hint_bind", "Click: set this slot's bind. Right-click: clear it");
+        add("woldsvaults.spellcraft.bar.key", "Slot %s, bind: %s");
+        add("woldsvaults.spellcraft.bar.no_key", "Slot %s, bind: none");
         add("woldsvaults.spellcraft.bar.empty", "Empty slot");
         add("woldsvaults.spellcraft.bar.hidden", "Hidden: %s (slot %s) casts %s");
         add("woldsvaults.spellcraft.bar.unlearned", "%s is not learned");
@@ -486,6 +489,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.screen.stat.echo", "Echo");
         add("woldsvaults.spellcraft.screen.without_glyphs", "Without glyphs: %s");
         add("woldsvaults.spellcraft.screen.arcana_escalation", "Glyph cost multiplier: x%s");
+        add("woldsvaults.spellcraft.screen.arcana_off_bar", "Not on the bar: uses no arcana until assigned to a slot");
         add("woldsvaults.spellcraft.screen.stat.arcana", "Arcana");
         add("woldsvaults.spellcraft.screen.stat.hides", "Hides");
         add("woldsvaults.spellcraft.screen.slot_ref", "%s (slot %s)");

@@ -237,6 +237,9 @@ final class StatsPanel {
             lines.add(SpellcraftNames.colored(placed.line().label() + ": " + placed.line().value(), SpellcraftPalette.WHITE));
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.arcana_escalation", String.format(Locale.ROOT, "%.2f", this.escalation)),
                     SpellcraftPalette.GREY));
+            if (draft != null && check != null && !check.charged().contains(draft.id > 0 ? draft.id : StoredSpell.UNSAVED_ID)) {
+                lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.arcana_off_bar"), SpellcraftPalette.GREY));
+            }
             return lines;
         }
         if (row != null && placed.line().changed()) {

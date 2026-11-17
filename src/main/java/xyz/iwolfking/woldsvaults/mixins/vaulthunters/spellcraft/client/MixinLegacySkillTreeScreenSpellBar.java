@@ -86,6 +86,15 @@ public abstract class MixinLegacySkillTreeScreenSpellBar {
         }
     }
 
+    /** While the spell bar waits for a bind, the pressed key goes to it instead of the screen. */
+    @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true, remap = true)
+    private void woldsvaults$bindSpellSlot(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        SkillMenuSpellBar menu = woldsvaults$spellBar();
+        if (menu != null && menu.strip().keyPressed(keyCode, scanCode)) {
+            cir.setReturnValue(true);
+        }
+    }
+
     @Inject(method = "mouseScrolled", at = @At("HEAD"), cancellable = true, remap = true)
     private void woldsvaults$scrollSpellBar(double mouseX, double mouseY, double delta, CallbackInfoReturnable<Boolean> cir) {
         SkillMenuSpellBar menu = woldsvaults$spellBar();

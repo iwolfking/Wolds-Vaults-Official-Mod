@@ -46,16 +46,32 @@ final class SlotTooltip {
                     .withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftPalette.ARCANE_GLOW & 0xFFFFFF))));
             return lines;
         }
-        if (SpellcraftDraw.inside(mouseX, mouseY, strip.keysX(), strip.y0() + 4, SpellBarStrip.KEYS_W, SpellBarStrip.KEYS_H)) {
-            lines.add(new TextComponent(SpellcraftNames.tr("bar.keys_hint")));
+        if (SpellcraftDraw.inside(mouseX, mouseY, strip.keysX(), strip.y0() + 4, strip.keysW(), SpellBarStrip.KEYS_H)) {
+            wrapped(lines, SpellcraftNames.tr(strip.bindMode() ? "bar.keys_hint_on" : "bar.keys_hint"), SpellcraftPalette.WHITE);
             return lines;
         }
         for (int i = 0; i < SpellcraftItemData.SLOTS; i++) {
             if (SpellcraftDraw.inside(mouseX, mouseY, SpellBarStrip.slotX(strip.x0(), i), strip.y0() + 4, 16, 16)) {
-                return slotTooltip(strip.host(), strip.lastView(), i);
+                return strip.bindMode() ? bindTooltip(strip, i) : slotTooltip(strip.host(), strip.lastView(), i);
             }
         }
         return lines;
+    }
+
+    private static List<Component> bindTooltip(SpellBarStrip strip, int index) {
+        List<Component> lines = new ArrayList<>();
+        lines.add(SpellcraftNames.colored(keyLine(index), SpellcraftPalette.WHITE));
+        if (strip.armedSlot() == index) {
+            wrapped(lines, SpellcraftNames.tr("bar.bind_armed", index + 1), SpellcraftPalette.STAT_YELLOW);
+        } else {
+            lines.add(new TextComponent(SpellcraftNames.tr("bar.hint_bind")).withStyle(ChatFormatting.DARK_GRAY));
+        }
+        return lines;
+    }
+
+    private static String keyLine(int index) {
+        String key = SpellcraftNames.keyName(index);
+        return key.isEmpty() ? SpellcraftNames.tr("bar.no_key", index + 1) : SpellcraftNames.tr("bar.key", index + 1, key);
     }
 
     private static List<Component> slotTooltip(SpellBarStrip.Host host, SpellBarView view, int index) {
@@ -132,9 +148,7 @@ final class SlotTooltip {
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.waiting", SpellcraftNames.groupName(tree, blocking.group()),
                     StatText.seconds(blocking.ticks())), SpellcraftPalette.STAT_COOLDOWN));
         }
-        String key = SpellcraftNames.keyName(index);
-        String keyLine = key.isEmpty() ? SpellcraftNames.tr("bar.no_key", index + 1) : SpellcraftNames.tr("bar.key", index + 1, key);
-        lines.add(SpellcraftNames.colored(keyLine, SpellcraftPalette.GREY));
+        lines.add(SpellcraftNames.colored(keyLine(index), SpellcraftPalette.GREY));
         String hint;
         if (view.isEffective()) {
             hint = SpellcraftNames.tr("bar.hint_item");

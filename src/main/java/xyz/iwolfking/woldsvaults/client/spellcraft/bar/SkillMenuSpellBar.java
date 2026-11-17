@@ -4,7 +4,6 @@ import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.Minecraft;
-import xyz.iwolfking.woldsvaults.client.spellcraft.keys.SpellKeysScreen;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -111,10 +110,5 @@ public final class SkillMenuSpellBar implements SpellBarStrip.Host {
         Skill skill = tree().getForId(spec).orElse(null);
         Skill group = skill == null ? null : skill.getParent();
         return group == null ? null : group.getId();
-    }
-
-    @Override
-    public void openKeys() {
-        SpellKeysScreen.openFromSkillMenu();
     }
 }

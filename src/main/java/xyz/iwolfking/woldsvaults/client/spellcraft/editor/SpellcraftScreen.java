@@ -18,7 +18,6 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.bar.SpellBarStrip;
 import xyz.iwolfking.woldsvaults.client.spellcraft.bar.SpellBarView;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftDraw;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftNames;
-import xyz.iwolfking.woldsvaults.client.spellcraft.keys.SpellKeysScreen;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.item.StoredSpell;
@@ -135,6 +134,9 @@ public class SpellcraftScreen extends Screen implements SpellBarStrip.Host {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (this.strip.keyPressed(keyCode, scanCode)) {
+            return true;
+        }
         if (this.nameBox.isFocused()) {
             if (keyCode == InputConstants.KEY_ESCAPE || keyCode == InputConstants.KEY_RETURN) {
                 this.nameBox.setFocus(false);
@@ -175,11 +177,6 @@ public class SpellcraftScreen extends Screen implements SpellBarStrip.Host {
     @Override
     public String selectedGroup() {
         return null;
-    }
-
-    @Override
-    public void openKeys() {
-        Minecraft.getInstance().setScreen(new SpellKeysScreen(this, false));
     }
 
     @Override

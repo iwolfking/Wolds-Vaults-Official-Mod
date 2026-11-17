@@ -39,7 +39,7 @@ final class TitleBar {
         int editing = draft == null ? Integer.MIN_VALUE : draft.id > 0 ? draft.id : StoredSpell.UNSAVED_ID;
         float total = 0.0F;
         for (Map.Entry<Integer, SpellModel> entry : check.models().entrySet()) {
-            if (entry.getKey() != editing) {
+            if (entry.getKey() != editing && check.charged().contains(entry.getKey())) {
                 total += entry.getValue().arcana();
             }
         }

@@ -12,16 +12,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
- * Item-wide spellcraft rules. Every spell on a focus or wand is read against the item's glyph view; together the active
- * glyphs must fit the item's arcana budget, so when they don't (a pricier line arrived, a source came back) the budget
- * pass greys glyphs one at a time from the end (newest spell first, last token first), recomputing every cost after
- * each step, until they fit. Editing adds the table's limits on spell count, names and slots, refuses new glyphs the
+ * Item-wide spellcraft rules. Every spell on a focus or wand is read against the item's glyph view. Only spells assigned
+ * to a bar slot are charged: together their active glyphs must fit the item's arcana budget, so when they don't (a
+ * pricier line arrived, a source came back) the budget pass greys glyphs of those spells one at a time from the end
+ * (newest spell first, last token first), recomputing every cost after each step, until they fit. Editing adds the table's limits on spell count, names and slots, refuses new glyphs the
  * view can't back, and refuses an edit that would grey more glyphs than the item had greyed before it.
  */
 public final class SpellcraftRules {
@@ -29,11 +31,12 @@ public final class SpellcraftRules {
     }
 
     /**
-     * The result of checking an item: its problems, total active arcana, glyph placements, each spell's model by id
-     * (after the budget pass), and how many glyphs the budget pass greyed.
+     * The result of checking an item: its problems, the active arcana of the charged spells, glyph placements, each
+     * spell's model by id (after the budget pass), how many glyphs the budget pass greyed, and the ids of the charged
+     * spells.
      */
     public record ItemCheck(List<String> errors, float arcana, Map<GlyphType, Integer> uses, Map<Integer, SpellModel> models,
-                            int budgetInactive, int budget) {
+                            int budgetInactive, int budget, Set<Integer> charged) {
         public boolean isValid() {
             return this.errors.isEmpty();
         }
@@ -63,10 +66,17 @@ public final class SpellcraftRules {
         for (StoredSpell spell : spells) {
             models.put(spell.id(), build(config, view, depth, spell, specOf, mode, grey, saved));
         }
-        List<StoredSpell> newestFirst = new ArrayList<>(spells);
+        Set<Integer> charged = new HashSet<>();
+        List<StoredSpell> newestFirst = new ArrayList<>();
+        for (StoredSpell spell : spells) {
+            if (spell.assigned()) {
+                charged.add(spell.id());
+                newestFirst.add(spell);
+            }
+        }
         newestFirst.sort(Comparator.comparingInt(StoredSpell::id).reversed());
         int greyed = 0;
-        while (Math.round(total(models)) > budget) {
+        while (Math.round(total(models, charged)) > budget) {
             boolean stepped = false;
             for (StoredSpell spell : newestFirst) {
                 SpellModel model = models.get(spell.id());
@@ -94,7 +104,7 @@ public final class SpellcraftRules {
         if (mode != ReadMode.LENIENT) {
             editingErrors(config, spells, errors);
         }
-        return new ItemCheck(errors, total(models), uses, models, greyed, budget);
+        return new ItemCheck(errors, total(models, charged), uses, models, greyed, budget, charged);
     }
 
     private static void editingErrors(SpellcraftConfig config, List<StoredSpell> spells, List<String> errors) {
@@ -125,10 +135,12 @@ public final class SpellcraftRules {
                 saved.getOrDefault(spell.id(), Map.of()));
     }
 
-    private static float total(Map<Integer, SpellModel> models) {
+    private static float total(Map<Integer, SpellModel> models, Set<Integer> charged) {
         float total = 0.0F;
-        for (SpellModel model : models.values()) {
-            total += model.arcana();
+        for (Map.Entry<Integer, SpellModel> entry : models.entrySet()) {
+            if (charged.contains(entry.getKey())) {
+                total += entry.getValue().arcana();
+            }
         }
         return total;
     }
@@ -174,7 +186,7 @@ public final class SpellcraftRules {
             List<String> errors = new ArrayList<>(after.errors());
             errors.add("over the item's arcana budget of " + budget + ": this would switch off "
                     + (after.budgetInactive() - before.budgetInactive()) + " more glyph(s)");
-            return new ItemCheck(errors, after.arcana(), after.uses(), after.models(), after.budgetInactive(), budget);
+            return new ItemCheck(errors, after.arcana(), after.uses(), after.models(), after.budgetInactive(), budget, after.charged());
         }
         return after;
     }
