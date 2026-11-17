@@ -117,6 +117,8 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Integer> BULLET_BILL = woldsAttr("bullet_bill", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Bullet Bill Ticks", 12170182));
     public static final VaultGearAttribute<Float> BULLET_BILL_DASH = woldsAttr("bullet_bill_dash", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Dash Damage", 12170182));
     public static final VaultGearAttribute<Float> BULLET_BILL_DETONATION = woldsAttr("bullet_bill_detonation", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Detonation Damage", 12170182));
+    public static final VaultGearAttribute<Float> MAGATSUHI_COMBO = woldsAttr("magatsuhi_combo", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Combo Finisher Damage", 14100029));
+    public static final VaultGearAttribute<Float> MAGATSUHI_CUT = woldsAttr("magatsuhi_cut", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Rift Slash Damage", 14100029));
     public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
@@ -322,6 +324,8 @@ public class ModGearAttributes {
                       registry.register(BULLET_BILL);
                       registry.register(BULLET_BILL_DASH);
                       registry.register(BULLET_BILL_DETONATION);
+                      registry.register(MAGATSUHI_COMBO);
+                      registry.register(MAGATSUHI_CUT);
        }
   
     public static void registerVanillaAssociations() {

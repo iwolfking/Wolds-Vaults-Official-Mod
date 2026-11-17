@@ -15,7 +15,9 @@
         "woldsvaults:young_kitsune",
         "woldsvaults:bamboo_fightstick",
         "woldsvaults:tidebreaker_tideripper",
-        "woldsvaults:lightning_fiend_orb"
+        "woldsvaults:lightning_fiend_orb",
+        "woldsvaults:daikyo",
+        "woldsvaults:shokyo"
       ],
       "MAGNET": [
         "woldsvaults:aural_magnet",
@@ -1247,6 +1249,48 @@
         ]
       },
       "uniqueId": "woldsvaults:king_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Daikyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:daikyo"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Shokyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Wield it beside its twin and every third cut lands harder.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:shokyo"
     }
   ]
 }

@@ -211,6 +211,37 @@
           ]
         }
       ]
+    },
+    "woldsvaults:ten_magatsuhi": {
+      "name": "Ten Magatsuhi",
+      "color": "#D7263D",
+      "ancientColor": "#D7263D",
+      "pieces": [
+        "woldsvaults:daikyo",
+        "woldsvaults:shokyo"
+      ],
+      "tiers": [
+        {
+          "pieces": 1,
+          "text": "Every third hit in a row is a finisher: both katanas cross through the enemy in an X for 100% more damage. The combo drops if you stop attacking for 3 seconds.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:magatsuhi_combo",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "pieces": 2,
+          "text": "Right click with your katana: its twin cuts a square out of whatever you aim at, a wall, an enemy or the air. Right click again to swap places with the cut: an enemy trades places with you, a wall's blocks are lifted out to where you stood and you step into the hole, and both katanas slash every enemy around where you land for 100% of your attack damage. Right click a third time to put everything back and return to where you started.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:magatsuhi_cut",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
     }
   }
 }

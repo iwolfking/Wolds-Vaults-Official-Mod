@@ -24,6 +24,7 @@ import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
 import xyz.iwolfking.woldsvaults.config.SimonConfig;
 import xyz.iwolfking.woldsvaults.config.BulletBillConfig;
+import xyz.iwolfking.woldsvaults.config.MagatsuhiConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.config.MultiCellRoomsConfig;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
@@ -60,6 +61,7 @@ public class ModConfigs {
     public static LightningFiendConfig LIGHTNING_FIEND;
     public static SimonConfig SIMON;
     public static BulletBillConfig BULLET_BILL;
+    public static MagatsuhiConfig MAGATSUHI;
     public static SpellcraftConfig SPELLCRAFT;
     public static SpellHasteConfig SPELL_HASTE;
 

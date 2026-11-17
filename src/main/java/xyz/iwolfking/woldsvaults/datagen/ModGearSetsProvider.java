@@ -5,6 +5,7 @@ import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.BulletBillConfig;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.config.LightningFiendConfig;
+import xyz.iwolfking.woldsvaults.config.MagatsuhiConfig;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import xyz.iwolfking.woldsvaults.config.SimonConfig;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
@@ -34,6 +35,7 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         table.sets.put("woldsvaults:lightning_fiend", lightningFiend(ModLightningFiendProvider.lightningFiend()));
         table.sets.put("woldsvaults:simons_set", simon(ModSimonProvider.simon()));
         table.sets.put("woldsvaults:bullet_bill", bulletBill(ModBulletBillProvider.bulletBill()));
+        table.sets.put("woldsvaults:ten_magatsuhi", magatsuhi(ModMagatsuhiProvider.magatsuhi()));
         this.table("gear_sets", table);
     }
 
@@ -179,8 +181,35 @@ public class ModGearSetsProvider extends AbstractWoldsTableProvider {
         return set;
     }
 
+    private static GearSetConfig.GearSet magatsuhi(MagatsuhiConfig magatsuhi) {
+        float combo = 1.0F;
+        float cut = 1.0F;
+        GearSetConfig.GearSet set = new GearSetConfig.GearSet();
+        set.name = "Ten Magatsuhi";
+        set.color = "#D7263D";
+        set.ancientColor = "#D7263D";
+        set.pieces = List.of("woldsvaults:daikyo", "woldsvaults:shokyo");
+        set.tiers = List.of(
+                tier(1, "Every " + ordinal(magatsuhi.comboHits) + " hit in a row is a finisher: both katanas cross through the "
+                                + "enemy in an X for " + percent(combo) + " more damage. The combo drops if you stop attacking for "
+                                + seconds(magatsuhi.comboResetTicks) + " seconds.",
+                        grant("woldsvaults:magatsuhi_combo", new JsonPrimitive(combo))),
+                tier(2, "Right click with your katana: its twin cuts a square out of whatever you aim at, a wall, an enemy or the "
+                                + "air. Right click again to swap places with the cut: an enemy trades places with you, a wall's blocks are "
+                                + "lifted out to where you stood and you step into the hole, and both katanas slash every enemy around "
+                                + "where you land for " + percent(cut) + " of your attack damage. Right click a third time to put "
+                                + "everything back and return to where you started.",
+                        grant("woldsvaults:magatsuhi_cut", new JsonPrimitive(cut))));
+        return set;
+    }
+
     private static String seconds(int ticks) {
         return number(ticks / (float) TICKS_PER_SECOND);
+    }
+
+    private static String ordinal(int n) {
+        String[] small = {"", "", "second", "third", "fourth", "fifth"};
+        return n >= 2 && n < small.length ? small[n] : n + "th";
     }
 
     private static String number(float value) {

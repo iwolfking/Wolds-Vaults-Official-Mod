@@ -656,6 +656,11 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
         consumer.accept(setPiece("woldsvaults:king_bill_helmet", "King Bill Helmet", "the_vault:gear/armor/king_bill/helmet",
                 "Not yet obtainable (Bullet Bill set, ultra rare)", "Bullet Bill set, in place of the helmet. Ten times the size, red hot, and everything nearby burns.", SetPiece.HELMET));
 
+        consumer.accept(setPiece("woldsvaults:daikyo", "Daikyo", "woldsvaults:gear/sword/daikyo",
+                "Not yet obtainable (Ten Magatsuhi)", "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.", SetPiece.KATANA));
+        consumer.accept(setPiece("woldsvaults:shokyo", "Shokyo", "woldsvaults:gear/sword/shokyo",
+                "Not yet obtainable (Ten Magatsuhi)", "Ten Magatsuhi, one of twin blades. Wield it beside its twin and every third cut lands harder.", SetPiece.KATANA));
+
 //        consumer.accept(entry("woldsvaults:titans_blade", new UniqueGearBuilder("Titan's Blade", ModItems.SWORD)
 //                .model("the_vault:gear/sword/titan")
 //                .base("the_vault:base_durability")
@@ -716,5 +721,9 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 new String[] {"the_vault:base_armor", "the_vault:base_movement"},
                 new String[] {"the_vault:u_mod_armor", "the_vault:mod_health", "the_vault:mod_damage_increase"},
                 new String[] {"the_vault:set_effect_duration", "the_vault:mod_mana_regen", "the_vault:mod_cooldown_reduction"});
+        static final SetPiece KATANA = new SetPiece(ModItems.SWORD, "SWORD", SlotType.SWORD, "the_vault:base_durability",
+                new String[] {"the_vault:base_attack_damage", "the_vault:base_attack_speed"},
+                new String[] {"the_vault:mod_attack_damage", "the_vault:mod_damage_increase"},
+                new String[] {"the_vault:mod_area_of_effect", "the_vault:set_effect_duration"});
     }
 }

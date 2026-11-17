@@ -121,6 +121,9 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, DecorativeCrystalMessage.class, DecorativeCrystalMessage::encode, DecorativeCrystalMessage::decode, DecorativeCrystalMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
         CHANNEL.registerMessage(id++, LoadingZoneFadeMessage.class, LoadingZoneFadeMessage::encode, LoadingZoneFadeMessage::decode, LoadingZoneFadeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, LoadingZoneConfigMessage.class, LoadingZoneConfigMessage::encode, LoadingZoneConfigMessage::decode, LoadingZoneConfigMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, MagatsuhiSetMessage.class, MagatsuhiSetMessage::encode, MagatsuhiSetMessage::decode, MagatsuhiSetMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, MagatsuhiActionMessage.class, MagatsuhiActionMessage::encode, MagatsuhiActionMessage::decode, MagatsuhiActionMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(id++, MagatsuhiFxMessage.class, MagatsuhiFxMessage::encode, MagatsuhiFxMessage::decode, MagatsuhiFxMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static <T> void sendToServer(T message) {

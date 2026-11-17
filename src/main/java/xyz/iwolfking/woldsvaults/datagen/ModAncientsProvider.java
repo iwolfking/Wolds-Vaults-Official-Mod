@@ -115,6 +115,8 @@ public class ModAncientsProvider extends AbstractWoldsTableProvider {
         woldsUnique(names, "bullet_bill_leggings", "Ancient Bullet Bill's Leggings");
         woldsUnique(names, "banzai_bill_helmet", "Ancient Banzai Bill Helmet");
         woldsUnique(names, "king_bill_helmet", "Ancient King Bill Helmet");
+        woldsUnique(names, "daikyo", "Ancient Daikyo");
+        woldsUnique(names, "shokyo", "Ancient Shokyo");
         Set<ResourceLocation> defined = new ModUniqueGearProvider(null).baseItems().keySet();
         for (String key : names.keySet()) {
             ResourceLocation id = new ResourceLocation(key);

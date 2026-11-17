@@ -41,7 +41,9 @@
       "the_vault:gear/sword/mineral_greatsword",
       "the_vault:gear/sword/grass_blade",
       "the_vault:gear/sword/aurora_scissors",
-      "the_vault:gear/sword/young_kitsune"
+      "the_vault:gear/sword/young_kitsune",
+      "woldsvaults:gear/sword/daikyo",
+      "woldsvaults:gear/sword/shokyo"
     ],
     "SPECIAL": [],
     "CHAOTIC": [],

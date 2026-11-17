@@ -1407,6 +1407,64 @@
       },
       "modifierTags": [],
       "weight": 1
+    },
+    "woldsvaults:daikyo": {
+      "name": "Daikyo",
+      "item": "the_vault:sword",
+      "models": [
+        {
+          "value": "woldsvaults:gear/sword/daikyo",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_attack_damage",
+          "the_vault:base_attack_speed"
+        ],
+        "PREFIX": [
+          "the_vault:mod_attack_damage",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_area_of_effect",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:shokyo": {
+      "name": "Shokyo",
+      "item": "the_vault:sword",
+      "models": [
+        {
+          "value": "woldsvaults:gear/sword/shokyo",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_attack_damage",
+          "the_vault:base_attack_speed"
+        ],
+        "PREFIX": [
+          "the_vault:mod_attack_damage",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_area_of_effect",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
     }
   },
   "pools": {
@@ -1553,6 +1611,12 @@
     },
     "woldsvaults:king_bill_helmet": {
       "woldsvaults:king_bill_helmet": 1
+    },
+    "woldsvaults:daikyo": {
+      "woldsvaults:daikyo": 1
+    },
+    "woldsvaults:shokyo": {
+      "woldsvaults:shokyo": 1
     },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,

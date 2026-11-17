@@ -20,7 +20,9 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 /**
  * Set gear, generated as {@code vault_configs/gear/sets/gear_sets.json}: which uniques form each set, and what each piece-count tier grants.
  * A grant is a gear attribute and value added to the wearer's attribute snapshot while the tier is active. Each set's own
- * mechanic keeps its tuning in its own table ({@link RiptideConfig}, {@link LightningFiendConfig}).
+ * mechanic keeps its tuning in its own table ({@link RiptideConfig}, {@link LightningFiendConfig}, {@link SimonConfig},
+ * {@link BulletBillConfig}, {@link MagatsuhiConfig}). A set may also list variants: uniques that stand in for one of its
+ * pieces and count as that piece.
  */
 public class GearSetConfig extends Config implements WoldsTable {
     @Expose public Map<String, GearSet> sets;
