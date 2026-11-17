@@ -13,6 +13,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.LinkedItem;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig.RefusedTag;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.Store;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.StrippedTags;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
@@ -109,6 +110,10 @@ public final class CreativeCopies {
             if (item == null) {
                 continue;
             }
+            String refused = refused(table, item);
+            if (refused != null) {
+                return new Capture(out, refused);
+            }
             LinkedItem linked = linked(table, item);
             if (linked == null) {
                 continue;
@@ -150,6 +155,10 @@ public final class CreativeCopies {
         pending.add(item);
         while (!pending.isEmpty()) {
             CompoundTag next = nextItem(pending);
+            String refused = next == null ? null : refused(table, next);
+            if (refused != null) {
+                return Issue.refused(refused);
+            }
             LinkedItem linked = next == null ? null : linked(table, next);
             if (linked == null) {
                 continue;
@@ -296,6 +305,19 @@ public final class CreativeCopies {
         }
         boolean item = compound.contains(ITEM_ID, Tag.TAG_STRING) && compound.contains(ITEM_TAG, Tag.TAG_COMPOUND);
         return item ? compound : null;
+    }
+
+    /** Why {@code item} cannot be copied because of a refused tag, or null when no refused tag matches. */
+    @Nullable
+    private static String refused(ArmoryConfig table, CompoundTag item) {
+        String itemId = item.getString(ITEM_ID);
+        CompoundTag tag = item.getCompound(ITEM_TAG);
+        for (RefusedTag refused : table.refusedTags) {
+            if (refused.item.equals(itemId) && tag.contains(refused.key)) {
+                return name(item) + " cannot be copied";
+            }
+        }
+        return null;
     }
 
     @Nullable

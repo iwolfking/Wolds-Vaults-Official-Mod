@@ -104,5 +104,11 @@
         "RangFlightId"
       ]
     }
+  ],
+  "refusedTags": [
+    {
+      "item": "woldsvaults:trinket_pouch",
+      "key": "temporary"
+    }
   ]
 }

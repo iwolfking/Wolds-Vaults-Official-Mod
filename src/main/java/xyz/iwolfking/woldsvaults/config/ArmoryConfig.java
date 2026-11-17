@@ -12,12 +12,14 @@ import java.util.Set;
  * Creative Armory copy rules, generated as {@code vault_configs/armory/armory.json}. {@code contentsLimitKb} caps the
  * contents copies one page may hold, in kilobytes of NBT. {@code linkedItems} lists the items whose contents live in
  * a world store under an id in their tag, and which store holds them. {@code strippedTags} lists the tags an issued
- * copy loses: owners and ids that tie an item to one player, run or vault.
+ * copy loses: owners and ids that tie an item to one player, run or vault. {@code refusedTags} lists the tags that
+ * make an item impossible to save or issue.
  */
 public class ArmoryConfig extends Config implements WoldsTable {
     @Expose public int contentsLimitKb;
     @Expose public List<LinkedItem> linkedItems;
     @Expose public List<StrippedTags> strippedTags;
+    @Expose public List<RefusedTag> refusedTags;
 
     @Override
     public String getName() {
@@ -34,8 +36,8 @@ public class ArmoryConfig extends Config implements WoldsTable {
         if (this.contentsLimitKb <= 0) {
             return "the contents limit is not positive";
         }
-        if (this.linkedItems == null || this.strippedTags == null) {
-            return "the linked item or stripped tag list is missing";
+        if (this.linkedItems == null || this.strippedTags == null || this.refusedTags == null) {
+            return "the linked item, stripped tag or refused tag list is missing";
         }
         Set<String> seen = new HashSet<>();
         for (LinkedItem linked : this.linkedItems) {
@@ -54,6 +56,11 @@ public class ArmoryConfig extends Config implements WoldsTable {
                 if (blank(key) || key.startsWith(".") || key.endsWith(".") || key.contains("..")) {
                     return "stripped tag " + stripped.item + "/" + key + " is not a valid tag path";
                 }
+            }
+        }
+        for (RefusedTag refused : this.refusedTags) {
+            if (refused == null || blank(refused.item) || blank(refused.key)) {
+                return "a refused tag entry is incomplete";
             }
         }
         return null;
@@ -83,6 +90,20 @@ public class ArmoryConfig extends Config implements WoldsTable {
             this.namespace = namespace;
             this.key = key;
             this.store = store;
+        }
+    }
+
+    /** One item id whose copies are refused while its tag holds {@code key}. */
+    public static class RefusedTag {
+        @Expose public String item;
+        @Expose public String key;
+
+        public RefusedTag() {
+        }
+
+        public RefusedTag(String item, String key) {
+            this.item = item;
+            this.key = key;
         }
     }
 

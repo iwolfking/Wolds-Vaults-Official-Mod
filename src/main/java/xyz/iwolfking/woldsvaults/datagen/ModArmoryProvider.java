@@ -3,13 +3,14 @@ package xyz.iwolfking.woldsvaults.datagen;
 import net.minecraft.data.DataGenerator;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.LinkedItem;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig.RefusedTag;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.Store;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.StrippedTags;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
 
 import java.util.List;
 
-/** Generates the Creative Armory copy rules: the contents limit, the linked items and the stripped tags. */
+/** Generates the Creative Armory copy rules: the contents limit, the linked items, the stripped tags and the refused tags. */
 public class ModArmoryProvider extends AbstractWoldsTableProvider {
 
     public ModArmoryProvider(DataGenerator generator) {
@@ -45,6 +46,8 @@ public class ModArmoryProvider extends AbstractWoldsTableProvider {
                         "Extractor.DeployVault", "Extractor.DeployEntity", "Extractor.ResetCounter")),
                 new StrippedTags("woldsvaults:mythic_vault_charm", List.of("woldsMythicBlessingId")),
                 new StrippedTags("the_vault:rang", List.of("RangFlightId")));
+        table.refusedTags = List.of(
+                new RefusedTag("woldsvaults:trinket_pouch", "temporary"));
         return table;
     }
 }
