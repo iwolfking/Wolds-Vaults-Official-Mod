@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.SavedBuild;
 import xyz.iwolfking.woldsvaults.armory.SlotKeys;
+import xyz.iwolfking.woldsvaults.integration.curios.ArmoryCurioSlots;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.builds.BuildTasks;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchRuntime;
@@ -57,6 +58,11 @@ public final class ArmoryService {
         }
     }
 
+    /** Every slot key {@code page} acts on for {@code player}: see {@link SlotKeys#pageKeys}. */
+    public static List<String> pageKeys(ServerPlayer player, ArmoryPage page) {
+        return SlotKeys.pageKeys(ArmoryCurioSlots.keys(player), page);
+    }
+
     /**
      * Saves the player's trees and the layout of every marked slot. Items do not move. A Creative Armory also keeps a
      * copy of each item and of its linked contents, and refuses when those contents pass the page limit.
@@ -83,7 +89,7 @@ public final class ArmoryService {
         snapshot.putInt("selected", player.getInventory().selected);
         page.setBuild(SavedBuild.capture(player, snapshot));
         int recorded = 0;
-        for (String key : SlotKeys.ALL) {
+        for (String key : pageKeys(player, page)) {
             if (!page.isMarked(key)) {
                 page.setExpected(key, null);
                 page.setContents(key, null);
@@ -108,7 +114,7 @@ public final class ArmoryService {
     private static List<String> captureAll(ServerPlayer player, ArmoryPage page, Map<String, CreativeCopies.Capture> captures) {
         List<String> refusals = new ArrayList<>();
         long bytes = 0;
-        for (String key : SlotKeys.ALL) {
+        for (String key : pageKeys(player, page)) {
             ItemStack current = page.isMarked(key) ? PlayerSlots.get(player, key) : ItemStack.EMPTY;
             if (current.isEmpty()) {
                 continue;
@@ -168,7 +174,7 @@ public final class ArmoryService {
         }
         List<ItemStack> toExcess = new ArrayList<>();
         List<String> keys = new ArrayList<>();
-        for (String key : SlotKeys.ALL) {
+        for (String key : pageKeys(player, page)) {
             if (!page.isMarked(key)) {
                 continue;
             }
@@ -289,7 +295,7 @@ public final class ArmoryService {
         }
         List<ItemStack> toExcess = new ArrayList<>();
         int missing = 0;
-        for (String key : SlotKeys.ALL) {
+        for (String key : pageKeys(player, page)) {
             if (!page.isMarked(key)) {
                 continue;
             }
@@ -302,13 +308,13 @@ public final class ArmoryService {
                 }
                 continue;
             }
-            if (key.startsWith("curio:") && !PlayerSlots.hasCurioSlot(player, key)) {
+            if (SlotKeys.isCurio(key) && !ArmoryCurioSlots.has(player, key)) {
                 if (!incoming.isEmpty()) {
                     plan.notes.add("No " + SlotKeys.curioId(key) + " slot: " + incoming.getHoverName().getString() + " stays on the page");
                 }
                 continue;
             }
-            if (!incoming.isEmpty() && key.startsWith("curio:") && !PlayerSlots.canEquipCurio(player, key, incoming)) {
+            if (!incoming.isEmpty() && SlotKeys.isCurio(key) && !ArmoryCurioSlots.canEquip(player, key, incoming)) {
                 plan.notes.add(incoming.getHoverName().getString() + " cannot be worn yet; it stays on the page");
                 continue;
             }

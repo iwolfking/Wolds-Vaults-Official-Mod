@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import top.theillusivec4.curios.api.CuriosApi;
 import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
@@ -25,27 +24,33 @@ import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.service.ArmoryService;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import xyz.iwolfking.woldsvaults.integration.curios.ArmoryCurioSlots;
 import xyz.iwolfking.woldsvaults.init.ModContainers;
 
 /**
- * The armory's container menu for the Gear, Inventory and Excess tabs. Slot order: the 54 page slots
- * ({@link SlotKeys} order), 128 excess slots, 2 upgrade slots, then the player's 27 inventory and 9 hotbar slots.
+ * The armory's container menu for the Gear, Inventory and Excess tabs. Slot order: 128 excess slots, 2 upgrade
+ * slots, the player's 27 inventory and 9 hotbar slots, then one page slot per key of this opening ({@link #keys()}:
+ * the fixed keys, then the curio keys the server sent at open).
  * The tab is fixed per opening (tabs reopen the menu, as the H screen does), so slots not shown on this tab are
  * parked off screen and skipped by shift-click.
  */
 public class ArmoryMenu extends AbstractElementContainer {
-    public static final int PAGE_START = 0;
-    public static final int EXCESS_START = PAGE_START + 54;
+    public static final int EXCESS_START = 0;
     public static final int UPGRADE_START = EXCESS_START + ArmoryBlockEntity.EXCESS_SLOTS;
     public static final int PLAYER_START = UPGRADE_START + 2;
     public static final int HOTBAR_START = PLAYER_START + 27;
-    public static final int END = HOTBAR_START + 9;
+    public static final int PLAYER_END = HOTBAR_START + 9;
+    public static final int PAGE_START = PLAYER_END;
     public static final int EXCESS_COLUMNS = 16;
     public static final int EXCESS_VISIBLE_ROWS = 5;
     public static final int CURIO_VISIBLE = 8;
     public static final int BUTTON_STORE = 11;
     public static final int BUTTON_LOAD = 12;
     public static final int BUTTON_MARK = 20;
+    public static final int MAX_KEYS = Byte.MAX_VALUE - BUTTON_MARK + 1;
     public static final int HIDDEN = -10_000;
 
     private final BlockPos pos;
@@ -53,23 +58,22 @@ public class ArmoryMenu extends AbstractElementContainer {
     private final ArmoryTab tab;
     @Nullable
     private final ArmoryBlockEntity armory;
+    private final List<String> keys;
     private ArmoryViewInfo info;
     private ArmoryClientState state = ArmoryClientState.EMPTY;
     private int curioScroll;
     private int excessScroll;
     private int slotOffsetY;
 
-    private ArmoryMenu(int windowId, Inventory inventory, ArmoryViewInfo info, @Nullable ArmoryBlockEntity armory,
-                       Container pageContainer, IItemHandlerModifiable excess, IItemHandlerModifiable upgrades) {
+    private ArmoryMenu(int windowId, Inventory inventory, ArmoryViewInfo info, List<String> keys, @Nullable ArmoryBlockEntity armory,
+                       Function<List<String>, Container> pageContainer, IItemHandlerModifiable excess, IItemHandlerModifiable upgrades) {
         super(ModContainers.ARMORY_CONTAINER, windowId, inventory.player);
         this.pos = info.pos();
         this.page = info.page();
         this.tab = info.tab();
         this.armory = armory;
         this.info = info;
-        for (int i = 0; i < SlotKeys.size(); i++) {
-            this.addSlot(new PageSlot(pageContainer, i));
-        }
+        this.keys = List.copyOf(keys);
         for (int i = 0; i < ArmoryBlockEntity.EXCESS_SLOTS; i++) {
             this.addSlot(new ViewSlot(excess, i, ArmoryTab.EXCESS));
         }
@@ -84,19 +88,48 @@ public class ArmoryMenu extends AbstractElementContainer {
         for (int column = 0; column < 9; column++) {
             this.addSlot(new Slot(inventory, column, 8 + column * 18, 160));
         }
+        Container pages = pageContainer.apply(this.keys);
+        for (int i = 0; i < this.keys.size(); i++) {
+            this.addSlot(new PageSlot(pages, i, this.keys.get(i)));
+        }
         this.layout();
     }
 
-    /** Server side: slots read and write the block entity's page, excess and upgrades directly. */
-    public static ArmoryMenu server(int windowId, Inventory inventory, ArmoryBlockEntity armory, ArmoryViewInfo info) {
-        return new ArmoryMenu(windowId, inventory, info, armory, new PageContainer(armory, info.page()), armory.excess(), armory.upgrades());
+    /**
+     * Server side: slots read and write the block entity's page, excess and upgrades directly. {@code keys} are this
+     * opening's page keys; the same list goes to the client through {@link #writeOpening}.
+     */
+    public static ArmoryMenu server(int windowId, Inventory inventory, ArmoryBlockEntity armory, ArmoryViewInfo info, List<String> keys) {
+        return new ArmoryMenu(windowId, inventory, info, keys, armory, k -> new PageContainer(armory, info.page(), k),
+                armory.excess(), armory.upgrades());
     }
 
     /** Client side: plain containers filled by the vanilla slot sync. */
     public static ArmoryMenu client(int windowId, Inventory inventory, FriendlyByteBuf buf) {
         ArmoryViewInfo info = ArmoryViewInfo.read(buf);
-        return new ArmoryMenu(windowId, inventory, info, null, new SimpleContainer(SlotKeys.size()),
+        int count = buf.readVarInt();
+        List<String> keys = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            keys.add(buf.readUtf());
+        }
+        return new ArmoryMenu(windowId, inventory, info, keys, null, k -> new SimpleContainer(k.size()),
                 new ItemStackHandler(ArmoryBlockEntity.EXCESS_SLOTS), new ItemStackHandler(2));
+    }
+
+    /** Writes what {@link #client} reads: the header, then this opening's page keys. */
+    public static void writeOpening(FriendlyByteBuf buf, ArmoryViewInfo info, List<String> keys) {
+        info.write(buf);
+        buf.writeVarInt(keys.size());
+        keys.forEach(buf::writeUtf);
+    }
+
+    /** This opening's page keys; a key's position here is its page slot offset and mark button offset. */
+    public List<String> keys() {
+        return this.keys;
+    }
+
+    public int curioCount() {
+        return this.keys.size() - SlotKeys.size();
     }
 
     public BlockPos pos() {
@@ -133,7 +166,7 @@ public class ArmoryMenu extends AbstractElementContainer {
     }
 
     public void setCurioScroll(int scroll) {
-        this.curioScroll = Math.max(0, Math.min(SlotKeys.CURIO_IDS.size() - CURIO_VISIBLE, scroll));
+        this.curioScroll = Math.max(0, Math.min(this.curioCount() - CURIO_VISIBLE, scroll));
         this.layout();
     }
 
@@ -151,7 +184,7 @@ public class ArmoryMenu extends AbstractElementContainer {
 
     /** Places every slot for this menu's tab and scroll positions; slots not on the tab go to {@link #HIDDEN}. */
     private void layout() {
-        for (int i = 0; i < SlotKeys.size(); i++) {
+        for (int i = 0; i < this.keys.size(); i++) {
             Slot slot = this.slots.get(PAGE_START + i);
             int x = HIDDEN;
             int y = HIDDEN;
@@ -162,15 +195,15 @@ public class ArmoryMenu extends AbstractElementContainer {
                 } else if (i == SlotKeys.OFFHAND_INDEX) {
                     x = 8;
                     y = 80;
-                } else if (i >= SlotKeys.CURIO_START) {
-                    int row = i - SlotKeys.CURIO_START - this.curioScroll;
+                } else if (i >= SlotKeys.size()) {
+                    int row = i - SlotKeys.size() - this.curioScroll;
                     if (row >= 0 && row < CURIO_VISIBLE) {
                         x = -20;
                         y = 8 + row * 18;
                     }
                 }
             } else if (this.tab == ArmoryTab.INVENTORY) {
-                if (i >= SlotKeys.INV_START && i < SlotKeys.CURIO_START) {
+                if (i >= SlotKeys.INV_START && i < SlotKeys.size()) {
                     int index = i - SlotKeys.INV_START;
                     x = 8 + (index % 9) * 18;
                     y = 8 + (index / 9) * 18;
@@ -194,7 +227,7 @@ public class ArmoryMenu extends AbstractElementContainer {
             slot.x = this.tab == ArmoryTab.INVENTORY ? 306 + i * 20 : HIDDEN;
             slot.y = this.tab == ArmoryTab.INVENTORY ? 36 + this.slotOffsetY : HIDDEN;
         }
-        for (int i = PLAYER_START; i < END; i++) {
+        for (int i = PLAYER_START; i < PLAYER_END; i++) {
             Slot slot = this.slots.get(i);
             int index = i - PLAYER_START;
             slot.y = (index < 27 ? 102 + (index / 9) * 18 : 160) + this.slotOffsetY;
@@ -207,24 +240,35 @@ public class ArmoryMenu extends AbstractElementContainer {
 
     /** Whether a slot belongs to this menu's tab, wherever scrolling has put it. */
     public boolean onTab(int index) {
+        if (index >= PAGE_START) {
+            int i = index - PAGE_START;
+            if (this.tab == ArmoryTab.GEAR) {
+                return i <= SlotKeys.OFFHAND_INDEX || i >= SlotKeys.size();
+            }
+            return this.tab == ArmoryTab.INVENTORY && i >= SlotKeys.HOTBAR_START && i < SlotKeys.size();
+        }
         if (index >= PLAYER_START) {
             return true;
         }
         if (index >= UPGRADE_START) {
             return this.tab == ArmoryTab.INVENTORY;
         }
-        if (index >= EXCESS_START) {
-            return this.tab == ArmoryTab.EXCESS;
-        }
-        int i = index - PAGE_START;
-        if (this.tab == ArmoryTab.GEAR) {
-            return i <= SlotKeys.OFFHAND_INDEX || i >= SlotKeys.CURIO_START;
-        }
-        return this.tab == ArmoryTab.INVENTORY && i >= SlotKeys.HOTBAR_START && i < SlotKeys.CURIO_START;
+        return this.tab == ArmoryTab.EXCESS;
     }
 
-    public static String keyOf(int slotIndex) {
-        return SlotKeys.ALL.get(slotIndex - PAGE_START);
+    public boolean isPageSlot(int slotIndex) {
+        return slotIndex >= PAGE_START && slotIndex < PAGE_START + this.keys.size();
+    }
+
+    public String keyOf(int slotIndex) {
+        return this.keys.get(slotIndex - PAGE_START);
+    }
+
+    /** The page slot showing {@code key}, or null when this opening does not show it. */
+    @Nullable
+    public Slot pageSlot(String key) {
+        int i = this.keys.indexOf(key);
+        return i < 0 ? null : this.slots.get(PAGE_START + i);
     }
 
     @Override
@@ -244,8 +288,8 @@ public class ArmoryMenu extends AbstractElementContainer {
             ArmoryService.store(serverPlayer, this.armory, this.page);
         } else if (id == BUTTON_LOAD) {
             ArmoryService.load(serverPlayer, this.armory, this.page);
-        } else if (id >= BUTTON_MARK && id < BUTTON_MARK + SlotKeys.size()) {
-            this.armory.page(this.page).toggleMark(SlotKeys.ALL.get(id - BUTTON_MARK));
+        } else if (id >= BUTTON_MARK && id < BUTTON_MARK + this.keys.size()) {
+            this.armory.page(this.page).toggleMark(this.keys.get(id - BUTTON_MARK));
             this.armory.setChanged();
         } else {
             return false;
@@ -261,7 +305,7 @@ public class ArmoryMenu extends AbstractElementContainer {
      */
     @Override
     public void clicked(int slotId, int button, ClickType type, Player player) {
-        boolean pageSlot = slotId >= PAGE_START && slotId < EXCESS_START;
+        boolean pageSlot = this.isPageSlot(slotId);
         if (this.info.creative() && pageSlot && type == ClickType.CLONE) {
             return;
         }
@@ -292,8 +336,8 @@ public class ArmoryMenu extends AbstractElementContainer {
         }
         ItemStack stack = slot.getItem();
         ItemStack original = stack.copy();
-        if (index < PLAYER_START) {
-            if (!this.moveItemStackTo(stack, PLAYER_START, END, true)) {
+        if (index < PLAYER_START || index >= PLAYER_END) {
+            if (!this.moveItemStackTo(stack, PLAYER_START, PLAYER_END, true)) {
                 return ItemStack.EMPTY;
             }
         } else if (this.tab == ArmoryTab.EXCESS) {
@@ -301,10 +345,10 @@ public class ArmoryMenu extends AbstractElementContainer {
                 return ItemStack.EMPTY;
             }
         } else if (this.tab == ArmoryTab.INVENTORY) {
-            if (!this.moveShown(stack, UPGRADE_START, PLAYER_START) && !this.moveShown(stack, PAGE_START, EXCESS_START)) {
+            if (!this.moveShown(stack, UPGRADE_START, PLAYER_START) && !this.moveShown(stack, PAGE_START, this.slots.size())) {
                 return ItemStack.EMPTY;
             }
-        } else if (!this.moveShown(stack, PAGE_START, EXCESS_START)) {
+        } else if (!this.moveShown(stack, PAGE_START, this.slots.size())) {
             return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) {
@@ -343,9 +387,9 @@ public class ArmoryMenu extends AbstractElementContainer {
     public class PageSlot extends Slot implements IGhostSlot {
         private final String key;
 
-        PageSlot(Container container, int index) {
+        PageSlot(Container container, int index, String key) {
             super(container, index, HIDDEN, HIDDEN);
-            this.key = SlotKeys.ALL.get(index);
+            this.key = key;
         }
 
         public String key() {
@@ -359,7 +403,7 @@ public class ArmoryMenu extends AbstractElementContainer {
 
         @Override
         public int getMaxStackSize() {
-            return this.key.startsWith("armor:") || this.key.startsWith("curio:") ? 1 : super.getMaxStackSize();
+            return this.key.startsWith("armor:") || SlotKeys.isCurio(this.key) ? 1 : super.getMaxStackSize();
         }
 
         @Override
@@ -388,8 +432,8 @@ public class ArmoryMenu extends AbstractElementContainer {
             EquipmentSlot slot = EquipmentSlot.byName(key.substring("armor:".length()));
             return stack.canEquip(slot, player);
         }
-        if (key.startsWith("curio:")) {
-            return CuriosApi.getCuriosHelper().getCurioTags(stack.getItem()).contains(SlotKeys.curioId(key));
+        if (SlotKeys.isCurio(key)) {
+            return ArmoryCurioSlots.fits(key, stack);
         }
         return true;
     }
@@ -401,10 +445,12 @@ public class ArmoryMenu extends AbstractElementContainer {
     private static final class PageContainer implements Container {
         private final ArmoryBlockEntity armory;
         private final int page;
+        private final List<String> keys;
 
-        PageContainer(ArmoryBlockEntity armory, int page) {
+        PageContainer(ArmoryBlockEntity armory, int page, List<String> keys) {
             this.armory = armory;
             this.page = page;
+            this.keys = keys;
         }
 
         private ArmoryPage page() {
@@ -413,7 +459,7 @@ public class ArmoryMenu extends AbstractElementContainer {
 
         @Override
         public int getContainerSize() {
-            return SlotKeys.size();
+            return this.keys.size();
         }
 
         @Override
@@ -423,7 +469,7 @@ public class ArmoryMenu extends AbstractElementContainer {
 
         @Override
         public ItemStack getItem(int index) {
-            return this.page().stored(SlotKeys.ALL.get(index));
+            return this.page().stored(this.keys.get(index));
         }
 
         @Override
@@ -434,7 +480,7 @@ public class ArmoryMenu extends AbstractElementContainer {
             }
             ItemStack taken = current.split(count);
             if (current.isEmpty()) {
-                this.page().setStored(SlotKeys.ALL.get(index), ItemStack.EMPTY);
+                this.page().setStored(this.keys.get(index), ItemStack.EMPTY);
             }
             this.setChanged();
             return taken;
@@ -443,13 +489,13 @@ public class ArmoryMenu extends AbstractElementContainer {
         @Override
         public ItemStack removeItemNoUpdate(int index) {
             ItemStack current = this.getItem(index);
-            this.page().setStored(SlotKeys.ALL.get(index), ItemStack.EMPTY);
+            this.page().setStored(this.keys.get(index), ItemStack.EMPTY);
             return current;
         }
 
         @Override
         public void setItem(int index, ItemStack stack) {
-            String key = SlotKeys.ALL.get(index);
+            String key = this.keys.get(index);
             this.page().setStored(key, stack);
             if (!stack.isEmpty()) {
                 this.page().setExpected(key, stack);

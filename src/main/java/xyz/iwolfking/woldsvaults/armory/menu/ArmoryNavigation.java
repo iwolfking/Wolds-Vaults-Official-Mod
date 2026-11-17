@@ -7,11 +7,14 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraftforge.network.NetworkHooks;
 import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
 import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
+import xyz.iwolfking.woldsvaults.armory.SlotKeys;
 import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
 import xyz.iwolfking.woldsvaults.armory.network.ClientboundArmoryStateMessage;
 import xyz.iwolfking.woldsvaults.armory.service.ArmoryService;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+
+import java.util.List;
 
 /** Opens armory tabs on the server and pushes the open page's state to the client. */
 public final class ArmoryNavigation {
@@ -36,8 +39,15 @@ public final class ArmoryNavigation {
             ArmoryTreeMenus.open(player, armory, info);
             return;
         }
-        NetworkHooks.openGui(player, new SimpleMenuProvider((windowId, inventory, p) -> ArmoryMenu.server(windowId, inventory, armory, info),
-                new TextComponent("Armory")), info::write);
+        List<String> keys = ArmoryService.pageKeys(player, armory.page(clamped));
+        if (keys.size() > ArmoryMenu.MAX_KEYS) {
+            WoldLogger.error("Armory: {} has {} curio slots; the armory shows the first {} and leaves the rest out",
+                    player.getGameProfile().getName(), keys.size() - SlotKeys.size(), ArmoryMenu.MAX_KEYS - SlotKeys.size());
+            keys = keys.subList(0, ArmoryMenu.MAX_KEYS);
+        }
+        List<String> shown = keys;
+        NetworkHooks.openGui(player, new SimpleMenuProvider((windowId, inventory, p) -> ArmoryMenu.server(windowId, inventory, armory, info, shown),
+                new TextComponent("Armory")), buf -> ArmoryMenu.writeOpening(buf, info, shown));
         if (player.containerMenu instanceof ArmoryMenu menu) {
             sendState(player, menu, armory);
         }

@@ -128,8 +128,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
                 ArmoryStats.favour(this.shownState.stats(), VaultGod.VELARA), ArmoryStats.favour(this.shownState.stats(), VaultGod.WENDARR))
                 .layout((screen, gui, parent, world) -> world.translateX(separator.right()).translateY(model.top())
                         .width(world.width() + gui.right() - world.x()).height(world.height() + gui.height())));
-        int hidden = SlotKeys.CURIO_IDS.size() - ArmoryMenu.CURIO_VISIBLE;
-        this.gear(new CuriosElement<>(this::getTabContentSpatial, true, ArmoryMenu.CURIO_VISIBLE,
+        int curios = this.menu.curioCount();
+        int hidden = Math.max(0, curios - ArmoryMenu.CURIO_VISIBLE);
+        this.gear(new CuriosElement<>(this::getTabContentSpatial, hidden > 0, Math.min(curios, ArmoryMenu.CURIO_VISIBLE),
                 value -> this.menu.setCurioScroll(Math.round(value * hidden))));
     }
 
@@ -169,7 +170,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
 
     private int storedCount() {
         int count = 0;
-        for (int i = 0; i < SlotKeys.size(); i++) {
+        for (int i = 0; i < this.menu.keys().size(); i++) {
             if (this.menu.slots.get(ArmoryMenu.PAGE_START + i).hasItem()) {
                 count++;
             }
@@ -179,7 +180,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
 
     private int expectedCount() {
         int count = 0;
-        for (String key : SlotKeys.ALL) {
+        for (String key : this.menu.keys()) {
             ItemStack expected = this.menu.state().expected(key);
             if (this.menu.state().isMarked(key) && expected != null && !expected.isEmpty()) {
                 count++;
@@ -215,8 +216,8 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     }
 
     private ItemStack shown(String key) {
-        Slot slot = this.menu.slots.get(ArmoryMenu.PAGE_START + SlotKeys.indexOf(key));
-        if (slot.hasItem()) {
+        Slot slot = this.menu.pageSlot(key);
+        if (slot != null && slot.hasItem()) {
             return slot.getItem();
         }
         ItemStack expected = this.shownState.expected(key);
@@ -387,7 +388,7 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
             }
         }
         if (button == 1 && this.hoveredSlot instanceof ArmoryMenu.PageSlot pageSlot) {
-            this.click(ArmoryMenu.BUTTON_MARK + SlotKeys.indexOf(pageSlot.key()));
+            this.click(ArmoryMenu.BUTTON_MARK + this.menu.keys().indexOf(pageSlot.key()));
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
@@ -429,9 +430,9 @@ public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryM
     private void renderMarks(PoseStack poseStack) {
         poseStack.pushPose();
         poseStack.translate(0, 0, 300);
-        for (int i = 0; i < SlotKeys.size(); i++) {
+        for (int i = 0; i < this.menu.keys().size(); i++) {
             Slot slot = this.menu.slots.get(ArmoryMenu.PAGE_START + i);
-            if (!slot.isActive() || !this.menu.state().isMarked(SlotKeys.ALL.get(i))) {
+            if (!slot.isActive() || !this.menu.state().isMarked(this.menu.keys().get(i))) {
                 continue;
             }
             int x = this.leftPos + slot.x - 1;

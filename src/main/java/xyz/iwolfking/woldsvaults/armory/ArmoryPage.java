@@ -27,11 +27,7 @@ public final class ArmoryPage {
     private final Map<String, CompoundTag> contents = new HashMap<>();
 
     public ArmoryPage() {
-        for (String key : SlotKeys.ALL) {
-            if (SlotKeys.markedByDefault(key)) {
-                this.marks.add(key);
-            }
-        }
+        this.marks.addAll(SlotKeys.defaultMarks());
     }
 
     @Nullable
