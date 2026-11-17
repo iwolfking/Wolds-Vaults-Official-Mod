@@ -282,10 +282,7 @@ public class GodTreeDialog extends AbstractDialog<GodTreeScreen> {
                         + Math.round(GodCarryover.FOREIGN_TREE_SCALE * 100.0F) + "% efficiency if another god's charm is "
                         + "equipped instead. You also gain "
                         + Math.round((GodAlignmentData.GOD_CHARM_XP_MULTIPLIER - 1.0D) * 100.0D) + "% more experience "
-                        + "for a given god while wearing their charm, from all sources.\n\n", body));
-        desc.append(new TextComponent("Click a star to inspect it. Every star costs one point and "
-                + "must connect to a star you already own, starting from the marked start stars.")
-                .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x999999))));
+                        + "for a given god while wearing their charm, from all sources.", body));
         return desc;
     }
 
