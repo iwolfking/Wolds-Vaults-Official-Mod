@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.armory.service;
 
+import iskallia.vault.gear.data.AttributeGearData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
@@ -12,8 +13,9 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.LinkedItem;
-import xyz.iwolfking.woldsvaults.config.ArmoryConfig.OwnerTags;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig.RefusedTag;
 import xyz.iwolfking.woldsvaults.config.ArmoryConfig.Store;
+import xyz.iwolfking.woldsvaults.config.ArmoryConfig.StrippedTags;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.integration.sophisticatedbackpacks.BackpackContentsStore;
 import xyz.iwolfking.woldsvaults.integration.sophisticatedstorage.StorageItemContentsStore;
@@ -34,8 +36,8 @@ import java.util.UUID;
 /**
  * Creative Armory copies. {@link #capture} copies the contents of every linked item reachable from an item when a
  * page is saved. {@link #issue} prepares a fresh copy of a page item for Load or a hand-take: every linked item gets
- * a new contents id holding its saved contents, and owner tags are removed. Nothing reaches a contents store until
- * {@link Issue#commit}.
+ * a new contents id holding its saved contents, stripped tags are removed and Vault gear gets a new gear id. Nothing
+ * reaches a contents store until {@link Issue#commit}.
  */
 public final class CreativeCopies {
     private static final String STORE = "store";
@@ -108,6 +110,10 @@ public final class CreativeCopies {
             if (item == null) {
                 continue;
             }
+            String refused = refused(table, item);
+            if (refused != null) {
+                return new Capture(out, refused);
+            }
             LinkedItem linked = linked(table, item);
             if (linked == null) {
                 continue;
@@ -149,6 +155,10 @@ public final class CreativeCopies {
         pending.add(item);
         while (!pending.isEmpty()) {
             CompoundTag next = nextItem(pending);
+            String refused = next == null ? null : refused(table, next);
+            if (refused != null) {
+                return Issue.refused(refused);
+            }
             LinkedItem linked = next == null ? null : linked(table, next);
             if (linked == null) {
                 continue;
@@ -225,11 +235,12 @@ public final class CreativeCopies {
             }
             CompoundTag tag = item.getCompound(ITEM_TAG);
             String itemId = item.getString(ITEM_ID);
-            for (OwnerTags owner : table.ownerTags) {
-                if (owner.item.equals(itemId)) {
-                    owner.keys.forEach(tag::remove);
+            for (StrippedTags stripped : table.strippedTags) {
+                if (stripped.item.equals(itemId)) {
+                    stripped.keys.forEach(path -> removePath(tag, path));
                 }
             }
+            renewGearId(item, tag);
             LinkedItem linked = linked(table, item);
             if (linked != null && tag.hasUUID(linked.key)) {
                 UUID id = fresh.get(tag.getUUID(linked.key));
@@ -241,6 +252,38 @@ public final class CreativeCopies {
                 }
             }
         }
+    }
+
+    /** Removes the tag at {@code path}, whose dots step into nested compounds; a missing step leaves the tag as it is. */
+    private static void removePath(CompoundTag tag, String path) {
+        String[] steps = path.split("\\.");
+        CompoundTag parent = tag;
+        for (int i = 0; i < steps.length - 1; i++) {
+            if (!parent.contains(steps[i], Tag.TAG_COMPOUND)) {
+                return;
+            }
+            parent = parent.getCompound(steps[i]);
+        }
+        parent.remove(steps[steps.length - 1]);
+    }
+
+    /** Rewrites the Vault gear data in {@code tag}, which gives the copy its own gear id. */
+    private static void renewGearId(CompoundTag item, CompoundTag tag) {
+        if (!tag.contains(AttributeGearData.TAG_KEY)) {
+            return;
+        }
+        ItemStack stack = ItemStack.of(item);
+        if (stack.isEmpty() || !AttributeGearData.hasData(stack)) {
+            return;
+        }
+        AttributeGearData.read(stack).write(stack);
+        Tag renewed = stack.getOrCreateTag().get(AttributeGearData.TAG_KEY);
+        if (renewed == null) {
+            WoldLogger.error("Creative Armory: {} lost its gear data while getting a new gear id; issued with the saved id",
+                    name(item));
+            return;
+        }
+        tag.put(AttributeGearData.TAG_KEY, renewed.copy());
     }
 
     /**
@@ -262,6 +305,19 @@ public final class CreativeCopies {
         }
         boolean item = compound.contains(ITEM_ID, Tag.TAG_STRING) && compound.contains(ITEM_TAG, Tag.TAG_COMPOUND);
         return item ? compound : null;
+    }
+
+    /** Why {@code item} cannot be copied because of a refused tag, or null when no refused tag matches. */
+    @Nullable
+    private static String refused(ArmoryConfig table, CompoundTag item) {
+        String itemId = item.getString(ITEM_ID);
+        CompoundTag tag = item.getCompound(ITEM_TAG);
+        for (RefusedTag refused : table.refusedTags) {
+            if (refused.item.equals(itemId) && tag.contains(refused.key)) {
+                return name(item) + " cannot be copied";
+            }
+        }
+        return null;
     }
 
     @Nullable
