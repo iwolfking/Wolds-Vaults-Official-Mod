@@ -180,20 +180,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .addOptional(iskallia.vault.init.ModBlocks.COMPANION_HOME.getRegistryName())
                 .addOptional(iskallia.vault.init.ModBlocks.COMPANION_INCUBATOR.getRegistryName())
                 .addOptional(iskallia.vault.init.ModBlocks.COMPANION_TERRARIUM.getRegistryName());
-        tag(WorkstationGroups.MISC.tag)
-                .addOptional(iskallia.vault.init.ModBlocks.BLACK_MARKET.getRegistryName())
-                .addOptional(ModBlocks.WEAVING_STATION.getRegistryName())
-                .addOptional(iskallia.vault.init.ModBlocks.VAULT_RECYCLER.getRegistryName())
-                .addOptional(iskallia.vault.init.ModBlocks.VAULT_DIFFUSER.getRegistryName())
-                .addOptional(ModBlocks.VAULT_SALVAGER_BLOCK.getRegistryName())
-                .addOptional(ModBlocks.CHROMATIC_STEEL_INFUSER_BLOCK.getRegistryName())
-                .addOptional(ModBlocks.VAULT_INFUSER_BLOCK.getRegistryName())
-                .addOptional(ModBlocks.MOD_BOX_WORKSTATION.getRegistryName())
-                .addOptional(iskallia.vault.init.ModBlocks.BOUNTY_BLOCK.getRegistryName());
-
-
-
-
     }
 
     private void addCompressibleTags() {
