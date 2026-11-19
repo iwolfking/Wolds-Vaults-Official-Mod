@@ -204,44 +204,10 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
                 .add("splinterChance", 0.53)
                 .add("splinterDamageMultiplier", 0.5)
                 .add("splinterRange", 4);
-
-        JsonObject stirrings = new JsonObject();
-        stirrings.addProperty("type", "specialized");
-        stirrings.addProperty("id", "Stirrings_Of_Power");
-        stirrings.addProperty("name", "Stirrings of Power");
-        stirrings.addProperty("maxLearnableTier", 1);
-        JsonArray specializations = new JsonArray();
-        specializations.add(singleTierAbility("Stirrings_Of_Power_Dormant", "Stirrings of Power", "stirrings_of_power", 0));
-        specializations.add(singleTierAbility("Cope_De_Grace", "Cope de Grace", "cope_de_grace", 6000));
-        specializations.add(singleTierAbility("Savior", "Savior", "savior", 6000));
-        specializations.add(singleTierAbility("Eyes_Of_God", "Eyes of God", "eyes_of_god", 6000));
-        specializations.add(singleTierAbility("Bullet_Time", "Bullet Time", "bullet_time", 6000));
-        stirrings.add("specializations", specializations);
-        abilities.at("tree", "skills").append(stirrings);
     }
 
     private static Node abilityTier(Patch abilities, String ability, String specialization, String tierId) {
         return abilities.at("tree", "skills", id(ability), "specializations", id(specialization), "tiers", id(tierId));
-    }
-
-    private static JsonObject singleTierAbility(String id, String name, String type, int cooldownTicks) {
-        JsonObject tier = new JsonObject();
-        tier.addProperty("type", type);
-        tier.addProperty("manaCost", 0.0);
-        tier.addProperty("learnPointCost", 0);
-        tier.addProperty("regretPointCost", 0);
-        tier.addProperty("cooldownTicks", cooldownTicks);
-        tier.addProperty("unlockLevel", 0);
-        tier.addProperty("id", type + "_1");
-        JsonArray tiers = new JsonArray();
-        tiers.add(tier);
-        JsonObject specialization = new JsonObject();
-        specialization.addProperty("type", "tiered");
-        specialization.addProperty("id", id);
-        specialization.addProperty("name", name);
-        specialization.addProperty("maxLearnableTier", 1);
-        specialization.add("tiers", tiers);
-        return specialization;
     }
 
     private void descriptions() {

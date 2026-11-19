@@ -1,8 +1,12 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.client.gui.screen.player.legacy.tab.split.dialog.AbilityDialog;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.time.TickClock;
+import iskallia.vault.init.ModConfigs;
+import iskallia.vault.skill.SkillGates;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.gui.components.Button;
@@ -14,9 +18,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateIds;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AbstractDialogAccessor;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mixin(value = AbilityDialog.class, remap = false)
@@ -58,6 +64,21 @@ public class MixinAbilityDialog {
             if (isPaused) return false;
         }
         return optional.isPresent();
+    }
+
+    /**
+     * Treats an ability missing from the client's abilities config as having no dependants instead of letting the
+     * base lookup throw and crash the screen.
+     */
+    @WrapOperation(method = "update", at = @At(value = "INVOKE",
+            target = "Liskallia/vault/skill/SkillGates;getAbilitiesDependingOn(Ljava/lang/String;)Ljava/util/List;"))
+    private List<String> woldsVaults$guardMissingAbility(SkillGates gates, String abilityName, Operation<List<String>> original) {
+        if (ModConfigs.ABILITIES.getAbilityById(abilityName).isEmpty()) {
+            WoldLogger.errorOnce("ability_dialog_missing_" + abilityName,
+                    "Ability {} is in the player's tree but not in the client abilities config; showing it with no dependants", abilityName);
+            return List.of();
+        }
+        return original.call(gates, abilityName);
     }
 
     /** Disables the learn, unlearn and specialization buttons on the god ultimate node. */
