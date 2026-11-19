@@ -17,6 +17,7 @@ import xyz.iwolfking.woldsvaults.network.packets.OpenFloatingTextScreenPacket;
 import xyz.iwolfking.woldsvaults.network.packets.OrbSteerMessage;
 import xyz.iwolfking.woldsvaults.network.packets.ProjectileScaleMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarEditMessage;
+import xyz.iwolfking.woldsvaults.network.packets.SpellBarModeMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellEditMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellSlotKeyMessage;
@@ -107,6 +108,7 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ArcanePrismMessage.class, ArcanePrismMessage::encode, ArcanePrismMessage::decode, ArcanePrismMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ArcanePrismSeedMessage.class, ArcanePrismSeedMessage::encode, ArcanePrismSeedMessage::decode, ArcanePrismSeedMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(id++, ArcaneSparkleMessage.class, ArcaneSparkleMessage::encode, ArcaneSparkleMessage::decode, ArcaneSparkleMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, SpellBarModeMessage.class, SpellBarModeMessage::encode, SpellBarModeMessage::decode, SpellBarModeMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static <T> void sendToServer(T message) {

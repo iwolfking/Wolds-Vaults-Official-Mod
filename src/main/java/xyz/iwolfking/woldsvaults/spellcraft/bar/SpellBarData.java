@@ -16,16 +16,18 @@ import java.util.UUID;
 
 /**
  * Each player's default spell bar (ability group per slot, empty string for an empty slot), the selected slot the cast
- * key fires, and whether the bar was filled from their learned abilities yet. Saved with the overworld.
+ * key fires, whether the bar was filled from their learned abilities yet, and their bar mode. Saved with the overworld.
  */
 public class SpellBarData extends SavedData {
     private static final String NAME = "woldsvaults_spell_bars";
+    private static final String SLOT_MODE = "slotMode";
     private final Map<UUID, PlayerBar> bars = new HashMap<>();
 
     public static final class PlayerBar {
         public final String[] defaults = new String[SpellcraftItemData.SLOTS];
         public int selected;
         public boolean migrated;
+        public BarMode mode = BarMode.CLASSIC;
 
         PlayerBar() {
             Arrays.fill(this.defaults, "");
@@ -52,6 +54,7 @@ public class SpellBarData extends SavedData {
             }
             bar.selected = Math.max(0, Math.min(SpellcraftItemData.SLOTS - 1, entry.getInt("selected")));
             bar.migrated = entry.getBoolean("migrated");
+            bar.mode = entry.getBoolean(SLOT_MODE) ? BarMode.SLOT : BarMode.CLASSIC;
             try {
                 data.bars.put(UUID.fromString(key), bar);
             } catch (IllegalArgumentException e) {
@@ -73,6 +76,7 @@ public class SpellBarData extends SavedData {
             entry.put("defaults", slots);
             entry.putInt("selected", bar.selected);
             entry.putBoolean("migrated", bar.migrated);
+            entry.putBoolean(SLOT_MODE, bar.mode == BarMode.SLOT);
             players.put(id.toString(), entry);
         });
         tag.put("players", players);

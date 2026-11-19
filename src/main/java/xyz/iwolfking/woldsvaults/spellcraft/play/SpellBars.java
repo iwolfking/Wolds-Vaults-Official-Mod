@@ -12,6 +12,7 @@ import net.minecraftforge.network.PacketDistributor;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBarData;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
@@ -70,7 +71,8 @@ public final class SpellBars {
         if (!saved.migrated) {
             DefaultBar.migrate(player, saved, tree);
         }
-        EffectiveBar bar = EffectiveBar.forPlayer(player, saved.defaults, AbilityLookup.specOf(tree));
+        String[] base = saved.mode == BarMode.CLASSIC ? DefaultBar.classic(player, tree) : saved.defaults;
+        EffectiveBar bar = EffectiveBar.forPlayer(player, base, saved.mode, AbilityLookup.specOf(tree));
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         String[] keys = new String[SpellcraftItemData.SLOTS];
         for (int i = 0; i < keys.length; i++) {
@@ -94,6 +96,21 @@ public final class SpellBars {
             ModNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
         }
         return bar;
+    }
+
+    /**
+     * Switches the player between classic mode and slot mode. Held slot keys stop recasting, since their release
+     * would be ignored in classic mode.
+     */
+    public static void setMode(ServerPlayer player, BarMode mode) {
+        SpellBarData.PlayerBar saved = saved(player);
+        if (saved.mode == mode) {
+            return;
+        }
+        saved.mode = mode;
+        SpellBarData.get(player.getServer()).setDirty();
+        HeldSlots.forget(player.getUUID());
+        refresh(player);
     }
 
     static int firstFilled(EffectiveBar bar, int from, int direction) {

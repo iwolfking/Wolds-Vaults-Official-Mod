@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.spellcraft.bar;
 
+import iskallia.vault.client.VaultAbilityKeyBinding;
 import iskallia.vault.client.gui.screen.player.AbilitiesElementContainerScreen;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.tree.AbilityTree;
@@ -10,7 +11,7 @@ import java.util.function.Supplier;
 
 /**
  * The skill menu's spell bar under the Abilities tab. It holds this frame's default and effective views and the ability
- * selected in the tree, which a slot click assigns to the default bar.
+ * selected in the tree, which a slot click assigns to the default bar in slot mode.
  */
 public final class SkillMenuSpellBar implements SpellBarStrip.Host {
     @Nullable
@@ -60,8 +61,12 @@ public final class SkillMenuSpellBar implements SpellBarStrip.Host {
         return menu != null && menu.renderingTree;
     }
 
-    /** Rebuilds this frame's views and lays the strip out in the band the pan region and dialog leave free. */
+    /**
+     * Rebuilds this frame's views and lays the strip out in the band the pan region and dialog leave free. Vault Hunters'
+     * hover-to-bind (hover an ability, press a key to make it the quick-fire key) is on in classic mode only.
+     */
     public void beginFrame() {
+        VaultAbilityKeyBinding.isEnabled = SpellBarStrip.classic();
         AbilityTree tree = tree();
         this.defaultView = SpellBarView.ofDefaults(tree);
         this.effectiveView = SpellBarView.ofSynced(tree);

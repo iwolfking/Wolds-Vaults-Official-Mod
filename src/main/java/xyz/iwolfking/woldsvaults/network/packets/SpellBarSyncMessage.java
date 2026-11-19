@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBarData;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
@@ -19,11 +20,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Server to client: the player's default bar, selected slot and the effective bar the server resolved, with every
+ * Server to client: the player's default bar, selected slot, bar mode and the effective bar the server resolved, with every
  * equipped arcana item's arcana, budget, greyed glyphs and errors. The client never resolves the bar from its own item
  * NBT.
  */
-public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> entries, List<Source> sources) {
+public record SpellBarSyncMessage(String[] defaults, int selected, BarMode mode, List<Entry> entries, List<Source> sources) {
     private static final int MAX_LIST = 256;
 
     /** One placed glyph as the server read it: its token index, state, dependence and line. */
@@ -63,7 +64,7 @@ public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> e
             sources.add(new Source(item.key(), item.name(), hand(item.hand()), check.budget(), Math.round(check.arcana()), check.budgetInactive(),
                     check.errors()));
         }
-        return new SpellBarSyncMessage(saved.defaults.clone(), saved.selected, entries, sources);
+        return new SpellBarSyncMessage(saved.defaults.clone(), saved.selected, saved.mode, entries, sources);
     }
 
     private static int hand(@Nullable InteractionHand hand) {
@@ -72,7 +73,7 @@ public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> e
 
     /** Everything the client shows, as one string; the server only resends when it changes. */
     public String signature() {
-        return this.selected + "|" + String.join(",", this.defaults) + "|" + this.entries + "|" + this.sources;
+        return this.selected + "|" + this.mode + "|" + String.join(",", this.defaults) + "|" + this.entries + "|" + this.sources;
     }
 
     public static void encode(SpellBarSyncMessage message, FriendlyByteBuf buffer) {
@@ -80,6 +81,7 @@ public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> e
             buffer.writeUtf(slot);
         }
         buffer.writeVarInt(message.selected);
+        buffer.writeEnum(message.mode);
         buffer.writeVarInt(message.entries.size());
         for (Entry entry : message.entries) {
             buffer.writeVarInt(entry.kind());
@@ -126,6 +128,7 @@ public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> e
             defaults[i] = buffer.readUtf();
         }
         int selected = buffer.readVarInt();
+        BarMode mode = buffer.readEnum(BarMode.class);
         int count = Math.min(MAX_LIST, buffer.readVarInt());
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -160,7 +163,7 @@ public record SpellBarSyncMessage(String[] defaults, int selected, List<Entry> e
             sources.add(new Source(buffer.readUtf(), buffer.readUtf(), buffer.readVarInt() - 1, buffer.readVarInt(), buffer.readVarInt(),
                     buffer.readVarInt(), readStrings(buffer)));
         }
-        return new SpellBarSyncMessage(defaults, selected, entries, sources);
+        return new SpellBarSyncMessage(defaults, selected, mode, entries, sources);
     }
 
     private static void writeStrings(FriendlyByteBuf buffer, List<String> strings) {

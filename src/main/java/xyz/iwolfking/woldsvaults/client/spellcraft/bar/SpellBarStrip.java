@@ -2,7 +2,6 @@ package xyz.iwolfking.woldsvaults.client.spellcraft.bar;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import iskallia.vault.client.gui.framework.ScreenTextures;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -18,39 +17,42 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftPalette;
 import xyz.iwolfking.woldsvaults.client.spellcraft.keys.SlotKeyBinder;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.network.packets.SpellBarModeMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellPlaceMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
-import xyz.iwolfking.woldsvaults.spellcraft.play.SpellCooldowns;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
 /**
- * The spell bar window of the skill menu and the spell editor, with a picker between the default and the effective bar.
- * A left click on a slot assigns the host's selected ability to the default bar or opens the chooser, and a right click
- * clears the slot or unassigns its spell. The Set Binds button toggles bind mode, where a left click arms a slot so the
- * next key or extra mouse button pressed becomes its bind, and a right click clears the slot's bind.
+ * The spell bar window of the skill menu and the spell editor. Its top row holds the mode button and the visible slot
+ * range; scrolling over the window pages through the slots, {@link #VISIBLE} at a time. In classic mode the slot row
+ * shows the resolved bar read-only with each slot's quick-fire key. In slot mode it has a picker between the default
+ * and the effective bar: a left click on a slot assigns the host's selected ability to the default bar or opens the
+ * chooser, and a right click clears the slot or unassigns its spell. The Set Binds button toggles bind mode, where a
+ * left click arms a slot so the next key or extra mouse button pressed becomes its bind, and a right click clears the
+ * slot's bind.
  */
 public final class SpellBarStrip {
-    public static final int HEIGHT = 24;
-    public static final int BAND = 27;
+    public static final int HEIGHT = 35;
+    public static final int BAND = 38;
+    static final int VISIBLE = 16;
     static final int PICK = 18;
-    static final int PICK_Y = 3;
-    private static final int PICK_ICON = 1;
-    private static final int SLOT_PITCH = 18;
+    static final int MODE_H = 10;
     static final int KEYS_H = 16;
+    private static final int HEAD_Y = 3;
+    private static final int ROW_Y = 15;
+    private static final int SLOT_PITCH = 18;
+    private static final int MODE_PAD = 8;
     private static final int KEYS_PAD = 8;
     private static final int KEYS_GAP = 4;
+    private static final int TEXT_GAP = 6;
     public static final float KEY_SCALE = 0.75F;
     private static final int HOVER = 0x80FFFFFF;
-    private static final int BROKEN = 0x80FF3030;
-    private static final int COOLING = 0x90000000;
-    private static final int LOCK = 0xFFFF5050;
-    static final int IMPLICIT_RING = 0xFFE0B040;
     private static final int ARMED = 0xFFFFE040;
-    private static final int BADGE = 8;
 
     public interface Host {
         AbilityTree tree();
@@ -75,6 +77,7 @@ public final class SpellBarStrip {
     private SpellBarView view;
     private boolean bindMode;
     private int armedSlot = -1;
+    private int page;
 
     public SpellBarStrip(Host host, boolean showEffective) {
         this.host = host;
@@ -88,8 +91,9 @@ public final class SpellBarStrip {
         this.x1 = x1;
     }
 
+    /** The effective bar in classic mode, else the bar the picker selects; the default bar while there is no other. */
     public SpellBarView refreshView() {
-        SpellBarView item = this.showEffective ? this.host.effectiveView() : null;
+        SpellBarView item = classic() || this.showEffective ? this.host.effectiveView() : null;
         this.view = item != null ? item : this.host.defaultView();
         return this.view;
     }
@@ -110,17 +114,65 @@ public final class SpellBarStrip {
         return this.y0;
     }
 
+    /** The top of the slot row. */
+    int rowY() {
+        return this.y0 + ROW_Y;
+    }
+
     /** Whether the player last picked the effective bar, which is remembered while no effective bar is available. */
     boolean prefersEffective() {
         return this.showEffective;
     }
 
-    static int slotX(int x0, int index) {
-        return x0 + 4 + 2 * (PICK + 2) + 6 + index * SLOT_PITCH;
+    static boolean classic() {
+        return ClientSpellBar.mode() == BarMode.CLASSIC;
+    }
+
+    /** The first slot index on the visible page. */
+    int first() {
+        return this.page * VISIBLE;
+    }
+
+    private static int pages() {
+        return (SpellcraftItemData.SLOTS + VISIBLE - 1) / VISIBLE;
+    }
+
+    /** The left edge of a slot on the visible page. */
+    int slotX(int index) {
+        return this.x0 + 4 + 2 * (PICK + 2) + 6 + (index - first()) * SLOT_PITCH;
+    }
+
+    /** The visible slot under the mouse, or -1. */
+    int slotAt(double mouseX, double mouseY) {
+        for (int i = first(); i < Math.min(SpellcraftItemData.SLOTS, first() + VISIBLE); i++) {
+            if (SpellcraftDraw.inside(mouseX, mouseY, slotX(i), rowY(), 16, 16)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     int pickX(int k) {
         return this.x0 + 4 + k * (PICK + 2);
+    }
+
+    int pickY() {
+        return rowY() - 1;
+    }
+
+    int modeX() {
+        return this.x0 + 4;
+    }
+
+    int modeY() {
+        return this.y0 + HEAD_Y;
+    }
+
+    /** The mode button's width, fitting the longer of its two labels so it keeps its size when the mode changes. */
+    int modeW() {
+        Font font = Minecraft.getInstance().font;
+        int text = Math.max(font.width(SpellcraftNames.tr("bar.mode_classic")), font.width(SpellcraftNames.tr("bar.mode_slot")));
+        return (int) Math.ceil(text * KEY_SCALE) + MODE_PAD;
     }
 
     /** The Set Binds label scale: full size when the button fits beside the last slot, otherwise the key label scale. */
@@ -137,7 +189,7 @@ public final class SpellBarStrip {
     }
 
     private int keysRoom() {
-        return this.x1 - 4 - (slotX(this.x0, SpellcraftItemData.SLOTS - 1) + 16 + KEYS_GAP);
+        return this.x1 - 4 - (slotX(first() + VISIBLE - 1) + 16 + KEYS_GAP);
     }
 
     int keysX() {
@@ -145,7 +197,7 @@ public final class SpellBarStrip {
     }
 
     boolean bindMode() {
-        return this.bindMode;
+        return this.bindMode && !classic();
     }
 
     int armedSlot() {
@@ -156,30 +208,34 @@ public final class SpellBarStrip {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         SpellBarView view = refreshView();
-        SpellBarView item = this.host.effectiveView();
+        boolean classic = classic();
         RenderSystem.enableBlend();
         SpellcraftDraw.window(pose, this.x0, this.y0, this.x1, this.y0 + HEIGHT);
-        drawPicker(pose, 0, !view.isEffective(), null);
-        if (item != null) {
-            drawPicker(pose, 1, view.isEffective(), item.stack());
+        renderHead(pose, font, mouseX, mouseY);
+        if (!classic) {
+            SpellBarView item = this.host.effectiveView();
+            StripArt.picker(pose, pickX(0), pickY(), PICK, !view.isEffective(), null);
+            if (item != null) {
+                StripArt.picker(pose, pickX(1), pickY(), PICK, view.isEffective(), item.stack());
+            }
         }
         AbilityTree tree = this.host.tree();
         Function<String, String> specOf = AbilityLookup.specOf(tree);
         int room = (int) ((16 - 1) / KEY_SCALE);
-        for (int i = 0; i < SpellcraftItemData.SLOTS; i++) {
-            int x = slotX(this.x0, i);
-            int y = this.y0 + 4;
+        for (int i = first(); i < Math.min(SpellcraftItemData.SLOTS, first() + VISIBLE); i++) {
+            int x = slotX(i);
+            int y = rowY();
             SpellBarView.Slot slot = view.slot(i);
-            drawSlot(pose, slot, specOf, x, y);
-            drawBadge(slot, x, y);
-            if (i == this.armedSlot) {
+            StripArt.slot(pose, tree, slot, specOf, x, y);
+            StripArt.badge(slot, x, y);
+            if (i == this.armedSlot && bindMode()) {
                 SpellcraftDraw.ring(pose, x - 2, y - 2, x + 18, y + 18, ARMED);
                 SpellcraftDraw.ring(pose, x - 1, y - 1, x + 17, y + 17, ARMED);
             }
             if (SpellcraftDraw.inside(mouseX, mouseY, x, y, 16, 16) && !this.chooser.popupOpen()) {
                 GuiComponent.fill(pose, x, y, x + 16, y + 16, HOVER);
             }
-            String key = SpellcraftNames.keyLabel(i, font, room);
+            String key = classic ? SpellcraftNames.quickfireLabel(slot.group(), font, room) : SpellcraftNames.keyLabel(i, font, room);
             if (!key.isEmpty()) {
                 pose.pushPose();
                 pose.translate(0.0, 0.0, 200.0);
@@ -188,87 +244,21 @@ public final class SpellBarStrip {
                 pose.popPose();
             }
         }
-        SpellcraftDraw.button(pose, font, keysX(), this.y0 + 4, keysW(), KEYS_H, SpellcraftNames.tr("bar.keys"),
-                SpellcraftDraw.inside(mouseX, mouseY, keysX(), this.y0 + 4, keysW(), KEYS_H), keysScale(), this.bindMode);
-    }
-
-    private void drawPicker(PoseStack pose, int k, boolean selected, @Nullable ItemStack stack) {
-        int px = pickX(k);
-        int py = this.y0 + PICK_Y;
-        if (selected) {
-            SpellcraftDraw.insetGrey(pose, px, py, px + PICK, py + PICK);
-        } else {
-            SpellcraftDraw.insetDarkGrey(pose, px, py, px + PICK, py + PICK);
-        }
-        if (stack == null) {
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, selected ? 1.0F : 0.55F);
-            ScreenTextures.TAB_ICON_ABILITIES.blit(pose, px + PICK_ICON, py + PICK_ICON, 0, 16, 16);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        } else {
-            Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, px + PICK_ICON, py + PICK_ICON);
-        }
-        if (selected) {
-            SpellcraftDraw.ring(pose, px, py, px + PICK, py + PICK, stack == null ? SpellcraftPalette.WHITE : SpellcraftPalette.ARCANE_GLOW);
+        if (!classic) {
+            SpellcraftDraw.button(pose, font, keysX(), rowY(), keysW(), KEYS_H, SpellcraftNames.tr("bar.keys"),
+                    SpellcraftDraw.inside(mouseX, mouseY, keysX(), rowY(), keysW(), KEYS_H), keysScale(), this.bindMode);
         }
     }
 
-    private void drawSlot(PoseStack pose, SpellBarView.Slot slot, Function<String, String> specOf, int x, int y) {
-        SpellcraftDraw.slot(pose, x, y, false);
-        String spec = slot.group().isEmpty() ? null : specOf.apply(slot.group());
-        String icon = spec != null ? spec : slot.group();
-        switch (slot.state()) {
-            case ABILITY -> {
-                SpellcraftDraw.ability(pose, icon, x, y, 16, slot.unlearned() ? 0.4F : 1.0F);
-                if (slot.unlearned()) {
-                    SpellcraftDraw.redX(pose, x, y);
-                }
-            }
-            case SPELL -> {
-                SpellcraftDraw.ability(pose, icon, x, y, 16, slot.locked() ? 0.45F : 1.0F);
-                if (slot.locked()) {
-                    GuiComponent.fill(pose, x, y, x + 16, y + 16, BROKEN);
-                    GuiComponent.fill(pose, x + 5, y + 7, x + 11, y + 13, LOCK);
-                    GuiComponent.fill(pose, x + 6, y + 4, x + 7, y + 7, LOCK);
-                    GuiComponent.fill(pose, x + 9, y + 4, x + 10, y + 7, LOCK);
-                    GuiComponent.fill(pose, x + 6, y + 4, x + 10, y + 5, LOCK);
-                }
-                SpellcraftDraw.ring(pose, x - 1, y - 1, x + 17, y + 17, slot.implicit() ? IMPLICIT_RING : SpellcraftPalette.ARCANE_GLOW);
-                if (!slot.implicit()) {
-                    SpellcraftDraw.spellStar(pose, x, y);
-                }
-                if (slot.unlearned()) {
-                    SpellcraftDraw.redX(pose, x, y);
-                }
-            }
-            case HIDDEN -> {
-                SpellcraftDraw.ability(pose, icon, x, y, 16, 0.45F);
-                SpellcraftDraw.strike(pose, x, y);
-            }
-            case EMPTY -> {
-            }
-        }
-        if (slot.filled() && SpellCooldowns.blocking(this.host.tree(), slot.groups()) != null) {
-            GuiComponent.fill(pose, x, y, x + 16, y + 16, COOLING);
-        }
-    }
-
-    private static void drawBadge(SpellBarView.Slot slot, int x, int y) {
-        if (slot.state() != SpellBarView.State.SPELL || slot.itemKey().isEmpty()) {
-            return;
-        }
-        ItemStack stack = ClientSpellBar.stackOf(slot.itemKey());
-        if (stack.isEmpty()) {
-            return;
-        }
-        PoseStack modelView = RenderSystem.getModelViewStack();
-        modelView.pushPose();
-        modelView.translate(x + 16 - BADGE, y + 16 - BADGE, 250.0);
-        modelView.scale(0.5F, 0.5F, 1.0F);
-        RenderSystem.applyModelViewMatrix();
-        Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, 0, 0);
-        modelView.popPose();
-        RenderSystem.applyModelViewMatrix();
+    private void renderHead(PoseStack pose, Font font, int mouseX, int mouseY) {
+        String label = SpellcraftNames.tr(classic() ? "bar.mode_classic" : "bar.mode_slot");
+        SpellcraftDraw.button(pose, font, modeX(), modeY(), modeW(), MODE_H, label,
+                SpellcraftDraw.inside(mouseX, mouseY, modeX(), modeY(), modeW(), MODE_H), KEY_SCALE, false);
+        int last = Math.min(SpellcraftItemData.SLOTS, first() + VISIBLE);
+        String range = SpellcraftNames.tr("bar.scroll", first() + 1, last, SpellcraftItemData.SLOTS);
+        int x = modeX() + modeW() + TEXT_GAP;
+        int room = (int) ((this.x1 - 4 - x) / KEY_SCALE);
+        SpellcraftDraw.smallText(pose, font, font.plainSubstrByWidth(range, room), x, modeY() + 2, SpellcraftPalette.MUTED, KEY_SCALE);
     }
 
     public void renderOverlay(PoseStack pose, Screen screen, int mouseX, int mouseY) {
@@ -296,7 +286,7 @@ public final class SpellBarStrip {
         if (this.chooser.mouseClicked(mouseX, mouseY, button)) {
             return true;
         }
-        if (this.armedSlot >= 0 && button > 1) {
+        if (this.armedSlot >= 0 && button > 1 && bindMode()) {
             if (SlotKeyBinder.bindMouse(this.armedSlot, button)) {
                 this.armedSlot = -1;
             }
@@ -306,31 +296,40 @@ public final class SpellBarStrip {
             this.armedSlot = -1;
             return false;
         }
-        if (SpellcraftDraw.inside(mouseX, mouseY, pickX(0), this.y0 + PICK_Y, PICK, PICK)) {
+        if (SpellcraftDraw.inside(mouseX, mouseY, modeX(), modeY(), modeW(), MODE_H)) {
+            ModNetwork.sendToServer(new SpellBarModeMessage((classic() ? BarMode.SLOT : BarMode.CLASSIC).ordinal()));
+            this.bindMode = false;
+            this.armedSlot = -1;
+            SpellcraftDraw.click();
+            return true;
+        }
+        if (classic()) {
+            return true;
+        }
+        if (SpellcraftDraw.inside(mouseX, mouseY, pickX(0), pickY(), PICK, PICK)) {
             this.showEffective = false;
             SpellcraftDraw.click();
             return true;
         }
-        if (this.host.effectiveView() != null && SpellcraftDraw.inside(mouseX, mouseY, pickX(1), this.y0 + PICK_Y, PICK, PICK)) {
+        if (this.host.effectiveView() != null && SpellcraftDraw.inside(mouseX, mouseY, pickX(1), pickY(), PICK, PICK)) {
             this.showEffective = true;
             SpellcraftDraw.click();
             return true;
         }
-        if (SpellcraftDraw.inside(mouseX, mouseY, keysX(), this.y0 + 4, keysW(), KEYS_H)) {
+        if (SpellcraftDraw.inside(mouseX, mouseY, keysX(), rowY(), keysW(), KEYS_H)) {
             SpellcraftDraw.click();
             this.bindMode = !this.bindMode;
             this.armedSlot = -1;
             return true;
         }
-        for (int i = 0; i < SpellcraftItemData.SLOTS; i++) {
-            if (SpellcraftDraw.inside(mouseX, mouseY, slotX(this.x0, i), this.y0 + 4, 16, 16)) {
-                if (this.bindMode) {
-                    clickBindSlot(i, button);
-                } else {
-                    clickSlot(i, button);
-                }
-                return true;
+        int index = slotAt(mouseX, mouseY);
+        if (index >= 0) {
+            if (this.bindMode) {
+                clickBindSlot(index, button);
+            } else {
+                clickSlot(index, button);
             }
+            return true;
         }
         this.armedSlot = -1;
         return true;
@@ -349,7 +348,7 @@ public final class SpellBarStrip {
 
     /** While a slot is armed in bind mode, the pressed key becomes its bind. Returns true when the key was used. */
     public boolean keyPressed(int keyCode, int scanCode) {
-        if (this.armedSlot < 0) {
+        if (this.armedSlot < 0 || !bindMode()) {
             return false;
         }
         if (SlotKeyBinder.bindKey(this.armedSlot, keyCode, scanCode)) {
@@ -404,8 +403,16 @@ public final class SpellBarStrip {
         return -1;
     }
 
+    /** Scrolls the open chooser, or pages through the slots while the mouse is over the window. */
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        return this.chooser.mouseScrolled(delta);
+        if (this.chooser.mouseScrolled(delta)) {
+            return true;
+        }
+        if (this.view == null || !SpellcraftDraw.inside(mouseX, mouseY, this.x0, this.y0, this.x1 - this.x0, HEIGHT)) {
+            return false;
+        }
+        this.page = Math.max(0, Math.min(pages() - 1, this.page + (delta < 0 ? 1 : -1)));
+        return true;
     }
 
     public boolean popupOpen() {

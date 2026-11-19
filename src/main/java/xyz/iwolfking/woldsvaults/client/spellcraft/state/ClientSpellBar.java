@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
 
@@ -19,6 +20,7 @@ public final class ClientSpellBar {
     private static final List<SpellBarSyncMessage.Entry> ENTRIES = new ArrayList<>();
     private static final List<SpellBarSyncMessage.Source> SOURCES = new ArrayList<>();
     private static int selected;
+    private static BarMode mode = BarMode.CLASSIC;
     private static boolean synced;
 
     static {
@@ -35,6 +37,7 @@ public final class ClientSpellBar {
         SOURCES.clear();
         SOURCES.addAll(message.sources());
         selected = message.selected();
+        mode = message.mode();
         synced = true;
     }
 
@@ -63,6 +66,11 @@ public final class ClientSpellBar {
 
     public static int selected() {
         return selected;
+    }
+
+    /** The player's bar mode as last synced; classic mode until the first sync. */
+    public static BarMode mode() {
+        return mode;
     }
 
     public static List<SpellBarSyncMessage.Source> sources() {
@@ -121,6 +129,7 @@ public final class ClientSpellBar {
         ENTRIES.clear();
         SOURCES.clear();
         selected = 0;
+        mode = BarMode.CLASSIC;
         synced = false;
     }
 }

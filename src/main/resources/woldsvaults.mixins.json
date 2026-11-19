@@ -801,7 +801,8 @@
     "vaulthunters.ancient.MixinRuneBossObjectiveLootRank",
     "vaulthunters.accessors.AbilitiesGUIConfigLookupAccessor",
     "vhapi.MixinAbilitiesGUIConfigLoader",
-    "vaulthunters.custom.MixinProgressionCommand"
+    "vaulthunters.custom.MixinProgressionCommand",
+    "vaulthunters.accessors.AbilityQuickselectMessageAccessor"
   ],
   "client": [
     "vaulthunters.custom.MixinVaultGearTooltipItem",

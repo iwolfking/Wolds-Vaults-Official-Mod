@@ -1,10 +1,15 @@
 package xyz.iwolfking.woldsvaults.spellcraft.play;
 
+import iskallia.vault.skill.ability.effect.spi.core.Ability;
+import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
+import iskallia.vault.skill.ability.effect.spi.core.ToggleAbility;
+import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.SpellBarData;
 import xyz.iwolfking.woldsvaults.spellcraft.cast.SpellMessages;
@@ -17,18 +22,40 @@ public final class SpellBarInput {
     private SpellBarInput() {
     }
 
-    /** A spell slot key was pressed or released: select that slot, then cast it. */
+    /** A spell slot key was pressed or released: select that slot, then cast it. Ignored in classic mode. */
     public static void onSlotKey(ServerPlayer player, int index, boolean down) {
-        if (index < 0 || index >= SpellcraftItemData.SLOTS || player.isSpectator()) {
+        if (index < 0 || index >= SpellcraftItemData.SLOTS || player.isSpectator() || SpellBars.saved(player).mode != BarMode.SLOT) {
             return;
         }
-        EffectiveBar bar = SpellBars.refresh(player);
-        SpellBarData.PlayerBar saved = SpellBars.saved(player);
-        if (bar.slot(index).kind() != EffectiveBar.Kind.EMPTY && saved.selected != index) {
-            SpellBars.select(player, saved, index);
-            bar = SpellBars.refresh(player);
+        press(player, selectSlot(player, index), index, down, true);
+    }
+
+    /**
+     * A Vault Hunters quick-fire key in classic mode: casts the slot that casts the ability, the way Vault Hunters'
+     * quick-fire did. Instant and toggle abilities and spells without Charge act once on the press; hold abilities and
+     * Charge spells get the press and the release. Ignored in slot mode.
+     */
+    public static void onQuickfire(ServerPlayer player, String group, boolean down) {
+        if (player.isSpectator() || SpellBars.saved(player).mode != BarMode.CLASSIC) {
+            return;
         }
-        press(player, bar, index, down);
+        Skill skill = AbilityLookup.tree(player).getForId(group).orElse(null);
+        if (!(skill instanceof SpecializedSkill specialized) || !specialized.isUnlocked()) {
+            return;
+        }
+        int index = SpellBars.refresh(player).slotOf(group);
+        if (index < 0) {
+            if (down) {
+                SpellMessages.show(player, AbilityLookup.groupName(group) + " isn't on your spell bar");
+            }
+            return;
+        }
+        EffectiveBar bar = selectSlot(player, index);
+        if (!actsOnPress(player, bar.slot(index))) {
+            press(player, bar, index, down, false);
+        } else if (down) {
+            press(player, bar, index, false, false);
+        }
     }
 
     /** VH's cast key: casts the selected slot. Returns true when handled (VH's own handling is skipped). */
@@ -37,8 +64,27 @@ public final class SpellBarInput {
             return false;
         }
         EffectiveBar bar = SpellBars.refresh(player);
-        press(player, bar, SpellBars.saved(player).selected, down);
+        SpellBarData.PlayerBar saved = SpellBars.saved(player);
+        press(player, bar, saved.selected, down, saved.mode == BarMode.SLOT);
         return true;
+    }
+
+    private static EffectiveBar selectSlot(ServerPlayer player, int index) {
+        EffectiveBar bar = SpellBars.refresh(player);
+        SpellBarData.PlayerBar saved = SpellBars.saved(player);
+        if (bar.slot(index).kind() != EffectiveBar.Kind.EMPTY && saved.selected != index) {
+            SpellBars.select(player, saved, index);
+            bar = SpellBars.refresh(player);
+        }
+        return bar;
+    }
+
+    private static boolean actsOnPress(ServerPlayer player, EffectiveBar.Slot slot) {
+        if (slot.kind() == EffectiveBar.Kind.SPELL) {
+            return !SpellTrigger.charges(slot);
+        }
+        Ability trigger = AbilityLookup.ability(AbilityLookup.tree(player), slot.group());
+        return trigger instanceof InstantAbility || trigger instanceof ToggleAbility;
     }
 
     /**
@@ -79,9 +125,9 @@ public final class SpellBarInput {
         SpellBars.refresh(player);
     }
 
-    private static void press(ServerPlayer player, EffectiveBar bar, int index, boolean down) {
+    private static void press(ServerPlayer player, EffectiveBar bar, int index, boolean down, boolean repeat) {
         EffectiveBar.Slot slot = bar.slot(index);
-        if (slot.kind() != EffectiveBar.Kind.EMPTY && HeldSlots.repeats(player, slot)) {
+        if (repeat && slot.kind() != EffectiveBar.Kind.EMPTY && HeldSlots.repeats(player, slot)) {
             Map<Integer, Integer> held = HeldSlots.held(player);
             if (down) {
                 castOnce(player, bar, slot);
