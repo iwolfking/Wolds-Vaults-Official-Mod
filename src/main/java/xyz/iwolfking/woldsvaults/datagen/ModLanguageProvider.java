@@ -767,6 +767,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("jei.the_vault.treasure_chest_velara_map_loot", "Treasure Chest (Velara - Map)");
         add("jei.the_vault.trove_sand_loot", "Trove Sand");
         add("jei.the_vault.trove_sand_map_loot", "Trove Sand (Map)");
+        add("jei.the_vault.cardboard_box_loot", "Cardboard Box");
+        add("jei.the_vault.cardboard_box_dull_loot", "Cardboard Box (Dull)");
+        add("jei.the_vault.haunted_brazier_pillage_loot", "Haunted Brazier Pillaging");
+        add("jei.the_vault.treasure_pillar_loot", "Treasure Pillar");
+        GreedStageLootInfo.ENTRIES.forEach(entry -> add("jei.the_vault." + entry.group() + "_loot", entry.title()));
         add("jei.woldsvaults.trinket_fusion", "Trinket Fusion Forge");
         add("item.the_vault.gem_iskallium", "§5Woldium Gem");
         add("item.the_vault.key_iskallium", "§5Woldium Key");

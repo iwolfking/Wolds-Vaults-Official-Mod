@@ -642,6 +642,7 @@
     "vaulthunters.gods.MixinAttributeSnapshotCalculatorGods",
     "vaulthunters.gods.MixinAttributeSnapshotMultipliers",
     "vaulthunters.gods.MixinClassicListenersLogicMythicCharm",
+    "vaulthunters.gods.MixinGodAltarTaskKeepReputation",
     "vaulthunters.gods.MixinGodCharmRollHelperPiety",
     "vaulthunters.gods.MixinGreedCauldronBlockSacrifice",
     "vaulthunters.gods.MixinGreedCauldronSideInputSacrifice",
