@@ -23,9 +23,14 @@ import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphStacking;
 import xyz.iwolfking.woldsvaults.spellcraft.play.SpellCooldowns;
+import xyz.iwolfking.woldsvaults.spellcraft.spell.PlacedGlyph;
+import xyz.iwolfking.woldsvaults.spellcraft.spell.SpellModel;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 final class SlotTooltip {
     private static final int WRAP = 200;
@@ -105,6 +110,10 @@ final class SlotTooltip {
                 lines.add(spellTitle(tree, slot.groups()));
                 if (slot.implicit()) {
                     lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.implicit"), StripArt.IMPLICIT_RING));
+                    String names = activeGlyphNames(slot.model());
+                    if (!names.isEmpty()) {
+                        wrapped(lines, SpellcraftNames.tr("bar.implicit_glyphs", names), StripArt.IMPLICIT_RING);
+                    }
                 } else if (!slot.sourceName().isEmpty()) {
                     lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.source", slot.sourceName(), slot.prio()), SpellcraftPalette.GREY));
                 }
@@ -175,6 +184,19 @@ final class SlotTooltip {
         }
         wrapped(lines, hint, SpellcraftPalette.DARK);
         return lines;
+    }
+
+    /** The display names of a spell's active glyphs, each once, in token order. */
+    private static String activeGlyphNames(@Nullable SpellModel model) {
+        Set<String> names = new LinkedHashSet<>();
+        if (model != null) {
+            for (PlacedGlyph glyph : model.glyphs()) {
+                if (glyph.active()) {
+                    names.add(glyph.type().displayName());
+                }
+            }
+        }
+        return String.join(", ", names);
     }
 
     private static Component spellTitle(AbilityTree tree, List<String> groups) {

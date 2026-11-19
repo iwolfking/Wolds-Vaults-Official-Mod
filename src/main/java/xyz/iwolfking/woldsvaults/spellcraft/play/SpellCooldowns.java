@@ -35,16 +35,18 @@ public final class SpellCooldowns {
     }
 
     /**
-     * VH is about to start an ability's cooldown. Returns true when the spell bar handles it instead: inside a slot
-     * cast (the trigger starts the slot cooldown, every other step starts none), or for an ability that sits in an
-     * spell slot (deferred cooldowns such as a toggle switching off).
+     * VH is about to start an ability's cooldown. Returns true when the spell bar handles it instead: the cooldown of a
+     * slot cast step's own ability (the trigger starts the slot cooldown, every other step starts none), or of an
+     * ability that sits in a spell slot of the bar as it is now (deferred cooldowns such as a toggle switching off).
+     * Another ability's cooldown starting inside a step is treated as outside the cast.
      */
     public static boolean onPutOnCooldown(Ability ability, int delayTicks, SkillContext context) {
         ServerPlayer player = context.getSource().as(ServerPlayer.class).orElse(null);
         if (player == null) {
             return false;
         }
-        CastBilling billing = CastScope.billing(player);
+        CastScope.Active scope = CastScope.forRead(player, ability);
+        CastBilling billing = scope == null ? null : scope.billing();
         if (billing != null) {
             if (billing.isTrigger() && billing.slot() != null && billing.triggerSpec() != null
                     && billing.triggerSpec().equals(AbilityLookup.specId(ability))) {
@@ -56,8 +58,8 @@ public final class SpellCooldowns {
         if (group == null) {
             return false;
         }
-        EffectiveBar bar = SpellBars.current(player);
-        int index = bar == null ? -1 : bar.slotOf(group);
+        EffectiveBar bar = SpellBars.resolve(player);
+        int index = bar.slotOf(group);
         if (index < 0 || bar.slot(index).kind() != EffectiveBar.Kind.SPELL) {
             return false;
         }

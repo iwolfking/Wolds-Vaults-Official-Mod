@@ -1881,6 +1881,7 @@
   "woldsvaults.spellcraft.bar.hint_default": "Click: put %s here. Right-click: clear",
   "woldsvaults.spellcraft.bar.hint_item": "Read-only: set a spell's slot and priority in its focus screen",
   "woldsvaults.spellcraft.bar.implicit": "Implicit: auto glyphs from your gear",
+  "woldsvaults.spellcraft.bar.implicit_glyphs": "Glyphs from your gear: %s",
   "woldsvaults.spellcraft.bar.inactive_glyph": "%s inactive: %s",
   "woldsvaults.spellcraft.bar.item": "Equipped bar",
   "woldsvaults.spellcraft.bar.key": "Slot %s, bind: %s",

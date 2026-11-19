@@ -446,6 +446,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("woldsvaults.spellcraft.bar.hint_choose", "Click: choose an ability. Right-click: clear");
         add("woldsvaults.spellcraft.bar.hint_item", "Read-only: set a spell's slot and priority in its focus screen");
         add("woldsvaults.spellcraft.bar.implicit", "Implicit: auto glyphs from your gear");
+        add("woldsvaults.spellcraft.bar.implicit_glyphs", "Glyphs from your gear: %s");
         add("woldsvaults.spellcraft.bar.source", "From %s, priority %s");
         add("woldsvaults.spellcraft.bar.locked", "Locked: %s");
         add("woldsvaults.spellcraft.bar.shadowed", "Shadowed: %s");

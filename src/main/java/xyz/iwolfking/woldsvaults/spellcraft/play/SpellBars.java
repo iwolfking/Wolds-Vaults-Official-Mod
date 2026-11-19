@@ -5,10 +5,12 @@ import iskallia.vault.skill.base.SkillContext;
 import iskallia.vault.skill.base.SpecializedSkill;
 import iskallia.vault.skill.tree.AbilityTree;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.PacketDistributor;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
@@ -68,11 +70,7 @@ public final class SpellBars {
     public static EffectiveBar refresh(ServerPlayer player) {
         SpellBarData.PlayerBar saved = saved(player);
         AbilityTree tree = AbilityLookup.tree(player);
-        if (!saved.migrated) {
-            DefaultBar.migrate(player, saved, tree);
-        }
-        String[] base = saved.mode == BarMode.CLASSIC ? DefaultBar.classic(player, tree) : saved.defaults;
-        EffectiveBar bar = EffectiveBar.forPlayer(player, base, saved.mode, AbilityLookup.specOf(tree));
+        EffectiveBar bar = resolve(player, saved, tree);
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         String[] keys = new String[SpellcraftItemData.SLOTS];
         for (int i = 0; i < keys.length; i++) {
@@ -99,9 +97,22 @@ public final class SpellBars {
     }
 
     /**
-     * Switches the player between classic mode and slot mode. Held slot keys stop recasting, since their release
-     * would be ignored in classic mode.
+     * The player's effective bar resolved now, without touching held keys, the selection, the tree or the client. Use
+     * it where {@link #current} may still hold the bar from before an equipment change.
      */
+    public static EffectiveBar resolve(ServerPlayer player) {
+        return resolve(player, saved(player), AbilityLookup.tree(player));
+    }
+
+    private static EffectiveBar resolve(ServerPlayer player, SpellBarData.PlayerBar saved, AbilityTree tree) {
+        if (!saved.migrated) {
+            DefaultBar.migrate(player, saved, tree);
+        }
+        String[] base = saved.mode == BarMode.CLASSIC ? DefaultBar.classic(player, tree) : saved.defaults;
+        return EffectiveBar.forPlayer(player, base, saved.mode, AbilityLookup.specOf(tree));
+    }
+
+    /** Switches the player between classic mode and slot mode, ending every held key first. */
     public static void setMode(ServerPlayer player, BarMode mode) {
         SpellBarData.PlayerBar saved = saved(player);
         if (saved.mode == mode) {
@@ -109,7 +120,7 @@ public final class SpellBars {
         }
         saved.mode = mode;
         SpellBarData.get(player.getServer()).setDirty();
-        HeldSlots.forget(player.getUUID());
+        SpellBarInput.releaseAll(player);
         refresh(player);
     }
 
@@ -146,11 +157,46 @@ public final class SpellBars {
         }
     }
 
+    /**
+     * Ends every held key, Charge and hold ability of a player who leaves, dies, respawns or changes dimension. Logs an
+     * error when any was still open, since its key's release will never be matched.
+     */
+    private static void endHeldKeys(ServerPlayer player, String reason) {
+        int open = SpellBarInput.cancelAll(player);
+        if (open > 0) {
+            WoldLogger.error("Spellcraft: {} still held {} spell key press(es), charges or hold abilities on {}; ended them",
+                    player.getScoreboardName(), open, reason);
+        }
+    }
+
     @SubscribeEvent
     public static void onLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        HeldSlots.forget(event.getPlayer().getUUID());
+        if (event.getPlayer() instanceof ServerPlayer player) {
+            endHeldKeys(player, "logout");
+        }
         StatMirror.forget(event.getPlayer().getUUID());
         STATES.remove(event.getPlayer().getUUID());
+    }
+
+    @SubscribeEvent
+    public static void onDeath(LivingDeathEvent event) {
+        if (event.getEntityLiving() instanceof ServerPlayer player) {
+            endHeldKeys(player, "death");
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (event.getPlayer() instanceof ServerPlayer player) {
+            endHeldKeys(player, "respawn");
+        }
+    }
+
+    @SubscribeEvent
+    public static void onChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getPlayer() instanceof ServerPlayer player) {
+            endHeldKeys(player, "dimension change");
+        }
     }
 
     @SubscribeEvent

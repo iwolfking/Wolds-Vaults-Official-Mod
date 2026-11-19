@@ -42,7 +42,16 @@ public abstract class MixinAbilityTreeSpellBar {
         }
     }
 
-    /** Scrolling with the cast key held moves through filled spell slots. */
+    /** VH's cancel key cancels every held spell key, Charge and hold ability before VH cancels the selected ability. */
+    @Inject(method = "onCancelKeyDown", at = @At("HEAD"))
+    private void woldsvaults$cancelHeldKeys(SkillContext context, CallbackInfo ci) {
+        ServerPlayer player = context.getSource().as(ServerPlayer.class).orElse(null);
+        if (player != null && !SpellBars.isDispatching()) {
+            SpellBarInput.cancelAll(player);
+        }
+    }
+
+    /** Scrolling with the cast key held ends every held key and moves through filled spell slots. */
     @Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$slotScroll(int delta, SkillContext context, CallbackInfo ci) {
         ServerPlayer player = context.getSource().as(ServerPlayer.class).orElse(null);
