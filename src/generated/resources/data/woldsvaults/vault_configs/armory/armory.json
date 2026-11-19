@@ -7,6 +7,11 @@
       "store": "BACKPACK"
     },
     {
+      "namespace": "woldsvaults",
+      "key": "contentsUuid",
+      "store": "BACKPACK"
+    },
+    {
       "namespace": "sophisticatedstorage",
       "key": "uuid",
       "store": "STORAGE_ITEM"

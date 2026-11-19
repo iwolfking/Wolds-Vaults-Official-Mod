@@ -28,6 +28,7 @@ public class ModArmoryProvider extends AbstractWoldsTableProvider {
         table.contentsLimitKb = 128;
         table.linkedItems = List.of(
                 new LinkedItem("sophisticatedbackpacks", "contentsUuid", Store.BACKPACK),
+                new LinkedItem("woldsvaults", "contentsUuid", Store.BACKPACK),
                 new LinkedItem("sophisticatedstorage", "uuid", Store.STORAGE_ITEM),
                 new LinkedItem("sophisticatedvault", "uuid", Store.STORAGE_ITEM),
                 new LinkedItem("refinedstorage", "Id", Store.NONE),
