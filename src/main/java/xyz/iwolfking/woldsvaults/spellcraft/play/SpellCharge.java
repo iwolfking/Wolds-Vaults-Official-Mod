@@ -3,8 +3,6 @@ package xyz.iwolfking.woldsvaults.spellcraft.play;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
@@ -17,8 +15,8 @@ import java.util.UUID;
 /**
  * Charge: holding a slot key whose spell has Charge winds it up over the table's fixed charge time, like drawing a bow,
  * while the player uses the spell's item so every client shows the bow pose. Releasing reports how full it got. The
- * charge belongs to the slot's occupant and ends without casting when the occupant changes, and on death, logout or
- * dimension change.
+ * charge belongs to the slot's occupant and ends without casting when the occupant changes, and when the player's held
+ * keys are ended ({@link SpellBarInput#cancelAll}, {@link SpellBarInput#releaseAll}).
  */
 public final class SpellCharge {
     private static final Map<UUID, Charging> CHARGING = new HashMap<>();
@@ -51,11 +49,17 @@ public final class SpellCharge {
         return Math.min(1.0F, charging.held()[0] / (float) charging.fullTicks());
     }
 
-    private static void stop(ServerPlayer player) {
+    /** Ends any charge of the player without casting and returns whether one was running. */
+    static boolean cancel(ServerPlayer player) {
+        return stop(player);
+    }
+
+    private static boolean stop(ServerPlayer player) {
         Charging charging = CHARGING.remove(player.getUUID());
         if (charging != null && player.isUsingItem() && player.getUsedItemHand() == charging.hand()) {
             player.stopUsingItem();
         }
+        return charging != null;
     }
 
     @SubscribeEvent
@@ -76,27 +80,6 @@ public final class SpellCharge {
         SpellParticles.chargeRing(player, held, held / (float) charging.fullTicks());
         if (held == charging.fullTicks()) {
             SpellParticles.chargeFull(player);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getPlayer() instanceof ServerPlayer player) {
-            stop(player);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getPlayer() instanceof ServerPlayer player) {
-            stop(player);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onDeath(LivingDeathEvent event) {
-        if (event.getEntityLiving() instanceof ServerPlayer player) {
-            stop(player);
         }
     }
 

@@ -96,7 +96,7 @@ final class SlotChooser {
         w = Math.min(w, screen.width - 8);
         int top = 14;
         int rows = Math.min(this.popup.size(), Math.min(POPUP_MAX_ROWS, (this.strip.y0() - 4 - top) / POPUP_ROW));
-        int x = Math.max(4, Math.min(screen.width - w - 4, SpellBarStrip.slotX(this.strip.x0(), this.popupSlot) - 2));
+        int x = Math.max(4, Math.min(screen.width - w - 4, this.strip.slotX(this.popupSlot) - 2));
         int y = this.strip.y0() - 4 - rows * POPUP_ROW;
         return new int[]{x, y, w, Math.max(1, rows)};
     }

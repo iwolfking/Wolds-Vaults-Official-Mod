@@ -50,7 +50,7 @@ public abstract class MixinVaultStormArrowTracking extends AbstractArrow {
         }
         GlyphGrants.Grant tracking = ConvertedAffixes.carried(this, player).get(GlyphType.STORM_TRACKING);
         if (tracking == null) {
-            tracking = ConvertedAffixes.grant(player, GlyphType.STORM_TRACKING);
+            tracking = ConvertedAffixes.grant(player, null, GlyphType.STORM_TRACKING);
         }
         if (tracking == null) {
             return;

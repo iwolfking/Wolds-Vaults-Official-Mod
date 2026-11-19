@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.gui.StatText;
 import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.SlotCostStats;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.spellcraft.item.StoredSpell;
 import xyz.iwolfking.woldsvaults.spellcraft.spell.SpellModel;
@@ -161,7 +162,8 @@ final class StatsPanel {
                 }
                 case PRIORITY -> value = "";
             }
-            StatColumn.Line line = StatColumn.Line.row(SpellcraftNames.tr(row.key), value, color, base);
+            String label = row == StatRow.SLOT && classic() ? "screen.stat.active" : row.key;
+            StatColumn.Line line = StatColumn.Line.row(SpellcraftNames.tr(label), value, color, base);
             this.rowOf.put(line, row);
             lines.add(line);
         }
@@ -205,7 +207,14 @@ final class StatsPanel {
         if (stored == null) {
             return "-";
         }
+        if (classic()) {
+            return SpellcraftNames.tr(stored.assigned() ? "screen.active_on" : "screen.active_off");
+        }
         return stored.assigned() ? String.valueOf(stored.slot() + 1) : SpellcraftNames.tr("screen.slot_none");
+    }
+
+    private static boolean classic() {
+        return ClientSpellBar.mode() == BarMode.CLASSIC;
     }
 
     /** The default-bar slots this spell would hide: the slots other than its own that hold an ability it casts. */
@@ -260,13 +269,15 @@ final class StatsPanel {
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.place_unsaved"), SpellcraftPalette.GREY));
             return lines;
         }
-        String hint = SpellcraftNames.tr(slot ? "screen.slot_hint" : "screen.priority_hint");
+        String hint = SpellcraftNames.tr(!slot ? "screen.priority_hint" : classic() ? "screen.active_hint" : "screen.slot_hint");
         this.screen.font().getSplitter().splitLines(hint, TOOLTIP_WRAP, Style.EMPTY)
                 .forEach(line -> lines.add(SpellcraftNames.colored(line.getString(), SpellcraftPalette.WHITE)));
         if (ClientSpellBar.source(SpellcraftItemData.key(this.drafts.stack())) == null) {
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.not_equipped"), SpellcraftPalette.BAD));
         }
-        if (slot) {
+        if (slot && classic()) {
+            lines.add(new TextComponent(SpellcraftNames.tr("screen.toggle_hint")).withStyle(ChatFormatting.DARK_GRAY));
+        } else if (slot) {
             SpellModel model = check == null ? null : check.models().get(draft.id > 0 ? draft.id : StoredSpell.UNSAVED_ID);
             if (model != null) {
                 lines.add(SpellcraftNames.colored(SpellcraftNames.tr("screen.stat.hides") + ": " + hides(this.screen.tree(), draft, model), HIDES_TEXT));
@@ -278,7 +289,11 @@ final class StatsPanel {
 
     boolean mouseClicked(double mouseX, double mouseY, int button) {
         StatRow row = rowAt(mouseX, mouseY);
-        if (row == StatRow.SLOT && (button == 0 || button == 1)) {
+        if (row == StatRow.SLOT && classic() && button == 0) {
+            this.drafts.toggleActive();
+            return true;
+        }
+        if (row == StatRow.SLOT && !classic() && (button == 0 || button == 1)) {
             this.drafts.stepPlacement(true, button == 0 ? 1 : -1);
             return true;
         }
@@ -297,6 +312,9 @@ final class StatsPanel {
 
     boolean mouseScrolled(double mouseX, double mouseY, int step) {
         StatRow row = rowAt(mouseX, mouseY);
+        if (row == StatRow.SLOT && classic()) {
+            return true;
+        }
         if (row == StatRow.SLOT || row == StatRow.PRIORITY) {
             this.drafts.stepPlacement(row == StatRow.SLOT, -step);
             return true;

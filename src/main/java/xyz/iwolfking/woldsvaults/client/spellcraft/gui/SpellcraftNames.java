@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 public final class SpellcraftNames {
     private static final String LANG = "woldsvaults.spellcraft.";
@@ -27,7 +28,30 @@ public final class SpellcraftNames {
     }
 
     public static String keyLabel(int slot, Font font, int room) {
-        KeyMapping key = ModKeybinds.spellSlots[slot];
+        return label(ModKeybinds.spellSlots[slot], font, room);
+    }
+
+    public static String keyName(int slot) {
+        return name(ModKeybinds.spellSlots[slot]);
+    }
+
+    /** The short label of an ability group's Vault Hunters quick-fire key, cut to {@code room}, or empty when unbound. */
+    public static String quickfireLabel(String group, Font font, int room) {
+        return label(quickfire(group), font, room);
+    }
+
+    /** The name of an ability group's Vault Hunters quick-fire key, or empty when unbound. */
+    public static String quickfireName(String group) {
+        return name(quickfire(group));
+    }
+
+    @Nullable
+    private static KeyMapping quickfire(String group) {
+        Map<String, KeyMapping> keys = iskallia.vault.init.ModKeybinds.abilityQuickfireKey;
+        return keys == null || group.isEmpty() ? null : keys.get(group);
+    }
+
+    private static String label(@Nullable KeyMapping key, Font font, int room) {
         if (key == null || key.isUnbound()) {
             return "";
         }
@@ -37,8 +61,7 @@ public final class SpellcraftNames {
         return font.plainSubstrByWidth(label, room);
     }
 
-    public static String keyName(int slot) {
-        KeyMapping key = ModKeybinds.spellSlots[slot];
+    private static String name(@Nullable KeyMapping key) {
         if (key == null || key.isUnbound()) {
             return "";
         }

@@ -285,6 +285,32 @@ final class SpellDrafts {
         SpellcraftDraw.click();
     }
 
+    /**
+     * Turns the selected spell on or off in classic mode. On writes the first bar slot no other spell of this item
+     * holds (slot 1 when every slot is taken), so the spell keeps a real slot in slot mode; off unassigns it.
+     */
+    void toggleActive() {
+        StoredSpell stored = stored(draft());
+        if (stored == null) {
+            return;
+        }
+        int slot = SpellcraftItemData.UNASSIGNED;
+        if (!stored.assigned()) {
+            Set<Integer> taken = new HashSet<>();
+            SpellcraftItemData.spells(stack()).stream().filter(spell -> spell.id() != stored.id() && spell.assigned())
+                    .forEach(spell -> taken.add(spell.slot()));
+            slot = 0;
+            while (slot < SpellcraftItemData.SLOTS && taken.contains(slot)) {
+                slot++;
+            }
+            if (slot == SpellcraftItemData.SLOTS) {
+                slot = 0;
+            }
+        }
+        ModNetwork.sendToServer(new SpellPlaceMessage(this.inventorySlot, stored.id(), slot, 0));
+        SpellcraftDraw.click();
+    }
+
     void setPriority(int priority) {
         SpellcraftConfig config = ModConfigs.SPELLCRAFT;
         StoredSpell stored = stored(draft());

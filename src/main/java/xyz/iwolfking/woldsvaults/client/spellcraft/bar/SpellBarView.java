@@ -12,6 +12,7 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarEditMessage;
 import xyz.iwolfking.woldsvaults.network.packets.SpellBarSyncMessage;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 import xyz.iwolfking.woldsvaults.spellcraft.bar.EffectiveBar;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphType;
 import xyz.iwolfking.woldsvaults.spellcraft.item.GlyphLine;
@@ -75,12 +76,12 @@ public final class SpellBarView {
     }
 
     /**
-     * The effective bar as the server last synced it, or null before the first sync or when no item lays a spell over
-     * it.
+     * The effective bar as the server last synced it, or null before the first sync, or in slot mode when no item lays
+     * a spell over it. In classic mode it is the bar itself, so it is shown even without spells.
      */
     @Nullable
     public static SpellBarView ofSynced(AbilityTree tree) {
-        if (!ClientSpellBar.isSynced() || !ClientSpellBar.hasOverlays()) {
+        if (!ClientSpellBar.isSynced() || (ClientSpellBar.mode() == BarMode.SLOT && !ClientSpellBar.hasOverlays())) {
             return null;
         }
         Slot[] slots = new Slot[SpellcraftItemData.SLOTS];

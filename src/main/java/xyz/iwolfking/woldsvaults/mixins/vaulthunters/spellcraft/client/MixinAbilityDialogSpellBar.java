@@ -21,11 +21,13 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.bar.SpellBarView;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftNames;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftPalette;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.StatText;
+import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
 import xyz.iwolfking.woldsvaults.client.spellcraft.stats.SlotCostStats;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.AbstractDialogAccessor;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 
 import java.awt.Rectangle;
 
@@ -43,8 +45,8 @@ public class MixinAbilityDialogSpellBar {
     @Unique private int woldsvaults$slotColor;
 
     /**
-     * Adds a third line to Vault Hunters' ability dialog heading: the ability's slot and key on the shown spell bar,
-     * then mana and cooldown when they fit. It is worked out before the heading draws so the name lines can be raised
+     * Adds a third line to Vault Hunters' ability dialog heading: the ability's slot and key on the shown spell bar (in
+     * classic mode its quick-fire key), then mana and cooldown when they fit. It is worked out before the heading draws so the name lines can be raised
      * for it.
      */
     @Inject(method = "renderHeading", at = @At("HEAD"))
@@ -64,12 +66,15 @@ public class MixinAbilityDialogSpellBar {
         int slot = view.slotOf(group);
         Font font = Minecraft.getInstance().font;
         String head = null;
-        if (slot >= 0) {
+        if (slot >= 0 && ClientSpellBar.mode() == BarMode.CLASSIC) {
+            String key = SpellcraftNames.quickfireLabel(group, font, 30);
+            head = key.isEmpty() ? SpellcraftNames.tr("dialog.no_quickfire_key") : SpellcraftNames.tr("dialog.quickfire_key", key);
+        } else if (slot >= 0) {
             String key = SpellcraftNames.keyLabel(slot, font, 30);
             head = key.isEmpty() ? SpellcraftNames.tr("dialog.slot", slot + 1) : SpellcraftNames.tr("dialog.slot_key", slot + 1, key);
-            if (view.slot(slot).state() == SpellBarView.State.SPELL) {
-                head = SpellcraftNames.tr("dialog.slot_spell", head, view.slot(slot).spellName());
-            }
+        }
+        if (slot >= 0 && view.slot(slot).state() == SpellBarView.State.SPELL) {
+            head = SpellcraftNames.tr("dialog.slot_spell", head, view.slot(slot).spellName());
         }
         String numbers = null;
         if (this.selectedAbility.equals(AbilityLookup.specOf(this.abilityTree).apply(group))) {
@@ -100,7 +105,8 @@ public class MixinAbilityDialogSpellBar {
             return;
         }
         this.woldsvaults$slotLine = font.plainSubstrByWidth(line, room);
-        this.woldsvaults$slotColor = slot >= 0 && view.isEffective() ? SpellcraftPalette.ARCANE_GLOW : SpellcraftPalette.WHITE;
+        boolean spell = slot >= 0 && (ClientSpellBar.mode() == BarMode.SLOT || view.slot(slot).state() == SpellBarView.State.SPELL);
+        this.woldsvaults$slotColor = spell && view.isEffective() ? SpellcraftPalette.ARCANE_GLOW : SpellcraftPalette.WHITE;
     }
 
     /** Raises Vault Hunters' name and level lines to make room for the third line. */

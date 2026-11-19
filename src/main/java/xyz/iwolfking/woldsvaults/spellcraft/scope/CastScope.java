@@ -1,7 +1,9 @@
 package xyz.iwolfking.woldsvaults.spellcraft.scope;
 
+import iskallia.vault.skill.base.Skill;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import xyz.iwolfking.woldsvaults.spellcraft.ability.AbilityLookup;
 import xyz.iwolfking.woldsvaults.spellcraft.ability.CastOrigin;
 
 import javax.annotation.Nullable;
@@ -39,6 +41,16 @@ public final class CastScope {
     @Nullable
     public static Active forPlayer(@Nullable Entity player) {
         return current != null && current.player() == player ? current : null;
+    }
+
+    /**
+     * The scope open for this player when {@code reader}, the skill whose value is being read, is the step's own
+     * ability; null outside a scope, for a read that names no skill, and for any other skill's read inside the step.
+     */
+    @Nullable
+    public static Active forRead(@Nullable Entity player, @Nullable Skill reader) {
+        Active scope = forPlayer(player);
+        return scope != null && AbilityLookup.belongsTo(reader, scope.spec()) ? scope : null;
     }
 
     /** The billing of the scope open for this player, or null outside a slot cast. */

@@ -27,7 +27,7 @@ import java.util.Set;
  * slots and the rest dropped with one warning per item, and the next edit writes the current form.
  */
 public final class SpellcraftItemData {
-    public static final int SLOTS = 16;
+    public static final int SLOTS = 32;
     public static final String ROOT = "woldsvaults_spellcraft";
     public static final int UNASSIGNED = -1;
     private static final String LEGACY_BAR = "bar";

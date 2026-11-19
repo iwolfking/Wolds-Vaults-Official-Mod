@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.skill.ability.effect.DashWarpAbility;
+import iskallia.vault.skill.base.Skill;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +24,7 @@ public abstract class MixinDashWarpAbilityGlyphs {
             at = @At(value = "INVOKE", target = "Liskallia/vault/snapshot/AttributeSnapshot;getAttributeValue(Liskallia/vault/gear/attribute/VaultGearAttribute;Liskallia/vault/gear/attribute/type/VaultGearAttributeTypeMerger;)Ljava/lang/Object;"))
     private Object woldsvaults$warpVelocity(AttributeSnapshot snapshot, VaultGearAttribute attribute, VaultGearAttributeTypeMerger merger,
                                             Operation<Object> original, @Local(argsOnly = true) ServerPlayer player) {
-        GlyphGrants.Grant grant = ConvertedAffixes.grant(player, GlyphType.WARP_VELOCITY);
+        GlyphGrants.Grant grant = ConvertedAffixes.grant(player, (Skill) (Object) this, GlyphType.WARP_VELOCITY);
         return grant == null ? 0.0F : grant.potency();
     }
 }

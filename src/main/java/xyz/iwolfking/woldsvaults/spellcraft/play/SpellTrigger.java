@@ -50,8 +50,7 @@ final class SpellTrigger {
             }
             return;
         }
-        boolean charges = model.hasCharge() && !slot.implicit() && slot.hand() != null;
-        if (!charges) {
+        if (!charges(slot)) {
             if (!down && ready(player, slot)) {
                 SpellCaster.castSlot(player, slot, -1.0F);
             }
@@ -67,6 +66,11 @@ final class SpellTrigger {
                 SpellCaster.castSlot(player, slot, share);
             }
         }
+    }
+
+    /** Whether the slot's spell winds up while its key is held: a Charge spell from an item in hand. */
+    static boolean charges(EffectiveBar.Slot slot) {
+        return slot.model() != null && slot.model().hasCharge() && !slot.implicit() && slot.hand() != null;
     }
 
     private static boolean ready(ServerPlayer player, EffectiveBar.Slot slot) {

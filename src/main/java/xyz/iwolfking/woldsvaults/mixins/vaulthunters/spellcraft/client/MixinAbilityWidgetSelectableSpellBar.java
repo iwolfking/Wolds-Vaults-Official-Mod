@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.client.spellcraft.bar.SkillMenuSpellBar;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftDraw;
 import xyz.iwolfking.woldsvaults.client.spellcraft.gui.SpellcraftPalette;
+import xyz.iwolfking.woldsvaults.client.spellcraft.state.ClientSpellBar;
+import xyz.iwolfking.woldsvaults.spellcraft.bar.BarMode;
 
 @Mixin(value = AbilityWidgetSelectable.class, remap = false)
 public class MixinAbilityWidgetSelectableSpellBar {
@@ -22,13 +24,14 @@ public class MixinAbilityWidgetSelectableSpellBar {
     private static final float TAG_SCALE = 0.5F;
 
     /**
-     * Tags an ability's base node in Vault Hunters' tree with its slot number on the bar the skill menu shows. Text
+     * Tags an ability's base node in Vault Hunters' tree with its slot number on the bar the skill menu shows, in slot
+     * mode only. Text
      * drawing leaves the depth test off, so it is turned back on or later lines draw over the nodes.
      */
     @Inject(method = "render", at = @At("TAIL"), remap = true)
     private void woldsvaults$slotTag(PoseStack poseStack, int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         SkillMenuSpellBar menu = SkillMenuSpellBar.current();
-        if (menu == null || !SkillMenuSpellBar.isRenderingTree()) {
+        if (menu == null || !SkillMenuSpellBar.isRenderingTree() || ClientSpellBar.mode() == BarMode.CLASSIC) {
             return;
         }
         AbilityWidget widget = (AbilityWidget) (Object) this;

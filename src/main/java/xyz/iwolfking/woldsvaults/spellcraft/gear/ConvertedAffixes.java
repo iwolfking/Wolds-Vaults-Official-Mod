@@ -68,10 +68,24 @@ public final class ConvertedAffixes {
     }
 
     /**
-     * The unique glyphs in effect for an entity's ability reads: the open cast scope's step, else the deferred scope of
-     * one of its spell steps, else the toggles a spell switched on. Clients and other entities get none.
+     * The unique glyphs in effect for a read by {@code reader}, the skill whose value is read: the open cast scope's
+     * step when the reader is that step's ability, else the deferred scope of one of its spell steps, else the toggles a
+     * spell switched on. Clients and other entities get none.
      */
-    public static GlyphGrants grants(@Nullable Entity holder) {
+    public static GlyphGrants grants(@Nullable Entity holder, @Nullable Skill reader) {
+        if (!(holder instanceof ServerPlayer player)) {
+            return GlyphGrants.NONE;
+        }
+        GlyphGrants cast = ActiveGrants.ofRead(player, reader);
+        return cast != null ? cast : toggleGrants(player);
+    }
+
+    /**
+     * The unique glyphs in effect for a special modification read, which names no skill: the open cast scope's step
+     * whatever it casts, since a special modification class belongs to one ability and only glyphs fitting the step's
+     * ability are granted there; else as {@link #grants}.
+     */
+    private static GlyphGrants specialGrants(Entity holder) {
         if (!(holder instanceof ServerPlayer player)) {
             return GlyphGrants.NONE;
         }
@@ -92,7 +106,7 @@ public final class ConvertedAffixes {
                 result.add(modification);
             }
         }
-        GlyphGrants grants = grants(entity);
+        GlyphGrants grants = specialGrants(entity);
         grants.all().forEach((type, grant) -> {
             for (SpellcraftConfig.GearGlyph entry : current.byType().getOrDefault(type, List.of())) {
                 if (!SPECIAL_MODIFICATION.equals(entry.attribute) || entry.key == null) {
@@ -126,15 +140,15 @@ public final class ConvertedAffixes {
         }
     }
 
-    /** VH's keyed area-of-effect attributes, with converted ones replaced by the granted glyphs. */
+    /** VH's keyed area-of-effect attributes of a read by {@code reader}, with converted ones replaced by the granted glyphs. */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static List filterArea(Entity entity, List found) {
+    public static List filterArea(Entity entity, @Nullable Skill reader, List found) {
         GearAffixLines.Index current = GearAffixLines.index();
         if (current == null) {
             return found;
         }
         List result = withoutConverted(current, ABILITY_AREA, found);
-        grants(entity).all().forEach((type, grant) -> {
+        grants(entity, reader).all().forEach((type, grant) -> {
             for (SpellcraftConfig.GearGlyph entry : current.byType().getOrDefault(type, List.of())) {
                 if (!ABILITY_AREA.equals(entry.attribute) || entry.key == null) {
                     continue;
@@ -173,10 +187,10 @@ public final class ConvertedAffixes {
         return result;
     }
 
-    /** The potency of a granted glyph for the entity's reads, or null when it is not granted. */
+    /** The potency of a granted glyph for a read by {@code reader}, or null when it is not granted. */
     @Nullable
-    public static GlyphGrants.Grant grant(@Nullable Entity holder, GlyphType type) {
-        return grants(holder).get(type);
+    public static GlyphGrants.Grant grant(@Nullable Entity holder, @Nullable Skill reader, GlyphType type) {
+        return grants(holder, reader).get(type);
     }
 
     /**

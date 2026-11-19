@@ -22,11 +22,15 @@ import xyz.iwolfking.woldsvaults.client.spellcraft.stats.StepStats;
 import xyz.iwolfking.woldsvaults.config.SpellcraftConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.spellcraft.glyph.GlyphStacking;
-import xyz.iwolfking.woldsvaults.spellcraft.item.SpellcraftItemData;
 import xyz.iwolfking.woldsvaults.spellcraft.play.SpellCooldowns;
+import xyz.iwolfking.woldsvaults.spellcraft.spell.PlacedGlyph;
+import xyz.iwolfking.woldsvaults.spellcraft.spell.SpellModel;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 final class SlotTooltip {
     private static final int WRAP = 200;
@@ -36,24 +40,29 @@ final class SlotTooltip {
 
     static List<Component> tooltip(SpellBarStrip strip, int mouseX, int mouseY) {
         List<Component> lines = new ArrayList<>();
-        if (SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(0), strip.y0() + SpellBarStrip.PICK_Y, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
+        boolean classic = SpellBarStrip.classic();
+        if (SpellcraftDraw.inside(mouseX, mouseY, strip.modeX(), strip.modeY(), strip.modeW(), SpellBarStrip.MODE_H)) {
+            lines.add(SpellcraftNames.colored(SpellcraftNames.tr(classic ? "bar.mode_classic" : "bar.mode_slot"), SpellcraftPalette.WHITE));
+            wrapped(lines, SpellcraftNames.tr(classic ? "bar.mode_classic_hint" : "bar.mode_slot_hint"), SpellcraftPalette.GREY);
+            return lines;
+        }
+        if (!classic && SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(0), strip.pickY(), SpellBarStrip.PICK, SpellBarStrip.PICK)) {
             lines.add(new TextComponent(SpellcraftNames.tr("bar.default")));
             return lines;
         }
         SpellBarView item = strip.host().effectiveView();
-        if (item != null && SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(1), strip.y0() + SpellBarStrip.PICK_Y, SpellBarStrip.PICK, SpellBarStrip.PICK)) {
+        if (!classic && item != null && SpellcraftDraw.inside(mouseX, mouseY, strip.pickX(1), strip.pickY(), SpellBarStrip.PICK, SpellBarStrip.PICK)) {
             lines.add(new TextComponent(SpellcraftNames.tr("bar.item"))
                     .withStyle(style -> style.withColor(TextColor.fromRgb(SpellcraftPalette.ARCANE_GLOW & 0xFFFFFF))));
             return lines;
         }
-        if (SpellcraftDraw.inside(mouseX, mouseY, strip.keysX(), strip.y0() + 4, strip.keysW(), SpellBarStrip.KEYS_H)) {
+        if (!classic && SpellcraftDraw.inside(mouseX, mouseY, strip.keysX(), strip.rowY(), strip.keysW(), SpellBarStrip.KEYS_H)) {
             wrapped(lines, SpellcraftNames.tr(strip.bindMode() ? "bar.keys_hint_on" : "bar.keys_hint"), SpellcraftPalette.WHITE);
             return lines;
         }
-        for (int i = 0; i < SpellcraftItemData.SLOTS; i++) {
-            if (SpellcraftDraw.inside(mouseX, mouseY, SpellBarStrip.slotX(strip.x0(), i), strip.y0() + 4, 16, 16)) {
-                return strip.bindMode() ? bindTooltip(strip, i) : slotTooltip(strip.host(), strip.lastView(), i);
-            }
+        int index = strip.slotAt(mouseX, mouseY);
+        if (index >= 0) {
+            return strip.bindMode() ? bindTooltip(strip, index) : slotTooltip(strip.host(), strip.lastView(), index);
         }
         return lines;
     }
@@ -74,6 +83,11 @@ final class SlotTooltip {
         return key.isEmpty() ? SpellcraftNames.tr("bar.no_key", index + 1) : SpellcraftNames.tr("bar.key", index + 1, key);
     }
 
+    private static String quickfireLine(String group) {
+        String key = SpellcraftNames.quickfireName(group);
+        return key.isEmpty() ? SpellcraftNames.tr("bar.no_quickfire_key") : SpellcraftNames.tr("bar.quickfire_key", key);
+    }
+
     private static List<Component> slotTooltip(SpellBarStrip.Host host, SpellBarView view, int index) {
         List<Component> lines = new ArrayList<>();
         AbilityTree tree = host.tree();
@@ -92,10 +106,14 @@ final class SlotTooltip {
                 }
             }
             case SPELL -> {
-                lines.add(SpellcraftNames.colored(slot.spellName(), slot.implicit() ? SpellBarStrip.IMPLICIT_RING : SpellcraftPalette.ARCANE_GLOW));
+                lines.add(SpellcraftNames.colored(slot.spellName(), slot.implicit() ? StripArt.IMPLICIT_RING : SpellcraftPalette.ARCANE_GLOW));
                 lines.add(spellTitle(tree, slot.groups()));
                 if (slot.implicit()) {
-                    lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.implicit"), SpellBarStrip.IMPLICIT_RING));
+                    lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.implicit"), StripArt.IMPLICIT_RING));
+                    String names = activeGlyphNames(slot.model());
+                    if (!names.isEmpty()) {
+                        wrapped(lines, SpellcraftNames.tr("bar.implicit_glyphs", names), StripArt.IMPLICIT_RING);
+                    }
                 } else if (!slot.sourceName().isEmpty()) {
                     lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.source", slot.sourceName(), slot.prio()), SpellcraftPalette.GREY));
                 }
@@ -148,17 +166,37 @@ final class SlotTooltip {
             lines.add(SpellcraftNames.colored(SpellcraftNames.tr("bar.waiting", SpellcraftNames.groupName(tree, blocking.group()),
                     StatText.seconds(blocking.ticks())), SpellcraftPalette.STAT_COOLDOWN));
         }
-        lines.add(SpellcraftNames.colored(keyLine(index), SpellcraftPalette.GREY));
+        boolean classic = SpellBarStrip.classic();
+        if (!classic) {
+            lines.add(SpellcraftNames.colored(keyLine(index), SpellcraftPalette.GREY));
+        } else if (slot.filled()) {
+            lines.add(SpellcraftNames.colored(quickfireLine(slot.group()), SpellcraftPalette.GREY));
+        }
         String hint;
-        if (view.isEffective()) {
+        if (classic) {
+            hint = SpellcraftNames.tr("bar.hint_classic");
+        } else if (view.isEffective()) {
             hint = SpellcraftNames.tr("bar.hint_item");
         } else if (host.selectedGroup() != null) {
             hint = SpellcraftNames.tr("bar.hint_default", SpellcraftNames.abilityName(tree, host.selectedGroup()));
         } else {
             hint = SpellcraftNames.tr("bar.hint_choose");
         }
-        lines.add(new TextComponent(hint).withStyle(ChatFormatting.DARK_GRAY));
+        wrapped(lines, hint, SpellcraftPalette.DARK);
         return lines;
+    }
+
+    /** The display names of a spell's active glyphs, each once, in token order. */
+    private static String activeGlyphNames(@Nullable SpellModel model) {
+        Set<String> names = new LinkedHashSet<>();
+        if (model != null) {
+            for (PlacedGlyph glyph : model.glyphs()) {
+                if (glyph.active()) {
+                    names.add(glyph.type().displayName());
+                }
+            }
+        }
+        return String.join(", ", names);
     }
 
     private static Component spellTitle(AbilityTree tree, List<String> groups) {

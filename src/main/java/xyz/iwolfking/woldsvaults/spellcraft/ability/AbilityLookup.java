@@ -43,6 +43,11 @@ public final class AbilityLookup {
         };
     }
 
+    /** Whether {@code skill} is the specialization {@code spec} itself or that specialization's tier ability. */
+    public static boolean belongsTo(@Nullable Skill skill, @Nullable String spec) {
+        return skill != null && spec != null && (spec.equals(skill.getId()) || spec.equals(specId(skill)));
+    }
+
     @Nullable
     public static String specId(Skill ability) {
         Skill parent = ability.getParent();

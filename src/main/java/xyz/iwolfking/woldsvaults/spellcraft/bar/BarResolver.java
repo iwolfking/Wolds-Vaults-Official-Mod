@@ -33,7 +33,8 @@ final class BarResolver {
     private static final Set<String> DROPPED = ConcurrentHashMap.newKeySet();
     @Nullable
     private final SpellcraftConfig config;
-    private final String[] defaults;
+    private final String[] base;
+    private final BarMode mode;
     private final List<ArcanaItem> items;
     private final GlyphView auto;
     private final Function<String, String> specOf;
@@ -50,18 +51,19 @@ final class BarResolver {
         }
     }
 
-    private BarResolver(@Nullable SpellcraftConfig config, String[] defaults, List<ArcanaItem> items, GlyphView auto,
+    private BarResolver(@Nullable SpellcraftConfig config, String[] base, BarMode mode, List<ArcanaItem> items, GlyphView auto,
                         Function<String, String> specOf) {
         this.config = config;
-        this.defaults = defaults;
+        this.base = base;
+        this.mode = mode;
         this.items = items;
         this.auto = auto;
         this.specOf = specOf;
     }
 
-    static Slot[] resolve(@Nullable SpellcraftConfig config, String[] defaults, List<ArcanaItem> items, GlyphView auto,
+    static Slot[] resolve(@Nullable SpellcraftConfig config, String[] base, BarMode mode, List<ArcanaItem> items, GlyphView auto,
                           Function<String, String> specOf) {
-        BarResolver resolver = new BarResolver(config, defaults, items, auto, specOf);
+        BarResolver resolver = new BarResolver(config, base, mode, items, auto, specOf);
         resolver.collectOverlays();
         resolver.pickSlotWinners();
         resolver.claimGroups();
@@ -85,10 +87,34 @@ final class BarResolver {
                     }
                     continue;
                 }
-                this.bySlot.computeIfAbsent(spell.slot(), slot -> new ArrayList<>())
+                int target = target(spell);
+                if (target < 0) {
+                    if (DROPPED.add(item.key() + ":" + spell.id() + ":trigger:" + spell.trigger())) {
+                        WoldLogger.warn("Spellcraft: spell '{}' on {} is active, but its first ability {} is not on the classic bar, so it is off the bar",
+                                spell.name(), item.name(), spell.trigger());
+                    }
+                    continue;
+                }
+                this.bySlot.computeIfAbsent(target, slot -> new ArrayList<>())
                         .add(new Overlay(item, spell, model, SpellcraftRules.priority(this.config, spell), order++));
             }
         }
+    }
+
+    /**
+     * The slot an assigned spell overlays: its stored slot in slot mode, and in classic mode the base slot of its
+     * trigger ability, or -1 when the trigger is not on the bar.
+     */
+    private int target(StoredSpell spell) {
+        if (this.mode == BarMode.SLOT) {
+            return spell.slot();
+        }
+        for (int i = 0; i < this.base.length; i++) {
+            if (spell.trigger().equals(this.base[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void pickSlotWinners() {
@@ -179,7 +205,7 @@ final class BarResolver {
             if (this.slots[index] != null) {
                 continue;
             }
-            String group = this.defaults[index] == null ? "" : this.defaults[index];
+            String group = this.base[index] == null ? "" : this.base[index];
             if (group.isEmpty()) {
                 this.slots[index] = Slot.empty(index, "", false);
             } else if (claimed.contains(group)) {

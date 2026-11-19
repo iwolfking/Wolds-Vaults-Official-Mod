@@ -19,7 +19,9 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * The bar a player actually casts. Every equipped arcana item lays its assigned spells over their slots: the highest
+ * The bar a player actually casts. Its base slots are the saved default bar in slot mode, and one slot per learned
+ * ability in classic mode. Every equipped arcana item lays its assigned spells over their slots (in classic mode, the
+ * slot of the spell's trigger ability): the highest
  * priority number wins a slot and a tie for the top is LOCKED. One ability group lives in only one slot, so overlays
  * claim their groups in priority order, an overlay needing a group a higher priority already holds is LOCKED, equal
  * priorities clashing on a group lock each other, and base slots claim last and are hidden when an overlay holds their
@@ -69,7 +71,7 @@ public final class EffectiveBar {
         this.items = items;
     }
 
-    public static EffectiveBar forPlayer(ServerPlayer player, String[] defaults, Function<String, String> specOf) {
+    public static EffectiveBar forPlayer(ServerPlayer player, String[] base, BarMode mode, Function<String, String> specOf) {
         SpellcraftConfig config = ModConfigs.SPELLCRAFT;
         EquippedSources.Snapshot sources = EquippedSources.get(player);
         List<ArcanaItem> items = new ArrayList<>();
@@ -80,12 +82,12 @@ public final class EffectiveBar {
                         SpellcraftItemData.spells(equipped.stack()), SpellcraftRules.check(config, equipped.stack(), view, specOf)));
             }
         }
-        return resolve(config, defaults, items, config == null ? GlyphView.EMPTY : sources.autoLines(config), specOf);
+        return resolve(config, base, mode, items, config == null ? GlyphView.EMPTY : sources.autoLines(config), specOf);
     }
 
-    public static EffectiveBar resolve(@Nullable SpellcraftConfig config, String[] defaults, List<ArcanaItem> items, GlyphView auto,
+    public static EffectiveBar resolve(@Nullable SpellcraftConfig config, String[] base, BarMode mode, List<ArcanaItem> items, GlyphView auto,
                                        Function<String, String> specOf) {
-        return new EffectiveBar(BarResolver.resolve(config, defaults, items, auto, specOf), List.copyOf(items));
+        return new EffectiveBar(BarResolver.resolve(config, base, mode, items, auto, specOf), List.copyOf(items));
     }
 
     public Slot slot(int index) {
