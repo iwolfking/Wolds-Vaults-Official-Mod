@@ -698,7 +698,7 @@ public class LivingEntityEvents {
         }
 
         float playerAP = AbilityPowerHelper.getAbilityPower(player);
-        float magibashDamage = playerAP * 0.5F;
+        float magibashDamage = playerAP * 0.3F;
 
         List<ElementalType> elementalTypes = ElementHelper.getAllElementsFromGear(gearData);
 
