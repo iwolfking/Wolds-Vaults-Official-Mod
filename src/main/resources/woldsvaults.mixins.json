@@ -774,6 +774,7 @@
     "vaulthunters.skills.modifications.MixinIceBoltChunkAbility",
     "vaultintegrations.MixinAltarConduitNode",
     "vaulthunters.accessors.ChaosTaskConfigAccessor",
+    "vaulthunters.accessors.BingoTaskConfigAccessor",
     "vaulthunters.accessors.TargetTaskCounterConfigAccessor",
     "vaulthunters.custom.MixinSigilConfig",
     "vaulthunters.objectives.MixinBingoCrystalObjective",

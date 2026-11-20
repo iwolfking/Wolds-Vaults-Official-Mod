@@ -1,10 +1,12 @@
 package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.config.sigil.SigilDefinitionsConfig;
+import iskallia.vault.core.util.WeightedList;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.objective.scavenger.ScavengerGoal;
 import iskallia.vault.core.world.roll.IntRoll;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.task.BingoTask;
 import iskallia.vault.task.ProgressConfiguredTask;
 import iskallia.vault.task.Task;
 import iskallia.vault.task.counter.TargetTaskCounter;
@@ -13,11 +15,13 @@ import iskallia.vault.task.renderer.BingoRenderer;
 import iskallia.vault.task.renderer.TaskRenderer;
 import xyz.iwolfking.woldsvaults.config.ObjectiveDifficultyConfig;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BingoTaskConfigAccessor;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TargetTaskCounterConfigAccessor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -184,12 +188,32 @@ public final class ObjectiveDifficulty {
         }
     }
 
-    /** Raises every target counter under a bingo task by D^k, k from the tile's renderer name class. */
-    public static void scaleBingoTask(Task task, double multiplier) {
+    /**
+     * Raises every target counter in an unpopulated bingo board's tile pools by D^k, k from the tile's renderer
+     * name class. A populated board is logged and left unscaled.
+     */
+    public static void scaleBingoTask(BingoTask task, double multiplier) {
         if (task == null || multiplier == 1.0D) {
             return;
         }
-        for (ProgressConfiguredTask<?, ?> progress : task.getDescendants(ProgressConfiguredTask.class)) {
+        if (task.isPopulated()) {
+            WoldLogger.error("A bingo board was already populated when difficulty {} was applied; its tiles are not scaled", multiplier);
+            return;
+        }
+        Map<Integer, WeightedList<Task>> pools = ((BingoTaskConfigAccessor) task.getConfig()).woldsvaults$getTasks();
+        if (pools == null || pools.isEmpty()) {
+            WoldLogger.error("A bingo board has no tile pools; difficulty {} is not applied to its tiles", multiplier);
+            return;
+        }
+        for (WeightedList<Task> pool : pools.values()) {
+            for (Task tile : pool.keySet()) {
+                scaleBingoTile(tile, multiplier);
+            }
+        }
+    }
+
+    private static void scaleBingoTile(Task tile, double multiplier) {
+        for (ProgressConfiguredTask<?, ?> progress : tile.getSelfAndDescendants(ProgressConfiguredTask.class)) {
             TaskCounter<?, ?> counter = progress.getCounter();
             if (!(counter instanceof TargetTaskCounter<?, ?> targetCounter)) {
                 continue;
@@ -199,20 +223,30 @@ public final class ObjectiveDifficulty {
                 continue;
             }
             ObjectiveDifficultyConfig config = config();
-            double factor = config == null ? 1.0D : Math.pow(multiplier, config.getTileExponent(tileName(progress)));
+            double factor = config == null ? 1.0D : Math.pow(multiplier, config.getTileExponent(tileName(progress, tile)));
             ((TargetTaskCounterConfigAccessor) counterConfig).woldsvaults$setTarget(scale(roll, factor));
         }
     }
 
+    /** The name on the nearest bingo leaf renderer from {@code task} up to its pool tile, or null if none has one. */
     @Nullable
-    private static String tileName(Task task) {
+    private static String tileName(Task task, Task tile) {
         for (Task current = task; current != null; current = current.getParent()) {
-            TaskRenderer<?, ?> renderer = current.getRenderer();
-            if (renderer instanceof BingoRenderer.Leaf leaf && leaf.name != null) {
-                return leaf.name;
+            String name = leafName(current);
+            if (name != null) {
+                return name;
+            }
+            if (current == tile) {
+                return null;
             }
         }
-        return null;
+        return leafName(tile);
+    }
+
+    @Nullable
+    private static String leafName(Task task) {
+        TaskRenderer<?, ?> renderer = task.getRenderer();
+        return renderer instanceof BingoRenderer.Leaf leaf ? leaf.name : null;
     }
 
     public static void begin(double multiplier) {
