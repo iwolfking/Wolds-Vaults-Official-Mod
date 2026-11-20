@@ -332,7 +332,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 30, 40, 1);
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 40, 65, 1);
                 });
-                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENTILE, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENT, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, 86, 10, 0.04, 0.07, 0.01);
                     vaultGearModifierTiersBuilder.add(42, -1, 10, 0.08, 0.12, 0.01);
                     vaultGearModifierTiersBuilder.add(68, -1, 10, 0.13, 0.15, 0.01);
@@ -414,7 +414,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                 });
             });
             builder.add(VaultGearTierConfig.ModifierAffixTagGroup.SUFFIX, vaultGearAttributeGroupBuilder -> {
-                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED, "ModAttackType", "mod_attack_speed_percent", List.of("focusAttackSpeed"), vaultGearModifierTiersBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ATTACK_SPEED_PERCENT, "ModAttackType", "mod_attack_speed_percent", List.of("focusAttackSpeed"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 10, 0.05, 0.1, 0.01);
                     vaultGearModifierTiersBuilder.add(36, -1, 10, 0.11, 0.15, 0.01);
                     vaultGearModifierTiersBuilder.add(65, -1, 10, 0.16, 0.2, 0.01);
@@ -556,7 +556,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 45, 60, 1);
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 60, 98, 1);
                 });
-                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENTILE, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
+                vaultGearAttributeGroupBuilder.addModifier(iskallia.vault.init.ModGearAttributes.ABILITY_POWER_PERCENT, "ModOnHitAddition", "mod_ability_power_percent", List.of("focusAbilityDamage"), vaultGearModifierTiersBuilder -> {
                     vaultGearModifierTiersBuilder.add(0, -1, 10, 0.24, 0.3, 0.01);
                     vaultGearModifierTiersBuilder.add(101, -1, 10, 0.32, 0.38, 0.01);
                     vaultGearModifierTiersBuilder.add(102, -1, 10, 0.39, 0.45, 0.01);

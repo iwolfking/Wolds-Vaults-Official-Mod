@@ -982,7 +982,7 @@
         ]
       },
       {
-        "attribute": "the_vault:ability_power_percentile",
+        "attribute": "the_vault:ability_power_percent",
         "group": "ModOnHitAddition",
         "identifier": "the_vault:mod_ability_power_percent",
         "tags": [
@@ -1684,7 +1684,7 @@
     ],
     "SUFFIX": [
       {
-        "attribute": "the_vault:attack_speed",
+        "attribute": "the_vault:attack_speed_percent",
         "group": "ModAttackType",
         "identifier": "the_vault:mod_attack_speed_percent",
         "tags": [
