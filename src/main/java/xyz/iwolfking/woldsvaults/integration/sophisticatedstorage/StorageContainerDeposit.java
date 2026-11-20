@@ -10,10 +10,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositFilterLogic;
 import net.p3pp3rf1y.sophisticatedcore.common.gui.StorageContainerMenuBase;
 import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
+
+import java.util.List;
 
 public class StorageContainerDeposit {
     private StorageContainerDeposit() {
@@ -21,7 +25,7 @@ public class StorageContainerDeposit {
 
     public static void deposit(ServerPlayer player, StorageContainerMenuBase<?> menu, ItemStack backpack) {
         if (!isResearched(player)) {
-            MessageUtils.sendMessage(player, "Altar Automation research is required.", ChatFormatting.RED);
+            MessageUtils.sendMessage(player, "Delooting Pro research is required.", ChatFormatting.RED);
             return;
         }
 
@@ -30,9 +34,13 @@ public class StorageContainerDeposit {
             return;
         }
 
+        List<DepositFilterLogic> depositFilterLogics = BackpackUtils.getDepositUpgradeFilters(backpack);
+
+
         long[] result = backpack
                 .getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
                 .map(wrapper -> depositContents(
+                        depositFilterLogics,
                         wrapper.getInventoryHandler(),
                         menu.getStorageWrapper().getInventoryHandler(),
                         player
@@ -65,13 +73,14 @@ public class StorageContainerDeposit {
         MessageUtils.sendMessage(
                 player,
                 leftover > 0
-                        ? "Deposited " + deposited + " items, " + leftover + " did not fit"
+                        ? "Deposited " + deposited + " items, " + leftover + " were not deposited"
                         : "Deposited " + deposited + " items",
                 leftover > 0 ? ChatFormatting.YELLOW : ChatFormatting.GREEN
         );
     }
 
     private static long[] depositContents(
+            List<DepositFilterLogic> depositFilterLogics,
             InventoryHandler inventory,
             IItemHandler destination,
             ServerPlayer player
@@ -81,7 +90,7 @@ public class StorageContainerDeposit {
         for (int slot = 0; slot < inventory.getSlots(); slot++) {
             ItemStack stack = inventory.getStackInSlot(slot);
 
-            if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack)) {
+            if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack) || BackpackUtils.matchesDepositFilters(depositFilterLogics, stack)) {
                 continue;
             }
 
@@ -128,6 +137,6 @@ public class StorageContainerDeposit {
 
     private static boolean isResearched(ServerPlayer player) {
         PlayerResearchesData data = PlayerResearchesData.get(player.getLevel());
-        return data.getResearches(player).isResearched("Altar Automation");
+        return data.getResearches(player).isResearched(WoldConstants.DELOOT_RESEARCH);
     }
 }
