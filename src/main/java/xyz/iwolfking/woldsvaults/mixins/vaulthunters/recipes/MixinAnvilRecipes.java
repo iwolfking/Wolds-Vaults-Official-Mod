@@ -51,7 +51,7 @@ public abstract class MixinAnvilRecipes {
         woldsVaults$register(new AdaptiveFocusUniqueGearRecipe());
         woldsVaults$register(new AdaptiveFocusVaultCrystalRecipe());
         woldsVaults$register(new SoulboundEnchantmentRecipe());
-        woldsVaults$register(new CompanionCrystalRecipe());
+        //woldsVaults$register(new CompanionCrystalRecipe());
     }
 
     @Unique
