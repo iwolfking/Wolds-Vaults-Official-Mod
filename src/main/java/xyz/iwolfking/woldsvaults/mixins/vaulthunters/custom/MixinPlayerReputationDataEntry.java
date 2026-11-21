@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper;
 
+//TODO: Idk what's wrong with this (zero errors) but it broken
 /**
  * The per-player reputation entry clamps additions at a hardcoded 50 (an early-out guard plus
  * a Math.min). The entry has no idea which player it belongs to, so the effective cap
@@ -13,8 +14,8 @@ import xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper;
  */
 @Mixin(targets = "iskallia.vault.world.data.PlayerReputationData$Entry", remap = false)
 public class MixinPlayerReputationDataEntry {
-    @ModifyConstant(method = "changeReputation", constant = @Constant(intValue = 50), require = 2)
-    private int woldsVaults$entryCap(int baseCap) {
-        return GodMasteryHelper.currentCap();
-    }
+//    @ModifyConstant(method = "changeReputation", constant = @Constant(intValue = 50), require = 2)
+//    private int woldsVaults$entryCap(int baseCap) {
+//        return GodMasteryHelper.currentCap();
+//    }
 }

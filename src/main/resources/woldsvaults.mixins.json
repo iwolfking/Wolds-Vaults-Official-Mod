@@ -265,7 +265,6 @@
     "vaulthunters.custom.MixinAbilitySuppressorTileEntity",
     "vaulthunters.custom.MixinActiveFlagsCheck",
     "vaulthunters.custom.MixinAlchemyArchive",
-    "vaulthunters.custom.MixinAngelExpertise",
     "vaulthunters.custom.MixinAnvilExecutor",
     "vaulthunters.custom.MixinAttributeSnapshot",
     "vaulthunters.custom.MixinAttributeSnapshotCalculator",

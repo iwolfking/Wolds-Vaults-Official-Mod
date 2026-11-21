@@ -49,24 +49,25 @@ public abstract class MixinCoinDefinition {
         return instance.put(iskallia.vault.init.ModBlocks.VAULT_PLATINUM, new CoinDefinition(iskallia.vault.init.ModBlocks.VAULT_PLATINUM, ModBlocks.VAULT_PALLADIUM, iskallia.vault.init.ModBlocks.VAULT_GOLD, 729));
     }
 
+    //TODO: Fixey
     /**
      * @author iwolfking
      * @reason Drop change returned to player on player instead of adding it to inventory
      */
-    @Overwrite
-    private static void returnChangeToPlayer(Player player, int change) {
-        while (change > 0) {
-            for (CoinDefinition definition : COIN_DEFINITIONS.values()) {
-                if (definition.coinValue <= change && change / definition.coinValue < 9) {
-                    ItemEntity entityitem = new ItemEntity(player.getLevel(), player.getX(), player.getY() + 0.5, player.getZ(), new ItemStack(definition.coinItem, change / definition.coinValue));
-                    entityitem.setPickUpDelay(0);
-                    entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
-                    player.getLevel().addFreshEntity(entityitem);
-                    change -= definition.coinValue * (change / definition.coinValue);
-                }
-            }
-        }
-    }
+//    @Overwrite
+//    private static void returnChangeToPlayer(Player player, int change) {
+//        while (change > 0) {
+//            for (CoinDefinition definition : COIN_DEFINITIONS.values()) {
+//                if (definition.coinValue <= change && change / definition.coinValue < 9) {
+//                    ItemEntity entityitem = new ItemEntity(player.getLevel(), player.getX(), player.getY() + 0.5, player.getZ(), new ItemStack(definition.coinItem, change / definition.coinValue));
+//                    entityitem.setPickUpDelay(0);
+//                    entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
+//                    player.getLevel().addFreshEntity(entityitem);
+//                    change -= definition.coinValue * (change / definition.coinValue);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * @author iwolfking
