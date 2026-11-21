@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
+import iskallia.vault.gear.data.ReadOnlyGearData;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModBlocks;
@@ -79,7 +80,7 @@ public abstract class MixinToolItem extends TieredItem implements VaultGearItem,
     }
 
     @Inject(method = "hasAffinity", at = @At("TAIL"), cancellable = true)
-    public void hasAffinity(ItemStack stack, BlockState state, CallbackInfoReturnable<Boolean> cir, @Local VaultGearData data) {
+    public void hasAffinity(ItemStack stack, BlockState state, CallbackInfoReturnable<Boolean> cir, @Local(name = "data") ReadOnlyGearData data) {
         if(data.get(ModGearAttributes.TREASURE_AFFINITY, VaultGearAttributeTypeMerger.anyTrue()) && state.is(ModBlocks.TREASURE_CHEST)) {
             cir.setReturnValue(true);
         }

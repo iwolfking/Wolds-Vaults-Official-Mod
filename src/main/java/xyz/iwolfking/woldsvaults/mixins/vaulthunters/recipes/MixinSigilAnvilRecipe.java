@@ -15,19 +15,19 @@ import xyz.iwolfking.woldsvaults.modifiers.vault.map.modifiers.GreedyVaultModifi
 
 @Mixin(value = SigilAnvilRecipe.class, remap = false)
 public class MixinSigilAnvilRecipe {
-    @Inject(method = "onSimpleCraft", at = @At(value = "INVOKE", target = "Liskallia/vault/item/SigilItem;getSigilId(Lnet/minecraft/world/item/ItemStack;)Ljava/lang/String;"), cancellable = true)
-    private void cancelIfGreedyRock(AnvilContext context, CallbackInfoReturnable<Boolean> cir, @Local CrystalData data) {
-        for(VaultModifierStack modStack : data.getModifiers().getList()) {
-            if(modStack.getModifier() instanceof GreedyVaultModifier) {
-                cir.setReturnValue(false);
-            }
-            else if(modStack.getModifier() instanceof GroupedModifier groupedModifier) {
-                for(VaultModifier<?> mod : groupedModifier.properties().getChildren()) {
-                    if(mod instanceof GreedyVaultModifier) {
-                        cir.setReturnValue(false);
-                    }
-                }
-            }
-        }
-    }
+//    @Inject(method = "onSimpleCraft", at = @At(value = "INVOKE", target = "Liskallia/vault/item/SigilItem;getSigilId(Lnet/minecraft/world/item/ItemStack;)Ljava/lang/String;"), cancellable = true)
+//    private void cancelIfGreedyRock(AnvilContext context, CallbackInfoReturnable<Boolean> cir, @Local CrystalData data) {
+//        for(VaultModifierStack modStack : data.getModifiers().getList()) {
+//            if(modStack.getModifier() instanceof GreedyVaultModifier) {
+//                cir.setReturnValue(false);
+//            }
+//            else if(modStack.getModifier() instanceof GroupedModifier groupedModifier) {
+//                for(VaultModifier<?> mod : groupedModifier.properties().getChildren()) {
+//                    if(mod instanceof GreedyVaultModifier) {
+//                        cir.setReturnValue(false);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

@@ -87,7 +87,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static mezz.jei.api.recipe.RecipeIngredientRole.INPUT;
 import static mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT;
 
-@JeiPlugin
+//@JeiPlugin
 @SuppressWarnings("unused")
 public class WoldsVaultsJeiPlugin implements IModPlugin {
 

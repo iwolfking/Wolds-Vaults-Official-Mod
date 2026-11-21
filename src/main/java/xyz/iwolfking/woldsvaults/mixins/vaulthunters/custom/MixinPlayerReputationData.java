@@ -65,7 +65,7 @@ public class MixinPlayerReputationData {
      * further down lives in a lambda (a separate synthetic method), so it deliberately stays
      * at 50 — unlocks are a threshold, not the cap.
      */
-    @ModifyConstant(method = "addReputation", constant = @Constant(intValue = 50), require = 1)
+    @ModifyConstant(method = "lambda$addReputation$1", constant = @Constant(intValue = 50), require = 1)
     private static int woldsVaults$addGuardCap(int baseCap) {
         return GodMasteryHelper.currentCap();
     }

@@ -396,8 +396,8 @@ dependencies {
     implementation fg.deobf('local:forgified-sgui:1.0.2')
     implementation fg.deobf('local:black_market_tweaks:1.8')
     implementation fg.deobf('local:vhapi:5.6.0')
-    implementation fg.deobf('local:vault_hunters_extra_commands:1.8.0')
-    implementation fg.deobf('local:vault_hunters_extra_rules:2.1.1')
+    implementation fg.deobf('local:vault_hunters_extra_commands:1.9.0')
+    implementation fg.deobf('local:vault_hunters_extra_rules:2.2.0')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
     implementation fg.deobf('local:bc_nbt_fix:1.0')
 //    implementation fg.deobf('local:serverportals:1.18.2-1.5')
@@ -408,17 +408,17 @@ dependencies {
     jarJar(group: 'me.justahuman', name: 'vhroller', version: '[1.5.0,)') {
         jarJar.pin(it, '1.5.0')
     }
-    jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
-        jarJar.pin(it, '1.8')
-    }
+//    jarJar(group: 'dev.attackeight', name: 'black_market_tweaks', version: '[1.8,)') {
+//        jarJar.pin(it, '1.8')
+//    }
     jarJar(group: 'smartin', name: 'bc_nbt_fix', version: '[1.0,)') {
         jarJar.pin(it, '1.0')
     }
-    jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_commands', version: '[1.8.0,)') {
-        jarJar.pin(it, '1.8.0')
+    jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_commands', version: '[1.9.0,)') {
+        jarJar.pin(it, '1.9.0')
     }
-    jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_rules', version: '[2.1.1,)') {
-        jarJar.pin(it, '2.1.1')
+    jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_rules', version: '[2.2.0,)') {
+        jarJar.pin(it, '2.2.0')
     }
     //    jarJar(group: 'com.dog', name: 'serverportals', version: '[1.18.2-1.5,)') {
 //        jarJar.pin(it, '1.18.2-1.5')

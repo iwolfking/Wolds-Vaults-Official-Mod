@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @Mixin(value = VaultCharmItem.class, remap = false)
 public abstract class MixinGodCharmItem {
-    @Shadow public abstract void addTooltipAffixGroupWithBaseValue(VaultGearData data, VaultGearModifier.AffixType type, ItemStack stack, List<Component> tooltip, boolean displayDetails, boolean showBaseValue);
 
     @Inject(method = "appendHoverText", remap = true, at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;getModifiers(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;)Ljava/util/List;", ordinal = 0, remap = false))
     private void addImplicits(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn, CallbackInfo ci, @Local VaultGearData data) {
@@ -45,7 +44,7 @@ public abstract class MixinGodCharmItem {
 
 
     @Inject(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;isClientSide()Z"), remap = true, cancellable = true)
-    public void use(Level world, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, @Local ItemStack heldStack, @Local InteractionResultHolder<ItemStack> defaultAction) {
+    public void use(Level world, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, @Local InteractionResultHolder<ItemStack> defaultAction) {
             cir.setReturnValue(VaultGearHelper.rightClick(world, player, hand, defaultAction));
     }
 }

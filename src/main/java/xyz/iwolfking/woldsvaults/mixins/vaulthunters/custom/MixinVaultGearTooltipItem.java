@@ -10,8 +10,7 @@ import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.stats.PatreonGearStatHelper;
-import iskallia.vault.gear.tooltip.GearTooltip;
-import iskallia.vault.gear.tooltip.VaultGearTooltipItem;
+import iskallia.vault.gear.tooltip.*;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.util.TextUtil;
@@ -33,9 +32,6 @@ import java.util.*;
 @Mixin(value = VaultGearTooltipItem.class, remap = false)
 public interface MixinVaultGearTooltipItem{
 
-
-    @Shadow
-    void addTooltipItemLevel(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state);
 
     @Shadow
     void addTooltipCraftingPotential(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state);
@@ -62,24 +58,50 @@ public interface MixinVaultGearTooltipItem{
     void addExtraTooltips(VaultGearData data, ItemStack stack, List<Component> tooltip, GearTooltip flag);
 
     @Shadow
-    void addTooltipAffixGroup(VaultGearData data, VaultGearModifier.AffixType type, ItemStack stack, List<Component> tooltip, boolean displayDetails);
+    Component applyGearTooltipColour(Component component);
+
+    @Shadow
+    void addTooltipItemLevel(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state, GearTooltipViewer viewer);
+
+    @Shadow
+    void addTooltipAffixGroup(VaultGearData data, VaultGearModifier.AffixType type, ItemStack stack, List<Component> tooltip, boolean displayDetails, GearTooltipViewer viewer);
+
+    @Shadow
+    void addTooltipPatreonGearStats(ItemStack stack, List<Component> tooltip);
+
+    @Shadow
+    void addTooltipEtching(ItemStack stack, List<Component> tooltip, VaultGearData data, GearTooltipViewer viewer);
 
     /**
-     * @author iwolfking
-     * @reason Add Weapon type to display as a base attribute
+     * @author
+     * @reason
      */
     @Overwrite
-    default void addTooltipImportantBaseAttributes(VaultGearData data, ItemStack stack, List<Component> tooltip, boolean displayDetail) {
+    default void addTooltipImportantBaseAttributes(VaultGearData data, ItemStack stack, List<Component> tooltip, boolean displayDetail, GearTooltipViewer viewer) {
         int txtLength = tooltip.size();
-        data.getAttributes(ModGearAttributes.DURABILITY)
-                .filter(inst -> inst.getValue() > 0)
-                .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
-        data.getAttributes(ModGearAttributes.SOULBOUND)
-                .filter(VaultGearAttributeInstance::getValue)
-                .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
-        data.getAttributes(ModGearAttributes.LIVING)
-                .filter(VaultGearAttributeInstance::getValue)
-                .forEach(attr -> attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).ifPresent(tooltip::add));
+        if (!VaultGearItem.of(stack).isImmortal(stack)) {
+            data.getAttributes(ModGearAttributes.DURABILITY).filter((inst) -> (Integer)inst.getValue() > 0).forEach((attr) -> {
+                Optional<Component> var10000 = attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).map((display) -> (Component)(viewer.liveClientView() ? this.applyGearTooltipColour(display) : display));
+                Objects.requireNonNull(tooltip);
+                var10000.ifPresent(tooltip::add);
+            });
+        }
+
+        data.getAttributes(ModGearAttributes.SOULBOUND).filter(VaultGearAttributeInstance::getValue).forEach((attr) -> {
+            Optional<Component> var10000 = attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).map((display) -> (Component)(viewer.liveClientView() ? this.applyGearTooltipColour(display) : display));
+            Objects.requireNonNull(tooltip);
+            var10000.ifPresent(tooltip::add);
+        });
+        data.getAttributes(ModGearAttributes.LIVING).filter(VaultGearAttributeInstance::getValue).forEach((attr) -> {
+            Optional<Component> var10000 = attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).map((display) -> (Component)(viewer.liveClientView() ? this.applyGearTooltipColour(display) : display));
+            Objects.requireNonNull(tooltip);
+            var10000.ifPresent(tooltip::add);
+        });
+        data.getAttributes(ModGearAttributes.NON_RECYCLABLE).filter(VaultGearAttributeInstance::getValue).forEach((attr) -> {
+            Optional<Component> var10000 = attr.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack, displayDetail).map((display) -> (Component)(viewer.liveClientView() ? this.applyGearTooltipColour(display) : display));
+            Objects.requireNonNull(tooltip);
+            var10000.ifPresent(tooltip::add);
+        });
         data.getAttributes(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DIVINE).filter(VaultGearAttributeInstance::getValue).forEach(booleanVaultGearAttributeInstance -> booleanVaultGearAttributeInstance.getDisplay(data, VaultGearModifier.AffixType.IMPLICIT, stack,displayDetail).ifPresent(tooltip::add));
         if (tooltip.size() > txtLength && displayDetail) {
             tooltip.add(TextComponent.EMPTY);
@@ -87,19 +109,20 @@ public interface MixinVaultGearTooltipItem{
 
     }
 
+
+
     /**
      * @author iwolfking
-     * @reason Why must mixin fail me so
+     * @reason
      */
     @Overwrite
-    default List<Component> createTooltip(ItemStack stack, GearTooltip flag) {
+    default List<Component> createTooltip(ItemStack stack, GearTooltip flag, GearTooltipViewer viewer) {
         if (!ModConfigs.isInitialized()) {
             return Collections.emptyList();
         } else {
-            long window = Minecraft.getInstance().getWindow().getWindow();
-            boolean shiftDown = InputConstants.isKeyDown(window, 340) || InputConstants.isKeyDown(window, 344);
+            boolean shiftDown = viewer.shiftDown();
             VaultGearData data = VaultGearData.read(stack);
-            List<Component> tooltip = new ArrayList<>();
+            List<Component> tooltip = new ArrayList();
             VaultGearState state = data.getState();
             if (shiftDown && data.getState() == VaultGearState.IDENTIFIED && data.hasAttribute(ModGearAttributes.UNIQUE_ITEM_KEY)) {
                 Optional<ResourceLocation> var10000 = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY);
@@ -108,7 +131,7 @@ public interface MixinVaultGearTooltipItem{
                 var10000.flatMap(var10001::getEntry).map(UniqueGearConfig.Entry::getLore).filter((lore) -> !lore.isEmpty()).map(TextUtil::applyColorTags).ifPresent((mutableComponent) -> tooltip.add(mutableComponent.withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC)));
             }
 
-            this.addTooltipItemLevel(data, stack, tooltip, state);
+            this.addTooltipItemLevel(data, stack, tooltip, state, viewer);
             if (flag.displayCraftingDetail()) {
                 this.addTooltipCraftingPotential(data, stack, tooltip, state);
                 this.addTooltipToolCapacity(data, stack, tooltip, state);
@@ -123,8 +146,9 @@ public interface MixinVaultGearTooltipItem{
             }
 
             if (state == VaultGearState.IDENTIFIED) {
-                Item var10 = stack.getItem();
-                if (var10 instanceof VaultGearItem gearItem) {
+                Item var9 = stack.getItem();
+                if (var9 instanceof VaultGearItem) {
+                    VaultGearItem gearItem = (VaultGearItem) var9;
                     EquipmentSlot slot = gearItem.getGearType(stack).getEquipmentSlot();
                     if (slot != null) {
                         this.addSlotTooltip(tooltip, slot);
@@ -140,30 +164,35 @@ public interface MixinVaultGearTooltipItem{
                 }
 
                 this.addExtraTooltips(data, stack, tooltip, flag);
-                this.addTooltipImportantBaseAttributes(data, stack, tooltip, flag.displayModifierDetail());
+                this.addTooltipImportantBaseAttributes(data, stack, tooltip, flag.displayModifierDetail(), viewer);
                 List<VaultGearModifier<?>> implicits = data.getModifiers(VaultGearModifier.AffixType.IMPLICIT);
                 if (!implicits.isEmpty()) {
-                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.IMPLICIT, stack, tooltip, flag.displayModifierDetail());
+                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.IMPLICIT, stack, tooltip, flag.displayModifierDetail(), viewer);
                     tooltip.add(TextComponent.EMPTY);
                 }
 
-                int maxPrefixes = data.getFirstValue(ModGearAttributes.PREFIXES).orElse(0);
+                int maxPrefixes = (Integer) data.getFirstValue(ModGearAttributes.PREFIXES).orElse(0);
                 List<VaultGearModifier<?>> prefixes = data.getModifiers(VaultGearModifier.AffixType.PREFIX);
-                int maxSuffixes = data.getFirstValue(ModGearAttributes.SUFFIXES).orElse(0);
+                int maxSuffixes = (Integer) data.getFirstValue(ModGearAttributes.SUFFIXES).orElse(0);
                 List<VaultGearModifier<?>> suffixes = data.getModifiers(VaultGearModifier.AffixType.SUFFIX);
                 if (maxPrefixes > 0 || !prefixes.isEmpty()) {
-                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.PREFIX, stack, tooltip, flag.displayModifierDetail());
+                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.PREFIX, stack, tooltip, flag.displayModifierDetail(), viewer);
                     if (flag.displayModifierDetail() && (maxSuffixes > 0 || !suffixes.isEmpty())) {
                         tooltip.add(TextComponent.EMPTY);
                     }
                 }
 
                 if (maxSuffixes > 0 || !suffixes.isEmpty()) {
-                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.SUFFIX, stack, tooltip, flag.displayModifierDetail());
+                    this.addTooltipAffixGroup(data, VaultGearModifier.AffixType.SUFFIX, stack, tooltip, flag.displayModifierDetail(), viewer);
                     if (!data.isModifiable()) {
                         tooltip.add(TextComponent.EMPTY);
                     }
                 }
+            }
+
+            if (state == VaultGearState.IDENTIFIED) {
+                DripTooltipLines.add(stack, tooltip, viewer);
+                SealDealTooltipLines.add(stack, tooltip);
             }
 
             //Added
@@ -179,10 +208,14 @@ public interface MixinVaultGearTooltipItem{
                 tooltip.add(ct);
             }
 
+            if (data.hasAttribute(ModGearAttributes.LEGENDARY_PENDING)) {
+                tooltip.add((new TextComponent("One affix turns Legendary")).setStyle(Style.EMPTY.withColor(15853364)));
+            }
+
             if (data.isSealed()) {
                 MutableComponent ct = (new TextComponent("")).append((new TextComponent("Sealed")).setStyle(Style.EMPTY.withColor(12779386)));
                 if (flag.displayModifierDetail()) {
-                    ct.append((new TextComponent(" (Item locked and final)")).withStyle(ChatFormatting.GRAY));
+                    ct.append((new TextComponent(" (Affixes can no longer be changed)")).withStyle(ChatFormatting.GRAY));
                 }
 
                 tooltip.add(ct);
@@ -197,29 +230,15 @@ public interface MixinVaultGearTooltipItem{
                 tooltip.add(ct);
             }
 
-            Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.player != null && PatreonManager.getInstance().isUserPatreon(minecraft.player.getUUID())) {
-                Item itemType = stack.getItem();
-                if (itemType instanceof VaultGearItem gearItem) {
-                    VaultGearType type = gearItem.getGearType(stack);
-                    if (type != VaultGearType.SWORD && type != VaultGearType.AXE) {
-                        if (PatreonGearStatHelper.isTrackableArmor(stack)) {
-                            double damageTaken = ClientPatreonGearStats.getDamageTaken(stack);
-                            if (damageTaken > (double) 0.0F) {
-                                String formatted = String.format(Locale.US, "%.1f", damageTaken);
-                                tooltip.add((new TextComponent("Damage Taken: ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(formatted)).withStyle(ChatFormatting.WHITE)));
-                            }
-                        }
-                    } else {
-                        int kills = ClientPatreonGearStats.getKills(stack);
-                        if (kills > 0) {
-                            tooltip.add((new TextComponent("Killed ")).withStyle(Style.EMPTY.withColor(ModConfigs.COLORS.getColor("damage"))).append((new TextComponent(String.valueOf(kills))).withStyle(ChatFormatting.WHITE)).append(" mobs"));
-                        }
-                    }
-                }
+            if (viewer.liveClientView()) {
+                this.addTooltipPatreonGearStats(stack, tooltip);
+            }
+
+            if (state == VaultGearState.IDENTIFIED) {
+                this.addTooltipEtching(stack, tooltip, data, viewer);
             }
 
             return tooltip;
         }
-    }
+    };
 }
