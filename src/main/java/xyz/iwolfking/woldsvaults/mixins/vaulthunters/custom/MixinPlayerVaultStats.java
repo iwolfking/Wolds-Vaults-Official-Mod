@@ -38,7 +38,7 @@ public abstract class MixinPlayerVaultStats {
     @Shadow
     public abstract void sync(MinecraftServer server);
 
-    @Redirect(method = "addVaultExp", at = @At(value = "INVOKE", target = "Liskallia/vault/config/VaultLevelsConfig;getExpMultiplier()F"))
+    @Redirect(method = "addPersonalVaultExp", at = @At(value = "INVOKE", target = "Liskallia/vault/config/VaultLevelsConfig;getExpMultiplier()F"))
     private float addExperiencedExpertiseMultiplier(VaultLevelsConfig instance, @Local MinecraftServer server) {
         ServerPlayer player = server.getPlayerList().getPlayer(this.uuid);
         if(player == null) {

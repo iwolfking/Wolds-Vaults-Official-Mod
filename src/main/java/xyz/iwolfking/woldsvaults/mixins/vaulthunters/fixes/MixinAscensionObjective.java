@@ -34,6 +34,7 @@ import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+//TODO: I honestly don't even recall the context behind this
 @Mixin(value = AscensionObjective.class, remap = false)
 public abstract class MixinAscensionObjective extends Objective {
 
@@ -42,42 +43,42 @@ public abstract class MixinAscensionObjective extends Objective {
     @Shadow @Final public static FieldKey<Tag> MODIFIERS;
     @Shadow @Final public static FieldKey<String> PLAYER_NAME;
 
-    /**
-     * @author iwolfking
-     * @reason Override soul flame behaviour
-     */
-    @Overwrite
-    public void initServer(VirtualWorld world, Vault vault) {
-        CommonEvents.LISTENER_LEAVE.register(this, (data) -> {
-            if (data.getVault() == vault) {
-                if (data.getListener().getId().equals(this.get(PLAYER_UUID))) {
-                    vault.ifPresent(Vault.STATS, (stats) -> {
-                        StatCollector stat = stats.get(data.getListener());
-                        if (stat != null) {
-                            if (stat.getCompletion() == Completion.COMPLETED) {
-                                PlayerVaultStats playerStats = PlayerVaultStatsData.get(world).getVaultStats(data.getListener().getId());
-                                int vaultLevel = ((VaultLevel) vault.get(Vault.LEVEL)).get();
-                                int playerLevel = playerStats.getVaultLevel();
-                                int stacks = (Integer) this.getOr(STACKS, 0) + ((playerLevel - WoldsVaultsConfig.COMMON.soulFlameLevelAllowance.get()) <= vaultLevel ? 1 : 0);
-                                CrystalModifiers modifiers = (CrystalModifiers) this.getOptional(MODIFIERS).flatMap((tag) -> CrystalData.MODIFIERS.readNbt(tag)).orElseGet(DefaultCrystalModifiers::new);
-                                ((ItemStackList) stat.get(StatCollector.REWARD)).add(SoulFlameItem.create(stacks, (String) this.get(PLAYER_NAME), (UUID) this.get(PLAYER_UUID), modifiers));
-                            } else {
-                                ItemStack stack = new ItemStack(ModItems.EMBER);
-                                stack.setCount(ModConfigs.ASCENSION.getEmberCount((Integer) this.get(STACKS)));
-                                ItemStack plaque = SoulPlaqueBlockItem.create((UUID) this.get(PLAYER_UUID), (String) this.get(PLAYER_NAME), (Integer) this.get(STACKS));
-                                if (!stack.isEmpty()) {
-                                    ((ItemStackList) stat.get(StatCollector.REWARD)).add(stack);
-                                }
-
-                                if (!plaque.isEmpty()) {
-                                    ((ItemStackList) stat.get(StatCollector.REWARD)).add(plaque);
-                                }
-                            }
-
-                        }
-                    });
-                }
-            }
-        });
-    }
+//    /**
+//     * @author iwolfking
+//     * @reason Override soul flame behaviour
+//     */
+//    @Overwrite
+//    public void initServer(VirtualWorld world, Vault vault) {
+//        CommonEvents.LISTENER_LEAVE.register(this, (data) -> {
+//            if (data.getVault() == vault) {
+//                if (data.getListener().getId().equals(this.get(PLAYER_UUID))) {
+//                    vault.ifPresent(Vault.STATS, (stats) -> {
+//                        StatCollector stat = stats.get(data.getListener());
+//                        if (stat != null) {
+//                            if (stat.getCompletion() == Completion.COMPLETED) {
+//                                PlayerVaultStats playerStats = PlayerVaultStatsData.get(world).getVaultStats(data.getListener().getId());
+//                                int vaultLevel = ((VaultLevel) vault.get(Vault.LEVEL)).get();
+//                                int playerLevel = playerStats.getVaultLevel();
+//                                int stacks = (Integer) this.getOr(STACKS, 0) + ((playerLevel - WoldsVaultsConfig.COMMON.soulFlameLevelAllowance.get()) <= vaultLevel ? 1 : 0);
+//                                CrystalModifiers modifiers = (CrystalModifiers) this.getOptional(MODIFIERS).flatMap((tag) -> CrystalData.MODIFIERS.readNbt(tag)).orElseGet(DefaultCrystalModifiers::new);
+//                                ((ItemStackList) stat.get(StatCollector.REWARD)).add(SoulFlameItem.create(stacks, (String) this.get(PLAYER_NAME), (UUID) this.get(PLAYER_UUID), modifiers));
+//                            } else {
+//                                ItemStack stack = new ItemStack(ModItems.EMBER);
+//                                stack.setCount(ModConfigs.ASCENSION.getEmberCount((Integer) this.get(STACKS)));
+//                                ItemStack plaque = SoulPlaqueBlockItem.create((UUID) this.get(PLAYER_UUID), (String) this.get(PLAYER_NAME), (Integer) this.get(STACKS));
+//                                if (!stack.isEmpty()) {
+//                                    ((ItemStackList) stat.get(StatCollector.REWARD)).add(stack);
+//                                }
+//
+//                                if (!plaque.isEmpty()) {
+//                                    ((ItemStackList) stat.get(StatCollector.REWARD)).add(plaque);
+//                                }
+//                            }
+//
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//    }
 }

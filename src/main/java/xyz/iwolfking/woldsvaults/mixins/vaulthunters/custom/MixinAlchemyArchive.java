@@ -16,20 +16,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.UUID;
 
+//TODO: I don't think this is needed any more?
 @Mixin(value = AlchemyArchiveTileEntity.class, remap = false)
 public abstract class MixinAlchemyArchive {
-    @Shadow
-    public abstract boolean setUsedByPlayer(Player player);
-
-    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;sendMessage(Lnet/minecraft/network/chat/Component;Ljava/util/UUID;)V"), remap = true)
-    private void fillPlayersBrew(ServerPlayer instance, Component pComponent, UUID pSenderUUID) {
-        ItemStack bottle = InventoryUtil.getFirst(instance.getInventory().items, stack -> stack.getItem() instanceof BottleItem).orElse(null);
-        if(bottle != null) {
-            if(bottle.getItem() instanceof BottleItem) {
-                BottleItem.addCharges(bottle, 10);
-                instance.sendMessage((new TranslatableComponent("message.woldsvaults.filled_bottle_alchemy_archive", bottle.getDisplayName())).withStyle(ChatFormatting.GREEN), Util.NIL_UUID);
-                this.setUsedByPlayer(instance);
-            }
-        }
-    }
+//    @Shadow
+//    public abstract boolean setUsedByPlayer(Player player);
+//
+//    @Redirect(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;sendMessage(Lnet/minecraft/network/chat/Component;Ljava/util/UUID;)V"), remap = true)
+//    private void fillPlayersBrew(ServerPlayer instance, Component pComponent, UUID pSenderUUID) {
+//        ItemStack bottle = InventoryUtil.getFirst(instance.getInventory().items, stack -> stack.getItem() instanceof BottleItem).orElse(null);
+//        if(bottle != null) {
+//            if(bottle.getItem() instanceof BottleItem) {
+//                BottleItem.addCharges(bottle, 10);
+//                instance.sendMessage((new TranslatableComponent("message.woldsvaults.filled_bottle_alchemy_archive", bottle.getDisplayName())).withStyle(ChatFormatting.GREEN), Util.NIL_UUID);
+//                this.setUsedByPlayer(instance);
+//            }
+//        }
+//    }
 }

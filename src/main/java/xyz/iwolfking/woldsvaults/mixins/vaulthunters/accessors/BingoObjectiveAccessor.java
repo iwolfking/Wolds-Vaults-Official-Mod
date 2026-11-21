@@ -11,13 +11,14 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 import java.util.UUID;
 
+//TODO: Note for Super, this is broken, no scaleTargetWithCondition method any more
 @Mixin(value = BingoObjective.class, remap = false)
 public interface BingoObjectiveAccessor {
     @Invoker("getContext")
     TaskContext getContext(VirtualWorld world, Vault vault, UUID uuid);
 
     /** target = baseTarget × (1 + additional × contribution), then re-checks the task condition. */
-    @Invoker
-    void callScaleTargetWithCondition(ProgressConfiguredTask<?, ?> task, TargetTaskCounter<?, ?> counter,
-                                      double contribution, int additional, TaskContext context);
+//    @Invoker
+//    void callScaleTargetWithCondition(ProgressConfiguredTask<?, ?> task, TargetTaskCounter<?, ?> counter,
+//                                      double contribution, int additional, TaskContext context);
 }

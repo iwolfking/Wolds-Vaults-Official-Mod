@@ -18,7 +18,7 @@ public abstract class MixinLifeTapAbility {
     @Shadow
     protected abstract float getDamageModifier(float radius, float dist);
 
-    @Redirect(method = "lambda$doAction$3", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/LifeTapAbility;getDamageModifier(FF)F"))
+    @Redirect(method = "lambda$doAction$1", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/LifeTapAbility;getDamageModifier(FF)F"))
     private float callAdjustedDamageModifier(LifeTapAbility instance, float radius, float dist, @Local(argsOnly = true) ServerPlayer player) {
         return AbilityHelper.getScaledByLevelDamageFalloff(this.getDamageModifier(radius, dist), player, "Implode_Life_Tap");
     }

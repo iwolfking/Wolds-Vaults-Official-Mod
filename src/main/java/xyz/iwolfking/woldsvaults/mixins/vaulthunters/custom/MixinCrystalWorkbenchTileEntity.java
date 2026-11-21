@@ -9,16 +9,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
 
+//TODO: Fix Wold's Crystal Workbench customizations
 @Mixin(value = CrystalWorkbenchTileEntity.class, remap = false)
 public class MixinCrystalWorkbenchTileEntity {
-    @Inject(method = "lambda$new$2", at = @At(value = "HEAD"), cancellable = true)
-    private static void addAdditionalUniqueIngredients(Integer slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if(slot == 4) {
-            cir.setReturnValue(stack.is(ModItems.LAYOUT_MANIPULATOR));
-        }
-        else if(slot == 5) {
-            cir.setReturnValue(stack.getItem() instanceof IVaultCrystalModifier);
-        }
-    }
+//    @Inject(method = "lambda$new$2", at = @At(value = "HEAD"), cancellable = true)
+//    private static void addAdditionalUniqueIngredients(Integer slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+//        if(slot == 4) {
+//            cir.setReturnValue(stack.is(ModItems.LAYOUT_MANIPULATOR));
+//        }
+//        else if(slot == 5) {
+//            cir.setReturnValue(stack.getItem() instanceof IVaultCrystalModifier);
+//        }
+//    }
 
 }

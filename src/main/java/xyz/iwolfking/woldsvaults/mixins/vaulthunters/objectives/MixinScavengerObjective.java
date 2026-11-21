@@ -13,12 +13,12 @@ import xyz.iwolfking.woldsvaults.objectives.UnhingedScavengerObjective;
 public class MixinScavengerObjective {
     // Wolf broke paradox vaults by replacing the scav objective with unhinged scav objective
     // we will also check if the objective has unhinged config, because doing it properly now would break currently running vaults on update
-    @WrapOperation(method = "initServer", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/objective/ScavengerObjective;getOr(Liskallia/vault/core/data/key/GenericFieldKey;Ljava/lang/Object;)Ljava/lang/Object;"))
-    private Object onInitServer(ScavengerObjective instance, GenericFieldKey genericFieldKey, Object o, Operation<Object> original) {
-        UnhingedScavengerObjective.Config unhingedConfig = instance.get(UnhingedScavengerObjective.CONFIG);
-        if (unhingedConfig == UnhingedScavengerObjective.Config.DIVINE_PARADOX) {
-            return ScavengerObjective.Config.DIVINE_PARADOX;
-        }
-        return original.call(instance, genericFieldKey, o);
-    }
+//    @WrapOperation(method = "initServer", at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/objective/ScavengerObjective;getOr(Liskallia/vault/core/data/key/GenericFieldKey;Ljava/lang/Object;)Ljava/lang/Object;"))
+//    private Object onInitServer(ScavengerObjective instance, GenericFieldKey genericFieldKey, Object o, Operation<Object> original) {
+//        UnhingedScavengerObjective.Config unhingedConfig = instance.get(UnhingedScavengerObjective.CONFIG);
+//        if (unhingedConfig == UnhingedScavengerObjective.Config.DIVINE_PARADOX) {
+//            return ScavengerObjective.Config.DIVINE_PARADOX;
+//        }
+//        return original.call(instance, genericFieldKey, o);
+//    }
 }

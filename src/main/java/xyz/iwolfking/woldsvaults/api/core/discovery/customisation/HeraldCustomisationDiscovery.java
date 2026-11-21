@@ -25,6 +25,16 @@ public class HeraldCustomisationDiscovery extends CustomisationDiscovery {
         return (new TextComponent("Defeat The Herald to use this " + customisationType)).withStyle(ChatFormatting.WHITE);
     }
 
+    @Override
+    public String getShortRequirement() {
+        return "Defeat The Herald";
+    }
+
+    @Override
+    public int getSortKey() {
+        return 99999;
+    }
+
     public Optional<CompoundTag> writeNbt() {
         CompoundTag nbt = new CompoundTag();
         return Optional.of(nbt);

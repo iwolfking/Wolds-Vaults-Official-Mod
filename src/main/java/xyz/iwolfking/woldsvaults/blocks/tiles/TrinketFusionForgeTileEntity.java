@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.blocks.tiles;
 
-import iskallia.vault.container.TrinketForgeContainer;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.init.ModItems;
 import iskallia.vault.item.gear.TrinketItem;
@@ -23,8 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;

@@ -17,43 +17,44 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.client.init.ModSlotIcons;
 import xyz.iwolfking.woldsvaults.init.ModTags;
 
+//TODO: Figure out how to get this working again(?) but really just need to reimplement Seal Stacking in some way
 @Mixin(value = CrystalWorkbenchContainer.class, remap = false)
-public abstract class MixinCrystalWorkbenchContainer  extends OverSizedSlotContainer {
+public abstract class MixinCrystalWorkbenchContainer {
 
-    protected MixinCrystalWorkbenchContainer(MenuType<?> menuType, int id, Player player) {
-        super(menuType, id, player);
-    }
-
-    @Inject(method = "getUniqueSlotBackground", at = @At("HEAD"), cancellable = true)
-    private void addAdditionalSlotBackgrounds(int index, CallbackInfoReturnable<ResourceLocation> cir) {
-        if(index == 4) {
-            cir.setReturnValue(ModSlotIcons.LAYOUT_NO_ITEM);
-        }
-        else if(index == 5) {
-            cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
-        }
-    }
-    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
-    slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0, remap = false),
-                     to = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getOutput()Liskallia/vault/container/oversized/OverSizedInventory;", remap = false)))
-    private Slot stackableSeals(CrystalWorkbenchContainer instance, Slot slot, Operation<Slot> original){
-        var bg = slot.getNoItemIcon();
-        var typedSlot = slot instanceof CrystalWorkbenchContainer.CrystalWorkbenchSlot sl ? sl : null;
-        if (typedSlot != null && bg != null && bg.getSecond().equals(iskallia.vault.init.ModSlotIcons.SEAL_NO_ITEM)) {
-            return original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, typedSlot.index, typedSlot.x, typedSlot.y) {
-                public boolean mayPlace(ItemStack stack) {
-                    return instance.getEntity().getUniqueIngredients().canPlaceItem(typedSlot.index, stack);
-                }
-
-                @Override
-                public int getMaxStackSize(ItemStack pStack) {
-                    if (pStack.is(ModTags.STACKABLE_SEALS)) {
-                        return 64;
-                    }
-                    return super.getMaxStackSize(pStack);
-                }
-            }).setBackground(bg.getSecond()));
-        }
-        return original.call(instance, slot);
-    }
+//    protected MixinCrystalWorkbenchContainer(MenuType<?> menuType, int id, Player player) {
+//        super(menuType, id, player);
+//    }
+//
+//    @Inject(method = "getUniqueSlotBackground", at = @At("HEAD"), cancellable = true)
+//    private void addAdditionalSlotBackgrounds(int index, CallbackInfoReturnable<ResourceLocation> cir) {
+//        if(index == 4) {
+//            cir.setReturnValue(ModSlotIcons.LAYOUT_NO_ITEM);
+//        }
+//        else if(index == 5) {
+//            cir.setReturnValue(ModSlotIcons.PLACEHOLDER_NO_ITEM);
+//        }
+//    }
+//    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Liskallia/vault/container/CrystalWorkbenchContainer;addSlot(Lnet/minecraft/world/inventory/Slot;)Lnet/minecraft/world/inventory/Slot;"), remap = true,
+//    slice = @Slice(from = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getUniqueIngredients()Liskallia/vault/container/oversized/OverSizedInventory;", ordinal = 0, remap = false),
+//                     to = @At(value = "INVOKE", target = "Liskallia/vault/block/entity/CrystalWorkbenchTileEntity;getOutput()Liskallia/vault/container/oversized/OverSizedInventory;", remap = false)))
+//    private Slot stackableSeals(CrystalWorkbenchContainer instance, Slot slot, Operation<Slot> original){
+//        var bg = slot.getNoItemIcon();
+//        var typedSlot = slot instanceof CrystalWorkbenchContainer.CrystalWorkbenchSlot sl ? sl : null;
+//        if (typedSlot != null && bg != null && bg.getSecond().equals(iskallia.vault.init.ModSlotIcons.SEAL_NO_ITEM)) {
+//            return original.call(instance, (new CrystalWorkbenchContainer.CrystalWorkbenchSlot(typedSlot.container, typedSlot.index, typedSlot.x, typedSlot.y) {
+//                public boolean mayPlace(ItemStack stack) {
+//                    return instance.getEntity().getUniqueIngredients().canPlaceItem(typedSlot.index, stack);
+//                }
+//
+//                @Override
+//                public int getMaxStackSize(ItemStack pStack) {
+//                    if (pStack.is(ModTags.STACKABLE_SEALS)) {
+//                        return 64;
+//                    }
+//                    return super.getMaxStackSize(pStack);
+//                }
+//            }).setBackground(bg.getSecond()));
+//        }
+//        return original.call(instance, slot);
+//    }
 }

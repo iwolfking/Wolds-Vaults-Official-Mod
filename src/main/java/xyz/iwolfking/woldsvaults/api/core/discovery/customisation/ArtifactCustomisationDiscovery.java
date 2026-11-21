@@ -35,6 +35,16 @@ public class ArtifactCustomisationDiscovery extends CustomisationDiscovery {
         return (new TextComponent("Discover " + this.discoveredArtifactsCount + " Artifacts to use this " + customisationType)).withStyle(ChatFormatting.WHITE);
     }
 
+    @Override
+    public String getShortRequirement() {
+        return "Discover " + discoveredArtifactsCount + " Artifacts";
+    }
+
+    @Override
+    public int getSortKey() {
+        return 1000 + discoveredArtifactsCount;
+    }
+
     public Optional<CompoundTag> writeNbt() {
         CompoundTag nbt = new CompoundTag();
         Adapters.INT.writeNbt(this.discoveredArtifactsCount).ifPresent((tag) -> nbt.put("discoveredArtifactsCount", tag));

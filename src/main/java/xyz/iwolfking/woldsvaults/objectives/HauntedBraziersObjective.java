@@ -1,74 +1,32 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
+
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.MonolithBlock;
 import iskallia.vault.block.entity.MonolithTileEntity;
-import iskallia.vault.client.gui.helper.LightmapHelper;
 import iskallia.vault.core.Version;
-import iskallia.vault.core.data.key.LootTableKey;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockUseEvent;
-import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.core.vault.VaultLevel;
-import iskallia.vault.core.vault.VaultRegistry;
-import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
-import iskallia.vault.core.vault.modifier.spi.VaultModifier;
-import iskallia.vault.core.vault.objective.KillBossObjective;
 import iskallia.vault.core.vault.objective.MonolithObjective;
 import iskallia.vault.core.vault.objective.Objective;
-import iskallia.vault.core.vault.player.Listener;
-import iskallia.vault.core.world.loot.generator.LootTableGenerator;
+import iskallia.vault.core.vault.objective.brazier.BrazierBlessing;
+import iskallia.vault.core.vault.objective.brazier.BrazierHold;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
-import iskallia.vault.init.ModEffects;
-import iskallia.vault.init.ModNetwork;
-import iskallia.vault.init.ModSounds;
-import iskallia.vault.item.core.DataInitializationItem;
-import iskallia.vault.item.core.DataTransferItem;
-import iskallia.vault.item.core.VaultLevelItem;
-import iskallia.vault.network.message.MonolithIgniteMessage;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PacketDistributor;
-import vazkii.quark.content.mobs.entity.Wraith;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+//TODO: Rework Haunted Braziers a bit to better suit the new Brazier objective
 public class HauntedBraziersObjective extends MonolithObjective {
     public static final SupplierKey<Objective> E_KEY = SupplierKey.of("haunted_braziers", Objective.class).with(Version.v1_12, HauntedBraziersObjective::new);
     public static final ResourceLocation HAUNTED_HUD = VaultMod.id("textures/gui/monolith/haunted_hud.png");
@@ -80,22 +38,19 @@ public class HauntedBraziersObjective extends MonolithObjective {
         return E_KEY;
     }
 
-    public HauntedBraziersObjective(int target, float objectiveProbability, ResourceLocation stackModifierPool, ResourceLocation overStackModifierPool, ResourceLocation lootTable) {
+    protected HauntedBraziersObjective(int target, float objectiveProbability) {
         this.set(COUNT, 0);
         this.set(TARGET, target);
         this.set(BASE_TARGET, target);
         this.set(OBJECTIVE_PROBABILITY, objectiveProbability);
-        this.set(STACK_MODIFIER_POOL, stackModifierPool);
-        this.set(OVER_STACK_MODIFIER_POOL, overStackModifierPool);
-        this.set(OVER_STACK_LOOT_TABLE, lootTable);
+        this.set(HEAT, 0);
     }
 
-    public static HauntedBraziersObjective of(int target, float objectiveProbability, ResourceLocation stackModifierPool, ResourceLocation overStackModifierPool, ResourceLocation overStackLootTable) {
-        return new HauntedBraziersObjective(target, objectiveProbability, stackModifierPool, overStackModifierPool, overStackLootTable);
+    public static HauntedBraziersObjective of(int target, float objectiveProbability) {
+        return new HauntedBraziersObjective(target, objectiveProbability);
     }
 
 
-    @Override
     public void initServer(VirtualWorld world, Vault vault) {
         ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
 
@@ -104,130 +59,58 @@ public class HauntedBraziersObjective extends MonolithObjective {
             resourceLocations.add(VaultMod.id("haunting"));
         });
 
-        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
-            this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability(probability));
-        });
-
-        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.MONOLITH).register(this, data -> {
-            if (data.getHand() != InteractionHand.MAIN_HAND) {
-                data.setResult(InteractionResult.SUCCESS);
-            } else {
-                BlockPos pos = data.getPos();
-                if (data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
-                    if (vault.get(Vault.LISTENERS).getObjectivePriority(data.getPlayer().getUUID(), this) == 0) {
-                        boolean overStacking = this.get(COUNT) >= this.get(TARGET);
-                        if (overStacking) {
-                            world.setBlock(pos, world.getBlockState(pos).setValue(MonolithBlock.STATE, MonolithBlock.State.DESTROYED), 3);
-                        } else {
-                            world.setBlock(pos, world.getBlockState(pos).setValue(MonolithBlock.STATE, MonolithBlock.State.LIT), 3);
-                        }
-
-                        this.playActivationEffects(world, pos, overStacking);
-                        this.set(COUNT, this.get(COUNT) + 1);
-                        if (!overStacking) {
-                            for(Objective objective: this.get(CHILDREN)) {
-                                if (objective instanceof KillBossObjective killBoss) {
-                                    killBoss.set(KillBossObjective.BOSS_POS, pos);
-                                }
-                            }
-                            List<Wraith> nearbyEntities = world.getEntitiesOfClass(Wraith.class, Objects.requireNonNull(world.getBlockEntity(pos)).getRenderBoundingBox().inflate(64.0D));
-
-                            nearbyEntities.forEach(livingEntity -> {
-                                    livingEntity.addEffect(new MobEffectInstance(ModEffects.NO_AI, 60, 0));
-                                    livingEntity.hurt(DamageSource.MAGIC,livingEntity.getMaxHealth() / 2);
-                            });
-                        }
-
-                        if (overStacking) {
-                            LootTableKey table = VaultRegistry.LOOT_TABLE.getKey(this.get(OVER_STACK_LOOT_TABLE));
-                            if (table == null) {
-                                return;
-                            }
-
-                            LootTableGenerator generator = new LootTableGenerator(vault.get(Vault.VERSION), table, 0.0F);
-                            ChunkRandom randomx = ChunkRandom.any();
-                            randomx.setBlockSeed(vault.get(Vault.SEED), data.getPos(), 900397371L);
-                            generator.generate(randomx);
-                            List<ItemStack> loot = new ArrayList<>();
-                            generator.getItems().forEachRemaining(loot::add);
-
-                            for(int i = 0; i < loot.size(); ++i) {
-                                ItemStack stack = loot.get(i);
-                                VaultLevelItem.doInitializeVaultLoot(stack, vault, null);
-                                stack = DataTransferItem.doConvertStack(stack);
-                                DataInitializationItem.doInitialize(stack);
-                                loot.set(i, stack);
-                            }
-
-                            loot.removeIf(ItemStack::isEmpty);
-                            loot.forEach(stack -> Block.popResource(world, pos, stack));
-                            data.setResult(InteractionResult.SUCCESS);
-                        }
-
-                        if (data.getWorld().getBlockEntity(pos) instanceof MonolithTileEntity tile) {
-                            if (!tile.getModifiers().isEmpty()) {
-                                Iterator<Map.Entry<ResourceLocation, Integer>> it = tile.getModifiers().entrySet().iterator();
-                                TextComponent suffix = new TextComponent("");
-
-                                while(it.hasNext()) {
-                                    Map.Entry<ResourceLocation, Integer> entry = it.next();
-                                    VaultModifier<?> modifier = VaultModifierRegistry.get(entry.getKey());
-                                    suffix.append(modifier.getChatDisplayNameComponent(entry.getValue()));
-                                    if (it.hasNext()) {
-                                        suffix.append(new TextComponent(", "));
-                                    }
-                                }
-
-                                TextComponent text = new TextComponent("");
-                                if (!tile.getModifiers().isEmpty()) {
-                                    text.append(data.getPlayer().getDisplayName()).append((new TextComponent(" added ")).withStyle(ChatFormatting.GRAY)).append(suffix).append((new TextComponent(".")).withStyle(ChatFormatting.GRAY));
-                                }
-
-                                ChunkRandom random = ChunkRandom.any();
-                                random.setBlockSeed(vault.get(Vault.SEED), data.getPos(), 90039737L);
-                                tile.getModifiers().forEach((modifierx, count) -> vault.get(Vault.MODIFIERS)
-                                    .addModifier(VaultModifierRegistry.get(modifierx), count, true, random));
-
-                                for (Listener listener: vault.get(Vault.LISTENERS).getAll()) {
-                                    listener.getPlayer().ifPresent(other -> {
-                                        world.playSound(null, other.getX(), other.getY(), other.getZ(), SoundEvents.NOTE_BLOCK_BELL, SoundSource.PLAYERS, 0.9F, 1.2F);
-                                        other.displayClientMessage(text, false);
-                                    });
-                                }
-                            }
-                        }
-
-                        data.setResult(InteractionResult.SUCCESS);
-                    }
-                }
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> {
+            if (data.getVault() == vault) {
+                this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability));
             }
         });
         this.registerObjectiveTemplate(world, vault);
+        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.MONOLITH).register(this, (data) -> {
+            if (data.getHand() != InteractionHand.MAIN_HAND) {
+                data.setResult(InteractionResult.SUCCESS);
+            } else if (data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
+                if (vault.get(Vault.LISTENERS).getObjectivePriority(data.getPlayer().getUUID(), this) == 0) {
+                    BlockEntity patt6702$temp = data.getWorld().getBlockEntity(data.getPos());
+                    if (patt6702$temp instanceof MonolithTileEntity tile) {
+                        data.setResult(InteractionResult.SUCCESS);
+                        if (!tile.isHolding()) {
+                            if (tile.getBlessing().isEmpty()) {
+                                Optional<BrazierBlessing> var10000 = this.rollBlessing(vault, data.getPos());
+                                Objects.requireNonNull(tile);
+                                var10000.ifPresent(tile::setBlessing);
+                            }
 
-        CommonEvents.MONOLITH_UPDATE.register(this, data -> {
-            if (data.getWorld() == world) {
-                if (!data.getEntity().isGenerated() || data.getEntity().isOverStacking() != this.get(COUNT) >= this.get(TARGET) && data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
-                    data.getEntity().setOverStacking(this.get(COUNT) >= this.get(TARGET));
-                    if (data.getEntity().isOverStacking()) {
-                        data.getEntity().removeModifiers();
-                    }
-
-                    ResourceLocation pool = data.getEntity().isOverStacking() ? this.get(OVER_STACK_MODIFIER_POOL) : this.get(STACK_MODIFIER_POOL);
-                    if (pool != null) {
-                        int level = vault.get(Vault.LEVEL).getOr(VaultLevel.VALUE, 0);
-                        ChunkRandom random = ChunkRandom.any();
-                        random.setBlockSeed(vault.get(Vault.SEED), data.getPos(), 90039737L);
-
-                        for(VaultModifier<?> modifier: ModConfigs.VAULT_MODIFIER_POOLS.getRandom(pool, level, random)) {
-                            data.getEntity().addModifier(modifier);
+                            if (tile.getBlessing().isPresent()) {
+                                BrazierHold.start(world, vault, this, tile, data.getPos());
+                            }
                         }
                     }
-
-                    data.getEntity().setGenerated(true);
                 }
             }
         });
-        (this.get(CHILDREN)).forEach(child -> child.initServer(world, vault));
+        CommonEvents.MONOLITH_UPDATE.register(this, (data) -> {
+            if (data.getWorld() == world) {
+                if (data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
+                    MonolithTileEntity tile = data.getEntity();
+                    if (tile.isHolding()) {
+                        BrazierHold.tick(world, vault, this, tile, data.getPos());
+                    } else {
+                        if (tile.getBlessing().isEmpty() && (world.getGameTime() + data.getPos().asLong()) % 10L == 0L && this.isPlayerNear(world, data.getPos())) {
+                            Optional<BrazierBlessing> var10000 = this.rollBlessing(vault, data.getPos());
+                            Objects.requireNonNull(tile);
+                            var10000.ifPresent(tile::setBlessing);
+                        }
+
+                    }
+                }
+            }
+        });
+        this.get(CHILDREN).forEach((child) -> child.initServer(world, vault));
+    }
+
+    private boolean isPlayerNear(VirtualWorld world, BlockPos pos) {
+        double distance = ModConfigs.MONOLITH.getRollNearDistance();
+        return world.getNearestPlayer((double)pos.getX() + (double)0.5F, (double)pos.getY() + (double)0.5F, (double)pos.getZ() + (double)0.5F, distance, false) != null;
     }
 
     @Override
@@ -254,58 +137,44 @@ public class HauntedBraziersObjective extends MonolithObjective {
 
     }
 
-    @Override
-    protected void playActivationEffects(VirtualWorld world, BlockPos pos, boolean overStacking) {
-        if (overStacking) {
-            BlockParticleOption particle = new BlockParticleOption(ParticleTypes.BLOCK, world.getBlockState(pos));
-            Vec3 vec3 = new Vec3(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
-            world.sendParticles(particle, vec3.x, vec3.y, vec3.z, 400, 1.0, 1.0, 1.0, 0.5);
-            world.sendParticles(ParticleTypes.SCRAPE, vec3.x, vec3.y, vec3.z, 50, 1.0, 1.0, 1.0, 0.5);
-            world.playSound(null, vec3.x, vec3.y, vec3.z, ModSounds.DESTROY_MONOLITH, SoundSource.PLAYERS, 0.25F, 1.0F);
-        } else {
-            ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new MonolithIgniteMessage(pos));
-            world.playSound(null, pos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-        }
-
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
-        if (this.get(COUNT) >= this.get(TARGET)) {
-            int midX = window.getGuiScaledWidth() / 2;
-            Font font = Minecraft.getInstance().font;
-            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-            Component txt = (new TextComponent("Grave Rob, or Exit to Complete")).withStyle(ChatFormatting.AQUA);
-            font.drawInBatch(txt.getVisualOrderText(), midX - font.width(txt) / 2.0F, 9.0F, -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
-            buffer.endBatch();
-            return true;
-        } else {
-            int current = this.get(COUNT);
-            int total = this.get(TARGET);
-            Component txt = new TextComponent(String.valueOf(current)).withStyle(ChatFormatting.WHITE).append((new TextComponent(" / ")).withStyle(ChatFormatting.WHITE)).append((new TextComponent(String.valueOf(total))).withStyle(ChatFormatting.WHITE));
-            int midX = 0;
-            matrixStack.pushPose();
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            int previousTexture = RenderSystem.getShaderTexture(0);
-            RenderSystem.setShaderTexture(0, HAUNTED_HUD);
-            float progress = (float)current / (float)total;
-            matrixStack.translate((midX - 80), 8.0, 0.0);
-            GuiComponent.blit(matrixStack, 0, 0, 0.0F, 0.0F, 200, 26, 200, 100);
-            GuiComponent.blit(matrixStack, 0, 8, 0.0F, 30.0F, 13 + (int)(130.0F * progress), 10, 200, 100);
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, previousTexture);
-            matrixStack.popPose();
-            Font font = Minecraft.getInstance().font;
-            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-            matrixStack.pushPose();
-            matrixStack.scale(0.6F, 0.6F, 0.6F);
-            font.drawInBatch(txt.getVisualOrderText(), midX / 0.6F - font.width(txt) / 2.0F, (9 + 22), -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
-            buffer.endBatch();
-            matrixStack.popPose();
-            return true;
-        }
-    }
+    //TODO: Implement HauntedBrazierHud
+//    @OnlyIn(Dist.CLIENT)
+//    @Override
+//    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
+//        if (this.get(COUNT) >= this.get(TARGET)) {
+//            int midX = window.getGuiScaledWidth() / 2;
+//            Font font = Minecraft.getInstance().font;
+//            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+//            Component txt = (new TextComponent("Grave Rob, or Exit to Complete")).withStyle(ChatFormatting.AQUA);
+//            font.drawInBatch(txt.getVisualOrderText(), midX - font.width(txt) / 2.0F, 9.0F, -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+//            buffer.endBatch();
+//            return true;
+//        } else {
+//            int current = this.get(COUNT);
+//            int total = this.get(TARGET);
+//            Component txt = new TextComponent(String.valueOf(current)).withStyle(ChatFormatting.WHITE).append((new TextComponent(" / ")).withStyle(ChatFormatting.WHITE)).append((new TextComponent(String.valueOf(total))).withStyle(ChatFormatting.WHITE));
+//            int midX = 0;
+//            matrixStack.pushPose();
+//            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//            int previousTexture = RenderSystem.getShaderTexture(0);
+//            RenderSystem.setShaderTexture(0, HAUNTED_HUD);
+//            float progress = (float)current / (float)total;
+//            matrixStack.translate((midX - 80), 8.0, 0.0);
+//            GuiComponent.blit(matrixStack, 0, 0, 0.0F, 0.0F, 200, 26, 200, 100);
+//            GuiComponent.blit(matrixStack, 0, 8, 0.0F, 30.0F, 13 + (int)(130.0F * progress), 10, 200, 100);
+//            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//            RenderSystem.setShaderTexture(0, previousTexture);
+//            matrixStack.popPose();
+//            Font font = Minecraft.getInstance().font;
+//            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+//            matrixStack.pushPose();
+//            matrixStack.scale(0.6F, 0.6F, 0.6F);
+//            font.drawInBatch(txt.getVisualOrderText(), midX / 0.6F - font.width(txt) / 2.0F, (9 + 22), -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
+//            buffer.endBatch();
+//            matrixStack.popPose();
+//            return true;
+//        }
+//    }
 }

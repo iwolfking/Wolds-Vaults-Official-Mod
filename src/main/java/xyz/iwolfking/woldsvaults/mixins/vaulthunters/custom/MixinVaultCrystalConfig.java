@@ -25,7 +25,7 @@ import java.util.Map;
 public class MixinVaultCrystalConfig {
     @Shadow private Map<ResourceLocation, LevelEntryList<VaultCrystalConfig.SealEntry>> SEALS;
 
-    @Inject(method = "lambda$applySeal$5", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;getObjective()Liskallia/vault/item/crystal/objective/CrystalObjective;"), cancellable = true)
+    @Inject(method = "lambda$applySeal$21", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;getObjective()Liskallia/vault/item/crystal/objective/CrystalObjective;"), cancellable = true)
     private static void cancelMaxSeal(ItemStack input, CrystalData crystal, ItemStack output, VaultCrystalConfig.SealEntry entry, CallbackInfoReturnable<Boolean> cir) {
         if(crystal.getObjective() instanceof ScalingObjective crystalObj && ((SealEntryAccessor)entry).getObjective().getClass() == crystal.getObjective().getClass()) {
             if (crystalObj.getSealCount() >= crystalObj.getMaxSealCount()) {
@@ -34,7 +34,7 @@ public class MixinVaultCrystalConfig {
         }
     }
 
-    @WrapOperation(method = "lambda$applySeal$5", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;setObjective(Liskallia/vault/item/crystal/objective/CrystalObjective;)V"))
+    @WrapOperation(method = "lambda$applySeal$21", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/CrystalData;setObjective(Liskallia/vault/item/crystal/objective/CrystalObjective;)V"))
     private static void modifyScalingBingoObjective(CrystalData crystalData, CrystalObjective sealObjective, Operation<Void> original) {
         if (crystalData.getObjective() instanceof ScalingObjective scalingObjective && sealObjective.getClass() == crystalData.getObjective().getClass()) {
             crystalData.setObjective(scalingObjective.increaseBy(1));

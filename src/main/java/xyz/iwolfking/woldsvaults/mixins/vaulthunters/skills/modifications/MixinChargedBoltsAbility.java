@@ -2,11 +2,11 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.skills.modifications;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import iskallia.vault.gear.etching.EtchingHitShare;
 import iskallia.vault.skill.ability.effect.ChargedBoltsAbility;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,15 +43,15 @@ public class MixinChargedBoltsAbility implements IWoldAbilityEnhancements {
         });
     }
 
-    @WrapOperation(method = "lambda$applyLightningDamage$3", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
-    private static boolean woldsVaults$wrapElementalFlags(LivingEntity instance, DamageSource source, float amount, Operation<Boolean> original) {
+    @WrapOperation(method = "lambda$applyLightningDamage$4", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/etching/EtchingHitShare;hurt(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
+    private static boolean woldsVaults$wrapElementalFlags(EtchingHitShare instance, Entity target, DamageSource source, float unetchedDamage, Operation<Boolean> original) {
         Entity attacker = source.getEntity();
         List<ElementalType> types = List.of();
         if (attacker instanceof ServerPlayer player) {
             types = woldsVaults$chargedBoltsElements.getOrDefault(player.getUUID(), List.of());
         }
         boolean[] result = new boolean[]{false};
-        ElementHelper.runWithElements(types, () -> result[0] = original.call(instance, source, amount));
+        ElementHelper.runWithElements(types, () -> result[0] = original.call(instance, source, unetchedDamage));
         return result[0];
     }
 

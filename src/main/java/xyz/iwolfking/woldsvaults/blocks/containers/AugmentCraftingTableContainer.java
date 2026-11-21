@@ -1,6 +1,5 @@
 package xyz.iwolfking.woldsvaults.blocks.containers;
 
-import iskallia.vault.container.inventory.CatalystInfusionTableContainer;
 import iskallia.vault.container.spi.ForgeRecipeContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;

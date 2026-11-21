@@ -3,8 +3,6 @@ package xyz.iwolfking.woldsvaults.blocks.tiles;
 import iskallia.vault.block.entity.AlchemyTableTileEntity;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.init.ModNetwork;
-import iskallia.vault.network.message.ClientboundAlchemyParticleMessage;
-import iskallia.vault.network.message.ClientboundAlchemySecondParticleMessage;
 import iskallia.vault.network.message.ClientboundTESyncMessage;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.core.BlockPos;
@@ -26,7 +24,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.blocks.BrewingAltar;
 import xyz.iwolfking.woldsvaults.config.AlchemyObjectiveConfig;
@@ -284,16 +281,14 @@ public class BrewingAltarTileEntity extends BlockEntity {
 
                 if(cookingTimer > 40 && cookingTimer < 60 - 2){
 
-                    float f = 1 - ((cookingTimer - 40) / (float)(AlchemyTableTileEntity.CRAFTING_COOLDOWN - 40));
-                    f = AlchemyTableTileEntity.ease(f);
+                    float f = 1 - ((float) (cookingTimer - 40) / 20);
+                    f = ease(f);
                     float yOffset = (float)Math.sin(f * Math.PI / 1.5f) / 8;
-
-
-
-                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemyParticleMessage(this.getBlockPos(), Direction.NORTH, color, yOffset));
+                    //TODO: Restore Alchemy Table Particles
+                    //ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemyParticleMessage(this.getBlockPos(), Direction.NORTH, color, yOffset));
                 }
                 if(cookingTimer == 20) {
-                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemySecondParticleMessage(this.getBlockPos(), color));
+                    //ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemySecondParticleMessage(this.getBlockPos(), color));
                 }
 
                 cookingTimer--;
@@ -351,6 +346,16 @@ public class BrewingAltarTileEntity extends BlockEntity {
         return progressIncrease;
     }
 
+    public static float ease(double x) {
+        if (x == 0.0) {
+            return 0.0F;
+        } else if (x == 1.0) {
+            return 1.0F;
+        } else {
+            return x < 0.5 ? (float)Math.pow(2.0, 20.0 * x - 10.0) / 2.0F : (float)(2.0 - Math.pow(2.0, -20.0 * x + 10.0)) / 2.0F;
+        }
+    }
+
     public static class PercentageResult {
         private float min;
         private float max;
@@ -381,7 +386,5 @@ public class BrewingAltarTileEntity extends BlockEntity {
         public boolean isRange() {
             return min != max;
         }
-
-
     }
 }

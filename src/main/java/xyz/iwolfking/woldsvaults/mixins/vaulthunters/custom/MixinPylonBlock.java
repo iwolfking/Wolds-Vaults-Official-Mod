@@ -16,8 +16,8 @@ import xyz.iwolfking.woldsvaults.expertises.PylonPilfererExpertise;
 
 @Mixin(value = PylonBlock.class, remap = false)
 public class MixinPylonBlock {
-    @Redirect(method = "playerDestroy", at = @At(value = "INVOKE", target = "Liskallia/vault/config/TemporalShardConfig;getDropChance()F", remap = false), remap = true)
-    private float modifyChance(TemporalShardConfig instance, @Local(argsOnly = true) Player player, @Local(argsOnly = true) Level level) {
+    @Redirect(method = "shatter", at = @At(value = "INVOKE", target = "Liskallia/vault/config/TemporalShardConfig;getDropChance()F", remap = false))
+    private static float modifyChance(TemporalShardConfig instance, @Local(argsOnly = true) Player player) {
         float bonusChance = 0.0F;
         if(player instanceof ServerPlayer serverPlayer) {
             ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(player);
@@ -35,26 +35,5 @@ public class MixinPylonBlock {
         }
 
         return instance.getDropChance() + bonusChance;
-    }
-
-    @Redirect(method = "playerDestroy", at = @At(value = "INVOKE", target = "Liskallia/vault/config/TemporalShardConfig;getUberChance()F", remap = false), remap = true)
-    private float modifyUberChance(TemporalShardConfig instance, @Local(argsOnly = true) Player player, @Local(argsOnly = true) Level level) {
-        float bonusChance = 0.0F;
-        if(player instanceof ServerPlayer serverPlayer) {
-            ExpertiseTree tree = PlayerExpertisesData.get(serverPlayer.getLevel()).getExpertises(player);
-            if(tree == null) {
-                return instance.getUberChance();
-            }
-
-            for(Skill skill : tree.skills) {
-                if(skill instanceof PylonPilfererExpertise pylonPilfererExpertise) {
-                    bonusChance += pylonPilfererExpertise.getChanceIncrease();
-                }
-            }
-
-
-        }
-
-        return instance.getUberChance() + bonusChance;
     }
 }

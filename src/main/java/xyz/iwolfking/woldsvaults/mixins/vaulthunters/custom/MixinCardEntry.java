@@ -32,7 +32,7 @@ public abstract class MixinCardEntry {
     @Shadow
     private CardModifier<?> modifier;
 
-    @WrapOperation(method = "getSnapshotAttributes", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"))
+    @WrapOperation(method = "getSnapshotShare", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"))
     private List<VaultGearAttributeInstance<?>> handleSpecialScalingModifiers(CardModifier<?> instance, int i, Operation<List<VaultGearAttributeInstance<?>>> original, @Local(argsOnly = true) CardDeck deck) {
         if(DeckModifiersHelper.hasImplicitDeckModifierOfType(deck, TemporalTimeDeckModifier.class)) {
             try {
@@ -84,7 +84,7 @@ public abstract class MixinCardEntry {
         return original.call(instance, i);
     }
 
-    @Inject(method = "getSnapshotAttributes", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"), cancellable = true)
+    @Inject(method = "getSnapshotShare", at = @At(value = "INVOKE", target = "Liskallia/vault/core/card/modifier/card/CardModifier;getSnapshotAttributes(I)Ljava/util/List;"), cancellable = true)
     private void disableArcaneInNitwitDecks(int tier, CardPos pos, CardDeck deck, CallbackInfoReturnable<List<VaultGearAttributeInstance<?>>> cir) {
         if(!DeckModifiersHelper.getDeckModifiersOfType(deck, NitwitDeckModifier.class).isEmpty()) {
             if(this.groups.contains("Arcane")) {

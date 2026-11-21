@@ -34,6 +34,15 @@ public class ThemeCustomisationDiscovery extends CustomisationDiscovery {
         return (new TextComponent("Unlock the " + this.themeGroup + " themes to use this " + customisationType)).withStyle(ChatFormatting.WHITE);
     }
 
+    public String getShortRequirement() {
+        return "Complete Theme from Series: " + this.themeGroup;
+    }
+
+    //TODO: Change this to something more sensible
+    public int getSortKey() {
+        return 100000 + themeGroup.length();
+    }
+
     public Optional<CompoundTag> writeNbt() {
         CompoundTag nbt = new CompoundTag();
         Adapters.UTF_8.writeNbt(this.themeGroup).ifPresent((tag) -> nbt.put("themeGroup", tag));

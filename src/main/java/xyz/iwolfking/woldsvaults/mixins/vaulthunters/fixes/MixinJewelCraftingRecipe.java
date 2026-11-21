@@ -1,12 +1,10 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.fixes;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
 import iskallia.vault.client.data.ClientExpertiseData;
 import iskallia.vault.config.recipe.ForgeRecipeType;
+import iskallia.vault.container.oversized.OverSizedItemStack;
 import iskallia.vault.gear.VaultGearRarity;
-import iskallia.vault.gear.attribute.VaultGearAttribute;
-import iskallia.vault.gear.attribute.VaultGearModifier;
 import iskallia.vault.gear.crafting.recipe.JewelCraftingRecipe;
 import iskallia.vault.gear.crafting.recipe.VaultForgeRecipe;
 import iskallia.vault.gear.data.VaultGearData;
@@ -27,7 +25,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.discovery.ClientRecipeDiscoveryData;
@@ -37,6 +34,7 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import java.util.List;
 import java.util.Set;
 
+//TODO: Not sure if uniques will properly be craftable atm? Need to test
 @Mixin(value = JewelCraftingRecipe.class, remap = false)
 public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
 
@@ -75,18 +73,8 @@ public abstract class MixinJewelCraftingRecipe extends VaultForgeRecipe {
         return true;
     }
 
-    @Redirect(method = "createAttributeJewel", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/data/VaultGearData;addModifier(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;Liskallia/vault/gear/attribute/VaultGearModifier;)Z", ordinal = 1))
-    private static boolean createAttributeJewel(VaultGearData instance, VaultGearModifier.AffixType type, VaultGearModifier<?> modifier, @Local VaultGearAttribute<?> attribute) {
-        if (attribute != null) {
-            if (attribute.getRegistryName().equals(VaultMod.id("immortality"))) {
-                return instance.addModifier(VaultGearModifier.AffixType.SUFFIX, new VaultGearModifier(attribute, 0.2F));
-            }
-        }
-        return instance.addModifier(VaultGearModifier.AffixType.SUFFIX, new VaultGearModifier(attribute, true));
-    }
-
-    @Inject(method = "createJewel", at = @At("HEAD"), cancellable = true)
-    private void createUniqueJewel(int vaultLevel, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "createOutput", at = @At("HEAD"), cancellable = true)
+    private void createUniqueJewel(List<OverSizedItemStack> consumed, ServerPlayer crafter, int vaultLevel, CallbackInfoReturnable<ItemStack> cir) {
         if(CRAFTABLE_UNIQUE_JEWELS.contains(this.getId())) {
             cir.setReturnValue(woldsVaults$createUniqueJewel(vaultLevel));
         }

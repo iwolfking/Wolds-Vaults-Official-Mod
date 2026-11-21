@@ -548,8 +548,8 @@ public class HyperVaultObjective extends Objective {
             }
             forEachElixirTask(CoinStacksElixirTask.class, task -> addElixir(vault, task.getOr(ElixirTask.ELIXIR, 0)));
         }));
-
-        this.get(FIGHTS).onAttach(world, vault);
+        //TODO
+        //this.get(FIGHTS).onAttach(world, vault);
         this.get(MINIS).forEach(mini -> mini.initServer(world, vault));
         super.initServer(world, vault);
     }
@@ -669,7 +669,8 @@ public class HyperVaultObjective extends Objective {
      */
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
-        this.get(FIGHTS).onTick(world, vault);
+        //TODO
+        //this.get(FIGHTS).onTick(world, vault);
         this.get(MINIS).forEach(mini -> mini.tickServer(world, vault));
         drainSpeedClampQueue();
         tickExtractions(world, vault);
@@ -828,10 +829,11 @@ public class HyperVaultObjective extends Objective {
         if (pos == null || !world.isLoaded(pos)) {
             return;
         }
-        if (world.getBlockEntity(pos) instanceof BossRunePillarTileEntity pillar && pillar.getRuneMinimum() != 0) {
-            ((BossRunePillarAccessor) pillar).setRuneMinimum(0);
-            pillar.sendUpdates();
-        }
+        //TODO
+//        if (world.getBlockEntity(pos) instanceof BossRunePillarTileEntity pillar && pillar.getRuneMinimum() != 0) {
+//            ((BossRunePillarAccessor) pillar).setRuneMinimum(0);
+//            pillar.sendUpdates();
+//        }
     }
 
     public boolean isMiniInBatch(HyperMini mini) {
@@ -1000,7 +1002,8 @@ public class HyperVaultObjective extends Objective {
             if (!fight.isCompleted()) {
                 matrixStack.pushPose();
                 matrixStack.translate(0.0F, HUD_TOP_MARGIN, 0.0F);
-                fight.render(matrixStack, window, partialTicks);
+                //TODO
+                //fight.render(matrixStack, window, partialTicks);
                 matrixStack.popPose();
                 return;
             }

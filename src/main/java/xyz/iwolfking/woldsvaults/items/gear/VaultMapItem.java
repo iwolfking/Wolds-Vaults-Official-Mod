@@ -19,6 +19,7 @@ import iskallia.vault.gear.crafting.ProficiencyType;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.tooltip.GearTooltip;
+import iskallia.vault.gear.tooltip.GearTooltipViewer;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.BasicItem;
 import iskallia.vault.item.crystal.CrystalData;
@@ -195,7 +196,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
     }
 
     @Override
-    public void addTooltipItemLevel(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state) {
+    public void addTooltipItemLevel(VaultGearData data, ItemStack stack, List<Component> tooltip, VaultGearState state, GearTooltipViewer viewer) {
         if (data.hasAttribute(ModGearAttributes.MAP_TIER)) {
             int tier = (data.getFirstValue(ModGearAttributes.MAP_TIER).orElse(0) + 1);
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent(String.valueOf(tier)).withStyle(Style.EMPTY.withColor(getTierColor(tier)))));
@@ -210,7 +211,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
             tooltip.add(new TextComponent("Tier: ").append(new TextComponent("???").withStyle(Style.EMPTY.withColor(7247291))));
         }
     }
-
+    
     public int getTierColor(int tier) {
         return switch (tier) {
             case 12 -> 1458687;

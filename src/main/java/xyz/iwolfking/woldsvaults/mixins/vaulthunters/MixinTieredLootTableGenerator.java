@@ -94,42 +94,43 @@ public class MixinTieredLootTableGenerator implements DuckMapTier {
         return original.call(adjustedPool, childPool, weight);
     }
 
-    /**
-     * Routes the rarity-percentile CDF three ways. Strongboxes skip it entirely - their rarity
-     * comes from the map tier, and building the exact CDF at a T6 strongbox's 162 rolls would
-     * enumerate ~30M compositions (multi-second freeze, GBs of cache). 5-pool mapped-chest
-     * tables above EXACT_ROLL_LIMIT rolls use the O(pools) Gaussian approximation instead of
-     * growing the exact cache into the hundreds of MB lategame. Everything else (4-pool tables,
-     * low-roll 5-pool tables) keeps the exact enumeration. Returning null skips CDF::new; the
-     * paired wrap below turns the null into the substitute value.
-     */
-    @WrapOperation(
-            method = "generate",
-            at = @At(value = "INVOKE", target = "Ljava/util/Map;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;")
-    )
-    private Object routeCdfBuild(Map<Object, Object> cache, Object cdfKey, Function<Object, Object> factory, Operation<Object> original) {
-        if (this.woldsvaults$mapTier >= 0) {
-            return null;
-        }
-        if (this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT && this.key[0] > TieredCdfApprox.EXACT_ROLL_LIMIT) {
-            return null;
-        }
-        return original.call(cache, cdfKey, factory);
-    }
-
-    /**
-     * Pairs with {@link #routeCdfBuild}: when the CDF build was skipped, strongboxes resolve
-     * 1.0 (the value is never read - rarity comes from the map tier) and mapped chests resolve
-     * the Gaussian approximation.
-     */
-    @WrapOperation(
-            method = "generate",
-            at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator$CDF;get([I)D")
-    )
-    private double routeCdfValue(TieredLootTableGenerator.CDF cdf, int[] frequencies, Operation<Double> original) {
-        if (cdf != null) {
-            return original.call(cdf, frequencies);
-        }
-        return this.woldsvaults$mapTier >= 0 ? 1.0 : TieredCdfApprox.cdf(this.key, frequencies);
-    }
+    //TODO: Note for Super - no more CDF generator, will need to revisit this
+//    /**
+//     * Routes the rarity-percentile CDF three ways. Strongboxes skip it entirely - their rarity
+//     * comes from the map tier, and building the exact CDF at a T6 strongbox's 162 rolls would
+//     * enumerate ~30M compositions (multi-second freeze, GBs of cache). 5-pool mapped-chest
+//     * tables above EXACT_ROLL_LIMIT rolls use the O(pools) Gaussian approximation instead of
+//     * growing the exact cache into the hundreds of MB lategame. Everything else (4-pool tables,
+//     * low-roll 5-pool tables) keeps the exact enumeration. Returning null skips CDF::new; the
+//     * paired wrap below turns the null into the substitute value.
+//     */
+//    @WrapOperation(
+//            method = "generate",
+//            at = @At(value = "INVOKE", target = "Ljava/util/Map;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;")
+//    )
+//    private Object routeCdfBuild(Map<Object, Object> cache, Object cdfKey, Function<Object, Object> factory, Operation<Object> original) {
+//        if (this.woldsvaults$mapTier >= 0) {
+//            return null;
+//        }
+//        if (this.key.length - 1 == MythicLootScaling.MAPPED_POOL_COUNT && this.key[0] > TieredCdfApprox.EXACT_ROLL_LIMIT) {
+//            return null;
+//        }
+//        return original.call(cache, cdfKey, factory);
+//    }
+//
+//    /**
+//     * Pairs with {@link #routeCdfBuild}: when the CDF build was skipped, strongboxes resolve
+//     * 1.0 (the value is never read - rarity comes from the map tier) and mapped chests resolve
+//     * the Gaussian approximation.
+//     */
+//    @WrapOperation(
+//            method = "generate",
+//            at = @At(value = "INVOKE", target = "Liskallia/vault/core/world/loot/generator/TieredLootTableGenerator$CDF;get([I)D")
+//    )
+//    private double routeCdfValue(TieredLootTableGenerator.CDF cdf, int[] frequencies, Operation<Double> original) {
+//        if (cdf != null) {
+//            return original.call(cdf, frequencies);
+//        }
+//        return this.woldsvaults$mapTier >= 0 ? 1.0 : TieredCdfApprox.cdf(this.key, frequencies);
+//    }
 }

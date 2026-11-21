@@ -25,7 +25,7 @@ import java.util.function.BiConsumer;
 @Mixin(value = PlayerReputationData.class, remap = false)
 public class MixinPlayerReputationData {
     @Inject(method = "attemptFavour", at = @At("HEAD"), cancellable = true)
-    private static void returnOldFavourHandling(Player player, VaultGod god, CallbackInfoReturnable<Integer> cir) {
+    private static void returnOldFavourHandling(Player player, VaultGod god, int bonusReputation, CallbackInfoReturnable<Integer> cir) {
         if(GameruleHelper.isEnabled(ModGameRules.ENABLE_OLD_AFFINITY_HANDLING, player.getLevel())) {
             float chance = VaultGodAffinityHelper.getAffinityPercent(player, god);
             if (!(player.getRandom().nextFloat() + 0.5F <= chance)) {

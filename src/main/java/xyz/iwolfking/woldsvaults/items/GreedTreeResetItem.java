@@ -13,6 +13,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
+//TODO: Is this needed any more?
 public class GreedTreeResetItem extends UsableItem {
     public GreedTreeResetItem(ResourceLocation id) {
         super(id);
@@ -24,7 +25,7 @@ public class GreedTreeResetItem extends UsableItem {
 
     protected void doUse(ServerLevel level, ServerPlayer player, ItemStack heldStack) {
         PlayerGreedTreeData treeData = PlayerGreedTreeData.get(level);
-        treeData.getGreedTree(player).resetAllNodes(player);
+        treeData.refundAllNodes(player, treeData.getGreedTree(player), "Greed Neuralizer used");
         treeData.setDirty(true);
         treeData.sync(player);
         level.sendParticles(ParticleTypes.FLASH, player.position().x() + (double)(Mth.cos((float)Math.toRadians((player.yHeadRot + 90.0F))) / 2.0F), player.position().y() + (double)player.getBbHeight() - (double)(player.getBbHeight() / 4.0F), player.position().z() + (double)(Mth.sin((float)Math.toRadians((player.yHeadRot + 90.0F))) / 2.0F), 1, 0.0F, 0.0F, 0.0F, 0.0F);

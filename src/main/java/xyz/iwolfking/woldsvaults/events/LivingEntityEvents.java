@@ -16,8 +16,6 @@ import iskallia.vault.entity.boss.VaultBossEntity;
 import iskallia.vault.entity.champion.ChampionLogic;
 import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.entity.entity.VaultFireball;
-import iskallia.vault.entity.champion.IChampionAffix;
-import iskallia.vault.entity.champion.PotionAuraAffix;
 import iskallia.vault.entity.entity.elite.EliteDrownedEntity;
 import iskallia.vault.entity.entity.elite.EliteEndermanEntity;
 import iskallia.vault.entity.entity.elite.EliteHuskEntity;
@@ -284,36 +282,6 @@ public class LivingEntityEvents {
                     onArrival.run();
                 }
             });
-        }
-    }
-
-    @SubscribeEvent
-    public static void onChampionDeath(LivingDeathEvent event) {
-        LivingEntity entity = event.getEntityLiving();
-
-        if (entity.level.isClientSide() || !(entity instanceof ChampionLogic.IChampionLogicHolder holder)) {
-            return;
-        }
-
-        if (ChampionLogic.isChampion(entity)) {
-            ChampionLogic logic = holder.getChampionLogic();
-            if (logic == null) return;
-
-            for (IChampionAffix affix : logic.getAffixes()) {
-                if (affix instanceof PotionAuraAffix potionAura) {
-                    if (potionAura.getMobEffect() != null) {
-                        entity.level.getEntities(
-                                EntityTypeTest.forClass(LivingEntity.class),
-                                entity.getBoundingBox().inflate(potionAura.getRange() * 2),
-                                e -> e != entity && !(e instanceof Player)
-                        ).forEach(mob -> {
-                            if (mob.hasEffect(potionAura.getMobEffect())) {
-                                mob.removeEffect(potionAura.getMobEffect());
-                            }
-                        });
-                    }
-                }
-            }
         }
     }
 

@@ -19,7 +19,6 @@ import iskallia.vault.core.world.data.entity.PartialEntity;
 import iskallia.vault.core.world.storage.IZonedWorld;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.core.world.storage.WorldZones;
-import iskallia.vault.entity.boss.BossRuneModifiers;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.world.data.WorldZonesData;
@@ -79,6 +78,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+//TODO: Note for Super, HyperBossManager is broken due to Rune Boss changes
 /**
  * Drives the hyperboss cycle: arms the pillar with escalated stats, runs the periodic and
  * health-gated brutal waves, and hands a finished fight over to the escalation manager.
@@ -189,10 +189,10 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
      */
     public void armAndStartFight(BlockPos pillarPos) {
         RuneBossFights fights = objective.get(HyperVaultObjective.FIGHTS);
-        if (fights.hasFightAt(pillarPos)) {
-            WoldLogger.warn("Podium at {} already has a scheduled/active fight; not re-arming.", pillarPos);
-            return;
-        }
+//        if (fights.hasPendingFight(pillarPos)) {
+//            WoldLogger.warn("Podium at {} already has a scheduled/active fight; not re-arming.", pillarPos);
+//            return;
+//        }
         BlockEntity be = world.getBlockEntity(pillarPos);
         if (!(be instanceof BossRunePillarTileEntity pillar)) {
             WoldLogger.error("Hyper podium at {} has no BossRunePillarTileEntity — cannot start the fight (staying armed).", pillarPos);
@@ -215,15 +215,15 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
             WoldLogger.debug("Hyperboss health inherits the vault's mob modifiers: x{}.",
                     Math.round(healthFactor * 100.0) / 100.0);
         }
-        BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
-                HyperVaultObjective.cfg().getBossAbilityHaste());
-        pillar.getModifiers().copyFrom(armed);
-        pillar.setRuneCount(Math.min(HyperVaultObjective.cfg().getBaseRuneTier() + cycle, HyperVaultObjective.cfg().getRuneTierCap()));
-        pillar.getModifiers().setReviveAbility(null);
+//        BossRuneModifiers armed = new BossRuneModifiers(healthPercent, 0.0,
+//                HyperVaultObjective.cfg().getBossAbilityHaste());
+//        pillar.getModifiers().copyFrom(armed);
+//        pillar.setRuneCount(Math.min(HyperVaultObjective.cfg().getBaseRuneTier() + cycle, HyperVaultObjective.cfg().getRuneTierCap()));
+//        pillar.getModifiers().setReviveAbility(null);
 
         objective.set(HyperVaultObjective.SCORE, 0);
         objective.set(HyperVaultObjective.BOSS_KILLED, false);
-        fights.add(pillar.createFight());
+//        fights.add(pillar.createFight());
         objective.set(HyperVaultObjective.PHASE, Phase.FIGHT);
         objective.set(HyperVaultObjective.WAVE_TICK, HyperVaultObjective.cfg().getWavePeriodTicks());
         this.addTimer = HyperVaultObjective.cfg().getFightAddPeriodTicks();
@@ -738,8 +738,8 @@ public class HyperBossManager extends ObjectiveManager<HyperVaultObjective> {
         WeightedList<PartialEntity> pool =
                 ((BossRunePillarConfigAccessor) (Object) ((BossRunePillarAccessor) pillar).getConfig()).getBossPool();
         if (pool == null || pool.isEmpty()) {
-            WoldLogger.warn("The boss pillar has no roster to reroll from; keeping {}.",
-                    pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
+//            WoldLogger.warn("The boss pillar has no roster to reroll from; keeping {}.",
+//                    pillar.getBoss() == null ? "nothing" : pillar.getBoss().getId());
             return;
         }
         pool.getRandom(JavaRandom.ofNanoTime()).ifPresent(rolled -> {

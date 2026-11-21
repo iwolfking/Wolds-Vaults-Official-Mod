@@ -1,20 +1,15 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
-import iskallia.vault.config.customisation.CustomisationDiscovery;
-import iskallia.vault.config.customisation.GreedChallengeDiscovery;
 import iskallia.vault.config.customisation.VaultLevelDiscovery;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
+
 import xyz.iwolfking.vhapi.api.datagen.AbstractPlayerTitlesProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.discovery.customisation.ArtifactCustomisationDiscovery;
 import xyz.iwolfking.woldsvaults.api.core.discovery.customisation.HeraldCustomisationDiscovery;
 import xyz.iwolfking.woldsvaults.api.core.discovery.customisation.ThemeCustomisationDiscovery;
 
-import java.util.Map;
-import java.util.function.Consumer;
-
+//TODO: Reimplement GreedChallengeDiscovery/Unlock for beating Challenge Crystals...
 public class ModPlayerTitlesProvider extends AbstractPlayerTitlesProvider {
     public ModPlayerTitlesProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
@@ -306,37 +301,37 @@ public class ModPlayerTitlesProvider extends AbstractPlayerTitlesProvider {
         addSuffix("of_gleaming_suffix", " of Gleaming", "#FFF8DC", 2,new ThemeCustomisationDiscovery("Glimmergrove"));
 
         //Challenge unlocks
-        addPrefix("cat_eyed_prefix", "Cat-Eyed", "#9EA637", 2, new GreedChallengeDiscovery("pitch_black"));
-        addSuffix("of_the_inky_black_suffix", "of the Inky Black", "#03020E", 2, new GreedChallengeDiscovery("pitch_black"));
-
-        addPrefix("champion_prefix", "Champion", "#B47410", 2, new GreedChallengeDiscovery("ultra_hard"));
-        addPrefix("sweaty_prefix", "Sweaty", "#B44710", 2, new GreedChallengeDiscovery("ultra_hard"));
-        addSuffix("the_sweat_suffix", "the Sweat", "#B44710", 2, new GreedChallengeDiscovery("ultra_hard"));
-        addSuffix("the_challenger_suffix", "the Challenger", "#B4473A", 2, new GreedChallengeDiscovery("ultra_hard"));
-
-        addPrefix("enchanted_prefix", "Enchanted", "#B447AC", 2, new GreedChallengeDiscovery("elixir_of_doom"));
-        addSuffix("of_elixir", "of Elixir", "#03020E", 2, new GreedChallengeDiscovery("elixir_of_doom"));
-        addPrefix("elixir_lover_prefix", "Elixir Lover", "#03020E", 2, new GreedChallengeDiscovery("elixir_of_doom"));
-
-        addPrefix("ballistic_prefix", "Ballistic", "#230094", 2, new GreedChallengeDiscovery("ballistic_bingo_blackout"));
-
-        addPrefix("collector_prefix", "Collector", "#23A594", 2, new GreedChallengeDiscovery("blackout_scavingo"));
-
-        addPrefix("regent_prefix", "Regent", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
-        addPrefix("proven_prefix", "Proven", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
-        addSuffix("of_velara_suffix", "of Velara", "#00A500", 2, new GreedChallengeDiscovery("gods_challenge"));
-        addSuffix("of_wendarr_suffix", "of Wendarr", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
-        addSuffix("of_tenos_suffix", "of Tenos", "#00BAC8", 2, new GreedChallengeDiscovery("gods_challenge"));
-        addSuffix("of_idona_suffix", "of Idona", "#B60000", 2, new GreedChallengeDiscovery("gods_challenge"));
-
-        addPrefix("alchemist_prefix", "Alchemist", "#23A594", 2, new GreedChallengeDiscovery("big_bad_brew"));
-        addSuffix("troubling_suffix", "the Troubling", "#B67E59", 2, new GreedChallengeDiscovery("big_bad_brew"));
-
-        addPrefix("insane_prefix", "Insane", "#B67EA1", 2, new GreedChallengeDiscovery("chaos_chaos_chaos"));
-
-        addPrefix("raging_prefix", "Raging", "#B63025", 2, new GreedChallengeDiscovery("rage_cage"));
-
-        addPrefix("survivor_prefix", "Survivor", "#007925", 2, new GreedChallengeDiscovery("survival_of_the_fittest"));
+//        addPrefix("cat_eyed_prefix", "Cat-Eyed", "#9EA637", 2, new GreedChallengeDiscovery("pitch_black"));
+//        addSuffix("of_the_inky_black_suffix", "of the Inky Black", "#03020E", 2, new GreedChallengeDiscovery("pitch_black"));
+//
+//        addPrefix("champion_prefix", "Champion", "#B47410", 2, new GreedChallengeDiscovery("ultra_hard"));
+//        addPrefix("sweaty_prefix", "Sweaty", "#B44710", 2, new GreedChallengeDiscovery("ultra_hard"));
+//        addSuffix("the_sweat_suffix", "the Sweat", "#B44710", 2, new GreedChallengeDiscovery("ultra_hard"));
+//        addSuffix("the_challenger_suffix", "the Challenger", "#B4473A", 2, new GreedChallengeDiscovery("ultra_hard"));
+//
+//        addPrefix("enchanted_prefix", "Enchanted", "#B447AC", 2, new GreedChallengeDiscovery("elixir_of_doom"));
+//        addSuffix("of_elixir", "of Elixir", "#03020E", 2, new GreedChallengeDiscovery("elixir_of_doom"));
+//        addPrefix("elixir_lover_prefix", "Elixir Lover", "#03020E", 2, new GreedChallengeDiscovery("elixir_of_doom"));
+//
+//        addPrefix("ballistic_prefix", "Ballistic", "#230094", 2, new GreedChallengeDiscovery("ballistic_bingo_blackout"));
+//
+//        addPrefix("collector_prefix", "Collector", "#23A594", 2, new GreedChallengeDiscovery("blackout_scavingo"));
+//
+//        addPrefix("regent_prefix", "Regent", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
+//        addPrefix("proven_prefix", "Proven", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
+//        addSuffix("of_velara_suffix", "of Velara", "#00A500", 2, new GreedChallengeDiscovery("gods_challenge"));
+//        addSuffix("of_wendarr_suffix", "of Wendarr", "#D5A500", 2, new GreedChallengeDiscovery("gods_challenge"));
+//        addSuffix("of_tenos_suffix", "of Tenos", "#00BAC8", 2, new GreedChallengeDiscovery("gods_challenge"));
+//        addSuffix("of_idona_suffix", "of Idona", "#B60000", 2, new GreedChallengeDiscovery("gods_challenge"));
+//
+//        addPrefix("alchemist_prefix", "Alchemist", "#23A594", 2, new GreedChallengeDiscovery("big_bad_brew"));
+//        addSuffix("troubling_suffix", "the Troubling", "#B67E59", 2, new GreedChallengeDiscovery("big_bad_brew"));
+//
+//        addPrefix("insane_prefix", "Insane", "#B67EA1", 2, new GreedChallengeDiscovery("chaos_chaos_chaos"));
+//
+//        addPrefix("raging_prefix", "Raging", "#B63025", 2, new GreedChallengeDiscovery("rage_cage"));
+//
+//        addPrefix("survivor_prefix", "Survivor", "#007925", 2, new GreedChallengeDiscovery("survival_of_the_fittest"));
 
     }
 }

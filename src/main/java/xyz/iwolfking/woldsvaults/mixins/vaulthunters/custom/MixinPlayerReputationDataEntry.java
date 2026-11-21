@@ -13,7 +13,7 @@ import xyz.iwolfking.woldsvaults.api.util.GodMasteryHelper;
  */
 @Mixin(targets = "iskallia.vault.world.data.PlayerReputationData$Entry", remap = false)
 public class MixinPlayerReputationDataEntry {
-    @ModifyConstant(method = "addReputation", constant = @Constant(intValue = 50), require = 2)
+    @ModifyConstant(method = "changeReputation", constant = @Constant(intValue = 50), require = 2)
     private int woldsVaults$entryCap(int baseCap) {
         return GodMasteryHelper.currentCap();
     }

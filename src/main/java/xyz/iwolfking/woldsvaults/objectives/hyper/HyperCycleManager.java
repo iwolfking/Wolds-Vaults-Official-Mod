@@ -98,9 +98,10 @@ public class HyperCycleManager extends ObjectiveManager<HyperVaultObjective> {
                     continue;
                 }
                 root.getChild(index).streamSelfAndDescendants(ProgressConfiguredTask.class).forEach(task -> {
-                    if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
-                        ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
-                    }
+                    //TODO: Fix scaling bingo tasks
+//                    if (task.getCounter() instanceof TargetTaskCounter<?, ?> counter && counter.isPopulated()) {
+//                        ((BingoObjectiveAccessor) bingo).callScaleTargetWithCondition(task, counter, scale - 1.0, 1, context);
+//                    }
                 });
             }
         });

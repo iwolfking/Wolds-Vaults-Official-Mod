@@ -17,33 +17,34 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 
+//TODO: Fix Wold's foci in Artisan Station
 @Mixin(value = VaultArtisanStationTileEntity.class, remap = false)
 public abstract class MixinArtisanStationTileEntity extends BlockEntity {
-    @Shadow @Final @Mutable
-    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(22, this, this::canInsertInput);
+//    @Shadow @Final @Mutable
+//    private OverSizedInventory inventory = new OverSizedInventory.FilteredInsert(22, this, this::canInsertInput);
 
     public MixinArtisanStationTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
 
-    @Inject(method = "canInsertInput", at = @At("HEAD"),cancellable = true)
-    private void addNewFoci(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if(slot == 17) {
-            cir.setReturnValue(stack.is(ModItems.ECCENTRIC_FOCUS));
-        }
-        if(slot == 18) {
-            cir.setReturnValue(stack.is(ModItems.BLAZING_FOCUS));
-        }
-        if(slot == 19) {
-            cir.setReturnValue(stack.is(ModItems.SUSPENSION_FOCUS));
-        }
-        if(slot == 20) {
-            cir.setReturnValue(stack.is(ModItems.INSCRIBING_FOCUS));
-        }
-        if(slot == 21) {
-            cir.setReturnValue(stack.is(ModItems.WEAPON_TYPE_FOCUS));
-        }
-    }
-
-    @Shadow public abstract boolean canInsertInput(int slot, @NotNull ItemStack stack);
+//    @Inject(method = "canInsertInput", at = @At("HEAD"),cancellable = true)
+//    private void addNewFoci(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+//        if(slot == 17) {
+//            cir.setReturnValue(stack.is(ModItems.ECCENTRIC_FOCUS));
+//        }
+//        if(slot == 18) {
+//            cir.setReturnValue(stack.is(ModItems.BLAZING_FOCUS));
+//        }
+//        if(slot == 19) {
+//            cir.setReturnValue(stack.is(ModItems.SUSPENSION_FOCUS));
+//        }
+//        if(slot == 20) {
+//            cir.setReturnValue(stack.is(ModItems.INSCRIBING_FOCUS));
+//        }
+//        if(slot == 21) {
+//            cir.setReturnValue(stack.is(ModItems.WEAPON_TYPE_FOCUS));
+//        }
+//    }
+//
+//    @Shadow public abstract boolean canInsertInput(int slot, @NotNull ItemStack stack);
 }

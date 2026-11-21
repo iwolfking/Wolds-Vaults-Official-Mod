@@ -15,7 +15,7 @@ public class MixinVaultRecyclerTileEntity {
     private void preventRecyclingDeck(ItemStack input, CallbackInfoReturnable<Boolean> cir) {
         if(input.getItem() instanceof CardDeckItem) {
             CardDeck deck = CardDeckItem.getCardDeck(input).orElse(null);
-            if(deck != null && !deck.getSnapshotAttributes().isEmpty()) {
+            if(deck != null && !deck.getSnapshotAttributes(0).isEmpty()) {
                 cir.setReturnValue(false);
             }
         }

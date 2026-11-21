@@ -17,7 +17,6 @@ import iskallia.vault.init.ModNetwork;
 import iskallia.vault.network.message.ChainingParticleMessage;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.PuristTalent;
-import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import iskallia.vault.util.EntityHelper;
 import iskallia.vault.util.Entropy;
@@ -27,10 +26,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
@@ -44,10 +41,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
@@ -60,25 +54,26 @@ import java.util.List;
 @Mixin (value = GearAttributeEvents.class, remap = false)
 public class MixinGearAttributeEvents {
 
-    @Redirect(method = "lambda$triggerEffectCloudsActive$17", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
-    private static boolean addEffectCloudChanceFromAttributeActive(Entity entity, Entropy.Stat stat, float chance) {
-        if(entity instanceof LivingEntity living && living instanceof Player) {
-            float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
-            return Entropy.canExecute(entity, stat, chance + increasedEffectCloudChance);
-        }
-
-        return Entropy.canExecute(entity, stat, chance);
-    }
-
-    @Redirect(method = "lambda$triggerEffectCloudsPassive$19", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
-    private static boolean addEffectCloudChanceFromAttributePassive(Entity entity, Entropy.Stat stat, float chance) {
-        if(entity instanceof LivingEntity living && living instanceof Player) {
-            float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
-            return Entropy.canExecute(entity, stat, chance + increasedEffectCloudChance);
-        }
-
-        return Entropy.canExecute(entity, stat, chance);
-    }
+    //TODO: Can be replaced by mixining GearClouds.getProcChanceBonus
+//    @Redirect(method = "lambda$triggerEffectCloudsActive$16", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
+//    private static boolean addEffectCloudChanceFromAttributeActive(Entity entity, Entropy.Stat stat, float chance) {
+//        if(entity instanceof LivingEntity living && living instanceof Player) {
+//            float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+//            return Entropy.canExecute(entity, stat, chance + increasedEffectCloudChance);
+//        }
+//
+//        return Entropy.canExecute(entity, stat, chance);
+//    }
+//
+//    @Redirect(method = "lambda$triggerEffectCloudsPassive$19", at = @At(value = "INVOKE", target = "Liskallia/vault/util/Entropy;canExecute(Lnet/minecraft/world/entity/Entity;Liskallia/vault/util/Entropy$Stat;F)Z"))
+//    private static boolean addEffectCloudChanceFromAttributePassive(Entity entity, Entropy.Stat stat, float chance) {
+//        if(entity instanceof LivingEntity living && living instanceof Player) {
+//            float increasedEffectCloudChance = AttributeSnapshotHelper.getInstance().getSnapshot(living).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.INCREASED_EFFECT_CLOUD_CHANCE, VaultGearAttributeTypeMerger.floatSum());
+//            return Entropy.canExecute(entity, stat, chance + increasedEffectCloudChance);
+//        }
+//
+//        return Entropy.canExecute(entity, stat, chance);
+//    }
 
     /**
      * @author aida
@@ -216,8 +211,8 @@ public class MixinGearAttributeEvents {
      * @author aida
      * @reason chain falloff reduction stat
      */
-    @Inject(method = "lambda$triggerChainAttack$13", at = @At("HEAD"), cancellable = true)
-    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, float finalChainStep, CallbackInfo ci) {
+    @Inject(method = "lambda$triggerChainAttack$6", at = @At("HEAD"), cancellable = true)
+    private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, LivingEntity attacker, LivingHurtEvent event, float chainRange, int chainCount, float finalChainStep, CallbackInfo ci) {
 
         List<Mob> nearby = EntityHelper.getNearby(world, attacked.blockPosition(), chainRange, Mob.class);
         List<Vec3> nearbyPos = new ArrayList<>();

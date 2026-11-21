@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.*;
 
 import java.util.Optional;
 
+//TODO: Rework/remove this
 public class PotentElixirTalent extends LearnableSkill {
     private float additionalAbsorptionHearts;
     private float additionalCooldownReduction;
@@ -68,34 +69,34 @@ public class PotentElixirTalent extends LearnableSkill {
     }
 
     private static void applyBonus(UsedVaultBottleEvent.Data data) {
-        if(data.isCancelled()) {
-            return;
-        }
-
-        ServerPlayer player = data.getDrinker();
-        if (player.getServer() != null) {
-            TalentTree tree = PlayerTalentsData.get(player.getServer()).getTalents(player);
-
-            for (PotentElixirTalent talent : tree.getAll(PotentElixirTalent.class, Skill::isUnlocked)) {
-                if (data.getEffect().isPresent()) {
-                    BottleEffect effect = data.getEffect().get();
-                    if (effect instanceof AbsorptionBottleEffect absorptionBottleEffect) {
-                        data.setEffect(new AbsorptionBottleEffect(absorptionBottleEffect.getEffectId(), ((AbsorptionBottleEffectAccessor) absorptionBottleEffect).getAmount() + talent.getAdditionalAbsorptionHearts()));
-                    } else if (effect instanceof CastAbilityBottleEffect castAbilityBottleEffect) {
-                        String abilityId = ((CastAbilityBottleEffectAccessor) castAbilityBottleEffect).getAbilityId();
-                        data.setEffect(new CastAbilityBottleEffect(castAbilityBottleEffect.getEffectId(), incrementAbilityId(abilityId, talent.getAdditionalAbilityLevels())));
-                    } else if (effect instanceof CooldownReductionBottleEffect cooldownReductionBottleEffect) {
-                        data.setEffect(new CooldownReductionBottleEffect(cooldownReductionBottleEffect.getEffectId(), ((CooldownReductionBottleEffectAccessor) cooldownReductionBottleEffect).getAmount() + talent.getAdditionalCooldownReduction()));
-                    } else if (effect instanceof ManaFlatBottleEffect manaFlatBottleEffect) {
-                        data.setEffect(new ManaFlatBottleEffect(manaFlatBottleEffect.getEffectId(), ((ManaFlatBottleEffectAccessor) manaFlatBottleEffect).getAmount() + talent.getAdditionalFlatMana()));
-                    } else if (effect instanceof ManaPercentBottleEffect manaPercentBottleEffect) {
-                        data.setEffect(new ManaPercentBottleEffect(manaPercentBottleEffect.getEffectId(), ((ManaPercentBottleEffectAccessor) manaPercentBottleEffect).getAmount() + talent.getAdditionalPercentMana()));
-                    } else if (effect instanceof PotionBottleEffect potionBottleEffect) {
-                        data.setEffect(new PotionBottleEffect(potionBottleEffect.getEffectId(), ((PotionBottleEffectAccessor) potionBottleEffect).getPotion(), ((PotionBottleEffectAccessor) potionBottleEffect).getDuration() + talent.getAdditionalDuration(), ((PotionBottleEffectAccessor) potionBottleEffect).getAmplifier() + talent.getAdditionalAmplifier()));
-                    }
-                }
-            }
-        }
+//        if(data.isCancelled()) {
+//            return;
+//        }
+//
+//        ServerPlayer player = data.getDrinker();
+//        if (player.getServer() != null) {
+//            TalentTree tree = PlayerTalentsData.get(player.getServer()).getTalents(player);
+//
+//            for (PotentElixirTalent talent : tree.getAll(PotentElixirTalent.class, Skill::isUnlocked)) {
+//                if (data.getEffect().isPresent()) {
+//                    BottleEffect effect = data.getEffect().get();
+//                    if (effect instanceof AbsorptionBottleEffect absorptionBottleEffect) {
+//                        data.setEffect(new AbsorptionBottleEffect(absorptionBottleEffect.getEffectId(), ((AbsorptionBottleEffectAccessor) absorptionBottleEffect).getAmount() + talent.getAdditionalAbsorptionHearts()));
+//                    } else if (effect instanceof CastAbilityBottleEffect castAbilityBottleEffect) {
+//                        String abilityId = ((CastAbilityBottleEffectAccessor) castAbilityBottleEffect).getAbilityId();
+//                        data.setEffect(new CastAbilityBottleEffect(castAbilityBottleEffect.getEffectId(), incrementAbilityId(abilityId, talent.getAdditionalAbilityLevels())));
+//                    } else if (effect instanceof CooldownReductionBottleEffect cooldownReductionBottleEffect) {
+//                        data.setEffect(new CooldownReductionBottleEffect(cooldownReductionBottleEffect.getEffectId(), ((CooldownReductionBottleEffectAccessor) cooldownReductionBottleEffect).getAmount() + talent.getAdditionalCooldownReduction()));
+//                    } else if (effect instanceof ManaFlatBottleEffect manaFlatBottleEffect) {
+//                        data.setEffect(new ManaFlatBottleEffect(manaFlatBottleEffect.getEffectId(), ((ManaFlatBottleEffectAccessor) manaFlatBottleEffect).getAmount() + talent.getAdditionalFlatMana()));
+//                    } else if (effect instanceof ManaPercentBottleEffect manaPercentBottleEffect) {
+//                        data.setEffect(new ManaPercentBottleEffect(manaPercentBottleEffect.getEffectId(), ((ManaPercentBottleEffectAccessor) manaPercentBottleEffect).getAmount() + talent.getAdditionalPercentMana()));
+//                    } else if (effect instanceof PotionBottleEffect potionBottleEffect) {
+//                        data.setEffect(new PotionBottleEffect(potionBottleEffect.getEffectId(), ((PotionBottleEffectAccessor) potionBottleEffect).getPotion(), ((PotionBottleEffectAccessor) potionBottleEffect).getDuration() + talent.getAdditionalDuration(), ((PotionBottleEffectAccessor) potionBottleEffect).getAmplifier() + talent.getAdditionalAmplifier()));
+//                    }
+//                }
+//            }
+//        }
     }
 
     static {

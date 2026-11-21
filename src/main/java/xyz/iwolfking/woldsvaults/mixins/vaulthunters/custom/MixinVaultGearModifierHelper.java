@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Mixin(value = VaultGearModifierHelper.class, remap = false)
 public class MixinVaultGearModifierHelper {
-    @WrapOperation(method = "generateChaoticModifiers", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getRandomModifier(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;ILjava/util/Random;Ljava/util/Set;)Ljava/util/Optional;"))
+    @WrapOperation(method = "generateChaoticModifiers", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getRandomModifierAtHighestTier(Liskallia/vault/gear/attribute/VaultGearModifier$AffixType;ILjava/util/Random;Ljava/util/Set;)Ljava/util/Optional;"))
     private static Optional<VaultGearModifier<?>> addChaos(VaultGearTierConfig instance, VaultGearModifier.AffixType type, int level, Random random, Set<String> excludedModGroups, Operation<Optional<VaultGearModifier<?>>> original) {
 
         float value = random.nextFloat();

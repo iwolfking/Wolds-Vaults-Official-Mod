@@ -16,7 +16,7 @@ public class MixinClientVaultXpTracker {
         method = "updateBreakdown",
         at = @At(
             value = "INVOKE",
-            target = "Liskallia/vault/greed/GreedNodeHelper;getClientXpGainMultiplier()F"
+            target = "Liskallia/vault/client/data/ClientVaultXpTracker;getGreedXpBonus()F"
         )
     )
     private float redirectBonusExpMultiplier(Operation<Float> original) {

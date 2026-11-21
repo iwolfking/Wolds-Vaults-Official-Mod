@@ -7,6 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 
 public interface IPlayerOutcomeHandler {
-    List<Card> woldsVaults$getOutcomes(Player player, String id, RandomSource random);
+    List<Card> woldsVaults$getOutcomes(Player player);
 }
 

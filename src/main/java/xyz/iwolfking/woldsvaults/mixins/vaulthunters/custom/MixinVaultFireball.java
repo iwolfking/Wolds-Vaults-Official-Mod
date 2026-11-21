@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.entity.entity.VaultFireball;
 import iskallia.vault.gear.attribute.VaultGearAttributeInstance;
 import iskallia.vault.gear.etching.EtchingHelper;
+import iskallia.vault.gear.etching.EtchingHitShare;
 import iskallia.vault.skill.ability.effect.spi.AbstractFireballAbility;
 import iskallia.vault.skill.ability.effect.spi.core.InstantAbility;
 import net.minecraft.server.level.ServerPlayer;
@@ -111,10 +112,10 @@ public abstract class MixinVaultFireball extends AbstractArrow implements IWoldA
         return original.call(instance);
     }
 
-    @Inject(method = "lambda$onHit$6", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
-    private static void applyBurnEffectToFireshot(LivingEntity living, DamageSource damageSource, float attackDamage, CallbackInfo ci) {
+    @Inject(method = "lambda$onHit$7", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/etching/EtchingHitShare;hurt(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
+    private static void applyBurnEffectToFireshot(EtchingHitShare hitShare, DamageSource damageSource, float unetchedDamage, LivingEntity target, CallbackInfo ci) {
         if(damageSource.getEntity() instanceof LivingEntity attacker) {
-            PercentBurnEffect.applyPercentBurn(living, attacker,220, attackDamage);
+            PercentBurnEffect.applyPercentBurn(target, attacker,220, unetchedDamage);
         }
     }
 

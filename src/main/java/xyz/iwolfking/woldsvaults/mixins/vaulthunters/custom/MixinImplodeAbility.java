@@ -19,7 +19,7 @@ public abstract class MixinImplodeAbility {
     @Shadow
     protected abstract float getDamageModifier(float radius, float dist);
 
-    @Redirect(method = "lambda$doAction$1", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/ImplodeAbility;getDamageModifier(FF)F"))
+    @Redirect(method = "implodeAround", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/ImplodeAbility;getDamageModifier(FF)F"))
     private float callAdjustedDamageModifier(ImplodeAbility instance, float radius, float dist, @Local ServerPlayer player) {
         return AbilityHelper.getScaledByLevelDamageFalloff(this.getDamageModifier(radius, dist), player, "Mana_Shield_Implode");
     }

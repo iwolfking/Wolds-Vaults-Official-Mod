@@ -15,7 +15,7 @@ public class MixinRecyclerUpgradeHelper {
     private void preventRecyclingDeck(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if(stack.getItem() instanceof CardDeckItem) {
             CardDeck deck = CardDeckItem.getCardDeck(stack).orElse(null);
-            if(deck != null && !deck.getSnapshotAttributes().isEmpty()) {
+            if(deck != null && !deck.getSnapshotAttributes(0).isEmpty()) {
                 cir.setReturnValue(false);
             }
         }

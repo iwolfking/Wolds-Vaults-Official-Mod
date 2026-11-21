@@ -23,8 +23,10 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.gear.trinket.TrinketEffect;
 import iskallia.vault.gear.trinket.TrinketEffectRegistry;
+import iskallia.vault.item.AugmentItem;
 import iskallia.vault.item.gear.TrinketItem;
 import iskallia.vault.util.StringUtils;
+import iskallia.vault.world.VaultDifficulty;
 import jeresources.util.LootTableHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -570,6 +572,53 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         if (!drops.isEmpty()) {
             lootInfo.add(LabeledLootInfo.of(drops, new TextComponent("Piglin Bartering"), null));
         }
+        return lootInfo;
+    }
+
+    public static List<LabeledLootInfo> getThemeInfusionModifierLoot() {
+        List<LabeledLootInfo> lootInfo = new ArrayList<>();
+
+        ModConfigs.THEME_MODIFIERS.THEME_SPECIFIC_ENTRIES.forEach((themeId, entry) -> {
+            List<ItemStack> stacks = new ArrayList<>();
+            ResourceLocation pool = entry.getModifierPool();
+
+            float baseChance = entry.getInfuseChance(50, VaultDifficulty.HARD);
+
+            ItemStack stack = AugmentItem.create(themeId);
+            stack.setHoverName(new TextComponent("Theme: " + themeId));
+
+            CompoundTag nbt = stack.getOrCreateTagElement("display");
+            ListTag list = nbt.getList("Lore", 8);
+
+            list.add(StringTag.valueOf(Component.Serializer.toJson(new TextComponent("Pool: " + pool.toString()).withStyle(ChatFormatting.YELLOW))));
+            list.add(StringTag.valueOf(Component.Serializer.toJson(new TextComponent(String.format("Infuse Chance (Lvl 50): %.1f%%", baseChance * 100f)).withStyle(ChatFormatting.GREEN))));
+
+            nbt.put("Lore", list);
+            stacks.add(stack);
+
+            lootInfo.add(LabeledLootInfo.of(stacks, new TextComponent("Theme Specific: " + themeId.getPath()), null));
+        });
+
+        ModConfigs.THEME_MODIFIERS.THEME_GROUP_ENTRIES.forEach((groupName, entry) -> {
+            List<ItemStack> stacks = new ArrayList<>();
+            ResourceLocation pool = entry.getModifierPool();
+            float baseChance = entry.getInfuseChance(50, VaultDifficulty.HARD);
+
+            ItemStack stack = new ItemStack(iskallia.vault.init.ModItems.AUGMENT);
+            stack.setHoverName(new TextComponent("Theme Group: " + groupName));
+
+            CompoundTag nbt = stack.getOrCreateTagElement("display");
+            ListTag list = nbt.getList("Lore", 8);
+
+            list.add(StringTag.valueOf(Component.Serializer.toJson(new TextComponent("Pool: " + pool.toString()).withStyle(ChatFormatting.YELLOW))));
+            list.add(StringTag.valueOf(Component.Serializer.toJson(new TextComponent(String.format("Infuse Chance (Lvl 50): %.1f%%", baseChance * 100f)).withStyle(ChatFormatting.GREEN))));
+
+            nbt.put("Lore", list);
+            stacks.add(stack);
+
+            lootInfo.add(LabeledLootInfo.of(stacks, new TextComponent("Theme Group: " + groupName), null));
+        });
+
         return lootInfo;
     }
 

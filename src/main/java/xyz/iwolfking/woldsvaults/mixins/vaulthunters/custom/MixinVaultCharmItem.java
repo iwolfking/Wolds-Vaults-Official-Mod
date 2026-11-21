@@ -25,6 +25,7 @@ public class MixinVaultCharmItem {
         return Integer.MAX_VALUE;
     }
 
+    //TODO: Super, not sure if needed any more
     /**
      * shouldUpdateItem early-outs when stored and current reputation are both >= 50 — with a
      * raised cap that froze charms at exactly 50 forever (stored 50, current 52, no update
@@ -32,8 +33,8 @@ public class MixinVaultCharmItem {
      * handing a 52-rep charm to a lower-rep player: it rescales down to them, per the
      * follow-the-holder semantics.
      */
-    @ModifyConstant(method = "shouldUpdateItem", constant = @Constant(intValue = 50), require = 2)
-    private static int woldsVaults$neverFreezeAtLegacyCap(int legacyCap) {
-        return Integer.MAX_VALUE;
-    }
+//    @ModifyConstant(method = "shouldUpdateItem", constant = @Constant(intValue = 50), require = 2)
+//    private static int woldsVaults$neverFreezeAtLegacyCap(int legacyCap) {
+//        return Integer.MAX_VALUE;
+//    }
 }

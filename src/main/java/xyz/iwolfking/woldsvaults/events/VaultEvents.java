@@ -75,29 +75,30 @@ public class VaultEvents {
     private static List<CompleteBountyTask> completeBountyTasks = null;
 
 
+    //TODO: Fix FTB Quests Bounty task
     @SubscribeEvent
     public static void onBountyComplete(BountyCompleteEvent event) {
-        Player player = event.getPlayer();
-        if (completeBountyTasks == null) {
-            completeBountyTasks = ServerQuestFile.INSTANCE.collect(CompleteBountyTask.class);
-        }
-
-        if (completeBountyTasks.isEmpty()) {
-            return;
-        }
-
-        TeamData data = ServerQuestFile.INSTANCE.getData(player);
-
-        for (CompleteBountyTask task : completeBountyTasks) {
-            if (data.getProgress(task) < task.getMaxProgress() && data.canStartTasks(task.quest)) {
-                if(task.getTaskType().equals(VaultMod.id("any")) || task.getTaskType() == null) {
-                    data.setProgress(task, 1L);
-                }
-                else if(task.getTaskType().equals(event.getTask().getTaskType())) {
-                    data.setProgress(task, 1L);
-                }
-            }
-        }
+//        Player player = event.getPlayer();
+//        if (completeBountyTasks == null) {
+//            completeBountyTasks = ServerQuestFile.INSTANCE.collect(CompleteBountyTask.class);
+//        }
+//
+//        if (completeBountyTasks.isEmpty()) {
+//            return;
+//        }
+//
+//        TeamData data = ServerQuestFile.INSTANCE.getData(player);
+//
+//        for (CompleteBountyTask task : completeBountyTasks) {
+//            if (data.getProgress(task) < task.getMaxProgress() && data.canStartTasks(task.quest)) {
+//                if(task.getTaskType().equals(VaultMod.id("any")) || task.getTaskType() == null) {
+//                    data.setProgress(task, 1L);
+//                }
+//                else if(task.getTaskType().equals(event.getScroll().getType())) {
+//                    data.setProgress(task, 1L);
+//                }
+//            }
+//        }
     }
 
     private static List<EnterVaultTask> enterVaultTasks = null;

@@ -14,7 +14,7 @@ import java.util.Random;
 @Mixin(value = ChampionLogic.class, remap = false)
 public class MixinChampionLogic {
 
-    @ModifyVariable(method = "lambda$onEntityDrops$4", at = @At(value = "STORE"), ordinal = 1)
+    @ModifyVariable(method = "lambda$onEntityDrops$2", at = @At(value = "STORE"), name = "rolls")
     private static int modifyRolls(int value, @Local(argsOnly = true) Vault vault) {
         float boostedRate = 0F;
         for(VaultModifier<?> modifier : vault.get(Vault.MODIFIERS).getModifiers()) {

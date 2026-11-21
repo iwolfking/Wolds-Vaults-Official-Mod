@@ -15,6 +15,7 @@ import xyz.iwolfking.woldsvaults.events.vault.WoldCommonEvents;
 
 import java.util.Optional;
 
+//TODO: Rework/remove this
 public class HealthyElixirTalent extends LearnableSkill {
     private float additionalMaxHealthHealed;
 
@@ -31,26 +32,26 @@ public class HealthyElixirTalent extends LearnableSkill {
     }
 
     private static void applyBonus(UsedVaultBottleEvent.Data data) {
-        if(data.isCancelled()) {
-            return;
-        }
-
-        ServerPlayer player = data.getDrinker();
-        if (player.getServer() != null) {
-            TalentTree tree = PlayerTalentsData.get(player.getServer()).getTalents(player);
-
-            for (HealthyElixirTalent talent : tree.getAll(HealthyElixirTalent.class, Skill::isUnlocked)) {
-                if(data.getType().isPresent()) {
-                    BottleItem.Type type = data.getType().get();
-                    switch (type) {
-                        case VIAL -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 0.5F));
-                        case POTION -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 0.75F));
-                        case MIXTURE -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed()));
-                        case BREW -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 1.5F));
-                    }
-                }
-            }
-        }
+//        if(data.isCancelled()) {
+//            return;
+//        }
+//
+//        ServerPlayer player = data.getDrinker();
+//        if (player.getServer() != null) {
+//            TalentTree tree = PlayerTalentsData.get(player.getServer()).getTalents(player);
+//
+//            for (HealthyElixirTalent talent : tree.getAll(HealthyElixirTalent.class, Skill::isUnlocked)) {
+//                if(data.getType().isPresent()) {
+//                    BottleItem.Type type = data.getType().get();
+//                    switch (type) {
+//                        case VIAL -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 0.5F));
+//                        case POTION -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 0.75F));
+//                        case MIXTURE -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed()));
+//                        case BREW -> player.heal(player.getMaxHealth() * (talent.getAdditionalMaxHealthHealed() * 1.5F));
+//                    }
+//                }
+//            }
+//        }
     }
 
     static {

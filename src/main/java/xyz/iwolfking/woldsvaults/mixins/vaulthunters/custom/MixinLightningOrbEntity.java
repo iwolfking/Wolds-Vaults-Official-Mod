@@ -3,10 +3,11 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import iskallia.vault.entity.entity.LightningOrbEntity;
+import iskallia.vault.gear.etching.EtchingHitShare;
 import iskallia.vault.skill.ability.effect.LightningOrbsAbility;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,10 +33,10 @@ public class MixinLightningOrbEntity {
         }
     }
 
-    @WrapOperation(method = "lambda$applyLightningDamage$0", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
-    private static boolean woldsVaults$wrapElementalFlags(LivingEntity instance, DamageSource source, float amount, Operation<Boolean> original) {
+    @WrapOperation(method = "lambda$applyLightningDamage$0", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/etching/EtchingHitShare;hurt(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
+    private static boolean woldsVaults$wrapElementalFlags(EtchingHitShare instance, Entity target, DamageSource source, float unetchedDamage, Operation<Boolean> original) {
         boolean[] result = new boolean[]{false};
-        ElementHelper.runWithElements(woldsVaults$elementalTypes, () -> result[0] = original.call(instance, source, amount));
+        ElementHelper.runWithElements(woldsVaults$elementalTypes, () -> result[0] = original.call(instance, source, unetchedDamage));
         return result[0];
     }
 }

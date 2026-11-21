@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+//TODO: Fix Experienced multiplier display
 @Mixin(value = VaultEndScreen.class, remap = false)
 public class MixinVaultEndScreen {
 
@@ -27,34 +28,34 @@ public class MixinVaultEndScreen {
         return increase;
     }
 
-    @WrapOperation(
-        method = "<init>(Liskallia/vault/core/vault/stat/VaultSnapshot;Lnet/minecraft/network/chat/Component;Ljava/util/UUID;ZZ)V",
-        at = @At(
-            value = "INVOKE", 
-            target = "Liskallia/vault/core/vault/stat/StatCollector;getExperience(Liskallia/vault/core/vault/Vault;)I"
-        )
-    )
-    private int multiplyDisplayXpWithExperienced(StatCollector instance, Vault vault, Operation<Integer> original) {
-        float experiencedBoost = woldsVaults$getClientExperiencedMultiplier();
-        
-        return Math.round(original.call(instance, vault) * (1.0F + experiencedBoost));
-    }
-
-    @ModifyArg(
-        method = "lambda$new$23",
-        at = @At(
-            value = "INVOKE",
-            target = "Ljava/lang/String;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",
-            ordinal = 0
-        ),
-        index = 1
-    )
-    private static Object[] adjustShiftXpReceiptArgs(Object[] args) {
-        if (args != null && args.length >= 2 && args[0] instanceof Float originalMultiplier) {
-            float experiencedBoost = woldsVaults$getClientExperiencedMultiplier();
-
-            args[0] = originalMultiplier + experiencedBoost;
-        }
-        return args;
-    }
+//    @WrapOperation(
+//        method = "<init>(Liskallia/vault/core/vault/stat/VaultSnapshot;Lnet/minecraft/network/chat/Component;Ljava/util/UUID;ZZ)V",
+//        at = @At(
+//            value = "INVOKE",
+//            target = "Liskallia/vault/core/vault/stat/StatCollector;getExperience(Liskallia/vault/core/vault/Vault;)I"
+//        )
+//    )
+//    private int multiplyDisplayXpWithExperienced(StatCollector instance, Vault vault, Operation<Integer> original) {
+//        float experiencedBoost = woldsVaults$getClientExperiencedMultiplier();
+//
+//        return Math.round(original.call(instance, vault) * (1.0F + experiencedBoost));
+//    }
+//
+//    @ModifyArg(
+//        method = "lambda$new$23",
+//        at = @At(
+//            value = "INVOKE",
+//            target = "Ljava/lang/String;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",
+//            ordinal = 0
+//        ),
+//        index = 1
+//    )
+//    private static Object[] adjustShiftXpReceiptArgs(Object[] args) {
+//        if (args != null && args.length >= 2 && args[0] instanceof Float originalMultiplier) {
+//            float experiencedBoost = woldsVaults$getClientExperiencedMultiplier();
+//
+//            args[0] = originalMultiplier + experiencedBoost;
+//        }
+//        return args;
+//    }
 }

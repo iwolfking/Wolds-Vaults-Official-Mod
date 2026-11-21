@@ -2,7 +2,7 @@ package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.greed.GreedChallengeSlot;
+import iskallia.vault.core.vault.challengecrystal.ChallengeVaults;
 import iskallia.vault.greed.GreedTree;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.PlayerGreedTreeData;
@@ -28,7 +28,6 @@ public class InfusedThemeHelper {
         }
 
         UUID vaultOwnerId = vault.get(Vault.OWNER);
-        UUID vaultId = vault.get(Vault.ID);
         VaultDifficulty difficulty = VaultDifficulty.NORMAL;
 
         if (vaultOwnerId != null) {
@@ -38,14 +37,9 @@ public class InfusedThemeHelper {
                     return false;
                 }
 
-                //If this vault is a greed challenge vault, don't ever infuse the theme.
-                PlayerGreedTreeData treeData = PlayerGreedTreeData.get(server);
-                GreedTree greedTree = treeData.getGreedTree(vaultOwnerId);
-                if (greedTree != null) {
-                    GreedChallengeSlot activeSlot = greedTree.getActiveChallengeSlot();
-                    if (activeSlot != null && vaultId.equals(activeSlot.getChallengeVaultId())) {
-                        return false;
-                    }
+                //If this vault is a challenge vault, don't ever infuse the theme.
+                if(ChallengeVaults.isChallengeVault(vault)) {
+                    return false;
                 }
 
                 WorldSettings settings = WorldSettings.get(server.overworld());

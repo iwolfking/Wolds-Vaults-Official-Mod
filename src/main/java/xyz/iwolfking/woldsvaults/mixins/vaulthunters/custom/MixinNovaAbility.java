@@ -17,7 +17,7 @@ public abstract class MixinNovaAbility {
     @Shadow
     protected abstract float getDamageModifier(float radius, float dist);
 
-    @Redirect(method = "lambda$doAction$4", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/NovaAbility;getDamageModifier(FF)F"))
+    @Redirect(method = "burstAt", at = @At(value = "INVOKE", target = "Liskallia/vault/skill/ability/effect/NovaAbility;getDamageModifier(FF)F"))
     private float callAdjustedDamageModifier(NovaAbility instance, float radius, float dist, @Local(argsOnly = true) ServerPlayer player) {
         return AbilityHelper.getScaledByLevelDamageFalloff(this.getDamageModifier(radius, dist), player, "Nova_Base");
     }

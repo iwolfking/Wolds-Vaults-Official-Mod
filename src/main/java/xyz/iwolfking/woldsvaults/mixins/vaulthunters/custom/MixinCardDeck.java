@@ -32,9 +32,6 @@ public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<Com
     private List<DeckModifier<?>> modifiers;
 
     @Shadow
-    public abstract List<VaultGearAttributeInstance<?>> getSnapshotAttributes();
-
-    @Shadow
     @Final
     private Map<CardPos, Card> cards;
     @Shadow
@@ -190,7 +187,7 @@ public abstract class MixinCardDeck implements ICardDeckCache, ISerializable<Com
         return value * mult;
     }
 
-    @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
+    @WrapOperation(method = "addText(Ljava/util/List;ILnet/minecraft/world/item/TooltipFlag;FZ)V", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"))
     public int modifyImplicitModifierSocketCount(List<DeckModifier<?>> instance, Operation<Integer> original) {
         int implicitCount = Math.toIntExact(instance.stream().filter(deckModifier -> deckModifier instanceof ImplicitDeckModifier).count());
         if(implicitCount > 0) {

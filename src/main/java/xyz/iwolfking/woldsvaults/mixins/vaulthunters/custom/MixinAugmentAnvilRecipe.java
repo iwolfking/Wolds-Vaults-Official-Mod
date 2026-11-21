@@ -20,10 +20,12 @@ import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PoolCrystalThemeA
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.ValueCrystalThemeAccessor;
 import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
 
+
+//TODO: probably needs some further changes?
 @Mixin(value = AugmentAnvilRecipe.class, remap = false)
 public class MixinAugmentAnvilRecipe {
 
-    @Inject(method = "onSimpleCraft", at = @At(value = "INVOKE", target = "Liskallia/vault/item/AugmentItem;getTheme(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"), cancellable = true)
+    @Inject(method = "onSimpleCraft", at = @At(value = "INVOKE", target = "Liskallia/vault/recipe/anvil/AugmentAnvilRecipe;themeOf(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"), cancellable = true)
     private void preventOverridingMapThemes(AnvilContext context, CallbackInfoReturnable<Boolean> cir, @Local(name = "crystal") CrystalData crystal) {
         if (crystal.getTheme() instanceof PoolCrystalTheme poolCrystalTheme) {
             if (((PoolCrystalThemeAccessor) poolCrystalTheme).getId().getPath().contains("map_themes")) {

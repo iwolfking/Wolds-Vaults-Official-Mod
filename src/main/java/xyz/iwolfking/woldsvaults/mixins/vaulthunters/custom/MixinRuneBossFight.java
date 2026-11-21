@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.objective.RuneBossObjective;
 import iskallia.vault.core.vault.objective.rune.RuneBossAnimation;
 import iskallia.vault.core.vault.objective.rune.RuneBossFight;
 import iskallia.vault.core.world.storage.VirtualWorld;
@@ -13,7 +14,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.ducks.DuckRuneBossFightFreeze;
 import xyz.iwolfking.woldsvaults.objectives.HyperVaultObjective;
@@ -45,7 +45,7 @@ public class MixinRuneBossFight implements DuckRuneBossFightFreeze {
      * until the boss is loaded again; only a killed or discarded boss lets vanilla complete it.
      */
     @Inject(method = "onTick", at = @At("HEAD"), cancellable = true)
-    private void woldsVaults$freezeWhileBossUnloaded(VirtualWorld world, Vault vault, CallbackInfo ci) {
+    private void woldsVaults$freezeWhileBossUnloaded(VirtualWorld world, Vault vault, RuneBossObjective objective, CallbackInfo ci) {
         if (this.completed || this.animation.getState() != RuneBossAnimation.State.FIGHT) {
             return;
         }
@@ -84,7 +84,7 @@ public class MixinRuneBossFight implements DuckRuneBossFightFreeze {
     }
 
     @Inject(method = "onTick", at = @At("TAIL"))
-    private void woldsVaults$captureSummonedBoss(VirtualWorld world, Vault vault, CallbackInfo ci) {
+    private void woldsVaults$captureSummonedBoss(VirtualWorld world, Vault vault, RuneBossObjective objective, CallbackInfo ci) {
         if (this.woldsVaults$boss == null && this.bossId != null) {
             this.woldsVaults$boss = world.getEntity(this.bossId);
         }

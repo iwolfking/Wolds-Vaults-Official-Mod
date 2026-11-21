@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 
 @Mixin(value = ClassicListenersLogic.class, remap = false)
 public class MixinClassicListenersLogic {
-    @Redirect(method = "lambda$onJoin$12", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
+    @Redirect(method = "lambda$onJoin$15", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
     private void trinketerEffectsNecklaces(ItemStack stack, UUID vaultId, @Local(argsOnly = true) ServerPlayer player) {
         double damageAvoidanceChance = PlayerExpertisesData.get(player.getLevel())
                 .getExpertises(player)
@@ -55,7 +55,7 @@ public class MixinClassicListenersLogic {
         }
     }
 
-    @Redirect(method = "lambda$onJoin$13", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
+    @Redirect(method = "lambda$onJoin$14", at = @At(value = "INVOKE", target = "Liskallia/vault/item/gear/VaultUsesHelper;addUsedVault(Lnet/minecraft/world/item/ItemStack;Ljava/util/UUID;)V"))
     private void trinketerEffectsGodCharms(ItemStack stack, UUID vaultId, @Local(argsOnly = true) ServerPlayer player) {
         double damageAvoidanceChance = PlayerExpertisesData.get(player.getLevel())
                 .getExpertises(player)
@@ -88,7 +88,7 @@ public class MixinClassicListenersLogic {
         }
     }
 
-    @WrapOperation(method = "lambda$shouldAddFree$31", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;equals(Ljava/lang/Object;)Z", ordinal = 0))
+    @WrapOperation(method = "lambda$shouldAddFree$37", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;equals(Ljava/lang/Object;)Z", ordinal = 0))
     private static boolean combinedTrinketCountsAsTrinket(ResourceLocation instance, Object pOther, Operation<Boolean> original) {
         if(pOther instanceof ResourceLocation stackId) {
             if(stackId.equals(ModItems.COMBINED_TRINKET.getRegistryName()) && instance.equals(iskallia.vault.init.ModItems.TRINKET.getRegistryName())) {
@@ -99,51 +99,54 @@ public class MixinClassicListenersLogic {
         return original.call(instance, pOther);
     }
 
-    @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Ljava/lang/String;)Ljava/lang/String;"))
-    private static String improveRaidChatMessage(ClassicListenersLogic instance, String key, Operation<String> original, @Local(argsOnly = true) Vault vault){
-        if (!"raid".equals(key)) {
-            return original.call(instance, key);
-        }
-        Set<ResourceLocation> infRaidThemes =
-            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid")))
-                .orElse(new LevelEntryList<>())
-                .stream()
-                .map(themeEntry -> themeEntry.pool.keySet())
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+    //TODO: Fix Brutal / Infinite Raid text
 
-        Set<ResourceLocation> infBrutalRaidThemes =
-            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid_hard")))
-            .orElse(new LevelEntryList<>())
-            .stream()
-            .map(themeEntry -> themeEntry.pool.keySet())
-            .flatMap(Set::stream)
-            .collect(Collectors.toSet());
+//    @WrapOperation(method = {"printJoinMessage", "lambda$initServer$1"/*leave*/}, at = @At(value = "INVOKE", target = "Liskallia/vault/core/vault/player/ClassicListenersLogic;getVaultObjective(Liskallia/vault/core/vault/Vault;)Ljava/lang/String;"))
+//    private static String improveRaidChatMessage(ClassicListenersLogic instance, Vault vault, Operation<String> original){
+//        if (!"raid".equals(key)) {
+//            return original.call(instance, key);
+//        }
+//        Set<ResourceLocation> infRaidThemes =
+//            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid")))
+//                .orElse(new LevelEntryList<>())
+//                .stream()
+//                .map(themeEntry -> themeEntry.pool.keySet())
+//                .flatMap(Set::stream)
+//                .collect(Collectors.toSet());
+//
+//        Set<ResourceLocation> infBrutalRaidThemes =
+//            Optional.ofNullable(ModConfigs.VAULT_CRYSTAL.THEMES.get(VaultMod.id("infinite_raid_hard")))
+//            .orElse(new LevelEntryList<>())
+//            .stream()
+//            .map(themeEntry -> themeEntry.pool.keySet())
+//            .flatMap(Set::stream)
+//            .collect(Collectors.toSet());
+//
+//        ResourceLocation themeReg = vault.get(Vault.WORLD).get(WorldManager.THEME);
+//        if (themeReg != null) {
+//            if (infRaidThemes.contains(themeReg)) {
+//                return "∞ Raid";
+//            }
+//            if (infBrutalRaidThemes.contains(themeReg)) {
+//                return "∞ Brutal Raid";
+//            }
+//        }
+//
+//        return original.call(instance, key);
+//    }
 
-        ResourceLocation themeReg = vault.get(Vault.WORLD).get(WorldManager.THEME);
-        if (themeReg != null) {
-            if (infRaidThemes.contains(themeReg)) {
-                return "∞ Raid";
-            }
-            if (infBrutalRaidThemes.contains(themeReg)) {
-                return "∞ Brutal Raid";
-            }
-        }
-
-        return original.call(instance, key);
-    }
-
-    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
-            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
-    private List<TrinketHelper.TrinketStack<TrinketEffect<?>>> skipPersonalTrinketUsesInRoyale(LivingEntity entity,
-            Operation<List<TrinketHelper.TrinketStack<TrinketEffect<?>>>> original, @Local(argsOnly = true) Vault vault) {
-        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity);
-    }
-
-    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
-            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;Ljava/lang/Class;)Ljava/util/List;"))
-    private <T extends TrinketEffect<?>> List<TrinketHelper.TrinketStack<T>> skipPersonalTimeBonusInRoyale(LivingEntity entity,
-            Class<T> effectClass, Operation<List<TrinketHelper.TrinketStack<T>>> original, @Local(argsOnly = true) Vault vault) {
-        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity, effectClass);
-    }
+    //TODO: Are these needed?
+//    @WrapOperation(method = "lambda$onJoin$16", at = @At(value = "INVOKE",
+//            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;)Ljava/util/List;"))
+//    private List<TrinketHelper.TrinketStack<TrinketEffect<?>>> skipPersonalTrinketUsesInRoyale(LivingEntity entity,
+//            Operation<List<TrinketHelper.TrinketStack<TrinketEffect<?>>>> original, @Local(argsOnly = true) Vault vault) {
+//        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity);
+//    }
+//
+//    @WrapOperation(method = "lambda$onJoin$19", at = @At(value = "INVOKE",
+//            target = "Liskallia/vault/gear/trinket/TrinketHelper;getTrinkets(Lnet/minecraft/world/entity/LivingEntity;Ljava/lang/Class;)Ljava/util/List;"))
+//    private <T extends TrinketEffect<?>> List<TrinketHelper.TrinketStack<T>> skipPersonalTimeBonusInRoyale(LivingEntity entity,
+//            Class<T> effectClass, Operation<List<TrinketHelper.TrinketStack<T>>> original, @Local(argsOnly = true) Vault vault) {
+//        return VaultUtils.isRoyaleVault(vault) ? List.of() : original.call(entity, effectClass);
+//    }
 }
