@@ -28,14 +28,6 @@ import java.util.Optional;
 public abstract class MixinCoinDefinition {
     @Shadow public static Map<Item, CoinDefinition> COIN_DEFINITIONS;
 
-    @Shadow @Final public int coinValue;
-    @Shadow @Final public Item coinItem;
-
-    @Shadow
-    public static Optional<CoinDefinition> getCoinDefinition(Item coin) {
-        return null;
-    }
-
     //Add new coin definitions
     @Inject(method = "getCoinDefinition", at = @At(value = "INVOKE", target = "Ljava/util/Map;put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 3))
     private static void addNewCurrenciesToCoinDefinition(Item coin, CallbackInfoReturnable<Optional<CoinDefinition>> cir) {
@@ -47,51 +39,5 @@ public abstract class MixinCoinDefinition {
     @Redirect(method = "getCoinDefinition", at = @At(value = "INVOKE", target = "Ljava/util/Map;put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 3))
     private static Object addPalladiumAsNextCurrencyForPlat(Map instance, Object k, Object v) {
         return instance.put(iskallia.vault.init.ModBlocks.VAULT_PLATINUM, new CoinDefinition(iskallia.vault.init.ModBlocks.VAULT_PLATINUM, ModBlocks.VAULT_PALLADIUM, iskallia.vault.init.ModBlocks.VAULT_GOLD, 729));
-    }
-
-    //TODO: Fixey
-    /**
-     * @author iwolfking
-     * @reason Drop change returned to player on player instead of adding it to inventory
-     */
-//    @Overwrite
-//    private static void returnChangeToPlayer(Player player, int change) {
-//        while (change > 0) {
-//            for (CoinDefinition definition : COIN_DEFINITIONS.values()) {
-//                if (definition.coinValue <= change && change / definition.coinValue < 9) {
-//                    ItemEntity entityitem = new ItemEntity(player.getLevel(), player.getX(), player.getY() + 0.5, player.getZ(), new ItemStack(definition.coinItem, change / definition.coinValue));
-//                    entityitem.setPickUpDelay(0);
-//                    entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
-//                    player.getLevel().addFreshEntity(entityitem);
-//                    change -= definition.coinValue * (change / definition.coinValue);
-//                }
-//            }
-//        }
-//    }
-
-    /**
-     * @author iwolfking
-     * @reason Port old way of determining if you have enough currency.
-     */
-    @Overwrite
-    public static boolean hasEnoughCurrency(List<InventoryUtil.ItemAccess> allItems, ItemStack currency) {
-        return getCoinDefinition(currency.getItem())
-                .map(
-                        priceCoinDefinition -> {
-                            int priceValue = priceCoinDefinition.coinValue * currency.getCount();
-
-                            for (InventoryUtil.ItemAccess itemAccess : allItems) {
-                                priceValue -= getCoinDefinition(itemAccess.getStack().getItem())
-                                        .map(coinDefinition -> coinDefinition.coinValue * itemAccess.getStack().getCount())
-                                        .orElse(0);
-                                if (priceValue <= 0) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        }
-                )
-                .orElse(false);
     }
 }
