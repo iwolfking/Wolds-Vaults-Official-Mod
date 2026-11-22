@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import xyz.iwolfking.woldsvaults.api.lib.CrystalWorkbenchPreviewContext;
+import xyz.iwolfking.woldsvaults.api.lib.crystal_workbench.CrystalWorkbenchPreviewContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +82,6 @@ public class MixinCrystalWorkbenchPreview {
             return outcome;
         }
 
-        AnvilExecutor.Application miscApp = ctx.miscApplication;
         CrystalWorkbenchPreview.Report oldReport = outcome.report();
 
         ItemStack startingCrystal = outcome.result().isEmpty() ? ctx.workspace.crystal().copy() : outcome.result();

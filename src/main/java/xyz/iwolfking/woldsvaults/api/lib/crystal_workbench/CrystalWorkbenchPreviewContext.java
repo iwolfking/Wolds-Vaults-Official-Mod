@@ -1,4 +1,4 @@
-package xyz.iwolfking.woldsvaults.api.lib;
+package xyz.iwolfking.woldsvaults.api.lib.crystal_workbench;
 
 import iskallia.vault.block.entity.CrystalWorkbenchWorkspace;
 import iskallia.vault.recipe.anvil.AnvilExecutor;
