@@ -20,6 +20,8 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
     private final int fillColor;
     private boolean molten;
     private boolean navy;
+    private int captionLeft;
+    private int captionWidth;
     private boolean visible = true;
 
     public GreedProgressBarElement(ISpatial spatial, Supplier<Float> progress, Supplier<Component> caption, int fillColor) {
@@ -48,6 +50,12 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
     /** Draws the track in the navy row styles' colours: a dark navy channel with a black outline. */
     public GreedProgressBarElement navy() {
         this.navy = true;
+        return this;
+    }
+
+    public GreedProgressBarElement captionOver(int left, int width) {
+        this.captionLeft = left;
+        this.captionWidth = width;
         return this;
     }
 
@@ -92,6 +100,10 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         Minecraft minecraft = Minecraft.getInstance();
         int textWidth = minecraft.font.width(component);
         int textX = world.x() + (world.width() - textWidth) / 2;
+        if (this.captionWidth > 0) {
+            int centred = world.x() + this.captionLeft + (this.captionWidth - textWidth) / 2;
+            textX = Math.max(world.x() + 1, Math.min(world.x() + world.width() - 1 - textWidth, centred));
+        }
         int textY = world.y() + 1 + (world.height() - 9) / 2;
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, world.z() + 3.0D);

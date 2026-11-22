@@ -97,6 +97,10 @@ public final class MilestoneFrame {
         return TAILS[rarity] == null ? corner : Math.max(corner, TAILS[rarity].h() - 2);
     }
 
+    public static int crestWidth(int rarity) {
+        return rarity <= NONE || CRESTS[rarity] == null ? 0 : CRESTS[rarity].w();
+    }
+
     /**
      * Draws a frame of the rarity over a row at (x, y) and depth z, seeded so neighbouring rows don't move in step.
      * Vault Hunters' screens depth test their elements by z, so the frame has to sit at the row's own z or the list

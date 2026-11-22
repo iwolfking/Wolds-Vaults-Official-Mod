@@ -1413,6 +1413,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("screen.woldsvaults.greed.sort.tier", "Tier");
         add("screen.woldsvaults.greed.sort.reputation", "Total Rep");
         add("screen.woldsvaults.greed.sort.progress", "Progress");
+        add("screen.woldsvaults.greed.sort.closest", "Closest");
         add("screen.woldsvaults.greed.sort.tooltip", "Sorted by %s");
         add("screen.woldsvaults.greed.sort.tooltip.cycle", "Click for the next order, right click for the previous");
         add("screen.woldsvaults.greed.sort.ascending", "Ascending");

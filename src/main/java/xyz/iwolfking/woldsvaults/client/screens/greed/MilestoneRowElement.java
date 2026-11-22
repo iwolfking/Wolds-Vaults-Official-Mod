@@ -452,6 +452,11 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         Component text = this.progressText(false);
         GreedProgressBarElement bar = new GreedProgressBarElement(Spatials.positionXYZ(x, y, 1).size(w, h),
                 () -> shown, caption ? () -> text : null, GreedTheme.GOLD_DIM).molten().navy();
+        if (caption && this.style.ornaments()) {
+            int crest = MilestoneFrame.crestWidth(this.rarity);
+            int span = crest > 0 ? crest : this.width;
+            bar.captionOver((this.width - span) / 2 - x, span);
+        }
         this.barTooltip(bar);
         this.addElement(bar);
     }

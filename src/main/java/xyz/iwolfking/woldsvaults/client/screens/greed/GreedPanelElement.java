@@ -269,7 +269,8 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         TIER("tier", Comparator.comparingInt((MilestoneDefinition definition) ->
                 definition.getCompletedTiers(ClientMilestoneData.getValue(definition.getId())))),
         REPUTATION("reputation", Comparator.comparingInt(GreedPanelElement::totalReputation)),
-        PROGRESS("progress", Comparator.comparingDouble(GreedPanelElement::progress));
+        PROGRESS("progress", Comparator.comparingDouble(GreedPanelElement::progress)),
+        CLOSEST("closest", Comparator.comparingDouble(GreedPanelElement::toNextTier));
 
         private final String key;
         private final Comparator<MilestoneDefinition> order;
@@ -308,10 +309,22 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         if (tiers <= 0 || completed >= tiers) {
             return 1.0;
         }
+        return (completed + tierProgress(definition, value, completed)) / tiers;
+    }
+
+    private static double toNextTier(MilestoneDefinition definition) {
+        long value = ClientMilestoneData.getValue(definition.getId());
+        int completed = definition.getCompletedTiers(value);
+        if (completed >= definition.getTierCount()) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return 1.0 - tierProgress(definition, value, completed);
+    }
+
+    private static double tierProgress(MilestoneDefinition definition, long value, int completed) {
         long floor = completed == 0 ? 0L : definition.getThreshold(completed - 1);
         long span = definition.getThreshold(completed) - floor;
-        double partial = span <= 0L ? 0.0 : Math.max(0.0, Math.min(1.0, (double) (value - floor) / span));
-        return (completed + partial) / tiers;
+        return span <= 0L ? 0.0 : Math.max(0.0, Math.min(1.0, (double) (value - floor) / span));
     }
 
     /** While the search box has focus it takes every key (so the inventory key types instead of closing); Escape lets go. */

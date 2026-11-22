@@ -1510,6 +1510,7 @@
   "screen.woldsvaults.greed.sort.tier": "Tier",
   "screen.woldsvaults.greed.sort.reputation": "Total Rep",
   "screen.woldsvaults.greed.sort.progress": "Progress",
+  "screen.woldsvaults.greed.sort.closest": "Closest",
   "screen.woldsvaults.greed.sort.tooltip": "Sorted by %s",
   "screen.woldsvaults.greed.sort.tooltip.cycle": "Click for the next order, right click for the previous",
   "screen.woldsvaults.greed.sort.ascending": "Ascending",
