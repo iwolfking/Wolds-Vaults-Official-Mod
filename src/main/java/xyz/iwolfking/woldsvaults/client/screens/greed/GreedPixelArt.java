@@ -117,7 +117,6 @@ public final class GreedPixelArt {
         return mix(0xFF000000, colour, k);
     }
 
-    // the same colour greyed out and darkened, for icons that are off
     public static int greyed(int colour) {
         int luma = Math.round((((colour >> 16) & 255) * 0.3F + ((colour >> 8) & 255) * 0.59F + (colour & 255) * 0.11F) * 0.55F);
         return 0xFF000000 | luma << 16 | luma << 8 | Math.min(255, luma + 10);

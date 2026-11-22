@@ -86,7 +86,6 @@ public class GreedSubTabElement extends ContainerElement<GreedSubTabElement> {
             int w = at.width();
             int h = at.height();
             if (this.selected) {
-                // two pixels taller, and its face runs on over the folder's top outline and highlight to open into it
                 fill(renderer, poseStack, x, y - 2, z, w, h + 3, GreedFolderElement.OUTLINE);
                 fill(renderer, poseStack, x + 1, y - 1, z, w - 2, h + 3, GreedFolderElement.FACE);
                 fill(renderer, poseStack, x + 1, y - 1, z, w - 2, 1, GreedFolderElement.LIGHT);
@@ -94,7 +93,6 @@ public class GreedSubTabElement extends ContainerElement<GreedSubTabElement> {
                 fill(renderer, poseStack, x + w - 2, y, z, 1, h, GreedFolderElement.DARK);
                 return;
             }
-            // a raised button a pixel lower than the strip's top: light top-left edge, dark bottom-right edge
             boolean hover = at.contains(mouseX, mouseY);
             int top = y + 1;
             int height = h - 1;

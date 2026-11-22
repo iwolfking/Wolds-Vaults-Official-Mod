@@ -92,7 +92,6 @@ public class GreedProgressBarElement extends AbstractSpatialElement<GreedProgres
         Minecraft minecraft = Minecraft.getInstance();
         int textWidth = minecraft.font.width(component);
         int textX = world.x() + (world.width() - textWidth) / 2;
-        // centres the letters themselves (7 rows, the shadow hangs below) in the 1px-rimmed track
         int textY = world.y() + 1 + (world.height() - 9) / 2;
         poseStack.pushPose();
         poseStack.translate(0.0D, 0.0D, world.z() + 3.0D);

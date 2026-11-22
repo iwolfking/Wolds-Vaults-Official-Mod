@@ -46,14 +46,12 @@ public class GreedItemIconElement extends AbstractSpatialElement<GreedItemIconEl
         int z = at.z();
         int w = at.width();
         int h = at.height();
-        // a recessed slot: dark along the top and left, lit along the bottom and right
         GreedPixelArt.bevel(renderer, poseStack, x, y, z, w, h, 0xFF0E121B, 0xFF080A10, GreedPixelArt.NAVY_LIGHT,
                 GreedPixelArt.NAVY_OUTLINE);
 
         int size = 16 * SCALE;
         int iconX = x + (w - size) / 2;
         int iconY = y + (h - size) / 2;
-        // the item renderer draws through the model-view stack, so the screen's pose (scrolling included) goes on it first
         PoseStack modelView = RenderSystem.getModelViewStack();
         modelView.pushPose();
         modelView.mulPoseMatrix(poseStack.last().pose());

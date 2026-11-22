@@ -158,7 +158,6 @@ public class GreedButtonElement extends AbstractSpatialElement<GreedButtonElemen
         this.renderContent(renderer, poseStack, world, off, gold, hover, textColor, subColor);
     }
 
-    // the icon, label and second line, centred together in the button
     private void renderContent(IElementRenderer renderer, PoseStack poseStack, ISpatial world, boolean off, boolean gold,
                                boolean hover, int textColor, int subColor) {
         Component component = this.label.get();

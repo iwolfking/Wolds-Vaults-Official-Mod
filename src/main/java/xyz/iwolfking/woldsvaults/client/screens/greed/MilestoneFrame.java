@@ -28,8 +28,6 @@ import xyz.iwolfking.woldsvaults.client.init.ModShaders;
 public final class MilestoneFrame {
     public static final int NONE = 0;
     public static final int MYTHIC = 5;
-    // the most any rarity's corners reach out sideways (half the widest corner piece, plus its glow), so rows keep one
-    // inset whatever their rarity
     public static final int SIDE_OVERHANG = 6;
 
     private static final ResourceLocation ATLAS = WoldsVaults.id("textures/gui/greed/milestone_ornaments.png");
@@ -40,7 +38,6 @@ public final class MilestoneFrame {
     private record Sprite(int u, int v, int w, int h) {
     }
 
-    // by rarity, positions in the ornament atlas (handoff/milestone_frames/ornaments.px.js)
     private static final Sprite[] CRESTS = {null, null, new Sprite(32, 22, 13, 7), new Sprite(0, 22, 25, 9),
             new Sprite(0, 12, 33, 10), new Sprite(0, 0, 45, 12)};
     private static final Sprite[] TAILS = {null, null, null, new Sprite(42, 32, 11, 5), new Sprite(24, 32, 15, 6),
@@ -126,7 +123,6 @@ public final class MilestoneFrame {
         int rgb = colour(rarity);
         ShaderInstance shader = ModShaders.milestoneFrame;
         if (shader == null) {
-            // the shader didn't load: a plain plate and border in the rarity's colour
             GuiComponent.fill(poseStack, x, y, x + width, y + height, 0xFF000000 | rgb);
             GuiComponent.fill(poseStack, x + 1, y + 1, x + width - 1, y + height - 1, navy ? GreedPixelArt.NAVY_ROW : GreedTheme.PLATE);
             return;
@@ -156,10 +152,8 @@ public final class MilestoneFrame {
             return;
         }
         shader.safeGetUniform("FrameSize").set((float) width, (float) height, (float) GLOW, 1.0F);
-        // the mythic crest floats a pixel up and down
         int bob = rarity >= MYTHIC ? (int) Math.round(Math.sin(time * 1.6 + seed) * 0.6) : 0;
         ScreenDrawHelper.draw(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX, buf -> {
-            // each corner piece is centred on its corner pixel, mirrored for the other three corners
             Sprite corner = CORNERS[rarity];
             int left = x - corner.w() / 2;
             int right = x + width - corner.w() + corner.w() / 2;
@@ -191,7 +185,6 @@ public final class MilestoneFrame {
                 width, height, frameX, frameY);
     }
 
-    // a quad whose vertex colours carry each corner's position in the frame (offset 16 px, scaled to the frame plus 32)
     private static void quad(BufferBuilder buf, Matrix4f pose, float x, float y, float w, float h,
                              float u0, float v0, float u1, float v1, int width, int height, int frameX, int frameY) {
         vertex(buf, pose, x, y + h, u0, v1, width, height, frameX, frameY);

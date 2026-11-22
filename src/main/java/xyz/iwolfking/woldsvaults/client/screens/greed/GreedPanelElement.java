@@ -50,7 +50,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     private static final int MIN_HEIGHT = 110;
     private static final int SCROLLBAR_ALLOWANCE = 11;
     private static final int SEARCH_HEIGHT = 12;
-    // how far the search row and list sit in from the folder body's edges
     private static final int BODY_PAD = 3;
 
     private final boolean claimEnabled;
@@ -67,7 +66,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     private boolean rebuildPending;
     private SearchField search;
     private String searchQuery = "";
-    // the list order lasts the whole session, across tabs and reopening the screen
     private static SortKey sortKey = SortKey.NAME;
     private static boolean sortDescending;
 
@@ -136,7 +134,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             this.savedScroll = this.list.getScrollValue();
             this.list = null;
         }
-        // the old search box is kept until the new one takes over its text, caret and focus; off the list tabs it lets go
         if (this.search != null && !this.tab.isList()) {
             this.search.setFocused(false);
         }
@@ -194,17 +191,13 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             GreedTab entry = tabs[i];
             boolean selected = entry == this.tab;
             int x = this.metrics.margin + i * (tabWidth + 1);
-            // the last tab takes up the rounding, so the strip ends flush with the folder's right edge
             int width = i == tabs.length - 1 ? this.metrics.margin + available - x : tabWidth;
-            // the selected tab opens through the folder's top edge, so it is drawn above the folder
             this.addElement(new GreedSubTabElement(
                     Spatials.positionXYZ(x, this.metrics.tabStripY, selected ? 5 : 1).size(width, this.metrics.tabHeight),
                     entry, selected, this::setTab));
         }
     }
 
-    // the search box above a category's list, with the sort and direction buttons beside it; whatever is typed searches
-    // every milestone, not just this tab's
     private void buildSearch(int y) {
         Font font = Minecraft.getInstance().font;
         int x = this.metrics.margin + BODY_PAD;
@@ -235,7 +228,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         GreedButtonElement sort = new GreedButtonElement(Spatials.positionXYZ(x, y, 3).size(sortWidth, SEARCH_HEIGHT),
                 () -> sortLabel(sortKey), () -> {
         }) {
-            // left click steps on to the next order, right click back to the previous one
             @Override
             public boolean onMouseClicked(double mouseX, double mouseY, int buttonIndex) {
                 SortKey[] keys = SortKey.values();
@@ -301,7 +293,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         return I18n.get(definition.getNameKey()).toLowerCase(Locale.ROOT);
     }
 
-    // the reputation every tier of a milestone pays out together
     private static int totalReputation(MilestoneDefinition definition) {
         int total = 0;
         for (int tier = 0; tier < definition.getTierCount(); tier++) {
@@ -310,7 +301,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         return total;
     }
 
-    // how far through all of its tiers a milestone is, from 0 to 1, counting the way into the tier being worked on
     private static double progress(MilestoneDefinition definition) {
         long value = ClientMilestoneData.getValue(definition.getId());
         int tiers = definition.getTierCount();
@@ -365,7 +355,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             super(spatial, ScreenTextures.INSET_BLACK_BACKGROUND, font);
         }
 
-        // takes over the box it replaces in a rebuild, so typing never notices the panel being rebuilt
         void continueFrom(@Nullable SearchField previous, String query) {
             this.text = previous == null ? query : previous.text;
             this.cursorPos = previous == null ? this.text.length() : previous.cursorPos;
@@ -441,7 +430,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             return super.keyPressed(keyCode, scanCode, modifiers);
         }
 
-        // where a Ctrl+arrow from the caret lands: across any spaces, then to the far end of the word
         private int wordEdge(int direction) {
             int at = this.cursorPos;
             if (direction < 0) {
@@ -482,7 +470,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         return created;
     }
 
-    // the width inside the folder body's padding, which the search row and the list share
     private int bodyInnerWidth() {
         return this.panelWidth - this.metrics.margin * 2 - BODY_PAD * 2;
     }
@@ -605,15 +592,11 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
         this.stackRows(content, entries, 1, rowWidth, 1, this.claimEnabled, true, GreedRowStyle.current(), true);
     }
 
-    // a milestone matches a search when its name or its requirement contains the query
     private static boolean matches(MilestoneDefinition definition, String query) {
         return I18n.get(definition.getNameKey()).toLowerCase(Locale.ROOT).contains(query)
                 || I18n.get(definition.getDescriptionKey()).toLowerCase(Locale.ROOT).contains(query);
     }
 
-    // Lays rows out top to bottom from y in the given style, leaving room for each frame's flourishes (inset from the
-    // sides, and spaced so one row's tail and the next one's crest never touch), and returns the y just below the last
-    // one's flourishes. The ledger style packs its rows together under a row of column headings instead.
     private int stackRows(GreedScrollList content, List<MilestoneDefinition> rows, int x, int width, int y,
                           boolean claimEnabled, boolean showClaim, GreedRowStyle style, boolean interactive) {
         int inset = style.framed() ? MilestoneFrame.SIDE_OVERHANG : 1;
@@ -636,7 +619,6 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             previousBottom = style.ornaments() ? MilestoneFrame.bottomOverhang(rarity) : (rarity > MilestoneFrame.NONE ? 2 : 0);
         }
         int end = y + Math.max(previousBottom, 0) + 1;
-        // keeps the last row's tail inside the scrolled area
         content.addElement(new GreedFillElement(Spatials.positionXYZ(x, y, 0).size(1, end - y), 0));
         return end;
     }

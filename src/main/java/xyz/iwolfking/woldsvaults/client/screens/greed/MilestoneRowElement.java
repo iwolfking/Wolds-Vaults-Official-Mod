@@ -22,6 +22,7 @@ import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundClaimMilestoneMessage;
 import xyz.iwolfking.woldsvaults.milestones.network.ServerboundPinMilestoneMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -110,12 +111,9 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    // ---------- the plate under the row ----------
-
     private void buildBackground(int index) {
         ISpatial whole = Spatials.positionXYZ(0, 0, 0).size(this.width, this.height);
         if (this.style == GreedRowStyle.LEDGER) {
-            // packed table rows: alternating shades, with the rarity as a stripe down the left edge
             this.addElement(new GreedFillElement(whole, index % 2 == 1 ? GreedPixelArt.NAVY_ROW_ALT : GreedPixelArt.NAVY_ROW));
             if (this.rarity > MilestoneFrame.NONE) {
                 this.addElement(new GreedFillElement(Spatials.positionXYZ(0, 0, 1).size(2, this.height),
@@ -137,8 +135,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                     GreedPixelArt.NAVY_FACE, GreedPixelArt.NAVY_HIGHLIGHT, GreedPixelArt.NAVY_DARK, GreedPixelArt.NAVY_FACE));
         }
     }
-
-    // ---------- the layouts ----------
 
     private void buildClassic() {
         GreedButtonElement pin = this.pinButton(Spatials.positionXYZ(2, this.metrics.rowPinY, 1)
@@ -169,7 +165,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                         this.finished ? GreedTheme.GOLD : GreedTheme.TEXT_DIM));
     }
 
-    // the classic layout in navy bevels; the banked-rep line only shows when there is rep waiting
     private void buildNavy() {
         this.pinButton(Spatials.positionXYZ(4, 4, 1).size(32, 11), GreedButtonElement.Look.NAVY);
         if (this.unclaimed > 0) {
@@ -181,7 +176,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.bar(60, 26, this.width - 66, 11, true);
     }
 
-    // one chunky chip to claim from; it previews the next reward when nothing is waiting
     private void buildRewardChip() {
         ISpatial chip = Spatials.positionXYZ(4, 4, 1).size(46, this.height - 8);
         if (this.unclaimed > 0 || !this.finished) {
@@ -201,8 +195,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.bar(56, 26, this.width - 62, 11, true);
     }
 
-    // the reward chip with the milestone's icon in its place, except at Mr. Greedy while there is rep to claim; the
-    // icon carries a gold tag for rep that is waiting to be collected there
     private void buildIconChip() {
         ISpatial chip = Spatials.positionXYZ(4, 4, 1).size(46, this.height - 8);
         if (this.claimEnabled && this.showClaim && this.unclaimed > 0) {
@@ -216,7 +208,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
             GreedItemIconElement icon = new GreedItemIconElement(chip, GreedMilestoneIcons.icon(this.definition.getId()),
                     waiting ? GreedTheme.text("+" + this.unclaimed, GreedTheme.GOLD) : null);
             icon.tooltip(Tooltips.multi(() -> {
-                List<Component> lines = new java.util.ArrayList<>(this.tooltipLines());
+                List<Component> lines = new ArrayList<>(this.tooltipLines());
                 if (waiting) {
                     lines.add(GreedTheme.langColored("row.rep", GreedTheme.GOLD, this.unclaimed));
                     lines.add(GreedTheme.langColored("claim.tooltip.player", GreedTheme.TEXT_DIM));
@@ -231,7 +223,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.bar(56, 29, this.width - 62, 11, true);
     }
 
-    // the bar split into one segment per tier, with each tier's rep inside and its threshold underneath
     private void buildTierLadder() {
         this.pinButton(Spatials.positionXYZ(6, 6, 1).size(7, 9), GreedButtonElement.Look.BARE);
         if (this.completed > 0) {
@@ -248,7 +239,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 this.value, this.completed, this.claimedTiers, this.fraction, 12, GreedTierBarElement.Labels.REP, true, null));
     }
 
-    // a shield with the tier reached; only the next goal and its reward are spelled out
     private void buildTierBadge() {
         this.addElement(new GreedTierBadgeElement(Spatials.positionXYZ(5, 5, 1).size(26, 28),
                 GreedTierBadgeElement.Shape.SHIELD, this.rarity, this.completed));
@@ -263,7 +253,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 GreedButtonElement.Look.NAVY);
     }
 
-    // one slim line: pin, tier tag, name, bar with its numbers, and a claim button that reads "+20 Rep"
     private void buildCompact() {
         this.pinButton(Spatials.positionXYZ(4, 5, 1).size(7, 9), GreedButtonElement.Look.BARE);
         this.addElement(new GreedTierBadgeElement(Spatials.positionXYZ(14, 3, 1).size(16, 12),
@@ -283,7 +272,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    // reads left to right and ends in a tall button that says what it pays
     private void buildBigClaim() {
         this.pinButton(Spatials.positionXYZ(6, 5, 1).size(7, 9), GreedButtonElement.Look.BARE);
         this.title(16, 5, this.width - 16 - 80, 0xFFFFFFFF, GreedPixelArt.NAVY_DIM);
@@ -308,7 +296,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    // every tier as a chip that turns gold once reached, with its rep underneath
     private void buildTierChips() {
         this.pinButton(Spatials.positionXYZ(4, 4, 1).size(40, 11), GreedButtonElement.Look.NAVY);
         this.claimButton(Spatials.positionXYZ(4, this.height - 15, 1).size(40, 11),
@@ -321,7 +308,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.addElement(chips);
     }
 
-    // like a vanilla advancement: a framed tier, the name in gold over its description, and a coin button
     private void buildAdvancement() {
         this.addElement(new GreedTierBadgeElement(Spatials.positionXYZ(4, 4, 1).size(28, 28),
                 GreedTierBadgeElement.Shape.SQUARE, this.rarity, this.completed));
@@ -341,7 +327,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    // a packed table row; the column headings come from ledgerHeader
     private void buildLedger() {
         int[] columns = ledgerColumns(this.width);
         this.pinButton(Spatials.positionXYZ(5, 4, 1).size(7, 9), GreedButtonElement.Look.BARE);
@@ -360,7 +345,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 () -> GreedTheme.text(this.unclaimed > 0 ? "+" + this.unclaimed : "-", 0xFFFFFFFF), GreedButtonElement.Look.NAVY);
     }
 
-    // a small navy card: header strip with the name and pin, the tier ladder with live numbers, and a footer
     private void buildFolderCard() {
         int inset = MilestoneFrame.borderWidth(this.rarity);
         this.title(inset + 4, 4, this.width - inset * 2 - 18, 0xFFFFFFFF, GreedPixelArt.NAVY_DIM);
@@ -379,9 +363,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 GreedButtonElement.Look.NAVY);
     }
 
-    // ---------- the ledger's columns ----------
-
-    // x of the tier, progress, next and claim columns for a row this wide
     private static int[] ledgerColumns(int width) {
         int claim = width - 50;
         int next = claim - 44;
@@ -414,8 +395,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    // ---------- shared parts ----------
-
     private Runnable action(Runnable action) {
         return this.interactive ? action : () -> {
         };
@@ -444,7 +423,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         return this.addElement(button);
     }
 
-    // the claim button, or null where claiming isn't shown (the pinned list on the main tab)
     private GreedButtonElement claimButton(ISpatial spatial, Supplier<Component> text, GreedButtonElement.Look look) {
         if (!this.showClaim) {
             return null;
@@ -463,7 +441,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         return this.addElement(button);
     }
 
-    // a dark button with a green tick, for milestones with every tier done and claimed
     private void doneButton(ISpatial spatial, Component text) {
         this.addElement(new GreedButtonElement(spatial, () -> null, () -> {
         }).look(GreedButtonElement.Look.NAVY).setDisabled(() -> true).icon(GreedPixelArt.CHECK, false, false)
@@ -516,7 +493,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         return this.definition.isDuration() ? GreedTheme.duration(amount) : GreedTheme.compact(amount);
     }
 
-    // "450 / 1K", or "Complete" once every tier is done; tight drops the spaces
     private Component progressText(boolean tight) {
         if (this.finished) {
             return GreedTheme.lang("row.complete");
@@ -559,7 +535,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 this.tierLine(GreedTheme.TEXT, GreedTheme.TEXT_DIM, " | "));
     }
 
-    // every threshold, then every tier's rep, with the tier being worked on in gold
     private Component tierLine(int colour, int dimColour, String divider) {
         MutableComponent line = new TextComponent("");
         for (int tier = 0; tier < this.tiers; tier++) {
@@ -581,7 +556,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         return line;
     }
 
-    // "Next: 1K for +30 Rep", or "All tiers complete"
     private Component nextLine() {
         if (this.finished) {
             return GreedTheme.langColored("row.all_complete", GreedPixelArt.GREEN);
@@ -593,7 +567,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         return line;
     }
 
-    // "Next +30 Rep at 1K", or "All tiers complete"
     private Component nextLineShort() {
         if (this.finished) {
             return GreedTheme.langColored("row.all_complete", GreedPixelArt.GREEN);

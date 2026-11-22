@@ -56,7 +56,6 @@ public class GreedTrialButtonElement extends GreedButtonElement {
         poseStack.popPose();
     }
 
-    // an 11 x 9 dark badge with a gold rim and crossed swords, straddling the button's top edge
     private static void drawBadge(IElementRenderer renderer, PoseStack poseStack, int x, int y, int z, boolean hover) {
         fill(renderer, poseStack, x + 1, y, z, 9, 9, INK);
         fill(renderer, poseStack, x, y + 1, z, 11, 7, INK);
@@ -79,7 +78,6 @@ public class GreedTrialButtonElement extends GreedButtonElement {
         }
     }
 
-    // a third of the way to white
     private static int brighten(int argb) {
         int r = (argb >> 16) & 255;
         int g = (argb >> 8) & 255;

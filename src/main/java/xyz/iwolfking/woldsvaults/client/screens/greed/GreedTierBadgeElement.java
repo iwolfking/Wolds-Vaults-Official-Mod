@@ -54,7 +54,6 @@ public class GreedTierBadgeElement extends AbstractSpatialElement<GreedTierBadge
                 GreedPixelArt.fill(renderer, poseStack, x + 1, y + 1, z, w - 2, faceHeight - 2,
                         GreedPixelArt.mix(GreedPixelArt.NAVY_ROW, colour, 0.18F));
                 GreedPixelArt.hollow(renderer, poseStack, x + 1, y + 1, z, w - 2, faceHeight - 2, colour);
-                // the shield's point
                 for (int k = 0; k < 4; k++) {
                     GreedPixelArt.fill(renderer, poseStack, x + 4 + k, y + faceHeight + k, z, w - 8 - 2 * k, 1,
                             k == 3 ? GreedPixelArt.NAVY_OUTLINE : colour);

@@ -19,11 +19,9 @@ import xyz.iwolfking.woldsvaults.client.init.ModShaders;
  * plain look if the shader didn't load.
  */
 public final class GreedFlourish {
-    // how far above the Take Trial button its embers can rise
     public static final int EMBER_RISE = 7;
     private static final float MODE_TRIAL = 0.0F;
     private static final float MODE_MOLTEN = 1.0F;
-    // how far the bar's leading edge lights the empty track ahead of it
     private static final int MOLTEN_GLOW = 3;
 
     private GreedFlourish() {
@@ -76,7 +74,6 @@ public final class GreedFlourish {
         poseStack.popPose();
     }
 
-    // a quad at (x, y) whose UVs run from (u0, v0) in GUI pixels
     private static void quad(PoseStack poseStack, ShaderInstance shader, int z, int x, int y, int width, int height,
                              float u0, float v0) {
         atDepth(poseStack, z, () -> {
