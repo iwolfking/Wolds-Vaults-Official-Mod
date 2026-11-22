@@ -40,4 +40,23 @@ public class GreedTraderAchievementsScreen extends GreedTraderScreen {
             this.panel.refreshIfChanged();
         }
     }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return this.panel != null && this.panel.searchKeyPressed(keyCode, scanCode, modifiers)
+                || super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean charTyped(char character, int modifiers) {
+        return this.panel != null && this.panel.searchCharTyped(character, modifiers) || super.charTyped(character, modifiers);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (this.panel != null) {
+            this.panel.searchClickedAway(mouseX, mouseY);
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
 }

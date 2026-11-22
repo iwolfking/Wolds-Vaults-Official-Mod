@@ -24,6 +24,11 @@ public enum GreedTab {
         return this.category;
     }
 
+    /** Whether this tab is a milestone list, with the search box above it. */
+    public boolean isList() {
+        return this.category != null;
+    }
+
     public Component getTitle() {
         return GreedTheme.lang(this.langSuffix);
     }

@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.config.forge;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
+import xyz.iwolfking.woldsvaults.client.screens.greed.GreedRowStyle;
 
 import java.util.Arrays;
 
@@ -19,6 +20,7 @@ public class WoldsVaultsConfig
         public final ForgeConfigSpec.BooleanValue serverTransferReloadSkip;
         public final ForgeConfigSpec.BooleanValue coloredStatisticsScreen;
         public final ForgeConfigSpec.BooleanValue showWorkstationTabs;
+        public final ForgeConfigSpec.EnumValue<GreedRowStyle> greedRowStyle;
 
         public Client(ForgeConfigSpec.Builder builder)
         {
@@ -30,6 +32,8 @@ public class WoldsVaultsConfig
             this.serverTransferReloadSkip = builder.comment("Skip reloading of certain parts of the game when transferring to different server").define("serverTransferReloadSkip", true);
             this.coloredStatisticsScreen = builder.comment("Display gear attributes in color on the Statistics screen").define("coloredStatisticsScreen", false);
             this.showWorkstationTabs = builder.comment("Show tabs that let you easily swap between Vault Workstations").define("showWorkstationTabs", true);
+            this.greedRowStyle = builder.comment("How milestone rows look on the greed screen")
+                    .defineEnum("greedRowStyle", GreedRowStyle.ICON_CHIP);
             builder.push("Mining Speedometer");
             this.tooltipOutputFormat = builder.comment("The Output Format for the speedometer jade tooltip")
                     .defineEnum("Jade Output Format", OutputFormat.NEXT_MINING_SPEED_BREAKPOINT);
