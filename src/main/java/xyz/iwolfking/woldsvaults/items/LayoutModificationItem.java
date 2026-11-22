@@ -6,7 +6,13 @@ import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.item.core.DataTransferItem;
 import iskallia.vault.item.core.VaultLevelItem;
+import iskallia.vault.item.crystal.CrystalData;
+import iskallia.vault.item.crystal.VaultCrystalItem;
+import iskallia.vault.item.crystal.layout.ArchitectCrystalLayout;
+import iskallia.vault.item.crystal.layout.CompoundCrystalLayout;
 import iskallia.vault.item.crystal.layout.CrystalLayout;
+import iskallia.vault.item.crystal.layout.NullCrystalLayout;
+import iskallia.vault.recipe.anvil.AnvilContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
@@ -24,14 +30,17 @@ import xyz.iwolfking.woldsvaults.api.core.layout.lib.LayoutDefinition;
 import xyz.iwolfking.woldsvaults.api.core.layout.LayoutDefinitionRegistry;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
+import xyz.iwolfking.woldsvaults.items.lib.IVaultCrystalModifier;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.CompoundCrystalLayoutAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class LayoutModificationItem extends Item
-        implements VaultLevelItem, DataTransferItem {
+        implements VaultLevelItem, DataTransferItem, IVaultCrystalModifier {
 
     public static final String TAG_LAYOUT = "layout";
     public static final String TAG_POOL = "pool";
@@ -196,5 +205,59 @@ public class LayoutModificationItem extends Item
         return LayoutDefinitionRegistry
             .get(root.getString(TAG_LAYOUT))
             .flatMap(def -> def.getTooltipImage(getOrUpgradeLayoutData(root, def)));
+    }
+
+    @Override
+    public boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredient, ItemStack output) {
+        ItemStack primary = context.getInput()[0];
+        ItemStack secondary = context.getInput()[1];
+        if (primary.getItem() instanceof VaultCrystalItem && secondary.getItem() == ModItems.LAYOUT_MANIPULATOR) {
+            if(data.getProperties().isUnmodifiable()) {
+                return false;
+            }
+
+            if(LayoutModificationItem.getLayout(secondary).isEmpty()) {
+                return false;
+            }
+
+            CrystalLayout newLayout = LayoutModificationItem.getLayout(secondary).get();
+
+            if (data.getLayout() instanceof CompoundCrystalLayout compound) {
+                List<CrystalLayout> architectLayouts = new ArrayList<>(compound.getChildren().stream()
+                        .filter(child -> child instanceof CrystalLayout)
+                        .map(child -> (CrystalLayout) child)
+                        .filter(cl -> cl instanceof ArchitectCrystalLayout)
+                        .toList());
+
+                architectLayouts.add(newLayout);
+
+                ((CompoundCrystalLayoutAccessor) compound).setChildren(architectLayouts);
+            } else {
+                data.setLayout(newLayout);
+            }
+
+
+            data.write(output);
+            context.setOutput(output);
+
+            context.onTake(context.getTake().append(() -> {
+                context.getInput()[0].shrink(1);
+                context.getInput()[1].shrink(1);
+            }));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int getCapacityConsumption(ItemStack stack) {
+        return 0;
+    }
+
+    @Override
+    public boolean hasApplied(ItemStack crystalStack) {
+        CrystalData data = CrystalData.read(crystalStack);
+        return !(data.getLayout() instanceof NullCrystalLayout);
     }
 }
