@@ -42,6 +42,6 @@ public class WoldConstants {
     public static final float DODGE_PERCENT_CAP = 0.95F;
 
     //Constant Strings
-    public static final String TRASH_SLOT_RESEARCH = "Trash Slot";
-    public static final String DELOOT_RESEARCH = "Delooting Pro";
+    public static final String TRASH_SLOT_RESEARCH = "Loot Manager";
+    public static final String DELOOT_RESEARCH = "Loot Manager";
 }
