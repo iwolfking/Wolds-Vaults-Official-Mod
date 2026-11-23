@@ -1,0 +1,34 @@
+[
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/magical_forest"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/fortress"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/babel"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/dragon_den"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/inverted_pyramid"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/grand_canyon"
+  },
+  {
+    "weight": 1,
+    "reference": "woldsvaults:vault/rooms/mythic/hellscape"
+  }
+]

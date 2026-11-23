@@ -49,5 +49,7 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.BUNDLED_SPELL_ORB, NoopRenderer::new);
         EntityRenderers.register(ModEntities.EXTRACTOR, ExtractorGeoRenderer::new);
         EntityRenderers.register(ModEntities.THUMPER, ThumperGeoRenderer::new);
+        EntityRenderers.register(ModEntities.SIMON_CRYSTAL, xyz.iwolfking.woldsvaults.client.simon.SimonCrystalRenderer::new);
+        EntityRenderers.register(ModEntities.PRISM_SEED, xyz.iwolfking.woldsvaults.client.simon.PrismSeedRenderer::new);
     }
 }

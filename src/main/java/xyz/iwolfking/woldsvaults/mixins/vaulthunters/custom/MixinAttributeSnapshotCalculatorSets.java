@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.modifiers.gear.riptide.RiptideDash;
+import xyz.iwolfking.woldsvaults.modifiers.gear.simon.SimonsSet;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -35,11 +36,12 @@ public abstract class MixinAttributeSnapshotCalculatorSets {
 
     /**
      * @author PoorMansPhysicist
-     * @reason add active set-tier grants once the gear and curios walk has counted the pieces
+     * @reason add active set-tier grants once the gear and curios walk has counted the pieces, and Simon's Set Brittle
      */
     @Inject(method = "computeSnapshot", at = @At(value = "INVOKE",
             target = "Liskallia/vault/core/vault/modifier/modifier/VaultGearAttributeModifier;applySnapshotModifiers(Lnet/minecraft/server/level/ServerPlayer;Liskallia/vault/snapshot/AttributeSnapshot;)V"))
     private static void addSetBonuses(ServerPlayer player, AttributeSnapshot snapshot, CallbackInfo ci) {
-        GearSetHelper.addSetBonuses(snapshot);
+        GearSetHelper.addSetBonuses(snapshot, player);
+        SimonsSet.addBrittle(player, snapshot);
     }
 }

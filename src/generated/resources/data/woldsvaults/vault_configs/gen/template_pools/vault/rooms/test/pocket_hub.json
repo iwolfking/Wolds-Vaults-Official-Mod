@@ -1,0 +1,11 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/rooms/test/pocket_hub",
+      "palettes": [
+        "the_vault:generic/room_base"
+      ]
+    }
+  }
+]

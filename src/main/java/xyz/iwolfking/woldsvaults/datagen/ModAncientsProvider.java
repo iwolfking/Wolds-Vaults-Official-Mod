@@ -107,6 +107,16 @@ public class ModAncientsProvider extends AbstractWoldsTableProvider {
         woldsUnique(names, "lightning_fiend_talons", "Ancient Lightning Fiend's Talons");
         woldsUnique(names, "lightning_fiend_orb", "Ancient Lightning Orb");
         woldsUnique(names, "lightning_fiend_pure_lightning", "Ancient Pure Lightning");
+        woldsUnique(names, "simons_helmet", "Ancient Simon's Helmet");
+        woldsUnique(names, "simons_chestplate", "Ancient Simon's Chestplate");
+        woldsUnique(names, "simons_leggings", "Ancient Simon's Leggings");
+        woldsUnique(names, "simons_boots", "Ancient Simon's Boots");
+        woldsUnique(names, "bullet_bill_helmet", "Ancient Bullet Bill's Helmet");
+        woldsUnique(names, "bullet_bill_leggings", "Ancient Bullet Bill's Leggings");
+        woldsUnique(names, "banzai_bill_helmet", "Ancient Banzai Bill Helmet");
+        woldsUnique(names, "king_bill_helmet", "Ancient King Bill Helmet");
+        woldsUnique(names, "daikyo", "Ancient Daikyo");
+        woldsUnique(names, "shokyo", "Ancient Shokyo");
         Set<ResourceLocation> defined = new ModUniqueGearProvider(null).baseItems().keySet();
         for (String key : names.keySet()) {
             ResourceLocation id = new ResourceLocation(key);

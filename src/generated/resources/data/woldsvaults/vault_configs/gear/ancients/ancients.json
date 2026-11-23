@@ -73,7 +73,17 @@
     "woldsvaults:lightning_fiend_legguards": "Ancient Lightning Fiend's Legguards",
     "woldsvaults:lightning_fiend_talons": "Ancient Lightning Fiend's Talons",
     "woldsvaults:lightning_fiend_orb": "Ancient Lightning Orb",
-    "woldsvaults:lightning_fiend_pure_lightning": "Ancient Pure Lightning"
+    "woldsvaults:lightning_fiend_pure_lightning": "Ancient Pure Lightning",
+    "woldsvaults:simons_helmet": "Ancient Simon's Helmet",
+    "woldsvaults:simons_chestplate": "Ancient Simon's Chestplate",
+    "woldsvaults:simons_leggings": "Ancient Simon's Leggings",
+    "woldsvaults:simons_boots": "Ancient Simon's Boots",
+    "woldsvaults:bullet_bill_helmet": "Ancient Bullet Bill's Helmet",
+    "woldsvaults:bullet_bill_leggings": "Ancient Bullet Bill's Leggings",
+    "woldsvaults:banzai_bill_helmet": "Ancient Banzai Bill Helmet",
+    "woldsvaults:king_bill_helmet": "Ancient King Bill Helmet",
+    "woldsvaults:daikyo": "Ancient Daikyo",
+    "woldsvaults:shokyo": "Ancient Shokyo"
   },
   "breakpoints": [
     {

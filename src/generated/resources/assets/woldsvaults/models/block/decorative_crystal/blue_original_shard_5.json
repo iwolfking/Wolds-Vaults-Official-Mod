@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:block/decorative_crystal/base_original_shard_5",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/blue"
+  }
+}

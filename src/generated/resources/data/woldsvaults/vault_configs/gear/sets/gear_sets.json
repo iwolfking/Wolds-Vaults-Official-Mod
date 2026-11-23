@@ -109,6 +109,139 @@
           ]
         }
       ]
+    },
+    "woldsvaults:simons_set": {
+      "name": "Simon's Set",
+      "color": "#FFD23F",
+      "ancientColor": "#FFD23F",
+      "pieces": [
+        "woldsvaults:simons_helmet",
+        "woldsvaults:simons_chestplate",
+        "woldsvaults:simons_leggings",
+        "woldsvaults:simons_boots"
+      ],
+      "tiers": [
+        {
+          "pieces": 2,
+          "text": "Right click to shoot a prism seed: it grows into a crystal where it lands (one at a time, 4 second cooldown). Damage you deal within 6 blocks of a crystal grows it: Seed, Shard, Cluster, Geode. Unfed crystals shrink a stage every 10 seconds. Arcane, Rail and Prism beams refract from crystal to crystal, and your Prism beams reach 50% further. Brittle: each crystal you have costs 2% Resistance.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_crystals",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "pieces": 3,
+          "text": "Lucky Hits from your swings near your crystals make the one you planted bud a new seed around it (up to 4 crystals). With 3 or more Shards, sneak and right click to Resonate: the crystals light up biggest first, then repeat; aim and left click them in that order and each turn bursts for 100% of your ability power per detonation value (Shard 1, Cluster 2, Geode 3.5). Every sequence you get right in a row makes the next one a step longer and the explosions 10% stronger. A wrong click shatters the rest for 50% damage and ends the streak.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_budding",
+              "value": 4
+            },
+            {
+              "attribute": "woldsvaults:simon_sequence",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "pieces": 4,
+          "text": "Lucky Hits from your swings near a Geode give it a facet (up to 3): +25% burst damage, then a slowing burst, then a Flawless crystal that leaves a shard field. Budded seeds have a 5% chance to be Prismatic, standing in for any crystal in the sequence. A Lucky Hit roll on each correct click fractures the crystal so it bursts twice, and finishing a chain collapses every burst into one final blast.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:simon_facets",
+              "value": 3
+            },
+            {
+              "attribute": "woldsvaults:simon_prismatic",
+              "value": 0.05
+            },
+            {
+              "attribute": "woldsvaults:simon_fracture",
+              "value": true
+            },
+            {
+              "attribute": "woldsvaults:simon_finale",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
+    },
+    "woldsvaults:bullet_bill": {
+      "name": "Bullet Bill",
+      "color": "#B9B3C6",
+      "ancientColor": "#B9B3C6",
+      "pieces": [
+        "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:bullet_bill_leggings"
+      ],
+      "variants": {
+        "woldsvaults:banzai_bill_helmet": "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:king_bill_helmet": "woldsvaults:bullet_bill_helmet"
+      },
+      "tiers": [
+        {
+          "pieces": 1,
+          "text": "Double tap jump to become a Bullet Bill for 5 seconds. You fly where you look; hold jump to fire your jets and accelerate, picking up speed in a dive and losing it in a climb. No fall damage while a Bullet Bill or on the landing after. 20 second cooldown once it ends. A Banzai Bill Helmet makes your Bullet Bill 5 times larger; a King Bill Helmet makes it 10 times larger, light red, and burns enemies around it.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:bullet_bill",
+              "value": 100
+            }
+          ]
+        },
+        {
+          "pieces": 2,
+          "text": "Your Bullet Bill flies for 5 seconds longer. Bullet Dash as a Bullet Bill sends you into a spin: you pulse red and fly 75% faster for 1 second, and the dash deals 100% more damage. Right click while flying to arm your detonation: the next time you crash into a block you explode, hitting every enemy nearby for your Bullet Dash damage times your speed in blocks per tick. The faster you crash, the wider the blast. Once armed you keep flying past the end of your time until you crash, or explode where you are 10 seconds later. A bigger Bullet Bill reaches further with both.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:bullet_bill",
+              "value": 100
+            },
+            {
+              "attribute": "woldsvaults:bullet_bill_dash",
+              "value": 1.0
+            },
+            {
+              "attribute": "woldsvaults:bullet_bill_detonation",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
+    },
+    "woldsvaults:ten_magatsuhi": {
+      "name": "Ten Magatsuhi",
+      "color": "#D7263D",
+      "ancientColor": "#D7263D",
+      "pieces": [
+        "woldsvaults:daikyo",
+        "woldsvaults:shokyo"
+      ],
+      "tiers": [
+        {
+          "pieces": 1,
+          "text": "Every third hit in a row is a finisher: both katanas cross through the enemy in an X for 100% more damage. The combo drops if you stop attacking for 3 seconds.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:magatsuhi_combo",
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "pieces": 2,
+          "text": "Right click with your katana: its twin cuts a square out of whatever you aim at, a wall, an enemy or the air. Right click again to swap places with the cut: an enemy trades places with you, a wall's blocks are lifted out to where you stood and you step into the hole, and both katanas slash every enemy around where you land for 100% of your attack damage. Right click a third time to put everything back and return to where you started.",
+          "grants": [
+            {
+              "attribute": "woldsvaults:magatsuhi_cut",
+              "value": 1.0
+            }
+          ]
+        }
+      ]
     }
   }
 }
