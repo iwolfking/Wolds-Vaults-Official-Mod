@@ -121,16 +121,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.SCAVENGER_POUCH_ITEM)
-                .define('G', iskallia.vault.init.ModItems.VAULT_DIAMOND)
-                .define('P', iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER)
-                .define('s', iskallia.vault.init.ModItems.MAGIC_SILK)
-                .define('S', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
-                .pattern(" s ")
-                .pattern("sPs")
-                .pattern("SGS")
-                .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
-                .save(pFinishedRecipeConsumer);
+//        ShapedRecipeBuilder.shaped(ModItems.SCAVENGER_POUCH_ITEM)
+//                .define('G', iskallia.vault.init.ModItems.VAULT_DIAMOND)
+//                .define('P', iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER)
+//                .define('s', iskallia.vault.init.ModItems.MAGIC_SILK)
+//                .define('S', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
+//                .pattern(" s ")
+//                .pattern("sPs")
+//                .pattern("SGS")
+//                .unlockedBy("has_pog", has(iskallia.vault.init.ModItems.POG))
+//                .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK)
                 .define('A', iskallia.vault.init.ModBlocks.MAGIC_SILK_BLOCK)
@@ -536,95 +536,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_gorginite_cluster", has(iskallia.vault.init.ModItems.GORGINITE_CLUSTER))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_UNHINGED)
-                .define('X', iskallia.vault.init.ModItems.DREAMSTONE)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER)
-                .define('G', iskallia.vault.init.ModBlocks.PACKED_VAULT_MEAT_BLOCK)
-                .define('B', iskallia.vault.init.ModItems.EXTRAORDINARY_PAINITE)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_scav_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_HUNTER))
-                .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_UNHINGED_SCAVINGO)
-                .define('X', iskallia.vault.init.ModItems.DREAMSTONE)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_COLLECTOR)
-                .define('G', iskallia.vault.init.ModBlocks.VAULT_MEAT_BLOCK)
-                .define('B', iskallia.vault.init.ModItems.PERFECT_PAINITE)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_scavingo_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_COLLECTOR))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_SPIRITS)
-                .define('X', iskallia.vault.init.ModItems.ETERNAL_SOUL)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_SCOUT)
-                .define('G', Blocks.SOUL_SAND)
-                .define('B', iskallia.vault.init.ModItems.EXTRAORDINARY_WUTODIE)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_brazier_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_SCOUT))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.CRYSTAL_SEAL_ARCHITECT)
-                .define('X', iskallia.vault.init.ModItems.WUTODIC_SILVER_INGOT)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY)
-                .define('G', Blocks.SCAFFOLDING)
-                .define('B', iskallia.vault.init.ModItems.PERFECT_LARIMAR)
-                .define('L', iskallia.vault.init.ModItems.VAULT_ESSENCE)
-                .pattern("LGL")
-                .pattern("XOX")
-                .pattern("LBL")
-                .unlockedBy("has_blank_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_ENCHANTER)
-                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_SAGE)
-                .define('G', Blocks.ENCHANTING_TABLE)
-                .define('B', iskallia.vault.init.ModItems.EXTRAORDINARY_ALEXANDRITE)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_elixir_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_SAGE))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_TITAN)
-                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EXECUTIONER)
-                .define('G', Items.DIAMOND_SWORD)
-                .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_executioner_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_EXECUTIONER))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_DOOMSAYER)
-                .define('X', ModBlocks.VAULT_ESSENCE_BLOCK)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET)
-                .define('G', Items.ENDER_EYE)
-                .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
-                .pattern("XGX")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_prophet_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_PROPHET))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(ModItems.CRYSTAL_SEAL_SURVIVOR)
-                .define('R', iskallia.vault.init.ModItems.RED_VAULT_ESSENCE)
-                .define('X', iskallia.vault.init.ModItems.VAULT_ESSENCE)
-                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY)
-                .define('G', iskallia.vault.init.ModItems.POG)
-                .define('B', iskallia.vault.init.ModBlocks.VAULT_DIAMOND_BLOCK)
-                .pattern("RGR")
-                .pattern("XOX")
-                .pattern("XBX")
-                .unlockedBy("has_red_essence", has(iskallia.vault.init.ModItems.RED_VAULT_ESSENCE))
-                .save(pFinishedRecipeConsumer);
+//        ShapedRecipeBuilder.shaped(iskallia.vault.init.ModItems.CRYSTAL_SEAL_ARCHITECT)
+//                .define('X', iskallia.vault.init.ModItems.WUTODIC_SILVER_INGOT)
+//                .define('O', iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY)
+//                .define('G', Blocks.SCAFFOLDING)
+//                .define('B', iskallia.vault.init.ModItems.PERFECT_LARIMAR)
+//                .define('L', iskallia.vault.init.ModItems.VAULT_ESSENCE)
+//                .pattern("LGL")
+//                .pattern("XOX")
+//                .pattern("LBL")
+//                .unlockedBy("has_blank_seal", has(iskallia.vault.init.ModItems.CRYSTAL_SEAL_EMPTY))
+//                .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(ModItems.INSCRIPTION_BOX)
                 .define('X', iskallia.vault.init.ModItems.WUTODIC_MASS)
