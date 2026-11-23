@@ -75,6 +75,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         royaleWeapons();
         sigils();
         misc();
+        seasonalThemes();
         GreedTraderPatches.register(patch("greed/greed_trader.json"));
         SpellHastePatches.register(this::patch);
     }
@@ -486,6 +487,22 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         level.addProperty("monolithPillageModifiers", "the_vault:brazier_pillage");
         level.addProperty("monolithPillageLootTable", "the_vault:brazier_lvl0");
         return level;
+    }
+
+    /**
+     * Turns off the seasonal vault themes: every theme entry upstream gives seasonal weights loses them, so the
+     * seasonal themes, which have no base weight, never roll.
+     */
+    private void seasonalThemes() {
+        Patch crystal = patch("vault_crystal.json");
+        for (Map.Entry<String, JsonElement> themes : seeded("vault_crystal.json").getAsJsonObject().getAsJsonObject("THEMES").entrySet()) {
+            for (JsonElement entry : themes.getValue().getAsJsonArray()) {
+                JsonObject theme = entry.getAsJsonObject();
+                if (theme.has("seasonalWeights") && theme.getAsJsonObject("seasonalWeights").size() > 0) {
+                    crystal.at("THEMES", themes.getKey(), where("level", theme.get("level").getAsInt())).set("seasonalWeights", new JsonObject());
+                }
+            }
+        }
     }
 
     private void misc() {

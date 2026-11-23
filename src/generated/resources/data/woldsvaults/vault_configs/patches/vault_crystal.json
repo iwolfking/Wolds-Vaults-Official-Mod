@@ -1,0 +1,64 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 0
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 20
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 30
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 50
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "woldsvaults:royale",
+        {
+          "level": 0
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    }
+  ]
+}
