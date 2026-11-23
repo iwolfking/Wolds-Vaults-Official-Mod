@@ -3,6 +3,10 @@ package xyz.iwolfking.woldsvaults.loadingzone;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.tiles.LoadingZoneMarkerTileEntity;
 
 import java.util.ArrayList;
@@ -12,16 +16,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
-// Every loaded loading zone marker by level, and the zones its posts form. Client and server each keep their own copy.
+/**
+ * Every loaded loading zone marker by level, and the zones its posts form. Client and server each keep their own copy.
+ */
+@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class LoadingZones {
-    // vault rooms are 47 blocks wide on a fixed grid, so in a vault posts only pair up inside their own room
     private static final int ROOM_SIZE = 47;
-    private static final Map<Level, LevelZones> SERVER = new WeakHashMap<>();
-    private static final Map<Level, LevelZones> CLIENT = new WeakHashMap<>();
+    private static final Map<Level, LevelZones> SERVER = new ConcurrentHashMap<>();
+    private static final Map<Level, LevelZones> CLIENT = new ConcurrentHashMap<>();
 
     private LoadingZones() {
+    }
+
+    /** Drops an unloading level's markers; a deleted vault world never unloads its markers one by one. */
+    @SubscribeEvent
+    public static void onWorldUnload(WorldEvent.Unload event) {
+        if (event.getWorld() instanceof Level level) {
+            (level.isClientSide ? CLIENT : SERVER).remove(level);
+        }
     }
 
     public static void add(LoadingZoneMarkerTileEntity marker) {
@@ -65,7 +79,7 @@ public final class LoadingZones {
                 .min(Comparator.comparingDouble(marker -> marker.getBlockPos().distToCenterSqr(x, zone.minY(), z)));
     }
 
-    // a pocket is one structure however big, so its posts pair up anywhere inside it
+    /** A pocket is one structure however big, so its posts pair up anywhere inside it */
     static long group(Level level, BlockPos pos) {
         if (!PocketTerritory.isVaultWorld(level)) {
             return 0L;
@@ -105,7 +119,7 @@ public final class LoadingZones {
             return this.shapes;
         }
 
-        // any one post can say where the zone leads; the rest keep the default
+        /** Any one post can say where the zone leads; the rest keep the default */
         private static LoadingZoneShape shape(String link, List<LoadingZoneMarkerTileEntity> markers) {
             List<LoadingZoneShape.Corner> corners = new ArrayList<>();
             LoadingZoneShape.Leads leads = LoadingZoneShape.Leads.ARRIVAL;

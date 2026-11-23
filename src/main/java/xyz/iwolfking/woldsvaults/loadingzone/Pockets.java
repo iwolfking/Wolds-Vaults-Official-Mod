@@ -4,8 +4,8 @@ import iskallia.vault.core.vault.ClassicPortalLogic;
 import iskallia.vault.core.vault.EntityState;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.WorldManager;
+import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Runner;
-import iskallia.vault.core.vault.time.TickClock;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -26,6 +26,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.blocks.LoadingZoneArrivalBlock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.LoadingZoneMarkerTileEntity;
 
@@ -39,13 +40,15 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-// Vault pockets: a loading zone can lead to one structure built far off in the vault's own world, so the run carries on (same
-// vault, modifiers and loot) away from the vault's layout, timer and map. A zone opens its pocket the first time someone walks
-// in and keeps it for the rest of the vault; every room's copy of the zone gets its own. While all online runners are in
-// pockets the vault clock is paused and hidden, the way rune boss fights do it, and put back as it was once anyone steps out.
+/**
+ * Vault pockets: a loading zone can lead to one structure built far off in the vault's own world, so the run carries on
+ * (same vault, modifiers and loot) away from the vault's layout, timer and map. A zone opens its pocket the first time
+ * someone walks in and keeps it for the rest of the vault; every room's copy of the zone gets its own. While all online
+ * runners are in pockets the vault clock is paused and hidden, the way rune boss fights do it, and put back as it was
+ * once anyone steps out.
+ */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class Pockets {
-    // keeps a landing's chunks loaded for a few seconds while the player waits on a black screen
     private static final TicketType<ChunkPos> TICKET = TicketType.create("woldsvaults_pocket", Comparator.comparingLong(ChunkPos::toLong), 100);
     private static final int CHECK_INTERVAL = 10;
     private static final double EDGE_MARGIN = 2.0;
@@ -76,7 +79,6 @@ public final class Pockets {
         PocketData data = PocketData.get(player.server);
         long room = LoadingZones.group(level, new BlockPos(zone.centreX(), zone.minY(), zone.centreZ()));
         PocketData.Pocket pocket = data.open(id, room + "/" + zone.link(), target);
-        // the zone's own arrival marker, if the room has one, is where the way back out lands; otherwise just outside the zone
         LoadingZoneDestination.Landing back = LoadingZones.arrivalFor(level, zone)
                 .map(marker -> new LoadingZoneDestination.Landing(Vec3.atBottomCenterOf(marker.getBlockPos()), LoadingZoneArrivalBlock.yaw(marker.getBlockState())))
                 .orElseGet(() -> new LoadingZoneDestination.Landing(from, player.getYRot() + 180.0F));
@@ -84,8 +86,10 @@ public final class Pockets {
         return new PocketLanding(vault.get(), pocket, zone.link());
     }
 
-    // a pocket is a room with nothing round it, so walking out of one of its doorways, or falling out of it, leaves the same way a
-    // return zone does; standing in pocket territory where no pocket was opened leaves too
+    /**
+     * A pocket is a room with nothing round it, so walking out of one of its doorways, or falling out of it, leaves the
+     * same way a return zone does; standing in pocket territory where no pocket was opened leaves too
+     */
     @Nullable
     public static LoadingZoneDestination pastEdge(ServerPlayer player) {
         Optional<Vault> vault = ServerVaults.get(player.getLevel());
@@ -122,7 +126,9 @@ public final class Pockets {
         return back == null ? null : new LoadedLanding(back);
     }
 
-    // an arrival marker put down inside a pocket counts for that pocket from then on, even while its chunk is unloaded
+    /**
+     * An arrival marker put down inside a pocket counts for that pocket from then on, even while its chunk is unloaded
+     */
     public static void arrivalChanged(LoadingZoneMarkerTileEntity marker) {
         BlockPos pos = marker.getBlockPos();
         if (!(marker.getLevel() instanceof ServerLevel level) || !marker.isArrival() || !PocketTerritory.isVaultWorld(level) || !PocketTerritory.inTerritory(pos.getX())) {
@@ -167,11 +173,12 @@ public final class Pockets {
             }
             return gone;
         });
-        data.vaults().forEach((id, pockets) -> ServerVaults.get(id).ifPresent(vault -> holdClock(data, vault, pockets)));
         PocketTemplates.evictIdle();
     }
 
-    // generation threads read pockets from memory, so they have to be there before anyone can stand in a pocket chunk
+    /**
+     * Generation threads read pockets from memory, so they have to be there before anyone can stand in a pocket chunk
+     */
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         PocketData.get(event.getServer());
@@ -184,39 +191,28 @@ public final class Pockets {
         SCANS.clear();
     }
 
-    private static void holdClock(PocketData data, Vault vault, PocketData.VaultPockets pockets) {
+    /**
+     * Whether the vault clock stands still: at least one runner is online and every online runner is in pocket
+     * territory of the vault's own world. Read every clock tick by the clock mixin, which only skips the time step and
+     * leaves the vault's own pause and visibility flags alone.
+     */
+    public static boolean holdsClock(Vault vault) {
         ResourceLocation world = vault.get(Vault.WORLD).get(WorldManager.KEY);
-        List<ServerPlayer> runners = vault.get(Vault.LISTENERS).getAll().stream()
-                .filter(listener -> listener instanceof Runner && listener.isOnline())
-                .flatMap(listener -> listener.getPlayer().stream())
-                .toList();
-        if (runners.isEmpty()) {
-            return;
-        }
-        boolean allInPockets = runners.stream().allMatch(player -> player.level.dimension().location().equals(world) && PocketTerritory.inTerritory(player.getX()));
-        vault.ifPresent(Vault.CLOCK, clock -> {
-            if (allInPockets) {
-                if (pockets.clock() == null) {
-                    data.setClock(pockets, new PocketData.ClockHold(clock.has(TickClock.PAUSED), clock.has(TickClock.VISIBLE)));
-                }
-                // a visible paused clock gets unpaused by the vault as soon as a runner is away from the start
-                if (!clock.has(TickClock.PAUSED)) {
-                    clock.set(TickClock.PAUSED);
-                }
-                if (clock.has(TickClock.VISIBLE)) {
-                    clock.remove(TickClock.VISIBLE);
-                }
-            } else if (pockets.clock() != null) {
-                PocketData.ClockHold hold = pockets.clock();
-                if (hold.visible() && !clock.has(TickClock.VISIBLE)) {
-                    clock.set(TickClock.VISIBLE);
-                }
-                if (!hold.paused() && clock.has(TickClock.PAUSED)) {
-                    clock.remove(TickClock.PAUSED);
-                }
-                data.setClock(pockets, null);
+        boolean anyone = false;
+        for (Listener listener : vault.get(Vault.LISTENERS).getAll()) {
+            if (!(listener instanceof Runner) || !listener.isOnline()) {
+                continue;
             }
-        });
+            Optional<ServerPlayer> player = listener.getPlayer();
+            if (player.isEmpty()) {
+                continue;
+            }
+            if (!player.get().level.dimension().location().equals(world) || !PocketTerritory.inPocket(player.get())) {
+                return false;
+            }
+            anyone = true;
+        }
+        return anyone;
     }
 
     @Nullable
@@ -236,13 +232,13 @@ public final class Pockets {
                 .whenComplete((scan, error) -> server.execute(() -> {
                     SCANS.remove(slot);
                     if (error != null) {
-                        WoldsVaults.LOGGER.error("Could not read pocket {} for its arrival markers", pocket.target(), error);
+                        WoldLogger.error("Could not read pocket {} for its arrival markers", pocket.target(), error);
                     }
                     PocketData.get(server).setScan(pocket, error == null ? scan : PocketData.Scan.EMPTY);
                 })));
     }
 
-    // asks for the landing's chunks and its neighbours, and says whether they're generated and loaded yet
+    /** Asks for the landing's chunks and its neighbours, and says whether they're generated and loaded yet */
     private static boolean loaded(ServerLevel level, BlockPos pos) {
         ChunkPos centre = new ChunkPos(pos);
         level.getChunkSource().addRegionTicket(TICKET, centre, 2, centre);
@@ -256,8 +252,10 @@ public final class Pockets {
         return true;
     }
 
-    // an arrival marker put down in the pocket, then one built into its structure, the zone's link first; with none, a doorway
-    // where vault rooms have them, facing in; and only then the top of the pocket's middle
+    /**
+     * An arrival marker put down in the pocket, then one built into its structure, the zone's link first; with none, a
+     * doorway where vault rooms have them, facing in; and only then the top of the pocket's middle
+     */
     private record PocketLanding(Vault vault, PocketData.Pocket pocket, String link) implements LoadingZoneDestination {
         @Override
         public Landing poll(ServerPlayer player) {
@@ -304,7 +302,10 @@ public final class Pockets {
         }
     }
 
-    // a vault room's doorways sit mid-face with the walking level 22 up, the way the generator cuts them, one block in from each face
+    /**
+     * A vault room's doorways sit mid-face with the walking level 22 up, the way the generator cuts them, one block in
+     * from each face
+     */
     private static List<LoadingZoneDestination.Landing> doorways(BlockPos origin, BlockPos max) {
         int midX = origin.getX() + (max.getX() - origin.getX()) / 2;
         int midZ = origin.getZ() + (max.getZ() - origin.getZ()) / 2;

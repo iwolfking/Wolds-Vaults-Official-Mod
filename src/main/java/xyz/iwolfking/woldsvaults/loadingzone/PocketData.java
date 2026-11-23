@@ -20,9 +20,11 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
-// Which pockets each vault has opened, the arrival markers in them, where each player came into one from, and the vault clock
-// as it was before pockets paused it. It lives on the overworld, not in the vault's world, so chunk generation threads can read the pockets straight
-// from memory without going near world storage.
+/**
+ * Which pockets each vault has opened, the arrival markers in them, where each player came into one from, and the vault
+ * clock as it was before pockets paused it. It lives on the overworld, not in the vault's world, so chunk generation
+ * threads can read the pockets straight from memory without going near world storage.
+ */
 public class PocketData extends SavedData {
     private static final String NAME = "woldsvaults_pockets";
     private static volatile PocketData loaded;
@@ -32,7 +34,7 @@ public class PocketData extends SavedData {
     public record Spot(BlockPos pos, String link, float yaw) {
     }
 
-    // where the structure's own arrival markers ended up, and the box its blocks fill
+    /** Where the structure's own arrival markers ended up, and the box its blocks fill */
     public record Scan(@Nullable BlockPos min, @Nullable BlockPos max, List<Spot> arrivals) {
         public static final Scan EMPTY = new Scan(null, null, List.of());
 
@@ -42,14 +44,10 @@ public class PocketData extends SavedData {
         }
     }
 
-    public record ClockHold(boolean paused, boolean visible) {
-    }
-
     public static final class Pocket {
         private final int slot;
         private final ResourceLocation target;
         private volatile Scan scan;
-        // arrival markers put down in the world inside this pocket, which only this vault's copy has
         private final Map<BlockPos, Spot> placed = new ConcurrentHashMap<>();
 
         private Pocket(int slot, ResourceLocation target, @Nullable Scan scan) {
@@ -80,12 +78,6 @@ public class PocketData extends SavedData {
         private final Map<String, Integer> slots = new ConcurrentHashMap<>();
         private final Map<Integer, Pocket> pockets = new ConcurrentHashMap<>();
         private final Map<UUID, LoadingZoneDestination.Landing> returns = new HashMap<>();
-        private ClockHold clock;
-
-        @Nullable
-        public ClockHold clock() {
-            return this.clock;
-        }
 
         public Collection<Pocket> pockets() {
             return this.pockets.values();
@@ -102,7 +94,7 @@ public class PocketData extends SavedData {
         return data;
     }
 
-    // for generation threads: nothing until the server has loaded the data
+    /** For generation threads: nothing until the server has loaded the data */
     @Nullable
     public static Pocket lookup(UUID vault, int slot) {
         PocketData data = loaded;
@@ -114,7 +106,7 @@ public class PocketData extends SavedData {
         loaded = null;
     }
 
-    // a zone keeps the pocket it opened first, so walking back in lands in the same place
+    /** A zone keeps the pocket it opened first, so walking back in lands in the same place */
     public Pocket open(UUID vault, String zone, ResourceLocation target) {
         VaultPockets pockets = this.vaults.computeIfAbsent(vault, id -> new VaultPockets());
         Integer slot = pockets.slots.get(zone);
@@ -161,11 +153,6 @@ public class PocketData extends SavedData {
         return pockets == null ? null : pockets.returns.get(player);
     }
 
-    public void setClock(VaultPockets pockets, @Nullable ClockHold hold) {
-        pockets.clock = hold;
-        setDirty();
-    }
-
     public Map<UUID, VaultPockets> vaults() {
         return this.vaults;
     }
@@ -198,10 +185,6 @@ public class PocketData extends SavedData {
             for (Tag returnTag : vault.getList("Returns", Tag.TAG_COMPOUND)) {
                 CompoundTag landing = (CompoundTag) returnTag;
                 pockets.returns.put(landing.getUUID("Player"), new LoadingZoneDestination.Landing(new Vec3(landing.getDouble("X"), landing.getDouble("Y"), landing.getDouble("Z")), landing.getFloat("Yaw")));
-            }
-            if (vault.contains("Clock")) {
-                CompoundTag clock = vault.getCompound("Clock");
-                pockets.clock = new ClockHold(clock.getBoolean("Paused"), clock.getBoolean("Visible"));
             }
             data.vaults.put(vault.getUUID("Id"), pockets);
         }
@@ -241,12 +224,6 @@ public class PocketData extends SavedData {
                 returnList.add(entry);
             });
             vault.put("Returns", returnList);
-            if (pockets.clock != null) {
-                CompoundTag clock = new CompoundTag();
-                clock.putBoolean("Paused", pockets.clock.paused());
-                clock.putBoolean("Visible", pockets.clock.visible());
-                vault.put("Clock", clock);
-            }
             vaultList.add(vault);
         });
         tag.put("Vaults", vaultList);
