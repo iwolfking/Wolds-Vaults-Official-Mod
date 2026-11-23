@@ -7,22 +7,22 @@ import appeng.api.storage.StorageHelper;
 import appeng.menu.me.common.MEStorageMenu;
 import iskallia.vault.world.data.PlayerResearchesData;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
-import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
-import net.p3pp3rf1y.sophisticatedcore.api.IStorageWrapper;
-import net.p3pp3rf1y.sophisticatedcore.inventory.ITrackedContentsItemHandler;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositFilterLogic;
 import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import net.p3pp3rf1y.sophisticatedcore.util.InventoryHelper;
 import org.jetbrains.annotations.NotNull;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
 import xyz.iwolfking.woldsvaults.mixins.ae2.accessors.AccessorMEStorageMenu;
+
+import java.util.List;
 
 public class AppliedEnergisticsBackpackDeposit {
     private AppliedEnergisticsBackpackDeposit() {
@@ -48,8 +48,11 @@ public class AppliedEnergisticsBackpackDeposit {
             return;
         }
 
+        List<DepositFilterLogic> depositFilterLogics = BackpackUtils.getDepositUpgradeFilters(backpack);
+
         long[] result = BackpackUtils.getBackpackInventory(backpack)
                 .map(wrapper -> depositContents(
+                        depositFilterLogics,
                         wrapper,
                         storage,
                         powerSource,
@@ -83,13 +86,14 @@ public class AppliedEnergisticsBackpackDeposit {
         MessageUtils.sendMessage(
                 player,
                 leftover > 0
-                        ? "Deposited " + deposited + " items, " + leftover + " did not fit"
+                        ? "Deposited " + deposited + " items, " + leftover + " were not deposited"
                         : "Deposited " + deposited + " items",
                 leftover > 0 ? ChatFormatting.YELLOW : ChatFormatting.GREEN
         );
     }
 
     private static long[] depositContents(
+            List<DepositFilterLogic> depositFilterLogics,
             InventoryHandler inventory,
             MEStorage storage,
             IEnergySource powerSource,
@@ -111,6 +115,10 @@ public class AppliedEnergisticsBackpackDeposit {
             @Override
             public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
                 if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack)) {
+                    return stack;
+                }
+
+                if(!BackpackUtils.matchesDepositFilters(depositFilterLogics, stack)) {
                     return stack;
                 }
 
@@ -179,6 +187,6 @@ public class AppliedEnergisticsBackpackDeposit {
 
     private static boolean isResearched(ServerPlayer player) {
         PlayerResearchesData data = PlayerResearchesData.get(player.getLevel());
-        return data.getResearches(player).isResearched("Altar Automation");
+        return data.getResearches(player).isResearched(WoldConstants.DELOOT_RESEARCH);
     }
 }

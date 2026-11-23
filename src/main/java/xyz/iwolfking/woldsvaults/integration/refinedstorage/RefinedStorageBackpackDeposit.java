@@ -15,10 +15,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositFilterLogic;
 import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.api.util.BackpackUtils;
+
+import java.util.List;
 
 public class RefinedStorageBackpackDeposit {
     private RefinedStorageBackpackDeposit() {
@@ -42,8 +45,12 @@ public class RefinedStorageBackpackDeposit {
             return;
         }
 
+        List<DepositFilterLogic> depositFilterLogics = BackpackUtils.getDepositUpgradeFilters(backpack);
+
+
         long[] result = BackpackUtils.getBackpackInventory(backpack)
                 .map(handler -> depositContents(
+                        depositFilterLogics,
                         handler,
                         grid.getItemHandler(),
                         player
@@ -76,13 +83,14 @@ public class RefinedStorageBackpackDeposit {
         MessageUtils.sendMessage(
                 player,
                 leftover > 0
-                        ? "Deposited " + deposited + " items, " + leftover + " did not fit"
+                        ? "Deposited " + deposited + " items, " + leftover + " were not deposited"
                         : "Deposited " + deposited + " items",
                 leftover > 0 ? ChatFormatting.YELLOW : ChatFormatting.GREEN
         );
     }
 
     private static long[] depositContents(
+            List<DepositFilterLogic> depositFilterLogics,
             InventoryHandler inventory,
             IItemGridHandler destination,
             ServerPlayer player
@@ -92,7 +100,7 @@ public class RefinedStorageBackpackDeposit {
         for (int slot = 0; slot < inventory.getSlots(); slot++) {
             ItemStack stack = inventory.getStackInSlot(slot);
 
-            if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack)) {
+            if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack) || !BackpackUtils.matchesDepositFilters(depositFilterLogics, stack)) {
                 continue;
             }
 
@@ -134,6 +142,6 @@ public class RefinedStorageBackpackDeposit {
 
     private static boolean isResearched(ServerPlayer player) {
         PlayerResearchesData data = PlayerResearchesData.get(player.getLevel());
-        return data.getResearches(player).isResearched("Altar Automation");
+        return data.getResearches(player).isResearched(WoldConstants.DELOOT_RESEARCH);
     }
 }

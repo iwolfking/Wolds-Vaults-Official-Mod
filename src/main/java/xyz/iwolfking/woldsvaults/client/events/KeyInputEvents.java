@@ -24,6 +24,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.network.NetworkHandler;
 import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
@@ -187,7 +188,7 @@ public class KeyInputEvents {
 
             int menuSlot = containerScreen.getMenu().slots.indexOf(hoveredSlot);
 
-            if(hoveredSlot.getItem().isEmpty()) {
+            if(hoveredSlot.getItem().isEmpty() || !(hoveredSlot.getItem().getItem() instanceof BackpackItem)) {
                 menuSlot = -1;
             }
 

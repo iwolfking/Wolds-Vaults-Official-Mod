@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -50,6 +52,21 @@ import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
         modid = WoldsVaults.MOD_ID
 )
 public class PlayerEvents {
+
+    @SubscribeEvent
+    public static void onPotionApplicable(PotionEvent.PotionApplicableEvent event) {
+        if (!(event.getEntityLiving() instanceof ServerPlayer player)) {
+            return;
+        }
+
+        if (event.getPotionEffect().getEffect() != MobEffects.DIG_SLOWDOWN) {
+            return;
+        }
+
+        if (ServerVaults.isInVault(player.getLevel())) {
+            event.setResult(Event.Result.DENY);
+        }
+    }
 
     @SubscribeEvent
     public static void onCurioCanEquip(CurioEquipEvent event) {

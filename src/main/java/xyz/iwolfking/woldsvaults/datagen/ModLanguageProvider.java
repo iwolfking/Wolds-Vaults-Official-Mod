@@ -325,6 +325,7 @@ public class ModLanguageProvider extends LanguageProvider {
         add("vault_gear_modifiers.woldsvaults.safer_spaces_recharging_barrier", "Recharging Barrier");
         add("vault_gear_modifiers.woldsvaults.safer_spaces_improved_block", "Improved Block");
         add("key.woldsvaults.open_inventory_hud", "Open Inventory HUD Edit Screen");
+        add("key.woldsvaults.deposit_backpack", "Quick Deposit Backpack");
         add("util.woldsvaults.objective_text", "Objective: ");
         add("util.woldsvaults.vault_modifier_added", "%1$s was added to the Vault!");
         add("util.woldsvaults.timed_modifier_added", "%1$s added %2$s to the Vault for %3$s seconds!");

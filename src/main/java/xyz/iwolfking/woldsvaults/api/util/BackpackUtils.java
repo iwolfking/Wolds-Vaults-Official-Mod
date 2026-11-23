@@ -17,6 +17,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.api.CapabilityBackpackWrapper;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackStorage;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.IBackpackWrapper;
+import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositFilterLogic;
 import net.p3pp3rf1y.sophisticatedbackpacks.upgrades.deposit.DepositUpgradeWrapper;
 import net.p3pp3rf1y.sophisticatedcore.inventory.InventoryHandler;
 import net.p3pp3rf1y.sophisticatedcore.upgrades.UpgradeWrapperBase;
@@ -24,8 +25,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.packets.ClientboundBackpackContentsRefreshPacket;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class BackpackUtils {
 
@@ -72,6 +72,21 @@ public class BackpackUtils {
                 .orElse(false);
     }
 
+    public static List<DepositFilterLogic> getDepositUpgradeFilters(ItemStack stack) {
+        return stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance())
+                .map(wrapper -> wrapper.getUpgradeHandler()
+                        .getWrappersThatImplement(DepositUpgradeWrapper.class)
+                        .stream()
+                        .filter(Objects::nonNull)
+                        .map(DepositUpgradeWrapper::getFilterLogic)
+                        .toList())
+                .orElseGet(List::of);
+    }
+
+    public static boolean matchesDepositFilters(List<DepositFilterLogic> filterLogics, ItemStack checkStack) {
+        return filterLogics.stream().anyMatch(filterLogic -> filterLogic.matchesFilter(checkStack));
+    }
+
     public static void refreshWrapper(ItemStack stack, UUID uuid) {
         stack.getCapability(CapabilityBackpackWrapper.getCapabilityInstance()).ifPresent(wrapper -> {
             if (wrapper.getContentsUuid().map(uuid::equals).orElse(false)) {
@@ -109,7 +124,9 @@ public class BackpackUtils {
     ) {
         long[] counts = new long[2];
 
+
         InventoryHandler backpackInventory = BackpackUtils.getBackpackInventory(backpack).orElse(null);
+        List<DepositFilterLogic> depositFilterLogics = BackpackUtils.getDepositUpgradeFilters(backpack);
         if (backpackInventory == null) {
             return counts;
         }
@@ -121,6 +138,10 @@ public class BackpackUtils {
                 continue;
             }
             if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack)) {
+                continue;
+            }
+
+            if(!matchesDepositFilters(depositFilterLogics, stack)) {
                 continue;
             }
 
