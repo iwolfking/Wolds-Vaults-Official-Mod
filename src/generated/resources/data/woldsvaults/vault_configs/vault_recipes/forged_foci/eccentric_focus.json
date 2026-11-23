@@ -1,0 +1,24 @@
+{
+  "fociRecipes": [
+    {
+      "id": "woldsvaults:eccentric_focus",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:eccentric_focus",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 500,
+          "ITEM": "the_vault:vault_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_wutodie",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

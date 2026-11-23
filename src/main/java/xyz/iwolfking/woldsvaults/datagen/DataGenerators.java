@@ -98,6 +98,7 @@ public class DataGenerators {
             gen.addProvider(new ModRecipeTagProvider(gen, efh));
             gen.addProvider(new ModEntityTagProvider(gen, efh));
             gen.addProvider(new ModCrystalSealRecipeProvider(gen));
+            gen.addProvider(new ModForgedFociRecipesProvider(gen));
         }
     }
 
