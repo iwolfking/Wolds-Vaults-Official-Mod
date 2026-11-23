@@ -3,8 +3,88 @@
     {
       "pool": "woldsvaults:vault/rooms/special/extraction_3x3",
       "span": 3,
+      "height": 0,
       "templates": [
         "woldsvaults:vault/rooms/special/extraction_3x3_1"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic_rooms",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/magical_forest",
+        "woldsvaults:vault/rooms/mythic/fortress",
+        "woldsvaults:vault/rooms/mythic/babel",
+        "woldsvaults:vault/rooms/mythic/dragon_den",
+        "woldsvaults:vault/rooms/mythic/inverted_pyramid",
+        "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins",
+        "woldsvaults:vault/rooms/mythic/grand_canyon",
+        "woldsvaults:vault/rooms/mythic/hellscape"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/magical_forest",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/magical_forest"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/fortress",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/fortress"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/babel",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/babel"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/dragon_den",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/dragon_den"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/inverted_pyramid",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/inverted_pyramid"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/grand_canyon",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/grand_canyon"
+      ]
+    },
+    {
+      "pool": "woldsvaults:vault/rooms/mythic/hellscape",
+      "span": 3,
+      "height": 144,
+      "templates": [
+        "woldsvaults:vault/rooms/mythic/hellscape"
       ]
     }
   ]

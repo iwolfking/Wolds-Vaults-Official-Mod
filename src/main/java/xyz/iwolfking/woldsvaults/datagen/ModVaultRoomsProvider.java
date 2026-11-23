@@ -12,7 +12,6 @@ public class ModVaultRoomsProvider extends AbstractVaultRoomProvider {
 
     @Override
     protected void registerRooms() {
-        // 3x3 mythic rooms; no theme uses the mythic_rooms pool yet
         add(WoldsVaults.id("mythic/magical_forest"), room -> room.name("Magical Forest").mythic(1));
         add(WoldsVaults.id("mythic/fortress"), room -> room.name("Fortress").mythic(1));
         add(WoldsVaults.id("mythic/babel"), room -> room.name("Babel").mythic(1));
@@ -25,7 +24,6 @@ public class ModVaultRoomsProvider extends AbstractVaultRoomProvider {
         add(WoldsVaults.id("mythic/grand_canyon"), room -> room.name("Grand Canyon").mythic(1));
         add(WoldsVaults.id("mythic/hellscape"), room -> room.name("Hellscape").mythic(1));
 
-        // only reached through the /wvpockets test crystal
         add(WoldsVaults.id("test/pocket_hub"), room -> room.name("Pocket Test Hub"));
     }
 }

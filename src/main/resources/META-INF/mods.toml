@@ -67,3 +67,9 @@ mandatory=true
 versionRange="[1.0,)"
 ordering="BEFORE"
 side="BOTH"
+[[dependencies.${mod_id}]]
+modId="shadered"
+mandatory=true
+versionRange="[1.1.0,)"
+ordering="NONE"
+side="BOTH"

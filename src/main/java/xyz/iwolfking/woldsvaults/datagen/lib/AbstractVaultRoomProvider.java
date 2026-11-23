@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.mojang.logging.LogUtils;
 import iskallia.vault.VaultMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.DataGenerator;
@@ -21,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import org.slf4j.Logger;
 import xyz.iwolfking.vhapi.api.datagen.lib.gen.palette.PaletteBuilder;
 
 import java.io.IOException;
@@ -37,18 +35,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.core.layout.multicell.TallRooms;
 
 public abstract class AbstractVaultRoomProvider implements DataProvider {
     public static final ResourceLocation CHALLENGE_ROOMS = VaultMod.id("vault/rooms/challenge_rooms");
     public static final ResourceLocation OMEGA_ROOMS = VaultMod.id("vault/rooms/omega_rooms");
     private static final ResourceLocation ROOM_BASE = VaultMod.id("generic/room_base");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final Logger LOGGER = LogUtils.getLogger();
     private static final int ROOM_SIZE = 47;
-    private static final int MYTHIC_SIZE = 143;
-    private static final int[] MYTHIC_DOORS = {24, 71, 118};
+    private static final int MYTHIC_SIZE = 141;
+    private static final int[] MYTHIC_DOORS = {23, 70, 117};
     private static final Set<String> OPEN_BLOCKS = Set.of("minecraft:air", "minecraft:cave_air", "minecraft:light", "minecraft:structure_void", "the_vault:placeholder");
-    // seedRunDataConfigs copies the pack's the_vault configs into run-data before every runData
     private static final Path PACK_GEN = Path.of("config", "the_vault", "gen");
 
     protected final DataGenerator generator;
@@ -147,7 +145,6 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             for (ResourceLocation like : room.placedLike) {
                 int copies = 0;
                 for (Map.Entry<ResourceLocation, JsonArray> pool : pools.entrySet()) {
-                    // a pool named after a template holds just that room, for inscriptions and the greed trader
                     if (pool.getKey().equals(like)) {
                         continue;
                     }
@@ -175,7 +172,6 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             poolKeys.add(key(id, readableName(id.getPath()), id));
         }
 
-        // its own pool, not merged into any theme, so nothing generates mythic rooms until a layout asks for this pool
         if (!mythicPool.isEmpty()) {
             ResourceLocation id = mythicRooms();
             save(cache, mythicPool, output, "template_pools", id);
@@ -207,9 +203,10 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
         ListTag size = structure.getList("size", Tag.TAG_INT);
         boolean mythic = room.mythicWeight > 0;
         int width = mythic ? MYTHIC_SIZE : ROOM_SIZE;
-        require(size.size() == 3 && size.getInt(0) == width && size.getInt(2) == width && (mythic || size.getInt(1) == ROOM_SIZE), room,
-                "is " + size.getInt(0) + "x" + size.getInt(1) + "x" + size.getInt(2) + ", but " + (mythic ? "mythic rooms must be " + MYTHIC_SIZE + " wide and long"
-                        : "vault rooms must be " + ROOM_SIZE + "x" + ROOM_SIZE + "x" + ROOM_SIZE));
+        require(size.size() == 3 && size.getInt(0) == width && size.getInt(2) == width
+                        && (mythic ? size.getInt(1) <= TallRooms.MAX_HEIGHT : size.getInt(1) == ROOM_SIZE), room,
+                "is " + size.getInt(0) + "x" + size.getInt(1) + "x" + size.getInt(2) + ", but " + (mythic ? "mythic rooms must be " + MYTHIC_SIZE
+                        + " wide and long and at most " + TallRooms.MAX_HEIGHT + " tall" : "vault rooms must be " + ROOM_SIZE + "x" + ROOM_SIZE + "x" + ROOM_SIZE));
 
         ListTag palette = structure.getList("palette", Tag.TAG_COMPOUND);
         Map<Long, String> blocks = new HashMap<>();
@@ -222,14 +219,14 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
         for (int side = 0; side < sides.length; side++) {
             for (int centre : mythic ? MYTHIC_DOORS : new int[] {ROOM_SIZE / 2}) {
                 if (!hasDoorway(blocks, side, side % 2 == 0 ? 0 : width - 1, centre)) {
-                    LOGGER.warn("Room {} has no doorway on its {} side at {}; tunnels meet it at {}-{}, y 22-26 and need at least a 1 wide, 2 high gap there",
+                    WoldLogger.error("Room {} has no doorway on its {} side at {}; tunnels meet it at {}-{}, y 22-26 and need at least a 1 wide, 2 high gap there",
                             room.id, sides[side], centre, centre - 2, centre + 2);
                 }
             }
         }
     }
 
-    // every side of all 118 pack rooms passes this, even the ones with decorated or uneven doorways
+    /** Every side of all 118 pack rooms passes this, even the ones with decorated or uneven doorways */
     private static boolean hasDoorway(Map<Long, String> blocks, int side, int edge, int centre) {
         for (int across = centre - 2; across <= centre + 2; across++) {
             for (int y = 22; y <= 25; y++) {
@@ -275,7 +272,6 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
                 }
             }
         }
-        // this mod's theme pools, written earlier in the same run by its template pool provider
         Path modIndex = output.resolve("data/" + modId + "/vault_configs/template_pools/template_pools.json");
         if (Files.exists(modIndex)) {
             for (JsonElement key : readJson(modIndex).getAsJsonObject().getAsJsonArray("keys")) {
@@ -305,7 +301,6 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
         }
         JsonObject index = new JsonObject();
         index.add("keys", keys);
-        // named rooms.json so it sits beside the VHAPI providers' own index files instead of replacing them
         DataProvider.save(GSON, cache, index, output.resolve("data/" + modId + "/vault_configs/" + kind + "/rooms.json"));
     }
 
@@ -405,7 +400,7 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             return this;
         }
 
-        // the room's own palette, written as <namespace>:<room path>/base and applied first
+        /** The room's own palette, written as <namespace>:<room path>/base and applied first */
         public RoomBuilder palette(Consumer<PaletteBuilder> consumer) {
             this.palette = new PaletteBuilder();
             consumer.accept(this.palette);
@@ -417,7 +412,7 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             return this;
         }
 
-        // generic/room_base turns the chest, coin, ore, pylon and gate placeholders into loot, ores and gates
+        /** Generic/room_base turns the chest, coin, ore, pylon and gate placeholders into loot, ores and gates */
         public RoomBuilder noRoomBase() {
             this.roomBase = false;
             return this;
@@ -431,7 +426,10 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             return pool(OMEGA_ROOMS, weight);
         }
 
-        // a 143 wide room over a 3x3 block of cells, with doorways at 24, 71 and 118 along every side; it goes in the mythic_rooms pool
+        /**
+         * A 143 wide room over a 3x3 block of cells, with doorways at 24, 71 and 118 along every side; it goes in the
+         * mythic_rooms pool
+         */
         public RoomBuilder mythic(double weight) {
             this.mythicWeight = weight;
             return this;
@@ -442,7 +440,7 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             return this;
         }
 
-        // adds the room to every pool that lists the given template, with that entry's weight and theme palettes
+        /** Adds the room to every pool that lists the given template, with that entry's weight and theme palettes */
         public RoomBuilder placedLike(ResourceLocation template) {
             this.placedLike.add(template);
             return this;
@@ -453,7 +451,10 @@ public abstract class AbstractVaultRoomProvider implements DataProvider {
             return this;
         }
 
-        // a pool of add-on pieces for the room's own jigsaws, <namespace>:vault/decor/<room>/<slot>, read from structures/vault/decor/<room>/<piece>.nbt
+        /**
+         * A pool of add-on pieces for the room's own jigsaws, <namespace>:vault/decor/<room>/<slot>, read from
+         * structures/vault/decor/<room>/<piece>.nbt
+         */
         public RoomBuilder decor(String slot, String... pieces) {
             this.decor.put(slot, List.of(pieces));
             return this;
