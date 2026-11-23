@@ -57,4 +57,20 @@ public class GreedMilestonesScreen extends AbstractSkillTabElementContainerScree
         super.containerTick();
         this.panel.refreshIfChanged();
     }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return this.panel.searchKeyPressed(keyCode, scanCode, modifiers) || super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean charTyped(char character, int modifiers) {
+        return this.panel.searchCharTyped(character, modifiers) || super.charTyped(character, modifiers);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        this.panel.searchClickedAway(mouseX, mouseY);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
 }
