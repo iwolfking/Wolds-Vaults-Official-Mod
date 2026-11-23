@@ -16,7 +16,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
- * A greed screen button. {@link Look#FLAT} is the original flat greed-palette button with a gold highlight state marking
+ * A greed screen button. {@link Look#FLAT} is a flat greed-palette button with a gold highlight state marking
  * a claimable row; {@link Look#NAVY} is a navy Minecraft-style bevel that turns gold while highlighted and dark while
  * disabled; {@link Look#BARE} is just its icon, gold while highlighted and greyed otherwise. Besides its label it can
  * carry a pixel icon (above the label, or beside it), a smaller second line, and a label drawn at double size.

@@ -34,7 +34,12 @@ public final class GreedMilestoneIcons {
         if (icons == null) {
             icons = load();
         }
-        return icons.getOrDefault(milestoneId, new ItemStack(Items.PAPER));
+        ItemStack icon = icons.get(milestoneId);
+        if (icon == null) {
+            WoldLogger.errorOnce("greed_milestone_icon_" + milestoneId, "Greed milestone {} has no icon in {}; showing paper", milestoneId, FILE);
+            return new ItemStack(Items.PAPER);
+        }
+        return icon;
     }
 
     private static Map<String, ItemStack> load() {
@@ -50,6 +55,8 @@ public final class GreedMilestoneIcons {
                 Item item = id == null ? null : ForgeRegistries.ITEMS.getValue(id);
                 if (item != null && item != Items.AIR) {
                     loaded.put(entry.getKey(), new ItemStack(item));
+                } else {
+                    WoldLogger.error("Greed milestone icon for {} names unknown item {} in {}", entry.getKey(), entry.getValue().getAsString(), FILE);
                 }
             }
         } catch (Exception e) {

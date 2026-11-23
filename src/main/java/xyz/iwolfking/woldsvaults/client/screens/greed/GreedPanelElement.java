@@ -555,7 +555,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
             afterPinned = pinnedY + 24;
         } else {
             afterPinned = this.stackRows(content, pinned, columnX, columnWidth, pinnedY + 11, false, false,
-                    GreedRowStyle.current(), true);
+                    GreedRowStyle.current());
         }
 
 
@@ -602,7 +602,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
                     LabelTextStyle.defaultStyle()));
             return;
         }
-        this.stackRows(content, entries, 1, rowWidth, 1, this.claimEnabled, true, GreedRowStyle.current(), true);
+        this.stackRows(content, entries, 1, rowWidth, 1, this.claimEnabled, true, GreedRowStyle.current());
     }
 
     private static boolean matches(MilestoneDefinition definition, String query) {
@@ -611,7 +611,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
     }
 
     private int stackRows(GreedScrollList content, List<MilestoneDefinition> rows, int x, int width, int y,
-                          boolean claimEnabled, boolean showClaim, GreedRowStyle style, boolean interactive) {
+                          boolean claimEnabled, boolean showClaim, GreedRowStyle style) {
         int inset = style.framed() ? MilestoneFrame.SIDE_OVERHANG : 1;
         int rowHeight = style.height(this.metrics.rowHeight);
         if (!style.framed()) {
@@ -627,7 +627,7 @@ public class GreedPanelElement extends ContainerElement<GreedPanelElement> {
                     : Math.max(this.metrics.rowGap, previousBottom + top + 2);
             y += gap;
             content.addElement(new MilestoneRowElement(x + inset, y, width - inset * 2, this.metrics, style, index++,
-                    definition, claimEnabled, showClaim, interactive, this::requestRebuild));
+                    definition, claimEnabled, showClaim, this::requestRebuild));
             y += rowHeight;
             previousBottom = style.ornaments() ? MilestoneFrame.bottomOverhang(rarity) : (rarity > MilestoneFrame.NONE ? 2 : 0);
         }

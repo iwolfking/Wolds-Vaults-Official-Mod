@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.client.screens.greed;
 
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.config.forge.WoldsVaultsConfig;
 
 /**
@@ -58,6 +59,7 @@ public enum GreedRowStyle {
         try {
             return WoldsVaultsConfig.CLIENT.greedRowStyle.get();
         } catch (IllegalStateException | NullPointerException e) {
+            WoldLogger.errorOnce("greed_row_style", "Greed row style config is not loaded; using {}", ICON_CHIP, e);
             return ICON_CHIP;
         }
     }

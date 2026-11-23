@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.client.init.ModShaders;
 
 /**
@@ -67,6 +68,7 @@ public final class MilestoneFrame {
         try {
             return VaultGearRarity.valueOf(name).getColor().getValue();
         } catch (IllegalArgumentException | NullPointerException e) {
+            WoldLogger.errorOnce("milestone_frame_colour_" + name, "Gear rarity {} has no colour; milestone frames use a built-in one", name, e);
             return FALLBACK_COLOURS[Math.max(1, Math.min(MYTHIC, rarity))];
         }
     }

@@ -27,11 +27,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * One milestone row, laid out in one of the {@link GreedRowStyle}s. Classic is the original: pin toggle, banked
- * reputation and claim button on the left chip; name, requirement, threshold and reputation lists and a within-tier
- * progress bar in the body. The rest are navy: the same facts rearranged around reward chips, tier ladders, badges,
- * chips and claim buttons that say what they pay. Rows built as previews (on the settings tab) look live but ignore
- * clicks.
+ * One milestone row, laid out in one of the {@link GreedRowStyle}s. Classic puts the pin toggle, banked reputation
+ * and claim button on the left chip, with the name, requirement, threshold and reputation lists and a within-tier
+ * progress bar in the body. The rest are navy: the same facts arranged around reward chips, tier ladders, badges,
+ * chips and claim buttons that say what they pay.
  */
 public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     private static final int Z = 2;
@@ -43,7 +42,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     private final int height;
     private final boolean claimEnabled;
     private final boolean showClaim;
-    private final boolean interactive;
     private final Runnable onChanged;
     private final Font font = Minecraft.getInstance().font;
 
@@ -58,14 +56,9 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
     private final float fraction;
     private final long target;
 
-    public MilestoneRowElement(int x, int y, int width, GreedMetrics metrics, MilestoneDefinition definition,
-                               boolean claimEnabled, boolean showClaim, Runnable onChanged) {
-        this(x, y, width, metrics, GreedRowStyle.CLASSIC, 0, definition, claimEnabled, showClaim, true, onChanged);
-    }
-
     public MilestoneRowElement(int x, int y, int width, GreedMetrics metrics, GreedRowStyle style, int index,
                                MilestoneDefinition definition, boolean claimEnabled, boolean showClaim,
-                               boolean interactive, Runnable onChanged) {
+                               Runnable onChanged) {
         super(Spatials.positionXY(x, y).size(width, style.height(metrics.rowHeight)));
         this.definition = definition;
         this.metrics = metrics;
@@ -74,7 +67,6 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         this.height = style.height(metrics.rowHeight);
         this.claimEnabled = claimEnabled;
         this.showClaim = showClaim;
-        this.interactive = interactive;
         this.onChanged = onChanged;
 
         this.value = ClientMilestoneData.getValue(definition.getId());
@@ -395,17 +387,12 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
     }
 
-    private Runnable action(Runnable action) {
-        return this.interactive ? action : () -> {
-        };
-    }
-
     private GreedButtonElement pinButton(ISpatial spatial, GreedButtonElement.Look look) {
         String id = this.definition.getId();
         boolean isPinned = this.pinned;
         Supplier<Component> text = look == GreedButtonElement.Look.BARE ? () -> null
                 : () -> GreedTheme.lang(isPinned ? "pin.unpin" : "pin.pin");
-        GreedButtonElement button = new GreedButtonElement(spatial, text, this.action(() -> {
+        GreedButtonElement button = new GreedButtonElement(spatial, text, () -> {
             if (isPinned) {
                 NetworkHandler.INSTANCE.sendToServer(new ServerboundUnpinMilestoneMessage(id));
                 ClientMilestoneData.unpin(id);
@@ -414,7 +401,7 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
                 ClientMilestoneData.pin(id);
             }
             this.onChanged.run();
-        })).look(look);
+        }).look(look);
         button.setHighlighted(() -> isPinned);
         if (look == GreedButtonElement.Look.BARE) {
             button.icon(GreedPixelArt.PIN, false, false);
@@ -429,10 +416,10 @@ public class MilestoneRowElement extends ContainerElement<MilestoneRowElement> {
         }
         String id = this.definition.getId();
         boolean enabled = this.claimEnabled;
-        GreedButtonElement button = new GreedButtonElement(spatial, text, this.action(() -> {
+        GreedButtonElement button = new GreedButtonElement(spatial, text, () -> {
             NetworkHandler.INSTANCE.sendToServer(new ServerboundClaimMilestoneMessage(id));
             this.onChanged.run();
-        })).look(look);
+        }).look(look);
         button.setDisabled(() -> !enabled || ClientMilestoneData.getUnclaimedRep(id) <= 0);
         button.setHighlighted(() -> enabled && ClientMilestoneData.getUnclaimedRep(id) > 0);
         button.tooltip(Tooltips.multi(() -> enabled
