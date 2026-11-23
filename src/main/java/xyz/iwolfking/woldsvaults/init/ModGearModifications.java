@@ -9,6 +9,8 @@ import xyz.iwolfking.woldsvaults.api.gear.actions.modifications.MapTierModificat
 import xyz.iwolfking.woldsvaults.api.gear.actions.modifications.ReforgeWeaponTypeAttributes;
 import xyz.iwolfking.woldsvaults.api.gear.actions.modifications.unusual.UnusualGearModification;
 
+import java.util.List;
+
 public class ModGearModifications {
     public static final UnusualGearModification UNUSUAL_GEAR_MODIFICATION = new UnusualGearModification();
     public static final ReforgeWeaponTypeAttributes WEAPON_TYPE_MODIFICATION = new ReforgeWeaponTypeAttributes();
@@ -23,5 +25,9 @@ public class ModGearModifications {
         registry.register(BLAZING_GEAR_MODIFICATION);
         registry.register(FREEZE_ALL_GEAR_MODIFICATION);
         registry.register(MAP_TIER_MODIFICATION);
+    }
+
+    public static List<GearModification> getWoldGearModifications() {
+        return List.of(UNUSUAL_GEAR_MODIFICATION, WEAPON_TYPE_MODIFICATION, BLAZING_GEAR_MODIFICATION, FREEZE_ALL_GEAR_MODIFICATION, MAP_TIER_MODIFICATION);
     }
 }
