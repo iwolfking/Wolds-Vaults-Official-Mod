@@ -50,6 +50,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -79,6 +80,7 @@ import xyz.iwolfking.woldsvaults.integration.jei.compat.CageriumJEIProvider;
 import xyz.iwolfking.woldsvaults.integration.mekanism.recipe.jei.MekanismJEIProvider;
 import xyz.iwolfking.woldsvaults.items.CombinedTrinketItem;
 import xyz.iwolfking.woldsvaults.items.LayoutModificationItem;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.TaskLootCardModifierConfigAccessor;
 import xyz.iwolfking.woldsvaults.recipes.lib.TrinketFusionRecipe;
 
@@ -125,6 +127,7 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
     public static final RecipeType<LabeledLootInfo> GATEWAY_REWARDS = RecipeType.create(WoldsVaults.MOD_ID, "gateway_rewards", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> GREED_VAULT_ALTAR = RecipeType.create(WoldsVaults.MOD_ID, "greed_vault_altar", LabeledLootInfo.class);
     public static final RecipeType<LabeledLootInfo> PIGLIN_BARTERING = RecipeType.create(WoldsVaults.MOD_ID, "piglin_bartering", LabeledLootInfo.class);
+    public static final RecipeType<LabeledLootInfo> MEDALLION_CRATE = RecipeType.create(WoldsVaults.MOD_ID, "medallion_crate", LabeledLootInfo.class);
 
 
     public WoldsVaultsJeiPlugin() {}
@@ -211,6 +214,11 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModItems.UNIDENTIFIED_GATEWAY_PEARL), GATEWAY_REWARDS);
         registration.addRecipeCatalyst(new ItemStack(iskallia.vault.init.ModBlocks.VAULT_ALTAR), GREED_VAULT_ALTAR);
         registration.addRecipeCatalyst(new ItemStack(Items.GOLD_INGOT), PIGLIN_BARTERING);
+        ModItems.GREED_MEDALLIONS.values().forEach(medallion -> registration.addRecipeCatalyst(new ItemStack(medallion), MEDALLION_CRATE));
+
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.VAULT_FABRICATOR_BLOCK), VaultFabricatorCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.EXTRACTOR_FORGE_BLOCK), ExtractionForgeCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK), ExtractorAssemblerCategory.TYPE);
 
         registration.addRecipeCatalyst(
                 new ItemStack(ModBlocks.TRINKET_FUSION_BLOCK),
@@ -264,6 +272,12 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, GATEWAY_REWARDS, ModItems.UNIDENTIFIED_GATEWAY_PEARL, new TextComponent("Gateway Rewards")));
         registration.addRecipeCategories(makeLabeledIngredientPoolCategory(guiHelper, GREED_VAULT_ALTAR, iskallia.vault.init.ModBlocks.VAULT_ALTAR, new TextComponent("Greed Vault Altar")));
         registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, PIGLIN_BARTERING, Items.GOLD_INGOT, new TextComponent("Piglin Bartering")));
+        registration.addRecipeCategories(makeLabeledLootInfoCategory(guiHelper, MEDALLION_CRATE, ModItems.GREED_MEDALLIONS.get(GreedMedallionTier.LEGEND),
+                new TranslatableComponent("jei.woldsvaults.medallion_crate")));
+
+        registration.addRecipeCategories(new VaultFabricatorCategory(guiHelper));
+        registration.addRecipeCategories(new ExtractionForgeCategory(guiHelper));
+        registration.addRecipeCategories(new ExtractorAssemblerCategory(guiHelper));
 
         if(ConditionalModUtils.isModPresent("cagerium")) {
             registration.addRecipeCategories(makeLabeledIngredientPoolCategory(guiHelper, CageriumJEIProvider.CAGERIUM_EGG_SUPPORT, Cagerium.CAGE.get(), new TextComponent("Cagerium Egg Support")));
@@ -333,6 +347,12 @@ public class WoldsVaultsJeiPlugin implements IModPlugin {
         registration.addRecipes(GATEWAY_REWARDS, getGatewayRewards());
         registration.addRecipes(GREED_VAULT_ALTAR, getGreedVaultAltarIngredients());
         registration.addRecipes(PIGLIN_BARTERING, getPiglinBartering());
+        registration.addRecipes(MEDALLION_CRATE, MedallionCrateLootPages.create());
+
+        List<ExtractionForgeCategory.Page> forgePages = ExtractionForgeCategory.pages();
+        registration.addRecipes(VaultFabricatorCategory.TYPE, VaultFabricatorCategory.pages());
+        registration.addRecipes(ExtractionForgeCategory.TYPE, forgePages);
+        registration.addRecipes(ExtractorAssemblerCategory.TYPE, ExtractorAssemblerCategory.pages(forgePages));
 
         //Add Wold capstones to VHAPI's Capstone recipe registry
         CapstoneRecipeRegistry.register(registration, ModItems.ALL_SEEING_EYE_CAPSTONE, VaultMod.id("all_seeing_eye"));

@@ -8,7 +8,6 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.GreedVaultStagesConfig;
 import xyz.iwolfking.woldsvaults.config.GreedVaultStagesConfig.Stage;
 import xyz.iwolfking.woldsvaults.datagen.lib.AbstractWoldsTableProvider;
-import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -34,14 +33,14 @@ public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
         GreedVaultStagesConfig table = new GreedVaultStagesConfig();
         table.stages = new LinkedHashMap<>();
 
-        Stage chests = stage(MilestoneRankLadder.LOOTER_1);
+        Stage chests = stage(GreedStageIds.unlockRank(1));
         palette(chests, "generic/ornate_chest_placeholder", GreedStageIds.id(1, "ornate_chest_placeholder"));
         palette(chests, "generic/gilded_chest_placeholder", GreedStageIds.id(1, "gilded_chest_placeholder"));
         palette(chests, "generic/living_chest_placeholder", GreedStageIds.id(1, "living_chest_placeholder"));
         palette(chests, "generic/wooden_chest_placeholder", GreedStageIds.id(1, "wooden_chest_placeholder"));
         table.stages.put("1", chests);
 
-        Stage rooms = stage(MilestoneRankLadder.LOOTER_3);
+        Stage rooms = stage(GreedStageIds.unlockRank(2));
         palette(rooms, "generic/ornate_chest_placeholder", GreedStageIds.id(2, "ornate_chest_placeholder"));
         palette(rooms, "generic/gilded_chest_placeholder", GreedStageIds.id(2, "gilded_chest_placeholder"));
         palette(rooms, "generic/living_chest_placeholder", GreedStageIds.id(2, "living_chest_placeholder"));
@@ -53,7 +52,7 @@ public class ModGreedVaultStagesProvider extends AbstractWoldsTableProvider {
         pool(rooms, "vault/rooms/omega_rooms", GreedStageIds.id(2, "rooms/omega"));
         table.stages.put("2", rooms);
 
-        Stage treasure = stage(MilestoneRankLadder.HUNTER_2);
+        Stage treasure = stage(GreedStageIds.unlockRank(3));
         palette(treasure, "treasure_rooms/treasure_rooms", GreedStageIds.id(3, "treasure_rooms"));
         palette(treasure, "treasure_rooms/treasure_chest", GreedStageIds.id(3, "treasure_chest"));
         pool(treasure, "vault/rooms/omega/trove", GreedStageIds.id(3, "rooms/trove"));

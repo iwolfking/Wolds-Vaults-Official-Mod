@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import xyz.iwolfking.woldsvaults.milestones.RankRangeText;
+
 import java.util.List;
 
 /** The greed stage loot tables listed in JEI's loot info, shared by the loot info and language providers. */
@@ -30,15 +32,23 @@ public final class GreedStageLootInfo {
     private GreedStageLootInfo() {
     }
 
+    /**
+     * The title shown for a group: "Name (Rank+)" from the rank that unlocks its stage, or a closed range ("Looter 1-2") when a
+     * later stage lists a table of the same name, ending at the rank before that stage unlocks.
+     */
+    public static String title(Entry entry) {
+        int to = ENTRIES.stream()
+                .filter(other -> other.table().equals(entry.table()) && other.stage() > entry.stage())
+                .mapToInt(other -> GreedStageIds.unlockRank(other.stage()) - 1)
+                .min()
+                .orElse(RankRangeText.OPEN);
+        return entry.name() + " (" + RankRangeText.of(GreedStageIds.unlockRank(entry.stage()), to, ModLanguageProvider::rankName) + ")";
+    }
+
     public record Entry(String name, String table, int stage) {
         /** The loot info group path, {@code <table>_stage_<n>}. */
         public String group() {
             return this.table + "_stage_" + this.stage;
-        }
-
-        /** The title shown for the group, "Name (Greed Stage n)". */
-        public String title() {
-            return this.name + " (Greed Stage " + this.stage + ")";
         }
     }
 }

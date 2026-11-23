@@ -155,6 +155,22 @@ public final class ExtractorCosts {
         return Math.pow(pa, curve.exponent) * Math.pow(p / pa, curve.exponent * curve.accelFactor);
     }
 
+    /** The lowest and highest amount a recipe row costs where it enters: quality 0, or its gate for a gated row. */
+    public static AmountRange entryRange(ExtractorCostsConfig.Ingredient row, VaultGearRarity rarity) {
+        double quality = Math.max(0.0D, row.gate);
+        double rarityFactor = rarityFactor(rarity);
+        return new AmountRange(amount(row, 0.0D, quality, rarityFactor, 1.0D), amount(row, 1.0D, quality, rarityFactor, 1.0D));
+    }
+
+    private static long amount(ExtractorCostsConfig.Ingredient row, double u, double quality, double rarityFactor, double factor) {
+        double roll = row.min + (row.max - row.min) * u;
+        return (long) Math.floor(roll * scale(row.scaling, row.gate, quality) * rarityFactor * factor + 1.0E-9D);
+    }
+
+    /** The lowest and highest amount of one recipe row. */
+    public record AmountRange(long min, long max) {
+    }
+
     @Nullable
     public static List<ExtractorCostsConfig.Ingredient> recipeFor(PartData part) {
         ExtractorCostsConfig cfg = config();
@@ -194,8 +210,7 @@ public final class ExtractorCosts {
                 continue;
             }
             double u = random == null ? 0.5D : random.nextDouble();
-            double roll = row.min + (row.max - row.min) * u;
-            long amount = (long) Math.floor(roll * scale(row.scaling, row.gate, part.quality) * rarity * factor + 1.0E-9D);
+            long amount = amount(row, u, part.quality, rarity, factor);
             if (amount <= 0) {
                 continue;
             }

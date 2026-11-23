@@ -104,7 +104,7 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
 
     /** A greed stage loot table, listed under its group with its title. */
     public void stageTable(GreedStageLootInfo.Entry entry, Builder builder) {
-        builder.lootInfo(VaultMod.id(entry.group()), entry.title(), map -> {
+        builder.lootInfo(VaultMod.id(entry.group()), GreedStageLootInfo.title(entry), map -> {
             map.put(GreedStageIds.id(entry.stage(), entry.table()), 0);
         });
     }
