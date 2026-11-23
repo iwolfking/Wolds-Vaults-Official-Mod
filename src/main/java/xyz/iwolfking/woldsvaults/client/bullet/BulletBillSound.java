@@ -60,7 +60,6 @@ public class BulletBillSound extends AbstractTickableSoundInstance {
         return hiss != null ? hiss : SoundEvents.ELYTRA_FLYING;
     }
 
-    // a provided flight sound is played straight from its file, so nothing has to declare it
     @Override
     public WeighedSoundEvents resolve(SoundManager manager) {
         if (!Minecraft.getInstance().getResourceManager().hasResource(CUSTOM_FILE)) {
@@ -95,7 +94,6 @@ public class BulletBillSound extends AbstractTickableSoundInstance {
             this.targetPitch = 0.5F;
             this.volume = Math.max(0.0F, BASE_VOLUME - (WIND_DOWN_TICKS - this.windDown) / 50.0F) * this.carry;
         } else if (flying) {
-            // blocks a tick, from where the player was last tick (other players' motion isn't known here)
             float speed = (float) Math.sqrt(this.player.distanceToSqr(this.player.xo, this.player.yo, this.player.zo));
             this.targetPitch = 0.9F + speed / 15.0F;
             this.volume = (BASE_VOLUME + speed / 15.0F) * this.carry;

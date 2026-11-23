@@ -43,7 +43,6 @@ import java.util.Set;
 import iskallia.vault.config.UniqueGearConfig;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.EventPriority;

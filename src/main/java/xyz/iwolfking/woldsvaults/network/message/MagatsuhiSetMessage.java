@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.magatsuhi.ClientMagatsuhi;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
@@ -17,6 +18,6 @@ public record MagatsuhiSetMessage(boolean canCut) {
     }
 
     public static void handle(MagatsuhiSetMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.magatsuhi.ClientMagatsuhi.set(message.canCut));
+        ModNetwork.onClient(context, () -> () -> ClientMagatsuhi.set(message.canCut));
     }
 }

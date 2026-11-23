@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.simon.SimonFx;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
@@ -40,7 +41,7 @@ public record SimonFxMessage(int kind, double x, double y, double z, int face, i
         ModNetwork.onClient(context, () -> () -> {
             Kind[] kinds = Kind.values();
             if (message.kind >= 0 && message.kind < kinds.length) {
-                xyz.iwolfking.woldsvaults.client.simon.SimonFx.play(kinds[message.kind], message.x, message.y, message.z, Direction.from3DDataValue(message.face), message.stage, message.rgb, message.size);
+                SimonFx.play(kinds[message.kind], message.x, message.y, message.z, Direction.from3DDataValue(message.face), message.stage, message.rgb, message.size);
             }
         });
     }

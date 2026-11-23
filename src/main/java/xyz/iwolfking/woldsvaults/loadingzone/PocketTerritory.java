@@ -5,13 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
-// Where vault pockets live: everything east of x = 2^20 in a vault world belongs to pockets, and the vault's own layout never
-// generates there. Each pocket gets a 2048-wide slot and is built from the slot's middle, so one pocket's view distance never
-// reaches another's or the vault's edge. Client and server both work it out from coordinates alone.
 public final class PocketTerritory {
     public static final int START_X = 1 << 20;
     public static final int SLOT_WIDTH = 2048;
-    // the height vault rooms are built at, so a room used as a pocket sits the same way it does in the vault
     public static final int BASE_Y = 9;
 
     private PocketTerritory() {

@@ -18,6 +18,8 @@ import xyz.iwolfking.woldsvaults.items.gear.rang.VaultRangRenderer;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.client.WoldBossRenderer;
 import xyz.iwolfking.woldsvaults.entities.extraction.client.ExtractorGeoRenderer;
 import xyz.iwolfking.woldsvaults.entities.extraction.client.ThumperGeoRenderer;
+import xyz.iwolfking.woldsvaults.client.simon.PrismSeedRenderer;
+import xyz.iwolfking.woldsvaults.client.simon.SimonCrystalRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class ModEntityRenderers {
@@ -49,7 +51,7 @@ public class ModEntityRenderers {
         EntityRenderers.register(ModEntities.BUNDLED_SPELL_ORB, NoopRenderer::new);
         EntityRenderers.register(ModEntities.EXTRACTOR, ExtractorGeoRenderer::new);
         EntityRenderers.register(ModEntities.THUMPER, ThumperGeoRenderer::new);
-        EntityRenderers.register(ModEntities.SIMON_CRYSTAL, xyz.iwolfking.woldsvaults.client.simon.SimonCrystalRenderer::new);
-        EntityRenderers.register(ModEntities.PRISM_SEED, xyz.iwolfking.woldsvaults.client.simon.PrismSeedRenderer::new);
+        EntityRenderers.register(ModEntities.SIMON_CRYSTAL, SimonCrystalRenderer::new);
+        EntityRenderers.register(ModEntities.PRISM_SEED, PrismSeedRenderer::new);
     }
 }

@@ -35,17 +35,12 @@ import java.util.function.Predicate;
  */
 public final class CrystalOptics {
     private static final int MAX_CRYSTALS = 6;
-    // how far below and above a crystal's box a beam still catches it
     private static final double BELOW = 0.3;
     private static final double ABOVE = 0.6;
     private static final double MIN_RADIUS = 0.4;
-    // beams steeper than this run along the columns rather than through them
     private static final double MIN_FLAT = 0.1;
-    // how far across the next crystal's face (or the enemy's body) an edge hit lands, kept a little inside its edge
     private static final double SWAY = 0.85;
 
-    // where a line enters a crystal, and how far across its face (-1 to 1, positive to the right of its middle as the
-    // line travels)
     private record Hit(SimonCrystalEntity crystal, Vec3 in, double sway) {
     }
 
@@ -56,9 +51,10 @@ public final class CrystalOptics {
         return level.getEntitiesOfClass(SimonCrystalEntity.class, new AABB(at, at).inflate(range), crystal -> !crystal.isRemoved());
     }
 
-    // The path of a beam from start along dir (a unit vector) for length, bouncing from the first crystal it enters.
-    // The beam passes through blocks (Vault Hunters' own Prism beams do, and Arcane's ray is already cut short at the
-    // wall). Each bounce needs a clear line to where it goes.
+    /**
+     * Returns the path of a beam from {@code start} along {@code dir} (a unit vector) for {@code length}, bouncing from
+     * the first crystal it enters. The beam passes through blocks, and each bounce needs a clear line to where it goes.
+     */
     public static List<Ray> trace(Level level, List<SimonCrystalEntity> crystals, Vec3 start, Vec3 dir, double length,
                                   Lens lens, @Nullable Entity context) {
         Vec3 end = start.add(dir.scale(length));
@@ -92,7 +88,6 @@ public final class CrystalOptics {
             Vec3 aim = swayed(core, next.center(), hit.sway() * SWAY * radius(next, lens.bentRadius()));
             double reach = core.distanceTo(aim);
             Vec3 heading = aim.subtract(core).scale(1.0 / Math.max(1.0E-6, reach));
-            // what it enters first on the way (the crystal aimed at, unless another is in the way)
             Hit onward = firstHit(crystals, visited, core, heading, reach + 2.0, lens.bentRadius());
             if (onward == null) {
                 rays.add(new Ray(core, aim, crystal, false));
@@ -103,7 +98,6 @@ public final class CrystalOptics {
         }
     }
 
-    // the first crystal along the line that it enters, where, and how far across its face
     @Nullable
     private static Hit firstHit(List<SimonCrystalEntity> crystals, Set<SimonCrystalEntity> visited, Vec3 from, Vec3 heading, double length, double geodeRadius) {
         double flat = Math.sqrt(heading.x * heading.x + heading.z * heading.z);
@@ -122,8 +116,6 @@ public final class CrystalOptics {
             double radius = radius(crystal, geodeRadius);
             double cx = (box.minX + box.maxX) / 2.0 - from.x;
             double cz = (box.minZ + box.maxZ) / 2.0 - from.z;
-            // how far along (level) to the column's nearest point, and how far the column's middle is to the line's
-            // right (so the line passes that far to the middle's left)
             double along = cx * ux + cz * uz;
             double offset = ux * cz - uz * cx;
             if (Math.abs(offset) >= radius) {
@@ -143,7 +135,6 @@ public final class CrystalOptics {
         return best;
     }
 
-    // the nearest of the candidates (by their middles) that passes the filter and can be seen from here, within range
     @Nullable
     private static <T extends Entity> T nearestSeen(Level level, List<T> candidates, Predicate<T> filter, Vec3 from, double range, @Nullable Entity context) {
         T best = null;
@@ -163,7 +154,6 @@ public final class CrystalOptics {
         return level.clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, context)).getType() == HitResult.Type.MISS;
     }
 
-    // the point side across from target, to the right (as seen travelling from from) for a positive side
     private static Vec3 swayed(Vec3 from, Vec3 target, double side) {
         double dx = target.x - from.x;
         double dz = target.z - from.z;
@@ -171,11 +161,10 @@ public final class CrystalOptics {
         if (flat < 1.0E-6) {
             return target;
         }
-        // with x east and z south, a quarter turn from (dx, dz) towards +z is to the right
         return target.add(-dz / flat * side, 0.0, dx / flat * side);
     }
 
-    // How wide a column the crystal is to a beam: its share of a Geode's.
+    /** Returns the radius of the column the crystal is to a beam: its share of {@code geodeRadius}. */
     public static double radius(SimonCrystalEntity crystal, double geodeRadius) {
         return Math.max(MIN_RADIUS, geodeRadius * crystal.widthScale());
     }

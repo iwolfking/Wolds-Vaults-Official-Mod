@@ -14,13 +14,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.gear.sets.GearSetHelper;
 import xyz.iwolfking.woldsvaults.client.arcane.GlowRenderTypes;
@@ -41,12 +38,10 @@ import java.util.Set;
  * dark square with a red rim on a block face or standing in the air or on an enemy; the pale translucent box left
  * where someone teleported from, fading out; and the crossed red slash of both katanas.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public final class ClientMagatsuhi {
     private static final Set<ResourceLocation> KATANAS = Set.of(WoldsVaults.id("daikyo"), WoldsVaults.id("shokyo"));
 
     private static boolean canCut;
-    // a right click only counts once the button has been let go since the last
     private static boolean released = true;
 
     private static final Map<Integer, Mark> MARKS = new HashMap<>();
@@ -90,7 +85,6 @@ public final class ClientMagatsuhi {
         }
     }
 
-    @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getPlayer();
         if (!event.getWorld().isClientSide || event.getHand() != InteractionHand.MAIN_HAND || player != Minecraft.getInstance().player
@@ -105,7 +99,6 @@ public final class ClientMagatsuhi {
         event.setCancellationResult(InteractionResult.SUCCESS);
     }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
@@ -130,16 +123,12 @@ public final class ClientMagatsuhi {
         }
     }
 
-    @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
         canCut = false;
         MARKS.clear();
         FADING.clear();
     }
 
-    // ---------- drawing ----------
-
-    @SubscribeEvent
     public static void onRenderLevel(RenderLevelStageEvent event) {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES || MARKS.isEmpty() && FADING.isEmpty()) {
             return;
@@ -189,7 +178,7 @@ public final class ClientMagatsuhi {
         pose.popPose();
     }
 
-    // The cut's four corners, counterclockwise from bottom left; null while its enemy is out of sight.
+    /** The cut's four corners, counterclockwise from bottom left; null while its enemy is out of sight. */
     private static Vec3[] markCorners(ClientLevel level, Mark mark, float partial, double scale) {
         Vec3 at = mark.at;
         if (mark.entity >= 0) {
@@ -223,7 +212,7 @@ public final class ClientMagatsuhi {
         return new Vec3[] {at.subtract(a).subtract(u), at.add(a).subtract(u), at.add(a).add(u), at.subtract(a).add(u)};
     }
 
-    // a glowing border of the given thickness just inside the corners
+    /** Draws a glowing border of the given thickness just inside the corners. */
     private static void rim(VertexConsumer consumer, Matrix4f matrix, Vec3[] c, double thickness, float r, float g, float b) {
         for (int i = 0; i < 4; i++) {
             Vec3 from = c[i];
@@ -234,7 +223,7 @@ public final class ClientMagatsuhi {
         }
     }
 
-    // A pale box where someone stood, fading as it rises a little.
+    /** Draws a pale box where someone stood, fading as it rises a little. */
     private static void afterimage(VertexConsumer consumer, Matrix4f matrix, Fading fading, float partial) {
         MagatsuhiFxMessage m = fading.message;
         float t = Mth.clamp((fading.age + partial) / fading.ticks, 0.0F, 1.0F);
@@ -255,7 +244,7 @@ public final class ClientMagatsuhi {
         quad(consumer, matrix, box(x1, y0, z0, x1, y1, z1, 'x'), r, g, b, alpha);
     }
 
-    // one face of a box: the corners of the rectangle between two points that share the given axis' value
+    /** One face of a box: the corners of the rectangle between two points that share the given axis' value. */
     private static Vec3[] box(double x0, double y0, double z0, double x1, double y1, double z1, char flat) {
         return switch (flat) {
             case 'y' -> new Vec3[] {new Vec3(x0, y0, z0), new Vec3(x1, y0, z0), new Vec3(x1, y0, z1), new Vec3(x0, y0, z1)};
@@ -264,7 +253,7 @@ public final class ClientMagatsuhi {
         };
     }
 
-    // Both katanas' strokes crossing in front of the wearer, sweeping out and fading.
+    /** Draws both katanas' strokes crossing in front of the wearer, sweeping out and fading. */
     private static void slash(VertexConsumer consumer, Matrix4f matrix, Fading fading, float partial) {
         MagatsuhiFxMessage m = fading.message;
         float t = Mth.clamp((fading.age + partial) / fading.ticks, 0.0F, 1.0F);
@@ -284,8 +273,10 @@ public final class ClientMagatsuhi {
         }
     }
 
-    // The finisher's X on the enemy: the first katana's stroke cuts in from the top corner on one side, the second from the
-    // other a beat later, each sweeping down through the middle; the X holds a moment, then fades.
+    /**
+     * Draws the finisher's X on the enemy: the first katana's stroke cuts in from the top corner on one side, the
+     * second from the other a beat later, each sweeping down through the middle; the X holds a moment, then fades.
+     */
     private static void cross(VertexConsumer consumer, Matrix4f matrix, Fading fading, float partial) {
         MagatsuhiFxMessage m = fading.message;
         float t = Mth.clamp((fading.age + partial) / fading.ticks, 0.0F, 1.0F);
@@ -297,7 +288,6 @@ public final class ClientMagatsuhi {
         Vec3 forward = new Vec3(-Mth.sin(rad), 0.0, Mth.cos(rad));
         Vec3 across = new Vec3(Mth.cos(rad), 0.0, Mth.sin(rad));
         Vec3 up = new Vec3(0.0, 1.0, 0.0);
-        // just in front of the enemy, so the X isn't buried in its body
         Vec3 center = new Vec3(m.x(), m.y(), m.z()).subtract(forward.scale(m.width() * 0.25));
         double half = m.width() * 0.5;
         for (int stroke = 0; stroke < 2; stroke++) {
@@ -312,7 +302,7 @@ public final class ClientMagatsuhi {
         }
     }
 
-    // one glowing katana stroke from a to b: a red edge round a pale core
+    /** Draws one glowing katana stroke from a to b: a red edge round a pale core. */
     private static void blade(VertexConsumer consumer, Matrix4f matrix, Vec3 a, Vec3 b, Vec3 forward, double width, float fade) {
         Vec3 side = b.subtract(a).cross(forward).normalize().scale(width);
         quad(consumer, matrix, new Vec3[] {a.subtract(side), b.subtract(side), b.add(side), a.add(side)}, 0.95F * fade, 0.12F * fade, 0.15F * fade, 1.0F);

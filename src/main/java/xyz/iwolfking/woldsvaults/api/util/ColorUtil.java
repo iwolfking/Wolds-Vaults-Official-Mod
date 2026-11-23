@@ -48,7 +48,7 @@ public class ColorUtil {
         return (Mth.clamp((int) (color.x() * 255), 0, 255) << 16) | (Mth.clamp((int) (color.y() * 255), 0, 255) << 8) | Mth.clamp((int) (color.z() * 255), 0, 255);
     }
 
-    // a plain RGB blend with no alpha, so callers drawing with it add their own
+    /** Blends two RGB colors with no alpha. */
     public static int mix(int from, int to, float amount) {
         int r = (int) Mth.lerp(amount, from >> 16 & 255, to >> 16 & 255);
         int g = (int) Mth.lerp(amount, from >> 8 & 255, to >> 8 & 255);

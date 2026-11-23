@@ -20,7 +20,7 @@ public final class CrystalParticles {
     private CrystalParticles() {
     }
 
-    // A crystal shard: flung out, spinning, falling, bouncing off the ground and fading.
+    /** A crystal shard: flung out, spinning, falling, bouncing off the ground and fading. */
     public static class Shard extends PrismParticles.FullBright {
         private float spin;
 
@@ -63,7 +63,6 @@ public final class CrystalParticles {
             this.alpha = left < 12 ? left / 12.0F : 1.0F;
         }
 
-        // vanilla particles stop for good at their first vertical bump; a shard bounces instead
         @Override
         public void move(double dx, double dy, double dz) {
             double ox = dx;
@@ -97,7 +96,7 @@ public final class CrystalParticles {
         }
     }
 
-    // A flat ring on the ground racing out to its radius and fading as it goes.
+    /** A flat ring on the ground racing out to its radius and fading as it goes. */
     public static class Ring extends PrismParticles.FullBright {
         private final float radius;
 
@@ -124,7 +123,6 @@ public final class CrystalParticles {
             float v1 = this.getV1();
             int light = this.getLightColor(partialTicks);
             float[][] corners = {{-r, -r, u0, v0}, {-r, r, u0, v1}, {r, r, u1, v1}, {r, -r, u1, v0}};
-            // once round each way, so it shows from above and below
             for (int i = 0; i < 8; i++) {
                 float[] c = corners[i < 4 ? i : 7 - i];
                 consumer.vertex(x + c[0], y, z + c[1]).uv(c[2], c[3]).color(this.rCol, this.gCol, this.bCol, a).uv2(light).endVertex();

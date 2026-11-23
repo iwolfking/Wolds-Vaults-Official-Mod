@@ -41,10 +41,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-// Builds a pocket's structure the way the vault builds a room: the pool's palettes, the vault's template modifiers and the
-// jigsaw pieces all come from one seed per slot, so chunk generation and the arrival scan always agree on the same build.
-// A big pocket holds a lot of blocks in memory while it generates, so a build nobody has used for a while is dropped and
-// made again from the same seed if more of its chunks need generating later.
 public final class PocketTemplates {
     private static final long SALT = 0x506F636B6574L;
     private static final long IDLE_MILLIS = 30_000L;
@@ -74,7 +70,10 @@ public final class PocketTemplates {
         return VaultRegistry.TEMPLATE_POOL.getKey(id) != null || VaultRegistry.TEMPLATE.getKey(id) != null;
     }
 
-    // runs on chunk generation threads for every chunk in pocket territory; a slot with no pocket stays empty
+    /**
+     * Generates one chunk of pocket territory from its slot's pocket build; runs on chunk generation threads. A slot
+     * with no pocket stays empty.
+     */
     public static void generate(Vault vault, ServerLevelAccessor world, ChunkPos chunk) {
         UUID id = vault.get(Vault.ID);
         int slot = PocketTerritory.slotOf(chunk.getMinBlockX());
@@ -90,7 +89,7 @@ public final class PocketTemplates {
         CommonEvents.TEMPLATE_GENERATION.invoke(world, template, built.region, chunk, random, TemplateGenerationEvent.Phase.POST);
     }
 
-    // walks every block of a fresh copy of the build, so it never draws from the generator's random
+    /** Scans every block of a fresh copy of the slot's build. */
     static PocketData.Scan scan(Vault vault, int slot, ResourceLocation target) {
         Build build = build(vault, slot, target);
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
@@ -138,7 +137,6 @@ public final class PocketTemplates {
         BUILT.clear();
     }
 
-    // the same steps and order as the vault's grid cache and room layout, with the slot's middle in place of a cell
     private static Build build(Vault vault, int slot, ResourceLocation target) {
         Version version = vault.get(Vault.VERSION);
         BlockPos origin = PocketTerritory.origin(slot);
@@ -156,7 +154,6 @@ public final class PocketTemplates {
         return new Build(JigsawTemplate.of(version, entry, 10, random, context), settings, region);
     }
 
-    // a pool picks one of its entries and brings that entry's palettes; a bare template comes without any
     @Nullable
     private static TemplateEntry entry(ResourceLocation target, Version version, ChunkRandom random, TemplatePoolContext context) {
         TemplatePoolKey pool = VaultRegistry.TEMPLATE_POOL.getKey(target);

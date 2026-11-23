@@ -14,13 +14,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.entities.simon.SimonCrystalEntity;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.network.message.SimonActionMessage;
@@ -33,7 +29,6 @@ import xyz.iwolfking.woldsvaults.network.message.SimonActionMessage;
  * one of its crystals (out to the set's click range, not through blocks) is taken before any attack runs and sent
  * as a hit on that crystal, so it is the crosshair that picks the crystal, never a sweeping swing.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT)
 public final class ClientSimon {
     private static boolean canShoot;
     private static int cooldownTicks;
@@ -56,7 +51,6 @@ public final class ClientSimon {
         waiting = crystalIds;
     }
 
-    @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getPlayer();
         if (!event.getWorld().isClientSide || event.getHand() != InteractionHand.MAIN_HAND || player != Minecraft.getInstance().player || player.isSpectator()) {
@@ -79,8 +73,10 @@ public final class ClientSimon {
         event.setCancellationResult(InteractionResult.SUCCESS);
     }
 
-    // before the frame's key handling, so the click never reaches an attack (vanilla or Better Combat)
-    @SubscribeEvent
+    /**
+     * At the start of the tick, takes a left click aimed at a waiting crystal before any attack sees it and sends it as
+     * a hit on that crystal.
+     */
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
@@ -92,13 +88,12 @@ public final class ClientSimon {
             return;
         }
         while (mc.options.keyAttack.consumeClick()) {
-            // one hit per tick; drop the extra clicks
         }
         player.swing(InteractionHand.MAIN_HAND);
         ModNetwork.sendToServer(new SimonActionMessage(SimonActionMessage.Action.HIT, aimed.getId()));
     }
 
-    // the nearest waiting crystal under the crosshair, nearer than any block in the way
+    /** The nearest waiting crystal under the crosshair, nearer than any block in the way. */
     private static SimonCrystalEntity aimedCrystal(LocalPlayer player) {
         Vec3 eye = player.getEyePosition(1.0F);
         Vec3 end = eye.add(player.getViewVector(1.0F).scale(clickRange));
@@ -120,7 +115,6 @@ public final class ClientSimon {
         return aimed;
     }
 
-    @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
         set(false, 0, false, 0.0F);
         waiting = new int[0];

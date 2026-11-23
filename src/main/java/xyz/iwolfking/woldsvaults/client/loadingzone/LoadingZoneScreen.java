@@ -16,8 +16,10 @@ import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.loadingzone.LoadingZoneShape;
 import xyz.iwolfking.woldsvaults.network.message.LoadingZoneConfigMessage;
 
-// Sets a loading zone marker's link name, and a post's zone height, corner number and where the zone leads, or an arrival
-// marker's facing.
+/**
+ * Sets a loading zone marker's link name, and a post's zone height, corner number and where the zone leads, or an
+ * arrival marker's facing.
+ */
 public class LoadingZoneScreen extends Screen {
     private static final String[] COMPASS = {"S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE"};
     private static final int WIDTH = 200;

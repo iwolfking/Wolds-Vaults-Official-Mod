@@ -48,8 +48,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
     public static final byte LIT = 1;
     public static final byte ARMED = 2;
 
-    // The Simon colours, in the order crystals take them: boots, leggings, chestplate, helmet.
-    // each colour's note, in note block clicks up from F# (red C, green E, blue D, yellow G)
     public enum Color implements StringRepresentable {
         RED("red", 0xE5322D, 6),
         GREEN("green", 0x2DBE4A, 10),
@@ -66,7 +64,7 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
             this.note = note;
         }
 
-        // The sound pitch that plays this colour's note, as a note block would.
+        /** Returns the sound pitch that plays this color's note, as a note block would. */
         public float pitch() {
             return (float) Math.pow(2.0, (this.note - 12) / 12.0);
         }
@@ -81,7 +79,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         }
     }
 
-    // width across the face and length out from it, per stage
     private static final float[][] SIZES = {{0.35F, 0.3F}, {0.55F, 0.6F}, {0.9F, 1.2F}, {1.3F, 2.0F}};
 
     private static final EntityDataAccessor<Byte> DATA_STAGE = SynchedEntityData.defineId(SimonCrystalEntity.class, EntityDataSerializers.BYTE);
@@ -91,7 +88,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
     private Direction face = Direction.UP;
     private Color color = Color.RED;
     private boolean prismatic;
-    // mirrors DATA_STAGE so the bounding box can be built before synced data exists
     private int stage;
     @Nullable
     private UUID owner;
@@ -99,9 +95,7 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
     public float growth;
     public int unfedTicks;
     public long lastFedTick = -1;
-    // client: the tick the crystal last grew (or appeared), for the rise out of the ground
     private int grownAt;
-    // client: the ticks it last lit up in a sequence and last went out after being lit, for its light pillar
     private int litAt = Integer.MIN_VALUE / 2;
     private int unlitAt = Integer.MIN_VALUE / 2;
     private byte shownLight = DARK;
@@ -151,7 +145,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         }
     }
 
-    // the box stands out from the face the crystal grows on
     @Override
     protected AABB makeBoundingBox() {
         Direction out = this.face == null ? Direction.UP : this.face;
@@ -165,17 +158,16 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         return new AABB(at, far).inflate(spreadX, spreadY, spreadZ);
     }
 
-    // How wide the crystal has grown, as a share of a Geode's width.
+    /** Returns how wide the crystal has grown, as a share of a Geode's width. */
     public float widthScale() {
         return SIZES[Mth.clamp(this.stage, SEED, GEODE)][0] / SIZES[GEODE][0];
     }
 
-    // The middle of the crystal, where bursts go off and projectiles and beams bounce from.
+    /** Returns the middle of the crystal, where bursts go off and projectiles and beams bounce from. */
     public Vec3 center() {
         return this.getBoundingBox().getCenter();
     }
 
-    // The colour the crystal shows now: its own, or for a Prismatic one a hue that keeps turning.
     @Override
     public Vector3f shownColor(float partialTicks) {
         if (!this.prismatic) {
@@ -189,7 +181,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         super.tick();
         if (this.level.isClientSide) {
             byte light = this.getLight();
-            // a Prismatic crystal sheds rainbow sparkles, the more often for its aura
             int chance = light == LIT ? 2 : this.prismatic ? 3 : this.stage == GEODE ? 8 : 0;
             if (chance > 0 && this.random.nextInt(chance) == 0) {
                 Vec3 c = this.center();
@@ -204,8 +195,6 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         }
         SimonsSet.tickCrystal(this);
     }
-
-    // ---------- state the server drives ----------
 
     @Nullable
     public UUID getOwner() {
@@ -224,7 +213,7 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         return this.prismatic;
     }
 
-    // Budded off another crystal, rather than planted from a thrown seed.
+    /** Returns whether the crystal budded off another crystal rather than being planted from a thrown seed. */
     public boolean isNatural() {
         return this.natural;
     }
@@ -258,24 +247,21 @@ public class SimonCrystalEntity extends Entity implements IEntityAdditionalSpawn
         this.entityData.set(DATA_FACETS, (byte) Mth.clamp(facets, 0, 3));
     }
 
-    // Client: ticks since the crystal last grew or appeared.
+    /** Client only: returns the ticks since the crystal last grew or appeared. */
     public int ticksSinceGrown() {
         return this.tickCount - this.grownAt;
     }
 
-    // Client: ticks since the crystal last lit up in a sequence.
+    /** Client only: returns the ticks since the crystal last lit up in a sequence. */
     public int ticksSinceLit() {
         return this.tickCount - this.litAt;
     }
 
-    // Client: ticks since the crystal last went out after being lit (huge if it never has).
+    /** Client only: returns the ticks since the crystal last went out after being lit, huge if it never has. */
     public int ticksSinceUnlit() {
         return this.tickCount - this.unlitAt;
     }
 
-    // ---------- an object, not a creature ----------
-
-    // swings (sweeps included) never target it; sequence hits arrive as aimed clicks
     @Override
     public boolean skipAttackInteraction(Entity attacker) {
         return true;

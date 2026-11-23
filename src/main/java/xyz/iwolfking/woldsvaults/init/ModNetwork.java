@@ -150,13 +150,16 @@ public class ModNetwork {
         CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(at.x, at.y, at.z, range, level.dimension())), message);
     }
 
-    // client is a () -> () -> ... lambda: naming client classes only inside the inner one keeps them off dedicated servers
+    /**
+     * Runs {@code client} on the client thread. Client classes named only inside its inner lambda never load on a
+     * dedicated server.
+     */
     public static void onClient(Supplier<NetworkEvent.Context> context, Supplier<Runnable> client) {
         context.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, client));
         context.get().setPacketHandled(true);
     }
 
-    // runs the work on the server thread for the player who sent the packet
+    /** Runs the work on the server thread for the player who sent the packet. */
     public static void onServer(Supplier<NetworkEvent.Context> context, Consumer<ServerPlayer> work) {
         context.get().enqueueWork(() -> {
             ServerPlayer player = context.get().getSender();

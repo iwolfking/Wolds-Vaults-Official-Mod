@@ -126,7 +126,6 @@ public class DecorativeCrystalScreen extends Screen {
         this.rerollButton.setMessage(new TextComponent("Reroll (" + (this.variant + 1) + " of " + DecorativeCrystalBlock.VARIANTS + ")"));
     }
 
-    // closes itself if the crystal is broken or left behind
     @Override
     public void tick() {
         if (this.minecraft.level == null || this.minecraft.player == null

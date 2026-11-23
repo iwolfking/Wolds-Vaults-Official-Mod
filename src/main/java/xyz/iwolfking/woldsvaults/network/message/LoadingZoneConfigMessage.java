@@ -9,7 +9,6 @@ import xyz.iwolfking.woldsvaults.loadingzone.LoadingZoneShape;
 
 import java.util.function.Supplier;
 
-// A builder's settings for a loading zone post or arrival marker.
 public record LoadingZoneConfigMessage(BlockPos pos, String link, int height, int order, int rotation, LoadingZoneShape.Leads leads, String pocket) {
     public static void encode(LoadingZoneConfigMessage message, FriendlyByteBuf buffer) {
         buffer.writeBlockPos(message.pos);

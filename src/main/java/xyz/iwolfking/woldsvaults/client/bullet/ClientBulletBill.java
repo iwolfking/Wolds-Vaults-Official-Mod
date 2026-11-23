@@ -9,16 +9,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.FOVModifierEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.modifiers.gear.bullet.BulletBill;
 import xyz.iwolfking.woldsvaults.network.message.BulletBillActionMessage;
@@ -38,21 +34,14 @@ import java.util.Random;
  * jets; an armed one blinks red, throws sparks and beeps, a giant one (the Banzai and King Bill helmets) trails great
  * clouds across its whole tail, and a King Bill shimmers with flames. BulletBillRenderer draws them.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class ClientBulletBill {
-    // the window for the second tap, as for vanilla's creative flight
     private static final int DOUBLE_TAP_TICKS = 7;
-    // how long past its time a Bill keeps going while the server's END is on its way (an armed one waits for END however long)
     private static final int END_GRACE_TICKS = 10;
     private static final float BOOST_FOV = 1.12F;
-    // the most the view rolls in a turn, in degrees: the jet boots' default
     private static final float MAX_VIEW_ROLL = 35.0F;
-    // where the smoke leaves, behind the Bill's middle along its heading, in blocks
     private static final double EXHAUST = 0.8;
-    // about one puff every this many blocks along the path, so a fast Bill doesn't leave gaps
     private static final double PUFF_SPACING = 0.45;
     private static final int PULSES = 4;
-    // an armed Bill blinks, and beeps, once every this many ticks
     private static final int FUSE_TICKS = 6;
     private static final float SPIN_TURNS = 2.0F;
 
@@ -61,7 +50,7 @@ public final class ClientBulletBill {
     private static int sinceJumpTap = 1000;
     private static float viewRoll;
 
-    // One Bill this client draws, and for its own player the flight it flies.
+    /** One Bill this client draws, and for its own player the flight it flies. */
     public static final class Bill {
         final BulletBill.Tuning tuning;
         final BulletBill.Flight flight;
@@ -71,7 +60,6 @@ public final class ClientBulletBill {
         int boostAge = -1;
         int armedAge = -1;
         boolean ended;
-        // the lagging copies of its heading that the camera and the banking follow, and when they last moved
         float cameraYaw;
         float cameraPitch;
         float cameraTime = -1.0F;
@@ -97,29 +85,29 @@ public final class ClientBulletBill {
             return this.flight.thrusting || this.boosting();
         }
 
-        // firing its jets, or cruising along
+        /** Whether it is firing its jets or cruising. */
         public boolean flying() {
             return this.firing() || this.tuning.cruise() > 0.0F;
         }
 
-        // how far through the spin a Bullet Dash sets off, 0 to 1
+        /** How far through the Bullet Dash spin it is, 0 to 1. */
         private float spinProgress(float partialTick) {
             return this.boostAge < 0 ? 1.0F : Math.min(1.0F, (this.boostAge + partialTick) / this.tuning.spinTicks());
         }
 
-        // the spin's roll, in degrees, easing out over spinTicks
+        /** The spin's roll in degrees, easing out over spinTicks. */
         public float spin(float partialTick) {
             float t = spinProgress(partialTick);
             return t >= 1.0F ? 0.0F : 360.0F * SPIN_TURNS * (1.0F - (1.0F - t) * (1.0F - t));
         }
 
-        // how much is going on in the spin, 0 to 1: nothing at either end of it and the most halfway through
+        /** How much is going on in the spin, 0 to 1: nothing at either end of it and the most halfway through. */
         public float spinAmount(float partialTick) {
             float t = spinProgress(partialTick);
             return t >= 1.0F ? 0.0F : Mth.sin(t * Mth.PI);
         }
 
-        // how red the Bill glows, 0 to 1: PULSES flashes across a boost, and a steady blink while it's armed
+        /** How red the Bill glows, 0 to 1: PULSES flashes across a boost, and a steady blink while it is armed. */
         public float redPulse(float partialTick) {
             float fuse = this.armedAge < 0 ? 0.0F : 0.5F - 0.5F * Mth.cos((this.armedAge + partialTick) / FUSE_TICKS * Mth.TWO_PI);
             if (!this.boosting()) {
@@ -132,8 +120,6 @@ public final class ClientBulletBill {
 
     private ClientBulletBill() {
     }
-
-    // ---------- from the server ----------
 
     public static void start(int entityId, int ticks, @Nullable BulletBill.Tuning tuning) {
         if (tuning == null || Minecraft.getInstance().level == null) {
@@ -165,7 +151,7 @@ public final class ClientBulletBill {
         }
     }
 
-    // another player's jets firing or cutting out
+    /** Sets another player's jets firing or cutting out. */
     public static void thrust(int entityId, boolean on) {
         Bill bill = BILLS.get(entityId);
         if (bill != null) {
@@ -184,23 +170,25 @@ public final class ClientBulletBill {
         }
     }
 
-    // The Bill a player is right now, if this client knows of one.
+    /** The Bill a player is right now, if this client knows of one. */
     @Nullable
     public static Bill bill(Player player) {
         return BILLS.get(player.getId());
     }
 
-    // ---------- ticking ----------
+    /** Ends and forgets every Bill this client knows about. */
+    public static void clear() {
+        BILLS.values().forEach(bill -> bill.ended = true);
+        BILLS.clear();
+    }
 
-    @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null || mc.player == null) {
-            BILLS.values().forEach(bill -> bill.ended = true);
-            BILLS.clear();
+            clear();
             return;
         }
         if (mc.isPaused()) {
@@ -226,11 +214,9 @@ public final class ClientBulletBill {
             }
             trail(mc, player, bill);
             if (bill.armedAge >= 0 && bill.armedAge++ % FUSE_TICKS == 0) {
-                // the rider hears the fuse at the camera, however far back it sits
                 Vec3 at = player == mc.player ? mc.gameRenderer.getMainCamera().getPosition() : player.position();
                 mc.level.playLocalSound(at.x, at.y, at.z, SoundEvents.NOTE_BLOCK_BIT, SoundSource.PLAYERS, player == mc.player ? 0.7F : 0.7F * bill.tuning.scale(), 1.7F, false);
             }
-            // the flight sound starts up whenever it's flying or holding a hover, and winds down by itself on the ground
             if ((bill.flying() || !player.isOnGround()) && (bill.sound == null || bill.sound.isStopped())) {
                 bill.sound = new BulletBillSound(player, bill);
                 mc.getSoundManager().play(bill.sound);
@@ -238,9 +224,11 @@ public final class ClientBulletBill {
         }
     }
 
-    // a second press of jump within DOUBLE_TAP_TICKS of the first asks for the form; a third press starts over. Asked in
-    // creative too, where the server turns vanilla's flight back off if the set makes the player a Bill. Spectators
-    // keep the double tap for themselves, and a Bill's jump key is its thrust
+    /**
+     * Sends the transform request on a second jump press within DOUBLE_TAP_TICKS of the first, unless the player is a
+     * spectator or a passenger; a third press starts over. Presses while a screen is open or the player is already a
+     * Bill are ignored.
+     */
     private static void doubleTap(Minecraft mc) {
         LocalPlayer player = mc.player;
         boolean down = mc.options.keyJump.isDown();
@@ -256,8 +244,10 @@ public final class ClientBulletBill {
         jumpWasDown = down;
     }
 
-    // this client's own Bill, at the end of the player's tick as on the server: jump fires the jets, then they run
-    @SubscribeEvent
+    /**
+     * Flies this client's own Bill at the end of the player's tick, as the server does: jump fires the jets, then they
+     * run.
+     */
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.END || event.side != LogicalSide.CLIENT || event.player != Minecraft.getInstance().player) {
             return;
@@ -274,8 +264,10 @@ public final class ClientBulletBill {
         BulletBill.fly(event.player, bill.flight, bill.tuning);
     }
 
-    // white puffs out of the tail while the jets fire, filling the path since last tick, with sparks during a boost;
-    // a hovering Bill only lets out a puff now and then, downwards
+    /**
+     * White puffs out of the tail while the jets fire, filling the path since last tick, with flames during a boost; a
+     * hovering Bill only lets out a puff now and then, downwards.
+     */
     private static void trail(Minecraft mc, Player player, Bill bill) {
         float scale = bill.tuning.scale();
         Vec3 heading = player.getLookAngle();
@@ -312,7 +304,6 @@ public final class ClientBulletBill {
         if (player.tickCount % 3 == 0) {
             mc.level.addParticle(ParticleTypes.LARGE_SMOKE, exhaust.x, exhaust.y, exhaust.z, drift.x, drift.y, drift.z);
         }
-        // a giant's tail is too wide for one stream of puffs: big clouds billow out all across it
         for (int i = 0; i < (int) Math.min(scale, 12.0F) && scale > 1.0F; i++) {
             Vec3 at = exhaust.add((random.nextDouble() - 0.5) * scale * 0.7, (random.nextDouble() - 0.5) * scale * 0.7, (random.nextDouble() - 0.5) * scale * 0.7);
             mc.level.addParticle(i % 3 == 0 ? ParticleTypes.EXPLOSION : ParticleTypes.CLOUD, at.x, at.y, at.z, drift.x, drift.y, drift.z);
@@ -325,15 +316,13 @@ public final class ClientBulletBill {
         }
     }
 
-    // ---------- the rider's view ----------
-
-    // the view leans into turns the whole time a Bill flies and eases level again otherwise, as in jet boots; the faster
-    // the turn, the quicker it leans. Added to the roll, so other camera effects still show
-    @SubscribeEvent
+    /**
+     * Leans the view into turns while a Bill flies and eases it level otherwise; the faster the turn, the quicker it
+     * leans. Adds to the roll other camera effects set.
+     */
     public static void onCameraSetup(EntityViewRenderEvent.CameraSetup event) {
         Player player = event.getCamera().getEntity() instanceof Player camera ? camera : null;
         Bill bill = player == null ? null : BILLS.get(player.getId());
-        // a form ending in the air still eases level; anywhere else there's nothing to do
         if (player == null || player.isOnGround() || (bill == null && Math.abs(viewRoll) < 0.01F)) {
             viewRoll = 0.0F;
             return;
@@ -343,15 +332,13 @@ public final class ClientBulletBill {
         float turn = player.yHeadRot - player.yHeadRotO;
         if (bill != null && bill.flying() && Math.abs(turn) >= 1.0E-4F) {
             target = Math.signum(turn) * MAX_VIEW_ROLL;
-            // below 1 a sharp flick would overshoot the target and leave the view tilted far past it for seconds
             divisor = Math.max(1.0F, Math.abs(100.0F / turn));
         }
         viewRoll += (target - viewRoll) / divisor;
         event.setRoll(event.getRoll() + viewRoll);
     }
 
-    // right click arms the detonation instead of using whatever's in hand; the server says so if the set doesn't allow it
-    @SubscribeEvent
+    /** Turns this client's Bill's right click into a request to arm the detonation instead of using the held item. */
     public static void onClick(InputEvent.ClickInputEvent event) {
         Player player = Minecraft.getInstance().player;
         Bill bill = player == null ? null : BILLS.get(player.getId());
@@ -365,8 +352,7 @@ public final class ClientBulletBill {
         }
     }
 
-    // a Bill has no hands to show
-    @SubscribeEvent
+    /** Hides the hands while this client's player is a Bill. */
     public static void onRenderHand(RenderHandEvent event) {
         Player player = Minecraft.getInstance().player;
         if (player != null && BILLS.containsKey(player.getId())) {
@@ -374,8 +360,7 @@ public final class ClientBulletBill {
         }
     }
 
-    // a little wider view while a Bullet Dash boost lasts; vanilla eases it in and out
-    @SubscribeEvent
+    /** Widens the view a little while a Bullet Dash boost lasts. */
     public static void onFov(FOVModifierEvent event) {
         Bill bill = BILLS.get(event.getEntity().getId());
         if (bill != null && bill.boosting() && event.getEntity() == Minecraft.getInstance().player) {

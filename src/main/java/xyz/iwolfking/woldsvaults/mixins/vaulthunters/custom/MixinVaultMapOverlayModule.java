@@ -13,7 +13,6 @@ import xyz.iwolfking.woldsvaults.loadingzone.PocketTerritory;
 
 @Mixin(value = VaultMapOverlayModule.class, remap = false)
 public class MixinVaultMapOverlayModule {
-    // a pocket isn't on the vault's map, so the full map stays shut there
     @Inject(method = "renderVault", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$hideInPockets(ModuleRenderContext context, Vault vault, Listener listener, CallbackInfo ci) {
         if (PocketTerritory.inPocket(Minecraft.getInstance().player)) {

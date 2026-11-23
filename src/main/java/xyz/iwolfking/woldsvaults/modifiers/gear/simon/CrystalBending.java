@@ -47,7 +47,6 @@ public final class CrystalBending implements BeamOptics.Bender {
 
     @Override
     public BeamOptics.Paths near(Level level, Vec3 at, double reach, BeamOptics.Lens lens) {
-        // only the server keeps track of who has crystals out
         if (lens.bentLength() <= 0.0 || !level.isClientSide && !SimonsSet.hasCrystals()) {
             return BeamOptics.STRAIGHT;
         }

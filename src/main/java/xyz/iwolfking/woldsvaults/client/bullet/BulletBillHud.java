@@ -4,10 +4,7 @@ import iskallia.vault.init.ModKeybinds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
 import xyz.iwolfking.woldsvaults.client.hud.AbilityHud;
@@ -17,7 +14,6 @@ import xyz.iwolfking.woldsvaults.client.hud.AbilityHud;
  * hotbar's place: the jets in the left slot (lit while they fire), Bullet Dash in the middle and the detonation in the
  * right (dimmed without the full set, flashing red once armed), each with its key, and the time the form has left.
  */
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public final class BulletBillHud {
     private static final ResourceLocation JETS = WoldsVaults.id("textures/gui/bullet_bill/jets.png");
     private static final ResourceLocation DASH = WoldsVaults.id("textures/gui/bullet_bill/dash.png");
@@ -31,7 +27,6 @@ public final class BulletBillHud {
     private BulletBillHud() {
     }
 
-    @SubscribeEvent
     public static void onHudLayer(RenderGameOverlayEvent.PreLayer event) {
         Minecraft mc = Minecraft.getInstance();
         ClientBulletBill.Bill bill = mc.player == null ? null : ClientBulletBill.bill(mc.player);

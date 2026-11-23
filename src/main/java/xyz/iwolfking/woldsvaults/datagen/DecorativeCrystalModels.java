@@ -28,14 +28,11 @@ final class DecorativeCrystalModels {
     private static final float[] WIDTHS = {0.4F, 0.6F, 0.8F, 1.0F};
     private static final float CENTRE = 8.0F;
     private static final float MODEL_TOP = 32.0F;
-    // moved aside by this much, two boxes sharing a plane don't flicker against each other
     private static final float NUDGE = 0.03125F;
-    // the crystal texture is 64 pixels in 16 UV units, and every face maps one texel to one model pixel
     private static final float TEXELS = 4.0F;
     private static final float BODY_WIDTH = 4.0F;
     private static final float BODY_BOTTOM = 8.0F;
     private static final float REGION = 4.0F;
-    // a bevel's width as a share of the crystal's, and how steeply it rises
     private static final float BEVEL_SHARE = 0.25F;
     private static final float BEVEL_ANGLE = 45.0F;
 
@@ -43,7 +40,6 @@ final class DecorativeCrystalModels {
         BODY, ROCK, SHELL
     }
 
-    // One crystal or rock chip at full size. It stands on (x, y, z) and tilts about its foot.
     private record Piece(int minStage, boolean chip, float x, float y, float z, float dx, float dz, float length, Direction lean, float angle, Skin skin, float u) {
     }
 
@@ -104,7 +100,6 @@ final class DecorativeCrystalModels {
             return Direction.from2DDataValue(this.random.nextInt(4));
         }
 
-        // somewhere on the crystal's side of the texture that a piece this wide still fits
         private float textureColumn(float width) {
             return this.random.nextInt((int) ((BODY_WIDTH - width / TEXELS) * TEXELS) + 1) / TEXELS;
         }
@@ -128,7 +123,6 @@ final class DecorativeCrystalModels {
             }
         }
 
-        // the real crystal's plain column at its real sizes, which is 10 wide and 32 tall at Geode
         void original() {
             column(0, CENTRE, CENTRE, 10.0F, MODEL_TOP, Skin.BODY);
             chips(3 + this.random.nextInt(3));
@@ -159,7 +153,6 @@ final class DecorativeCrystalModels {
             column(0, CENTRE, CENTRE, shell, height, Skin.SHELL);
             column(2, CENTRE, CENTRE, shell - 3.0F, height * between(0.72F, 0.84F), Skin.SHELL);
 
-            // a leaning crystal starts on the far side so its tip stays inside the shell
             float ghost = 4 + this.random.nextInt(2);
             Direction lean = this.random.nextBoolean() ? side() : null;
             float x = CENTRE + (lean == null ? between(-1.0F, 1.0F) : -lean.getStepX() * 2.5F);
@@ -170,7 +163,6 @@ final class DecorativeCrystalModels {
                 column(1, CENTRE + beside.getStepX() * 2.5F, CENTRE + beside.getStepZ() * 2.5F, 2.5F, 8 + this.random.nextInt(5), Skin.BODY);
             }
 
-            // see-through spikes around the outside
             Direction first = side();
             for (int i = 0, count = 1 + this.random.nextInt(3); i < count; i++) {
                 Direction out = Direction.from2DDataValue(first.get2DDataValue() + i);
@@ -184,7 +176,6 @@ final class DecorativeCrystalModels {
         }
     }
 
-    // Writes one stage of a layout into a model.
     private static final class Drawing {
         private final BlockModelBuilder model;
         private final FacetedModelBuilder<BlockModelBuilder> facets;
@@ -245,7 +236,6 @@ final class DecorativeCrystalModels {
             this.bevel(top, band, rise, piece, x, foot, z);
         }
 
-        // The body's own top is left off, because these five faces cover exactly the same ground.
         private void bevel(float[] top, float band, float rise, Piece piece, float originX, float originY, float originZ) {
             float x0 = top[0];
             float z0 = top[1];
@@ -263,7 +253,6 @@ final class DecorativeCrystalModels {
             float[] innerSW = tilted(piece, originX, originY, originZ, x0 + band, high, z1 - band);
             String texture = piece.skin == Skin.SHELL ? "#shell" : "#crystal";
 
-            // the slopes use the texture's bright region, at one texel per model pixel
             float inner = 4.0F;
             float outer = inner + band / (float) Math.cos(Math.toRadians(BEVEL_ANGLE)) / TEXELS;
             float[] u = stops(x1 - x0, band);
@@ -272,11 +261,13 @@ final class DecorativeCrystalModels {
             this.facets.facet(join(innerSW, outerSW, outerSE, innerSE), new float[] {u[1], inner, u[0], outer, u[3], outer, u[2], inner}, texture);
             this.facets.facet(join(outerNW, outerSW, innerSW, innerNW), new float[] {v[0], outer, v[3], outer, v[2], inner, v[1], inner}, texture);
             this.facets.facet(join(innerNE, innerSE, outerSE, outerNE), new float[] {v[1], inner, v[2], inner, v[3], outer, v[0], outer}, texture);
-            // the framed square of the texture makes the flat centre
             this.facets.facet(join(innerNW, innerSW, innerSE, innerNE), new float[] {4.0F, 0.0F, 4.0F, 4.0F, 8.0F, 4.0F, 8.0F, 0.0F}, texture);
         }
 
-        // along a slope's outer edge: where it starts, where its inner edge starts and ends, and where it ends
+        /**
+         * Returns the positions along a slope's outer edge where it starts, where its inner edge starts and ends, and
+         * where it ends.
+         */
         private static float[] stops(float length, float band) {
             float left = 4.0F;
             return new float[] {left, left + band / TEXELS, left + (length - band) / TEXELS, left + length / TEXELS};
@@ -294,7 +285,7 @@ final class DecorativeCrystalModels {
             return piece.lean == Direction.WEST || piece.lean == Direction.SOUTH ? piece.angle : -piece.angle;
         }
 
-        // where a point on an upright piece ends up once the piece has tilted about its foot
+        /** Returns where a point on an upright piece ends up once the piece has tilted about its foot. */
         private static float[] tilted(Piece piece, float originX, float originY, float originZ, float x, float y, float z) {
             if (piece.lean == null) {
                 return new float[] {x, y, z};
@@ -311,7 +302,7 @@ final class DecorativeCrystalModels {
             return new float[] {x, originY + py * cos - pz * sin, originZ + py * sin + pz * cos};
         }
 
-        // returns where the box ended up, as x0, z0, x1, z1 and its top, since it may have been moved aside slightly
+        /** Adds a box and returns where it ended up, as x0, z0, x1, z1 and its top. */
         private float[] box(float x, float foot, float z, float dx, float dy, float dz, Piece piece, boolean capped) {
             boolean tilted = piece.lean != null || piece.angle != 0.0F;
             float x0 = x - dx / 2.0F;
@@ -335,7 +326,6 @@ final class DecorativeCrystalModels {
                 element.rotation().origin(x, foot, z).axis(Direction.Axis.Y).angle(piece.angle).end();
             }
             for (Direction face : Direction.values()) {
-                // the underside only ever shows on an upright box standing on the block's edge
                 if ((face != Direction.DOWN || standing) && (face != Direction.UP || capped)) {
                     float[] uv = uv(face, piece.skin, dx, dy, dz, piece.u);
                     element.face(face).uvs(uv[0], uv[1], uv[2], uv[3]).texture(piece.skin == Skin.SHELL ? "#shell" : "#crystal").end();
@@ -345,7 +335,6 @@ final class DecorativeCrystalModels {
             return new float[] {x0, z0, x1, z1, y1};
         }
 
-        // the regions of the crystal texture: its body at the left and dark rock at the right
         private static float[] uv(Direction face, Skin skin, float dx, float dy, float dz, float column) {
             boolean flat = face.getAxis() == Direction.Axis.Y;
             float width = Math.min((face.getAxis() == Direction.Axis.X ? dz : dx) / TEXELS, REGION);

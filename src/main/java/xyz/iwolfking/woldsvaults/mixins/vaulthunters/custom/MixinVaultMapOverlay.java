@@ -17,7 +17,6 @@ public class MixinVaultMapOverlay {
 
     @Inject(method = "renderVault", at = @At("HEAD"), cancellable = true)
     private void cancelRender(ModuleRenderContext context, Vault vault, Listener listener, CallbackInfo ci) {
-        // pockets are off the vault's map
         if(!WoldsVaultsConfig.CLIENT.showVanillaVaultMap.get() || PocketTerritory.inPocket(Minecraft.getInstance().player)) {
             ci.cancel();
         }

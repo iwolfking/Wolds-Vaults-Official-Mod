@@ -24,12 +24,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.client.arcane.GlowRenderTypes;
 import xyz.iwolfking.woldsvaults.client.arcane.GlowShapes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -54,18 +50,13 @@ import xyz.iwolfking.woldsvaults.entities.simon.SimonCrystalEntity;
  */
 public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
     private static final String[] STAGES = SimonCrystalEntity.STAGE_NAMES;
-    // the row of the id tables for the white that Prismatic crystals use, after one row for each colour
     private static final int WHITE_ROW = SimonCrystalEntity.Color.values().length;
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[WHITE_ROW + 1];
     private static final ResourceLocation[][] MODELS = new ResourceLocation[WHITE_ROW + 1][STAGES.length];
-    // how far each stage stands out from its face, in blocks
     private static final float[] LENGTHS = {0.3F, 0.6F, 1.2F, 2.0F};
     private static final float RISE_TICKS = 10.0F;
-    // the Geode model's sunken floor (30 of 32 units up) and half the width inside its rim (8 units across)
     private static final float GEODE_FLOOR = 30.0F / 16.0F;
     private static final float GEODE_INNER_HALF = 4.0F / 16.0F;
-    // the light pillar a lit crystal shoots up: how high, how long it takes to reach the top, and how long it takes to
-    // lift off and fade once the crystal goes out
     private static final float PILLAR_HEIGHT = 14.0F;
     private static final float PILLAR_RISE_TICKS = 3.0F;
     private static final float PILLAR_FADE_TICKS = 5.0F;
@@ -88,7 +79,7 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         return prismatic ? WHITE_ROW : color.ordinal();
     }
 
-    // One crystal model, base centred on the pose's origin, growing up its y axis.
+    /** Renders one crystal model, base centred on the pose's origin, growing up its y axis. */
     static void renderModel(PoseStack pose, MultiBufferSource buffers, RenderType type, SimonCrystalEntity.Color color, boolean prismatic,
                             Vector3f tint, int stage, float shade, int light) {
         BakedModel model = Minecraft.getInstance().getModelManager().getModel(MODELS[row(color, prismatic)][Mth.clamp(stage, 0, STAGES.length - 1)]);
@@ -109,13 +100,11 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         float time = crystal.tickCount + partialTicks;
         float shade = state == SimonCrystalEntity.LIT ? 1.0F
                 : state == SimonCrystalEntity.ARMED ? 0.9F + 0.1F * Mth.sin(time * 0.3F) : 0.88F;
-        // crystals give off a little light of their own, a fully grown one more
         int ownLight = stage == SimonCrystalEntity.GEODE ? 13 : 9;
         int packed = state == SimonCrystalEntity.LIT ? LightTexture.FULL_BRIGHT
                 : LightTexture.pack(Math.max(LightTexture.block(light), ownLight), LightTexture.sky(light));
         Vector3f tint = crystal.shownColor(partialTicks);
         RenderType glow = RenderType.eyes(TextureAtlas.LOCATION_BLOCKS);
-        // a new stage rises out of the ground over RISE_TICKS
         float rise = Mth.clamp((crystal.ticksSinceGrown() + partialTicks) / RISE_TICKS, 0.0F, 1.0F);
         rise = 1.0F - (1.0F - rise) * (1.0F - rise);
 
@@ -127,7 +116,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         if (stage == SimonCrystalEntity.GEODE) {
             float pulse = Mth.sin(time * 0.15F);
             renderCoreGlow(pose, buffers.getBuffer(glow), crystal, tint, 0.5F + 0.2F * pulse);
-            // a soft halo round the whole crystal once it's fully grown
             if (state != SimonCrystalEntity.LIT) {
                 pose.pushPose();
                 pose.scale(1.07F, 1.03F, 1.07F);
@@ -137,7 +125,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
             }
         }
         if (crystal.isPrismatic() && state != SimonCrystalEntity.LIT) {
-            // the rainbow aura's shell: half the hue wheel away from the crystal's own colour, breathing
             Vector3f aura = hue(time * 0.02F + crystal.getId() * 0.13F + 0.5F);
             pose.pushPose();
             pose.scale(1.14F, 1.06F, 1.14F);
@@ -158,7 +145,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         super.render(crystal, yaw, partialTicks, pose, buffers, light);
     }
 
-    // the pillar's lit crystal can be off screen while the pillar itself is in view
     @Override
     public boolean shouldRender(SimonCrystalEntity crystal, Frustum frustum, double x, double y, double z) {
         return super.shouldRender(crystal, frustum, x, y, z)
@@ -169,7 +155,7 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         return crystal.getLight() == SimonCrystalEntity.LIT || crystal.ticksSinceUnlit() < PILLAR_FADE_TICKS;
     }
 
-    // a pillar of light in the crystal's colour, shooting straight up from the top of it while it's lit
+    /** Renders a pillar of light in the crystal's colour, shooting straight up from the top of it while it is lit. */
     private void renderPillar(SimonCrystalEntity crystal, Vector3f tint, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
         if (!pillarShowing(crystal)) {
             return;
@@ -182,7 +168,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         float lit = crystal.ticksSinceLit() + partialTicks;
         float rise = Mth.clamp(lit / PILLAR_RISE_TICKS, 0.0F, 1.0F);
         rise = 1.0F - (1.0F - rise) * (1.0F - rise);
-        // the top of the crystal, from its position (the pose's origin); once it goes out, the foot lifts away
         Vec3 middle = crystal.center().subtract(crystal.position());
         float x = (float) middle.x;
         float z = (float) middle.z;
@@ -192,7 +177,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         if (head <= foot) {
             return;
         }
-        // across the pillar as seen from the camera
         Camera camera = this.entityRenderDispatcher.camera;
         double dx = camera.getPosition().x - (crystal.getX() + x);
         double dz = camera.getPosition().z - (crystal.getZ() + z);
@@ -204,7 +188,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         Matrix4f matrix = pose.last().pose();
         Vec3 footAt = new Vec3(x, foot, z);
         Vec3 headAt = new Vec3(x, head, z);
-        // brightest at the foot, three-quarters as bright a third of the way up, gone at the head
         Vec3 midAt = new Vec3(x, foot + (head - foot) * 0.35F, z);
         Vector3f[] colors = {tint, ColorUtil.lighten(tint, 0.35F), GlowShapes.WHITE};
         float[] halves = {width, width * 0.4F, width * 0.1F};
@@ -218,7 +201,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         GlowShapes.flare(consumer, matrix, footAt, left, up, width * 1.8F * (1.0F + 0.1F * Mth.sin(time * 0.9F)), tint, 0.7F * fade);
         GlowShapes.flare(consumer, matrix, footAt, left, up, width * 0.6F, GlowShapes.WHITE, 0.8F * fade);
         if (on && rise < 1.0F) {
-            // the head of the pillar as it shoots up
             GlowShapes.flare(consumer, matrix, headAt, left, up, width * 1.5F, ColorUtil.lighten(tint, 0.5F), 0.9F);
         }
     }
@@ -227,7 +209,9 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         consumer.vertex(matrix, x, y, z).color(color.x(), color.y(), color.z(), a).endVertex();
     }
 
-    // the Geode's sunken floor, inside its rim, glowing (its texture's inner-floor square, drawn additively just above it)
+    /**
+     * Draws the Geode's sunken floor glowing inside its rim, additively just above its texture's inner-floor square.
+     */
     private static void renderCoreGlow(PoseStack pose, VertexConsumer consumer, SimonCrystalEntity crystal, Vector3f tint, float strength) {
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
                 .apply(TEXTURES[row(crystal.getColor(), crystal.isPrismatic())]);
@@ -246,8 +230,10 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         }
     }
 
-    // each facet is a bright gem orbiting the crystal round its middle, evenly spaced on one glowing ring and trailing
-    // light, so the count reads at a glance
+    /**
+     * Renders each facet as a bright gem orbiting the crystal round its middle, evenly spaced on one glowing ring and
+     * trailing light.
+     */
     private void renderFacets(SimonCrystalEntity crystal, Vector3f tint, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
         int facets = crystal.getFacets();
         if (facets <= 0) {
@@ -266,13 +252,11 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         Camera camera = this.entityRenderDispatcher.camera;
         Vector3f left = camera.getLeftVector();
         Vector3f up = camera.getUpVector();
-        // the orbit, a little brighter for each facet
         ring(consumer, matrix, cx, cy, cz, radius, 0.06F, 0.0F, bright, 0.2F + 0.08F * facets, false);
         float spin = time * 0.07F;
         for (int i = 0; i < facets; i++) {
             float angle = spin + i * Mth.TWO_PI / facets;
             float y = cy + 0.08F * Mth.sin(time * 0.15F + i * 2.1F);
-            // fading light trailing behind it
             for (int trail = 4; trail >= 1; trail--) {
                 float back = angle - trail * 0.1F;
                 GlowShapes.flare(consumer, matrix, new Vec3(cx + Mth.cos(back) * radius, y, cz + Mth.sin(back) * radius), left, up,
@@ -287,8 +271,10 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         }
     }
 
-    // a Prismatic crystal's rainbow rings: one turning round its base, a narrower one turning the other way round its
-    // middle, the colours chasing round them
+    /**
+     * Renders a Prismatic crystal's rainbow rings: one turning round its base and a narrower one turning the other way
+     * round its middle, the colours chasing round them.
+     */
     private void renderPrismaticAura(SimonCrystalEntity crystal, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
         if (!crystal.isPrismatic()) {
             return;
@@ -307,8 +293,10 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         ring(consumer, matrix, cx, (float) middle.y, cz, half + 0.3F, 0.1F, -time * 0.06F, GlowShapes.WHITE, breath * 0.7F, true);
     }
 
-    // a flat ring round (x, y, z), half wide either side of its radius, brightest along its middle; in one colour, or
-    // with rainbow set, running once round the hue wheel from phase
+    /**
+     * Draws a flat ring round (x, y, z), half wide either side of its radius, brightest along its middle; in one
+     * colour, or with rainbow set, running once round the hue wheel from phase.
+     */
     private static void ring(VertexConsumer consumer, Matrix4f matrix, float x, float y, float z, float radius, float half, float phase,
                              Vector3f color, float alpha, boolean rainbow) {
         int segments = 48;
@@ -326,7 +314,6 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
             float sin1 = Mth.sin(a1);
             float in = radius - half;
             float out = radius + half;
-            // inner half, then outer half
             glow(consumer, matrix, x + cos0 * in, y, z + sin0 * in, c0, 0.0F);
             glow(consumer, matrix, x + cos1 * in, y, z + sin1 * in, c1, 0.0F);
             glow(consumer, matrix, x + cos1 * radius, y, z + sin1 * radius, c1, alpha);
@@ -338,7 +325,10 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         }
     }
 
-    // a small cut gem (two four-sided pyramids base to base), turned by spin: tinted round its girdle, white at its points
+    /**
+     * Draws a small cut gem (two four-sided pyramids base to base) turned by spin: tinted round its girdle, white at
+     * its points.
+     */
     private static void gem(VertexConsumer consumer, Matrix4f matrix, float x, float y, float z, float size, float spin, Vector3f color) {
         float[][] girdle = new float[4][];
         for (int k = 0; k < 4; k++) {
@@ -362,7 +352,7 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         return ColorUtil.vector(Mth.hsvToRgb(((hue % 1.0F) + 1.0F) % 1.0F, 0.8F, 1.0F));
     }
 
-    // turns the model's up to point out of the face the crystal grows on
+    /** Turns the model's up to point out of the face the crystal grows on. */
     private static void standOn(PoseStack pose, Direction face) {
         switch (face) {
             case DOWN -> pose.mulPose(Vector3f.XP.rotationDegrees(180.0F));
@@ -378,18 +368,11 @@ public class SimonCrystalRenderer extends EntityRenderer<SimonCrystalEntity> {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 
-    // Bakes every colour and stage of the crystal model.
-    @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static final class Models {
-        private Models() {
-        }
-
-        @SubscribeEvent
-        public static void onModelRegistry(ModelRegistryEvent event) {
-            for (ResourceLocation[] stages : MODELS) {
-                for (ResourceLocation model : stages) {
-                    ForgeModelBakery.addSpecialModel(model);
-                }
+    /** Registers every colour and stage of the crystal model as a special model. */
+    public static void registerModels() {
+        for (ResourceLocation[] stages : MODELS) {
+            for (ResourceLocation model : stages) {
+                ForgeModelBakery.addSpecialModel(model);
             }
         }
     }

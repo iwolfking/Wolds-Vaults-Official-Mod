@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-// A loading zone's outline, from its corner posts: two posts make a gate to walk through, three or more an area to stand in.
-// It also says where the zone leads: an arrival marker in the same room, a vault pocket, or back out of one.
 public record LoadingZoneShape(String link, double[] xs, double[] zs, double minY, double maxY, Leads leads, String pocket) {
     public record Corner(double x, double y, double z, int height, int order) {
     }
@@ -34,7 +32,10 @@ public record LoadingZoneShape(String link, double[] xs, double[] zs, double min
         }
     }
 
-    // numbered corners keep their numbers' order, so concave areas work; otherwise they go round their middle, which suits any convex area
+    /**
+     * Builds a zone from its corner posts. Numbered corners keep their numbers' order; otherwise the corners go round
+     * their middle.
+     */
     public static LoadingZoneShape of(String link, List<Corner> corners, Leads leads, String pocket) {
         double centreX = corners.stream().mapToDouble(Corner::x).average().orElse(0.0);
         double centreZ = corners.stream().mapToDouble(Corner::z).average().orElse(0.0);
@@ -82,7 +83,7 @@ public record LoadingZoneShape(String link, double[] xs, double[] zs, double min
         return y >= this.minY && y < this.maxY;
     }
 
-    // even-odd rule: a point is inside when a ray from it crosses the outline an odd number of times
+    /** Returns whether the point is inside the area, by the even-odd rule, and within its height. */
     public boolean contains(double x, double y, double z) {
         if (isGate() || !spans(y)) {
             return false;
@@ -96,7 +97,7 @@ public record LoadingZoneShape(String link, double[] xs, double[] zs, double min
         return inside;
     }
 
-    // tested on the path since last tick, so nothing moving fast can step over the line between two ticks
+    /** Returns whether the path from one tick's position to the next crosses the gate's line within its height. */
     public boolean crossedBy(double fromX, double fromZ, double toX, double toZ, double y) {
         if (!isGate() || !spans(y)) {
             return false;

@@ -30,7 +30,6 @@ public final class LightningFormHud {
     private LightningFormHud() {
     }
 
-    // called from OverlayEvents for every HUD layer
     public static void onHudLayer(RenderGameOverlayEvent.PreLayer event) {
         if (ClientLightningForm.isActive()) {
             AbilityHud.replaceHotbar(event, LightningFormHud::draw);
@@ -46,7 +45,6 @@ public final class LightningFormHud {
         charge(hud);
         hud.cooldownSlot(AbilityHud.Slot.RIGHT, LIGHTNING_ROD, ClientLightningForm.rodCooldown(partialTick), mc.options.keyUse);
 
-        // the names; the rod's turns to its target's once it has one
         hud.labelLeft("Arc Lash", TEXT);
         Entity marked = mc.level == null || ClientLightningForm.markId() < 0 ? null : mc.level.getEntity(ClientLightningForm.markId());
         String rod = marked == null ? "Lightning Rod" : mc.font.plainSubstrByWidth(marked.getDisplayName().getString(), hud.labelRoom());
@@ -55,7 +53,7 @@ public final class LightningFormHud {
         hud.timeBar(ClientLightningForm.formLeft(partialTick), 0xFF060B17, 0xFF2BA6D4, 0xFFC6F8FF);
     }
 
-    // the charge ring round the Thunderstrike slot and the strike's multiplier in its corner
+    /** Draws the charge ring round the Thunderstrike slot and the strike's multiplier in its corner. */
     private static void charge(AbilityHud hud) {
         PoseStack pose = hud.pose();
         int x = hud.slotX(AbilityHud.Slot.MIDDLE);

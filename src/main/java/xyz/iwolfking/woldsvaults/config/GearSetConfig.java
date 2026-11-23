@@ -36,7 +36,6 @@ public class GearSetConfig extends Config implements WoldsTable {
         @Expose public String color;
         @Expose public String ancientColor;
         @Expose public List<String> pieces;
-        // optional: variant unique id -> the piece of this set it counts as
         @Expose public Map<String, String> variants;
         @Expose public List<Tier> tiers;
 
@@ -162,7 +161,7 @@ public class GearSetConfig extends Config implements WoldsTable {
         return Optional.ofNullable(this.setByPiece.get(uniqueKey));
     }
 
-    // the piece of its set that a unique counts as: itself, unless it's a variant of another
+    /** Returns the piece of its set that a unique counts as: itself, unless it is a variant of another. */
     public ResourceLocation basePiece(ResourceLocation uniqueKey) {
         this.index();
         return this.basePieces.getOrDefault(uniqueKey, uniqueKey);

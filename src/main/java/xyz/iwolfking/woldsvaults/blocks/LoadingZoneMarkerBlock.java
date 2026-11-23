@@ -23,12 +23,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import xyz.iwolfking.woldsvaults.blocks.tiles.LoadingZoneMarkerTileEntity;
+import xyz.iwolfking.woldsvaults.client.loadingzone.LoadingZoneScreen;
 import xyz.iwolfking.woldsvaults.loadingzone.LoadingZoneShape;
 import xyz.iwolfking.woldsvaults.loadingzone.Pockets;
 
 import java.util.Locale;
 
-// A loading zone post or arrival marker: invisible and walk-through, and only builders in creative can select or change it.
 public abstract class LoadingZoneMarkerBlock extends Block implements EntityBlock {
     public static final int MAX_LINK_LENGTH = 32;
     public static final int MAX_HEIGHT = 32;
@@ -57,12 +57,12 @@ public abstract class LoadingZoneMarkerBlock extends Block implements EntityBloc
             return InteractionResult.PASS;
         }
         if (level.isClientSide && level.getBlockEntity(pos) instanceof LoadingZoneMarkerTileEntity marker) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> xyz.iwolfking.woldsvaults.client.loadingzone.LoadingZoneScreen.open(marker));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> LoadingZoneScreen.open(marker));
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    // a builder's choices from the screen, checked here because the packet can claim anything
+    /** Validates and applies a builder's choices from the marker screen. */
     public static void configure(ServerPlayer player, BlockPos pos, String link, int height, int order, int rotation, LoadingZoneShape.Leads leads, String pocket) {
         Level level = player.level;
         if (!player.isCreative() || player.distanceToSqr(Vec3.atCenterOf(pos)) > REACH_SQR || !(level.getBlockEntity(pos) instanceof LoadingZoneMarkerTileEntity marker)) {

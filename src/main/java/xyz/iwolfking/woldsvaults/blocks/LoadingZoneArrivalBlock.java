@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
-// Where a loading zone with the same link name sends players. It keeps the way its placer faced in 16 steps, like a sign,
-// so it turns with the room when a vault rotates or mirrors it.
 public class LoadingZoneArrivalBlock extends LoadingZoneMarkerBlock {
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
 

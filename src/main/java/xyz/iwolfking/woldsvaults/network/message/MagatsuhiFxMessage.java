@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.magatsuhi.ClientMagatsuhi;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
@@ -42,6 +43,6 @@ public record MagatsuhiFxMessage(int kind, int owner, double x, double y, double
     }
 
     public static void handle(MagatsuhiFxMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.magatsuhi.ClientMagatsuhi.fx(message));
+        ModNetwork.onClient(context, () -> () -> ClientMagatsuhi.fx(message));
     }
 }

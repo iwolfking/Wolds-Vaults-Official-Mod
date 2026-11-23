@@ -23,13 +23,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-// Watches players walk into loading zones, fades their screen out, teleports them once the destination is ready and fades
-// back in. An arrival marker is ready at once; a pocket may need a few seconds of generating, so the screen holds black until
-// it lands or gives up. The server owns the teleport; the client's fade is only for show and ends by itself.
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class LoadingZoneTransitions {
     public static final int FADE_OUT_TICKS = 8;
-    // the hold covers the teleport packet's trip, so a laggy client still lands while the screen is black
     public static final int HOLD_TICKS = 6;
     public static final int FADE_IN_TICKS = 10;
     public static final int MAX_WAIT_TICKS = 200;
@@ -37,7 +33,6 @@ public final class LoadingZoneTransitions {
 
     private static final Map<UUID, Transition> TRANSITIONS = new HashMap<>();
     private static final Map<UUID, Vec3> LAST_POSITIONS = new HashMap<>();
-    // after arriving, zones wait until the player has stepped out of every area, so landing in one can't bounce them back
     private static final Set<UUID> DISARMED = new HashSet<>();
 
     private record Transition(LoadingZoneDestination destination, long start, long arrived) {
@@ -92,7 +87,6 @@ public final class LoadingZoneTransitions {
         }
     }
 
-    // the destination is asked from the first tick, so a pocket's chunks start loading while the screen is still fading
     private static void tickTransition(ServerPlayer player, Transition transition, long now) {
         UUID id = player.getUUID();
         if (transition.arrived() >= 0L) {
@@ -142,7 +136,6 @@ public final class LoadingZoneTransitions {
         ModNetwork.sendToClient(new LoadingZoneFadeMessage(FADE_OUT_TICKS, hold, FADE_IN_TICKS), player);
     }
 
-    // nothing can hurt a player who can't see or move
     @SubscribeEvent
     public static void onAttacked(LivingAttackEvent event) {
         if (event.getEntityLiving() instanceof ServerPlayer player && inTransition(player)) {

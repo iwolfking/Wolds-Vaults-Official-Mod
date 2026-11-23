@@ -28,14 +28,11 @@ public final class AbilityHud {
         LEFT, MIDDLE, RIGHT
     }
 
-    // vanilla's tooltip colours
     public static final int BACKGROUND = 0xF0100010;
     private static final int BORDER_TOP = 0x505000FF;
     private static final int BORDER_BOTTOM = 0x5028007F;
-    // for slot(): keep the tooltip's fading border
     public static final int TOOLTIP_BORDER = 0;
     private static final int SLOT_SIZE = 22;
-    // the space between a side slot and the middle one
     private static final int GAP = 58;
     private static final float LABEL_SCALE = 0.75F;
 
@@ -57,7 +54,10 @@ public final class AbilityHud {
         this.top = height - SLOT_SIZE;
     }
 
-    // Call on every layer while the form is active: hides the hotbar and item name, and draws the content in their place.
+    /**
+     * Hides the hotbar and the held item's name and draws the content in their place. Call on every layer while the
+     * form is active.
+     */
     public static void replaceHotbar(RenderGameOverlayEvent.PreLayer event, Consumer<AbilityHud> content) {
         if (event.getOverlay() == ForgeIngameGui.ITEM_NAME_ELEMENT) {
             event.setCanceled(true);
@@ -73,7 +73,6 @@ public final class AbilityHud {
         }
     }
 
-    // for forms that draw their own extras over a slot (Lightning Fiend's charge ring)
     public PoseStack pose() {
         return this.pose;
     }
@@ -86,12 +85,12 @@ public final class AbilityHud {
         return this.top;
     }
 
-    // the panel behind the whole bar, drawn like an item tooltip
+    /** Draws the panel behind the whole bar, like an item tooltip. */
     public void panel() {
         box(this.left - 3, this.top - 3, this.right + 3, this.top + SLOT_SIZE, BACKGROUND, TOOLTIP_BORDER);
     }
 
-    // a tooltip-style slot with a pale veil over the part of its cooldown (0 to 1) still to run, as items show theirs
+    /** Draws a tooltip-style slot with a pale veil over the part of its cooldown (0 to 1) still to run. */
     public void cooldownSlot(Slot slot, ResourceLocation icon, float cooldown, KeyMapping key) {
         int x = x(slot);
         box(x, this.top, x + SLOT_SIZE, this.top + SLOT_SIZE, BACKGROUND, TOOLTIP_BORDER);
@@ -102,7 +101,10 @@ public final class AbilityHud {
         keyCorner(x, key);
     }
 
-    // a tooltip-style slot; border TOOLTIP_BORDER keeps the tooltip's own fading border, anything else lights it in that colour
+    /**
+     * Draws a tooltip-style slot. A border of TOOLTIP_BORDER keeps the tooltip's own fading border; any other colour
+     * lights the border in that colour.
+     */
     public void slot(Slot slot, ResourceLocation icon, int border, int inside, float iconAlpha, KeyMapping key) {
         int x = x(slot);
         box(x, this.top, x + SLOT_SIZE, this.top + SLOT_SIZE, inside, border);
@@ -118,7 +120,10 @@ public final class AbilityHud {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    // vanilla's tooltip box: the background with its corners clipped, and a border one pixel in that fades top to bottom
+    /**
+     * Draws vanilla's tooltip box: the background with its corners clipped, and a border one pixel in that fades top to
+     * bottom.
+     */
     private void box(int x0, int y0, int x1, int y1, int inside, int border) {
         GuiComponent.fill(this.pose, x0 + 1, y0, x1 - 1, y1, inside);
         GuiComponent.fill(this.pose, x0, y0 + 1, x0 + 1, y1 - 1, inside);
@@ -151,12 +156,12 @@ public final class AbilityHud {
         label(text, this.right - 25, colour, true);
     }
 
-    // how wide a label can be before it runs into the middle slot, for trimming ones that vary
+    /** How wide a label can be before it runs into the middle slot. */
     public int labelRoom() {
         return Mth.floor((GAP - 6) / LABEL_SCALE);
     }
 
-    // the form's time left, 0 to 1
+    /** Draws the bar of the form's time left, 0 to 1. */
     public void timeBar(float remaining, int track, int fill, int shine) {
         int half = GAP - 6;
         int filled = Math.round(half * 2 * remaining);
@@ -180,7 +185,6 @@ public final class AbilityHud {
         };
     }
 
-    // the slot's key, small in its bottom right corner
     private void keyCorner(int x, KeyMapping key) {
         String name = keyName(key);
         this.pose.pushPose();
@@ -199,7 +203,10 @@ public final class AbilityHud {
         this.pose.popPose();
     }
 
-    // short enough for a slot's corner: the mouse buttons as LMB / RMB / MMB, anything else cut to four letters
+    /**
+     * The key's name, short enough for a slot's corner: mouse buttons as LMB, RMB and MMB, anything else cut to four
+     * letters.
+     */
     private static String keyName(KeyMapping key) {
         InputConstants.Key bound = key.getKey();
         if (bound.getType() == InputConstants.Type.MOUSE) {

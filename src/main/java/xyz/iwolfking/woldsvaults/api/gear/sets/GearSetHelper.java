@@ -98,10 +98,10 @@ public final class GearSetHelper {
         return worn;
     }
 
-    // The snapshot's pieces plus the set-piece weapons in either hand. Wold's dual wielding puts a second sword in the
-    // offhand, which Vault Hunters' snapshot never counts (it isn't a sword's slot), and a swing with that sword builds a
-    // snapshot holding only it; counting both hands keeps a dual-wielded set whole either way. A held weapon counts as
-    // the snapshot's gear does: identified, not broken and not above the player's level.
+    /**
+     * Returns the snapshot's set pieces plus the set-piece weapons held in either hand. A held weapon counts only when
+     * it is identified, not broken and not above the player's level.
+     */
     public static Map<ResourceLocation, Set<ResourceLocation>> wornPieces(AttributeSnapshot snapshot, Player player) {
         Map<ResourceLocation, Set<ResourceLocation>> worn = wornPieces(snapshot);
         GearSetConfig config = config();
@@ -128,7 +128,7 @@ public final class GearSetHelper {
         });
     }
 
-    // what a set's tiers grant of a number attribute, in total, to someone counted as having this many of its pieces
+    /** Returns the total that a set's active tiers grant of a number attribute for this many pieces. */
     public static float tierGrant(ResourceLocation setId, int pieces, VaultGearAttribute<? extends Number> attribute) {
         float total = 0.0F;
         for (GearSetConfig.ResolvedGrant grant : activeGrants(setId, pieces)) {
@@ -148,7 +148,6 @@ public final class GearSetHelper {
                 mob -> isEnemy(mob) && mob.getBoundingBox().getCenter().distanceToSqr(at) <= radius * radius);
     }
 
-    // the grants of every tier reached with this many pieces, lowest tier first
     private static List<GearSetConfig.ResolvedGrant> activeGrants(ResourceLocation setId, int pieces) {
         GearSetConfig config = config();
         GearSetConfig.GearSet set = config == null ? null : config.getSet(setId).orElse(null);

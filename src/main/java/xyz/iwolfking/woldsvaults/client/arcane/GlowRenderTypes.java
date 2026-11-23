@@ -18,7 +18,6 @@ public final class GlowRenderTypes extends RenderType {
                     .setDepthTestState(LEQUAL_DEPTH_TEST)
                     .createCompositeState(false));
 
-    // Ordinary see-through colour (afterimages, the dark of a cut): blended over the world, depth tested, never written.
     public static final RenderType SHADE = create("woldsvaults_shade", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, true,
             CompositeState.builder()
                     .setShaderState(RENDERTYPE_LIGHTNING_SHADER)

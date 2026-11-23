@@ -29,7 +29,6 @@ public class PrismSeedEntity extends ThrowableProjectile implements IEntityAddit
     private boolean prismatic;
     private float gravity = 0.03F;
     private int maxAge = 100;
-    // where a budded seed was thrown to (server only), so later buds keep their distance
     @Nullable
     public Vec3 target;
 
@@ -37,7 +36,7 @@ public class PrismSeedEntity extends ThrowableProjectile implements IEntityAddit
         super(type, level);
     }
 
-    // A seed leaving the player's eyes.
+    /** Creates a seed leaving the player's eyes. */
     public PrismSeedEntity(Level level, ServerPlayer owner, SimonCrystalEntity.Color color, float gravity, int maxAge) {
         super(ModEntities.PRISM_SEED, owner, level);
         this.color = color;
@@ -45,7 +44,7 @@ public class PrismSeedEntity extends ThrowableProjectile implements IEntityAddit
         this.maxAge = maxAge;
     }
 
-    // A seed thrown off a crystal that budded.
+    /** Creates a seed thrown off a crystal that budded. */
     public PrismSeedEntity(Level level, ServerPlayer owner, Vec3 from, SimonCrystalEntity.Color color, boolean prismatic, float gravity, int maxAge) {
         super(ModEntities.PRISM_SEED, from.x, from.y, from.z, level);
         this.setOwner(owner);

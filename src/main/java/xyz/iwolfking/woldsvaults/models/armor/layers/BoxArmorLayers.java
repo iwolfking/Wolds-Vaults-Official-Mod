@@ -48,7 +48,6 @@ public class BoxArmorLayers extends ArmorLayers {
                     .texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, outer), PartPose.offset(-5.0F, 2.0F, 0.0F));
             partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create()
                     .texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, outer), PartPose.offset(5.0F, 2.0F, 0.0F));
-            // the boots' 6-tall box reads the top of the leg region, which is painted as the boot
             partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create()
                     .texOffs(0, 16).addBox(-2.0F, 6.0F, -2.0F, 4.0F, 6.0F, 4.0F, outer), PartPose.offset(-1.9F, 12.0F, 0.0F));
             partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create()

@@ -5,13 +5,11 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
-// Where a loading zone transition ends. An arrival marker in the same room is ready at once; a pocket, or the way back out of
-// one, may first need its chunks generated, so the transition keeps the screen black and asks again each tick.
 public interface LoadingZoneDestination {
     record Landing(Vec3 pos, float yaw) {
     }
 
-    // null while the landing is still loading
+    /** Returns the landing, or null while it is still loading. */
     @Nullable
     Landing poll(ServerPlayer player);
 

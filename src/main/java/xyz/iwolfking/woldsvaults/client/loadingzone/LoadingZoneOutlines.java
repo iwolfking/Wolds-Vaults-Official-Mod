@@ -12,18 +12,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.LoadingZoneArrivalBlock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.LoadingZoneMarkerTileEntity;
 import xyz.iwolfking.woldsvaults.loadingzone.LoadingZoneShape;
 import xyz.iwolfking.woldsvaults.loadingzone.LoadingZones;
 
-// In creative, draws every nearby loading zone: its gate or outline, its posts and its arrival markers with their facing.
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+/**
+ * In creative, draws every nearby loading zone: its gate or outline, its posts and its arrival markers with their
+ * facing.
+ */
 public final class LoadingZoneOutlines {
     private static final double RANGE_SQR = 96.0 * 96.0;
     private static final int ZONE = 0x55FFFF;
@@ -34,7 +32,6 @@ public final class LoadingZoneOutlines {
     private LoadingZoneOutlines() {
     }
 
-    @SubscribeEvent
     public static void onRenderLevel(RenderLevelLastEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || minecraft.level == null || !minecraft.player.isCreative()) {

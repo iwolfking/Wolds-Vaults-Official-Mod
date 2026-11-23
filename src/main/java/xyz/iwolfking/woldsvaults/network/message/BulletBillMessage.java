@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.modifiers.gear.bullet.BulletBill;
 
@@ -39,11 +40,11 @@ public record BulletBillMessage(int entityId, int kind, int ticks, @Nullable Bul
     public static void handle(BulletBillMessage message, Supplier<NetworkEvent.Context> context) {
         ModNetwork.onClient(context, () -> () -> {
             switch (message.kind) {
-                case START -> xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill.start(message.entityId, message.ticks, message.tuning);
-                case BOOST -> xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill.boost(message.entityId, message.ticks);
-                case THRUST -> xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill.thrust(message.entityId, message.ticks != 0);
-                case ARM -> xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill.arm(message.entityId);
-                default -> xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill.end(message.entityId);
+                case START -> ClientBulletBill.start(message.entityId, message.ticks, message.tuning);
+                case BOOST -> ClientBulletBill.boost(message.entityId, message.ticks);
+                case THRUST -> ClientBulletBill.thrust(message.entityId, message.ticks != 0);
+                case ARM -> ClientBulletBill.arm(message.entityId);
+                default -> ClientBulletBill.end(message.entityId);
             }
         });
     }

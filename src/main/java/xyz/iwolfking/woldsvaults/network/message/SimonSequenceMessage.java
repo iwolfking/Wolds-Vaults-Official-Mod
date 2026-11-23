@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.simon.ClientSimon;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
@@ -17,6 +18,6 @@ public record SimonSequenceMessage(int[] crystalIds) {
     }
 
     public static void handle(SimonSequenceMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.simon.ClientSimon.waitFor(message.crystalIds));
+        ModNetwork.onClient(context, () -> () -> ClientSimon.waitFor(message.crystalIds));
     }
 }

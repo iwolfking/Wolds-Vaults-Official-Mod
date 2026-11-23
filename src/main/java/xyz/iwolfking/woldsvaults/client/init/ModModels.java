@@ -25,6 +25,7 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.wrapper.BackpackWrapper;
 import net.p3pp3rf1y.sophisticatedcore.util.WorldHelper;
 import xyz.iwolfking.woldsvaults.client.bullet.BulletBillModel;
 import xyz.iwolfking.woldsvaults.client.simon.FacetedModel;
+import xyz.iwolfking.woldsvaults.client.simon.SimonCrystalRenderer;
 import xyz.iwolfking.woldsvaults.blocks.models.MonolithControllerModel;
 import xyz.iwolfking.woldsvaults.entities.astral.client.model.LoginarModel;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
@@ -37,6 +38,7 @@ public class ModModels {
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
         ModelLoaderRegistry.registerLoader(FacetedModel.LOADER_ID, new FacetedModel.Loader());
+        SimonCrystalRenderer.registerModels();
     }
 
     public static void setupRenderLayers() {

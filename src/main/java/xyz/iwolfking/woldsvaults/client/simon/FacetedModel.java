@@ -78,7 +78,6 @@ public final class FacetedModel implements ISimpleModelGeometry<FacetedModel> {
             Matrix4f matrix = rotation.getMatrix();
             Vector3f[] placed = new Vector3f[CORNERS];
             for (int i = 0; i < CORNERS; i++) {
-                // blockstate rotations turn about the middle of the block, as they do for elements
                 Vector4f corner = new Vector4f(this.corners[i * 3] / 16.0F - 0.5F, this.corners[i * 3 + 1] / 16.0F - 0.5F, this.corners[i * 3 + 2] / 16.0F - 0.5F, 1.0F);
                 corner.transform(matrix);
                 placed[i] = new Vector3f(corner.x() + 0.5F, corner.y() + 0.5F, corner.z() + 0.5F);
@@ -101,7 +100,6 @@ public final class FacetedModel implements ISimpleModelGeometry<FacetedModel> {
                 vertices[at + 1] = Float.floatToRawIntBits(placed[i].y());
                 vertices[at + 2] = Float.floatToRawIntBits(placed[i].z());
                 vertices[at + 3] = color;
-                // drawn in a hair from the corner, as elements are, so a neighbouring texel can't bleed in
                 vertices[at + 4] = Float.floatToRawIntBits(sprite.getU(this.uv[i * 2] * 0.999D + this.uv[opposite * 2] * 0.001D));
                 vertices[at + 5] = Float.floatToRawIntBits(sprite.getV(this.uv[i * 2 + 1] * 0.999D + this.uv[opposite * 2 + 1] * 0.001D));
                 vertices[at + 7] = normal;

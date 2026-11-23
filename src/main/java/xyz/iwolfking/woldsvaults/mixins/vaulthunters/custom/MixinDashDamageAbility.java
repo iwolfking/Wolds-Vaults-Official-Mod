@@ -27,14 +27,12 @@ public abstract class MixinDashDamageAbility {
         context.getSource().as(ServerPlayer.class).ifPresent(BulletBill::bulletDash);
     }
 
-    // how far the dash reaches each tick (inside the lambda Vault Hunters runs on the caster)
     @WrapOperation(method = "lambda$onTick$5", at = @At(value = "INVOKE", target = "Liskallia/vault/util/calc/AreaOfEffectHelper;adjustAreaOfEffect(Lnet/minecraft/world/entity/LivingEntity;Liskallia/vault/skill/base/Skill;F)F"))
     private float woldsvaults$giantBillReach(LivingEntity entity, Skill skill, float range, Operation<Float> original) {
         float reach = original.call(entity, skill, range);
         return entity instanceof ServerPlayer player ? reach * BulletBill.reachMultiplier(player) : reach;
     }
 
-    // each hit the dash lands (the lambda Vault Hunters runs once per enemy in reach)
     @ModifyArg(method = "lambda$onTick$4", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true), index = 1)
     private static float woldsvaults$bulletBillDamage(DamageSource source, float amount) {
         return source.getEntity() instanceof ServerPlayer player ? amount * BulletBill.dashDamageMultiplier(player) : amount;

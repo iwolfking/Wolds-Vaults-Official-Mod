@@ -13,7 +13,6 @@ import xyz.iwolfking.woldsvaults.loadingzone.PocketTerritory;
 
 @Mixin(value = GridGenerator.class, remap = false)
 public class MixinGridGenerator {
-    // infinite layouts reach everywhere, so pocket territory skips the layout and only gets the pockets built there
     @Inject(method = "generate(Liskallia/vault/core/vault/Vault;Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/level/ChunkPos;)V", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$generatePockets(Vault vault, ServerLevelAccessor world, ChunkPos chunkPos, CallbackInfo ci) {
         if (PocketTerritory.inTerritory(chunkPos.getMinBlockX())) {

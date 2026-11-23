@@ -21,12 +21,12 @@ final class FacetedModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderB
         return new FacetedModelBuilder<>(parent, existingFileHelper);
     }
 
-    // Forge won't let one builder have both elements and a custom loader, so they're built elsewhere and handed over as JSON
+    /** Sets the model's elements from prebuilt JSON. */
     void elements(JsonElement elements) {
         this.elements = elements;
     }
 
-    // corners are x, y, z in model pixels and wind anticlockwise seen from the side the face shows on
+    /** Adds a face. Corners are x, y, z in model pixels and wind anticlockwise seen from the side the face shows on. */
     void facet(float[] corners, float[] uv, String texture) {
         JsonObject facet = new JsonObject();
         facet.add("corners", rounded(corners));

@@ -2,6 +2,7 @@ package xyz.iwolfking.woldsvaults.network.message;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import xyz.iwolfking.woldsvaults.client.simon.ClientSimon;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 
 import java.util.function.Supplier;
@@ -23,6 +24,6 @@ public record SimonSetMessage(boolean canShoot, int cooldownTicks, boolean canRe
     }
 
     public static void handle(SimonSetMessage message, Supplier<NetworkEvent.Context> context) {
-        ModNetwork.onClient(context, () -> () -> xyz.iwolfking.woldsvaults.client.simon.ClientSimon.set(message.canShoot, message.cooldownTicks, message.canResonate, message.clickRange));
+        ModNetwork.onClient(context, () -> () -> ClientSimon.set(message.canShoot, message.cooldownTicks, message.canResonate, message.clickRange));
     }
 }

@@ -470,7 +470,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
             Direction facing = state.getValue(DecorativeCrystalBlock.FACING);
             String look = state.getValue(DecorativeCrystalBlock.PRISMATIC) ? "prismatic" : state.getValue(DecorativeCrystalBlock.COLOR).id;
             String model = DecorativeCrystalModels.name(look, state.getValue(DecorativeCrystalBlock.SHAPE), state.getValue(DecorativeCrystalBlock.STAGE), state.getValue(DecorativeCrystalBlock.VARIANT));
-            // the models grow up from the bottom of the block, so these tip them over to grow out of the side it faces
             int x = facing == Direction.UP ? 0 : facing == Direction.DOWN ? 180 : 90;
             int y = facing == Direction.EAST ? 90 : facing == Direction.SOUTH ? 180 : facing == Direction.WEST ? 270 : 0;
             return ConfiguredModel.builder().modelFile(models().getExistingFile(modLoc(model))).rotationX(x).rotationY(y).build();
@@ -484,7 +483,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .end();
     }
 
-    // the markers draw nothing, so their models only carry a particle texture for breaking them
     private void generateLoadingZoneMarkers() {
         for (Block block : new Block[] {ModBlocks.LOADING_ZONE_POST, ModBlocks.LOADING_ZONE_ARRIVAL}) {
             String name = block.getRegistryName().getPath();

@@ -4,18 +4,15 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.player.Input;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 
-// The client half of a loading zone: a fade to black and back with the HUD and hand hidden and movement held still.
-// It runs on its own clock from the server's message, so it always ends even if the server never answers again.
-@Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+/**
+ * The client half of a loading zone: a fade to black and back with the HUD and hand hidden and movement held still,
+ * timed on its own clock from the server's message.
+ */
 public final class ClientLoadingZone {
     private static final long MILLIS_PER_TICK = 50L;
 
@@ -56,8 +53,7 @@ public final class ClientLoadingZone {
         return 1.0F - (elapsed - fadeOut - hold) / (float) fadeIn;
     }
 
-    // cancelling the whole overlay hides every HUD layer, the vault's included, while the black is drawn over the world
-    @SubscribeEvent
+    /** Draws the black over the world and cancels the whole overlay, hiding every HUD layer. */
     public static void onOverlay(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || !active()) {
             return;
@@ -67,14 +63,12 @@ public final class ClientLoadingZone {
         event.setCanceled(true);
     }
 
-    @SubscribeEvent
     public static void onRenderHand(RenderHandEvent event) {
         if (active()) {
             event.setCanceled(true);
         }
     }
 
-    @SubscribeEvent
     public static void onMovementInput(MovementInputUpdateEvent event) {
         if (active()) {
             Input input = event.getInput();
@@ -89,7 +83,6 @@ public final class ClientLoadingZone {
         }
     }
 
-    @SubscribeEvent
     public static void onLoggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
         start = -1L;
     }

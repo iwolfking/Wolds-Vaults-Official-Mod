@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Mixin(value = DiscoveredRoomStat.class, remap = false)
 public class MixinDiscoveredRoomStat {
-    // the layout still has rooms on paper out in pocket territory; standing there mustn't discover them
     @Inject(method = "onTick", at = @At("HEAD"), cancellable = true)
     private void woldsvaults$skipPockets(ServerPlayer player, Vault vault, CallbackInfoReturnable<Map.Entry<BlockPos, ResourceLocation>> cir) {
         if (PocketTerritory.inPocket(player)) {

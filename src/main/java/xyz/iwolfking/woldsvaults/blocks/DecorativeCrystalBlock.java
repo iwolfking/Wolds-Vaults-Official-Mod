@@ -32,6 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import xyz.iwolfking.woldsvaults.api.util.ColorUtil;
+import xyz.iwolfking.woldsvaults.client.simon.DecorativeCrystalScreen;
 import xyz.iwolfking.woldsvaults.entities.simon.SimonCrystalEntity;
 
 import java.util.Locale;
@@ -61,7 +62,6 @@ public class DecorativeCrystalBlock extends Block {
         }
     }
 
-    // how many layouts each shape has to reroll through
     public static final int VARIANTS = 6;
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
@@ -71,9 +71,7 @@ public class DecorativeCrystalBlock extends Block {
     public static final EnumProperty<SimonCrystalEntity.Color> COLOR = EnumProperty.create("color", SimonCrystalEntity.Color.class);
     public static final BooleanProperty PRISMATIC = BooleanProperty.create("prismatic");
 
-    // how far a player can be from one to change it, squared
     public static final double REACH_SQR = 64.0;
-    // each stage's selection box, in pixels: width across the face and length out from it
     private static final double[][] SIZES = {{5.6, 4.8}, {8.8, 9.6}, {14.4, 19.2}, {20.8, 32.0}};
     private static final VoxelShape[][] SHAPES = new VoxelShape[SIZES.length][Direction.values().length];
 
@@ -110,7 +108,6 @@ public class DecorativeCrystalBlock extends Block {
         builder.add(FACING, SHAPE, VARIANT, STAGE, COLOR, PRISMATIC);
     }
 
-    // the variant comes from the position so the client's guess and the server's answer always agree
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getClickedFace()).setValue(VARIANT, Math.floorMod(Mth.getSeed(context.getClickedPos()), VARIANTS));
@@ -127,12 +124,12 @@ public class DecorativeCrystalBlock extends Block {
             return InteractionResult.PASS;
         }
         if (level.isClientSide) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> xyz.iwolfking.woldsvaults.client.simon.DecorativeCrystalScreen.open(pos, state));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> DecorativeCrystalScreen.open(pos, state));
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    // A player's choices from the screen, checked here because the packet can claim anything.
+    /** Validates and applies a player's choices from the crystal screen. */
     public static void configure(ServerPlayer player, BlockPos pos, int shape, int variant, int stage, int color, boolean prismatic) {
         Level level = player.level;
         if (player.distanceToSqr(Vec3.atCenterOf(pos)) > REACH_SQR || !player.mayBuild() || !level.mayInteract(player, pos)) {
@@ -148,7 +145,6 @@ public class DecorativeCrystalBlock extends Block {
         }
     }
 
-    // a Prismatic crystal and a Geode shed sparkles round themselves, as the real ones do
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
         boolean prismatic = state.getValue(PRISMATIC);

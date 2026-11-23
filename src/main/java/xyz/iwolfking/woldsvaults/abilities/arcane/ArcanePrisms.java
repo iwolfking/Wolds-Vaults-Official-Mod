@@ -127,8 +127,10 @@ public final class ArcanePrisms {
     private ArcanePrisms() {
     }
 
-    // While a beam is hurting something, how much of a pulse that hit is worth (beams hit every BEAM_TICKS ticks); 1 for
-    // any other hit. Simon's Set grows its crystals by it, so a beam's frequent hits don't outgrow a pulse's.
+    /**
+     * Returns how much of a pulse hit the current hit is worth: while a beam is hurting something, {@code BEAM_TICKS}
+     * over the beam Prism's interval, capped at 1; otherwise 1.
+     */
     public static float hitShare() {
         return beamTarget == null || beamPrism == null ? 1.0F : Math.min(1.0F, (float) BEAM_TICKS / beamPrism.interval());
     }

@@ -30,11 +30,10 @@ import static xyz.iwolfking.woldsvaults.client.particle.PrismParticles.spread;
  * vanilla smoke and dust.
  */
 public final class SimonFx {
-    // half the width of each stage across its base, in blocks
     private static final float[] BASE_HALF = {0.15F, 0.25F, 0.4F, 0.55F};
     private static final Random RANDOM = new Random();
 
-    // the colour at a point along a blast's palette, lifted towards white by whiten
+    /** The colour at a point along a blast's palette, lifted towards white by whiten. */
     private interface Tone {
         Vector3f at(float position, float whiten);
     }
@@ -55,10 +54,8 @@ public final class SimonFx {
             case EMERGE -> emerge(level, at, face, Mth.clamp(stage, 0, 3), color);
             case SHATTER -> burst(at, Mth.clamp(stage, 0, 3), color, 1.0F, size);
             case PULSE -> burst(at, Mth.clamp(stage, 0, 3), color, 0.45F, size);
-            // the stage carries the Prismatic Geodes in the chain, the colour the chain's colours blended
             case FINALE -> explosion(at, radius, rgb, power, power, SimonFx::hue);
             case BLAST -> {
-                // a Bullet Bill's detonation: the finale's blast in fire colours, with smoke rolling out of it
                 explosion(at, radius, rgb, power, 0, SimonFx::fire);
                 smoke(level, at, radius);
             }
@@ -66,18 +63,21 @@ public final class SimonFx {
         }
     }
 
-    // The blast's particles and what it does to those near it. Power adds to the blast and its jolt; rainbow is the
-    // count of Prismatic Geodes that turn its flash into a rainbow.
+    /**
+     * Spawns the blast's particles and applies its flash and jolt to players near it. Power adds to the blast and its
+     * jolt; rainbow is the count of Prismatic Geodes that turn its flash into a rainbow.
+     */
     private static void explosion(Vec3 at, float radius, int color, int power, int rainbow, Tone tone) {
         finale(at, radius, power, tone);
         BlastFeedback.flash(at, radius, color, rainbow);
         BlastFeedback.shake(at, radius, power);
-        // the ground heaves as the shockwave passes, as under Vault Hunters' Earthquake: surface blocks lift
-        // a little and drop back in a ring racing out to the blast's edge
         EarthquakeRippleRenderer.addRipple(at, radius, 0, false);
     }
 
-    // debris of the block it grows from kicked up round the base, little shards popping out and sparks rising with it
+    /**
+     * Kicks up debris of the block a crystal grows from round its base, with little shards popping out and sparks
+     * rising.
+     */
     private static void emerge(ClientLevel level, Vec3 base, Direction face, int stage, Vector3f color) {
         Vec3 up = new Vec3(face.getStepX(), face.getStepY(), face.getStepZ());
         Vec3 across = face.getAxis() == Direction.Axis.Y ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
@@ -108,7 +108,10 @@ public final class SimonFx {
         }
     }
 
-    // a grenade of crystal: a bloom of light, a shockwave ring out to the blast's edge, shards flung on arcs and sparks
+    /**
+     * A grenade of crystal: a bloom of light, a shockwave ring out to the blast's edge, shards flung on arcs and
+     * sparks.
+     */
     private static void burst(Vec3 at, int stage, Vector3f color, float scale, float radius) {
         Vector3f light = ColorUtil.lighten(color, 0.3F);
         Vector3f glow = ColorUtil.lighten(color, 0.5F);
@@ -135,8 +138,10 @@ public final class SimonFx {
         }
     }
 
-    // A Geode gaining a facet: a bright flare in its colour, a ring snapping out round it at the facet's height and
-    // sparks spiralling in, one more ring for each facet it has.
+    /**
+     * A Geode gaining a facet: a bright flare in its colour, a ring snapping out round it at the facet's height and
+     * sparks spiralling in, one more ring for each facet it has.
+     */
     private static void facet(Vec3 c, Vector3f color, int facets, float width) {
         Vector3f glow = ColorUtil.lighten(color, 0.4F);
         spawnSized(ModParticles.PRISM_FLARE.get(), c, 1.6 + facets * 0.3, glow);
@@ -146,15 +151,16 @@ public final class SimonFx {
         for (int i = 0; i < 24; i++) {
             double angle = i * Math.PI * 2.0 / 24;
             Vec3 at = c.add(Math.cos(angle) * 1.6, spread(0.6), Math.sin(angle) * 1.6);
-            // in towards the crystal and round it
             Vec3 in = c.subtract(at).scale(0.08).add(-Math.sin(angle) * 0.06, 0.02, Math.cos(angle) * 0.06);
             spawn(ModParticles.PRISM_SPARK.get(), at, in, i % 3 == 0 ? GlowShapes.WHITE : glow);
         }
     }
 
-    // The finale: blooms of light, rainbow shockwave rings racing out to the blast's edge, a pillar of sparks, a
-    // rainbow storm of crystal shards flung high and wide, and crackling electricity. Each Prismatic Geode in the chain
-    // adds rings, flares and sparks (the radius it is given has already doubled for each).
+    /**
+     * The finale: blooms of light, rainbow shockwave rings racing out to the blast's edge, a pillar of sparks, a
+     * rainbow storm of crystal shards flung high and wide, and crackling electricity. Each Prismatic Geode in the chain
+     * adds rings, flares and sparks.
+     */
     private static void finale(Vec3 c, float radius, int prismaticGeodes, Tone tone) {
         int extra = Math.min(prismaticGeodes, 3);
         spawnSized(ModParticles.PRISM_FLARE.get(), c, 4.5 + extra * 2.5, GlowShapes.WHITE);
@@ -196,7 +202,7 @@ public final class SimonFx {
         }
     }
 
-    // black smoke, fire and a few bursts rolling out from the middle of a detonation
+    /** Black smoke, fire and a few bursts rolling out from the middle of a detonation. */
     private static void smoke(ClientLevel level, Vec3 c, float radius) {
         for (int i = 0; i < 40 + (int) (radius * 4.0F); i++) {
             Vec3 dir = randomDirection(0.8, 0.2);
@@ -209,7 +215,7 @@ public final class SimonFx {
         }
     }
 
-    // yellow through orange to deep red as the position runs from 0 to 1
+    /** Yellow through orange to deep red as the position runs from 0 to 1. */
     private static Vector3f fire(float position, float whiten) {
         float t = position - (float) Math.floor(position);
         return ColorUtil.lighten(new Vector3f(1.0F, 0.85F - 0.7F * t, 0.3F - 0.25F * t), whiten);

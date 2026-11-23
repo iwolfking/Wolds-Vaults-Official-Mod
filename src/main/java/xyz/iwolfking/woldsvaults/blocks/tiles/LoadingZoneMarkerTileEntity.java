@@ -12,8 +12,6 @@ import xyz.iwolfking.woldsvaults.loadingzone.LoadingZoneShape;
 import xyz.iwolfking.woldsvaults.loadingzone.LoadingZones;
 import xyz.iwolfking.woldsvaults.loadingzone.Pockets;
 
-// Holds a loading zone post's or arrival marker's link name, and for posts the zone's height, the post's corner number and
-// where the zone leads (a pocket's structure id when it leads to one).
 public class LoadingZoneMarkerTileEntity extends BlockEntity {
     public static final int DEFAULT_HEIGHT = 3;
 

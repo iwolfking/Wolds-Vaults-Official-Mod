@@ -7,8 +7,6 @@ import xyz.iwolfking.woldsvaults.modifiers.gear.bullet.BulletBill;
 
 import java.util.function.Supplier;
 
-// A Bullet Bill control from the client, carried out by the server if the set allows it: a double tap of jump
-// transforms, the rider's right click arms the detonation, and pressing or letting go of jump fires or cuts the jets.
 public record BulletBillActionMessage(int action) {
     public enum Action { TRANSFORM, ARM, THRUST_ON, THRUST_OFF }
 

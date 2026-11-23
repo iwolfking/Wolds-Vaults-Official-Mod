@@ -8,17 +8,13 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/*
- * Shadered's structure mirrors only read their tiles from <world>/data/shadered_structures/<sha256>.nbt, which a
- * player normally fills by uploading a file. Rooms that ship mirrors (the Inverted Pyramid's desert) keep their tiles
- * at data/<namespace>/shadered_structures/ instead, and every server start copies the missing ones into the world.
- */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class MirrorStructureFiles {
     private static final String FOLDER = "shadered_structures";
@@ -39,7 +35,7 @@ public final class MirrorStructureFiles {
                 Files.createDirectories(folder);
                 Files.copy(stream, target);
             } catch (IOException e) {
-                WoldsVaults.LOGGER.error("Could not copy the mirror structure {} into the world", id, e);
+                WoldLogger.error("Could not copy the mirror structure {} into the world", id, e);
             }
         }
     }

@@ -20,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
  * be loaded with it present, which BulletBill checks before anyone can transform.
  */
 final class BillJets implements ICommonArmorHandler {
-    // how many ticks the boots take to spool up to full thrust
     private static final int SPOOL_TICKS = 20;
 
     private final Player player;
@@ -33,31 +32,27 @@ final class BillJets implements ICommonArmorHandler {
         this.upgrades = tuning.upgrades();
         this.boots.smartHover = tuning.smartHover();
         this.boots.flightStabilizers = tuning.stabilizers();
-        // a Bill that cruises is out of the cannon at speed; how far open its jets are after that is BulletBill's to say
         if (tuning.cruise() > 0.0F) {
             spoolUp();
         }
-        // switched on, and out of builder mode, which a real pair worn earlier could have left set
         JetBootsStateTracker.getTracker(player).setJetBootsState(player, true, false, false);
     }
 
-    // straight to full thrust, skipping the boots' spool-up
+    /** Sets the boots straight to full thrust, skipping their spool-up. */
     void spoolUp() {
         for (int i = 0; i < SPOOL_TICKS; i++) {
             this.boots.tickActive();
         }
     }
 
-    // One tick of the boots, firing or not, at this power setting.
+    /** Runs one tick of the boots, firing or not, at this power setting. */
     void tick(boolean firing, float power) {
         JetBootsHandler handler = CommonUpgradeHandlers.jetBootsHandler;
-        // checked against PneumaticCraft's own state too, so real jet boots worn by a Bill can't switch these off under it
         if (firing != this.firing || firing != handler.getJetBootsSyncedState(this).isActive()) {
             this.firing = firing;
             handler.setJetBootsActive(this, firing);
         }
         this.boots.jetBootsPower = power;
-        // the boots start their own jet sound when this was zero; a Bill has its own, which reaches a far-off camera
         this.boots.setPrevJetBootsAirUsage(1);
         handler.tick(this, true);
     }
@@ -84,7 +79,6 @@ final class BillJets implements ICommonArmorHandler {
         return (T) this.boots;
     }
 
-    // the rest is the air these boots don't have to worry about: the form's timer is their limit instead
     @Override
     public boolean hasMinPressure(EquipmentSlot slot) {
         return true;
