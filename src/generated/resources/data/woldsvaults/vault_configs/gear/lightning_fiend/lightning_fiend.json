@@ -3,7 +3,7 @@
   "formDurationTicks": 200,
   "dashDistance": 7.0,
   "dashWidth": 1.5,
-  "dashCooldownTicks": 0,
+  "dashCooldownTicks": 10,
   "dashTravelTicks": 2,
   "arcLashRange": 12.0,
   "arcLashDamage": 0.5,

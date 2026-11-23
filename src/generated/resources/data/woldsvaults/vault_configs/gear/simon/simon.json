@@ -9,7 +9,7 @@
   "leashRange": 48.0,
   "budRange": 6.0,
   "budSpacing": 3.0,
-  "resonateMinCrystals": 3,
+  "resonateMinCrystals": 4,
   "showTicks": 8,
   "showGapTicks": 4,
   "inputBaseTicks": 60,
@@ -24,7 +24,8 @@
   "burstRadius": 3.0,
   "burstRadiusPerValue": 0.75,
   "failDamage": 0.5,
-  "streakDamage": 0.1,
+  "maxSequenceLength": 10,
+  "lengthDamage": 0.15,
   "facetDamage": 0.25,
   "facetSlowTicks": 40,
   "shardFieldTicks": 80,
@@ -33,10 +34,10 @@
   "finaleRadius": 4.0,
   "finaleRadiusPerValue": 0.75,
   "finaleMaxRadius": 14.0,
+  "finaleMaxPrismaticMultiplier": 8.0,
   "brittleResistance": 0.02,
   "reflectRadius": 1.25,
   "reflectRange": 24.0,
   "arcaneReflectDamage": 1.0,
-  "prismReach": 1.5,
-  "prismaticTestRound": 0
+  "prismReach": 1.5
 }

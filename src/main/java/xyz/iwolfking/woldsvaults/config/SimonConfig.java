@@ -19,12 +19,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * grant = most crystals at once, planted, budded and incoming seeds together): a Lucky Hit from the wearer's own swing
  * near any of their crystals (within growRadius) makes their planted crystal throw a new seed on to open ground it can
  * see, up to budRange from it and at least budSpacing from every other crystal and incoming seed. Resonate
- * (simon_sequence grant = burst damage per detonation value, times ability power): sneak right click with
- * resonateMinCrystals Shard-or-bigger crystals lights them one by one, biggest first, each for showTicks with
+ * (simon_sequence grant = burst damage per detonation value, times ability power): sneak right click with at least
+ * resonateMinCrystals Shard-or-bigger crystals, and no fewer than the simon_budding grant, lights them one by one, biggest first, each for showTicks with
  * showGapTicks between; then the wearer has inputBaseTicks plus inputTicksPerCrystal per crystal to aim and left click
  * them (within clickRange) in that order. The sequence shows every crystal once, then repeats, until it is one step
- * longer than the last sequence got right, for as long as the streak lasts; each sequence in the streak adds
- * streakDamage to every explosion. Each correct click bursts that crystal on every enemy within burstRadius plus
+ * longer than the last sequence got right, up to maxSequenceLength, for as long as the streak lasts; every step past
+ * resonateMinCrystals adds lengthDamage to every explosion. The streak ends on a wrong click, running out of time, or a
+ * change of dimension. Each correct click bursts that crystal on every enemy within burstRadius plus
  * burstRadiusPerValue per detonation value (detonationValues by stage), shattering it on its last turn; a wrong click
  * or running out of time bursts the rest for failDamage of their damage and ends the streak. Facets (simon_facets
  * grant = most facets): a Lucky Hit from a swing near a Geode gives it a facet: 1 = facetDamage more burst damage, 2 =
@@ -33,14 +34,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * for the next crystal in a sequence); simon_fracture = each correct click rolls the wearer's Lucky Hit chance to
  * burst twice; simon_finale = a finished chain collapses into one blast at its middle for ability power times this
  * times the chain's total detonation value, on a radius of finaleRadius plus finaleRadiusPerValue per value, at most
- * finaleMaxRadius. Arcane beams (Arcane, Arcane Rail and Arcane: Prism) that enter a crystal (a column as wide as
+ * finaleMaxRadius; each Prismatic Geode in the chain doubles the blast's damage, at most finaleMaxPrismaticMultiplier
+ * times in all. Arcane beams (Arcane, Arcane Rail and Arcane: Prism) that enter a crystal (a column as wide as
  * reflectRadius for a Geode, less for smaller stages) bounce from its middle to the nearest crystal within
  * reflectRange that they haven't visited, then on to the nearest enemy, dealing arcaneReflectDamage of the beam's
  * damage; where the beam hits the crystal nudges the bounce, landing that far off centre on the next crystal's face
  * (or the enemy's body). Other abilities don't interact with crystals. A wearer's Prism beams reach prismReach times
- * as far. prismaticTestRound is a testing aid (0 = off): in that round (1 = the first sequence, 2 = the one after a
- * sequence got right, and so on), the wearer's first budded seed is Prismatic whatever the chance, unless one of their
- * crystals or seeds already is.
+ * as far.
  */
 public class SimonConfig extends Config implements WoldsTable {
     private static final AtomicBoolean WARNED = new AtomicBoolean();
@@ -65,7 +65,8 @@ public class SimonConfig extends Config implements WoldsTable {
     @Expose public float burstRadius;
     @Expose public float burstRadiusPerValue;
     @Expose public float failDamage;
-    @Expose public float streakDamage;
+    @Expose public int maxSequenceLength;
+    @Expose public float lengthDamage;
     @Expose public float facetDamage;
     @Expose public int facetSlowTicks;
     @Expose public int shardFieldTicks;
@@ -74,12 +75,12 @@ public class SimonConfig extends Config implements WoldsTable {
     @Expose public float finaleRadius;
     @Expose public float finaleRadiusPerValue;
     @Expose public float finaleMaxRadius;
+    @Expose public float finaleMaxPrismaticMultiplier;
     @Expose public float brittleResistance;
     @Expose public float reflectRadius;
     @Expose public float reflectRange;
     @Expose public float arcaneReflectDamage;
     @Expose public float prismReach;
-    @Expose public int prismaticTestRound;
 
     /** The installed table, or null (logged once) until it is installed; callers treat null as the mechanic being off. */
     @Nullable
@@ -105,6 +106,12 @@ public class SimonConfig extends Config implements WoldsTable {
     public String validate() {
         if (this.plantCooldownTicks <= 0 || this.detonationValues == null || this.detonationValues.length < 4) {
             return "the plant cooldown is not positive or the detonation values are missing a stage";
+        }
+        if (this.resonateMinCrystals < 1 || this.maxSequenceLength < this.resonateMinCrystals) {
+            return "resonateMinCrystals is below 1 or maxSequenceLength is shorter than it";
+        }
+        if (this.finaleMaxPrismaticMultiplier < 1.0F) {
+            return "finaleMaxPrismaticMultiplier is below 1";
         }
         return null;
     }

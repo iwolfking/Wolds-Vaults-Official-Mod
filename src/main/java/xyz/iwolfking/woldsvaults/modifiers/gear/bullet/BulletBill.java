@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The Bullet Bill set: a helmet and leggings. Double tapping jump turns the wearer into a Bullet Bill for as long as
@@ -73,27 +74,22 @@ import java.util.UUID;
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class BulletBill {
-    // how long Bullet Dash hits for after a cast (Vault Hunters' DashDamageAbility)
     private static final int DASH_HIT_TICKS = 20;
 
-    // the boots' thrust in blocks a tick per upgrade, for working out the power setting that gives a cruising speed
     private static final float THRUST_PER_UPGRADE = 0.3F;
-    // how long the jets take to open up from a cruise to full thrust, and to fall back again
     private static final int RAMP_TICKS = 20;
     private static final String JETS_MOD = "pneumaticcraft";
     private static final int BLAST_COLOR = 0xFF6A1E;
-    // how far the nose reaches ahead of the rider, in blocks at the Bill's usual size
     private static final double NOSE_REACH = 0.93;
     private static final ResourceLocation SET = WoldsVaults.id("bullet_bill");
 
-    // which Bill the wearer's helmet makes them
     public static final int VARIANT_BULLET = 0;
     public static final int VARIANT_BANZAI = 1;
     public static final int VARIANT_KING = 2;
     private static final ResourceLocation BANZAI_HELMET = WoldsVaults.id("banzai_bill_helmet");
     private static final ResourceLocation KING_HELMET = WoldsVaults.id("king_bill_helmet");
 
-    private static final Map<UUID, Form> FORMS = new HashMap<>();
+    private static final Map<UUID, Form> FORMS = new ConcurrentHashMap<>();
     private static final Map<UUID, Long> READY = new HashMap<>();
     private static final Map<UUID, BoostedDash> BOOSTED_DASHES = new HashMap<>();
     private static final Set<UUID> SAFE_LANDINGS = new HashSet<>();
@@ -107,7 +103,6 @@ public final class BulletBill {
         final Tuning tuning;
         final BulletBillConfig config;
         final Flight flight;
-        // what the set's top tier gives this Bill: its Bullet Dash's extra damage and its detonation's share (0 for none)
         final float dashGrant;
         final float detonationGrant;
         boolean armed;
@@ -122,13 +117,15 @@ public final class BulletBill {
         }
     }
 
-    // a Bullet Dash cast as a Bill: its hits until endTick deal this much more
+    /** A Bullet Dash cast as a Bill: its hits until endTick deal this much more */
     private record BoostedDash(long endTick, float multiplier) {
     }
 
-    // The flight as both sides keep it: whether jump is firing the jets, the boost left, how many ticks the jets have opened
-    // up by, the boots doing the flying (once this side has flown it), and the speed the Bill was last sent at, which is
-    // what it's doing when it hits something.
+    /**
+     * The flight as both sides keep it: whether jump is firing the jets, the boost left, how many ticks the jets have
+     * opened up by, the boots doing the flying (once this side has flown it), and the speed the Bill was last sent at,
+     * which is what it's doing when it hits something.
+     */
     public static final class Flight {
         public boolean thrusting;
         public int boostLeft;
@@ -137,14 +134,16 @@ public final class BulletBill {
         BillJets jets;
         double lastSpeed;
 
-        // fired out of the cannon at its cruising speed
+        /** Fired out of the cannon at its cruising speed */
         public Flight(Tuning tuning) {
             this.lastSpeed = tuning.cruise();
         }
     }
 
-    // What a client needs to fly and draw a Bill the way the server does, whether right click arms it, and which Bill it
-    // is and how many times its usual size.
+    /**
+     * What a client needs to fly and draw a Bill the way the server does, whether right click arms it, and which Bill
+     * it is and how many times its usual size.
+     */
     public record Tuning(int upgrades, float power, boolean stabilizers, boolean smartHover, int boostTicks, float boostSpeed, int spinTicks, boolean detonation,
                          int variant, float scale, float cruise) {
         static Tuning of(BulletBillConfig config, boolean detonation, int variant) {
@@ -180,17 +179,14 @@ public final class BulletBill {
         return AttributeSnapshotHelper.getInstance().getSnapshot(player);
     }
 
-    // ---------- the flight, on both sides ----------
-
-    // One tick of the jets, at the end of the player's tick: the boots do the flying, at the power set for this moment.
+    /**
+     * One tick of the jets, at the end of the player's tick: the boots do the flying, at the power set for this moment.
+     */
     public static void fly(Player player, Flight flight, Tuning tuning) {
-        // creative flight stays off, and tapping jump for thrust can't start it
         player.getAbilities().flying = false;
         ((PlayerJumpAccessor) player).woldsvaults$setJumpTriggerTime(0);
         boolean firing = flight.thrusting || flight.boostLeft > 0;
         boolean running = firing || tuning.cruise() > 0.0F;
-        // the boots pin a firing player to the ground, leaving the jump that fires them to lift them off it; a Bill's jets
-        // run without jump, so looking up has to do that instead
         if (running && player.isOnGround() && player.getLookAngle().y > 0.0) {
             player.setOnGround(false);
         }
@@ -203,8 +199,10 @@ public final class BulletBill {
         flight.lastSpeed = player.getDeltaMovement().length();
     }
 
-    // The boots' power setting right now. With a cruise, the jets open from that up to full as they spool; with none, the
-    // boots' own spool-up does the same from nothing. A Bullet Dash pushes them past full.
+    /**
+     * The boots' power setting right now. With a cruise, the jets open from that up to full as they spool; with none,
+     * the boots' own spool-up does the same from nothing. A Bullet Dash pushes them past full.
+     */
     private static float power(Flight flight, Tuning tuning) {
         float open = tuning.power();
         if (tuning.cruise() > 0.0F) {
@@ -214,7 +212,9 @@ public final class BulletBill {
         return open * boost(flight, tuning);
     }
 
-    // how much faster a Bullet Dash makes the Bill: the full boostSpeed, easing back to 1 over the boost's last third
+    /**
+     * How much faster a Bullet Dash makes the Bill: the full boostSpeed, easing back to 1 over the boost's last third
+     */
     private static float boost(Flight flight, Tuning tuning) {
         if (flight.boostLeft <= 0) {
             return 1.0F;
@@ -223,7 +223,7 @@ public final class BulletBill {
         return 1.0F + (tuning.boostSpeed() - 1.0F) * strength;
     }
 
-    // A Bullet Dash firing the jets: at full speed at once, with no ease-in, on either side.
+    /** A Bullet Dash firing the jets: at full speed at once, with no ease-in, on either side. */
     public static void startBoost(Player player, Flight flight, Tuning tuning, int ticks) {
         flight.boostLeft = ticks;
         flight.thrustTicks = RAMP_TICKS;
@@ -237,11 +237,11 @@ public final class BulletBill {
         return flight.jets;
     }
 
-    // ---------- the form, on the server ----------
-
-    // A double tap of jump: makes the player a Bill if the set allows it and the cooldown has run. A wearer still
-    // waiting is told how long is left. In creative the same double tap has just started vanilla flight, which the
-    // form replaces.
+    /**
+     * A double tap of jump: makes the player a Bill if the set allows it and the cooldown has run. A wearer still
+     * waiting is told how long is left. In creative the same double tap has just started vanilla flight, which the form
+     * replaces.
+     */
     public static void transform(ServerPlayer player) {
         if (FORMS.containsKey(player.getUUID())) {
             return;
@@ -271,11 +271,9 @@ public final class BulletBill {
         FORMS.put(player.getUUID(), form);
         SAFE_LANDINGS.remove(player.getUUID());
         player.fallDistance = 0.0F;
-        // lit before the rider's client hears of the form, so PneumaticCraft has told it the jets are running by then
         fly(player, form.flight, form.tuning);
         send(player, new BulletBillMessage(player.getId(), BulletBillMessage.START, ticks, form.tuning));
 
-        // fired out of a cannon
         ServerLevel level = player.getLevel();
         Vec3 at = player.position().add(0.0, 0.5, 0.0);
         Vec3 back = at.subtract(player.getLookAngle().scale(1.0));
@@ -285,7 +283,9 @@ public final class BulletBill {
         sound(level, at, form, SoundEvents.FIREWORK_ROCKET_LAUNCH, 1.0F, 0.6F);
     }
 
-    // The client's jump key: fires or cuts the jets, and tells whoever else can see the Bill (its rider already knows).
+    /**
+     * The client's jump key: fires or cuts the jets, and tells whoever else can see the Bill (its rider already knows).
+     */
     public static void thrust(ServerPlayer player, boolean on) {
         Form form = FORMS.get(player.getUUID());
         if (form == null || form.flight.thrusting == on) {
@@ -296,20 +296,20 @@ public final class BulletBill {
                 new BulletBillMessage(player.getId(), BulletBillMessage.THRUST, on ? 1 : 0, null));
     }
 
-    // how many pieces of the set the wearer has on
+    /** How many pieces of the set the wearer has on */
     private static int piecesCounted(ServerPlayer player) {
         Set<ResourceLocation> worn = GearSetHelper.wornPieces(snapshot(player)).get(SET);
         return worn == null ? 0 : worn.size();
     }
 
-    // Right click as a Bill: with the detonation grant, the next crash at speed blows it up.
+    /** Right click as a Bill: with the detonation grant, the next crash at speed blows it up. */
     public static void arm(ServerPlayer player) {
         Form form = FORMS.get(player.getUUID());
         if (form == null || form.armed) {
             return;
         }
         if (!form.tuning.detonation()) {
-            player.displayClientMessage(new TextComponent("Detonation needs all 6 Bullet Bill pieces"), true);
+            player.displayClientMessage(new TextComponent("Detonation needs both Bullet Bill pieces"), true);
             return;
         }
         form.armed = true;
@@ -318,8 +318,10 @@ public final class BulletBill {
         sound(player.getLevel(), player.position(), form, SoundEvents.TNT_PRIMED, 1.0F, 1.0F);
     }
 
-    // The crash: every enemy in the blast takes a Bullet Dash hit times the speed (blocks a tick) times the grant. A
-    // faster crash is also a wider blast with more going on in it.
+    /**
+     * The crash: every enemy in the blast takes a Bullet Dash hit times the speed (blocks a tick) times the grant. A
+     * faster crash is also a wider blast with more going on in it.
+     */
     private static void detonate(ServerPlayer player, Form form, double speed) {
         float damage = dashHit(player, form) * (float) speed * form.detonationGrant;
         float radius = Math.min(form.config.detonationMaxRadius, form.config.detonationRadius + form.config.detonationRadiusPerSpeed * (float) speed) * reachOf(form);
@@ -338,24 +340,26 @@ public final class BulletBill {
         end(player, false);
     }
 
-    // how many times further a Bill's dash and blast reach: its extra size, or the share of it the config allows
+    /** How many times further a Bill's dash and blast reach: its extra size, or the share of it the config allows */
     private static float reachOf(Form form) {
         return 1.0F + (form.tuning.scale() - 1.0F) * Math.max(0.0F, form.config.giantReachShare);
     }
 
-    // What Bullet Dash's reach from this player is multiplied by right now: 1 unless they're a giant Bill.
+    /** What Bullet Dash's reach from this player is multiplied by right now: 1 unless they're a giant Bill. */
     public static float reachMultiplier(ServerPlayer player) {
         Form form = FORMS.get(player.getUUID());
         return form == null ? 1.0F : reachOf(form);
     }
 
-    // which helmet the wearer has on decides which Bill they become
+    /** Which helmet the wearer has on decides which Bill they become */
     private static int variantOf(ServerPlayer player) {
         List<ResourceLocation> worn = snapshot(player).getAttributeValueList(iskallia.vault.init.ModGearAttributes.UNIQUE_ITEM_KEY);
         return worn.contains(KING_HELMET) ? VARIANT_KING : worn.contains(BANZAI_HELMET) ? VARIANT_BANZAI : VARIANT_BULLET;
     }
 
-    // A King Bill's heat: every so often, each enemy around it burns for its share of a Bullet Dash hit per second.
+    /**
+     * A King Bill's heat: every so often, each enemy around it burns for its share of a Bullet Dash hit per second.
+     */
     private static void radiate(ServerPlayer player, Form form) {
         int interval = Math.max(1, form.config.kingHeatIntervalTicks);
         if (player.tickCount % interval != 0) {
@@ -374,8 +378,11 @@ public final class BulletBill {
         }
     }
 
-    // What one Bullet Dash hit from this player does right now, as a Bill: attack damage times the learned tier's share
-    // (detonationNoDashPercent if they haven't learned Bullet Dash), with their damage multipliers and the set's dash bonus.
+    /**
+     * What one Bullet Dash hit from this player does right now, as a Bill: attack damage times the learned tier's share
+     * (detonationNoDashPercent if they haven't learned Bullet Dash), with their damage multipliers and the set's dash
+     * bonus.
+     */
     private static float dashHit(ServerPlayer player, Form form) {
         float percent = form.config.detonationNoDashPercent;
         for (SpecializedSkill skill : PlayerAbilitiesData.get(player.getLevel()).getAbilities(player).getAll(SpecializedSkill.class, candidate -> true)) {
@@ -390,7 +397,7 @@ public final class BulletBill {
         end(player, true);
     }
 
-    // Back to a player: the cooldown starts, the landing after is a safe one, and clients stop drawing the Bill.
+    /** Back to a player: the cooldown starts, the landing after is a safe one, and clients stop drawing the Bill. */
     private static void end(ServerPlayer player, boolean puff) {
         Form form = FORMS.remove(player.getUUID());
         if (form == null) {
@@ -414,15 +421,17 @@ public final class BulletBill {
         sound(level, at, form, SoundEvents.FIRE_EXTINGUISH, 0.7F, 1.3F);
     }
 
-    // Bullet Dash cast (Vault Hunters' DashDamageAbility): as a Bill with the dash grant, it fires the jets faster for a
-    // moment with a spin and a red pulse, and its hits for the next second deal the grant more
+    /**
+     * Bullet Dash cast (Vault Hunters' DashDamageAbility): as a Bill with the dash grant, it fires the jets faster for
+     * a moment with a spin and a red pulse, and its hits for the next second deal the grant more
+     */
     public static void bulletDash(ServerPlayer player) {
         Form form = FORMS.get(player.getUUID());
         if (form == null) {
             return;
         }
         if (form.dashGrant <= 0.0F) {
-            player.displayClientMessage(new TextComponent("Bullet Dash's spin needs all 6 Bullet Bill pieces"), true);
+            player.displayClientMessage(new TextComponent("Bullet Dash's spin needs both Bullet Bill pieces"), true);
             return;
         }
         startBoost(player, form.flight, form.tuning, form.tuning.boostTicks());
@@ -435,7 +444,7 @@ public final class BulletBill {
         sound(level, at, form, SoundEvents.BLAZE_SHOOT, 0.8F, 0.7F);
     }
 
-    // What a Bullet Dash hit from this player is multiplied by: the boost from a dash cast as a Bill, else 1.
+    /** What a Bullet Dash hit from this player is multiplied by: the boost from a dash cast as a Bill, else 1. */
     public static float dashDamageMultiplier(ServerPlayer player) {
         BoostedDash dash = BOOSTED_DASHES.get(player.getUUID());
         if (dash == null) {
@@ -448,7 +457,7 @@ public final class BulletBill {
         return dash.multiplier();
     }
 
-    // a sound at the Bill, heard further the bigger it is, since a giant's camera sits well back from it
+    /** A sound at the Bill, heard further the bigger it is, since a giant's camera sits well back from it */
     private static void sound(ServerLevel level, Vec3 at, Form form, SoundEvent event, float volume, float pitch) {
         level.playSound(null, at.x, at.y, at.z, event, SoundSource.PLAYERS, volume * form.tuning.scale(), pitch);
     }
@@ -457,8 +466,10 @@ public final class BulletBill {
         ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), message);
     }
 
-    // whether the Bill has hit something: its rider touching a block, or its nose reaching one, which for a giant comes
-    // long before its rider gets there
+    /**
+     * Whether the Bill has hit something: its rider touching a block, or its nose reaching one, which for a giant comes
+     * long before its rider gets there
+     */
     private static boolean crashed(ServerPlayer player, Form form) {
         if (player.horizontalCollision || player.verticalCollision) {
             return true;
@@ -481,13 +492,10 @@ public final class BulletBill {
             return;
         }
         long now = player.server.getTickCount();
-        // the timer can't stop a detonation sequence once it's started
         if (!player.isAlive() || player.isSpectator() || player.isPassenger() || (!form.armed && now >= form.endTick)) {
             end(player);
             return;
         }
-        // this tick's movement ran before this event, so the speed last set is the speed it hit with; an armed Bill that
-        // never hits anything blows up where it is in the end, so arming isn't endless flight
         if (form.armed && (now >= form.endTick + form.config.detonationOvertimeTicks
                 || (form.flight.lastSpeed >= form.config.detonationMinSpeed && crashed(player, form)))) {
             detonate(player, form, form.flight.lastSpeed);
@@ -497,11 +505,10 @@ public final class BulletBill {
         if (form.tuning.variant() == VARIANT_KING) {
             radiate(player, form);
         }
-        // a Bill in level flight or a hover isn't falling: servers that don't allow flight would otherwise kick its rider
         ((ServerGamePacketListenerImplAccessor) player.connection).woldsvaults$setAboveGroundTickCount(0);
     }
 
-    // a Bill doesn't take fall damage, nor does its rider on the landing after
+    /** A Bill doesn't take fall damage, nor does its rider on the landing after */
     @SubscribeEvent
     public static void onFall(LivingFallEvent event) {
         if (event.getEntityLiving() instanceof ServerPlayer player
@@ -511,7 +518,7 @@ public final class BulletBill {
         }
     }
 
-    // someone who starts seeing a Bill is told about it, so they draw it too
+    /** Someone who starts seeing a Bill is told about it, so they draw it too */
     @SubscribeEvent
     public static void onStartTracking(PlayerEvent.StartTracking event) {
         if (event.getTarget() instanceof ServerPlayer target && event.getPlayer() instanceof ServerPlayer tracker) {
@@ -543,7 +550,7 @@ public final class BulletBill {
         }
     }
 
-    // the cooldown is kept, so logging out and back in doesn't skip it
+    /** The cooldown is kept, so logging out and back in doesn't skip it */
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         UUID id = event.getPlayer().getUUID();
@@ -553,6 +560,10 @@ public final class BulletBill {
         }
         BOOSTED_DASHES.remove(id);
         SAFE_LANDINGS.remove(id);
+        if (event.getPlayer().getServer() != null) {
+            long now = event.getPlayer().getServer().getTickCount();
+            READY.values().removeIf(ready -> ready <= now);
+        }
     }
 
     @SubscribeEvent

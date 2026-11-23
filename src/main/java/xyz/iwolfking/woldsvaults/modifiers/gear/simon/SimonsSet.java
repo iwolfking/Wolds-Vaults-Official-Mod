@@ -64,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 /**
@@ -101,18 +102,14 @@ public final class SimonsSet {
     private static final float BUDDED_SEED_GRAVITY = 0.05F;
     private static final int BUD_FLIGHT_TICKS = 12;
 
-    private static final Map<UUID, Owner> OWNERS = new HashMap<>();
-    // what each client was last told it can do
+    private static final Map<UUID, Owner> OWNERS = new ConcurrentHashMap<>();
     private static final Map<UUID, SimonSetMessage> SYNCED = new HashMap<>();
-    // the crystal count each player's Brittle was last built for
     private static final Map<UUID, Integer> BRITTLE = new HashMap<>();
     private static final List<ShardField> FIELDS = new ArrayList<>();
     private static final List<Collapse> COLLAPSES = new ArrayList<>();
-    // each player's run of sequences got right in a row
     private static final Map<UUID, SimonSaysGame.Streak> STREAKS = new HashMap<>();
 
     private static final class Owner {
-        // oldest first
         final List<SimonCrystalEntity> crystals = new ArrayList<>();
         final List<PrismSeedEntity> seeds = new ArrayList<>();
         long readyTick;
@@ -120,14 +117,16 @@ public final class SimonsSet {
         Resonance resonance;
     }
 
-    // a round of the game being played with the owner's crystals, and what the set is building up from it for the finale
+    /**
+     * A round of the game being played with the owner's crystals, and what the set is building up from it for the
+     * finale
+     */
     private static final class Resonance {
         final SimonSaysGame<SimonCrystalEntity> game;
         final float multiplier;
         final List<Vec3> bursts = new ArrayList<>();
         final List<Vector3f> colors = new ArrayList<>();
         float value;
-        // Prismatic Geodes in it when it began: each doubles the finale
         final int prismaticGeodes;
 
         Resonance(SimonSaysGame<SimonCrystalEntity> game, float multiplier) {
@@ -173,8 +172,6 @@ public final class SimonsSet {
     private SimonsSet() {
     }
 
-    // ---------- grants ----------
-
     private static AttributeSnapshot snapshot(Player player) {
         return AttributeSnapshotHelper.getInstance().getSnapshot(player);
     }
@@ -192,12 +189,12 @@ public final class SimonsSet {
         return SimonConfig.installed();
     }
 
-    // what the bursts, shard fields and the finale scale from
+    /** What the bursts, shard fields and the finale scale from */
     private static float abilityPower(ServerPlayer player) {
         return Math.max(0.0F, AbilityPowerHelper.getAbilityPower(player));
     }
 
-    // what a hit's growth is measured against
+    /** What a hit's growth is measured against */
     private static float attackDamage(Player player) {
         return Math.max(1.0F, (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
     }
@@ -207,9 +204,7 @@ public final class SimonsSet {
         return values == null || values.length == 0 ? stage : values[Mth.clamp(stage, 0, values.length - 1)];
     }
 
-    // ---------- planting ----------
-
-    // A right click: shoots a prism seed along the player's look, if the cooldown has passed.
+    /** A right click: shoots a prism seed along the player's look, if the cooldown has passed. */
     public static void shoot(ServerPlayer player) {
         SimonConfig tuning = tuning();
         if (tuning == null || intGrant(player, ModGearAttributes.SIMON_CRYSTALS) <= 0 || !player.isAlive() || player.isSpectator()) {
@@ -230,7 +225,9 @@ public final class SimonsSet {
         sound(level, player.getEyePosition(), SoundEvents.AMETHYST_CLUSTER_PLACE, 0.8F, 1.8F);
     }
 
-    // A seed hit a block: it becomes a Seed-stage crystal on that face (a planted one replaces the oldest planted one).
+    /**
+     * A seed hit a block: it becomes a Seed-stage crystal on that face (a planted one replaces the oldest planted one).
+     */
     public static void plant(PrismSeedEntity seed, BlockHitResult hit) {
         if (!(seed.getOwner() instanceof ServerPlayer player) || !(seed.level instanceof ServerLevel level)) {
             return;
@@ -268,7 +265,7 @@ public final class SimonsSet {
         }
     }
 
-    // the first Simon colour none of the owner's crystals or seeds has (they repeat past four)
+    /** The first Simon colour none of the owner's crystals or seeds has (they repeat past four) */
     private static SimonCrystalEntity.Color freeColor(Owner owner) {
         SimonCrystalEntity.Color[] colors = SimonCrystalEntity.Color.values();
         Set<SimonCrystalEntity.Color> used = new HashSet<>();
@@ -282,9 +279,7 @@ public final class SimonsSet {
         return colors[(owner.crystals.size() + owner.seeds.size()) % colors.length];
     }
 
-    // ---------- growing ----------
-
-    // Damage the owner deals to an enemy feeds every crystal of theirs within reach of it, once a tick each.
+    /** Damage the owner deals to an enemy feeds every crystal of theirs within reach of it, once a tick each. */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer player) || !(event.getEntityLiving() instanceof Mob mob) || !GearSetHelper.isEnemy(mob)) {
@@ -295,7 +290,6 @@ public final class SimonsSet {
         if (owner == null || tuning == null || owner.resonance != null) {
             return;
         }
-        // a Prism beam's frequent hits each feed a share of a hit
         float points = Mth.clamp(event.getAmount() / attackDamage(player), 0.0F, tuning.maxGrowthPerHit * ArcanePrisms.hitShare());
         if (points <= 0.0F) {
             return;
@@ -325,11 +319,11 @@ public final class SimonsSet {
         }
     }
 
-    // ---------- lucky hits ----------
-
-    // A Lucky Hit by a wearer's own swing (not ability damage, projectiles or anything Vault Hunters lets roll under
-    // its ability-power flag) near any of the wearer's crystals: their planted crystal buds, and the nearest Geode short
-    // of facets gains one.
+    /**
+     * A Lucky Hit by a wearer's own swing (not ability damage, projectiles or anything Vault Hunters lets roll under
+     * its ability-power flag) near any of the wearer's crystals: their planted crystal buds, and the nearest Geode
+     * short of facets gains one.
+     */
     public static void onLuckyHit(ServerPlayer player, LivingHurtEvent event) {
         Owner owner = OWNERS.get(player.getUUID());
         SimonConfig tuning = tuning();
@@ -362,26 +356,12 @@ public final class SimonsSet {
         }
     }
 
-    // testing aid (prismaticTestRound): in that round (the sequences got right in a row, plus one), a bud is Prismatic
-    // until one of the owner's crystals or incoming seeds is
-    private static boolean owesPrismatic(ServerPlayer player, Owner owner, SimonConfig tuning) {
-        if (tuning.prismaticTestRound <= 0) {
-            return false;
-        }
-        SimonSaysGame.Streak streak = STREAKS.get(player.getUUID());
-        if ((streak == null ? 0 : streak.wins()) + 1 != tuning.prismaticTestRound) {
-            return false;
-        }
-        return owner.crystals.stream().noneMatch(crystal -> !crystal.isRemoved() && crystal.isPrismatic())
-                && owner.seeds.stream().noneMatch(seed -> !seed.isRemoved() && seed.isPrismatic());
-    }
-
-    // every crystal the owner has, planted or budded, and every seed on its way
+    /** Every crystal the owner has, planted or budded, and every seed on its way */
     private static int crystalCount(Owner owner) {
         return owner.crystals.size() + owner.seeds.size();
     }
 
-    // throws a new seed off the planted crystal on to a nearby spot of ground it can see
+    /** Throws a new seed off the planted crystal on to a nearby spot of ground it can see */
     private static void bud(ServerPlayer player, Owner owner, SimonCrystalEntity parent, SimonConfig tuning) {
         ServerLevel level = player.getLevel();
         Vec3 from = parent.center();
@@ -389,7 +369,7 @@ public final class SimonsSet {
         if (land == null) {
             return;
         }
-        boolean prismatic = level.getRandom().nextFloat() < floatGrant(player, ModGearAttributes.SIMON_PRISMATIC) || owesPrismatic(player, owner, tuning);
+        boolean prismatic = level.getRandom().nextFloat() < floatGrant(player, ModGearAttributes.SIMON_PRISMATIC);
         PrismSeedEntity seed = new PrismSeedEntity(level, player, from, freeColor(owner), prismatic, BUDDED_SEED_GRAVITY, BUD_FLIGHT_TICKS * 4);
         seed.target = land;
         Vec3 d = land.subtract(from);
@@ -400,7 +380,10 @@ public final class SimonsSet {
         ArcaneLasers.sparkle(parent, from, parent.shownColor(0.0F), 10, 0.3);
     }
 
-    // a spot of open ground the crystal can see, at least budSpacing from every crystal and every seed already on its way
+    /**
+     * A spot of open ground the crystal can see, at least budSpacing from every crystal and every seed already on its
+     * way
+     */
     @Nullable
     private static Vec3 landingSpot(ServerLevel level, Owner owner, SimonCrystalEntity parent, SimonConfig tuning) {
         Vec3 base = parent.position();
@@ -440,11 +423,11 @@ public final class SimonsSet {
         return true;
     }
 
-    // ---------- the sequence ----------
-
-    // Sneak right click: with enough Shard-stage crystals they light up one after another, then wait to be clicked in
-    // that order. Every crystal comes up once, biggest first; after that the sequence goes on with repeats until it is
-    // one step longer than the last sequence, for as long as the player keeps getting them right.
+    /**
+     * Sneak right click: with enough Shard-stage crystals they light up one after another, then wait to be clicked in
+     * that order. Every crystal comes up once, biggest first; after that the sequence goes on with repeats until it is
+     * one step longer than the last sequence, for as long as the player keeps getting them right.
+     */
     public static void resonate(ServerPlayer player) {
         SimonConfig tuning = tuning();
         Owner owner = OWNERS.get(player.getUUID());
@@ -457,36 +440,40 @@ public final class SimonsSet {
         }
         prune(owner);
         List<SimonCrystalEntity> members = new ArrayList<>(owner.crystals.stream().filter(crystal -> crystal.getStage() >= SimonCrystalEntity.SHARD).toList());
-        if (members.size() < Math.max(1, tuning.resonateMinCrystals)) {
+        if (members.size() < Math.max(Math.max(1, tuning.resonateMinCrystals), intGrant(player, ModGearAttributes.SIMON_BUDDING))) {
             fizz(player);
             return;
         }
         members.sort(Comparator.comparingInt(SimonCrystalEntity::getStage).reversed().thenComparingDouble(crystal -> crystal.distanceToSqr(player)));
         SimonSaysGame.Streak streak = STREAKS.computeIfAbsent(player.getUUID(), id -> new SimonSaysGame.Streak());
         SimonSaysGame.Timing timing = new SimonSaysGame.Timing(SEQUENCE_LEAD_TICKS, tuning.showTicks, tuning.showGapTicks, tuning.inputBaseTicks, tuning.inputTicksPerCrystal);
-        SimonSaysGame<SimonCrystalEntity> game = SimonSaysGame.start(members, streak.lengthFor(members.size()), timing, SimonCrystalEntity::isPrismatic, player.getRandom());
-        float multiplier = 1.0F + tuning.streakDamage * streak.wins();
+        SimonSaysGame<SimonCrystalEntity> game = SimonSaysGame.start(members, streak.lengthFor(members.size(), tuning.maxSequenceLength), timing, SimonCrystalEntity::isPrismatic, player.getRandom());
+        float multiplier = lengthMultiplier(tuning, game.length());
         owner.resonance = new Resonance(game, multiplier);
         for (SimonCrystalEntity crystal : members) {
             crystal.setLight(SimonCrystalEntity.ARMED);
         }
         sound(player, SoundEvents.BEACON_ACTIVATE, 1.0F, 1.6F);
         player.displayClientMessage(new TextComponent("Resonating: " + game.length() + " to remember"
-                + (streak.wins() > 0 ? " (streak " + streak.wins() + ", +" + Math.round((multiplier - 1.0F) * 100) + "% damage)" : "")), true);
+                + (multiplier > 1.0F ? " (+" + Math.round((multiplier - 1.0F) * 100) + "% damage)" : "")), true);
+    }
+
+    /** The damage multiplier for every explosion in a sequence of this length: lengthDamage per step past resonateMinCrystals. */
+    private static float lengthMultiplier(SimonConfig tuning, int length) {
+        return 1.0F + tuning.lengthDamage * Math.max(0, length - tuning.resonateMinCrystals);
     }
 
     private static boolean inSequence(Owner owner, SimonCrystalEntity crystal) {
         return owner.resonance != null && owner.resonance.game.includes(crystal);
     }
 
-    // lights the steps one at a time with rising chimes, then waits for the clicks
+    /** Lights the steps one at a time with rising chimes, then waits for the clicks */
     private static void tickSequence(ServerPlayer player, Owner owner, SimonConfig tuning) {
         Resonance resonance = owner.resonance;
         if (resonance == null) {
             return;
         }
         SimonSaysGame<SimonCrystalEntity> game = resonance.game;
-        // losing a crystal while the pattern is being shown calls the round off
         if (!game.isPlayerTurn() && game.pieces().stream().anyMatch(Entity::isRemoved)) {
             endSequence(player, owner);
             return;
@@ -503,9 +490,11 @@ public final class SimonsSet {
         }
     }
 
-    // The crystal's own note, the same each time it lights up or is clicked, so the sequence can be followed by ear:
-    // red C, blue D, green E, yellow G. A Prismatic crystal rings a C major chord (C, E, G) instead. A faint amethyst
-    // shimmer sits under the note.
+    /**
+     * The crystal's own note, the same each time it lights up or is clicked, so the sequence can be followed by ear:
+     * red C, blue D, green E, yellow G. A Prismatic crystal rings a C major chord (C, E, G) instead. A faint amethyst
+     * shimmer sits under the note.
+     */
     private static void chime(SimonCrystalEntity crystal) {
         Vec3 c = crystal.center();
         if (crystal.isPrismatic()) {
@@ -518,7 +507,7 @@ public final class SimonsSet {
         sound(crystal.level, c, SoundEvents.AMETHYST_BLOCK_CHIME, 0.3F, 1.2F);
     }
 
-    // An aimed left click from the client: checks the player can reach and see the crystal, then hits it.
+    /** An aimed left click from the client: checks the player can reach and see the crystal, then hits it. */
     public static void clickCrystal(ServerPlayer player, int crystalId) {
         SimonConfig tuning = tuning();
         if (tuning == null || !(player.getLevel().getEntity(crystalId) instanceof SimonCrystalEntity crystal) || crystal.isRemoved()) {
@@ -539,8 +528,10 @@ public final class SimonsSet {
         onCrystalHit(player, crystal);
     }
 
-    // A click on one of the owner's crystals: the next step bursts. Once a sequence, a Prismatic crystal clicked out of
-    // turn stands in for the next step, which goes off as if it had been clicked; any other crystal fails the sequence.
+    /**
+     * A click on one of the owner's crystals: the next step bursts. Once a sequence, a Prismatic crystal clicked out of
+     * turn stands in for the next step, which goes off as if it had been clicked; any other crystal fails the sequence.
+     */
     public static void onCrystalHit(ServerPlayer player, SimonCrystalEntity crystal) {
         Owner owner = OWNERS.get(player.getUUID());
         SimonConfig tuning = tuning();
@@ -569,7 +560,7 @@ public final class SimonsSet {
         }
     }
 
-    // a correct click: the crystal bursts (twice, if a Lucky Hit roll fractures it), shattering on its last turn
+    /** A correct click: the crystal bursts (twice, if a Lucky Hit roll fractures it), shattering on its last turn */
     private static void release(ServerPlayer player, Owner owner, Resonance resonance, SimonCrystalEntity crystal, SimonConfig tuning, boolean last) {
         boolean fractured = snapshot(player).getAttributeValue(ModGearAttributes.SIMON_FRACTURE, VaultGearAttributeTypeMerger.anyTrue())
                 && player.getRandom().nextFloat() < LuckyHitHelper.getLuckyHitChance(player);
@@ -585,7 +576,10 @@ public final class SimonsSet {
         burst(player, owner, crystal, tuning, resonance.multiplier, fractured ? 2 : 1, last);
     }
 
-    // the whole sequence right: the streak grows (the next one is a step longer) and the bursts collapse into the finale
+    /**
+     * The whole sequence right: the streak grows (the next one is a step longer) and the bursts collapse into the
+     * finale
+     */
     private static void complete(ServerPlayer player, Owner owner, Resonance resonance, SimonConfig tuning) {
         SimonSaysGame.Streak streak = STREAKS.computeIfAbsent(player.getUUID(), id -> new SimonSaysGame.Streak());
         streak.won(resonance.game.length());
@@ -598,12 +592,16 @@ public final class SimonsSet {
             COLLAPSES.add(new Collapse(player.getLevel(), player, resonance, center));
         }
         sound(player, SoundEvents.PLAYER_LEVELUP, 0.8F, 1.4F);
-        player.displayClientMessage(new TextComponent("Sequence complete! Streak " + streak.wins() + ": next is " + (streak.lastLength() + 1)
-                + " long, +" + Math.round(tuning.streakDamage * streak.wins() * 100) + "% damage"), true);
+        int next = Math.min(streak.lastLength() + 1, Math.max(tuning.maxSequenceLength, streak.lastLength()));
+        player.displayClientMessage(new TextComponent("Sequence complete! Next is " + next + " long, +"
+                + Math.round((lengthMultiplier(tuning, next) - 1.0F) * 100) + "% damage"), true);
         endSequence(player, owner);
     }
 
-    // a wrong click or too slow: a buzz, the streak is gone, and every crystal left in the chain shatters for part of its burst
+    /**
+     * A wrong click or too slow: a buzz, the streak is gone, and every crystal left in the chain shatters for part of
+     * its burst
+     */
     private static void fail(ServerPlayer player, Owner owner, Resonance resonance, SimonConfig tuning) {
         sound(player, SoundEvents.NOTE_BLOCK_DIDGERIDOO, 1.2F, 0.5F);
         sound(player, SoundEvents.NOTE_BLOCK_BASS, 1.2F, 0.5F);
@@ -630,8 +628,10 @@ public final class SimonsSet {
         ModNetwork.sendToClient(new SimonSequenceMessage(new int[0]), player);
     }
 
-    // A crystal goes off: every enemy in reach takes its burst (more with a facet, slowed with two, a shard field with
-    // three). On its last turn it shatters into flying amethyst; on an earlier one it only pulses.
+    /**
+     * A crystal goes off: every enemy in reach takes its burst (more with a facet, slowed with two, a shard field with
+     * three). On its last turn it shatters into flying amethyst; on an earlier one it only pulses.
+     */
     private static void burst(ServerPlayer player, Owner owner, SimonCrystalEntity crystal, SimonConfig tuning, float multiplier, int times, boolean shatter) {
         ServerLevel level = player.getLevel();
         float value = detonationValue(tuning, crystal.getStage());
@@ -670,9 +670,7 @@ public final class SimonsSet {
         sound(player, SoundEvents.AMETHYST_BLOCK_HIT, 0.8F, 0.6F);
     }
 
-    // ---------- crystal upkeep ----------
-
-    // A crystal's server tick: gone with its owner or when left behind, shrinking when unfed.
+    /** A crystal's server tick: gone with its owner or when left behind, shrinking when unfed. */
     public static void tickCrystal(SimonCrystalEntity crystal) {
         SimonConfig tuning = tuning();
         UUID ownerId = crystal.getOwner();
@@ -722,7 +720,6 @@ public final class SimonsSet {
             boolean canShoot = intGrant(player, ModGearAttributes.SIMON_CRYSTALS) > 0;
             boolean canResonate = floatGrant(player, ModGearAttributes.SIMON_SEQUENCE) > 0.0F;
             SimonSetMessage state = new SimonSetMessage(canShoot, tuning.plantCooldownTicks, canResonate, tuning.clickRange);
-            // a client starts out able to do neither, so there's nothing to tell it until that changes
             if (!state.equals(SYNCED.getOrDefault(id, new SimonSetMessage(false, tuning.plantCooldownTicks, false, tuning.clickRange)))) {
                 SYNCED.put(id, state);
                 ModNetwork.sendToClient(state, player);
@@ -733,14 +730,13 @@ public final class SimonsSet {
             }
         }
         if (owner != null) {
-            prune(owner);
+            prune(owner, player.level);
             tickSequence(player, owner, tuning);
             if (owner.crystals.isEmpty() && owner.seeds.isEmpty() && owner.resonance == null && player.getLevel().getGameTime() >= owner.readyTick) {
                 OWNERS.remove(id);
                 owner = null;
             }
         }
-        // Brittle follows the crystal count; rebuild the snapshot when it changes
         int count = owner == null ? 0 : owner.crystals.size();
         if (count != BRITTLE.getOrDefault(id, 0)) {
             BRITTLE.put(id, count);
@@ -748,7 +744,7 @@ public final class SimonsSet {
         }
     }
 
-    // Brittle, added while the player's attribute snapshot is built: each crystal they have costs some Resistance.
+    /** Brittle, added while the player's attribute snapshot is built: each crystal they have costs some Resistance. */
     public static void addBrittle(ServerPlayer player, AttributeSnapshot snapshot) {
         SimonConfig tuning = tuning();
         Owner owner = OWNERS.get(player.getUUID());
@@ -766,13 +762,13 @@ public final class SimonsSet {
         if (event.phase != TickEvent.Phase.END) {
             return;
         }
-        FIELDS.removeIf(field -> field.player.isRemoved() || --field.ticksLeft < 0);
+        FIELDS.removeIf(field -> field.player.isRemoved() || field.player.level != field.level || --field.ticksLeft < 0);
         FIELDS.forEach(SimonsSet::tickField);
         SimonConfig tuning = tuning();
         COLLAPSES.removeIf(collapse -> collapse.player.isRemoved() || collapse.player.level != collapse.level || tuning == null || tickCollapse(collapse, tuning));
     }
 
-    // a lingering patch of shards that cuts every enemy standing in it
+    /** A lingering patch of shards that cuts every enemy standing in it */
     private static void tickField(ShardField field) {
         BlockParticleOption shards = amethystShards();
         for (int i = 0; i < 3; i++) {
@@ -788,7 +784,7 @@ public final class SimonsSet {
         }
     }
 
-    // every burst streams to the middle of the shape, then one blast sized by the chain's total value
+    /** Every burst streams to the middle of the shape, then one blast sized by the chain's total value */
     private static boolean tickCollapse(Collapse collapse, SimonConfig tuning) {
         Resonance chain = collapse.chain;
         Vec3 c = collapse.center;
@@ -806,14 +802,12 @@ public final class SimonsSet {
             return false;
         }
         ServerPlayer player = collapse.player;
-        // every Prismatic Geode in the chain doubles the blast's size and strength
-        float doubling = (float) Math.pow(2.0, Math.min(chain.prismaticGeodes, 8));
-        float radius = Math.min(tuning.finaleMaxRadius, tuning.finaleRadius + tuning.finaleRadiusPerValue * chain.value) * doubling;
+        float doubling = (float) Math.min(tuning.finaleMaxPrismaticMultiplier, Math.pow(2.0, chain.prismaticGeodes));
+        float radius = Math.min(tuning.finaleMaxRadius, tuning.finaleRadius + tuning.finaleRadiusPerValue * chain.value);
         float damage = abilityPower(player) * floatGrant(player, ModGearAttributes.SIMON_FINALE) * chain.value * chain.multiplier * doubling;
         for (Mob mob : GearSetHelper.enemiesNear(collapse.level, c, radius)) {
             RiptideDerivedHits.queue(player, mob, damage);
         }
-        // the colours of the chain blended, for the flash that tints nearby screens (rainbow with a Prismatic Geode)
         Vector3f blend = new Vector3f(0.0F, 0.0F, 0.0F);
         for (Vector3f color : chain.colors) {
             blend.add(color);
@@ -824,7 +818,6 @@ public final class SimonsSet {
         } else {
             blend.set(1.0F, 1.0F, 1.0F);
         }
-        // finale fx: its size is the radius and its stage the Prismatic Geodes
         ModNetwork.sendNear(collapse.level, c, 64.0 + radius * 3.0,
                 new SimonFxMessage(SimonFxMessage.Kind.FINALE, c.x, c.y, c.z, Direction.UP, chain.prismaticGeodes, ColorUtil.rgb(blend), radius));
         if (chain.prismaticGeodes > 0) {
@@ -839,7 +832,16 @@ public final class SimonsSet {
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        UUID id = event.getPlayer().getUUID();
+        forget(event.getPlayer().getUUID());
+    }
+
+    /** Entering or leaving a vault drops the player's crystals, seeds, fields and streak. */
+    @SubscribeEvent
+    public static void onChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        forget(event.getPlayer().getUUID());
+    }
+
+    private static void forget(UUID id) {
         clear(id);
         SYNCED.remove(id);
         BRITTLE.remove(id);
@@ -871,6 +873,11 @@ public final class SimonsSet {
         owner.seeds.removeIf(Entity::isRemoved);
     }
 
+    private static void prune(Owner owner, Level level) {
+        owner.crystals.removeIf(crystal -> crystal.isRemoved() || crystal.level != level);
+        owner.seeds.removeIf(seed -> seed.isRemoved() || seed.level != level);
+    }
+
     private static void fizzle(SimonCrystalEntity crystal) {
         if (crystal.level instanceof ServerLevel level && !crystal.isRemoved()) {
             Vec3 c = crystal.center();
@@ -894,14 +901,12 @@ public final class SimonsSet {
         return best;
     }
 
-    // ---------- refracting the Arcane family ----------
-
-    // Whether anyone has crystals out (so beams need checking against them at all).
+    /** Whether anyone has crystals out (so beams need checking against them at all). */
     static boolean hasCrystals() {
         return !OWNERS.isEmpty();
     }
 
-    // How far a Prism's beams reach: further for a Simon's Set wearer.
+    /** How far a Prism's beams reach: further for a Simon's Set wearer. */
     static float prismReach(ServerPlayer player, float radius) {
         SimonConfig tuning = tuning();
         if (tuning == null || intGrant(player, ModGearAttributes.SIMON_CRYSTALS) <= 0) {
@@ -910,11 +915,13 @@ public final class SimonsSet {
         return radius * Math.max(1.0F, tuning.prismReach);
     }
 
-    // A beam from start to end. If it enters a crystal, a copy of it bounces from crystal to crystal, then on to the
-    // nearest enemy, each bounce nudged across its target by where the beam hit (see CrystalOptics). Every
-    // enemy along the bounces is hurt once, for the player's ability power times the beam's share times arcaneReflectDamage. The bounces'
-    // hits are area damage (Vault Hunters' area flag on top of its ability-power one), so they roll no Lucky
-    // Hits and set off no on-hit procs. The original beam carries on as normal.
+    /**
+     * A beam from start to end. If it enters a crystal, a copy of it bounces from crystal to crystal, then on to the
+     * nearest enemy, each bounce nudged across its target by where the beam hit (see CrystalOptics). Every enemy along
+     * the bounces is hurt once, for the player's ability power times the beam's share times arcaneReflectDamage. The
+     * bounces' hits are area damage (Vault Hunters' area flag on top of its ability-power one), so they roll no Lucky
+     * Hits and set off no on-hit procs. The original beam carries on as normal.
+     */
     static void refract(ServerPlayer player, Vec3 start, Vec3 end, float percentAbilityPower, int beamTicks, float beamWidth) {
         SimonConfig tuning = tuning();
         double length = start.distanceTo(end);
@@ -938,7 +945,6 @@ public final class SimonsSet {
         for (int i = 1; i < rays.size(); i++) {
             BeamOptics.Ray ray = rays.get(i);
             if (ray.inside()) {
-                // the light crossing inside the crystal, white-hot
                 ArcaneLasers.beam(player, List.of(ray.from(), ray.to()), 0xFFFFFF, beamWidth * 0.7F, beamTicks);
                 continue;
             }
@@ -956,8 +962,6 @@ public final class SimonsSet {
         }
     }
 
-    // ---------- helpers ----------
-
     private static void sound(Level level, Vec3 at, SoundEvent event, float volume, float pitch) {
         level.playSound(null, at.x, at.y, at.z, event, SoundSource.PLAYERS, volume, pitch);
     }
@@ -970,7 +974,7 @@ public final class SimonsSet {
         return new BlockParticleOption(ParticleTypes.BLOCK, Blocks.AMETHYST_CLUSTER.defaultBlockState());
     }
 
-    // a client effect for everyone near the spot
+    /** A client effect for everyone near the spot */
     private static void fx(ServerLevel level, SimonFxMessage.Kind kind, Vec3 at, Direction face, int stage, Vector3f color, float size) {
         ModNetwork.sendNear(level, at, 64.0, new SimonFxMessage(kind, at.x, at.y, at.z, face, stage, ColorUtil.rgb(color), size));
     }

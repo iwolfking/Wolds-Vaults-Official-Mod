@@ -123,7 +123,7 @@
       "tiers": [
         {
           "pieces": 2,
-          "text": "Right click to shoot a prism seed: it grows into a crystal where it lands (one at a time, 4 second cooldown). Damage you deal within 6 blocks of a crystal grows it: Seed, Shard, Cluster, Geode. Unfed crystals shrink a stage every 10 seconds. Arcane, Rail and Prism beams refract from crystal to crystal, and your Prism beams reach 50% further. Brittle: each crystal you have costs 2% Resistance.",
+          "text": "Right click to shoot a prism seed: it grows into a crystal where it lands (one at a time, 4 second cooldown). Damage you deal within 6 blocks of a crystal grows it: Seed, Shard, Cluster, Geode. Unfed crystals shrink a stage every 10 seconds. Arcane, Rail and Prism beams refract from crystal to crystal, and your Prism beams reach 50% further. Anyone's beams refract off your crystals. Brittle: each crystal you have costs 2% Resistance.",
           "grants": [
             {
               "attribute": "woldsvaults:simon_crystals",
@@ -133,7 +133,7 @@
         },
         {
           "pieces": 3,
-          "text": "Lucky Hits from your swings near your crystals make the one you planted bud a new seed around it (up to 4 crystals). With 3 or more Shards, sneak and right click to Resonate: the crystals light up biggest first, then repeat; aim and left click them in that order and each turn bursts for 100% of your ability power per detonation value (Shard 1, Cluster 2, Geode 3.5). Every sequence you get right in a row makes the next one a step longer and the explosions 10% stronger. A wrong click shatters the rest for 50% damage and ends the streak.",
+          "text": "Lucky Hits from your swings near your crystals make the one you planted bud a new seed around it (up to 4 crystals). With all 4 crystals at Shard or bigger, sneak and right click to Resonate: the crystals light up biggest first, then repeat; aim and left click them in that order and each turn bursts for 100% of your ability power per detonation value (Shard 1, Cluster 2, Geode 3.5). Every sequence you get right in a row makes the next one a step longer, up to 10 steps, and each step past 4 makes every explosion 15% stronger. A wrong click shatters the rest for 50% damage and starts the length over, as does entering or leaving a vault.",
           "grants": [
             {
               "attribute": "woldsvaults:simon_budding",
@@ -147,7 +147,7 @@
         },
         {
           "pieces": 4,
-          "text": "Lucky Hits from your swings near a Geode give it a facet (up to 3): +25% burst damage, then a slowing burst, then a Flawless crystal that leaves a shard field. Budded seeds have a 5% chance to be Prismatic, standing in for any crystal in the sequence. A Lucky Hit roll on each correct click fractures the crystal so it bursts twice, and finishing a chain collapses every burst into one final blast.",
+          "text": "Lucky Hits from your swings near a Geode give it a facet (up to 3): +25% burst damage, then a slowing burst, then a Flawless crystal that leaves a shard field. Budded seeds have a 5% chance to be Prismatic, standing in for any crystal in the sequence. A Lucky Hit roll on each correct click fractures the crystal so it bursts twice, and finishing a chain collapses every burst into one final blast, doubled by each Prismatic Geode in it (up to 8 times).",
           "grants": [
             {
               "attribute": "woldsvaults:simon_facets",
@@ -184,7 +184,7 @@
       "tiers": [
         {
           "pieces": 1,
-          "text": "Double tap jump to become a Bullet Bill for 5 seconds. You fly where you look; hold jump to fire your jets and accelerate, picking up speed in a dive and losing it in a climb. No fall damage while a Bullet Bill or on the landing after. 20 second cooldown once it ends. A Banzai Bill Helmet makes your Bullet Bill 5 times larger; a King Bill Helmet makes it 10 times larger, light red, and burns enemies around it.",
+          "text": "Double tap jump to become a Bullet Bill for 5 seconds. You fly where you look; hold jump to fire your jets and accelerate, picking up speed in a dive and losing it in a climb. No fall damage while a Bullet Bill or on the landing after. 20 second cooldown once it ends. A Banzai Bill Helmet makes your Bullet Bill 1.5 times larger; a King Bill Helmet makes it 2 times larger, light red, and burns enemies around it.",
           "grants": [
             {
               "attribute": "woldsvaults:bullet_bill",

@@ -23,7 +23,7 @@ public class ModSimonProvider extends AbstractWoldsTableProvider {
         table.leashRange = 48.0F;
         table.budRange = 6.0F;
         table.budSpacing = 3.0F;
-        table.resonateMinCrystals = 3;
+        table.resonateMinCrystals = 4;
         table.showTicks = 8;
         table.showGapTicks = 4;
         table.inputBaseTicks = 60;
@@ -33,7 +33,8 @@ public class ModSimonProvider extends AbstractWoldsTableProvider {
         table.burstRadius = 3.0F;
         table.burstRadiusPerValue = 0.75F;
         table.failDamage = 0.5F;
-        table.streakDamage = 0.1F;
+        table.maxSequenceLength = 10;
+        table.lengthDamage = 0.15F;
         table.facetDamage = 0.25F;
         table.facetSlowTicks = 40;
         table.shardFieldTicks = 80;
@@ -42,12 +43,12 @@ public class ModSimonProvider extends AbstractWoldsTableProvider {
         table.finaleRadius = 4.0F;
         table.finaleRadiusPerValue = 0.75F;
         table.finaleMaxRadius = 14.0F;
+        table.finaleMaxPrismaticMultiplier = 8.0F;
         table.brittleResistance = 0.02F;
         table.reflectRadius = 1.25F;
         table.reflectRange = 24.0F;
         table.arcaneReflectDamage = 1.0F;
         table.prismReach = 1.5F;
-        table.prismaticTestRound = 0;
         return table;
     }
 

@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.modifiers.gear.magatsuhi;
 
+import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.type.VaultGearAttributeTypeMerger;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,22 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.NetherPortalBlock;
+import net.minecraft.world.level.block.piston.PistonHeadBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatAttacks;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -52,9 +69,9 @@ import java.util.UUID;
 
 /**
  * Ten Magatsuhi, the dual katana set: Daikyo and Shokyo, two swords dual wielded (either hand counts, see GearSetHelper).
- * With the magatsuhi_combo grant (one piece) every comboHits-th melee hit in a row is a finisher that deals the grant's
- * extra damage, both katanas crossing through the enemy in an X; the count starts over when the wearer stops hitting
- * for comboResetTicks.
+ * With the magatsuhi_combo grant (one piece) every comboHits-th weapon swing in a row, from either hand, is a finisher:
+ * each enemy that swing hits takes the grant's extra damage, both katanas crossing through it in an X. Only the swing's
+ * own targets count, not sweeps or other damage; the count starts over when the wearer stops hitting for comboResetTicks.
  * With the magatsuhi_cut grant (both pieces) a right click with either katana works in three steps. The first has its twin cut a
  * 1 wide, 2 tall square out of what's aimed at: the blocks of a wall, floor or ceiling, an enemy, or the air. The second
  * swaps the wearer with the cut: an enemy trades places with them; a wall's blocks are lifted out to where they stood
@@ -62,14 +79,14 @@ import java.util.UUID;
  * Both katanas then slash every enemy around where they land. The third puts it all back: the moved blocks return to
  * the hole, an enemy still close enough trades places again, and the wearer goes back to where they started. A block
  * broken while it was moved stays gone, so nothing can be duplicated. The swap also ends by itself after returnTicks,
- * and a logout, death, dimension change or server stop puts the blocks back. Blocks with a tile entity, unbreakable
- * blocks and fluids can't be cut. Clients draw the cut, a translucent afterimage where the wearer left from on each
+ * and a logout, death, dimension change or server stop puts the blocks back. Only blocks the wearer could break here
+ * can be cut: no tile entities, fluids, unbreakable or wither-immune blocks, doors, beds, tall plants or portals, and
+ * nothing that protection (claims, spawn protection, adventure mode) refuses to let them break. Clients draw the cut, a translucent afterimage where the wearer left from on each
  * teleport, and the crossed slash.
  */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID)
 public final class TenMagatsuhi {
     private static final int SYNC_INTERVAL = 10;
-    // how close together two right clicks can count, so a held button can't run all three steps at once
     private static final int STEP_GAP_TICKS = 6;
     private static final int AFTERIMAGE_TICKS = 14;
     private static final int SLASH_TICKS = 8;
@@ -79,26 +96,24 @@ public final class TenMagatsuhi {
 
     private static final Map<UUID, Rift> RIFTS = new HashMap<>();
     private static final Map<UUID, Combo> COMBOS = new HashMap<>();
+    private static final Map<UUID, Swing> SWINGS = new HashMap<>();
     private static final Map<UUID, Long> READY = new HashMap<>();
     private static final Map<UUID, Boolean> SYNCED = new HashMap<>();
 
     private enum Kind { BLOCKS, ENEMY, AIR }
 
-    // A cut, then the swap it led to.
+    /** A cut, then the swap it led to. */
     private static final class Rift {
         final ServerLevel level;
         final Kind kind;
-        // BLOCKS: the hole's lower block; the wearer stands in it
         final BlockPos bottom;
         @Nullable final Mob enemy;
-        // AIR: where the wearer's feet go
         final Vec3 point;
         final MagatsuhiFxMessage mark;
         long expires;
         long lastStep;
         boolean swapped;
         Vec3 origin;
-        // BLOCKS: what was lifted out of the hole (null = air), and whether each now stands at the origin
         final BlockState[] cut = new BlockState[2];
         final boolean[] placed = new boolean[2];
         BlockPos placedAt;
@@ -116,14 +131,17 @@ public final class TenMagatsuhi {
     private static final class Combo {
         int hits;
         long lastHit;
+        long lastSwingTick = -1L;
+        long finisherTick = -1L;
+    }
+
+    private record Swing(int targetId, long tick) {
     }
 
     private TenMagatsuhi() {
     }
 
-    // ---------- grants ----------
-
-    private static float floatGrant(Player player, iskallia.vault.gear.attribute.VaultGearAttribute<Float> attribute) {
+    private static float floatGrant(Player player, VaultGearAttribute<Float> attribute) {
         return AttributeSnapshotHelper.getInstance().getSnapshot(player).getAttributeValue(attribute, VaultGearAttributeTypeMerger.floatSum());
     }
 
@@ -132,9 +150,24 @@ public final class TenMagatsuhi {
         return MagatsuhiConfig.installed();
     }
 
-    // ---------- combo ----------
+    /** Records the target of a weapon swing from either hand, so only that swing's own hit can count toward the combo. */
+    @SubscribeEvent
+    public static void onAttackEntity(AttackEntityEvent event) {
+        if (!(event.getPlayer() instanceof ServerPlayer player) || floatGrant(player, ModGearAttributes.MAGATSUHI_COMBO) <= 0.0F) {
+            return;
+        }
+        if (!isWeapon(player.getItemInHand(BetterCombatAttacks.attackingHand(player)))) {
+            return;
+        }
+        SWINGS.put(player.getUUID(), new Swing(event.getTarget().getId(), player.getLevel().getGameTime()));
+    }
 
-    // Every comboHits-th melee hit in a row from the wearer's own swing is a finisher.
+    private static boolean isWeapon(ItemStack stack) {
+        Item item = stack.getItem();
+        return item instanceof SwordItem || item instanceof AxeItem || item instanceof TridentItem;
+    }
+
+    /** Every comboHits-th swing in a row is a finisher: all of that swing's targets take the extra damage. */
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         DamageSource source = event.getSource();
@@ -142,24 +175,34 @@ public final class TenMagatsuhi {
                 || source instanceof RiptideDerivedHits.Source || !(event.getEntityLiving() instanceof Mob mob)) {
             return;
         }
+        long now = player.getLevel().getGameTime();
+        Swing swing = SWINGS.get(player.getUUID());
+        if (swing == null || swing.targetId() != mob.getId() || swing.tick() != now) {
+            return;
+        }
+        SWINGS.remove(player.getUUID());
         MagatsuhiConfig tuning = tuning();
         float bonus = floatGrant(player, ModGearAttributes.MAGATSUHI_COMBO);
         if (tuning == null || bonus <= 0.0F) {
             return;
         }
-        long now = player.getLevel().getGameTime();
         Combo combo = COMBOS.computeIfAbsent(player.getUUID(), id -> new Combo());
-        if (now - combo.lastHit > tuning.comboResetTicks) {
-            combo.hits = 0;
+        if (combo.lastSwingTick != now) {
+            if (now - combo.lastHit > tuning.comboResetTicks) {
+                combo.hits = 0;
+            }
+            combo.lastHit = now;
+            combo.lastSwingTick = now;
+            combo.hits++;
+            if (combo.hits >= Math.max(1, tuning.comboHits)) {
+                combo.hits = 0;
+                combo.finisherTick = now;
+            }
         }
-        combo.lastHit = now;
-        combo.hits++;
-        if (combo.hits < Math.max(1, tuning.comboHits)) {
+        if (combo.finisherTick != now) {
             return;
         }
-        combo.hits = 0;
         event.setAmount(event.getAmount() * (1.0F + bonus));
-        // both katanas cross through the enemy in an X
         AABB box = mob.getBoundingBox();
         Vec3 at = box.getCenter();
         player.swing(InteractionHand.MAIN_HAND, true);
@@ -172,9 +215,7 @@ public final class TenMagatsuhi {
         sound(player.getLevel(), at, SoundEvents.PLAYER_ATTACK_SWEEP, 1.0F, 1.3F);
     }
 
-    // ---------- cut, swap, return ----------
-
-    // A right click with a katana: cut if there's no cut yet, swap with the cut, or return from the swap.
+    /** A right click with a katana: cut if there's no cut yet, swap with the cut, or return from the swap. */
     public static void act(ServerPlayer player) {
         MagatsuhiConfig tuning = tuning();
         if (tuning == null || !player.isAlive() || player.isSpectator()
@@ -223,7 +264,7 @@ public final class TenMagatsuhi {
             Direction face = block.getDirection();
             BlockPos pos = block.getBlockPos();
             BlockPos bottom = face == Direction.UP ? pos.below() : pos;
-            if (!cuttable(level, bottom) || !cuttable(level, bottom.above())) {
+            if (!cuttable(player, level, bottom) || !cuttable(player, level, bottom.above())) {
                 fizz(player);
                 return;
             }
@@ -252,13 +293,39 @@ public final class TenMagatsuhi {
         sound(level, player.position(), SoundEvents.ENDER_EYE_DEATH, 0.6F, 1.5F);
     }
 
-    // Blocks that can be lifted out: air, or a breakable block with no tile entity and no fluid in it.
-    private static boolean cuttable(ServerLevel level, BlockPos pos) {
+    /**
+     * Whether the block at pos can be lifted out: air, or a block the player could break here with a tool. Tile entities,
+     * fluids, unbreakable and wither-immune blocks, two-block blocks (doors, beds, tall plants), pistons and portals are
+     * refused, as is anything protection refuses: adventure mode, spawn protection or a cancelled break event.
+     */
+    private static boolean cuttable(ServerPlayer player, ServerLevel level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         if (state.isAir()) {
             return true;
         }
-        return !state.hasBlockEntity() && state.getDestroySpeed(level, pos) >= 0.0F && state.getFluidState().isEmpty();
+        if (state.hasBlockEntity() || !state.getFluidState().isEmpty() || state.getDestroySpeed(level, pos) < 0.0F
+                || state.is(BlockTags.WITHER_IMMUNE)) {
+            return false;
+        }
+        Block block = state.getBlock();
+        if (state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF) || state.hasProperty(BlockStateProperties.BED_PART)
+                || block instanceof DoorBlock || block instanceof DoublePlantBlock || block instanceof PistonHeadBlock
+                || block instanceof NetherPortalBlock) {
+            return false;
+        }
+        if (player.blockActionRestricted(level, pos, player.gameMode.getGameModeForPlayer()) || !level.mayInteract(player, pos)) {
+            return false;
+        }
+        return !MinecraftForge.EVENT_BUS.post(new BlockEvent.BreakEvent(level, pos, state, player));
+    }
+
+    /** Whether the player may set a block down at pos: spawn protection and a cancelled place event refuse it. */
+    private static boolean mayPlace(ServerPlayer player, ServerLevel level, BlockPos pos) {
+        if (!level.mayInteract(player, pos)) {
+            return false;
+        }
+        BlockSnapshot snapshot = BlockSnapshot.create(level.dimension(), level, pos);
+        return !MinecraftForge.EVENT_BUS.post(new BlockEvent.EntityPlaceEvent(snapshot, level.getBlockState(pos.below()), player));
     }
 
     private static void swap(ServerPlayer player, Rift rift, MagatsuhiConfig tuning) {
@@ -287,7 +354,7 @@ public final class TenMagatsuhi {
             }
             case BLOCKS -> {
                 for (int i = 0; i < 2; i++) {
-                    if (!cuttable(level, rift.bottom.above(i))) {
+                    if (!cuttable(player, level, rift.bottom.above(i))) {
                         drop(player, rift);
                         fizz(player);
                         return;
@@ -308,7 +375,8 @@ public final class TenMagatsuhi {
                 for (int i = 0; i < 2; i++) {
                     BlockState state = rift.cut[i];
                     BlockPos at = feet.above(i);
-                    if (state != null && !(state.getBlock() instanceof FallingBlock) && level.getBlockState(at).isAir() && state.canSurvive(level, at)) {
+                    if (state != null && !(state.getBlock() instanceof FallingBlock) && level.getBlockState(at).isAir() && state.canSurvive(level, at)
+                            && mayPlace(player, level, at)) {
                         level.setBlock(at, state, Block.UPDATE_ALL);
                         rift.placed[i] = true;
                     }
@@ -330,7 +398,9 @@ public final class TenMagatsuhi {
         slash(player, tuning);
     }
 
-    // Both katanas slash on arrival, hitting every enemy around for the magatsuhi_cut grant's share of attack damage.
+    /**
+     * Both katanas slash on arrival, hitting every enemy around for the magatsuhi_cut grant's share of attack damage.
+     */
     private static void slash(ServerPlayer player, MagatsuhiConfig tuning) {
         ServerLevel level = player.getLevel();
         Vec3 at = player.position().add(0.0, player.getBbHeight() * 0.5, 0.0);
@@ -350,7 +420,9 @@ public final class TenMagatsuhi {
         sound(level, at, SoundEvents.PLAYER_ATTACK_STRONG, 1.0F, 0.9F);
     }
 
-    // Puts everything back. teleport says whether the wearer goes back too (not after a death or a dimension change).
+    /**
+     * Puts everything back. teleport says whether the wearer goes back too (not after a death or a dimension change).
+     */
     private static void end(ServerPlayer player, Rift rift, boolean teleport) {
         if (!rift.swapped) {
             drop(player, rift);
@@ -415,7 +487,7 @@ public final class TenMagatsuhi {
         }
     }
 
-    // A cut that never got its swap.
+    /** A cut that never got its swap. */
     private static void drop(ServerPlayer player, Rift rift) {
         RIFTS.remove(player.getUUID());
         clearMark(player, rift);
@@ -433,7 +505,9 @@ public final class TenMagatsuhi {
         return player.getLevel().noCollision(player, player.getBoundingBox().move(feet.subtract(player.position())));
     }
 
-    // live = through the connection; otherwise (the player is leaving) just moved, so it's saved where it should be
+    /**
+     * Live = through the connection; otherwise (the player is leaving) just moved, so it's saved where it should be
+     */
     private static void teleport(ServerPlayer player, Vec3 to, boolean live) {
         player.fallDistance = 0.0F;
         if (live) {
@@ -456,8 +530,6 @@ public final class TenMagatsuhi {
     private static void sound(ServerLevel level, Vec3 at, SoundEvent sound, float volume, float pitch) {
         level.playSound(null, at.x, at.y, at.z, sound, SoundSource.PLAYERS, volume, pitch);
     }
-
-    // ---------- upkeep ----------
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -518,6 +590,7 @@ public final class TenMagatsuhi {
                 leave(player, rift);
             }
             COMBOS.remove(id);
+            SWINGS.remove(id);
             READY.remove(id);
             SYNCED.remove(id);
         }
@@ -533,11 +606,12 @@ public final class TenMagatsuhi {
         }
         RIFTS.clear();
         COMBOS.clear();
+        SWINGS.clear();
         READY.clear();
         SYNCED.clear();
     }
 
-    // The wearer is leaving the server: put everything back and save them where they started.
+    /** The wearer is leaving the server: put everything back and save them where they started. */
     private static void leave(ServerPlayer player, Rift rift) {
         Vec3 origin = rift.origin;
         boolean swapped = rift.swapped && player.getLevel() == rift.level;

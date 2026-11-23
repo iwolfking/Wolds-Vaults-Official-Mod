@@ -1218,7 +1218,7 @@
       "description": {
         "description": [
           {
-            "text": "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out five times the size.",
+            "text": "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out 1.5x the size.",
             "color": "$text"
           },
           {
@@ -1239,7 +1239,7 @@
       "description": {
         "description": [
           {
-            "text": "Bullet Bill set, in place of the helmet. Ten times the size, red hot, and everything nearby burns.",
+            "text": "Bullet Bill set, in place of the helmet. 2x the size, red hot, and everything nearby burns.",
             "color": "$text"
           },
           {

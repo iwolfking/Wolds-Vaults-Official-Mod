@@ -652,9 +652,9 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 "Not yet obtainable (Bullet Bill set)", "Bullet Bill set. Who needs legs once they're airborne?", SetPiece.LEGGINGS));
 
         consumer.accept(setPiece("woldsvaults:banzai_bill_helmet", "Banzai Bill Helmet", "the_vault:gear/armor/banzai_bill/helmet",
-                "Not yet obtainable (Bullet Bill set, rare)", "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out five times the size.", SetPiece.HELMET));
+                "Not yet obtainable (Bullet Bill set, rare)", "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out " + times(ModBulletBillProvider.bulletBill().banzaiScale) + " the size.", SetPiece.HELMET));
         consumer.accept(setPiece("woldsvaults:king_bill_helmet", "King Bill Helmet", "the_vault:gear/armor/king_bill/helmet",
-                "Not yet obtainable (Bullet Bill set, ultra rare)", "Bullet Bill set, in place of the helmet. Ten times the size, red hot, and everything nearby burns.", SetPiece.HELMET));
+                "Not yet obtainable (Bullet Bill set, ultra rare)", "Bullet Bill set, in place of the helmet. " + times(ModBulletBillProvider.bulletBill().kingScale) + " the size, red hot, and everything nearby burns.", SetPiece.HELMET));
 
         consumer.accept(setPiece("woldsvaults:daikyo", "Daikyo", "woldsvaults:gear/sword/daikyo",
                 "Not yet obtainable (Ten Magatsuhi)", "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.", SetPiece.KATANA));
@@ -704,7 +704,10 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build());
     }
 
-    // Stat blocks shared by the set pieces (Simon's Set, Bullet Bill, Ten Magatsuhi); each piece adds only its own names, model and text.
+    /**
+     * Stat blocks shared by the set pieces (Simon's Set, Bullet Bill, Ten Magatsuhi); each piece adds only its own
+     * names, model and text.
+     */
     private record SetPiece(Item item, String modelType, SlotType slotType, String base, String[] implicit, String[] prefix, String[] suffix) {
         static final SetPiece HELMET = new SetPiece(ModItems.HELMET, "ARMOR", SlotType.HEAD, "the_vault:base_durability",
                 new String[] {"the_vault:base_armor", "the_vault:base_ap"},
@@ -714,7 +717,6 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 new String[] {"the_vault:base_armor", "the_vault:u_base_crit_hit"},
                 new String[] {"the_vault:u_mod_armor", "the_vault:mod_damage_increase", "the_vault:mod_resistance"},
                 new String[] {"the_vault:set_effect_duration", "the_vault:mod_cooldown_reduction", "the_vault:set_healing_efficiency"});
-        // Leggings roll the same stats as the chestplate.
         static final SetPiece LEGGINGS = new SetPiece(ModItems.LEGGINGS, "ARMOR", SlotType.LEGS, CHESTPLATE.base,
                 CHESTPLATE.implicit, CHESTPLATE.prefix, CHESTPLATE.suffix);
         static final SetPiece BOOTS = new SetPiece(ModItems.BOOTS, "ARMOR", SlotType.FEET, "the_vault:base_durability",
@@ -725,5 +727,9 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 new String[] {"the_vault:base_attack_damage", "the_vault:base_attack_speed"},
                 new String[] {"the_vault:mod_attack_damage", "the_vault:mod_damage_increase"},
                 new String[] {"the_vault:mod_area_of_effect", "the_vault:set_effect_duration"});
+    }
+
+    private static String times(float scale) {
+        return (scale == Math.rint(scale) ? Integer.toString(Math.round(scale)) : Float.toString(scale)) + "x";
     }
 }

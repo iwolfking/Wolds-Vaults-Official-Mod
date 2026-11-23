@@ -20,44 +20,40 @@ import java.util.function.Predicate;
  * Simon's Set ({@link xyz.iwolfking.woldsvaults.modifiers.gear.simon.SimonsSet}) plays it with its crystals.
  */
 public final class SimonSaysGame<T> {
-    // how a round is paced, in ticks: the pause before the first step, how long a step stays lit and the gap after it,
-    // and how long the player gets to answer (a base plus some per step)
+    /**
+     * How a round is paced, in ticks: the pause before the first step, how long a step stays lit and the gap after it,
+     * and how long the player gets to answer (a base plus some per step)
+     */
     public record Timing(int leadTicks, int showTicks, int gapTicks, int answerBaseTicks, int answerTicksPerStep) {
     }
 
     public enum CueKind {
         NONE,
-        // this piece is the step being shown
         LIGHT,
-        // this piece's time being shown is over
         DIM,
-        // the whole pattern has been shown and the clock has started
         PLAYER_TURN,
-        // the player ran out of time, which loses the round
         TIMED_OUT
     }
 
-    // what a tick asks for, and the piece it's about for LIGHT and DIM
+    /** What a tick asks for, and the piece it's about for LIGHT and DIM */
     public record Cue<T>(CueKind kind, @Nullable T piece) {
     }
 
     public enum Outcome {
-        // not the player's turn, or not a piece in this round: nothing happened
         IGNORED,
-        // the step that was due
         CORRECT,
-        // a wild piece picked out of turn: the step that was due counts as done
         STAND_IN,
-        // the wrong piece, which loses the round
         WRONG
     }
 
-    // What came of a press: the step that was due, whether that step's piece has no more turns this round, and whether
-    // this finished the pattern. For STAND_IN the step isn't the piece that was pressed.
+    /**
+     * What came of a press: the step that was due, whether that step's piece has no more turns this round, and whether
+     * this finished the pattern. For STAND_IN the step isn't the piece that was pressed.
+     */
     public record Press<T>(Outcome outcome, @Nullable T step, boolean lastTurn, boolean finished) {
     }
 
-    // a run of rounds won in a row, for whoever runs the game to keep between them and forget when one is lost
+    /** A run of rounds won in a row, for whoever runs the game to keep between them and forget when one is lost */
     public static final class Streak {
         private int wins;
         private int lastLength;
@@ -70,9 +66,10 @@ public final class SimonSaysGame<T> {
             return this.lastLength;
         }
 
-        // how long the next round should be: every piece at least once, and a step longer than the last round won
-        public int lengthFor(int pieces) {
-            return Math.max(pieces, this.wins > 0 ? this.lastLength + 1 : 0);
+        /** How long the next round should be: every piece at least once, and a step longer than the last round won, up to maxLength. */
+        public int lengthFor(int pieces, int maxLength) {
+            int wanted = this.wins > 0 ? this.lastLength + 1 : 0;
+            return Math.max(pieces, Math.min(wanted, maxLength));
         }
 
         public void won(int length) {
@@ -98,8 +95,10 @@ public final class SimonSaysGame<T> {
         this.wild = wild;
     }
 
-    // A new round: every piece once in the order given, then at random, never the same one twice running, until the
-    // pattern is `length` steps long.
+    /**
+     * A new round: every piece once in the order given, then at random, never the same one twice running, until the
+     * pattern is `length` steps long.
+     */
     public static <T> SimonSaysGame<T> start(List<T> pieces, int length, Timing timing, Predicate<? super T> wild, Random random) {
         if (pieces.isEmpty()) {
             throw new IllegalArgumentException("A game of Simon Says needs at least one piece");
@@ -114,7 +113,7 @@ public final class SimonSaysGame<T> {
         return new SimonSaysGame<>(steps, members, timing, wild);
     }
 
-    // One game tick: what's being shown, or the player's clock running down.
+    /** One game tick: what's being shown, or the player's clock running down. */
     public Cue<T> tick() {
         this.age++;
         if (this.playerTurn) {
@@ -138,7 +137,7 @@ public final class SimonSaysGame<T> {
         return within == this.timing.showTicks() ? new Cue<>(CueKind.DIM, this.steps.get(index)) : new Cue<>(CueKind.NONE, null);
     }
 
-    // The player picks a piece.
+    /** The player picks a piece. */
     public Press<T> press(T piece) {
         if (!this.playerTurn || this.next >= this.steps.size()) {
             return new Press<>(Outcome.IGNORED, null, false, false);
@@ -163,12 +162,12 @@ public final class SimonSaysGame<T> {
         return this.playerTurn;
     }
 
-    // how many steps the pattern has
+    /** How many steps the pattern has */
     public int length() {
         return this.steps.size();
     }
 
-    // the pieces still in the round, each once
+    /** The pieces still in the round, each once */
     public List<T> pieces() {
         return Collections.unmodifiableList(this.pieces);
     }
@@ -177,7 +176,7 @@ public final class SimonSaysGame<T> {
         return this.pieces.contains(piece);
     }
 
-    // a piece that's used up and no longer counts as being in the round
+    /** A piece that's used up and no longer counts as being in the round */
     public void remove(T piece) {
         this.pieces.remove(piece);
     }

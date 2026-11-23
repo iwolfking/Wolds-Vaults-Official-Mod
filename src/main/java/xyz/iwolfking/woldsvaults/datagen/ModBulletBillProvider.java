@@ -27,8 +27,8 @@ public class ModBulletBillProvider extends AbstractWoldsTableProvider {
         table.detonationRadiusPerSpeed = 1.5F;
         table.detonationMaxRadius = 14.0F;
         table.detonationOvertimeTicks = 200;
-        table.banzaiScale = 5.0F;
-        table.kingScale = 10.0F;
+        table.banzaiScale = 1.5F;
+        table.kingScale = 2.0F;
         table.giantReachShare = 1.0F;
         table.cruiseSpeed = 0.7F;
         table.kingHeatRadius = 12.0F;

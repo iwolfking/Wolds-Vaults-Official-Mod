@@ -17,7 +17,7 @@ public class ModLightningFiendProvider extends AbstractWoldsTableProvider {
         table.formDurationTicks = 200;
         table.dashDistance = 7.0F;
         table.dashWidth = 1.5F;
-        table.dashCooldownTicks = 0;
+        table.dashCooldownTicks = 10;
         table.dashTravelTicks = 2;
         table.arcLashRange = 12.0F;
         table.arcLashDamage = 0.5F;
