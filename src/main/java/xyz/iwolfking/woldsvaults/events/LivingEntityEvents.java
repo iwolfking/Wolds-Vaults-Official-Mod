@@ -182,7 +182,7 @@ public class LivingEntityEvents {
         if (ChainScope.active()) {
             return;
         }
-        if (WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet()) {
+        if (WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet() || WoldActiveFlags.IS_LIGHTNING_CHAINING.isSet()) {
             return;
         }
         Entity attacker = event.getSource().getEntity();

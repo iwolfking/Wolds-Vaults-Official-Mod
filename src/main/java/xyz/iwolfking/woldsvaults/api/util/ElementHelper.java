@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
+import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 
 import java.util.*;
 
@@ -105,6 +106,7 @@ public class ElementHelper {
             spawnLightningBeam(serverLevel, currentSource.position().add(0, currentSource.getBbHeight() / 2, 0), nextTarget.position().add(0, nextTarget.getBbHeight() / 2, 0));
 
             ActiveFlags.IS_AP_ATTACKING.push();
+            WoldActiveFlags.IS_LIGHTNING_CHAINING.push();
             try {
                 DamageSource sparkleSource = DamageSource.indirectMagic(currentSource, attacker);
                 nextTarget.hurt(sparkleSource, chainDamage);
@@ -113,6 +115,7 @@ public class ElementHelper {
                     LightningTalentHelper.tryToApplyStun(serverPlayer, nextTarget, stunChanceAndDuration);
                 }
             } finally {
+                WoldActiveFlags.IS_LIGHTNING_CHAINING.pop();
                 ActiveFlags.IS_AP_ATTACKING.pop();
             }
 
