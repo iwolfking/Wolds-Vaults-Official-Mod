@@ -1,0 +1,30 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 50,
+      "id": "woldsvaults:crystal_seal_survivor",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_survivor",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_empty",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 4,
+          "ITEM": "the_vault:eternal_soul",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 32,
+          "ITEM": "the_vault:gem_alexandrite",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

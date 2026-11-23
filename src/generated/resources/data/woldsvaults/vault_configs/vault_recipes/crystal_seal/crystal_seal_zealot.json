@@ -1,0 +1,25 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 40,
+      "id": "woldsvaults:crystal_seal_zealot",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_zealot",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_empty",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "woldsvaults:god_offering",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

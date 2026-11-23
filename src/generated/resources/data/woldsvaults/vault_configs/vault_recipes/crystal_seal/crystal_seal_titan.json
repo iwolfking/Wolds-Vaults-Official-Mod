@@ -1,0 +1,30 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 50,
+      "id": "woldsvaults:crystal_seal_titan",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_titan",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_empty",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "the_vault:gem_painite",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 32,
+          "ITEM": "the_vault:gem_alexandrite",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

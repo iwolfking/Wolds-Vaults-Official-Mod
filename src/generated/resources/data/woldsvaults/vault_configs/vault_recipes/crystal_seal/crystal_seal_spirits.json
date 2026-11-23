@@ -1,0 +1,30 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 50,
+      "id": "woldsvaults:crystal_seal_spirits",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_spirits",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_scout",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 32,
+          "ITEM": "the_vault:gem_alexandrite",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 8,
+          "ITEM": "the_vault:eternal_soul",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

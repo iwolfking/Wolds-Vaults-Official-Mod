@@ -1,0 +1,30 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 50,
+      "id": "woldsvaults:crystal_seal_alchemy",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_alchemy",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_empty",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 32,
+          "ITEM": "the_vault:gem_alexandrite",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 64,
+          "ITEM": "the_vault:vault_essence",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}

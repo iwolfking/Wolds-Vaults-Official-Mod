@@ -1,0 +1,30 @@
+{
+  "sealRecipes": [
+    {
+      "unlockLevel": 50,
+      "id": "woldsvaults:crystal_seal_unhinged_scavingo",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "woldsvaults:crystal_seal_unhinged_scavingo",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:crystal_seal_collector",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 16,
+          "ITEM": "woldsvaults:crystal_seal_unhinged",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 4,
+          "ITEM": "the_vault:eternal_soul",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}
