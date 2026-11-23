@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:chromatic_steel_block"
+    },
+    "B": {
+      "item": "woldsvaults:chromatic_gold_block"
+    },
+    "C": {
+      "item": "woldsvaults:pog_prism"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:extraction_forge"
+  }
+}

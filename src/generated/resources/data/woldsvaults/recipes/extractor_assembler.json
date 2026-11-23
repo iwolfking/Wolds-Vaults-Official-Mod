@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:chromatic_steel_block"
+    },
+    "B": {
+      "item": "the_vault:extraordinary_echo_gem"
+    },
+    "C": {
+      "item": "the_vault:ornate_chest_scroll"
+    },
+    "D": {
+      "item": "the_vault:omega_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:extractor_assembler"
+  }
+}

@@ -193,6 +193,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_chromatic_steel", has(iskallia.vault.init.ModItems.CHROMATIC_STEEL_INGOT))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(ModBlocks.EXTRACTOR_FORGE_BLOCK)
+                .define('A', iskallia.vault.init.ModBlocks.CHROMATIC_STEEL_BLOCK)
+                .define('B', ModBlocks.CHROMATIC_GOLD_BLOCK)
+                .define('C', ModItems.POG_PRISM)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .unlockedBy("has_pog_prism", has(ModItems.POG_PRISM))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(ModBlocks.EXTRACTOR_ASSEMBLER_BLOCK)
+                .define('A', iskallia.vault.init.ModBlocks.CHROMATIC_STEEL_BLOCK)
+                .define('B', iskallia.vault.init.ModItems.EXTRAORDINARY_ECHO_GEM)
+                .define('C', iskallia.vault.init.ModItems.ORNATE_CHEST_SCROLL)
+                .define('D', iskallia.vault.init.ModItems.OMEGA_POG)
+                .pattern("ABA")
+                .pattern("CDC")
+                .pattern("ABA")
+                .unlockedBy("has_omega_pog", has(iskallia.vault.init.ModItems.OMEGA_POG))
+                .save(pFinishedRecipeConsumer);
+
         ShapelessRecipeBuilder.shapeless(ModItems.BLANK_FABRICATION_PATTERN, 2)
                 .requires(Items.PAPER)
                 .requires(iskallia.vault.init.ModItems.VAULT_ESSENCE)

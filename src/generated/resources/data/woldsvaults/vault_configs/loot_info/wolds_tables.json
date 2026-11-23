@@ -2,7 +2,7 @@
   "excludeFromTooltip": [],
   "info": {
     "the_vault:wooden_chest_stage_1": {
-      "display": "Wooden Chest (Greed Stage 1)",
+      "display": "Wooden Chest (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/wooden_chest": {
           "level": 0
@@ -38,7 +38,7 @@
       }
     },
     "the_vault:treasure_chest_velara_stage_3": {
-      "display": "Treasure Chest Velara (Greed Stage 3)",
+      "display": "Treasure Chest Velara (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_chest_velara": {
           "level": 0
@@ -46,7 +46,7 @@
       }
     },
     "the_vault:treasure_chest_wendarr_stage_3": {
-      "display": "Treasure Chest Wendarr (Greed Stage 3)",
+      "display": "Treasure Chest Wendarr (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_chest_wendarr": {
           "level": 0
@@ -62,7 +62,7 @@
       }
     },
     "the_vault:gilded_chest_stage_1": {
-      "display": "Gilded Chest (Greed Stage 1)",
+      "display": "Gilded Chest (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/gilded_chest": {
           "level": 0
@@ -70,7 +70,7 @@
       }
     },
     "the_vault:treasure_pillar_stage_3": {
-      "display": "Treasure Pillar (Greed Stage 3)",
+      "display": "Treasure Pillar (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_pillar": {
           "level": 0
@@ -94,7 +94,7 @@
       }
     },
     "the_vault:ornate_chest_stage_1": {
-      "display": "Ornate Chest (Greed Stage 1)",
+      "display": "Ornate Chest (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/ornate_chest": {
           "level": 0
@@ -110,7 +110,7 @@
       }
     },
     "the_vault:living_strongbox_stage_1": {
-      "display": "Living Strongbox (Greed Stage 1)",
+      "display": "Living Strongbox (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/living_strongbox": {
           "level": 0
@@ -118,7 +118,7 @@
       }
     },
     "the_vault:living_chest_stage_1": {
-      "display": "Living Chest (Greed Stage 1)",
+      "display": "Living Chest (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/living_chest": {
           "level": 0
@@ -209,7 +209,7 @@
       }
     },
     "the_vault:treasure_chest_tenos_stage_3": {
-      "display": "Treasure Chest Tenos (Greed Stage 3)",
+      "display": "Treasure Chest Tenos (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_chest_tenos": {
           "level": 0
@@ -217,7 +217,7 @@
       }
     },
     "the_vault:treasure_chest_stage_3": {
-      "display": "Treasure Chest (Greed Stage 3)",
+      "display": "Treasure Chest (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_chest": {
           "level": 0
@@ -289,7 +289,7 @@
       }
     },
     "the_vault:wooden_dungeon_barrel_stage_2": {
-      "display": "Wooden Dungeon Barrel (Greed Stage 2)",
+      "display": "Wooden Dungeon Barrel (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/wooden_dungeon_barrel": {
           "level": 0
@@ -305,7 +305,7 @@
       }
     },
     "the_vault:ornate_strongbox_stage_1": {
-      "display": "Ornate Strongbox (Greed Stage 1)",
+      "display": "Ornate Strongbox (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/ornate_strongbox": {
           "level": 0
@@ -313,7 +313,7 @@
       }
     },
     "the_vault:gilded_strongbox_stage_1": {
-      "display": "Gilded Strongbox (Greed Stage 1)",
+      "display": "Gilded Strongbox (Looter 1+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/gilded_strongbox": {
           "level": 0
@@ -321,7 +321,7 @@
       }
     },
     "the_vault:living_dungeon_barrel_stage_2": {
-      "display": "Living Dungeon Barrel (Greed Stage 2)",
+      "display": "Living Dungeon Barrel (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/living_dungeon_barrel": {
           "level": 0
@@ -329,7 +329,7 @@
       }
     },
     "the_vault:treasure_chest_idona_stage_3": {
-      "display": "Treasure Chest Idona (Greed Stage 3)",
+      "display": "Treasure Chest Idona (Hunter 2+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_3/treasure_chest_idona": {
           "level": 0
@@ -345,7 +345,7 @@
       }
     },
     "the_vault:gilded_dungeon_barrel_stage_2": {
-      "display": "Gilded Dungeon Barrel (Greed Stage 2)",
+      "display": "Gilded Dungeon Barrel (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/gilded_dungeon_barrel": {
           "level": 0
@@ -370,7 +370,7 @@
       }
     },
     "the_vault:dungeon_boss_stage_2": {
-      "display": "Dungeon Boss (Greed Stage 2)",
+      "display": "Dungeon Boss (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/dungeon_boss": {
           "level": 0
@@ -378,7 +378,7 @@
       }
     },
     "the_vault:ornate_dungeon_barrel_stage_2": {
-      "display": "Ornate Dungeon Barrel (Greed Stage 2)",
+      "display": "Ornate Dungeon Barrel (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/ornate_dungeon_barrel": {
           "level": 0
@@ -386,7 +386,7 @@
       }
     },
     "the_vault:enigma_chest_stage_2": {
-      "display": "Enigma Chest (Greed Stage 2)",
+      "display": "Enigma Chest (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/enigma_chest": {
           "level": 0
@@ -394,7 +394,7 @@
       }
     },
     "the_vault:dungeon_pedestal_stage_2": {
-      "display": "Dungeon Pedestal (Greed Stage 2)",
+      "display": "Dungeon Pedestal (Looter 3+)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_2/dungeon_pedestal": {
           "level": 0
@@ -402,7 +402,7 @@
       }
     },
     "the_vault:enigma_chest_stage_1": {
-      "display": "Enigma Chest (Greed Stage 1)",
+      "display": "Enigma Chest (Looter 1-2)",
       "lootTableKeys": {
         "woldsvaults:greed/stage_1/enigma_chest": {
           "level": 0
