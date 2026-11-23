@@ -1,6 +1,7 @@
 {
   "challenges": {
     "pitch_black": {
+      "minimum_summon_fury": 0,
       "objective": {
         "target": {
           "count": 10,
@@ -53,6 +54,7 @@
       "exhausted": true
     },
     "ultra_hard": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.4,
         "type": "elixir"
@@ -99,6 +101,7 @@
       "exhausted": true
     },
     "elixir_of_doom": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
         "type": "enchanted_elixir"
@@ -133,6 +136,7 @@
       "exhausted": true
     },
     "ballistic_bingo_blackout": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
         "sealCount": 2,
@@ -160,6 +164,7 @@
       "exhausted": true
     },
     "blackout_scavingo": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
         "width": 5,
@@ -189,6 +194,7 @@
       "exhausted": true
     },
     "gods_challenge": {
+      "minimum_summon_fury": 0,
       "objective": {
         "target": {
           "count": 10,
@@ -241,6 +247,7 @@
       "exhausted": true
     },
     "big_bad_brew": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.5,
         "required_progress": 10.0,
@@ -275,6 +282,7 @@
       "exhausted": true
     },
     "chaos_chaos_chaos": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 1.0,
         "type": "chaos"
@@ -317,6 +325,7 @@
       "exhausted": true
     },
     "rage_cage": {
+      "minimum_summon_fury": 0,
       "objective": {
         "target": {
           "count": 7,
@@ -366,6 +375,7 @@
       "exhausted": true
     },
     "survival_of_the_fittest": {
+      "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.5,
         "target": 30,

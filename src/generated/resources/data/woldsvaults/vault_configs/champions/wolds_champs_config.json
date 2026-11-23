@@ -9,6 +9,5 @@
   "defaultAttributeOverrides": [],
   "entityAttributeOverrides": {
     "{id:\"woldsvaults:purple_ghost\"}": []
-  },
-  "entityAffixesData": {}
+  }
 }

@@ -4,6 +4,7 @@
   "blocksMined": {},
   "treasureRoomsOpened": 0.0,
   "mobsKilled": {},
+  "championsKilled": 0.0,
   "completion": {
     "survival": {
       "FAILED": 0.0,
