@@ -623,8 +623,8 @@
     },
     "wendarr_armored_extractors": {
       "size": 0,
-      "x": 180,
-      "y": 504,
+      "x": 126,
+      "y": 234,
       "frameType": "SQUARE",
       "icon": "the_vault:textures/gui/greed/nodes/armour.png"
     },
@@ -700,8 +700,8 @@
     },
     "wendarr_temporal_breaking": {
       "size": 0,
-      "x": 126,
-      "y": 234,
+      "x": 180,
+      "y": 504,
       "frameType": "SQUARE",
       "icon": "the_vault:textures/gui/greed/nodes/stun_chance.png"
     },

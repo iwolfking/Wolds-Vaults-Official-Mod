@@ -1563,11 +1563,11 @@
       "wendarr_bl_9_2_pious_devotion"
     ],
     [
-      "wendarr_armored_extractors",
+      "wendarr_temporal_breaking",
       "wendarr_br_1_1_heavily_effected"
     ],
     [
-      "wendarr_armored_extractors",
+      "wendarr_temporal_breaking",
       "wendarr_br_3_1_speedy_caster"
     ],
     [
@@ -1664,7 +1664,7 @@
     ],
     [
       "wendarr_br_6_0_speedy_caster",
-      "wendarr_temporal_breaking"
+      "wendarr_armored_extractors"
     ],
     [
       "wendarr_br_6_1_pious_devotion",
@@ -1684,7 +1684,7 @@
     ],
     [
       "wendarr_br_8_0_heavily_effected",
-      "wendarr_temporal_breaking"
+      "wendarr_armored_extractors"
     ],
     [
       "wendarr_br_8_1_speedy_caster",

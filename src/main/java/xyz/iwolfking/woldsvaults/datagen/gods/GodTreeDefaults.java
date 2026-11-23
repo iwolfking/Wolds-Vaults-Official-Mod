@@ -659,7 +659,7 @@ public final class GodTreeDefaults {
         wendarrPiousDevotion(tree, "wendarr_br_1_0_pious_devotion", 108, 468);
         heavilyEffected(tree, "wendarr_br_1_1_heavily_effected", 108, 504);
         heavilyEffected(tree, "wendarr_br_2_0_heavily_effected", 180, 468);
-        tree.minor("wendarr_armored_extractors", "Armored Extractors", "wendarr_armored_extractors", icon("armour"), 180, 504);
+        tree.minor("wendarr_armored_extractors", "Armored Extractors", "wendarr_armored_extractors", icon("armour"), 126, 234);
         extractionSuperviser(tree, "wendarr_br_3_0_extraction_superviser", 234, 432);
         speedyCaster(tree, "wendarr_br_3_1_speedy_caster", 270, 450);
         extractionSuperviser(tree, "wendarr_br_4_0_extraction_superviser", 252, 360);
@@ -670,7 +670,7 @@ public final class GodTreeDefaults {
         speedyCaster(tree, "wendarr_br_6_0_speedy_caster", 162, 288);
         wendarrPiousDevotion(tree, "wendarr_br_6_1_pious_devotion", 180, 252);
         heavilyEffected(tree, "wendarr_br_6_2_heavily_effected", 216, 234);
-        tree.minor("wendarr_temporal_breaking", "Temporal Breaking", "wendarr_temporal_breaking", icon("stun_chance"), 126, 234);
+        tree.minor("wendarr_temporal_breaking", "Temporal Breaking", "wendarr_temporal_breaking", icon("stun_chance"), 180, 504);
         speedyCaster(tree, "wendarr_br_7_1_speedy_caster", 162, 216);
         tree.minor("wendarr_extender", "Extender", "wendarr_extender", icon("utility"), 180, 180);
         heavilyEffected(tree, "wendarr_br_8_0_heavily_effected", 90, 198);
@@ -680,8 +680,8 @@ public final class GodTreeDefaults {
         heavilyEffected(tree, "wendarr_br_9_1_heavily_effected", 90, 126);
         wendarrPiousDevotion(tree, "wendarr_br_9_2_pious_devotion", 90, 36);
         speedyCaster(tree, "wendarr_br_10_0_speedy_caster", 36, 90);
-        tree.edge("wendarr_armored_extractors", "wendarr_br_1_1_heavily_effected");
-        tree.edge("wendarr_armored_extractors", "wendarr_br_3_1_speedy_caster");
+        tree.edge("wendarr_temporal_breaking", "wendarr_br_1_1_heavily_effected");
+        tree.edge("wendarr_temporal_breaking", "wendarr_br_3_1_speedy_caster");
         tree.edge("wendarr_br_0_0_speedy_caster", "wendarr_br_0_1_speedy_caster");
         tree.edge("wendarr_br_0_0_speedy_caster", "wendarr_br_1_0_pious_devotion");
         tree.edge("wendarr_br_0_1_speedy_caster", "wendarr_br_1_0_pious_devotion");
@@ -705,12 +705,12 @@ public final class GodTreeDefaults {
         tree.edge("wendarr_br_5_1_heavily_effected", "wendarr_br_6_1_pious_devotion");
         tree.edge("wendarr_br_5_2_speedy_caster", "wendarr_br_6_1_pious_devotion");
         tree.edge("wendarr_br_5_2_speedy_caster", "wendarr_br_6_2_heavily_effected");
-        tree.edge("wendarr_br_6_0_speedy_caster", "wendarr_temporal_breaking");
+        tree.edge("wendarr_br_6_0_speedy_caster", "wendarr_armored_extractors");
         tree.edge("wendarr_br_6_1_pious_devotion", "wendarr_br_7_1_speedy_caster");
         tree.edge("wendarr_br_6_2_heavily_effected", "wendarr_extender");
         tree.edge("wendarr_br_7_1_speedy_caster", "wendarr_br_8_1_speedy_caster");
         tree.edge("wendarr_br_8_0_heavily_effected", "wendarr_br_9_0_speedy_caster");
-        tree.edge("wendarr_br_8_0_heavily_effected", "wendarr_temporal_breaking");
+        tree.edge("wendarr_br_8_0_heavily_effected", "wendarr_armored_extractors");
         tree.edge("wendarr_br_8_1_speedy_caster", "wendarr_br_9_1_heavily_effected");
         tree.edge("wendarr_br_8_1_speedy_caster", "wendarr_br_9_2_pious_devotion");
         tree.edge("wendarr_br_8_2_speedy_caster", "wendarr_br_9_2_pious_devotion");
