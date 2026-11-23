@@ -400,6 +400,7 @@ dependencies {
     implementation fg.deobf('local:vhapi:6.0.0')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
     implementation fg.deobf('local:bc_nbt_fix:1.0')
+    implementation fg.deobf('local:just_enough_vh:1.11')
 //    implementation fg.deobf('local:serverportals:1.18.2-1.5')
 
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
@@ -413,6 +414,9 @@ dependencies {
 //    }
     jarJar(group: 'smartin', name: 'bc_nbt_fix', version: '[1.0,)') {
         jarJar.pin(it, '1.0')
+    }
+    jarJar(group: 'dev.attackeight', name: 'just_enough_vh', version: '[1.11,)') {
+        jarJar.pin(it, '1.11')
     }
     jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_commands', version: '[1.9.0,)') {
         jarJar.pin(it, '1.9.0')
