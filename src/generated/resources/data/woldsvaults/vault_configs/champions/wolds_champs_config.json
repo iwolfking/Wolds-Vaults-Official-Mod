@@ -8,6 +8,17 @@
   },
   "defaultAttributeOverrides": [],
   "entityAttributeOverrides": {
-    "{id:\"woldsvaults:purple_ghost\"}": []
+    "{id:\"woldsvaults:purple_ghost\"}": [
+      {
+        "NAME": "minecraft:generic.max_health",
+        "VALUE": 5.0,
+        "OPERATOR": "multiply"
+      },
+      {
+        "NAME": "minecraft:generic.attack_damage",
+        "VALUE": 2.0,
+        "OPERATOR": "multiply"
+      }
+    ]
   }
 }

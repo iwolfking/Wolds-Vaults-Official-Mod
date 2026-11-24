@@ -1,18 +1,24 @@
 package xyz.iwolfking.woldsvaults.objectives;
 
-
 import iskallia.vault.VaultMod;
 import iskallia.vault.block.MonolithBlock;
 import iskallia.vault.block.entity.MonolithTileEntity;
+import iskallia.vault.config.MonolithConfig;
 import iskallia.vault.core.Version;
 import iskallia.vault.core.data.key.SupplierKey;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.BlockUseEvent;
+import iskallia.vault.core.random.ChunkRandom;
+import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultLevel;
+import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.objective.MonolithObjective;
 import iskallia.vault.core.vault.objective.Objective;
 import iskallia.vault.core.vault.objective.brazier.BrazierBlessing;
-import iskallia.vault.core.vault.objective.brazier.BrazierHold;
+import iskallia.vault.core.vault.objective.brazier.BrazierHeatTier;
+import iskallia.vault.core.vault.player.Listener;
+import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
@@ -21,21 +27,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
+import xyz.iwolfking.woldsvaults.objectives.haunted_braziers.HauntedBrazierHold;
 
-import java.util.*;
+import java.util.Optional;
 
-//TODO: Rework Haunted Braziers a bit to better suit the new Brazier objective
 public class HauntedBraziersObjective extends MonolithObjective {
-    public static final SupplierKey<Objective> E_KEY = SupplierKey.of("haunted_braziers", Objective.class).with(Version.v1_12, HauntedBraziersObjective::new);
+    public static final SupplierKey<Objective> E_KEY = SupplierKey.of("haunted_braziers", Objective.class)
+            .with(Version.v1_12, HauntedBraziersObjective::new);
     public static final ResourceLocation HAUNTED_HUD = VaultMod.id("textures/gui/monolith/haunted_hud.png");
-    public HauntedBraziersObjective() {
-    }
 
-    @Override
-    public SupplierKey<Objective> getKey() {
-        return E_KEY;
+    private static final long BLESSING_SEED_SALT = 90039737L;
+    private static final int MAX_BLESSING_ROLLS = 8;
+    private static final long ROLL_CHECK_INTERVAL_TICKS = 10L;
+
+    public HauntedBraziersObjective() {
     }
 
     protected HauntedBraziersObjective(int target, float objectiveProbability) {
@@ -50,131 +56,148 @@ public class HauntedBraziersObjective extends MonolithObjective {
         return new HauntedBraziersObjective(target, objectiveProbability);
     }
 
+    @Override
+    public SupplierKey<Objective> getKey() {
+        return E_KEY;
+    }
 
+    @Override
     public void initServer(VirtualWorld world, Vault vault) {
         ObjectiveHelper.handleAddingNormalizedToVault(vault, world);
 
-        ObjectiveHelper.addInitModifiersToVault(vault, resourceLocations -> {
-            resourceLocations.add(WoldsVaults.id("ghost_town"));
-            resourceLocations.add(VaultMod.id("haunting"));
-        });
+//        ObjectiveHelper.addInitModifiersToVault(vault, resourceLocations -> {
+//            resourceLocations.add(WoldsVaults.id("ghost_town"));
+//            resourceLocations.add(VaultMod.id("haunting"));
+//        });
 
-        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, (data) -> {
+        CommonEvents.OBJECTIVE_PIECE_GENERATION.register(this, data -> {
             if (data.getVault() == vault) {
-                this.ifPresent(OBJECTIVE_PROBABILITY, (probability) -> data.setProbability((double)probability));
+                this.ifPresent(OBJECTIVE_PROBABILITY, probability -> data.setProbability((double) probability));
             }
         });
+
         this.registerObjectiveTemplate(world, vault);
-        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.MONOLITH).register(this, (data) -> {
+
+        CommonEvents.BLOCK_USE.in(world).at(BlockUseEvent.Phase.HEAD).of(ModBlocks.MONOLITH).register(this, data -> {
             if (data.getHand() != InteractionHand.MAIN_HAND) {
                 data.setResult(InteractionResult.SUCCESS);
             } else if (data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
                 if (vault.get(Vault.LISTENERS).getObjectivePriority(data.getPlayer().getUUID(), this) == 0) {
-                    BlockEntity patt6702$temp = data.getWorld().getBlockEntity(data.getPos());
-                    if (patt6702$temp instanceof MonolithTileEntity tile) {
+                    BlockEntity blockEntity = data.getWorld().getBlockEntity(data.getPos());
+                    if (blockEntity instanceof MonolithTileEntity tile) {
                         data.setResult(InteractionResult.SUCCESS);
                         if (!tile.isHolding()) {
                             if (tile.getBlessing().isEmpty()) {
-                                Optional<BrazierBlessing> var10000 = this.rollBlessing(vault, data.getPos());
-                                Objects.requireNonNull(tile);
-                                var10000.ifPresent(tile::setBlessing);
+                                this.rollBlessing(vault, data.getPos()).ifPresent(tile::setBlessing);
                             }
 
                             if (tile.getBlessing().isPresent()) {
-                                BrazierHold.start(world, vault, this, tile, data.getPos());
+                                HauntedBrazierHold.start(world, vault, this, tile, data.getPos());
                             }
                         }
                     }
                 }
             }
         });
-        CommonEvents.MONOLITH_UPDATE.register(this, (data) -> {
+
+        CommonEvents.MONOLITH_UPDATE.register(this, data -> {
             if (data.getWorld() == world) {
                 if (data.getState().getValue(MonolithBlock.STATE) == MonolithBlock.State.EXTINGUISHED) {
                     MonolithTileEntity tile = data.getEntity();
                     if (tile.isHolding()) {
-                        BrazierHold.tick(world, vault, this, tile, data.getPos());
-                    } else {
-                        if (tile.getBlessing().isEmpty() && (world.getGameTime() + data.getPos().asLong()) % 10L == 0L && this.isPlayerNear(world, data.getPos())) {
-                            Optional<BrazierBlessing> var10000 = this.rollBlessing(vault, data.getPos());
-                            Objects.requireNonNull(tile);
-                            var10000.ifPresent(tile::setBlessing);
-                        }
-
+                        HauntedBrazierHold.tick(world, vault, this, tile, data.getPos());
+                    } else if (tile.getBlessing().isEmpty()
+                            && (world.getGameTime() + data.getPos().asLong()) % ROLL_CHECK_INTERVAL_TICKS == 0L
+                            && this.isPlayerNear(world, data.getPos())) {
+                        this.rollBlessing(vault, data.getPos()).ifPresent(tile::setBlessing);
                     }
                 }
             }
         });
-        this.get(CHILDREN).forEach((child) -> child.initServer(world, vault));
+
+        this.get(CHILDREN).forEach(child -> child.initServer(world, vault));
     }
 
     private boolean isPlayerNear(VirtualWorld world, BlockPos pos) {
-        double distance = ModConfigs.MONOLITH.getRollNearDistance();
-        return world.getNearestPlayer((double)pos.getX() + (double)0.5F, (double)pos.getY() + (double)0.5F, (double)pos.getZ() + (double)0.5F, distance, false) != null;
+        double distance = xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.getRollNearDistance();
+        return world.getNearestPlayer(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, distance, false) != null;
+    }
+
+    @Override
+    public Optional<BrazierBlessing> rollBlessing(Vault vault, BlockPos pos) {
+        MonolithConfig config = ModConfigs.MONOLITH;
+        BrazierHeatTier tier = config.tierAt(this.getHeat());
+        Optional<ResourceLocation> pool = config.poolFor(tier);
+        if (pool.isEmpty()) {
+            return Optional.empty();
+        }
+
+        int level = vault.get(Vault.LEVEL).getOr(VaultLevel.VALUE, 0);
+        ChunkRandom random = ChunkRandom.any();
+        random.setBlockSeed(vault.get(Vault.SEED), pos, BLESSING_SEED_SALT + (long) tier.ordinal());
+        MonolithConfig.LevelEntry levelEntry = config.forLevel(level);
+
+        for (int roll = 0; roll < MAX_BLESSING_ROLLS; roll++) {
+            Optional<VaultModifier<?>> rolled = ModConfigs.VAULT_MODIFIER_POOLS.getRandom(pool.get(), level, random).stream().findFirst();
+            if (rolled.isEmpty()) {
+                return Optional.empty();
+            }
+
+            ResourceLocation modifierId = rolled.get().getId();
+            if (!this.isHauntedBlessingCapped(vault, modifierId)) {
+                int stacks = levelEntry.blessingStacks(modifierId).map(stackRoll -> stackRoll.get(random)).orElse(1);
+                return Optional.of(new BrazierBlessing(modifierId, Math.max(1, stacks), tier));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    private boolean isHauntedBlessingCapped(Vault vault, ResourceLocation modifierId) {
+        return xyz.iwolfking.woldsvaults.init.ModConfigs.HAUNTED_BRAZIERS.blessingCap(modifierId)
+                .map(cap -> stacksFromBraziers(vault, modifierId) >= (long) cap)
+                .orElse(false);
+    }
+
+    private static long stacksFromBraziers(Vault vault, ResourceLocation modifierId) {
+        return vault.get(Vault.MODIFIERS).getEntries().stream()
+                .filter(entry -> modifierId.equals(entry.get(Modifiers.Entry.MODIFIER)))
+                .filter(entry -> entry.getContext().getGroup().map(BRAZIER_MODIFIER_GROUP::equals).orElse(false))
+                .count();
+    }
+
+    @Override
+    public void tickServer(VirtualWorld world, Vault vault) {
+        this.ifPresent(BASE_TARGET, value -> {
+            double increase = CommonEvents.OBJECTIVE_TARGET.invoke(world, vault, 0.0D).getIncrease();
+            this.set(TARGET, (int) Math.round((double) value * (1.0D + increase)));
+        });
+        if (this.get(COUNT) >= this.get(TARGET)) {
+            this.get(CHILDREN).forEach(child -> child.tickServer(world, vault));
+        }
+    }
+
+    @Override
+    public void tickListener(VirtualWorld world, Vault vault, Listener listener) {
+        if (listener.getPriority(this) < 0) {
+            listener.addObjective(vault, this);
+        }
+
+        if (listener instanceof Runner && this.get(COUNT) >= this.get(TARGET)) {
+            super.tickListener(world, vault, listener);
+        }
     }
 
     @Override
     public boolean isActive(VirtualWorld world, Vault vault, Objective objective) {
         if (this.get(COUNT) < this.get(TARGET)) {
             return objective == this;
-        } else {
-            for (Objective child : this.get(CHILDREN)) {
-                if (child.isActive(world, vault, objective)) {
-                    return true;
-                }
+        }
+        for (Objective child : this.get(CHILDREN)) {
+            if (child.isActive(world, vault, objective)) {
+                return true;
             }
-            return false;
         }
+        return false;
     }
-
-    @Override
-    public void tickServer(VirtualWorld world, Vault vault) {
-        double increase = CommonEvents.OBJECTIVE_TARGET.invoke(world, vault, 0.0).getIncrease();
-        this.set(TARGET, (int)Math.round((double)this.get(BASE_TARGET) * (1.0 + increase)));
-        if (this.get(COUNT) >= this.get(TARGET)) {
-            (this.get(CHILDREN)).forEach(child -> child.tickServer(world, vault));
-        }
-
-    }
-
-    //TODO: Implement HauntedBrazierHud
-//    @OnlyIn(Dist.CLIENT)
-//    @Override
-//    public boolean render(Vault vault, PoseStack matrixStack, Window window, float partialTicks, Player player) {
-//        if (this.get(COUNT) >= this.get(TARGET)) {
-//            int midX = window.getGuiScaledWidth() / 2;
-//            Font font = Minecraft.getInstance().font;
-//            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-//            Component txt = (new TextComponent("Grave Rob, or Exit to Complete")).withStyle(ChatFormatting.AQUA);
-//            font.drawInBatch(txt.getVisualOrderText(), midX - font.width(txt) / 2.0F, 9.0F, -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
-//            buffer.endBatch();
-//            return true;
-//        } else {
-//            int current = this.get(COUNT);
-//            int total = this.get(TARGET);
-//            Component txt = new TextComponent(String.valueOf(current)).withStyle(ChatFormatting.WHITE).append((new TextComponent(" / ")).withStyle(ChatFormatting.WHITE)).append((new TextComponent(String.valueOf(total))).withStyle(ChatFormatting.WHITE));
-//            int midX = 0;
-//            matrixStack.pushPose();
-//            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//            int previousTexture = RenderSystem.getShaderTexture(0);
-//            RenderSystem.setShaderTexture(0, HAUNTED_HUD);
-//            float progress = (float)current / (float)total;
-//            matrixStack.translate((midX - 80), 8.0, 0.0);
-//            GuiComponent.blit(matrixStack, 0, 0, 0.0F, 0.0F, 200, 26, 200, 100);
-//            GuiComponent.blit(matrixStack, 0, 8, 0.0F, 30.0F, 13 + (int)(130.0F * progress), 10, 200, 100);
-//            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//            RenderSystem.setShaderTexture(0, previousTexture);
-//            matrixStack.popPose();
-//            Font font = Minecraft.getInstance().font;
-//            MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-//            matrixStack.pushPose();
-//            matrixStack.scale(0.6F, 0.6F, 0.6F);
-//            font.drawInBatch(txt.getVisualOrderText(), midX / 0.6F - font.width(txt) / 2.0F, (9 + 22), -1, true, matrixStack.last().pose(), buffer, false, 0, LightmapHelper.getPackedFullbrightCoords());
-//            buffer.endBatch();
-//            matrixStack.popPose();
-//            return true;
-//        }
-//    }
 }

@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "the_vault:vault_wraith_white",
+    "the_vault:vault_wraith_yellow",
+    "woldsvaults:green_ghost",
+    "woldsvaults:yellow_ghost",
+    "woldsvaults:red_ghost",
+    "woldsvaults:blue_ghost",
+    "woldsvaults:black_ghost",
+    "woldsvaults:brown_ghost",
+    "woldsvaults:dark_red_ghost",
+    "woldsvaults:dark_gray_ghost",
+    "woldsvaults:dark_blue_ghost",
+    "woldsvaults:purple_ghost"
+  ]
+}

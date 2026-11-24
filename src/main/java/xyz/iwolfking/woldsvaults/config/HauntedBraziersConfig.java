@@ -1,56 +1,50 @@
 package xyz.iwolfking.woldsvaults.config;
 
 import com.google.gson.annotations.Expose;
-import iskallia.vault.config.Config;
-import iskallia.vault.config.entry.LevelEntryList;
-import net.minecraft.resources.ResourceLocation;
+import iskallia.vault.config.MonolithConfig;
 
-public class HauntedBraziersConfig extends Config {
+public class HauntedBraziersConfig extends MonolithConfig {
+
     @Expose
-    private LevelEntryList<HauntedBraziersConfig.Entry> levels;
+    private double ghostDrainPerSecond;
+    @Expose
+    private double ghostOutsideDrainMultiplier;
+    @Expose
+    private double heatTierBiasPerHeat;
+
+    @Expose
+    private int ghostDrainGraceTicks;
 
     public HauntedBraziersConfig() {
     }
 
+    @Override
     public String getName() {
         return "haunted_braziers";
     }
 
-    public ResourceLocation getStackModifierPool(int level) {
-        return this.levels.getForLevel(level).orElseThrow().stackModifierPool;
-    }
-
-    public ResourceLocation getOverStackModifierPool(int level) {
-        return this.levels.getForLevel(level).orElseThrow().overStackModifierPool;
-    }
-
-    public ResourceLocation getOverStackLootTable(int level) {
-        return this.levels.getForLevel(level).orElseThrow().overStackLootTable;
-    }
-
+    @Override
     protected void reset() {
-        this.levels = new LevelEntryList<>();
+        super.reset();
+        this.ghostDrainPerSecond = 0.35D;
+        this.ghostOutsideDrainMultiplier = 0.5D;
+        this.heatTierBiasPerHeat = 0.05D;
+        this.ghostDrainGraceTicks = 15;
     }
 
-    private static class Entry implements LevelEntryList.ILevelEntry {
-        @Expose
-        private final int level;
-        @Expose
-        private ResourceLocation stackModifierPool;
-        @Expose
-        private ResourceLocation overStackModifierPool;
-        @Expose
-        private ResourceLocation overStackLootTable;
+    public double getGhostDrainPerSecond() {
+        return Math.max(0.0D, this.ghostDrainPerSecond);
+    }
 
-        public Entry(int level, ResourceLocation stackModifierPool, ResourceLocation overStackModifierPool, ResourceLocation overStackLootTable) {
-            this.level = level;
-            this.stackModifierPool = stackModifierPool;
-            this.overStackModifierPool = overStackModifierPool;
-            this.overStackLootTable = overStackLootTable;
-        }
+    public double getGhostOutsideDrainMultiplier() {
+        return Math.max(0.0D, this.ghostOutsideDrainMultiplier);
+    }
 
-        public int getLevel() {
-            return this.level;
-        }
+    public double getHeatTierBiasPerHeat() {
+        return Math.max(0.0D, this.heatTierBiasPerHeat);
+    }
+
+    public int getGhostDrainGraceTicks() {
+        return Math.max(0, this.ghostDrainGraceTicks);
     }
 }
