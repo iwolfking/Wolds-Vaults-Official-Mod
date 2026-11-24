@@ -1,13 +1,17 @@
 package xyz.iwolfking.woldsvaults.events;
 
 import iskallia.vault.block.SkillAltarBlock;
+import iskallia.vault.config.customisation.CustomisationDiscoveryConfig;
+import iskallia.vault.config.customisation.PatronAurasConfig;
 import iskallia.vault.core.vault.VaultUtils;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.init.ModDynamicModels;
 import iskallia.vault.item.KnowledgeBrewItem;
 import iskallia.vault.item.MentorsBrewItem;
 import iskallia.vault.item.VaultDollItem;
 import iskallia.vault.util.SideOnlyFixer;
 import iskallia.vault.world.data.DiscoveredModelsData;
+import iskallia.vault.world.data.DiscoveredTrailsData;
 import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -27,6 +31,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -40,6 +45,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.event.CurioEquipEvent;
 import vazkii.botania.common.item.equipment.bauble.ItemBauble;
 import vazkii.botania.common.item.equipment.bauble.ItemBaubleCosmetic;
+import xyz.iwolfking.vhapi.mixin.accessors.CustomisationDiscoveryConfigAccessor;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.GameruleHelper;
 import xyz.iwolfking.woldsvaults.blocks.DollDismantlingBlock;
@@ -47,6 +53,10 @@ import xyz.iwolfking.woldsvaults.init.ModGameRules;
 import xyz.iwolfking.woldsvaults.integration.fruit_pouch.FruitPouchHelper;
 import xyz.iwolfking.woldsvaults.items.ItemScavengerPouch;
 import xyz.iwolfking.woldsvaults.items.filter_necklace.FilterNecklaceItem;
+import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PatronAurasConfigAccessor;
+
+import java.util.List;
+import java.util.Set;
 
 @Mod.EventBusSubscriber(
         modid = WoldsVaults.MOD_ID
@@ -219,4 +229,32 @@ public class PlayerEvents {
                 craftedItemStack.shrink(craftedItemStack.getCount());
             }
         }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            checkAndGrantAuras(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.PlayerTickEvent.Phase.END && event.player instanceof ServerPlayer player) {
+            if (player.tickCount % 20 == 0) {
+                checkAndGrantAuras(player);
+            }
+        }
+    }
+
+    public static void checkAndGrantAuras(ServerPlayer player) {
+        PatronAurasConfig aurasConfig = ModConfigs.PATRON_AURAS;
+        Set<String> discoverableAuras = ((PatronAurasConfigAccessor)aurasConfig).getAuras().keySet();
+
+        DiscoveredTrailsData data = DiscoveredTrailsData.get(player.getServer());
+        for (String auraId : discoverableAuras) {
+            if(!data.hasDiscoveredTrail(player.getUUID(), auraId) && ModConfigs.CUSTOMISATION_DISCOVERY.getTrailDiscovery(auraId) != null && ModConfigs.CUSTOMISATION_DISCOVERY.getTrailDiscovery(auraId).test(player)) {
+                data.discoverTrailAndBroadcast(player, auraId);
+            }
+        }
+    }
 }

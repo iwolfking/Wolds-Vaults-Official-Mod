@@ -1,0 +1,28 @@
+{
+  "prefixes": {},
+  "suffixes": {},
+  "emblems": {},
+  "trails": {
+    "dweller": {
+      "level": 10,
+      "type": "vault_level"
+    },
+    "cheeser": {
+      "level": 20,
+      "type": "vault_level"
+    },
+    "goblin": {
+      "level": 30,
+      "type": "vault_level"
+    },
+    "champion": {
+      "level": 40,
+      "type": "vault_level"
+    },
+    "legend": {
+      "level": 50,
+      "type": "vault_level"
+    }
+  },
+  "gearModels": {}
+}
