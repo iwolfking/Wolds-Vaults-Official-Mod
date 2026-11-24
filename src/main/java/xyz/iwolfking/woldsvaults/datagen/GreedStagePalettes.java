@@ -23,8 +23,8 @@ import java.util.regex.Pattern;
 /**
  * The palettes of the greed stages, registered into {@link ModVaultPalettesProvider}. Stage 1 holds the chest
  * placeholders with the stage chest and strongbox loot tables and a few enigma chests. Stage 2 holds the same chest
- * placeholders with more enigma chests, and the room base chain, its coin, ore, pylon, altar, vendor and
- * dungeon placeholders, the treasure door and the challenge and omega room palettes. Stage 3 holds the treasure
+ * placeholders with more enigma chests, and the room base chain, its coin, ore, pylon, vendor and dungeon
+ * placeholders (god altars keep the normal palette), the treasure door and the challenge and omega room palettes. Stage 3 holds the treasure
  * room and trove palettes. Palettes that equal a normal palette apart from the ids they point at are derived from
  * the seeded normal palette; the rest are written out here.
  */
@@ -68,7 +68,6 @@ public final class GreedStagePalettes {
         paletteCoinStackPlaceholder(sink);
         paletteOrePlaceholder(sink);
         palettePylonPlaceholder(sink);
-        paletteGodAltars(sink);
         paletteVendorPedestalPlaceholder(sink);
         paletteDungeonRoomsGildedChestPlaceholder(sink);
         paletteTreasureDoorPlaceholder(sink);
@@ -98,7 +97,7 @@ public final class GreedStagePalettes {
                 .reference(GreedStageIds.ref(2, "pylon_placeholder"))
                 .reference("the_vault:generic/gate_placeholder")
                 .reference("the_vault:generic/dungeon_discoverable_remove")
-                .reference(GreedStageIds.ref(2, "god_altars")));
+                .reference("the_vault:generic/god_altars"));
     }
 
     private static void paletteWoodenChestPlaceholder(Sink sink) {
@@ -226,14 +225,6 @@ public final class GreedStagePalettes {
                             success.put("the_vault:pylon{Config:{type:potion,charges:6,color:69c28cff,description:\"Recharges your potion fully\",uber:1b,uberColor:69ffffff}}", 2);
                         }, failure -> {
                             failure.put("minecraft:air", 1);
-                        })));
-    }
-
-    private static void paletteGodAltars(Sink sink) {
-        sink.add(GreedStageIds.id(2, "god_altars"), new PaletteBuilder(), p -> p
-                .leveled(leveled -> leveled
-                        .list(0, "weighted_target", "the_vault:god_altar", out -> {
-                            out.put("minecraft:air", 1);
                         })));
     }
 

@@ -38,7 +38,7 @@
     },
     {
       "type": "reference",
-      "id": "woldsvaults:greed/stage_2/god_altars"
+      "id": "the_vault:generic/god_altars"
     }
   ],
   "entity_processors": [],
