@@ -5,12 +5,14 @@ import iskallia.vault.core.random.ChunkRandom;
 import iskallia.vault.core.random.JavaRandom;
 import iskallia.vault.core.vault.Modifiers;
 import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.modifier.modifier.DecoratorCascadeModifier;
 import iskallia.vault.core.vault.modifier.registry.VaultModifierRegistry;
 import iskallia.vault.core.vault.modifier.spi.ModifierContext;
 import iskallia.vault.core.vault.modifier.spi.VaultModifier;
 import iskallia.vault.core.vault.player.Listener;
 import iskallia.vault.core.vault.player.Listeners;
 import iskallia.vault.init.ModConfigs;
+import iskallia.vault.world.data.ServerVaults;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -36,6 +38,11 @@ public class VaultModifierUtils {
         VaultModifier<?> vaultModifier = VaultModifierRegistry.get(modifier);
         if(vaultModifier != null) {
             vault.get(Vault.MODIFIERS).addModifier(vaultModifier, count, true, ChunkRandom.ofNanoTime());
+            if(vaultModifier instanceof DecoratorCascadeModifier decoratorCascadeModifier) {
+                ServerVaults.getWorld(vault).ifPresent(virtualWorld -> {
+                    decoratorCascadeModifier.cascadeUnopenedChestsAround(vault, virtualWorld, count);
+                });
+            }
         }
         else {
             WoldLogger.error("Vault modifier {} is not registered — addModifier({}) did nothing! Check the modifier defs.", modifier, count);
