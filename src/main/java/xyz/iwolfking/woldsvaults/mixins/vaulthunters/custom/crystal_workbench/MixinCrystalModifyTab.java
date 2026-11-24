@@ -4,6 +4,7 @@ import iskallia.vault.block.entity.CrystalWorkbenchWorkspace;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.world.theme.ThemeSeries;
 import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,12 +13,25 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 @Mixin(targets = "iskallia.vault.client.gui.screen.block.crystal.CrystalModifyTab", remap = false)
 public class MixinCrystalModifyTab {
     @Shadow
     private static int nameColour(ItemStack item) {
         throw new UnsupportedOperationException("Implemented via mixin");
+    }
+
+    @Shadow
+    @Final
+    private static Map<CrystalWorkbenchWorkspace.Socket, String> EMPTY_SOCKET_TEXT;
+
+    @Inject(method = "<clinit>", at = @At("TAIL"))
+    private static void woldsVaults$addEmptySocketText(CallbackInfo ci) {
+        EMPTY_SOCKET_TEXT.put(
+                CrystalWorkbenchWorkspace.Socket.valueOf("MISC"),
+                "Insert a Vault Map, Concealed Chaos, Crystal Duller or Etched Vault Layout to modify the crystal"
+        );
     }
 
     /**

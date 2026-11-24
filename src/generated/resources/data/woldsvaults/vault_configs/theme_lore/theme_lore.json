@@ -676,7 +676,7 @@
       "colour": 5462086,
       "atmosphere": "woldsvaults:classic_vault_thanksgiving",
       "minLevel": 50,
-      "seasonal": false,
+      "seasonal": true,
       "mobPalettes": [
         "the_vault:generic/spawners/thanksgiving_mobs"
       ]
@@ -901,7 +901,7 @@
         }
       ],
       "colour": 5462086,
-      "atmosphere": "woldsvaults:classic_vault_undersea",
+      "atmosphere": "the_vault:classic_vault_undersea",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
@@ -1128,7 +1128,7 @@
         }
       ],
       "colour": 5462086,
-      "atmosphere": "woldsvaults:classic_vault_idona",
+      "atmosphere": "the_vault:classic_vault_idona_normal",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
@@ -1355,7 +1355,7 @@
         }
       ],
       "colour": 5462086,
-      "atmosphere": "woldsvaults:classic_vault_industrial",
+      "atmosphere": "woldsvaults:if_factory",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
@@ -1626,7 +1626,7 @@
         }
       ],
       "colour": 10357519,
-      "atmosphere": "woldsvaults:classic_vault_occult",
+      "atmosphere": "woldsvaults:occult",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
@@ -1873,7 +1873,7 @@
         }
       ],
       "colour": 9662683,
-      "atmosphere": "woldsvaults:classic_vault_arcane",
+      "atmosphere": "woldsvaults:mystical_forest",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
@@ -2244,7 +2244,7 @@
         }
       ],
       "colour": 3112412,
-      "atmosphere": "woldsvaults:classic_vault_astral",
+      "atmosphere": "woldsvaults:lunar",
       "minLevel": 50,
       "seasonal": false,
       "mobPalettes": [
