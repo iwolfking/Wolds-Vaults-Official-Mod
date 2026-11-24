@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
  * The palettes of the greed stages, registered into {@link ModVaultPalettesProvider}. Stage 1 holds the chest
  * placeholders with the stage chest and strongbox loot tables and a few enigma chests. Stage 2 holds the same chest
  * placeholders with more enigma chests, and the room base chain, its coin, ore, pylon, vendor and dungeon
- * placeholders (god altars keep the normal palette), the treasure door and the challenge and omega room palettes. Stage 3 holds the treasure
- * room and trove palettes. Palettes that equal a normal palette apart from the ids they point at are derived from
+ * placeholders (god altars and presents keep the normal palettes), the treasure door and the challenge and omega
+ * room palettes. Stage 3 holds the treasure room and trove palettes. Palettes that equal a normal palette apart from the ids they point at are derived from
  * the seeded normal palette; the rest are written out here.
  */
 public final class GreedStagePalettes {
@@ -92,6 +92,7 @@ public final class GreedStagePalettes {
                 .reference(GreedStageIds.ref(2, "gilded_chest_placeholder"))
                 .reference(GreedStageIds.ref(2, "living_chest_placeholder"))
                 .reference(GreedStageIds.ref(2, "ornate_chest_placeholder"))
+                .reference("the_vault:generic/present_boxes")
                 .reference(GreedStageIds.ref(2, "coin_stack_placeholder"))
                 .reference(GreedStageIds.ref(2, "ore_placeholder"))
                 .reference(GreedStageIds.ref(2, "pylon_placeholder"))

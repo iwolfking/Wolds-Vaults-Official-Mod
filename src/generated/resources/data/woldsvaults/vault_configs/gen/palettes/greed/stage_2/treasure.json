@@ -18,6 +18,10 @@
     },
     {
       "type": "reference",
+      "id": "the_vault:generic/present_boxes"
+    },
+    {
+      "type": "reference",
       "id": "woldsvaults:greed/stage_2/coin_stack_placeholder"
     },
     {
