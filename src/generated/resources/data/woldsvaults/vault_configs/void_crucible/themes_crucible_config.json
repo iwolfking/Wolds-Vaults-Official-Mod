@@ -1,5 +1,10 @@
 {
   "themes": [
+    "the_vault:classic_vault_barnyard",
+    "the_vault:classic_vault_dark_cavern",
+    "the_vault:classic_vault_thanksgiving",
+    "the_vault:classic_vault_undersea",
+    "the_vault:classic_vault_idona_normal",
     "woldsvaults:if_factory",
     "woldsvaults:mekanism_factory",
     "woldsvaults:pnc_factory",

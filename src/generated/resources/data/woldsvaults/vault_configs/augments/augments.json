@@ -1,41 +1,57 @@
 {
   "dropChance": 0.2,
+  "pieceDropChance": 0.5,
   "drops": {
-    "woldsvaults:create_factory": {
-      "the_vault:augment{theme:\"woldsvaults:create_factory\"}": 1
+    "the_vault:classic_vault_barnyard": {
+      "the_vault:augment{series:\"Barnyard\"}": 1
     },
-    "woldsvaults:botanic_temple": {
-      "the_vault:augment{theme:\"woldsvaults:botanic_temple\"}": 1
+    "the_vault:classic_vault_dark_cavern": {
+      "the_vault:augment{series:\"Grimdark\"}": 1
     },
-    "woldsvaults:mekanism_factory": {
-      "the_vault:augment{theme:\"woldsvaults:mekanism_factory\"}": 1
+    "the_vault:classic_vault_thanksgiving": {
+      "the_vault:augment{series:\"Harvest\"}": 1
     },
-    "woldsvaults:mystical_forest": {
-      "the_vault:augment{theme:\"woldsvaults:mystical_forest\"}": 1
+    "the_vault:classic_vault_undersea": {
+      "the_vault:augment{series:\"Underwater\"}": 1
+    },
+    "the_vault:classic_vault_idona_normal": {
+      "the_vault:augment{series:\"Gods\"}": 1
     },
     "woldsvaults:if_factory": {
-      "the_vault:augment{theme:\"woldsvaults:if_factory\"}": 1
+      "the_vault:augment{series:\"Industrial\"}": 1
     },
-    "woldsvaults:sculk": {
-      "the_vault:augment{theme:\"woldsvaults:sculk\"}": 1
-    },
-    "woldsvaults:occult": {
-      "the_vault:augment{theme:\"woldsvaults:occult\"}": 1
-    },
-    "woldsvaults:thermal_factory": {
-      "the_vault:augment{theme:\"woldsvaults:thermal_factory\"}": 1
-    },
-    "woldsvaults:ie_factory": {
-      "the_vault:augment{theme:\"woldsvaults:ie_factory\"}": 1
-    },
-    "woldsvaults:red_planet": {
-      "the_vault:augment{theme:\"woldsvaults:red_planet\"}": 1
+    "woldsvaults:mekanism_factory": {
+      "the_vault:augment{series:\"Industrial\"}": 1
     },
     "woldsvaults:pnc_factory": {
-      "the_vault:augment{theme:\"woldsvaults:pnc_factory\"}": 1
+      "the_vault:augment{series:\"Plastic\"}": 1
+    },
+    "woldsvaults:thermal_factory": {
+      "the_vault:augment{series:\"Industrial\"}": 1
+    },
+    "woldsvaults:ie_factory": {
+      "the_vault:augment{series:\"Industrial\"}": 1
+    },
+    "woldsvaults:create_factory": {
+      "the_vault:augment{series:\"Industrial\"}": 1
+    },
+    "woldsvaults:botanic_temple": {
+      "the_vault:augment{series:\"Glimmergrove\"}": 1
+    },
+    "woldsvaults:occult": {
+      "the_vault:augment{series:\"Occult\"}": 1
+    },
+    "woldsvaults:mystical_forest": {
+      "the_vault:augment{series:\"Arcane\"}": 1
+    },
+    "woldsvaults:sculk": {
+      "the_vault:augment{series:\"Void\"}": 1
     },
     "woldsvaults:lunar": {
-      "the_vault:augment{theme:\"woldsvaults:lunar\"}": 1
+      "the_vault:augment{series:\"Astral\"}": 1
+    },
+    "woldsvaults:red_planet": {
+      "the_vault:augment{series:\"Astral\"}": 1
     }
   }
 }

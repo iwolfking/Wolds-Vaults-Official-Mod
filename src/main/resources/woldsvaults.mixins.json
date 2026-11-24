@@ -450,6 +450,7 @@
     "vaulthunters.custom.artisan.MixinArtisanCatalogue",
     "vaulthunters.custom.artisan.MixinArtisanFocusButtons",
     "vaulthunters.custom.artisan.MixinArtisanStationTileEntity",
+    "vaulthunters.custom.crystal_workbench.MixinCrystalAugmentsTab",
     "vaulthunters.custom.crystal_workbench.MixinCrystalCraftTab",
     "vaulthunters.custom.crystal_workbench.MixinCrystalModifyTab",
     "vaulthunters.custom.crystal_workbench.MixinCrystalWorkbenchContainer",

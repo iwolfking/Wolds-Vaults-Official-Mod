@@ -1160,7 +1160,6 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
 
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR, ResourceLocation.parse("ars_nouveau:stripped_blue_archwood_log"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_SECONDARY, ResourceLocation.parse("ars_nouveau:archwood_planks"), 1)
-                    // Fixed: arcane_stone_mosaic -> ab_mosaic
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_ACCENT, ResourceLocation.parse("ars_nouveau:ab_mosaic"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_PILLAR_STAIRS, ResourceLocation.parse("ars_nouveau:archwood_stairs"), 1)
                     .replace(ThemePaletteBuilder.ThemeBlockType.TUNNEL_SLAB, ResourceLocation.parse("ars_nouveau:archwood_slab"), 1)

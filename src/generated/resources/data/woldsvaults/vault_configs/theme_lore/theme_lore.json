@@ -1,8 +1,1142 @@
 {
   "series": {
+    "Barnyard": {
+      "displayName": "Barnyard",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "Wooden Chests rarely become Living chests",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Aggressive Chickens ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Aggressive Pigs ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Aggressive Cows ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_barnyard",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/barnyard_mobs"
+      ]
+    },
+    "Grimdark": {
+      "displayName": "Grimdark",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "Special Resource Rooms, More Black Opal and Painite",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Dark Horrors ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Dark Horrors ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Dark Horrors ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_dark_cavern",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/dark_cavern_mobs"
+      ]
+    },
+    "Harvest": {
+      "displayName": "Harvest",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "Be thankful!",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Aggressive Turkey ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Haturkin ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Zombie Villager ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_thanksgiving",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/thanksgiving_mobs"
+      ]
+    },
+    "Underwater": {
+      "displayName": "Underwater",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "The vault is flooded!",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Drowned ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Shark ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Orca ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_undersea",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/underwater_mobs"
+      ]
+    },
+    "Gods": {
+      "displayName": "Gods",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "God Altars correspond to the God",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " ??? ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " ??? ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " ??? ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_idona",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/nether_mobs"
+      ]
+    },
     "Industrial": {
       "displayName": "Industrial",
-      "colour": 5462086,
       "description": [
         {
           "description": [
@@ -219,11 +1353,288 @@
             }
           ]
         }
+      ],
+      "colour": 5462086,
+      "atmosphere": "woldsvaults:classic_vault_industrial",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "the_vault:generic/spawners/cave_mobs"
+      ]
+    },
+    "Occult": {
+      "displayName": "Occult",
+      "description": [
+        {
+          "description": [
+            {
+              "text": "Perk: ",
+              "color": "gray"
+            },
+            {
+              "text": "More Rare Gems",
+              "color": "$name"
+            },
+            {
+              "text": "\n"
+            }
+          ]
+        },
+        {
+          "description": [
+            {
+              "text": "Hordes",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░░",
+              "color": "gray"
+            },
+            {
+              "text": "\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wild Afrit ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Assassins",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░░",
+              "color": "gray"
+            },
+            {
+              "text": "░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Wither Skeletons ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": " Piglins ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 2",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "⚔ 🏹\n",
+              "color": "gray"
+            },
+            {
+              "text": "Tanks",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░\n",
+              "color": "$darkgray"
+            },
+            {
+              "text": " Piglin Brutes ",
+              "color": "white"
+            },
+            {
+              "text": "🗡",
+              "color": "$orange"
+            },
+            {
+              "text": " 4",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "❤",
+              "color": "red"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "♝",
+              "color": "$speed"
+            },
+            {
+              "text": " 3",
+              "color": "white"
+            },
+            {
+              "text": " | ",
+              "color": "gray"
+            },
+            {
+              "text": "✸ ⚔\n",
+              "color": "gray"
+            },
+            {
+              "text": "Dwellers",
+              "color": "gray"
+            },
+            {
+              "text": " | ",
+              "color": "$darkgray"
+            },
+            {
+              "text": "░░",
+              "color": "gray"
+            },
+            {
+              "text": "░░",
+              "color": "$darkgray"
+            }
+          ]
+        }
+      ],
+      "colour": 10357519,
+      "atmosphere": "woldsvaults:classic_vault_occult",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "woldsvaults:generic/spawners/occult_mobs"
       ]
     },
     "Arcane": {
       "displayName": "Arcane",
-      "colour": 9662683,
       "description": [
         {
           "description": [
@@ -460,11 +1871,17 @@
             }
           ]
         }
+      ],
+      "colour": 9662683,
+      "atmosphere": "woldsvaults:classic_vault_arcane",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "woldsvaults:generic/spawners/ars_mobs"
       ]
     },
     "Astral": {
       "displayName": "Astral",
-      "colour": 3112412,
       "description": [
         {
           "description": [
@@ -825,277 +2242,31 @@
             }
           ]
         }
-      ]
-    },
-    "Occult": {
-      "displayName": "Occult",
-      "colour": 10357519,
-      "description": [
-        {
-          "description": [
-            {
-              "text": "Perk: ",
-              "color": "gray"
-            },
-            {
-              "text": "More Rare Gems",
-              "color": "$name"
-            },
-            {
-              "text": "\n"
-            }
-          ]
-        },
-        {
-          "description": [
-            {
-              "text": "Hordes",
-              "color": "gray"
-            },
-            {
-              "text": " | ",
-              "color": "$darkgray"
-            },
-            {
-              "text": "░░░░",
-              "color": "gray"
-            },
-            {
-              "text": "\n",
-              "color": "$darkgray"
-            },
-            {
-              "text": " Wild Afrit ",
-              "color": "white"
-            },
-            {
-              "text": "🗡",
-              "color": "$orange"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "❤",
-              "color": "red"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "♝",
-              "color": "$speed"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "⚔\n",
-              "color": "gray"
-            },
-            {
-              "text": "Assassins",
-              "color": "gray"
-            },
-            {
-              "text": " | ",
-              "color": "$darkgray"
-            },
-            {
-              "text": "░░░",
-              "color": "gray"
-            },
-            {
-              "text": "░\n",
-              "color": "$darkgray"
-            },
-            {
-              "text": " Wither Skeletons ",
-              "color": "white"
-            },
-            {
-              "text": "🗡",
-              "color": "$orange"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "❤",
-              "color": "red"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "♝",
-              "color": "$speed"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "⚔ 🏹\n",
-              "color": "gray"
-            },
-            {
-              "text": " Piglins ",
-              "color": "white"
-            },
-            {
-              "text": "🗡",
-              "color": "$orange"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "❤",
-              "color": "red"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "♝",
-              "color": "$speed"
-            },
-            {
-              "text": " 2",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "⚔ 🏹\n",
-              "color": "gray"
-            },
-            {
-              "text": "Tanks",
-              "color": "gray"
-            },
-            {
-              "text": " | ",
-              "color": "$darkgray"
-            },
-            {
-              "text": "░░",
-              "color": "gray"
-            },
-            {
-              "text": "░░\n",
-              "color": "$darkgray"
-            },
-            {
-              "text": " Piglin Brutes ",
-              "color": "white"
-            },
-            {
-              "text": "🗡",
-              "color": "$orange"
-            },
-            {
-              "text": " 4",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "❤",
-              "color": "red"
-            },
-            {
-              "text": " 3",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "♝",
-              "color": "$speed"
-            },
-            {
-              "text": " 3",
-              "color": "white"
-            },
-            {
-              "text": " | ",
-              "color": "gray"
-            },
-            {
-              "text": "✸ ⚔\n",
-              "color": "gray"
-            },
-            {
-              "text": "Dwellers",
-              "color": "gray"
-            },
-            {
-              "text": " | ",
-              "color": "$darkgray"
-            },
-            {
-              "text": "░░",
-              "color": "gray"
-            },
-            {
-              "text": "░░",
-              "color": "$darkgray"
-            }
-          ]
-        }
+      ],
+      "colour": 3112412,
+      "atmosphere": "woldsvaults:classic_vault_astral",
+      "minLevel": 50,
+      "seasonal": false,
+      "mobPalettes": [
+        "woldsvaults:generic/spawners/astral_mobs"
       ]
     }
   },
   "augments": {
-    "Glimmergrove": [
-      "woldsvaults:botanic_temple"
+    "Barnyard": [
+      "the_vault:classic_vault_barnyard"
+    ],
+    "Grimdark": [
+      "the_vault:classic_vault_dark_cavern"
+    ],
+    "Harvest": [
+      "the_vault:classic_vault_thanksgiving"
+    ],
+    "Underwater": [
+      "the_vault:classic_vault_undersea"
+    ],
+    "Gods": [
+      "the_vault:classic_vault_idona_normal"
     ],
     "Industrial": [
       "woldsvaults:if_factory",
@@ -1104,11 +2275,17 @@
       "woldsvaults:ie_factory",
       "woldsvaults:create_factory"
     ],
-    "Arcane": [
-      "woldsvaults:mystical_forest"
-    ],
     "Plastic": [
       "woldsvaults:pnc_factory"
+    ],
+    "Glimmergrove": [
+      "woldsvaults:botanic_temple"
+    ],
+    "Occult": [
+      "woldsvaults:occult"
+    ],
+    "Arcane": [
+      "woldsvaults:mystical_forest"
     ],
     "Void": [
       "woldsvaults:sculk"
@@ -1116,9 +2293,8 @@
     "Astral": [
       "woldsvaults:lunar",
       "woldsvaults:red_planet"
-    ],
-    "Occult": [
-      "woldsvaults:occult"
     ]
-  }
+  },
+  "retiredThemes": {},
+  "spawnersPerCommonRoom": 10.06
 }

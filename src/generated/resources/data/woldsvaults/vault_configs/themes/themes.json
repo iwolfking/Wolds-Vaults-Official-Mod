@@ -1,6 +1,36 @@
 {
   "keys": [
     {
+      "id": "the_vault:classic_vault_barnyard",
+      "name": "Classic Vault Barnyard",
+      "color": 14711391,
+      "1.0": "the_vault:classic_vault_barnyard"
+    },
+    {
+      "id": "the_vault:classic_vault_dark_cavern",
+      "name": "Classic Vault Dark Cavern",
+      "color": 14711391,
+      "1.0": "the_vault:classic_vault_dark_cavern"
+    },
+    {
+      "id": "the_vault:classic_vault_thanksgiving",
+      "name": "Classic Vault Thanksgiving",
+      "color": 14711391,
+      "1.0": "the_vault:classic_vault_thanksgiving"
+    },
+    {
+      "id": "the_vault:classic_vault_undersea",
+      "name": "Classic Vault Undersea",
+      "color": 14711391,
+      "1.0": "the_vault:classic_vault_undersea"
+    },
+    {
+      "id": "the_vault:classic_vault_idona_normal",
+      "name": "Classic Vault Idona Normal",
+      "color": 14711391,
+      "1.0": "the_vault:classic_vault_idona_normal"
+    },
+    {
       "id": "woldsvaults:if_factory",
       "name": "If Factory",
       "color": 14711391,
