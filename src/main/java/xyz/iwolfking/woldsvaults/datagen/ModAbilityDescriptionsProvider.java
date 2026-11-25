@@ -96,7 +96,7 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
         });
 
         add("wolds_abilities", builder -> {
-            builder.addDescription("Colossus", jsonElements -> {
+            builder.addDescription("Colossus_Base", jsonElements -> {
                 jsonElements.add(JsonDescription.simple("Makes you considerably bigger, giving you "));
                 jsonElements.add(JsonDescription.simple("knockback immunity ", "$knockback"));
                 jsonElements.add(JsonDescription.simple("and a boost in "));
