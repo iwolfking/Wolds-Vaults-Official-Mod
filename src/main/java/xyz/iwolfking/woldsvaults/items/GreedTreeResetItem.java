@@ -13,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
-//TODO: Is this needed any more?
 public class GreedTreeResetItem extends UsableItem {
     public GreedTreeResetItem(ResourceLocation id) {
         super(id);

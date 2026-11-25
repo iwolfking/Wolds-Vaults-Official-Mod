@@ -1,0 +1,244 @@
+{
+  "tree": {
+    "present": false,
+    "unlockLevel": 0,
+    "learnPointCost": 0,
+    "regretPointCost": 0,
+    "skills": [
+      {
+        "id": "TheCarapace",
+        "name": "Shell of the Carapace",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "thecarapace_1",
+            "name": "Shell of the Carapace",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 2,
+            "requiredGreedTier": 1,
+            "trinketEffectId": "the_vault:carapace",
+            "type": "trinket_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "AetherSparkTrinket",
+        "name": "Burst of the Aether",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "aethersparktrinket_1",
+            "name": "Burst of the Aether",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 2,
+            "requiredGreedTier": 1,
+            "trinketEffectId": "the_vault:aether",
+            "type": "trinket_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "ShadowCloakPower",
+        "name": "Veil of the Shadow Cloak",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "shadowcloakpower_1",
+            "name": "Veil of the Shadow Cloak",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 2,
+            "requiredGreedTier": 1,
+            "trinketEffectId": "the_vault:shadow_cloak",
+            "type": "trinket_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "TemporalShardChance",
+        "name": "Trace of Eternal",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "temporalshardchance_1",
+            "name": "Trace of Eternal",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 3,
+            "requiredGreedTier": 1,
+            "chance": 0.3,
+            "type": "temporal_shard_chance_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "CatDodge",
+        "name": "Grace of the Cat",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "catdodge_1",
+            "name": "Grace of the Cat",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 4,
+            "requiredGreedTier": 1,
+            "trinketEffectId": "the_vault:cat_in_a_jar",
+            "type": "trinket_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "RegenerationPower",
+        "name": "Gift of the Petal",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "regenerationpower_1",
+            "name": "Gift of the Petal",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 5,
+            "requiredGreedTier": 1,
+            "active": false,
+            "effectId": "regeneration",
+            "amplifier": 0,
+            "ambient": false,
+            "visible": true,
+            "type": "potion_effect_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "ElytraWings",
+        "name": "Wings of Ascension",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "elytrawings_1",
+            "name": "Wings of Ascension",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 4,
+            "requiredGreedTier": 1,
+            "active": false,
+            "type": "wings_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "ChainMiner",
+        "name": "Chain Miner",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "tiers": [
+          {
+            "id": "chainminer_1",
+            "name": "Chain Miner",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 0,
+            "tier": 5,
+            "requiredGreedTier": 1,
+            "active": false,
+            "type": "chain_miner_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      }
+    ],
+    "type": "prestige"
+  },
+  "ladder": {
+    "tierPrices": [
+      250,
+      400,
+      700,
+      1100,
+      1800,
+      2700
+    ],
+    "stepPercentPerTierOwned": 20,
+    "unlockLevel": 100,
+    "requireHerald": true
+  }
+}

@@ -16,14 +16,17 @@ public class ModPrestigePowerStylesProvider extends AbstractPrestigePowerStylePr
 
     @Override
     public void registerConfigs() {
-        //ModConfigs.PRESTIGE_POWERS = new PrestigePowersConfig().readConfig();
-        //add("wolds_prestiges", builder -> {
-                //builder.addStyle("BarrierOfResilience", new SkillStyle(30, 180, VaultMod.id("gui/prestige/barrier_of_resilience"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/barrier_of_resilience_inactive")));
-                //builder.addStyle("SpiritsHand", new SkillStyle(0, 180, VaultMod.id("gui/prestige/spirits_hand"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/spirits_hand_inactive")));
-                //builder.addStyle("ShieldOfLastingGuard", new SkillStyle(90, 180, VaultMod.id("gui/prestige/shield_of_lasting_guard"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/shield_of_lasting_guard_inactive")));
-                //builder.addStyle("WeaverOfTime", new SkillStyle(120, 180, VaultMod.id("gui/prestige/weaver_of_time"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/weaver_of_time_inactive")));
-                //builder.addStyle("PrismaticPouch", new SkillStyle(60, 180, VaultMod.id("gui/prestige/prism_possessor"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/prism_possessor_inactive")));
-        //});
+        ModConfigs.PRESTIGE_POWERS = new PrestigePowersConfig().readConfig();
+        add("wolds_prestiges", builder -> {
+                builder.addStyle("BarrierOfResilience", new SkillStyle(0, 0, VaultMod.id("gui/prestige/barrier_of_resilience"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/barrier_of_resilience_inactive")));
+                builder.addStyle("ShieldOfLastingGuard", new SkillStyle(0, 0, VaultMod.id("gui/prestige/shield_of_lasting_guard"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/shield_of_lasting_guard_inactive")));
+                builder.addStyle("WeaverOfTime", new SkillStyle(0, 0, VaultMod.id("gui/prestige/weaver_of_time"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/weaver_of_time_inactive")));
+                builder.addStyle("PrismaticPouch", new SkillStyle(0, 0, VaultMod.id("gui/prestige/prism_possessor"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/prism_possessor_inactive")));
+                builder.addStyle("Artificer", new SkillStyle(0, 0, VaultMod.id("gui/prestige/artificer"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/artificer_inactive")));
+                builder.addStyle("HealthIncrease", new SkillStyle(0, 0, VaultMod.id("gui/prestige/dryad"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/dryad_inactive")));
+                builder.addStyle("SoulFetcher", new SkillStyle(0, 0, VaultMod.id("gui/prestige/soul_fetcher"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/soul_fetcher_inactive")));
+                builder.addStyle("Toolsmith", new SkillStyle(0, 0, VaultMod.id("gui/prestige/toolsmith"), SkillFrame.RECTANGULAR, VaultMod.id("gui/prestige/toolsmith_inactive")));
+        });
     }
 
 }

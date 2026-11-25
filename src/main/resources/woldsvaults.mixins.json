@@ -484,6 +484,7 @@
     "vaulthunters.custom.vault_forge.MixinVaultForgeContainer",
     "vaulthunters.datagen.MixinChampionsConfig",
     "vaulthunters.datagen.MixinVaultGearEnchantmentConfig",
+    "vaulthunters.deslop.PrestigePowerCardMixin",
     "vaulthunters.fixes.CardPosMixin",
     "vaulthunters.fixes.MixinAbilityCooldownPercentAttributeReader",
     "vaulthunters.fixes.MixinAbstractEarthquakeAbility",
@@ -644,7 +645,8 @@
     "vaulthunters.fixes.MixinToolItemRenderer",
     "vaulthunters.fixes.MixinUniqueCodexScreen",
     "vaulthunters.fixes.MixinVoidStoneItem",
-    "vaulthunters.objectives.MixinClientCrystalData"
+    "vaulthunters.objectives.MixinClientCrystalData",
+    "vaulthunters.skills.MixinAbilityWidget"
   ],
   "injectors": {
     "defaultRequire": 1
