@@ -39,7 +39,6 @@ public abstract class MixinAnvilRecipes {
         woldsVaults$register(new EnchantedCapstoneRecipe());
         woldsVaults$register(new VendoorCapstoneRecipe());
         woldsVaults$register(new GearRepairAdderRecipe());
-        woldsVaults$register(new ToolCapacityAdderRecipe());
         woldsVaults$register(new OmegaToolCapacityAdderRecipe());
         woldsVaults$register(new ToolModifierNullifierRecipe());
         woldsVaults$register(new ToolStylishAdderRecipe());
