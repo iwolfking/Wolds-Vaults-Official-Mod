@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.integration.appliedenergistics;
 
+import appeng.api.config.Actionable;
+import appeng.api.config.PowerMultiplier;
 import appeng.api.networking.energy.IEnergySource;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.storage.MEStorage;
@@ -56,7 +58,8 @@ public class AppliedEnergisticsBackpackDeposit {
                         wrapper,
                         storage,
                         powerSource,
-                        menu
+                        menu,
+                        menuAccess
                 ))
                 .orElse(new long[]{0L, 0L});
 
@@ -97,86 +100,70 @@ public class AppliedEnergisticsBackpackDeposit {
             InventoryHandler inventory,
             MEStorage storage,
             IEnergySource powerSource,
-            MEStorageMenu menu
+            MEStorageMenu menu,
+            AccessorMEStorageMenu menuAccess
     ) {
         long[] counts = new long[2];
 
-        IItemHandler destination = new IItemHandler() {
-            @Override
-            public int getSlots() {
-                return inventory.getSlots();
+        for (int slot = 0; slot < inventory.getSlots(); slot++) {
+            if (!menuAccess.invokeCanInteractWithGrid()) {
+                break;
             }
 
-            @Override
-            public ItemStack getStackInSlot(int slot) {
-                return ItemStack.EMPTY;
+            if (powerSource.extractAEPower(1.0D, Actionable.SIMULATE, PowerMultiplier.CONFIG) <= 0.0D) {
+                break;
             }
 
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (stack.isEmpty() || BackpackUtils.isNestedContainer(stack)) {
-                    return stack;
+            ItemStack slotStack = inventory.getStackInSlot(slot);
+            if (slotStack.isEmpty() || BackpackUtils.isNestedContainer(slotStack)) {
+                continue;
+            }
+
+            if (!BackpackUtils.matchesDepositFilters(depositFilterLogics, slotStack)) {
+                continue;
+            }
+
+            AEItemKey key = AEItemKey.of(slotStack);
+            if (key == null) {
+                continue;
+            }
+
+            int originalCount = slotStack.getCount();
+
+            long simulatedInsertable = storage.insert(
+                    key,
+                    originalCount,
+                    Actionable.SIMULATE,
+                    menu.getActionSource()
+            );
+
+            if (simulatedInsertable <= 0) {
+                continue;
+            }
+
+            long inserted = StorageHelper.poweredInsert(
+                    powerSource,
+                    storage,
+                    key,
+                    simulatedInsertable,
+                    menu.getActionSource()
+            );
+
+            int accepted = (int) Math.min(originalCount, Math.max(0L, inserted));
+            if (accepted > 0) {
+                ItemStack extracted = inventory.extractItem(slot, accepted, false);
+                counts[0] += extracted.getCount();
+
+                if (extracted.getCount() < accepted) {
+                    counts[0] -= (accepted - extracted.getCount());
                 }
-
-                if(!BackpackUtils.matchesDepositFilters(depositFilterLogics, stack)) {
-                    return stack;
-                }
-
-                AEItemKey key = AEItemKey.of(stack);
-                if (key == null) {
-                    return stack;
-                }
-
-                if (simulate) {
-                    long available = storage.insert(
-                            key,
-                            stack.getCount(),
-                            appeng.api.config.Actionable.SIMULATE,
-                            menu.getActionSource()
-                    );
-                    int accepted = (int) Math.min(stack.getCount(), available);
-                    ItemStack remainder = stack.copy();
-                    remainder.shrink(accepted);
-                    return remainder;
-                }
-
-                long inserted = StorageHelper.poweredInsert(
-                        powerSource,
-                        storage,
-                        key,
-                        stack.getCount(),
-                        menu.getActionSource()
-                );
-
-                int accepted = (int) Math.min(stack.getCount(), inserted);
-                counts[0] += accepted;
-
-                ItemStack remainder = stack.copy();
-                remainder.shrink(accepted);
-                return remainder;
             }
 
-            @Override
-            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                return ItemStack.EMPTY;
+            if (accepted < simulatedInsertable
+                    || powerSource.extractAEPower(1.0D, Actionable.SIMULATE, PowerMultiplier.CONFIG) <= 0.0D) {
+                break;
             }
-
-            @Override
-            public int getSlotLimit(int slot) {
-                return 64;
-            }
-
-            @Override
-            public boolean isItemValid(int slot, ItemStack stack) {
-                return !stack.isEmpty() && !BackpackUtils.isNestedContainer(stack);
-            }
-        };
-
-        InventoryHelper.transfer(
-                inventory,
-                destination,
-                extracted -> {}
-        );
+        }
 
         for (int slot = 0; slot < inventory.getSlots(); slot++) {
             counts[1] += inventory.getStackInSlot(slot).getCount();
