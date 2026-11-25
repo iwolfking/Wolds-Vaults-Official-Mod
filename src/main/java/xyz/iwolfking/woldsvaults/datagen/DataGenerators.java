@@ -101,6 +101,7 @@ public class DataGenerators {
             gen.addProvider(new ModForgedFociRecipesProvider(gen));
             gen.addProvider(new ModCustomisationDiscoveryProvider(gen));
             gen.addProvider(new ModVaultStashProvider(gen));
+            gen.addProvider(new ModVaultChestProvider(gen));
         }
     }
 

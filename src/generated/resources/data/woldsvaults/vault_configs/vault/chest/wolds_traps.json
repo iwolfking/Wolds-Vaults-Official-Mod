@@ -1,0 +1,23 @@
+{
+  "RARITY_DISTRIBUTION": {},
+  "LEVELS": [
+    {
+      "level": 0,
+      "probability": 0.05000000074505806,
+      "pool": [
+        {
+          "value": "Shockwave",
+          "weight": 2.0
+        },
+        {
+          "value": "Zoomies",
+          "weight": 2.0
+        },
+        {
+          "value": "Plating",
+          "weight": 4.0
+        }
+      ]
+    }
+  ]
+}
