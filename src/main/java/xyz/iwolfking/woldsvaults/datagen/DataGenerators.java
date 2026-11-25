@@ -100,6 +100,7 @@ public class DataGenerators {
             gen.addProvider(new ModCrystalSealRecipeProvider(gen));
             gen.addProvider(new ModForgedFociRecipesProvider(gen));
             gen.addProvider(new ModCustomisationDiscoveryProvider(gen));
+            gen.addProvider(new ModVaultStashProvider(gen));
         }
     }
 

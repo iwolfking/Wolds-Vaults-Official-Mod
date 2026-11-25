@@ -65,7 +65,6 @@ public class ModItems {
     public static VaultDaggerMainItem DAGGER_MAIN;
     public static VaultDaggerSubItem DAGGER_SUB;
     public static VaultRodItem VAULT_ROD;
-    //public static VaultBowItem BOW;
 
     public static CombinedTrinketItem COMBINED_TRINKET;
 
@@ -133,7 +132,6 @@ public class ModItems {
     public static final BasicItem BLAZING_FOCUS;
     public static final BasicItem SUSPENSION_FOCUS;
     public static final BasicItem INSCRIBING_FOCUS;
-    //public static final BasicItem WEAPON_TYPE_SETTER;
 
     public static BasicItem FRENZY_CAPSTONE;
     public static BasicItem PROSPEROUS_CAPSTONE;

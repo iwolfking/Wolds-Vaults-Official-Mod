@@ -1,0 +1,171 @@
+{
+  "facetedFocus": "the_vault:faceted_focus",
+  "categories": [
+    {
+      "id": "gems",
+      "name": "Gems",
+      "icon": "the_vault:gem_benitoite",
+      "items": [
+        "woldsvaults:pog_prism",
+        "woldsvaults:extraordinary_pog_prism",
+        "woldsvaults:smashed_vault_gem",
+        "woldsvaults:gem_box",
+        "the_vault:gem_wutodie",
+        "woldsvaults:vault_diamond_nugget",
+        "woldsvaults:gods_mastery",
+        "woldsvaults:expertise_orb",
+        "woldsvaults:skill_orb"
+      ],
+      "itemTags": []
+    },
+    {
+      "id": "metals",
+      "name": "Metals",
+      "icon": "the_vault:chromatic_steel_ingot",
+      "items": [
+        "woldsvaults:chromatic_gold_nugget",
+        "the_vault:vault_ingot",
+        "woldsvaults:pogominium_ingot"
+      ],
+      "itemTags": []
+    },
+    {
+      "id": "foci",
+      "name": "Foci",
+      "icon": "the_vault:wild_focus",
+      "items": [
+        "woldsvaults:eccentric_focus",
+        "woldsvaults:accoutre_focus",
+        "woldsvaults:blazing_focus",
+        "woldsvaults:suspension_focus",
+        "woldsvaults:inscribing_focus",
+        "woldsvaults:stylish_focus",
+        "woldsvaults:mercy_orb",
+        "woldsvaults:repair_augmenter",
+        "woldsvaults:crystal_reinforcement",
+        "woldsvaults:waning_augmenter",
+        "woldsvaults:waning_augmenter"
+      ],
+      "itemTags": []
+    },
+    {
+      "id": "crafting",
+      "name": "Crafting",
+      "icon": "the_vault:magic_silk",
+      "items": [
+        "woldsvaults:altar_recatalyzer",
+        "woldsvaults:soul_ichor",
+        "woldsvaults:wold_star_chunk",
+        "woldsvaults:wold_star",
+        "woldsvaults:arcane_essence",
+        "woldsvaults:heart_of_chaos",
+        "woldsvaults:gem_reagent_ashium",
+        "woldsvaults:gem_reagent_bomignite",
+        "woldsvaults:gem_reagent_gorginite",
+        "woldsvaults:gem_reagent_upaline",
+        "woldsvaults:gem_reagent_iskallium",
+        "woldsvaults:gem_reagent_petzanite",
+        "woldsvaults:gem_reagent_xenium",
+        "woldsvaults:gem_reagent_sparkletine",
+        "woldsvaults:gem_reagent_tubium",
+        "woldsvaults:blue_vault_essence",
+        "woldsvaults:yellow_vault_essence",
+        "woldsvaults:green_vault_essence",
+        "the_vault:red_vault_essence",
+        "woldsvaults:tome_of_tenos",
+        "woldsvaults:velara_apple",
+        "woldsvaults:idona_dagger",
+        "woldsvaults:wendarr_gem",
+        "woldsvaults:community_token",
+        "woldsvaults:infused_driftwood",
+        "woldsvaults:prismatic_fiber"
+      ],
+      "itemTags": []
+    },
+    {
+      "id": "fruit",
+      "name": "Vault Powerups",
+      "icon": "the_vault:bitter_lemon",
+      "items": [],
+      "itemTags": [
+        "the_vault:fruits"
+      ]
+    }
+  ],
+  "ladders": [
+    {
+      "forms": [
+        {
+          "item": "the_vault:gem_wutodie",
+          "factor": 1
+        },
+        {
+          "item": "the_vault:perfect_wutodie",
+          "factor": 4
+        },
+        {
+          "item": "the_vault:extraordinary_wutodie",
+          "factor": 16
+        }
+      ]
+    },
+    {
+      "forms": [
+        {
+          "item": "woldsvaults:smashed_vault_gem",
+          "factor": 1
+        },
+        {
+          "item": "woldsvaults:smashed_vault_gem_cluster",
+          "factor": 4
+        }
+      ]
+    },
+    {
+      "forms": [
+        {
+          "item": "woldsvaults:vault_diamond_nugget",
+          "factor": 1
+        },
+        {
+          "item": "the_vault:vault_diamond",
+          "factor": 9
+        },
+        {
+          "item": "the_vault:vault_diamond_block",
+          "factor": 81
+        }
+      ]
+    },
+    {
+      "forms": [
+        {
+          "item": "woldsvaults:chromatic_gold_nugget",
+          "factor": 1
+        },
+        {
+          "item": "woldsvaults:chromatic_gold_ingot",
+          "factor": 9
+        },
+        {
+          "item": "woldsvaults:chromatic_gold_block",
+          "factor": 81
+        }
+      ]
+    },
+    {
+      "forms": [
+        {
+          "item": "woldsvaults:arcane_essence",
+          "factor": 1
+        },
+        {
+          "item": "woldsvaults:arcane_shard",
+          "factor": 9
+        }
+      ]
+    }
+  ],
+  "logLines": 0,
+  "logMergeSeconds": 0
+}
