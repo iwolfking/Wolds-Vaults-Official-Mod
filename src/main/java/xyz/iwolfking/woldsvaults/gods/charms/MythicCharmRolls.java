@@ -29,6 +29,7 @@ import xyz.iwolfking.woldsvaults.gods.trees.velara.VelaraBadEffects;
 import xyz.iwolfking.woldsvaults.items.gear.MythicVaultCharmItem;
 
 import javax.annotation.Nullable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -325,34 +326,46 @@ public final class MythicCharmRolls {
 
     private static String hintFor(Roll roll, StoredRoll stored) {
         float legendaryMultiplier = stored.legendary() ? LEGENDARY_MULTIPLIER : 1.0F;
-        java.text.DecimalFormat format = new java.text.DecimalFormat("0.###");
-        switch (roll.kind()) {
-            case FLOAT: {
-                float perUnit = qualityValue(roll, stored.quality()) * legendaryMultiplier;
-                if (roll.attribute() == ModGearAttributes.THORNS_DAMAGE_FLAT) {
-                    return " (+" + format.format(perUnit) + " per 10 Piety)";
+        return switch (roll.kind()) {
+            case FLOAT, DOUBLE, AVOIDANCE, INT -> " (+" + amount(roll, qualityValue(roll, stored.quality()) * legendaryMultiplier)
+                    + " per " + GodPiety.PIETY_PER_UNIT + " Piety)";
+            case LEVEL, EFFECT, ABILITY_GROUP, TALENT -> " (" + levelRate(roll, legendaryMultiplier) + ")";
+            default -> "";
+        };
+    }
+
+    /** A per-unit roll value as the tooltip prints it: a percent, or a flat amount for flat rolls. */
+    private static String amount(Roll roll, float perUnit) {
+        DecimalFormat format = new DecimalFormat("0.###");
+        boolean flat = roll.kind() == Kind.INT
+                || (roll.kind() == Kind.FLOAT && roll.attribute() == ModGearAttributes.THORNS_DAMAGE_FLAT);
+        return flat ? format.format(perUnit) : format.format(perUnit * 100.0F) + "%";
+    }
+
+    private static String levelRate(Roll roll, float legendaryMultiplier) {
+        return "+1 per " + Math.round(GodPiety.PIETY_PER_UNIT / (roll.min() * legendaryMultiplier)) + " Piety";
+    }
+
+    /** One roll a mythic charm can draw: its name and its per-piety value range. */
+    public record RollPreview(String name, String range) {
+    }
+
+    /** Every roll a mythic charm of {@code god} can draw into {@code slot}, in table order. */
+    public static List<RollPreview> previews(VaultGod god, VaultGearModifier.AffixType slot) {
+        List<RollPreview> previews = new ArrayList<>();
+        for (Roll roll : table(god, slot)) {
+            String range = switch (roll.kind()) {
+                case FLOAT, DOUBLE, AVOIDANCE, INT -> {
+                    String low = amount(roll, roll.min());
+                    String high = amount(roll, roll.max());
+                    yield "+" + (low.equals(high) ? low : low + " to " + high) + " per " + GodPiety.PIETY_PER_UNIT + " Piety";
                 }
-                return " (+" + format.format(perUnit * 100.0F) + "% per 10 Piety)";
-            }
-            case DOUBLE:
-            case AVOIDANCE: {
-                float perUnit = qualityValue(roll, stored.quality()) * legendaryMultiplier;
-                return " (+" + format.format(perUnit * 100.0F) + "% per 10 Piety)";
-            }
-            case INT: {
-                float perUnit = qualityValue(roll, stored.quality()) * legendaryMultiplier;
-                return " (+" + format.format(perUnit) + " per 10 Piety)";
-            }
-            case LEVEL:
-            case EFFECT:
-            case ABILITY_GROUP:
-            case TALENT: {
-                int perLevelPiety = Math.round(10.0F / (roll.min() * legendaryMultiplier));
-                return " (+1 per " + perLevelPiety + " Piety)";
-            }
-            default:
-                return "";
+                case LEVEL, EFFECT, ABILITY_GROUP, TALENT -> levelRate(roll, 1.0F);
+                case TEMPORAL -> "+" + (TEMPORAL_TICKS_PER_UNIT / 20) + "s per " + GodPiety.PIETY_PER_UNIT + " Piety";
+            };
+            previews.add(new RollPreview(roll.kind() == Kind.TEMPORAL ? "Temporal blessing" : displayName(roll), range));
         }
+        return previews;
     }
 
     /** Stored draws that materialize to no modifier at the given units - shown as dormant. */
@@ -607,14 +620,17 @@ public final class MythicCharmRolls {
         return ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.parse(id));
     }
 
-    @Nullable
-    private static Roll lookup(VaultGod god, StoredRoll stored) {
-        List<Roll> table = switch (stored.slot()) {
+    private static List<Roll> table(VaultGod god, VaultGearModifier.AffixType slot) {
+        return switch (slot) {
             case IMPLICIT -> implicits(god);
             case PREFIX -> prefixes(god);
             case SUFFIX -> suffixes(god);
         };
-        for (Roll roll : table) {
+    }
+
+    @Nullable
+    private static Roll lookup(VaultGod god, StoredRoll stored) {
+        for (Roll roll : table(god, stored.slot())) {
             if (roll.key().equals(stored.key())) {
                 return roll;
             }

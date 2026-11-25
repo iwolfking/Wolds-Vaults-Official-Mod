@@ -810,6 +810,7 @@
     "vaulthunters.custom.MixinVaultGearTooltipItem",
     "darkmodeeverywhere.MixinClientProxy",
     "vaultmapper.MixinVaultMapMultiCell",
+    "vhatcaniroll.MixinRandomModifierListContainer",
     "vaultmapper.MixinVaultMapOverlayRendererMultiCell",
     "AccessorParticleEngine",
     "accessors.ModelAccessor",
