@@ -23,13 +23,9 @@ import java.util.UUID;
 
 //TODO: Fix this if Gambler is fixed
 @Mixin(value = UnboxingStationTileEntity.class, remap = false)
-public abstract class MixinUnboxingStationTileEntity extends BlockEntity {
+public abstract class MixinUnboxingStationTileEntity {
     @Shadow
     private UUID ownerId;
-
-    public MixinUnboxingStationTileEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
-        super(pType, pPos, pBlockState);
-    }
 
 //    @Redirect(method = "generateOutcomesForBoosterPack", at = @At(value = "INVOKE", target = "Liskallia/vault/config/card/BoosterPackConfig;getOutcomes(Ljava/lang/String;Liskallia/vault/core/random/RandomSource;)Ljava/util/List;"))
 //    private List<Card> passPlayerToOutcomes(BoosterPackConfig instance, String id, RandomSource random) {

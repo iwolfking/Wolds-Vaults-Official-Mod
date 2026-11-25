@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.spongepowered.asm.mixin.Mixin;
 
-//TODO: Figure out how Crystal Workbench screen works now, fix up this logic
+//TODO: Remove this?
 @Mixin(value = iskallia.vault.client.gui.screen.block.crystal.CrystalWorkbenchScreen.class, remap = false)
 public abstract class MixinCrystalWorkbenchScreen extends AbstractElementContainerScreen<CrystalWorkbenchContainer> {
     public MixinCrystalWorkbenchScreen(CrystalWorkbenchContainer container, Inventory inventory, Component title, IElementRenderer elementRenderer, ITooltipRendererFactory<AbstractElementContainerScreen<CrystalWorkbenchContainer>> tooltipRendererFactory) {

@@ -1,5 +1,4 @@
 {
-  "facetedFocus": "the_vault:faceted_focus",
   "categories": [
     {
       "id": "gems",
@@ -16,7 +15,9 @@
         "woldsvaults:expertise_orb",
         "woldsvaults:skill_orb"
       ],
-      "itemTags": []
+      "itemTags": [
+        "the_vault:keys"
+      ]
     },
     {
       "id": "metals",
@@ -80,12 +81,27 @@
         "woldsvaults:infused_driftwood",
         "woldsvaults:prismatic_fiber"
       ],
-      "itemTags": []
+      "itemTags": [
+        "the_vault:burgers",
+        "the_vault:burger_parts",
+        "the_vault:chest_scrolls"
+      ]
     },
     {
       "id": "fruit",
       "name": "Vault Powerups",
       "icon": "the_vault:bitter_lemon",
+      "items": [],
+      "itemTags": [
+        "the_vault:seals",
+        "the_vault:capstones",
+        "the_vault:vault_rocks"
+      ]
+    },
+    {
+      "id": "crystal_modifiers",
+      "name": "Vault Crystal Modifiers",
+      "icon": "the_vault:crystal_seal_sage",
       "items": [],
       "itemTags": [
         "the_vault:fruits"

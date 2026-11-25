@@ -10,8 +10,7 @@
       "the_vault:gear/axe/zombie_horse"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "WAND_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -24,8 +23,7 @@
       "the_vault:gear/wand/baguette"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "SWORD_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -44,8 +42,7 @@
       "the_vault:gear/sword/young_kitsune"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "ARMOR_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -57,8 +54,7 @@
       "the_vault:gear/armor/plague/boots"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "SHIELD_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -68,8 +64,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "FOCUS_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -81,8 +76,7 @@
       "woldsvaults:gear/focus/chroma_brew"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "MAGNETS_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -97,8 +91,7 @@
       "the_vault:magnets/bloody_magnet"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "TRIDENT_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -111,8 +104,7 @@
       "woldsvaults:gear/trident/fork"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "BATTLESTAFF_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -124,8 +116,7 @@
       "the_vault:gear/battlestaff/bamboo_fightstick"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "PLUSHIE_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -139,8 +130,7 @@
       "the_vault:gear/plushie/safer_spaces"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "LOOT_SACK_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -150,8 +140,7 @@
     "OMEGA": [],
     "UNIQUE": [],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "JEWEL_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -165,8 +154,7 @@
       "the_vault:gear/jewel/treasure"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   },
   "RANG_MODEL_ROLLS": {
     "SCRAPPY": [],
@@ -178,7 +166,6 @@
       "the_vault:gear/rang/trirang"
     ],
     "SPECIAL": [],
-    "CHAOTIC": [],
-    "MYTHIC": []
+    "CHAOTIC": []
   }
 }

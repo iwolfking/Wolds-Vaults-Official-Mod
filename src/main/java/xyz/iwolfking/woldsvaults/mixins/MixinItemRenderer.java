@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.init.ModAffixCategories;
 
 import java.util.List;
 
@@ -27,8 +28,12 @@ public abstract class MixinItemRenderer {
     public void renderEtchingOverlay(Font font, ItemStack stack, int x, int y, String text, CallbackInfo originalCi, CallbackInfo ci,
                                      @Local GearDataCache cache,
                                      @Local List<ResourceLocation> icons) {
-        if (cache.getState() == VaultGearState.UNIDENTIFIED && cache.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED)) {
-            icons.add(VaultGearModifier.AffixCategory.valueOf("ETCHING").getOverlayIcon());
+        if (cache.getState() == VaultGearState.UNIDENTIFIED
+                && cache.hasAttribute(xyz.iwolfking.woldsvaults.init.ModGearAttributes.IS_ETCHED)) {
+            ResourceLocation icon = ModAffixCategories.ETCHING.getOverlayIcon();
+            if (icon != null) {
+                icons.add(icon);
+            }
         }
     }
 

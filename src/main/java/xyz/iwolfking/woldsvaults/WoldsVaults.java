@@ -20,6 +20,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -111,6 +112,15 @@ public class WoldsVaults {
         ModInscriptionModels.registerModels();
         ModCrystalObjectives.init();
         ModFTBQuestsTaskTypes.init();
+        ModForgeRecipeTypes.init();
+        ModModifierAffixTagGroups.init();
+        ModVaultGearRarities.init();
+        ModVaultToolMaterials.init();
+        ModVaultGearClassifications.init();
+        ModPlayerStats.init();
+        ModDiscoveredEntriesTypes.init();
+        ModAffixCategories.init();
+
         if(LoadingModList.get().getModFileById("computercraft") != null) {
             CCTweakedSetup.init();
         }
@@ -124,7 +134,6 @@ public class WoldsVaults {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        //MinecraftForge.EVENT_BUS.addListener(this::textureStitch);
         ModOptions.init();
     }
 
@@ -144,6 +153,7 @@ public class WoldsVaults {
         DelayedExecutionHelper.init();
         ModVaultEvents.init();
         ModPetModels.register();
+        ModVaultCrateTypes.init();
         if (LoadingModList.get().getModFileById("ftbquests") != null) {
             event.enqueueWork(VaultPointsReward::register);
             event.enqueueWork(UnlockResearchReward::register);

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.iwolfking.woldsvaults.init.ModAffixCategories;
 
 @Mixin(value = GearScoreHelper.class, remap = false)
 public class MixinGearScoreHelper {
@@ -34,7 +35,7 @@ public class MixinGearScoreHelper {
             weight += 100000;
         }
 
-        if (cache.hasModifierOfCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))) {
+        if (cache.hasModifierOfCategory(ModAffixCategories.UNUSUAL)) {
             weight += 1000000;
         }
 

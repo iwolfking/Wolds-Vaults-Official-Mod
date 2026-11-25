@@ -7,8 +7,6 @@ import xyz.iwolfking.vhapi.api.datagen.AbstractVaultStashProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 
-import java.util.List;
-
 public class ModVaultStashProvider extends AbstractVaultStashProvider {
     protected ModVaultStashProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
@@ -28,7 +26,7 @@ public class ModVaultStashProvider extends AbstractVaultStashProvider {
                 itemBasicListBuilder.add(xyz.iwolfking.woldsvaults.init.ModItems.EXPERTISE_ORB_ITEM);
                 itemBasicListBuilder.add(xyz.iwolfking.woldsvaults.init.ModItems.SKILL_ORB_ITEM);
             }, resourceLocationBasicListBuilder -> {
-
+                resourceLocationBasicListBuilder.add(VaultMod.id("keys"));
             });
 
             builder.addCategory("metals", "Metals", ModItems.CHROMATIC_STEEL_INGOT, itemBasicListBuilder -> {
@@ -84,10 +82,20 @@ public class ModVaultStashProvider extends AbstractVaultStashProvider {
                 itemBasicListBuilder.add(xyz.iwolfking.woldsvaults.init.ModItems.INFUSED_DRIFTWOOD);
                 itemBasicListBuilder.add(xyz.iwolfking.woldsvaults.init.ModItems.PRISMATIC_FIBER);
             }, resourceLocationBasicListBuilder -> {
+                resourceLocationBasicListBuilder.add(VaultMod.id("burgers"));
+                resourceLocationBasicListBuilder.add(VaultMod.id("burger_parts"));
+                resourceLocationBasicListBuilder.add(VaultMod.id("chest_scrolls"));
 
             });
 
             builder.addCategory("fruit", "Vault Powerups", ModItems.BITTER_LEMON, itemBasicListBuilder -> {
+            }, resourceLocationBasicListBuilder -> {
+                resourceLocationBasicListBuilder.add(VaultMod.id("seals"));
+                resourceLocationBasicListBuilder.add(VaultMod.id("capstones"));
+                resourceLocationBasicListBuilder.add(VaultMod.id("vault_rocks"));
+            });
+
+            builder.addCategory("crystal_modifiers", "Vault Crystal Modifiers", ModItems.CRYSTAL_SEAL_SAGE, itemBasicListBuilder -> {
             }, resourceLocationBasicListBuilder -> {
                 resourceLocationBasicListBuilder.add(VaultMod.id("fruits"));
             });

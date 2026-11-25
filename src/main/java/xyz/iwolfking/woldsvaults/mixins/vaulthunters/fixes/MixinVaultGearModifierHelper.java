@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import xyz.iwolfking.woldsvaults.init.ModAffixCategories;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public abstract class MixinVaultGearModifierHelper {
                 return GearModification.Result.errorInternal();
             }
             modifierReplacements.removeIf(tpl -> {
-                if(tpl.getA().hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))){
+                if(tpl.getA().hasCategory(ModAffixCategories.UNUSUAL)){
                     return true;
                 }
                 return (tpl.getB()).size() <= 1;
@@ -97,7 +98,7 @@ public abstract class MixinVaultGearModifierHelper {
                 }
                 modifierReplacements.removeIf(tpl -> {
                     VaultGearModifier<?> existing = tpl.getA();
-                    if(existing.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))) {
+                    if(existing.hasCategory(ModAffixCategories.UNUSUAL)) {
                         return true;
                     }
                     VaultGearAttributeComparator comparator = existing.getAttribute().getAttributeComparator();

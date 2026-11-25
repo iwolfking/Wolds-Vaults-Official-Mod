@@ -19,6 +19,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
+import xyz.iwolfking.woldsvaults.init.ModAffixCategories;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearModifierHelperAccessor;
 
@@ -43,7 +44,7 @@ public class WoldGearModifierHelper {
             suffixes -= data.getModifiers(VaultGearModifier.AffixType.SUFFIX).size();
             boolean hasUnusual = false;
             for (VaultGearModifier<?> modifier : data.getModifiers(VaultGearModifier.AffixType.PREFIX)) {
-                hasUnusual = modifier.getCategories().contains(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"));
+                hasUnusual = modifier.getCategories().contains(ModAffixCategories.UNUSUAL);
                 if (hasUnusual) {
                     break;
                 }
@@ -54,7 +55,7 @@ public class WoldGearModifierHelper {
             }
 
             for (VaultGearModifier<?> modifier : data.getModifiers(VaultGearModifier.AffixType.SUFFIX)) {
-                hasUnusual = modifier.getCategories().contains(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"));
+                hasUnusual = modifier.getCategories().contains(ModAffixCategories.UNUSUAL);
                 if (hasUnusual) {
                     break;
                 }
@@ -89,7 +90,7 @@ public class WoldGearModifierHelper {
                     return cfg.getRandomModifier(modifierAffixTagGroup, itemLevel, random, data.getExistingModifierGroups(VaultGearData.Type.EXPLICIT_MODIFIERS)).map(modifier -> {
                         data.getAllModifierAffixes().forEach(VaultGearModifier::resetGameTimeAdded);
                         modifier.setGameTimeAdded(worldGameTime);
-                        modifier.addCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"));
+                        modifier.addCategory(ModAffixCategories.UNUSUAL);
                         data.addModifier(type, modifier);
                         data.write(stack);
                         return GearModification.Result.makeSuccess();
@@ -98,7 +99,7 @@ public class WoldGearModifierHelper {
                     return cfg.getRandomModifier(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_SUFFIX"), itemLevel, random, data.getExistingModifierGroups(VaultGearData.Type.EXPLICIT_MODIFIERS)).map(modifier -> {
                         data.getAllModifierAffixes().forEach(VaultGearModifier::resetGameTimeAdded);
                         modifier.setGameTimeAdded(worldGameTime);
-                        modifier.addCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"));
+                        modifier.addCategory(ModAffixCategories.UNUSUAL);
                         data.addModifier(type, modifier);
                         data.write(stack);
                         return GearModification.Result.makeSuccess();
@@ -169,7 +170,7 @@ public class WoldGearModifierHelper {
         if (affixes.stream().anyMatch((modifier) -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN))) {
             return GearModification.Result.makeActionError("frozen", new Component[0]);
         }
-        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN) || (!modifier.hasCategory(VaultGearModifier.AffixCategory.CORRUPTED) && !modifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY) && !modifier.hasCategory(VaultGearModifier.AffixCategory.GREATER) && !modifier.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))));
+        affixes.removeIf(modifier -> modifier.hasCategory(VaultGearModifier.AffixCategory.FROZEN) || (!modifier.hasCategory(VaultGearModifier.AffixCategory.CORRUPTED) && !modifier.hasCategory(VaultGearModifier.AffixCategory.LEGENDARY) && !modifier.hasCategory(VaultGearModifier.AffixCategory.GREATER) && !modifier.hasCategory(ModAffixCategories.UNUSUAL)));
         if (affixes.isEmpty()) {
             return GearModification.Result.makeActionError("no_modifiers");
         } else {

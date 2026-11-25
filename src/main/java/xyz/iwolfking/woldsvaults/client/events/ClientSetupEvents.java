@@ -11,9 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipClientComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
-import xyz.iwolfking.woldsvaults.client.init.ModEntityRenderers;
-import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
-import xyz.iwolfking.woldsvaults.client.init.ModScreens;
+import xyz.iwolfking.woldsvaults.client.init.*;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
@@ -26,6 +24,8 @@ public class ClientSetupEvents {
         ModEntityRenderers.register(event);
         ModKeybinds.registerKeyBinds();
         ModVaultarHudScreenRegistry.init();
+        ModVaultStashTabs.init();
+        ModPlayerStatEntries.init();
         registerItemProperties(event);
         registerClientTooltips();
     }

@@ -5,6 +5,7 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import net.joseph.vaultfilters.attributes.abstracts.BooleanAttribute;
 import net.minecraft.world.item.ItemStack;
+import xyz.iwolfking.woldsvaults.init.ModAffixCategories;
 
 public class HasUnusualAffixAttribute extends BooleanAttribute {
     public HasUnusualAffixAttribute(Boolean value) {
@@ -19,7 +20,7 @@ public class HasUnusualAffixAttribute extends BooleanAttribute {
 
         VaultGearData data = VaultGearData.read(itemStack);
         for (VaultGearModifier<?> modifier : data.getAllModifierAffixes()) {
-            if (modifier.hasCategory(VaultGearModifier.AffixCategory.valueOf("UNUSUAL"))) {
+            if (modifier.hasCategory(ModAffixCategories.UNUSUAL)) {
                 return true;
             }
         }

@@ -240,12 +240,6 @@
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/assassin_mastery"
     },
-    "Healthy_Elixir": {
-      "x": 396,
-      "y": 160,
-      "frameType": "RECTANGULAR",
-      "icon": "woldsvaults:gui/skills/healthy_elixir"
-    },
     "Bountiful_Harvest": {
       "x": 564,
       "y": 0,
@@ -359,12 +353,6 @@
       "y": 240,
       "frameType": "RECTANGULAR",
       "icon": "the_vault:gui/skills/bloodrush"
-    },
-    "Potent_Elixir": {
-      "x": 348,
-      "y": 160,
-      "frameType": "RECTANGULAR",
-      "icon": "woldsvaults:gui/skills/potent_elixir"
     },
     "Frenzy": {
       "x": -204,
