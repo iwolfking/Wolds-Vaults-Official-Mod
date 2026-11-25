@@ -11,6 +11,7 @@ import xyz.iwolfking.woldsvaults.datagen.lib.AbstractConfigPatchProvider;
 import xyz.iwolfking.woldsvaults.datagen.patches.GreedTraderPatches;
 import xyz.iwolfking.woldsvaults.datagen.patches.SpellHastePatches;
 import xyz.iwolfking.woldsvaults.events.ExecuteEvents;
+import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.milestones.MilestoneRankLadder;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BerserkEffectAccessor;
 
@@ -30,6 +31,8 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
     public static final double WEAVER_OF_TIME_HASTE_CAP = 1.0;
 
     private static final String FLAT_MANA = "the_vault:mana_additive";
+    private static final String SPIRITS_SEAL = "woldsvaults:crystal_seal_spirits";
+    private static final String HAUNTED_BRAZIERS_MAP = "the_vault:haunted_braziers";
     private static final int UPSTREAM_PRESTIGE_HEADERS = 12;
     private static final int PRESTIGE_HEADER_COLUMNS = 3;
     private static final int PRESTIGE_HEADER_LEFT = -150;
@@ -76,6 +79,7 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
         sigils();
         misc();
         seasonalThemes();
+        hauntedBrazierMaps();
         GreedTraderPatches.register(patch("greed/greed_trader.json"));
         SpellHastePatches.register(this::patch);
     }
@@ -503,6 +507,52 @@ public class ModConfigPatchesProvider extends AbstractConfigPatchProvider {
                 }
             }
         }
+    }
+
+    /**
+     * Gives haunted brazier maps the brazier target and brazier chance of the Spirits seal entry a crystal at
+     * {@link VaultMapItem#MIN_CRYSTAL_LEVEL} uses, so a mapped haunted brazier vault asks for as many braziers as a
+     * sealed one.
+     */
+    private void hauntedBrazierMaps() {
+        JsonObject crystal = seeded("vault_crystal.json").getAsJsonObject();
+        JsonObject seal = entryForLevel(childArray(crystal, "SEALS", SPIRITS_SEAL), VaultMapItem.MIN_CRYSTAL_LEVEL)
+                .getAsJsonObject("objective");
+        JsonObject mapEntry = entryForLevel(childArray(crystal, "OBJECTIVES", HAUNTED_BRAZIERS_MAP), VaultMapItem.MIN_CRYSTAL_LEVEL);
+        if (seal == null || !seal.has("target") || !seal.has("objective_probability")) {
+            throw new IllegalStateException(SPIRITS_SEAL + " has no objective target and objective_probability to copy onto haunted brazier maps");
+        }
+        Node entry = patch("vault_crystal.json").at("OBJECTIVES", HAUNTED_BRAZIERS_MAP, where("level", mapEntry.get("level").getAsInt()));
+        JsonArray pool = mapEntry.getAsJsonArray("pool");
+        for (int i = 0; i < pool.size(); i++) {
+            entry.at("pool", i, "value")
+                    .set("target", seal.get("target").deepCopy())
+                    .set("objective_probability", seal.get("objective_probability").deepCopy());
+        }
+    }
+
+    private static JsonArray childArray(JsonObject root, String section, String key) {
+        JsonObject parent = root.getAsJsonObject(section);
+        if (parent == null || !parent.has(key) || !parent.get(key).isJsonArray()) {
+            throw new IllegalStateException("vault_crystal.json has no " + section + " entry " + key);
+        }
+        return parent.getAsJsonArray(key);
+    }
+
+    /** The leveled entry a crystal at {@code level} reads: the one with the highest level not above it. */
+    private static JsonObject entryForLevel(JsonArray entries, int level) {
+        JsonObject best = null;
+        for (JsonElement element : entries) {
+            JsonObject entry = element.getAsJsonObject();
+            int entryLevel = entry.get("level").getAsInt();
+            if (entryLevel <= level && (best == null || entryLevel > best.get("level").getAsInt())) {
+                best = entry;
+            }
+        }
+        if (best == null) {
+            throw new IllegalStateException("vault_crystal.json has no leveled entry at or below level " + level);
+        }
+        return best;
     }
 
     private void misc() {

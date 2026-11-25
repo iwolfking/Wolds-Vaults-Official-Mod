@@ -75,6 +75,8 @@ import java.util.Optional;
 import java.util.Random;
 
 public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrystalModifier {
+    /** The lowest crystal level a vault map can be applied to. */
+    public static final int MIN_CRYSTAL_LEVEL = 100;
 
     Random rand = new Random();
 
@@ -258,7 +260,7 @@ public class VaultMapItem extends BasicItem implements VaultGearItem, IVaultCrys
     }
 
     public boolean applyCrystalRecipe(AnvilContext context, CrystalData data, ItemStack ingredientStack, ItemStack output) {
-        if (data.getProperties().getLevel().isPresent() && data.getProperties().getLevel().get() < 100) {
+        if (data.getProperties().getLevel().isPresent() && data.getProperties().getLevel().get() < MIN_CRYSTAL_LEVEL) {
             return false;
         }
 
