@@ -88,14 +88,14 @@ public class ModVaultStashProvider extends AbstractVaultStashProvider {
 
             });
 
-            builder.addCategory("fruit", "Vault Powerups", ModItems.BITTER_LEMON, itemBasicListBuilder -> {
+            builder.addCategory("crystal_modifiers", "Vault Crystal Modifiers", ModItems.CRYSTAL_SEAL_SAGE, itemBasicListBuilder -> {
             }, resourceLocationBasicListBuilder -> {
                 resourceLocationBasicListBuilder.add(VaultMod.id("seals"));
                 resourceLocationBasicListBuilder.add(VaultMod.id("capstones"));
                 resourceLocationBasicListBuilder.add(VaultMod.id("vault_rocks"));
             });
 
-            builder.addCategory("crystal_modifiers", "Vault Crystal Modifiers", ModItems.CRYSTAL_SEAL_SAGE, itemBasicListBuilder -> {
+            builder.addCategory("fruit", "Vault Powerups", ModItems.BITTER_LEMON, itemBasicListBuilder -> {
             }, resourceLocationBasicListBuilder -> {
                 resourceLocationBasicListBuilder.add(VaultMod.id("fruits"));
             });

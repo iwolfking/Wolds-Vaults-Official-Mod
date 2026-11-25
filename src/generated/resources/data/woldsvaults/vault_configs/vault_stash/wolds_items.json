@@ -88,9 +88,9 @@
       ]
     },
     {
-      "id": "fruit",
-      "name": "Vault Powerups",
-      "icon": "the_vault:bitter_lemon",
+      "id": "crystal_modifiers",
+      "name": "Vault Crystal Modifiers",
+      "icon": "the_vault:crystal_seal_sage",
       "items": [],
       "itemTags": [
         "the_vault:seals",
@@ -99,9 +99,9 @@
       ]
     },
     {
-      "id": "crystal_modifiers",
-      "name": "Vault Crystal Modifiers",
-      "icon": "the_vault:crystal_seal_sage",
+      "id": "fruit",
+      "name": "Vault Powerups",
+      "icon": "the_vault:bitter_lemon",
       "items": [],
       "itemTags": [
         "the_vault:fruits"
