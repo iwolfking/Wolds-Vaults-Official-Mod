@@ -33,6 +33,8 @@ import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.alchemy.AlchemyIngredientItem;
 import xyz.iwolfking.woldsvaults.items.alchemy.CatalystItem;
+import xyz.iwolfking.woldsvaults.network.message.ClientboundAlchemyParticleMessage;
+import xyz.iwolfking.woldsvaults.network.message.ClientboundAlchemySecondParticleMessage;
 
 import java.util.List;
 import java.util.Optional;
@@ -284,11 +286,10 @@ public class BrewingAltarTileEntity extends BlockEntity {
                     float f = 1 - ((float) (cookingTimer - 40) / 20);
                     f = ease(f);
                     float yOffset = (float)Math.sin(f * Math.PI / 1.5f) / 8;
-                    //TODO: Restore Alchemy Table Particles
-                    //ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemyParticleMessage(this.getBlockPos(), Direction.NORTH, color, yOffset));
+                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemyParticleMessage(this.getBlockPos(), Direction.NORTH, color, yOffset));
                 }
                 if(cookingTimer == 20) {
-                    //ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemySecondParticleMessage(this.getBlockPos(), color));
+                    ModNetwork.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(worldPosition)), new ClientboundAlchemySecondParticleMessage(this.getBlockPos(), color));
                 }
 
                 cookingTimer--;

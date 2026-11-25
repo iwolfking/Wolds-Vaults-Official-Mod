@@ -38,6 +38,8 @@ public class ModNetwork {
         CHANNEL.registerMessage(id++, ServerboundSwitchWorkstationPacket.class, ServerboundSwitchWorkstationPacket::encode, ServerboundSwitchWorkstationPacket::decode, ServerboundSwitchWorkstationPacket::handle);
         CHANNEL.registerMessage(id++, DepositBackpackPacket.class, DepositBackpackPacket::encode, DepositBackpackPacket::decode, DepositBackpackPacket::handle);
         CHANNEL.registerMessage(id++, VaultRodAttackMessage.class, VaultRodAttackMessage::encode, VaultRodAttackMessage::decode, VaultRodAttackMessage::handle);
+        CHANNEL.registerMessage(id++, ClientboundAlchemyParticleMessage.class, ClientboundAlchemyParticleMessage::encode, ClientboundAlchemyParticleMessage::decode, ClientboundAlchemyParticleMessage::handle);
+        CHANNEL.registerMessage(id++, ClientboundAlchemySecondParticleMessage.class, ClientboundAlchemySecondParticleMessage::encode, ClientboundAlchemySecondParticleMessage::decode, ClientboundAlchemySecondParticleMessage::handle);
     }
 
     public static <T> void sendToServer(T message) {
