@@ -37,7 +37,8 @@ public final class MapGodXp {
 
     /** Base god experience per {@code Objectives.KEY}; an objective outside this table pays nothing. */
     private static final Map<String, Double> BASE_XP = Map.ofEntries(
-            Map.entry("haunted_braziers", 1000.0D),
+            Map.entry("monolith", 1000.0D),
+            Map.entry("haunted_braziers", 1500.0D),
             Map.entry("elixir", 2000.0D),
             Map.entry("scavenger", 2000.0D),
             Map.entry("unhinged_scavenger", 2000.0D),
@@ -55,12 +56,8 @@ public final class MapGodXp {
             Map.entry("zealot", 5000.0D)
     );
 
-    /**
-     * Objectives whose award ignores the vault's difficulty multiplier. Haunted braziers take no
-     * part in the sigil/medallion difficulty scaling that raises every other objective's demands,
-     * so a difficulty roll there would pay more god experience for no extra work.
-     */
-    private static final Set<String> FLAT_DIFFICULTY = Set.of("haunted_braziers");
+    /** Objectives whose award ignores the vault's sigil and medallion difficulty multiplier. */
+    private static final Set<String> FLAT_DIFFICULTY = Set.of("monolith", "haunted_braziers");
 
     private static final Random SHARED_RANDOM = new Random();
 
