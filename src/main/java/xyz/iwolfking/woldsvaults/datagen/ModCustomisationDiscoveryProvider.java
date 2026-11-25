@@ -13,11 +13,11 @@ public class ModCustomisationDiscoveryProvider extends AbstractCustomisationDisc
     @Override
     public void registerConfigs() {
         add("aura_unlocks", builder -> {
-           builder.putTrail("dweller", new VaultLevelDiscovery(10));
-           builder.putTrail("cheeser", new VaultLevelDiscovery(20));
-           builder.putTrail("goblin", new VaultLevelDiscovery(30));
-           builder.putTrail("champion", new VaultLevelDiscovery(40));
-           builder.putTrail("legend", new VaultLevelDiscovery(50));
+           builder.putTrail("dweller", new VaultLevelDiscovery(100));
+           builder.putTrail("cheeser", new VaultLevelDiscovery(200));
+           builder.putTrail("goblin", new VaultLevelDiscovery(300));
+           builder.putTrail("champion", new VaultLevelDiscovery(400));
+           builder.putTrail("legend", new VaultLevelDiscovery(500));
         });
     }
 }

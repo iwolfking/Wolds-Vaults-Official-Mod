@@ -4,23 +4,23 @@
   "emblems": {},
   "trails": {
     "dweller": {
-      "level": 10,
+      "level": 100,
       "type": "vault_level"
     },
     "cheeser": {
-      "level": 20,
+      "level": 200,
       "type": "vault_level"
     },
     "goblin": {
-      "level": 30,
+      "level": 300,
       "type": "vault_level"
     },
     "champion": {
-      "level": 40,
+      "level": 400,
       "type": "vault_level"
     },
     "legend": {
-      "level": 50,
+      "level": 500,
       "type": "vault_level"
     }
   },
