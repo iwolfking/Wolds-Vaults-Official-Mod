@@ -749,7 +749,7 @@ public class ModVaultGearTiersProvider extends AbstractWoldsVaultGearConfigProvi
             vaultGearAttributeGroupBuilder.addModifier(UnusualModifierLib.VEIN_MINER_LEVEL_JEWEL);
         });
 
-        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective);
+        addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, List.of(2, 3, 4, 5), ModVaultGearTiersProvider::extractionObjective);
         add("map_mythic", builder -> builder.key(VaultMod.id("map_mythic")).add(VaultGearTierConfig.ModifierAffixTagGroup.IMPLICIT, ModVaultGearTiersProvider::extractionObjective));
 
         addToMaps(VaultGearTierConfig.ModifierAffixTagGroup.valueOf("UNUSUAL_PREFIX"), vaultGearAttributeGroupBuilder -> {

@@ -38,16 +38,18 @@ public class MixinModConfigs {
     private static final int TOTAL_MAP_TIERS = 6;
 
     /**
-     * Registers the shared ancient unique tier table and one mythic tier table per gear config right after the gear
-     * config map is built. Not a TAIL injection: vhapi's own TAIL overlay runs first and skips keys not yet in
-     * {@code VAULT_GEAR_CONFIG}, which dropped every {@code *_mythic} overlay.
+     * Registers the shared ancient unique tier table, one mythic tier table per gear config and the per-tier map
+     * tables right after the gear config map is built, so vhapi's gear overlays apply to all of them.
      */
     @Inject(method = "register", at = @At(value = "FIELD", target = "Liskallia/vault/init/ModConfigs;VAULT_GEAR_CONFIG:Ljava/util/Map;", opcode = Opcodes.PUTSTATIC, shift = At.Shift.AFTER), remap = false)
-    private static void registerAncientUniqueConfigs(CallbackInfo ci) {
+    private static void registerDerivedGearConfigs(CallbackInfo ci) {
         Set<ResourceLocation> baseGearConfigs = new HashSet<>(VAULT_GEAR_CONFIG.keySet());
         VAULT_GEAR_CONFIG.put(UniqueRollTables.ANCIENT_TABLE, new VaultGearTierConfig(UniqueRollTables.ANCIENT_TABLE).readConfig());
         for (ResourceLocation loc : baseGearConfigs) {
             VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
+        }
+        for (int i = 1; i < TOTAL_MAP_TIERS; i++) {
+            VAULT_GEAR_CONFIG.put(VaultMod.id("map_" + i), new VaultGearTierConfig(VaultMod.id("map_" + i)).readConfig());
         }
     }
 
@@ -56,11 +58,6 @@ public class MixinModConfigs {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
 
         ((VaultGearCommonConfigAccessor)ModConfigs.VAULT_GEAR_COMMON).getCraftingPotentialRanges().put(VaultGearRarity.valueOf("MYTHIC"), new IntRangeEntry(250, 650));
-
-
-        for(int i = 1; i < TOTAL_MAP_TIERS; i++) {
-            VAULT_GEAR_CONFIG.put(VaultMod.id("map_" + i), new VaultGearTierConfig(VaultMod.id("map_" + i)).readConfig());
-        }
 
 
         ToolType[] basicTypes = new ToolType[]{ToolType.PICK, ToolType.AXE, ToolType.SHOVEL, ToolType.HAMMER, ToolType.SICKLE};
