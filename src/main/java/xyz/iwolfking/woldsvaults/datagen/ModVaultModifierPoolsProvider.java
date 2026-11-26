@@ -308,52 +308,226 @@ public class ModVaultModifierPoolsProvider extends AbstractVaultModifierPoolsPro
     @Override
     public void addFiles(Map<String, Consumer<ModifierPoolBuilder>> map) {
         map.put("wolds_builtin_modifier_pools", b -> {
+            b.pool(WoldsVaults.id("haunted_braziers_warm").toString(), poolLevelBuilder -> {
+                poolLevelBuilder.level(0, entryListBuilder -> {
+                   entryListBuilder.entry(1, 1, e -> {
+                       e.add(VaultMod.id("more_experience").toString(), 100);
+                       e.add(VaultMod.id("haunted").toString(), 100);
+                       e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                       e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                       e.add(VaultMod.id("living_cascade").toString(), 25);
+                       e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                       e.add(VaultMod.id("coin_cascade").toString(), 25);
+                       e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                       e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                       e.add(VaultMod.id("living_respawn").toString(), 25);
+                       e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                       e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                       e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                       e.add(VaultMod.id("plentiful").toString(), 25);
+                       e.add(VaultMod.id("fortuitous").toString(), 25);
+                   });
+                });
 
-            b.pool(WoldsVaults.id("haunted_brazier").toString(), pool ->
-                    pool.level(0, entries -> {
-                        entries.entry(1, 1, e -> {
-                            e.add("the_vault:exorcising", 60);
-                            e.add("the_vault:super_stronk", 12);
-                            e.add("the_vault:item_quantity2", 12);
-                            e.add("the_vault:pristine", 12);
-                            e.add("the_vault:orematic", 12);
-                            e.add("the_vault:champion_chance", 6);
-                            e.add("the_vault:disarming", 12);
-                            e.add("the_vault:crate_tier", 2);
-                            e.add("the_vault:soul_surge", 2);
-                            e.add("the_vault:hoard", 1);
-                            e.add("the_vault:fortuitous", 2);
-                            e.add("the_vault:extended", 8);
-                            e.add("the_vault:treasure", 1);
-                        });
-                        entries.entry(1, 1, e -> {
-                            e.add("woldsvaults:bleeding_mobs", 35);
-                            e.add("woldsvaults:resistant_mobs", 35);
-                            e.add("woldsvaults:phantasmal_mobs", 20);
-                            e.add("woldsvaults:fleet_footed_mobs", 30);
-                            e.add("woldsvaults:witch_party", 45);
-                            e.add("woldsvaults:ghost_party", 60);
-                            e.add("woldsvaults:ghost_town", 90);
-                            e.add("woldsvaults:ghost_city", 30);
-                            e.add("the_vault:haunted_mansion", 35);
-                            e.add("the_vault:critical_mobs", 40);
-                            e.add("the_vault:brutal_mobs", 40);
-                            e.add("the_vault:enraged_mobs", 40);
-                            e.add("the_vault:dark", 40);
-                            e.add("the_vault:wither", 40);
-                            e.add("the_vault:voiding", 40);
-                            e.add("the_vault:unhinged_mob_increase", 20);
-                            e.add("the_vault:drought", 40);
-                            e.add("the_vault:wounded", 40);
-                            e.add("the_vault:rotten", 10);
-                            e.add("the_vault:rigged", 10);
-                            e.add("the_vault:rending", 40);
-                            e.add("the_vault:dangerous", 30);
-                            e.add("woldsvaults:doomed_aura", 4);
-                            e.add("woldsvaults:unlucky_aura", 10);
-                        });
-                    })
-            );
+                poolLevelBuilder.level(20, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("champion_paradox").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                    });
+                });
+
+                poolLevelBuilder.level(40, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("champion_paradox").toString(), 25);
+                        e.add(VaultMod.id("devotion").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                    });
+                });
+            });
+
+            b.pool(WoldsVaults.id("haunted_braziers_hot").toString(), poolLevelBuilder -> {
+                poolLevelBuilder.level(0, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("soul_surge").toString(), 10);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("serendipitous").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                        e.add(VaultMod.id("mob_increase").toString(), 25);
+                        e.add(VaultMod.id("item_quantity2").toString(), 25);
+                    });
+                });
+
+                poolLevelBuilder.level(20, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("soul_surge").toString(), 10);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("champion_paradox").toString(), 25);
+                        e.add(VaultMod.id("serendipitous").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                        e.add(VaultMod.id("mob_increase").toString(), 25);
+                        e.add(VaultMod.id("item_quantity2").toString(), 25);
+                    });
+                });
+
+                poolLevelBuilder.level(40, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("soul_surge").toString(), 10);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("champion_paradox").toString(), 25);
+                        e.add(VaultMod.id("devotion").toString(), 25);
+                        e.add(VaultMod.id("renowned").toString(), 25);
+                        e.add(VaultMod.id("serendipitous").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                        e.add(VaultMod.id("mob_increase").toString(), 25);
+                        e.add(VaultMod.id("item_quantity2").toString(), 25);
+                    });
+                });
+            });
+
+            b.pool(WoldsVaults.id("haunted_braziers_blazing").toString(), poolLevelBuilder -> {
+                poolLevelBuilder.level(0, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("refined_experience").toString(), 20);
+                        e.add(VaultMod.id("enlighted").toString(), 5);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("super_wooden_cascade").toString(), 5);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("super_gilded_cascade").toString(), 5);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("super_living_cascade").toString(), 5);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("super_ornate_cascade").toString(), 5);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("super_coin_cascade").toString(), 5);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("renowned").toString(), 25);
+                        e.add(VaultMod.id("gilded_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("ornate_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("living_mob_drops").toString(), 5);
+                        e.add(WoldsVaults.id("gem_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("bronze_nuke").toString(), 5);
+                        e.add(VaultMod.id("fruitful").toString(), 5);
+                        e.add(VaultMod.id("jackpot_chests").toString(), 25);
+                        e.add(VaultMod.id("crate_tier").toString(), 10);
+                        e.add(VaultMod.id("serendipitous").toString(), 25);
+                        e.add(VaultMod.id("sparkling").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                        e.add(VaultMod.id("mob_increase").toString(), 25);
+                        e.add(VaultMod.id("champion_chance").toString(), 25);
+                        e.add(VaultMod.id("chaos_scattered").toString(), 1);
+                        e.add(VaultMod.id("omega_cascade").toString(), 5);
+                    });
+                });
+
+                poolLevelBuilder.level(40, entryListBuilder -> {
+                    entryListBuilder.entry(1, 1, e -> {
+                        e.add(VaultMod.id("more_experience").toString(), 100);
+                        e.add(VaultMod.id("refined_experience").toString(), 20);
+                        e.add(VaultMod.id("enlighted").toString(), 5);
+                        e.add(VaultMod.id("haunted").toString(), 100);
+                        e.add(VaultMod.id("wooden_cascade").toString(), 25);
+                        e.add(VaultMod.id("gilded_cascade").toString(), 25);
+                        e.add(VaultMod.id("living_cascade").toString(), 25);
+                        e.add(VaultMod.id("ornate_cascade").toString(), 25);
+                        e.add(VaultMod.id("coin_cascade").toString(), 25);
+                        e.add(VaultMod.id("wooden_respawn").toString(), 25);
+                        e.add(VaultMod.id("gilded_respawn").toString(), 25);
+                        e.add(VaultMod.id("living_respawn").toString(), 25);
+                        e.add(VaultMod.id("ornate_respawn").toString(), 25);
+                        e.add(VaultMod.id("chaos_chest_respawn").toString(), 10);
+                        e.add(VaultMod.id("more_mobs_cata").toString(), 75);
+                        e.add(VaultMod.id("plentiful").toString(), 25);
+                        e.add(VaultMod.id("renowned").toString(), 25);
+                        e.add(VaultMod.id("gilded_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("ornate_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("living_mob_drops").toString(), 5);
+                        e.add(WoldsVaults.id("gem_mob_drops").toString(), 5);
+                        e.add(VaultMod.id("bronze_nuke").toString(), 5);
+                        e.add(VaultMod.id("fruitful").toString(), 5);
+                        e.add(VaultMod.id("devotion").toString(), 25);
+                        e.add(VaultMod.id("jackpot_chests").toString(), 25);
+                        e.add(VaultMod.id("crate_tier").toString(), 10);
+                        e.add(VaultMod.id("serendipitous").toString(), 25);
+                        e.add(VaultMod.id("sparkling").toString(), 25);
+                        e.add(VaultMod.id("fortuitous").toString(), 25);
+                        e.add(VaultMod.id("mob_increase").toString(), 25);
+                    });
+                });
+            });
 
             b.pool(WoldsVaults.id("haunted_brazier_pillage").toString(), pool ->
                     pool.level(0, entries ->

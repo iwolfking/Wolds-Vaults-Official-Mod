@@ -1,6 +1,6 @@
 {
   "pools": {
-    "woldsvaults:haunted_brazier": [
+    "woldsvaults:haunted_braziers_warm": [
       {
         "level": 0,
         "entries": [
@@ -9,158 +9,785 @@
             "max": 1,
             "pool": [
               {
-                "value": "the_vault:exorcising",
-                "weight": 60
+                "value": "the_vault:more_experience",
+                "weight": 100
               },
               {
-                "value": "the_vault:super_stronk",
-                "weight": 12
+                "value": "the_vault:haunted",
+                "weight": 100
               },
               {
-                "value": "the_vault:item_quantity2",
-                "weight": 12
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:pristine",
-                "weight": 12
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:orematic",
-                "weight": 12
+                "value": "the_vault:living_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:champion_chance",
-                "weight": 6
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:disarming",
-                "weight": 12
+                "value": "the_vault:coin_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:crate_tier",
-                "weight": 2
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
               },
               {
-                "value": "the_vault:soul_surge",
-                "weight": 2
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
               },
               {
-                "value": "the_vault:hoard",
-                "weight": 1
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
               },
               {
                 "value": "the_vault:fortuitous",
-                "weight": 2
-              },
-              {
-                "value": "the_vault:extended",
-                "weight": 8
-              },
-              {
-                "value": "the_vault:treasure",
-                "weight": 1
+                "weight": 25
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "level": 20,
+        "entries": [
           {
             "min": 1,
             "max": 1,
             "pool": [
               {
-                "value": "woldsvaults:bleeding_mobs",
-                "weight": 35
+                "value": "the_vault:more_experience",
+                "weight": 100
               },
               {
-                "value": "woldsvaults:resistant_mobs",
-                "weight": 35
+                "value": "the_vault:haunted",
+                "weight": 100
               },
               {
-                "value": "woldsvaults:phantasmal_mobs",
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:champion_paradox",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 40,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:haunted",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:champion_paradox",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:devotion",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:haunted_braziers_hot": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:haunted",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:item_quantity2",
+                "weight": 25
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 20,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:haunted",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:champion_paradox",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:item_quantity2",
+                "weight": 25
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 40,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:haunted",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:soul_surge",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:champion_paradox",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:devotion",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:renowned",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:item_quantity2",
+                "weight": 25
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "woldsvaults:haunted_braziers_blazing": [
+      {
+        "level": 0,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:refined_experience",
                 "weight": 20
               },
               {
-                "value": "woldsvaults:fleet_footed_mobs",
-                "weight": 30
+                "value": "the_vault:enlighted",
+                "weight": 5
               },
               {
-                "value": "woldsvaults:witch_party",
-                "weight": 45
+                "value": "the_vault:haunted",
+                "weight": 100
               },
               {
-                "value": "woldsvaults:ghost_party",
-                "weight": 60
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
               },
               {
-                "value": "woldsvaults:ghost_town",
-                "weight": 90
+                "value": "the_vault:super_wooden_cascade",
+                "weight": 5
               },
               {
-                "value": "woldsvaults:ghost_city",
-                "weight": 30
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:haunted_mansion",
-                "weight": 35
+                "value": "the_vault:super_gilded_cascade",
+                "weight": 5
               },
               {
-                "value": "the_vault:critical_mobs",
-                "weight": 40
+                "value": "the_vault:living_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:brutal_mobs",
-                "weight": 40
+                "value": "the_vault:super_living_cascade",
+                "weight": 5
               },
               {
-                "value": "the_vault:enraged_mobs",
-                "weight": 40
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:dark",
-                "weight": 40
+                "value": "the_vault:super_ornate_cascade",
+                "weight": 5
               },
               {
-                "value": "the_vault:wither",
-                "weight": 40
+                "value": "the_vault:coin_cascade",
+                "weight": 25
               },
               {
-                "value": "the_vault:voiding",
-                "weight": 40
+                "value": "the_vault:super_coin_cascade",
+                "weight": 5
               },
               {
-                "value": "the_vault:unhinged_mob_increase",
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:renowned",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:ornate_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:living_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "woldsvaults:gem_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:bronze_nuke",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:fruitful",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:jackpot_chests",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:crate_tier",
+                "weight": 10
+              },
+              {
+                "value": "the_vault:serendipitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:sparkling",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:fortuitous",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:mob_increase",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:champion_chance",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_scattered",
+                "weight": 1
+              },
+              {
+                "value": "the_vault:omega_cascade",
+                "weight": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 40,
+        "entries": [
+          {
+            "min": 1,
+            "max": 1,
+            "pool": [
+              {
+                "value": "the_vault:more_experience",
+                "weight": 100
+              },
+              {
+                "value": "the_vault:refined_experience",
                 "weight": 20
               },
               {
-                "value": "the_vault:drought",
-                "weight": 40
+                "value": "the_vault:enlighted",
+                "weight": 5
               },
               {
-                "value": "the_vault:wounded",
-                "weight": 40
+                "value": "the_vault:haunted",
+                "weight": 100
               },
               {
-                "value": "the_vault:rotten",
+                "value": "the_vault:wooden_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:coin_cascade",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:wooden_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:living_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:ornate_respawn",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:chaos_chest_respawn",
                 "weight": 10
               },
               {
-                "value": "the_vault:rigged",
+                "value": "the_vault:more_mobs_cata",
+                "weight": 75
+              },
+              {
+                "value": "the_vault:plentiful",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:renowned",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:gilded_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:ornate_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:living_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "woldsvaults:gem_mob_drops",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:bronze_nuke",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:fruitful",
+                "weight": 5
+              },
+              {
+                "value": "the_vault:devotion",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:jackpot_chests",
+                "weight": 25
+              },
+              {
+                "value": "the_vault:crate_tier",
                 "weight": 10
               },
               {
-                "value": "the_vault:rending",
-                "weight": 40
+                "value": "the_vault:serendipitous",
+                "weight": 25
               },
               {
-                "value": "the_vault:dangerous",
-                "weight": 30
+                "value": "the_vault:sparkling",
+                "weight": 25
               },
               {
-                "value": "woldsvaults:doomed_aura",
-                "weight": 4
+                "value": "the_vault:fortuitous",
+                "weight": 25
               },
               {
-                "value": "woldsvaults:unlucky_aura",
-                "weight": 10
+                "value": "the_vault:mob_increase",
+                "weight": 25
               }
             ]
           }
