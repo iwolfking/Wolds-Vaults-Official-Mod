@@ -200,6 +200,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
             return true;
         }
+        amount = RigPool.resistMobHit(attacker, amount);
         if (this.pool.isShieldUp()) {
             float overflow = this.pool.shieldHit(this, amount);
             this.invulnerableTime = 0;

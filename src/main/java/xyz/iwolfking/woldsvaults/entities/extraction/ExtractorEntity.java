@@ -289,7 +289,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds) * this.placerDamageTaken);
             return true;
         }
-        amount *= this.placerDamageTaken;
+        amount = RigPool.resistMobHit(attacker, amount) * this.placerDamageTaken;
         if (this.pool.isShieldUp()) {
             float overflow = this.pool.shieldHit(this, amount);
             this.invulnerableTime = 0;

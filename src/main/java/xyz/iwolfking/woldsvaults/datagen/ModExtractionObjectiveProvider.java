@@ -8,6 +8,7 @@ import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.FloorAnchor;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.JobEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.ModifierSource;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.PayoutEntry;
+import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.ResistanceKnot;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.TierEntry;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.TierWindow;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig.TimedWaveEntry;
@@ -238,9 +239,22 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.statFloor.enabled = true;
         waves.statFloor.anchors.add(new FloorAnchor(0, 4));
         waves.statFloor.anchors.add(new FloorAnchor(110, 8));
-        waves.statFloor.anchors.add(new FloorAnchor(200, 11));
         waves.statFloor.anchors.add(new FloorAnchor(420, 13));
         waves.statFloor.anchors.add(new FloorAnchor(700, 15));
+        waves.statFloor.anchors.add(new FloorAnchor(900, 16));
+
+        waves.rigResistance = new ExtractionObjectiveConfig.RigResistanceEntry();
+        waves.rigResistance.enabled = true;
+        waves.rigResistance.knots.add(new ResistanceKnot(5.5, 1.0));
+        waves.rigResistance.knots.add(new ResistanceKnot(12, 0.831));
+        waves.rigResistance.knots.add(new ResistanceKnot(40, 0.548));
+        waves.rigResistance.knots.add(new ResistanceKnot(115, 0.384));
+        waves.rigResistance.knots.add(new ResistanceKnot(255, 0.298));
+        waves.rigResistance.knots.add(new ResistanceKnot(495, 0.238));
+        waves.rigResistance.knots.add(new ResistanceKnot(850, 0.238));
+        waves.rigResistance.knots.add(new ResistanceKnot(1340, 0.238));
+        waves.rigResistance.knots.add(new ResistanceKnot(2000, 0.216));
+        waves.rigResistance.knots.add(new ResistanceKnot(5000, 0.182));
 
         waves.boss = new ExtractionObjectiveConfig.BossEntry();
         waves.boss.pool.add(vh("elite_zombie"), 20);
