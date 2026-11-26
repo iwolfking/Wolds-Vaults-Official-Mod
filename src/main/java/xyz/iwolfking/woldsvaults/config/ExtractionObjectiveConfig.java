@@ -55,6 +55,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         config.WAVES.carrier = new CarrierEntry();
         config.WAVES.carrier.baseEntity = "";
         config.WAVES.lanes = new LanesEntry();
+        config.WAVES.rotation = new RotationEntry();
         config.WAVES.ram = new RamEntry();
         config.WAVES.ram.entity = "";
         config.WAVES.ram.hpReference = "";
@@ -166,6 +167,14 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         }
         if (waves.lanes == null || waves.lanes.repathTicks <= 0 || waves.lanes.lookahead <= 0 || waves.lanes.stuckTicks <= 0) {
             return "WAVES lanes is missing or has a non-positive repath interval, lookahead or stuck time";
+        }
+        RotationEntry rotation = waves.rotation;
+        if (rotation == null || rotation.extraLaneAtPower == null || rotation.rerollTicks <= 0 || rotation.baseLanes <= 0 || rotation.targetsSolo <= 0
+                || rotation.lanesPerExtraPlayer < 0 || rotation.targetsPerExtraPlayer < 0) {
+            return "WAVES rotation is missing, or has a non-positive reroll time, lane count or solo target count, or a negative per-player step";
+        }
+        if (waves.waveSpeedMultiplier <= 0.0F) {
+            return "WAVES waveSpeedMultiplier is not positive";
         }
         if (waves.roomCountMultiplier <= 0.0F || waves.packetSize <= 0 || waves.liveMobCapPerRoom <= 0 || waves.liveMobCapPerVault <= 0
                 || waves.focusOrder == null) {
@@ -465,11 +474,28 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     /**
-     * One wave state per site room, run from the main rig's tier while it drills. Spread waves go out in packets of at
-     * most {@code packetSize} from a shuffle bag of the room's caves, each to the rig its cave faces; assault waves focus
-     * one rig at a time in {@code focusOrder} (pad indices); siege waves surge from every cave when {@code surgeSiege}.
-     * Counts are multiplied by {@code roomCountMultiplier}, ramping linearly to x{@code rampAtFullProgress} at the
-     * end of the job.
+     * Active lanes: every {@code rerollTicks} the director picks up to {@code targetsSolo} live rigs, plus
+     * {@code targetsPerExtraPlayer} per extra player, and deals {@code baseLanes} caves to them round-robin, one more for
+     * each {@code extraLaneAtPower} entry the main rig's power reaches and {@code lanesPerExtraPlayer} per extra player.
+     * A lane uses only a cave whose home is its rig. Players count when inside the site room as
+     * the job starts.
+     */
+    public static class RotationEntry {
+        @Expose public int rerollTicks;
+        @Expose public int baseLanes;
+        @Expose public List<Integer> extraLaneAtPower = new ArrayList<>();
+        @Expose public int lanesPerExtraPlayer;
+        @Expose public int targetsSolo;
+        @Expose public int targetsPerExtraPlayer;
+    }
+
+    /**
+     * One wave state per site room, run from the main rig's tier while it drills. Every wave spawns only from the
+     * room's active lanes ({@code rotation}): spread waves go out in packets of at most {@code packetSize} round-robin
+     * over the lanes; assault waves focus one targeted rig at a time in {@code focusOrder} (pad indices); siege waves
+     * surge across every active lane when {@code surgeSiege}. Counts are multiplied by {@code roomCountMultiplier},
+     * ramping linearly to x{@code rampAtFullProgress} at the end of the job. Every wave mob walks at
+     * x{@code waveSpeedMultiplier} speed.
      */
     public static class WavesEntry {
         @Expose public float roomCountMultiplier;
@@ -480,6 +506,8 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public int liveMobCapPerVault;
         @Expose public List<Integer> focusOrder = new ArrayList<>();
         @Expose public boolean surgeSiege;
+        @Expose public float waveSpeedMultiplier;
+        @Expose public RotationEntry rotation;
         @Expose public LanesEntry lanes;
         @Expose public RamEntry ram;
         @Expose public StatFloorEntry statFloor;

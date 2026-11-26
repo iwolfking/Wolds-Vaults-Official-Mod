@@ -28,6 +28,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -60,12 +61,13 @@ import java.util.Arrays;
 import xyz.iwolfking.woldsvaults.entities.extraction.RigTarget;
 
 /**
- * The wave director: one wave state per drilling site room, run from the main rig's tier while it drills. Spread
- * waves go out in small packets from a shuffle bag of the room's caves, each packet to the rig its cave faces; assault
- * waves focus one rig at a time; siege waves surge from every cave at once. A battering ram walks the 2-wide lanes to
- * one rig on its own clock. Every wave mob follows the room's baked lanes ({@link LaneFollowGoal}) and stays locked on
- * its rig ({@link ExtractorTargetGoal}), switching to the nearest live rig when its own is lost. Mob stats are floored
- * to the medallion rank the main rig's power maps to.
+ * The wave director: one wave state per drilling site room, run from the main rig's tier while it drills. Every wave
+ * spawns only from the room's active lanes, a set of caves each sending mobs to one targeted rig, rerolled on a timer
+ * and whenever a targeted rig is lost. Spread waves go out in small packets round-robin over the lanes; assault waves
+ * focus one targeted rig at a time; siege waves surge across every lane at once. A battering ram walks the 2-wide
+ * lanes to one targeted rig on its own clock. Every wave mob follows the room's baked lanes ({@link LaneFollowGoal})
+ * and stays locked on its rig ({@link ExtractorTargetGoal}), switching to the nearest live rig when its own is lost.
+ * Mob stats are floored to the medallion rank the main rig's power maps to.
  */
 public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective> implements LaneFollowGoal.Listener {
     public static final String TAG_TARGETED = "wv_extraction_targeted";
@@ -85,6 +87,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private static final int DEBUG_INTERVAL = 1200;
     private static final UUID BOSS_SPEED_MODIFIER = UUID.fromString("5b0f1c52-7e1d-4d6b-9d2f-3a8c6e1f0b77");
     private static final UUID RAM_SPEED_MODIFIER = UUID.fromString("0e4f3d1a-6b8c-4f2e-9a7d-2c5b8e1f4a63");
+    private static final UUID WAVE_SPEED_MODIFIER = UUID.fromString("9c3e7a21-4d5b-4f8e-b1a6-7e2d9c0f5b34");
+    private static final int TARGET_REROLL_TRIES = 4;
 
     private static final int TRICKLE = 0;
     private static final int HORDE = 1;
@@ -161,13 +165,32 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             return null;
         }
         double floor = floorFactor(waves.statFloor, extractor.getPower());
-        state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePads(site).size());
+        int extraPlayers = Math.max(0, this.playersInRoom(site) - 1);
+        ExtractionObjectiveConfig.RotationEntry rotation = waves.rotation;
+        int lanes = rotation.baseLanes + rotation.lanesPerExtraPlayer * extraPlayers;
+        for (int power : rotation.extraLaneAtPower) {
+            if (extractor.getPower() >= power) {
+                lanes++;
+            }
+        }
+        int targets = rotation.targetsSolo + rotation.targetsPerExtraPlayer * extraPlayers;
+        state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePads(site).size(), lanes, targets);
         state.nextRamTick = waves.ram.firstTicks;
         this.states.put(index, state);
-        WoldLogger.debug("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}).",
+        WoldLogger.debug("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}, {} extra players, {} lanes on up to {} rigs).",
                 index, tier.name, extractor.getPower(), String.format("%.2f", floor),
-                String.format("%.2f", GreedMedallionEffects.mobStatMultiplier(vault)));
+                String.format("%.2f", GreedMedallionEffects.mobStatMultiplier(vault)), extraPlayers, lanes, targets);
         return state;
+    }
+
+    private int playersInRoom(ExtractionSite site) {
+        int count = 0;
+        for (Player player : world.getEntitiesOfClass(Player.class, objective.siteRoomBounds(site))) {
+            if (player.isAlive() && !player.isSpectator()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -215,6 +238,13 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
 
     private void tickRoom(RoomWaveState state, ExtractionObjectiveConfig.WavesEntry waves) {
         ExtractionObjectiveConfig.TierEntry tier = state.tier;
+        if (!state.rolled) {
+            this.rollLanes(state, "open");
+        } else if (this.lostLaneTarget(state)) {
+            this.rollLanes(state, "rig lost");
+        } else if (++state.laneClock >= waves.rotation.rerollTicks) {
+            this.rollLanes(state, "reroll");
+        }
         if (state.due(TRICKLE, tier.trickle.intervalTicks)) {
             this.spawnTimedWave(state, tier.trickle, waves, TRICKLE);
         }
@@ -231,15 +261,119 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             this.spawnTimedWave(state, tier.siege, waves, SIEGE);
         }
         if (state.due(CARRIER, waves.carrier.intervalTicks)) {
-            int cave = this.nextBagCave(state);
-            if (cave >= 0) {
-                this.spawnCarrier(state, cave, waves.carrier);
+            Lane lane = this.nextLane(state, -1);
+            if (lane != null) {
+                this.spawnCarrier(state, lane, waves.carrier);
             }
         }
         if (waves.ram.maxPerRoom > 0 && ++state.ramClock >= state.nextRamTick) {
             state.nextRamTick += Math.max(20, tier.ramIntervalTicks);
             this.spawnRam(state, waves);
         }
+    }
+
+    private boolean lostLaneTarget(RoomWaveState state) {
+        for (int pad : state.laneTargets) {
+            if (objective.rigAt(world, state.site, pad) == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Picks up to the room's target count of live rigs, preferring a set that differs from the last one, then deals
+     * the room's lane count round-robin to them, each lane a distinct usable cave whose home is its rig.
+     */
+    private void rollLanes(RoomWaveState state, String reason) {
+        List<Integer> previous = new ArrayList<>(state.laneTargets);
+        state.rolled = true;
+        state.laneClock = 0;
+        state.laneCursor = 0;
+        state.lanes.clear();
+        state.laneTargets.clear();
+        List<Integer> live = new ArrayList<>();
+        for (LivingEntity rig : objective.liveRigs(world, state.site)) {
+            live.add(((RigTarget) rig).getPadIndex());
+        }
+        if (live.isEmpty()) {
+            return;
+        }
+        int wanted = Math.min(live.size(), state.maxTargets);
+        List<Integer> targets = this.pickTargets(live, wanted);
+        for (int tries = 0; tries < TARGET_REROLL_TRIES && wanted < live.size() && new HashSet<>(targets).equals(new HashSet<>(previous)); tries++) {
+            targets = this.pickTargets(live, wanted);
+        }
+        Map<Integer, ArrayDeque<Integer>> feeders = new HashMap<>();
+        for (int pad : targets) {
+            List<Integer> caves = new ArrayList<>();
+            for (int cave : this.usableCaves(state)) {
+                for (int home : this.homesOf(state, cave)) {
+                    if (home == pad) {
+                        caves.add(cave);
+                    }
+                }
+            }
+            Collections.shuffle(caves, world.getRandom());
+            feeders.put(pad, new ArrayDeque<>(caves));
+        }
+        Set<Integer> used = new HashSet<>();
+        boolean added = true;
+        while (state.lanes.size() < state.maxLanes && added) {
+            added = false;
+            for (int pad : targets) {
+                if (state.lanes.size() >= state.maxLanes) {
+                    break;
+                }
+                ArrayDeque<Integer> caves = feeders.get(pad);
+                while (!caves.isEmpty() && used.contains(caves.peek())) {
+                    caves.poll();
+                }
+                if (caves.isEmpty()) {
+                    continue;
+                }
+                int cave = caves.poll();
+                used.add(cave);
+                state.lanes.add(new Lane(cave, pad));
+                added = true;
+            }
+        }
+        for (Lane lane : state.lanes) {
+            if (!state.laneTargets.contains(lane.pad())) {
+                state.laneTargets.add(lane.pad());
+            }
+        }
+        for (int pad : targets) {
+            if (!state.laneTargets.contains(pad)) {
+                WoldLogger.errorOnce("extraction_lane_no_feeder_" + state.siteIndex + "_" + pad,
+                        "Extraction site {} picked rig pad {} as a lane target but no free cave faces it; it gets no lane.", state.siteIndex, pad);
+            }
+        }
+        StringBuilder text = new StringBuilder();
+        for (Lane lane : state.lanes) {
+            text.append(text.length() == 0 ? "" : " ").append('S').append(lane.cave() + 1).append("->pad").append(lane.pad());
+        }
+        WoldLogger.debug("Extraction site {} lanes {} ({} of {} lanes, {} of {} rigs): {}.", state.siteIndex, reason,
+                state.lanes.size(), state.maxLanes, state.laneTargets.size(), wanted, text);
+    }
+
+    private List<Integer> pickTargets(List<Integer> live, int wanted) {
+        List<Integer> shuffled = new ArrayList<>(live);
+        Collections.shuffle(shuffled, world.getRandom());
+        return new ArrayList<>(shuffled.subList(0, wanted));
+    }
+
+    private Lane nextLane(RoomWaveState state, int pad) {
+        List<Lane> pool = new ArrayList<>();
+        for (Lane lane : state.lanes) {
+            if (pad < 0 || lane.pad() == pad) {
+                pool.add(lane);
+            }
+        }
+        if (pool.isEmpty()) {
+            return null;
+        }
+        return pool.get(Math.floorMod(state.laneCursor++, pool.size()));
     }
 
     private int scaled(int count, ExtractionObjectiveConfig.WavesEntry waves, RoomWaveState state) {
@@ -273,61 +407,50 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (total <= 0) {
             return;
         }
+        if (state.lanes.isEmpty()) {
+            WoldLogger.errorOnce("extraction_no_lanes_" + state.siteIndex,
+                    "Extraction site {} fired a wave with no active lanes; the wave is skipped.", state.siteIndex);
+            return;
+        }
         long now = world.getGameTime();
+        int focus = -1;
         if (kind == SIEGE && waves.surgeSiege) {
-            List<Integer> order = this.usableCaves(state);
-            Collections.shuffle(order, world.getRandom());
-            if (order.isEmpty()) {
-                return;
-            }
-            Map<Long, Integer> perCaveClass = new HashMap<>();
-            int dealt = 0;
+            int laneCount = state.lanes.size();
             for (int g = 0; g < groups.length; g++) {
-                for (int i = 0; i < counts[g]; i++) {
-                    int cave = order.get(dealt++ % order.size());
-                    perCaveClass.merge(((long) cave << 8) | g, 1, Integer::sum);
+                for (int i = 0; i < laneCount; i++) {
+                    int size = counts[g] / laneCount + (i < counts[g] % laneCount ? 1 : 0);
+                    Lane lane = this.nextLane(state, -1);
+                    if (size > 0 && lane != null) {
+                        this.pending.add(new PendingPacket(state.siteIndex, lane.cave(), lane.pad(), groups[g], size, now));
+                    }
                 }
-            }
-            for (Map.Entry<Long, Integer> entry : perCaveClass.entrySet()) {
-                int cave = (int) (entry.getKey() >> 8);
-                int g = (int) (entry.getKey() & 0xFF);
-                this.pending.add(new PendingPacket(state.siteIndex, cave, -1, groups[g], entry.getValue(), now));
             }
             for (LivingEntity rig : objective.liveRigs(world, state.site)) {
                 world.playSound(null, rig.blockPosition(), SoundEvents.RAID_HORN, SoundSource.HOSTILE, 3.0F, 1.0F);
             }
-        } else if (kind == ASSAULT) {
-            int pad = this.nextFocusPad(state, waves);
-            int delay = 0;
-            for (int g = 0; g < groups.length; g++) {
-                for (int size : packets(counts[g], waves.packetSize)) {
-                    int cave = pad < 0 ? this.nextBagCave(state) : this.lruCave(state, pad);
-                    if (cave >= 0) {
-                        this.pending.add(new PendingPacket(state.siteIndex, cave, pad, groups[g], size, now + delay));
-                        delay += waves.packetStaggerTicks;
-                    }
+        } else {
+            if (kind == ASSAULT) {
+                focus = this.nextFocusPad(state, waves);
+                LivingEntity focused = focus < 0 ? null : objective.rigAt(world, state.site, focus);
+                if (focused != null) {
+                    world.playSound(null, focused.blockPosition(), SoundEvents.RAID_HORN, SoundSource.HOSTILE, 1.5F, 0.6F);
                 }
             }
-            LivingEntity focused = pad < 0 ? null : objective.rigAt(world, state.site, pad);
-            if (focused != null) {
-                world.playSound(null, focused.blockPosition(), SoundEvents.RAID_HORN, SoundSource.HOSTILE, 1.5F, 0.6F);
-            }
-        } else {
             int delay = 0;
             for (int g = 0; g < groups.length; g++) {
                 for (int size : packets(counts[g], waves.packetSize)) {
-                    int cave = this.nextBagCave(state);
-                    if (cave >= 0) {
-                        this.pending.add(new PendingPacket(state.siteIndex, cave, -1, groups[g], size, now + delay));
+                    Lane lane = this.nextLane(state, focus);
+                    if (lane != null) {
+                        this.pending.add(new PendingPacket(state.siteIndex, lane.cave(), lane.pad(), groups[g], size, now + delay));
                         delay += waves.packetStaggerTicks;
                     }
                 }
             }
         }
         for (int i = 0; i < bosses; i++) {
-            int cave = this.nextBagCave(state);
-            if (cave >= 0) {
-                this.spawnBoss(state, cave, waves);
+            Lane lane = this.nextLane(state, focus);
+            if (lane != null) {
+                this.spawnBoss(state, lane, waves);
             }
         }
     }
@@ -353,45 +476,16 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         return out;
     }
 
-    private int nextBagCave(RoomWaveState state) {
-        if (state.bag.isEmpty()) {
-            List<Integer> refill = this.usableCaves(state);
-            Collections.shuffle(refill, world.getRandom());
-            state.bag.addAll(refill);
-        }
-        Integer cave = state.bag.poll();
-        return cave == null ? -1 : cave;
-    }
-
+    /** The next lane target in {@code focusOrder}; the first lane target when the order names none of them. */
     private int nextFocusPad(RoomWaveState state, ExtractionObjectiveConfig.WavesEntry waves) {
         int size = waves.focusOrder.size();
         for (int tries = 0; tries < size; tries++) {
-            int pad = waves.focusOrder.get(state.focusIndex++ % size);
-            if (objective.rigAt(world, state.site, pad) != null) {
+            int pad = waves.focusOrder.get(Math.floorMod(state.focusIndex++, size));
+            if (state.laneTargets.contains(pad)) {
                 return pad;
             }
         }
-        return -1;
-    }
-
-    private int lruCave(RoomWaveState state, int pad) {
-        List<Integer> feeders = state.feeders.computeIfAbsent(pad, p -> {
-            List<Integer> list = new ArrayList<>();
-            for (int cave : this.usableCaves(state)) {
-                for (int home : this.homesOf(state, cave)) {
-                    if (home == p) {
-                        list.add(cave);
-                    }
-                }
-            }
-            return list;
-        });
-        if (feeders.isEmpty()) {
-            return this.nextBagCave(state);
-        }
-        int cave = feeders.remove(0);
-        feeders.add(cave);
-        return cave;
+        return state.laneTargets.isEmpty() ? -1 : state.laneTargets.get(0);
     }
 
     private int[] homesOf(RoomWaveState state, int cave) {
@@ -402,17 +496,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         WoldLogger.errorOnce("extraction_grid_pending_" + state.siteIndex,
                 "Extraction site {} has no room grid yet; caves use the authored pad groups instead of the baked fields.", state.siteIndex);
         return objective.authoredCaveHomes(cave);
-    }
-
-    private int homePad(RoomWaveState state, int cave) {
-        int[] homes = this.homesOf(state, cave);
-        if (homes.length == 0) {
-            return 0;
-        }
-        if (homes.length == 1) {
-            return homes[0];
-        }
-        return homes[state.toggles[cave]++ % homes.length];
     }
 
     private void flushPending(ExtractionObjectiveConfig.WavesEntry waves) {
@@ -443,8 +526,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             WoldLogger.error("Extraction tier '{}' asked for {} '{}' mobs but its pool is empty; skipping them.", state.tier.name, packet.count, packet.group.tag);
             return;
         }
-        int pad = packet.pad >= 0 ? packet.pad : this.homePad(state, packet.cave);
-        LivingEntity rig = this.resolveRig(state, pad, packet.cave);
+        LivingEntity rig = this.resolveRig(state, packet.pad, packet.cave);
         if (rig == null) {
             return;
         }
@@ -540,6 +622,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         world.addWithUUID(living);
         EntityScaler.scale(vault, living);
         this.applyStatFloor(living, state);
+        applyWaveSpeed(living, ModConfigs.EXTRACTION_OBJECTIVE.WAVES.waveSpeedMultiplier);
         if (afterScale != null) {
             afterScale.accept(living);
         }
@@ -583,6 +666,19 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         return true;
     }
 
+    private static void applyWaveSpeed(LivingEntity living, float multiplier) {
+        if (multiplier == 1.0F) {
+            return;
+        }
+        AttributeInstance speed = living.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speed == null) {
+            WoldLogger.error("Extraction wave mob {} has no movement speed attribute; it keeps its full speed.", living.getType().getRegistryName());
+            return;
+        }
+        speed.removeModifier(WAVE_SPEED_MODIFIER);
+        speed.addPermanentModifier(new AttributeModifier(WAVE_SPEED_MODIFIER, "Extraction wave speed", multiplier - 1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL));
+    }
+
     private static void setAttributeBase(LivingEntity living, Attribute attribute, double value) {
         AttributeInstance instance = living.getAttribute(attribute);
         if (instance == null) {
@@ -592,7 +688,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         instance.setBaseValue(value);
     }
 
-    private void spawnBoss(RoomWaveState state, int cave, ExtractionObjectiveConfig.WavesEntry waves) {
+    private void spawnBoss(RoomWaveState state, Lane lane, ExtractionObjectiveConfig.WavesEntry waves) {
+        int cave = lane.cave();
         ExtractionObjectiveConfig.BossEntry cfg = waves.boss;
         if (cfg.pool.isEmpty()) {
             WoldLogger.error("Extraction tier '{}' asked for a brutal boss but WAVES.boss.pool is empty; skipping it.", state.tier.name);
@@ -602,7 +699,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             state.dropped++;
             return;
         }
-        LivingEntity rig = this.resolveRig(state, this.homePad(state, cave), cave);
+        LivingEntity rig = this.resolveRig(state, lane.pad(), cave);
         if (rig == null) {
             return;
         }
@@ -627,10 +724,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             }
         };
         List<Integer> tries = new ArrayList<>(List.of(cave));
-        for (int i = 0; i < 3; i++) {
-            int other = this.nextBagCave(state);
-            if (other >= 0) {
-                tries.add(other);
+        for (Lane other : state.lanes) {
+            if (other.pad() == lane.pad() && !tries.contains(other.cave())) {
+                tries.add(other.cave());
             }
         }
         for (int attempt : tries) {
@@ -646,8 +742,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     }
 
     /** Spawns a power cell carrier: a champion outside the live mob caps whose aura buffs nearby wave mobs. */
-    private void spawnCarrier(RoomWaveState state, int cave, ExtractionObjectiveConfig.CarrierEntry carrierCfg) {
-        LivingEntity rig = this.resolveRig(state, this.homePad(state, cave), cave);
+    private void spawnCarrier(RoomWaveState state, Lane lane, ExtractionObjectiveConfig.CarrierEntry carrierCfg) {
+        int cave = lane.cave();
+        LivingEntity rig = this.resolveRig(state, lane.pad(), cave);
         if (rig == null) {
             return;
         }
@@ -678,7 +775,12 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (state.rams.size() >= cfg.maxPerRoom) {
             return;
         }
-        List<LivingEntity> rigs = objective.liveRigs(world, state.site);
+        List<LivingEntity> rigs = new ArrayList<>();
+        for (LivingEntity rig : objective.liveRigs(world, state.site)) {
+            if (state.laneTargets.contains(((RigTarget) rig).getPadIndex())) {
+                rigs.add(rig);
+            }
+        }
         LivingEntity target = null;
         int targetPad = -1;
         int fewest = Integer.MAX_VALUE;
@@ -702,14 +804,11 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         RoomGrid grid = objective.gridFor(state.siteIndex);
         int cave = -1;
         double farthest = -1.0D;
-        for (int candidate : this.usableCaves(state)) {
-            boolean feeds = false;
-            for (int home : this.homesOf(state, candidate)) {
-                feeds |= home == targetPad;
-            }
-            if (!feeds) {
+        for (Lane lane : state.lanes) {
+            if (lane.pad() != targetPad) {
                 continue;
             }
+            int candidate = lane.cave();
             double distance = grid != null && grid.isReady() ? grid.caveDistance(candidate, targetPad, true)
                     : objective.caveAnchors(state.site).get(candidate).distSqr(target.blockPosition());
             if (distance > farthest) {
@@ -718,11 +817,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             }
         }
         if (cave < 0) {
-            WoldLogger.error("Extraction site {} found no cave feeding pad {} for a battering ram; using a random cave.", state.siteIndex, targetPad);
-            cave = this.nextBagCave(state);
-            if (cave < 0) {
-                return;
-            }
+            WoldLogger.error("Extraction site {} has no active lane at pad {} for a battering ram; no ram this time.", state.siteIndex, targetPad);
+            return;
         }
         ResourceLocation id = new ResourceLocation(cfg.entity);
         if (!ForgeRegistries.ENTITIES.containsKey(id)) {
@@ -961,7 +1057,11 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private record PendingPacket(int siteIndex, int cave, int pad, Group group, int count, long dueTick) {
     }
 
-    /** One drilling room's wave clocks, cave rotation, live mobs and debug counters; replaced when a different main rig drills there. */
+    /** An active lane: a cave sending wave mobs to the rig on one pad. */
+    private record Lane(int cave, int pad) {
+    }
+
+    /** One drilling room's wave clocks, active lanes, live mobs and debug counters; replaced when a different main rig drills there. */
     private static final class RoomWaveState {
         final ExtractionSite site;
         final int siteIndex;
@@ -969,14 +1069,18 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         final ExtractionObjectiveConfig.TierEntry tier;
         final double floorFactor;
         final int caveCount;
+        final int maxLanes;
+        final int maxTargets;
         final Set<UUID> live = new HashSet<>();
         final Map<UUID, Integer> rams = new HashMap<>();
-        final ArrayDeque<Integer> bag = new ArrayDeque<>();
-        final Map<Integer, List<Integer>> feeders = new HashMap<>();
-        final int[] toggles;
+        final List<Lane> lanes = new ArrayList<>();
+        final List<Integer> laneTargets = new ArrayList<>();
         final int[] spawnedPerCave;
         final int[] arrivedPerPad;
         final long[] walkTicksPerPad;
+        boolean rolled;
+        int laneClock;
+        int laneCursor;
         int focusIndex;
         int ramClock;
         int nextRamTick;
@@ -984,14 +1088,16 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         int nudges;
         private final int[] timers = new int[6];
 
-        RoomWaveState(ExtractionSite site, int siteIndex, UUID extractorId, ExtractionObjectiveConfig.TierEntry tier, double floorFactor, int caveCount, int padCount) {
+        RoomWaveState(ExtractionSite site, int siteIndex, UUID extractorId, ExtractionObjectiveConfig.TierEntry tier, double floorFactor, int caveCount, int padCount,
+                      int maxLanes, int maxTargets) {
             this.site = site;
             this.siteIndex = siteIndex;
             this.extractorId = extractorId;
             this.tier = tier;
             this.floorFactor = floorFactor;
             this.caveCount = caveCount;
-            this.toggles = new int[caveCount];
+            this.maxLanes = maxLanes;
+            this.maxTargets = maxTargets;
             this.spawnedPerCave = new int[caveCount];
             this.arrivedPerPad = new int[Math.max(1, padCount)];
             this.walkTicksPerPad = new long[Math.max(1, padCount)];

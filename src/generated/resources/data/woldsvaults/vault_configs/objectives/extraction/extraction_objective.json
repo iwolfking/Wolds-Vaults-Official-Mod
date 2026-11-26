@@ -389,6 +389,18 @@
       2
     ],
     "surgeSiege": true,
+    "waveSpeedMultiplier": 0.6,
+    "rotation": {
+      "rerollTicks": 600,
+      "baseLanes": 3,
+      "extraLaneAtPower": [
+        200,
+        400
+      ],
+      "lanesPerExtraPlayer": 1,
+      "targetsSolo": 2,
+      "targetsPerExtraPlayer": 1
+    },
     "lanes": {
       "engageSteps": 6,
       "rangedEngageBlocks": 12.0,
@@ -494,7 +506,7 @@
         "name": "salvage",
         "minPower": 0,
         "trickle": {
-          "intervalTicks": 80,
+          "intervalTicks": 100,
           "horde": {
             "min": 2,
             "max": 3
@@ -517,7 +529,7 @@
           }
         },
         "horde": {
-          "intervalTicks": 200,
+          "intervalTicks": 250,
           "horde": {
             "min": 8,
             "max": 12
@@ -540,7 +552,7 @@
           }
         },
         "combat": {
-          "intervalTicks": 320,
+          "intervalTicks": 400,
           "horde": {
             "min": 0,
             "max": 0
@@ -563,7 +575,7 @@
           }
         },
         "assault": {
-          "intervalTicks": 500,
+          "intervalTicks": 625,
           "horde": {
             "min": 0,
             "max": 0
@@ -586,7 +598,7 @@
           }
         },
         "siege": {
-          "intervalTicks": 1400,
+          "intervalTicks": 1750,
           "horde": {
             "min": 12,
             "max": 12
@@ -718,7 +730,7 @@
         "name": "industrial",
         "minPower": 110,
         "trickle": {
-          "intervalTicks": 70,
+          "intervalTicks": 88,
           "horde": {
             "min": 2,
             "max": 3
@@ -741,7 +753,7 @@
           }
         },
         "horde": {
-          "intervalTicks": 180,
+          "intervalTicks": 225,
           "horde": {
             "min": 8,
             "max": 12
@@ -764,7 +776,7 @@
           }
         },
         "combat": {
-          "intervalTicks": 300,
+          "intervalTicks": 375,
           "horde": {
             "min": 0,
             "max": 0
@@ -787,7 +799,7 @@
           }
         },
         "assault": {
-          "intervalTicks": 450,
+          "intervalTicks": 562,
           "horde": {
             "min": 0,
             "max": 0
@@ -810,7 +822,7 @@
           }
         },
         "siege": {
-          "intervalTicks": 1300,
+          "intervalTicks": 1625,
           "horde": {
             "min": 13,
             "max": 13
@@ -942,7 +954,7 @@
         "name": "fortified",
         "minPower": 200,
         "trickle": {
-          "intervalTicks": 60,
+          "intervalTicks": 75,
           "horde": {
             "min": 2,
             "max": 4
@@ -965,7 +977,7 @@
           }
         },
         "horde": {
-          "intervalTicks": 160,
+          "intervalTicks": 200,
           "horde": {
             "min": 9,
             "max": 13
@@ -988,7 +1000,7 @@
           }
         },
         "combat": {
-          "intervalTicks": 280,
+          "intervalTicks": 350,
           "horde": {
             "min": 0,
             "max": 0
@@ -1011,7 +1023,7 @@
           }
         },
         "assault": {
-          "intervalTicks": 400,
+          "intervalTicks": 500,
           "horde": {
             "min": 0,
             "max": 0
@@ -1034,7 +1046,7 @@
           }
         },
         "siege": {
-          "intervalTicks": 1200,
+          "intervalTicks": 1500,
           "horde": {
             "min": 15,
             "max": 15
@@ -1182,7 +1194,7 @@
         "name": "siege",
         "minPower": 420,
         "trickle": {
-          "intervalTicks": 50,
+          "intervalTicks": 62,
           "horde": {
             "min": 3,
             "max": 4
@@ -1205,7 +1217,7 @@
           }
         },
         "horde": {
-          "intervalTicks": 140,
+          "intervalTicks": 175,
           "horde": {
             "min": 10,
             "max": 14
@@ -1228,7 +1240,7 @@
           }
         },
         "combat": {
-          "intervalTicks": 260,
+          "intervalTicks": 325,
           "horde": {
             "min": 0,
             "max": 0
@@ -1251,7 +1263,7 @@
           }
         },
         "assault": {
-          "intervalTicks": 350,
+          "intervalTicks": 438,
           "horde": {
             "min": 0,
             "max": 0
@@ -1274,7 +1286,7 @@
           }
         },
         "siege": {
-          "intervalTicks": 1100,
+          "intervalTicks": 1375,
           "horde": {
             "min": 18,
             "max": 18
@@ -1422,7 +1434,7 @@
         "name": "cataclysm",
         "minPower": 700,
         "trickle": {
-          "intervalTicks": 40,
+          "intervalTicks": 50,
           "horde": {
             "min": 3,
             "max": 4
@@ -1445,7 +1457,7 @@
           }
         },
         "horde": {
-          "intervalTicks": 120,
+          "intervalTicks": 150,
           "horde": {
             "min": 10,
             "max": 15
@@ -1468,7 +1480,7 @@
           }
         },
         "combat": {
-          "intervalTicks": 240,
+          "intervalTicks": 300,
           "horde": {
             "min": 0,
             "max": 0
@@ -1491,7 +1503,7 @@
           }
         },
         "assault": {
-          "intervalTicks": 300,
+          "intervalTicks": 375,
           "horde": {
             "min": 0,
             "max": 0
@@ -1514,7 +1526,7 @@
           }
         },
         "siege": {
-          "intervalTicks": 1000,
+          "intervalTicks": 1250,
           "horde": {
             "min": 20,
             "max": 20
