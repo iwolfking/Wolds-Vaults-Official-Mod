@@ -834,7 +834,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             return null;
         }
         return List.of(new TextComponent("Hardpoint " + (hardpoint + 1)).withStyle(ChatFormatting.WHITE),
-                ExtractorTooltips.hint(docked ? "Place an attachment here to install it." : "Accepts one attachment, installed at assembly."));
+                ExtractorTooltips.hint(docked ? "Place an attachment here to install it." : "Accepts one attachment or an identified attachment blueprint."));
     }
 
     @Override

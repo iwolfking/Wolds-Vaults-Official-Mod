@@ -43,7 +43,7 @@ import net.minecraft.world.level.Level;
 
 /**
  * Slots 0–6 take one part (or identified blueprint, for previewing) each in {@link ExtractorPartType#CORE_PARTS}
- * order, 7–9 take attachments, 10 is the assembled extractor. While an assembled extractor sits in slot 10 it is
+ * order, 7–9 take attachments (or identified attachment blueprints), 10 is the assembled extractor. While an assembled extractor sits in slot 10 it is
  * "docked": the part slots mirror its build as untouchable ghosts and the attachment slots become a live view of
  * its hardpoints. Deliberately exposes no item handler: assembly is a hand operation.
  */
@@ -217,7 +217,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
             return ExtractorPartItem.isPart(stack, type) || ExtractorBlueprintItem.isIdentifiedBlueprint(stack, type);
         }
         if (slot < OUTPUT_SLOT) {
-            return ExtractorPartItem.isPart(stack, ExtractorPartType.ATTACHMENT);
+            return ExtractorPartItem.isPart(stack, ExtractorPartType.ATTACHMENT) || ExtractorBlueprintItem.isIdentifiedBlueprint(stack, ExtractorPartType.ATTACHMENT);
         }
         return slot == REPAIR_SLOT;
     }
@@ -295,7 +295,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
         }
         List<PartData> attachments = new ArrayList<>();
         for (int slot = ATTACHMENT_SLOT_START; slot < OUTPUT_SLOT; slot++) {
-            PartData attachment = ExtractorPartItem.getPart(this.inventory.getStackInSlot(slot));
+            PartData attachment = ExtractorPartItem.rolledPart(this.inventory.getStackInSlot(slot));
             if (attachment != null) {
                 attachments.add(attachment);
             }
@@ -305,7 +305,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
 
     public int blueprintCount() {
         int count = 0;
-        for (int slot = 0; slot < PART_SLOTS; slot++) {
+        for (int slot = 0; slot < OUTPUT_SLOT; slot++) {
             if (this.inventory.getStackInSlot(slot).getItem() instanceof ExtractorBlueprintItem) {
                 count++;
             }
@@ -467,7 +467,7 @@ public class ExtractorAssemblerTileEntity extends BaseInventoryTileEntity implem
             reasons.add(missing == 1 ? "1 part slot is empty." : missing + " part slots are empty.");
         }
         List<String> blueprints = new ArrayList<>();
-        for (int slot = 0; slot < PART_SLOTS; slot++) {
+        for (int slot = 0; slot < OUTPUT_SLOT; slot++) {
             ItemStack stack = this.inventory.getStackInSlot(slot);
             if (stack.getItem() instanceof ExtractorBlueprintItem) {
                 PartData part = ExtractorBlueprintItem.getPart(stack);
