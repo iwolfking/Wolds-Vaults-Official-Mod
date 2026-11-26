@@ -1,0 +1,23 @@
+{
+  "cooldownTicks": 400,
+  "jetUpgrades": 5,
+  "jetPower": 1.0,
+  "flightStabilizers": false,
+  "smartHover": false,
+  "boostTicks": 20,
+  "boostSpeed": 1.75,
+  "spinTicks": 20,
+  "detonationNoDashPercent": 0.25,
+  "detonationMinSpeed": 0.5,
+  "detonationRadius": 4.0,
+  "detonationRadiusPerSpeed": 1.5,
+  "detonationMaxRadius": 14.0,
+  "detonationOvertimeTicks": 200,
+  "banzaiScale": 1.5,
+  "kingScale": 2.0,
+  "giantReachShare": 1.0,
+  "cruiseSpeed": 0.7,
+  "kingHeatRadius": 12.0,
+  "kingHeatDamage": 0.5,
+  "kingHeatIntervalTicks": 10
+}

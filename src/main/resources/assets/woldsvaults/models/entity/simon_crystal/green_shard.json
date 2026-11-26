@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:entity/simon_crystal/shard",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/green"
+  }
+}

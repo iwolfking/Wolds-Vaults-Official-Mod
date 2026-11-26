@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:entity/simon_crystal/cluster",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/blue"
+  }
+}

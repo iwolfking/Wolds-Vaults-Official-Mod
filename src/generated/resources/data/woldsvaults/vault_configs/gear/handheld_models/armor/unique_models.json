@@ -53,6 +53,54 @@
       "displayName": "Lightning Fiend's Talons",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/simons_set/helmet",
+      "displayName": "Simon's Helmet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/simons_set/chestplate",
+      "displayName": "Simon's Chestplate",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/simons_set/leggings",
+      "displayName": "Simon's Leggings",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/simons_set/boots",
+      "displayName": "Simon's Boots",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/bullet_bill/helmet",
+      "displayName": "Bullet Bill's Helmet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/bullet_bill/leggings",
+      "displayName": "Bullet Bill's Leggings",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/banzai_bill/helmet",
+      "displayName": "Banzai Bill Helmet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "the_vault:gear/armor/king_bill/helmet",
+      "displayName": "King Bill Helmet",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

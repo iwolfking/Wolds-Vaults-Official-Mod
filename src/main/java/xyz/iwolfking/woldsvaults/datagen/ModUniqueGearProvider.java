@@ -1,6 +1,7 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
 import iskallia.vault.config.UniqueCodexConfig;
+import iskallia.vault.config.UniqueCodexConfig.IntroductionPage.SlotType;
 import iskallia.vault.init.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -636,6 +637,30 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
                 .build()
         ));
 
+        consumer.accept(setPiece("woldsvaults:simons_helmet", "Simon's Helmet", "the_vault:gear/armor/simons_set/helmet",
+                "Not yet obtainable (Simon's Set)", "Simon's Set. Yellow. Watch which one lights up next.", SetPiece.HELMET));
+        consumer.accept(setPiece("woldsvaults:simons_chestplate", "Simon's Chestplate", "the_vault:gear/armor/simons_set/chestplate",
+                "Not yet obtainable (Simon's Set)", "Simon's Set. Blue. Light bends around it, and so do spells.", SetPiece.CHESTPLATE));
+        consumer.accept(setPiece("woldsvaults:simons_leggings", "Simon's Leggings", "the_vault:gear/armor/simons_set/leggings",
+                "Not yet obtainable (Simon's Set)", "Simon's Set. Green. Every hit you land feeds the crystals.", SetPiece.LEGGINGS));
+        consumer.accept(setPiece("woldsvaults:simons_boots", "Simon's Boots", "the_vault:gear/armor/simons_set/boots",
+                "Not yet obtainable (Simon's Set)", "Simon's Set. Red. Run to the next crystal before you forget the order.", SetPiece.BOOTS));
+
+        consumer.accept(setPiece("woldsvaults:bullet_bill_helmet", "Bullet Bill's Helmet", "the_vault:gear/armor/bullet_bill/helmet",
+                "Not yet obtainable (Bullet Bill set)", "Bullet Bill set. Look where you want to go; the rest takes care of itself.", SetPiece.HELMET));
+        consumer.accept(setPiece("woldsvaults:bullet_bill_leggings", "Bullet Bill's Leggings", "the_vault:gear/armor/bullet_bill/leggings",
+                "Not yet obtainable (Bullet Bill set)", "Bullet Bill set. Who needs legs once they're airborne?", SetPiece.LEGGINGS));
+
+        consumer.accept(setPiece("woldsvaults:banzai_bill_helmet", "Banzai Bill Helmet", "the_vault:gear/armor/banzai_bill/helmet",
+                "Not yet obtainable (Bullet Bill set, rare)", "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out " + times(ModBulletBillProvider.bulletBill().banzaiScale) + " the size.", SetPiece.HELMET));
+        consumer.accept(setPiece("woldsvaults:king_bill_helmet", "King Bill Helmet", "the_vault:gear/armor/king_bill/helmet",
+                "Not yet obtainable (Bullet Bill set, ultra rare)", "Bullet Bill set, in place of the helmet. " + times(ModBulletBillProvider.bulletBill().kingScale) + " the size, red hot, and everything nearby burns.", SetPiece.HELMET));
+
+        consumer.accept(setPiece("woldsvaults:daikyo", "Daikyo", "woldsvaults:gear/sword/daikyo",
+                "Not yet obtainable (Ten Magatsuhi)", "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.", SetPiece.KATANA));
+        consumer.accept(setPiece("woldsvaults:shokyo", "Shokyo", "woldsvaults:gear/sword/shokyo",
+                "Not yet obtainable (Ten Magatsuhi)", "Ten Magatsuhi, one of twin blades. Wield it beside its twin and every third cut lands harder.", SetPiece.KATANA));
+
 //        consumer.accept(entry("woldsvaults:titans_blade", new UniqueGearBuilder("Titan's Blade", ModItems.SWORD)
 //                .model("the_vault:gear/sword/titan")
 //                .base("the_vault:base_durability")
@@ -661,5 +686,50 @@ public class ModUniqueGearProvider extends AbstractUniqueGearProvider {
 
     private GeneratedEntry entry(String id, UniqueGearEntry data) {
         return new GeneratedEntry(ResourceLocation.parse(id), data);
+    }
+
+    private GeneratedEntry setPiece(String id, String name, String model, String dropNote, String flavourText, SetPiece piece) {
+        return entry(id, new UniqueGearBuilder(name, piece.item())
+                .model(model)
+                .base(piece.base())
+                .implicit(piece.implicit())
+                .prefix(piece.prefix())
+                .suffix(piece.suffix())
+                .dropLocation(dropNote)
+                .description(flavourText, "$text")
+                .modelType(piece.modelType())
+                .slotType(piece.slotType())
+                .uncraftable()
+                .uncollectable()
+                .build());
+    }
+
+    /**
+     * Stat blocks shared by the set pieces (Simon's Set, Bullet Bill, Ten Magatsuhi); each piece adds only its own
+     * names, model and text.
+     */
+    private record SetPiece(Item item, String modelType, SlotType slotType, String base, String[] implicit, String[] prefix, String[] suffix) {
+        static final SetPiece HELMET = new SetPiece(ModItems.HELMET, "ARMOR", SlotType.HEAD, "the_vault:base_durability",
+                new String[] {"the_vault:base_armor", "the_vault:base_ap"},
+                new String[] {"the_vault:u_mod_armor", "the_vault:mod_damage_increase", "the_vault:mod_resistance"},
+                new String[] {"the_vault:mod_mana_regen", "the_vault:mod_cooldown_reduction", "the_vault:set_effect_duration"});
+        static final SetPiece CHESTPLATE = new SetPiece(ModItems.CHESTPLATE, "ARMOR", SlotType.CHEST, "the_vault:base_durability",
+                new String[] {"the_vault:base_armor", "the_vault:u_base_crit_hit"},
+                new String[] {"the_vault:u_mod_armor", "the_vault:mod_damage_increase", "the_vault:mod_resistance"},
+                new String[] {"the_vault:set_effect_duration", "the_vault:mod_cooldown_reduction", "the_vault:set_healing_efficiency"});
+        static final SetPiece LEGGINGS = new SetPiece(ModItems.LEGGINGS, "ARMOR", SlotType.LEGS, CHESTPLATE.base,
+                CHESTPLATE.implicit, CHESTPLATE.prefix, CHESTPLATE.suffix);
+        static final SetPiece BOOTS = new SetPiece(ModItems.BOOTS, "ARMOR", SlotType.FEET, "the_vault:base_durability",
+                new String[] {"the_vault:base_armor", "the_vault:base_movement"},
+                new String[] {"the_vault:u_mod_armor", "the_vault:mod_health", "the_vault:mod_damage_increase"},
+                new String[] {"the_vault:set_effect_duration", "the_vault:mod_mana_regen", "the_vault:mod_cooldown_reduction"});
+        static final SetPiece KATANA = new SetPiece(ModItems.SWORD, "SWORD", SlotType.SWORD, "the_vault:base_durability",
+                new String[] {"the_vault:base_attack_damage", "the_vault:base_attack_speed"},
+                new String[] {"the_vault:mod_attack_damage", "the_vault:mod_damage_increase"},
+                new String[] {"the_vault:mod_area_of_effect", "the_vault:set_effect_duration"});
+    }
+
+    private static String times(float scale) {
+        return (scale == Math.rint(scale) ? Integer.toString(Math.round(scale)) : Float.toString(scale)) + "x";
     }
 }

@@ -1,0 +1,11 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/rooms/mythic/dragon_den",
+      "palettes": [
+        "the_vault:generic/room_base"
+      ]
+    }
+  }
+]

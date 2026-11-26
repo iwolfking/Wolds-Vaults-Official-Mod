@@ -41,6 +41,7 @@ public class DataGenerators {
             gen.addProvider(new ModVaultThemesProvider(gen));
             gen.addProvider(new ModVaultTemplatesProvider(gen));
             gen.addProvider(new ModVaultTemplatePoolsProvider(gen));
+            gen.addProvider(new ModVaultRoomsProvider(gen, efh));
             gen.addProvider(new ModVaultGearTiersProvider(gen));
             gen.addProvider(new ModAncientGearModifiersProvider(gen));
             gen.addProvider(new ModVaultModifierPoolsProvider(gen));
@@ -118,6 +119,9 @@ public class DataGenerators {
             gen.addProvider(new ModRiptideProvider(gen));
             gen.addProvider(new ModAncientsProvider(gen));
             gen.addProvider(new ModLightningFiendProvider(gen));
+            gen.addProvider(new ModSimonProvider(gen));
+            gen.addProvider(new ModBulletBillProvider(gen));
+            gen.addProvider(new ModMagatsuhiProvider(gen));
             gen.addProvider(new ModSpellcraftProvider(gen));
             gen.addProvider(new ModSpellHasteProvider(gen));
             gen.addProvider(new ModArmoryProvider(gen));

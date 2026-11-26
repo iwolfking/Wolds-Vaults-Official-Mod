@@ -1,0 +1,6 @@
+{
+  "parent": "woldsvaults:entity/simon_crystal/geode",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/yellow"
+  }
+}
