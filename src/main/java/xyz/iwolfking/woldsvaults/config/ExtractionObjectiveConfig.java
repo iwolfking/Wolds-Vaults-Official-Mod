@@ -50,6 +50,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         config.JOBS = new LinkedHashMap<>();
         config.WAVES = new WavesEntry();
         config.WAVES.statFloor = new StatFloorEntry();
+        config.WAVES.rigResistance = new RigResistanceEntry();
         config.WAVES.boss = new BossEntry();
         config.WAVES.elite = new EliteEntry();
         config.WAVES.carrier = new CarrierEntry();
@@ -157,10 +158,36 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     @Nullable
+    private static String checkRigResistance(@Nullable RigResistanceEntry resistance) {
+        if (resistance == null || resistance.knots == null) {
+            return "WAVES rigResistance is missing";
+        }
+        if (resistance.enabled && resistance.knots.isEmpty()) {
+            return "WAVES rigResistance is enabled with no knots";
+        }
+        ResistanceKnot previous = null;
+        for (ResistanceKnot knot : resistance.knots) {
+            if (knot == null || knot.mobFactor <= 0.0D || knot.damageTaken <= 0.0D || knot.damageTaken > 1.0D) {
+                return "WAVES rigResistance has a knot with a non-positive factor or a damage share outside (0, 1]";
+            }
+            if (previous != null && (knot.mobFactor <= previous.mobFactor || knot.damageTaken > previous.damageTaken
+                    || knot.mobFactor * knot.damageTaken < previous.mobFactor * previous.damageTaken)) {
+                return "WAVES rigResistance knots must rise in factor, never lower resistance, and never lower the damage a rig takes";
+            }
+            previous = knot;
+        }
+        return null;
+    }
+
+    @Nullable
     private static String checkWaves(@Nullable WavesEntry waves) {
         if (waves == null || waves.statFloor == null || waves.statFloor.anchors == null || waves.boss == null
                 || waves.boss.pool == null || waves.elite == null || waves.carrier == null) {
             return "the WAVES block or one of its statFloor, boss, elite or carrier entries is missing";
+        }
+        String resistance = checkRigResistance(waves.rigResistance);
+        if (resistance != null) {
+            return resistance;
         }
         if (waves.carrier.baseEntity == null || waves.carrier.baseEntity.isEmpty()) {
             return "WAVES carrier names no base entity";
@@ -419,6 +446,52 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public List<FloorAnchor> anchors = new ArrayList<>();
     }
 
+    public static class ResistanceKnot {
+        @Expose public double mobFactor;
+        @Expose public double damageTaken;
+
+        public ResistanceKnot() {
+        }
+
+        public ResistanceKnot(double mobFactor, double damageTaken) {
+            this.mobFactor = mobFactor;
+            this.damageTaken = damageTaken;
+        }
+    }
+
+    /**
+     * The share of a mob hit a rig takes, by the medallion factor the attacking mob was scaled to: interpolated
+     * log-log between knots (sorted by factor) and held flat past either end.
+     */
+    public static class RigResistanceEntry {
+        @Expose public boolean enabled;
+        @Expose public List<ResistanceKnot> knots = new ArrayList<>();
+
+        /** The damage multiplier for a hit from a mob scaled to {@code mobFactor}; 1 when disabled. */
+        public double damageTaken(double mobFactor) {
+            if (!this.enabled || this.knots.isEmpty() || mobFactor <= 0.0D) {
+                return 1.0D;
+            }
+            ResistanceKnot first = this.knots.get(0);
+            ResistanceKnot last = this.knots.get(this.knots.size() - 1);
+            if (mobFactor <= first.mobFactor) {
+                return first.damageTaken;
+            }
+            if (mobFactor >= last.mobFactor) {
+                return last.damageTaken;
+            }
+            for (int i = 0; i < this.knots.size() - 1; i++) {
+                ResistanceKnot a = this.knots.get(i);
+                ResistanceKnot b = this.knots.get(i + 1);
+                if (mobFactor < b.mobFactor) {
+                    double t = Math.log(mobFactor / a.mobFactor) / Math.log(b.mobFactor / a.mobFactor);
+                    return a.damageTaken * Math.pow(b.damageTaken / a.damageTaken, t);
+                }
+            }
+            return last.damageTaken;
+        }
+    }
+
     public static class BossEntry {
         @Expose public WeightedList<ResourceLocation> pool = new WeightedList<>();
         @Expose public float speedMultiplier;
@@ -511,6 +584,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public LanesEntry lanes;
         @Expose public RamEntry ram;
         @Expose public StatFloorEntry statFloor;
+        @Expose public RigResistanceEntry rigResistance;
         @Expose public BossEntry boss;
         @Expose public EliteEntry elite;
         @Expose public CarrierEntry carrier;

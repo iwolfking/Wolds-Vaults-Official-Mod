@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.entity.LivingEntity;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 
 /**
  * A rig's shield and armor and its regeneration, shared by the main rig and its thumpers. Mob hits strike the shield
@@ -45,6 +46,14 @@ public final class RigPool {
 
     public void dropShield() {
         this.shield = 0.0F;
+    }
+
+    /**
+     * A mob hit after the table's rig resistance for the medallion factor the attacker was scaled to; applied before
+     * the shield, armor and durability see the hit. Ram hits never pass through here.
+     */
+    public static float resistMobHit(LivingEntity attacker, float amount) {
+        return (float) (amount * ModConfigs.EXTRACTION_OBJECTIVE.WAVES.rigResistance.damageTaken(ExtractionSpawnManager.mobFactor(attacker)));
     }
 
     /** Takes a mob hit on the shield; returns the share of {@code amount} that overflows to the hull, before armor. */

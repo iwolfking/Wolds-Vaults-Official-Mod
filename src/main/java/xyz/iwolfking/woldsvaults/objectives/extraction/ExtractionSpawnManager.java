@@ -79,6 +79,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     public static final String TAG_BOSS = "wv_ext_boss";
     public static final String TAG_CARRIER = "wv_ext_carrier";
     public static final String TAG_RAM = "wv_ext_ram";
+    private static final String MOB_FACTOR_KEY = "wv_ext_mob_factor";
 
     private static final int SPAWN_ATTEMPTS = 24;
     private static final int DEFAULT_SEARCH_RADIUS = 3;
@@ -177,9 +178,10 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         state = new RoomWaveState(site, index, extractor.getUUID(), tier, floor, objective.caveAnchors(site).size(), objective.sitePads(site).size(), lanes, targets);
         state.nextRamTick = waves.ram.firstTicks;
         this.states.put(index, state);
-        WoldLogger.debug("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}, {} extra players, {} lanes on up to {} rigs).",
-                index, tier.name, extractor.getPower(), String.format("%.2f", floor),
-                String.format("%.2f", GreedMedallionEffects.mobStatMultiplier(vault)), extraPlayers, lanes, targets);
+        double vaultFactor = GreedMedallionEffects.mobStatMultiplier(vault);
+        WoldLogger.debug("Extraction site {} starts waves at tier '{}' (power {}, stat floor x{}, vault medallion x{}, rig takes x{} of wave hits, {} extra players, {} lanes on up to {} rigs).",
+                index, tier.name, extractor.getPower(), String.format("%.2f", floor), String.format("%.2f", vaultFactor),
+                String.format("%.3f", waves.rigResistance.damageTaken(Math.max(vaultFactor, floor))), extraPlayers, lanes, targets);
         return state;
     }
 
@@ -622,12 +624,29 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         world.addWithUUID(living);
         EntityScaler.scale(vault, living);
         this.applyStatFloor(living, state);
+        living.getPersistentData().putDouble(MOB_FACTOR_KEY, Math.max(GreedMedallionEffects.mobStatMultiplier(vault), state.floorFactor));
         applyWaveSpeed(living, ModConfigs.EXTRACTION_OBJECTIVE.WAVES.waveSpeedMultiplier);
         if (afterScale != null) {
             afterScale.accept(living);
         }
         this.attachGoals(living, state.site, state.siteIndex, rig);
         return living;
+    }
+
+    /**
+     * The medallion factor a mob's stats were scaled to: the vault's or the site floor, whichever was higher, as
+     * stamped at spawn on a wave mob; any other mob carries only its vault's medallion factor.
+     */
+    public static double mobFactor(LivingEntity mob) {
+        if (mob.getPersistentData().contains(MOB_FACTOR_KEY)) {
+            return mob.getPersistentData().getDouble(MOB_FACTOR_KEY);
+        }
+        if (mob.getTags().contains(TAG_WAVE)) {
+            WoldLogger.errorOnce("extraction-wave-mob-factor-missing",
+                    "Extraction wave mob {} carries no stamped mob factor; rig resistance uses its vault's medallion factor instead.",
+                    mob.getType().getRegistryName());
+        }
+        return GreedMedallionEffects.mobStatMultiplier(mob);
     }
 
     /**
