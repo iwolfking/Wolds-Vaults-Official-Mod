@@ -1,6 +1,12 @@
 {
   "challenges": {
     "pitch_black": {
+      "flavour": "Find your way through the dark to light the way in this scary place!",
+      "embers": {
+        "min": 15,
+        "max": 30
+      },
+      "unlock_level": 50,
       "minimum_summon_fury": 0,
       "objective": {
         "target": {
@@ -28,19 +34,11 @@
             "count": 1
           },
           {
-            "modifier": "woldsvaults:all_bad_haunted_braziers",
-            "count": 1
-          },
-          {
             "modifier": "woldsvaults:blindness_immunity_cancel",
             "count": 1
           },
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -54,13 +52,19 @@
       "exhausted": true
     },
     "ultra_hard": {
+      "flavour": "No one said challenges were supposed to be fun.",
+      "embers": {
+        "min": 50,
+        "max": 50
+      },
+      "unlock_level": 100,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.4,
         "type": "elixir"
       },
       "theme": {
-        "id": "woldsvaults:map_themes",
+        "id": "the_vault:classic_vault_dark_cavern",
         "type": "pool"
       },
       "modifiers": {
@@ -78,11 +82,7 @@
             "count": 1
           },
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           },
           {
@@ -101,6 +101,12 @@
       "exhausted": true
     },
     "elixir_of_doom": {
+      "flavour": "RNG is a hell of a drug, see if you can handle it",
+      "embers": {
+        "min": 20,
+        "max": 30
+      },
+      "unlock_level": 50,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
@@ -117,11 +123,7 @@
             "count": 1
           },
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -136,6 +138,12 @@
       "exhausted": true
     },
     "ballistic_bingo_blackout": {
+      "flavour": "Blackout that Ballistic Bingo board! You can do it, champ!",
+      "embers": {
+        "min": 20,
+        "max": 30
+      },
+      "unlock_level": 50,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
@@ -146,11 +154,7 @@
       "modifiers": {
         "list": [
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -164,6 +168,12 @@
       "exhausted": true
     },
     "blackout_scavingo": {
+      "flavour": "Blackout that Collector board! You can do it, champ!",
+      "embers": {
+        "min": 20,
+        "max": 30
+      },
+      "unlock_level": 50,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.25,
@@ -176,11 +186,7 @@
       "modifiers": {
         "list": [
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -194,6 +200,12 @@
       "exhausted": true
     },
     "gods_challenge": {
+      "flavour": "See if you are up to the challenge of impressing the Vault Gods",
+      "embers": {
+        "min": 40,
+        "max": 50
+      },
+      "unlock_level": 100,
       "minimum_summon_fury": 0,
       "objective": {
         "target": {
@@ -213,14 +225,6 @@
       "modifiers": {
         "list": [
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
-            "count": 1
-          },
-          {
             "modifier": "the_vault:velara_challenge",
             "count": 1
           },
@@ -235,6 +239,10 @@
           {
             "modifier": "the_vault:idona_challenge",
             "count": 1
+          },
+          {
+            "modifier": "the_vault:challenge_rules",
+            "count": 1
           }
         ],
         "random_modifiers": false,
@@ -247,6 +255,12 @@
       "exhausted": true
     },
     "big_bad_brew": {
+      "flavour": "Fill up that big ol' brew with alchemy wizmos and whatzits!",
+      "embers": {
+        "min": 25,
+        "max": 40
+      },
+      "unlock_level": 80,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.5,
@@ -264,11 +278,7 @@
             "count": 4
           },
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -282,6 +292,12 @@
       "exhausted": true
     },
     "chaos_chaos_chaos": {
+      "flavour": "It's just a simple little chaos",
+      "embers": {
+        "min": 25,
+        "max": 40
+      },
+      "unlock_level": 75,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 1.0,
@@ -298,19 +314,15 @@
       "modifiers": {
         "list": [
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
-            "count": 1
-          },
-          {
             "modifier": "the_vault:unhinged",
             "count": 1
           },
           {
             "modifier": "the_vault:chaos_return",
+            "count": 1
+          },
+          {
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -325,6 +337,12 @@
       "exhausted": true
     },
     "rage_cage": {
+      "flavour": "The Elites are pissed, see if you can survive their RAGE!",
+      "embers": {
+        "min": 30,
+        "max": 45
+      },
+      "unlock_level": 100,
       "minimum_summon_fury": 0,
       "objective": {
         "target": {
@@ -349,19 +367,15 @@
             "count": 5
           },
           {
-            "modifier": "the_vault:rotten",
-            "count": 1
-          },
-          {
-            "modifier": "the_vault:no_companion",
-            "count": 1
-          },
-          {
             "modifier": "woldsvaults:infernal_fury",
             "count": 1
           },
           {
             "modifier": "woldsvaults:rage_cage",
+            "count": 1
+          },
+          {
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
@@ -375,6 +389,12 @@
       "exhausted": true
     },
     "survival_of_the_fittest": {
+      "flavour": "Survive the onslaught for as long as you can!",
+      "embers": {
+        "min": 30,
+        "max": 50
+      },
+      "unlock_level": 100,
       "minimum_summon_fury": 0,
       "objective": {
         "objective_probability": 0.5,
@@ -400,7 +420,7 @@
       "modifiers": {
         "list": [
           {
-            "modifier": "the_vault:no_companion",
+            "modifier": "the_vault:challenge_rules",
             "count": 1
           }
         ],
