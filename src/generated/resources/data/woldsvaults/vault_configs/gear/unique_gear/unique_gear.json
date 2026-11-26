@@ -1159,6 +1159,312 @@
       },
       "modifierTags": [],
       "weight": 1
+    },
+    "woldsvaults:simons_helmet": {
+      "name": "Simon's Helmet",
+      "item": "the_vault:helmet",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/simons_set/helmet",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_ap"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:simons_chestplate": {
+      "name": "Simon's Chestplate",
+      "item": "the_vault:chestplate",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/simons_set/chestplate",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:u_base_crit_hit"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_healing_efficiency"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:simons_leggings": {
+      "name": "Simon's Leggings",
+      "item": "the_vault:leggings",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/simons_set/leggings",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:u_base_crit_hit"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_healing_efficiency"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:simons_boots": {
+      "name": "Simon's Boots",
+      "item": "the_vault:boots",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/simons_set/boots",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_movement"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_health",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:bullet_bill_helmet": {
+      "name": "Bullet Bill's Helmet",
+      "item": "the_vault:helmet",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/bullet_bill/helmet",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_ap"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:bullet_bill_leggings": {
+      "name": "Bullet Bill's Leggings",
+      "item": "the_vault:leggings",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/bullet_bill/leggings",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:u_base_crit_hit"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:set_effect_duration",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_healing_efficiency"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:banzai_bill_helmet": {
+      "name": "Banzai Bill Helmet",
+      "item": "the_vault:helmet",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/banzai_bill/helmet",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_ap"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:king_bill_helmet": {
+      "name": "King Bill Helmet",
+      "item": "the_vault:helmet",
+      "models": [
+        {
+          "value": "the_vault:gear/armor/king_bill/helmet",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_armor",
+          "the_vault:base_ap"
+        ],
+        "PREFIX": [
+          "the_vault:u_mod_armor",
+          "the_vault:mod_damage_increase",
+          "the_vault:mod_resistance"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_mana_regen",
+          "the_vault:mod_cooldown_reduction",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:daikyo": {
+      "name": "Daikyo",
+      "item": "the_vault:sword",
+      "models": [
+        {
+          "value": "woldsvaults:gear/sword/daikyo",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_attack_damage",
+          "the_vault:base_attack_speed"
+        ],
+        "PREFIX": [
+          "the_vault:mod_attack_damage",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_area_of_effect",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
+    },
+    "woldsvaults:shokyo": {
+      "name": "Shokyo",
+      "item": "the_vault:sword",
+      "models": [
+        {
+          "value": "woldsvaults:gear/sword/shokyo",
+          "weight": 1
+        }
+      ],
+      "modifierIdentifiers": {
+        "BASE_ATTRIBUTE": [
+          "the_vault:base_durability"
+        ],
+        "IMPLICIT": [
+          "the_vault:base_attack_damage",
+          "the_vault:base_attack_speed"
+        ],
+        "PREFIX": [
+          "the_vault:mod_attack_damage",
+          "the_vault:mod_damage_increase"
+        ],
+        "SUFFIX": [
+          "the_vault:mod_area_of_effect",
+          "the_vault:set_effect_duration"
+        ]
+      },
+      "modifierTags": [],
+      "weight": 1
     }
   },
   "pools": {
@@ -1281,6 +1587,36 @@
     },
     "woldsvaults:lightning_fiend_pure_lightning": {
       "woldsvaults:lightning_fiend_pure_lightning": 1
+    },
+    "woldsvaults:simons_helmet": {
+      "woldsvaults:simons_helmet": 1
+    },
+    "woldsvaults:simons_chestplate": {
+      "woldsvaults:simons_chestplate": 1
+    },
+    "woldsvaults:simons_leggings": {
+      "woldsvaults:simons_leggings": 1
+    },
+    "woldsvaults:simons_boots": {
+      "woldsvaults:simons_boots": 1
+    },
+    "woldsvaults:bullet_bill_helmet": {
+      "woldsvaults:bullet_bill_helmet": 1
+    },
+    "woldsvaults:bullet_bill_leggings": {
+      "woldsvaults:bullet_bill_leggings": 1
+    },
+    "woldsvaults:banzai_bill_helmet": {
+      "woldsvaults:banzai_bill_helmet": 1
+    },
+    "woldsvaults:king_bill_helmet": {
+      "woldsvaults:king_bill_helmet": 1
+    },
+    "woldsvaults:daikyo": {
+      "woldsvaults:daikyo": 1
+    },
+    "woldsvaults:shokyo": {
+      "woldsvaults:shokyo": 1
     },
     "the_vault:crafted": {
       "woldsvaults:ocean_current": 1,

@@ -5,8 +5,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.client.bullet.BulletBillHud;
 import xyz.iwolfking.woldsvaults.client.lightning.LightningFormHud;
 import xyz.iwolfking.woldsvaults.client.lightning.LightningSpeedLines;
+import xyz.iwolfking.woldsvaults.client.loadingzone.ClientLoadingZone;
+import xyz.iwolfking.woldsvaults.client.simon.BlastFeedback;
 
 /** Hands HUD overlay rendering to the client features that draw over or replace HUD layers. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -18,10 +21,19 @@ public final class OverlayEvents {
     @SubscribeEvent
     public static void onOverlayPre(RenderGameOverlayEvent.Pre event) {
         LightningSpeedLines.onOverlay(event);
+        if (!event.isCanceled()) {
+            BlastFeedback.onOverlay(event);
+        }
+        if (!event.isCanceled()) {
+            ClientLoadingZone.onOverlay(event);
+        }
     }
 
     @SubscribeEvent
     public static void onOverlayPreLayer(RenderGameOverlayEvent.PreLayer event) {
         LightningFormHud.onHudLayer(event);
+        if (!event.isCanceled()) {
+            BulletBillHud.onHudLayer(event);
+        }
     }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "woldsvaults:block/decorative_crystal/base_phantom_seed_4",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/prismatic",
+    "shell": "woldsvaults:block/simon_crystal/prismatic_shell"
+  }
+}

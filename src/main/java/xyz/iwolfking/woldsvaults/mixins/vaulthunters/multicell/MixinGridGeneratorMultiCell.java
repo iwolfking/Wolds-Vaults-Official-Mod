@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.iwolfking.woldsvaults.api.core.layout.multicell.MultiCellFootprint;
 import xyz.iwolfking.woldsvaults.api.core.layout.multicell.MultiCellRooms;
+import xyz.iwolfking.woldsvaults.api.core.layout.multicell.TallRooms;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,7 +35,7 @@ public abstract class MixinGridGeneratorMultiCell {
      * @author PoorMansPhysicist
      * @reason Multi-cell rooms: every cell of a room resolves to its anchor region and anchor seed, and the room is
      *         placed (with its template-generation events) once per chunk even when the chunk overlaps several of
-     *         its cells. Cells outside multi-cell rooms generate exactly as before.
+     *         its cells, and tall rooms get their bedrock shell. Cells outside multi-cell rooms generate exactly as before.
      */
     @Overwrite
     public void generate(Vault vault, ServerLevelAccessor world, ChunkPos chunkPos) {
@@ -82,5 +83,6 @@ public abstract class MixinGridGeneratorMultiCell {
                 CommonEvents.TEMPLATE_GENERATION.invoke(world, template, region, chunkPos, random, TemplateGenerationEvent.Phase.POST);
             }
         }
+        TallRooms.placeShell(vault, world, chunkPos);
     }
 }

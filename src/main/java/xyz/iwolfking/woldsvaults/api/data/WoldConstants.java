@@ -63,4 +63,8 @@ public class WoldConstants {
     public static final float ARCANE_PRISM_SPLIT_DAMAGE_MULTIPLIER = 0.5F;
     public static final double ARCANE_RAIL_RANGE = 128.0D;
     public static final double ARCANE_RAY_EYE_DROP = 0.5D;
+
+    public static final int VAULT_WORLD_HEIGHT = 192;
+    public static final int VAULT_ROOM_BOX_TOP = 55;
+    public static final int VAULT_BEDROCK_FILL_TOP = 63;
 }

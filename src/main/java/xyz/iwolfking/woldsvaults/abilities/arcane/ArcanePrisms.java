@@ -128,6 +128,14 @@ public final class ArcanePrisms {
     }
 
     /**
+     * Returns how much of a pulse hit the current hit is worth: while a beam is hurting something, {@code BEAM_TICKS}
+     * over the beam Prism's interval, capped at 1; otherwise 1.
+     */
+    public static float hitShare() {
+        return beamTarget == null || beamPrism == null ? 1.0F : Math.min(1.0F, (float) BEAM_TICKS / beamPrism.interval());
+    }
+
+    /**
      * Called as Vault Hunters is about to place a Prism at {@code position}: launches the seed that carries it there,
      * unless this is a seed landing. Returns whether the placing should wait for the seed.
      */

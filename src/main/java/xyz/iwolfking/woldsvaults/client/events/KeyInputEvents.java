@@ -31,8 +31,10 @@ import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMess
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
+import xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
 import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
+import xyz.iwolfking.woldsvaults.client.loadingzone.ClientLoadingZone;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.client.screens.PouchScreen;
@@ -113,11 +115,15 @@ public class KeyInputEvents {
     @SubscribeEvent
     public static void onClickInput(InputEvent.ClickInputEvent event) {
         ClientLightningForm.onClick(event);
+        if (!event.isCanceled()) {
+            ClientBulletBill.onClick(event);
+        }
     }
 
     @SubscribeEvent
     public static void onMovementInput(MovementInputUpdateEvent event) {
         ClientLightningForm.onMovementInput(event);
+        ClientLoadingZone.onMovementInput(event);
     }
 
 

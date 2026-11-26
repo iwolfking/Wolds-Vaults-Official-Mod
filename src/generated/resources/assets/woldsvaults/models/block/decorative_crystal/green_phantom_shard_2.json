@@ -1,0 +1,7 @@
+{
+  "parent": "woldsvaults:block/decorative_crystal/base_phantom_shard_2",
+  "textures": {
+    "crystal": "woldsvaults:block/simon_crystal/green",
+    "shell": "woldsvaults:block/simon_crystal/green_shell"
+  }
+}

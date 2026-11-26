@@ -15,7 +15,9 @@
         "woldsvaults:young_kitsune",
         "woldsvaults:bamboo_fightstick",
         "woldsvaults:tidebreaker_tideripper",
-        "woldsvaults:lightning_fiend_orb"
+        "woldsvaults:lightning_fiend_orb",
+        "woldsvaults:daikyo",
+        "woldsvaults:shokyo"
       ],
       "MAGNET": [
         "woldsvaults:aural_magnet",
@@ -47,19 +49,27 @@
       "FEET": [
         "woldsvaults:plague_steppers",
         "woldsvaults:tidebreaker_greaves",
-        "woldsvaults:lightning_fiend_talons"
+        "woldsvaults:lightning_fiend_talons",
+        "woldsvaults:simons_boots"
       ],
       "HEAD": [
         "woldsvaults:tidebreaker_reign",
-        "woldsvaults:lightning_fiend_crown"
+        "woldsvaults:lightning_fiend_crown",
+        "woldsvaults:simons_helmet",
+        "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:banzai_bill_helmet",
+        "woldsvaults:king_bill_helmet"
       ],
       "CHEST": [
         "woldsvaults:tidebreaker_heart",
-        "woldsvaults:lightning_fiend_mantle"
+        "woldsvaults:lightning_fiend_mantle",
+        "woldsvaults:simons_chestplate"
       ],
       "LEGS": [
         "woldsvaults:tidebreaker_leggings",
-        "woldsvaults:lightning_fiend_legguards"
+        "woldsvaults:lightning_fiend_legguards",
+        "woldsvaults:simons_leggings",
+        "woldsvaults:bullet_bill_leggings"
       ]
     }
   },
@@ -1071,6 +1081,216 @@
         ]
       },
       "uniqueId": "woldsvaults:lightning_fiend_pure_lightning"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Yellow. Watch which one lights up next.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Chestplate",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Blue. Light bends around it, and so do spells.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_chestplate"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Green. Every hit you land feeds the crystals.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Boots",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Red. Run to the next crystal before you forget the order.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_boots"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Look where you want to go; the rest takes care of itself.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Who needs legs once they're airborne?",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Banzai Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out 1.5x the size.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:banzai_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "King Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. 2x the size, red hot, and everything nearby burns.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, ultra rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:king_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Daikyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:daikyo"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Shokyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Wield it beside its twin and every third cut lands harder.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:shokyo"
     }
   ]
 }

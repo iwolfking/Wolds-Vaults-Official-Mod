@@ -20,12 +20,15 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 /**
  * Set gear, generated as {@code vault_configs/gear/sets/gear_sets.json}: which uniques form each set, and what each piece-count tier grants.
  * A grant is a gear attribute and value added to the wearer's attribute snapshot while the tier is active. Each set's own
- * mechanic keeps its tuning in its own table ({@link RiptideConfig}, {@link LightningFiendConfig}).
+ * mechanic keeps its tuning in its own table ({@link RiptideConfig}, {@link LightningFiendConfig}, {@link SimonConfig},
+ * {@link BulletBillConfig}, {@link MagatsuhiConfig}). A set may also list variants: uniques that stand in for one of its
+ * pieces and count as that piece.
  */
 public class GearSetConfig extends Config implements WoldsTable {
     @Expose public Map<String, GearSet> sets;
 
     private transient Map<ResourceLocation, ResourceLocation> setByPiece;
+    private transient Map<ResourceLocation, ResourceLocation> basePieces;
     private transient Map<ResourceLocation, GearSet> setsById;
 
     public static class GearSet {
@@ -33,6 +36,7 @@ public class GearSetConfig extends Config implements WoldsTable {
         @Expose public String color;
         @Expose public String ancientColor;
         @Expose public List<String> pieces;
+        @Expose public Map<String, String> variants;
         @Expose public List<Tier> tiers;
 
         public int colorRgb() {
@@ -112,6 +116,7 @@ public class GearSetConfig extends Config implements WoldsTable {
             return;
         }
         Map<ResourceLocation, ResourceLocation> byPiece = new LinkedHashMap<>();
+        Map<ResourceLocation, ResourceLocation> bases = new LinkedHashMap<>();
         Map<ResourceLocation, GearSet> byId = new LinkedHashMap<>();
         if (this.sets != null) {
             this.sets.forEach((id, set) -> {
@@ -132,15 +137,34 @@ public class GearSetConfig extends Config implements WoldsTable {
                         WoldLogger.error("gear_sets.json: {} is listed in both {} and {}; it counts for {} only.", pieceId, previous, setId, setId);
                     }
                 }
+                if (set.variants != null) {
+                    set.variants.forEach((variant, piece) -> {
+                        ResourceLocation variantId = ResourceLocation.tryParse(variant);
+                        ResourceLocation pieceId = ResourceLocation.tryParse(piece);
+                        if (variantId == null || pieceId == null) {
+                            WoldLogger.error("gear_sets.json: set {} has an invalid variant {} -> {}; skipping it.", id, variant, piece);
+                            return;
+                        }
+                        byPiece.put(variantId, setId);
+                        bases.put(variantId, pieceId);
+                    });
+                }
             });
         }
         this.setByPiece = byPiece;
+        this.basePieces = bases;
         this.setsById = byId;
     }
 
     public Optional<ResourceLocation> getSetOf(ResourceLocation uniqueKey) {
         this.index();
         return Optional.ofNullable(this.setByPiece.get(uniqueKey));
+    }
+
+    /** Returns the piece of its set that a unique counts as: itself, unless it is a variant of another. */
+    public ResourceLocation basePiece(ResourceLocation uniqueKey) {
+        this.index();
+        return this.basePieces.getOrDefault(uniqueKey, uniqueKey);
     }
 
     public Optional<GearSet> getSet(ResourceLocation setId) {

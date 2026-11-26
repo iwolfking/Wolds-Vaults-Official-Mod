@@ -1,13 +1,22 @@
 package xyz.iwolfking.woldsvaults.api.gear.sets;
 
+import iskallia.vault.entity.entity.EternalEntity;
+import iskallia.vault.entity.entity.PetEntity;
 import iskallia.vault.gear.VaultGearState;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
+import iskallia.vault.util.SidedHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import xyz.iwolfking.woldsvaults.config.GearSetConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 
@@ -84,26 +93,74 @@ public final class GearSetHelper {
             return worn;
         }
         for (ResourceLocation key : snapshot.getAttributeValueList(ModGearAttributes.UNIQUE_ITEM_KEY)) {
-            config.getSetOf(key).ifPresent(set -> worn.computeIfAbsent(set, id -> new LinkedHashSet<>()).add(key));
+            config.getSetOf(key).ifPresent(set -> worn.computeIfAbsent(set, id -> new LinkedHashSet<>()).add(config.basePiece(key)));
+        }
+        return worn;
+    }
+
+    /**
+     * Returns the snapshot's set pieces plus the set-piece weapons held in either hand. A held weapon counts only when
+     * it is identified, not broken and not above the player's level.
+     */
+    public static Map<ResourceLocation, Set<ResourceLocation>> wornPieces(AttributeSnapshot snapshot, Player player) {
+        Map<ResourceLocation, Set<ResourceLocation>> worn = wornPieces(snapshot);
+        GearSetConfig config = config();
+        if (config == null) {
+            return worn;
+        }
+        for (ItemStack stack : List.of(player.getMainHandItem(), player.getOffhandItem())) {
+            if (!(stack.getItem() instanceof VaultGearItem gear) || !gear.isIntendedForSlot(stack, EquipmentSlot.MAINHAND) || gear.isBroken(stack)
+                    || VaultGearData.read(stack).getItemLevel() > SidedHelper.getVaultLevel(player)) {
+                continue;
+            }
+            uniqueKey(stack).ifPresent(key -> config.getSetOf(key)
+                    .ifPresent(set -> worn.computeIfAbsent(set, id -> new LinkedHashSet<>()).add(config.basePiece(key))));
         }
         return worn;
     }
 
     /** Adds the grants of every active tier to the snapshot; called once per snapshot rebuild on the server. */
-    public static void addSetBonuses(AttributeSnapshot snapshot) {
-        GearSetConfig config = config();
-        if (config == null) {
-            return;
-        }
-        wornPieces(snapshot).forEach((setId, pieces) -> config.getSet(setId).ifPresent(set -> {
-            for (GearSetConfig.Tier tier : set.tiers) {
-                if (pieces.size() >= tier.pieces) {
-                    for (GearSetConfig.ResolvedGrant grant : grants(config, setId, tier)) {
-                        add(snapshot, grant.attribute(), grant.value());
-                    }
-                }
+    public static void addSetBonuses(AttributeSnapshot snapshot, Player player) {
+        wornPieces(snapshot, player).forEach((setId, pieces) -> {
+            for (GearSetConfig.ResolvedGrant grant : activeGrants(setId, pieces.size())) {
+                add(snapshot, grant.attribute(), grant.value());
             }
-        }));
+        });
+    }
+
+    /** Returns the total that a set's active tiers grant of a number attribute for this many pieces. */
+    public static float tierGrant(ResourceLocation setId, int pieces, VaultGearAttribute<? extends Number> attribute) {
+        float total = 0.0F;
+        for (GearSetConfig.ResolvedGrant grant : activeGrants(setId, pieces)) {
+            if (grant.attribute() == attribute) {
+                total += ((Number) grant.value()).floatValue();
+            }
+        }
+        return total;
+    }
+
+    public static boolean isEnemy(Mob mob) {
+        return mob.isAlive() && !(mob instanceof EternalEntity) && !(mob instanceof PetEntity);
+    }
+
+    public static List<Mob> enemiesNear(ServerLevel level, Vec3 at, float radius) {
+        return level.getEntitiesOfClass(Mob.class, new AABB(at, at).inflate(radius),
+                mob -> isEnemy(mob) && mob.getBoundingBox().getCenter().distanceToSqr(at) <= radius * radius);
+    }
+
+    private static List<GearSetConfig.ResolvedGrant> activeGrants(ResourceLocation setId, int pieces) {
+        GearSetConfig config = config();
+        GearSetConfig.GearSet set = config == null ? null : config.getSet(setId).orElse(null);
+        if (set == null) {
+            return List.of();
+        }
+        List<GearSetConfig.ResolvedGrant> active = new ArrayList<>();
+        for (GearSetConfig.Tier tier : set.tiers) {
+            if (pieces >= tier.pieces) {
+                active.addAll(grants(config, setId, tier));
+            }
+        }
+        return active;
     }
 
     @SuppressWarnings("unchecked")

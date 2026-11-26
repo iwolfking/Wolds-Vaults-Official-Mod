@@ -80,6 +80,7 @@ public class ModBlockLootTables implements Consumer<BiConsumer<ResourceLocation,
         dropSelf(ModBlocks.DECO_SCAVENGER_ALTAR_BLOCK);
         dropSelf(ModBlocks.DECO_OBELISK_BLOCK);
         dropSelf(ModBlocks.DECO_LODESTONE_BLOCK);
+        dropSelf(ModBlocks.DECORATIVE_CRYSTAL);
         dropSelf(ModBlocks.DECO_MONOLITH_BLOCK);
         dropSelf(ModBlocks.SURVIVAL_MOB_BARRIER);
         dropSelf(ModBlocks.VAULT_INFUSER_BLOCK);

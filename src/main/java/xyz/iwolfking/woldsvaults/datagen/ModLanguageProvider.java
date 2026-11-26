@@ -127,6 +127,9 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModBlocks.DECO_TENOS_ALTAR_BLOCK, "God Altar (Tenos - Decorative)");
         add(ModBlocks.CONFIGURABLE_FLOATING_TEXT_BLOCK, "Magic Text");
         add(ModBlocks.OWNED_CRAFTING_TABLE_BLOCK, "Owned Crafting Table");
+        add(ModBlocks.DECORATIVE_CRYSTAL, "Decorative Prism Crystal");
+        add(ModBlocks.LOADING_ZONE_POST, "Loading Zone Post");
+        add(ModBlocks.LOADING_ZONE_ARRIVAL, "Loading Zone Arrival");
         add(ModBlocks.CRATE_CRACKER_BLOCK, "Crate Cracker");
         add(ModBlocks.SURVIVAL_OBJECTIVE_BLOCK, "Survival Pylon");
         add(ModBlocks.SUPPRESSOR_BLOCK, "Universal Suppressor");
@@ -162,6 +165,8 @@ public class ModLanguageProvider extends LanguageProvider {
         add(ModEntities.STAR_DEVOURER_ENTITY, "Star Beast");
         add(ModEntities.SINGULARITY_CREEPER, "Singularity Creeper");
         add(ModEntities.CUSTOM_FANGS, "Fangs");
+        add(ModEntities.SIMON_CRYSTAL, "Prism Crystal");
+        add(ModEntities.PRISM_SEED, "Prism Seed");
         add(iskallia.vault.init.ModEntities.NECROMANCY_SKELETON, "Skeleton Minion");
         add(iskallia.vault.init.ModEntities.NECROMANCY_GOLEM, "Golem Minion");
         add(iskallia.vault.init.ModEntities.NECROMANCY_BOLT, "Necromancy Bolt");

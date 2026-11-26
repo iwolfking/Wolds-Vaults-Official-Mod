@@ -107,6 +107,18 @@ public class ModGearAttributes {
     public static final VaultGearAttribute<Integer> CHANNELING_CHAIN = woldsAttr("channeling_chain", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Channeling Chains", 7327743));
     public static final VaultGearAttribute<Integer> THROWN_TRIDENT_PIERCE = woldsAttr("thrown_trident_pierce", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Thrown Trident Pierces", 7327743));
     public static final VaultGearAttribute<Float> LIGHTNING_DASH = woldsAttr("lightning_dash", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Lightning Dash Damage", 7327743));
+    public static final VaultGearAttribute<Integer> SIMON_CRYSTALS = woldsAttr("simon_crystals", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Prism Seeds", 16765503));
+    public static final VaultGearAttribute<Integer> SIMON_BUDDING = woldsAttr("simon_budding", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Budding Crystals", 16765503));
+    public static final VaultGearAttribute<Float> SIMON_SEQUENCE = woldsAttr("simon_sequence", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Prism Burst Damage", 16765503));
+    public static final VaultGearAttribute<Integer> SIMON_FACETS = woldsAttr("simon_facets", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Crystal Facets", 16765503));
+    public static final VaultGearAttribute<Float> SIMON_PRISMATIC = woldsAttr("simon_prismatic", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Prismatic Seed Chance", 16765503));
+    public static final VaultGearAttribute<Boolean> SIMON_FRACTURE = woldsAttr("simon_fracture", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Fracturing Strikes", 16765503), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Float> SIMON_FINALE = woldsAttr("simon_finale", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Prism Collapse Damage", 16765503));
+    public static final VaultGearAttribute<Integer> BULLET_BILL = woldsAttr("bullet_bill", VaultGearAttributeType.intType(), ModGearAttributeGenerators.intRange(), ModGearAttributeReaders.addedIntReader("Bullet Bill Ticks", 12170182));
+    public static final VaultGearAttribute<Float> BULLET_BILL_DASH = woldsAttr("bullet_bill_dash", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Dash Damage", 12170182));
+    public static final VaultGearAttribute<Float> BULLET_BILL_DETONATION = woldsAttr("bullet_bill_detonation", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Bullet Bill Detonation Damage", 12170182));
+    public static final VaultGearAttribute<Float> MAGATSUHI_COMBO = woldsAttr("magatsuhi_combo", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Combo Finisher Damage", 14100029));
+    public static final VaultGearAttribute<Float> MAGATSUHI_CUT = woldsAttr("magatsuhi_cut", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.percentageReader("Rift Slash Damage", 14100029));
     public static final VaultGearAttribute<Boolean> RADIATION_IMMUNITY = woldsAttr("radiation_immunity", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.booleanReader("Radiation Immunity", 5539999), VaultGearAttributeComparator.booleanComparator());
 
 
@@ -302,6 +314,18 @@ public class ModGearAttributes {
                       registry.register(EFFECT_COMBO);
                       registry.register(HEALTH_SCALING_COMBO);
                       registry.register(GRAVITY_COMBO);
+                      registry.register(SIMON_CRYSTALS);
+                      registry.register(SIMON_BUDDING);
+                      registry.register(SIMON_SEQUENCE);
+                      registry.register(SIMON_FACETS);
+                      registry.register(SIMON_PRISMATIC);
+                      registry.register(SIMON_FRACTURE);
+                      registry.register(SIMON_FINALE);
+                      registry.register(BULLET_BILL);
+                      registry.register(BULLET_BILL_DASH);
+                      registry.register(BULLET_BILL_DETONATION);
+                      registry.register(MAGATSUHI_COMBO);
+                      registry.register(MAGATSUHI_CUT);
        }
   
     public static void registerVanillaAssociations() {

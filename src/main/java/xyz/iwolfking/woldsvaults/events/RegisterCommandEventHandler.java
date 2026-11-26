@@ -21,5 +21,6 @@ public class RegisterCommandEventHandler {
         if (ModList.get().isLoaded("ftbquests")) {
             QuestProgressCommand.register(event.getDispatcher());
         }
+        PocketTestCommand.register(event.getDispatcher());
     }
 }
