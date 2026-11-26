@@ -67,15 +67,10 @@ public final class SiteCaches {
         }
         int placed = 0;
         if (cfg.cluster) {
-            BlockPos centre = null;
-            for (int attempt = 0; attempt < 16 && centre == null; attempt++) {
-                BlockPos candidate = grid.randomChestSpot(random);
-                if (candidate != null && farFrom(candidate, players, cfg.playerClearance) && farFromAll(candidate, standing, cfg.clusterSpacing)) {
-                    centre = candidate;
-                }
-            }
+            BlockPos centre = grid.randomChestSpot(random,
+                    candidate -> farFrom(candidate, players, cfg.playerClearance) && farFromAll(candidate, standing, cfg.clusterSpacing));
             if (centre == null) {
-                WoldLogger.error("Extraction site {} found no cache pile centre clear of players and other piles in 16 tries; this batch is skipped.", index);
+                WoldLogger.debug("Extraction site {} has no cache bed clear of players and standing piles; this batch waits.", index);
             } else {
                 List<BlockPos> spots = grid.chestSpotsNear(centre, cfg.clusterRadius);
                 Collections.shuffle(spots, random);

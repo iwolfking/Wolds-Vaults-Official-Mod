@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.objectives.extraction;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntArrayFIFOQueue;
+import it.unimi.dsi.fastutil.ints.IntArrays;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -13,12 +14,14 @@ import java.util.BitSet;
 import java.util.List;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * A snapshot of one extraction site room's walkable space, read from the world a few block planes per tick, and the
  * baked lane data derived from it: the lane cells wave mobs can reach from the caves, a distance field towards every
  * pad (one for ordinary mobs and one restricted to cells wide enough for 2-wide mobs), each cave's home pad, and the
- * cells where cache chests may stand. Cells are feet positions: a solid block below and two passable blocks above.
+ * cells where cache chests may stand, which lie only in the room's authored cache beds. Cells are feet positions: a
+ * solid block below and two passable blocks above.
  * Mob moves follow the room checker's model: four neighbours, up at most 1, down at most 3.
  */
 public final class RoomGrid {
@@ -37,6 +40,8 @@ public final class RoomGrid {
     private final int sz;
     private final List<Vec3> pads;
     private final List<BlockPos> caves;
+    private final List<BlockPos> cacheBeds;
+    private final double cacheBedRadius;
     private final BitSet passable;
     private int nextPlane;
     private boolean ready;
@@ -53,7 +58,8 @@ public final class RoomGrid {
     private int[] chestCandidates = new int[0];
     private final IntOpenHashSet badCaves = new IntOpenHashSet();
 
-    public RoomGrid(int siteIndex, BlockPos origin, int sizeX, int sizeY, int sizeZ, List<Vec3> pads, List<BlockPos> caves) {
+    public RoomGrid(int siteIndex, BlockPos origin, int sizeX, int sizeY, int sizeZ, List<Vec3> pads, List<BlockPos> caves,
+                    List<BlockPos> cacheBeds, double cacheBedRadius) {
         this.siteIndex = siteIndex;
         this.origin = origin;
         this.sx = sizeX;
@@ -61,6 +67,8 @@ public final class RoomGrid {
         this.sz = sizeZ;
         this.pads = pads;
         this.caves = caves;
+        this.cacheBeds = cacheBeds;
+        this.cacheBedRadius = cacheBedRadius;
         this.passable = new BitSet(sizeX * sizeY * sizeZ);
     }
 
@@ -212,8 +220,8 @@ public final class RoomGrid {
                 widest = Math.max(widest, value);
             }
         }
-        WoldLogger.debug("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots, {} of {} caves usable ({} ms).",
-                this.siteIndex, this.lane.size(), this.wide.size(), widest, this.chestCandidates.length,
+        WoldLogger.debug("Extraction site {} room grid ready: {} lane cells, {} 2-wide, largest lane distance {}, {} cache chest spots in {} beds, {} of {} caves usable ({} ms).",
+                this.siteIndex, this.lane.size(), this.wide.size(), widest, this.chestCandidates.length, this.cacheBeds.size(),
                 this.caves.size() - this.badCaves.size(), this.caves.size(), (System.nanoTime() - start) / 1_000_000L);
         if (this.lane.isEmpty()) {
             WoldLogger.error("Extraction site {} room grid found no lane cells at all; wave mobs there fall back to vanilla pathing.", this.siteIndex);
@@ -323,6 +331,35 @@ public final class RoomGrid {
             }
             if (!nearPad) {
                 out.add(cell);
+            }
+        }
+        return this.inCacheBeds(out);
+    }
+
+    /** Keeps the cells inside a cache bed: within the bed radius of its centre and at most one block above or below it. */
+    private int[] inCacheBeds(IntArrayList cells) {
+        double radiusSq = this.cacheBedRadius * this.cacheBedRadius;
+        int[] perBed = new int[this.cacheBeds.size()];
+        IntArrayList out = new IntArrayList();
+        for (int cell : cells) {
+            int x = this.cx(cell) + this.origin.getX();
+            int y = this.cy(cell) + this.origin.getY();
+            int z = this.cz(cell) + this.origin.getZ();
+            for (int bed = 0; bed < this.cacheBeds.size(); bed++) {
+                BlockPos centre = this.cacheBeds.get(bed);
+                int dx = x - centre.getX();
+                int dz = z - centre.getZ();
+                if (dx * dx + dz * dz <= radiusSq && Math.abs(y - centre.getY()) <= 1) {
+                    perBed[bed]++;
+                    out.add(cell);
+                    break;
+                }
+            }
+        }
+        for (int bed = 0; bed < perBed.length; bed++) {
+            if (perBed[bed] == 0) {
+                WoldLogger.error("Extraction site {} room grid: cache bed {} at {} has no chest spots; caches never spawn there.",
+                        this.siteIndex, bed, this.cacheBeds.get(bed));
             }
         }
         return out.toIntArray();
@@ -590,6 +627,19 @@ public final class RoomGrid {
             return null;
         }
         return this.toWorld(this.chestCandidates[random.nextInt(this.chestCandidates.length)]);
+    }
+
+    /** A random cache chest cell that {@code accept} allows, trying every cell once in random order; null when none is allowed. */
+    public BlockPos randomChestSpot(Random random, Predicate<BlockPos> accept) {
+        int[] order = this.chestCandidates.clone();
+        IntArrays.shuffle(order, random);
+        for (int cell : order) {
+            BlockPos pos = this.toWorld(cell);
+            if (accept.test(pos)) {
+                return pos;
+            }
+        }
+        return null;
     }
 
     /** True when {@code pos} (world coordinates, feet position) is a cache chest cell. */
