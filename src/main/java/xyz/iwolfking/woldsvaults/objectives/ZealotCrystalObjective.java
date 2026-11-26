@@ -30,6 +30,7 @@ public class ZealotCrystalObjective extends WoldCrystalObjective {
 
     public ZealotCrystalObjective() {
     }
+
     public ZealotCrystalObjective(IntRoll target) {
         this.target = target;
     }

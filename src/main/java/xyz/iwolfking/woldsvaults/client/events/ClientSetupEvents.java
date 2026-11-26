@@ -24,6 +24,8 @@ public class ClientSetupEvents {
         ModEntityRenderers.register(event);
         ModKeybinds.registerKeyBinds();
         ModVaultarHudScreenRegistry.init();
+        ModObjectiveHudPreviewKinds.init();
+        ModObjectiveSealLooks.init();
         ModVaultStashTabs.init();
         ModPlayerStatEntries.init();
         registerItemProperties(event);
