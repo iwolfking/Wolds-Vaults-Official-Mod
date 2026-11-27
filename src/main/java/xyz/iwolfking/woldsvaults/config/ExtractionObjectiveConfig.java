@@ -203,7 +203,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (waves.carrier.baseEntity == null || waves.carrier.baseEntity.isEmpty()) {
             return "WAVES carrier names no base entity";
         }
-        if (waves.lanes == null || waves.lanes.repathTicks <= 0 || waves.lanes.lookahead <= 0 || waves.lanes.stuckTicks <= 0) {
+        if (waves.lanes == null || waves.lanes.repathTicks <= 0 || waves.lanes.lookahead <= 0 || waves.lanes.stuckTicks <= 0 || waves.lanes.recoverRadius <= 0) {
             return "WAVES lanes is missing or has a non-positive repath interval, lookahead or stuck time";
         }
         RotationEntry rotation = waves.rotation;
@@ -214,8 +214,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (waves.waveSpeedMultiplier <= 0.0F) {
             return "WAVES waveSpeedMultiplier is not positive";
         }
-        if (waves.knockbackResistance < 0.0F || waves.knockbackResistance > 1.0F || waves.maxChilledAmplifier < 0) {
-            return "WAVES knockbackResistance is outside 0..1 or maxChilledAmplifier is negative";
+        if (waves.knockbackResistance < 0.0F || waves.knockbackResistance > 1.0F || waves.maxChilledAmplifier < 0
+                || waves.pushMultiplier < 0.0F || waves.pushMultiplier > 1.0F) {
+            return "WAVES knockbackResistance or pushMultiplier is outside 0..1, or maxChilledAmplifier is negative";
         }
         LaneHighlightEntry highlight = waves.laneHighlight;
         if (highlight == null || highlight.sizePerBlock <= 0.0F || highlight.minSizeBlocks <= 0.0F || highlight.maxSizeBlocks < highlight.minSizeBlocks
@@ -555,7 +556,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
      * Baked lane pathing for wave mobs. A mob follows its rig's flow field until it is within {@code engageSteps}
      * lane steps of the pad, or, if ranged, sees the rig within {@code rangedEngageBlocks}; it re-aims every
      * {@code repathTicks} at the farthest lane cell in straight-line view within {@code lookahead} steps, and is nudged
-     * one lane cell forward after {@code stuckTicks} without progress.
+     * one lane cell forward after {@code stuckTicks} without progress. A mob knocked off the lanes walks back to the
+     * nearest lane cell within {@code recoverRadius} blocks and is put there if it has not arrived after
+     * {@code stuckTicks}.
      */
     public static class LanesEntry {
         @Expose public int engageSteps;
@@ -563,6 +566,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public int repathTicks;
         @Expose public int lookahead;
         @Expose public int stuckTicks;
+        @Expose public int recoverRadius;
     }
 
     /**
@@ -627,7 +631,8 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
      * over the lanes; assault waves focus one targeted rig at a time in {@code focusOrder} (pad indices); siege waves
      * surge across every active lane when {@code surgeSiege}. Counts are multiplied by {@code roomCountMultiplier},
      * ramping linearly to x{@code rampAtFullProgress} at the end of the job. Every wave mob walks at
-     * x{@code waveSpeedMultiplier} speed, has {@code knockbackResistance} and holds Chilled at most at amplifier
+     * x{@code waveSpeedMultiplier} speed, has {@code knockbackResistance}, keeps x{@code pushMultiplier} of any velocity
+     * other things give it between its own ticks (pulls, pushes, launches) and holds Chilled at most at amplifier
      * {@code maxChilledAmplifier}. Each active lane's cave is highlighted on clients ({@code laneHighlight}).
      */
     public static class WavesEntry {
@@ -641,6 +646,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public boolean surgeSiege;
         @Expose public float waveSpeedMultiplier;
         @Expose public float knockbackResistance;
+        @Expose public float pushMultiplier;
         @Expose public int maxChilledAmplifier;
         @Expose public LaneHighlightEntry laneHighlight;
         @Expose public RotationEntry rotation;

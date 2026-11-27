@@ -26,6 +26,7 @@ import net.minecraftforge.common.ForgeMod;
 import org.spongepowered.asm.mixin.Mixin;
 import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -50,6 +51,9 @@ public abstract class MixinLivingEntity extends Entity {
     }
 
     @Shadow public abstract boolean shouldDiscardFriction();
+
+    @Unique
+    private Vec3 woldsVaults$waveRestVelocity;
 
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z", ordinal = 2), cancellable = true)
@@ -120,6 +124,24 @@ public abstract class MixinLivingEntity extends Entity {
         WoldLogger.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
                 health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
         return sanitized;
+    }
+
+    /** Keeps only the table's share of the velocity an extraction wave mob was given since its last tick. */
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void woldsVaults$dampWavePush(CallbackInfo ci) {
+        if (this.level.isClientSide || this.woldsVaults$waveRestVelocity == null) {
+            return;
+        }
+        this.setDeltaMovement(ExtractionSpawnManager.dampedVelocity((LivingEntity) (Object) this, this.woldsVaults$waveRestVelocity, this.getDeltaMovement()));
+    }
+
+    /** Remembers an extraction wave mob's velocity at the end of its tick, for the push damping. */
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void woldsVaults$recordWaveVelocity(CallbackInfo ci) {
+        if (this.level.isClientSide) {
+            return;
+        }
+        this.woldsVaults$waveRestVelocity = this.getTags().contains(ExtractionSpawnManager.TAG_WAVE) ? this.getDeltaMovement() : null;
     }
 
     /** Caps Chilled on extraction wave mobs before it is applied or merged into an existing Chilled. */

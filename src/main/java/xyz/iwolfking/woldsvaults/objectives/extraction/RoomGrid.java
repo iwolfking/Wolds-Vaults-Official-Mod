@@ -31,6 +31,8 @@ public final class RoomGrid {
     private static final int PLAYER_DOWN = 64;
     private static final int PLANES_PER_TICK = 2;
     private static final int CAVE_SEED_RADIUS = 3;
+    private static final int NEAR_DY = 3;
+    private static final int RECOVERY_DY = 8;
     private static final int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     private final int siteIndex;
@@ -188,8 +190,8 @@ public final class RoomGrid {
         this.caveHomes = new int[this.caves.size()][];
         for (int cave = 0; cave < this.caves.size(); cave++) {
             BlockPos anchor = this.caves.get(cave);
-            this.caveCells[cave] = this.nearestIn(this.lane, anchor.getX() - this.origin.getX(), anchor.getY() - 1 - this.origin.getY(), anchor.getZ() - this.origin.getZ(), 4);
-            this.caveWideCells[cave] = this.nearestIn(this.wide, anchor.getX() - this.origin.getX(), anchor.getY() - 1 - this.origin.getY(), anchor.getZ() - this.origin.getZ(), 6);
+            this.caveCells[cave] = this.nearestIn(this.lane, anchor.getX() - this.origin.getX(), anchor.getY() - 1 - this.origin.getY(), anchor.getZ() - this.origin.getZ(), 4, NEAR_DY);
+            this.caveWideCells[cave] = this.nearestIn(this.wide, anchor.getX() - this.origin.getX(), anchor.getY() - 1 - this.origin.getY(), anchor.getZ() - this.origin.getZ(), 6, NEAR_DY);
             int best = Integer.MAX_VALUE;
             IntArrayList homes = new IntArrayList();
             for (int pad = 0; pad < this.pads.size(); pad++) {
@@ -466,7 +468,7 @@ public final class RoomGrid {
         return true;
     }
 
-    private int nearestIn(IntOpenHashSet set, int x, int y, int z, int radius) {
+    private int nearestIn(IntOpenHashSet set, int x, int y, int z, int radius, int maxDy) {
         int best = -1;
         int bestScore = Integer.MAX_VALUE;
         for (int dx = -radius; dx <= radius; dx++) {
@@ -476,7 +478,7 @@ public final class RoomGrid {
                 }
                 for (int ny : this.columns[(x + dx) * this.sz + z + dz]) {
                     int dy = Math.abs(ny - y);
-                    if (dy > 3) {
+                    if (dy > maxDy) {
                         continue;
                     }
                     int cell = this.idx(x + dx, ny, z + dz);
@@ -503,7 +505,20 @@ public final class RoomGrid {
         if (this.inXZ(x, z) && y >= 0 && y < this.sy && set.contains(this.idx(x, y, z))) {
             return this.idx(x, y, z);
         }
-        return this.nearestIn(set, x, y, z, 3);
+        return this.nearestIn(set, x, y, z, 3, NEAR_DY);
+    }
+
+    /**
+     * Where a mob that left the lanes should walk back to: the nearest lane cell within {@code radius} blocks across and
+     * {@link #RECOVERY_DY} up or down that lies in the pad's field, as a world position; null when there is none.
+     */
+    public BlockPos recoverySpot(BlockPos pos, int pad, boolean wideOnly, int radius) {
+        if (!this.ready || pad < 0 || pad >= this.pads.size()) {
+            return null;
+        }
+        int cell = this.nearestIn(wideOnly ? this.wide : this.lane, pos.getX() - this.origin.getX(), pos.getY() - this.origin.getY(),
+                pos.getZ() - this.origin.getZ(), radius, RECOVERY_DY);
+        return this.distance(pad, wideOnly, cell) < 0 ? null : this.toWorld(cell);
     }
 
     /** Lane steps from {@code cell} to the pad, or -1 when the cell is not in that pad's field. */

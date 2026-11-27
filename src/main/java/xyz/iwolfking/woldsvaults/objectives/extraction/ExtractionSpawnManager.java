@@ -31,6 +31,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
@@ -708,6 +709,18 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         this.attachGoals(living, state.site, state.siteIndex, rig);
         return living;
+    }
+
+    /**
+     * A wave mob's velocity with only the table's share kept of what changed since the end of its last tick; any other
+     * mob's velocity unchanged.
+     */
+    public static Vec3 dampedVelocity(LivingEntity mob, Vec3 rest, Vec3 now) {
+        float keep = ModConfigs.EXTRACTION_OBJECTIVE.WAVES.pushMultiplier;
+        if (keep >= 1.0F || !mob.getTags().contains(TAG_WAVE)) {
+            return now;
+        }
+        return rest.add(now.subtract(rest).scale(keep));
     }
 
     /**

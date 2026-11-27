@@ -141,6 +141,12 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
     public ExtractorEntity(EntityType<? extends ExtractorEntity> type, Level level) {
         super(type, level);
         this.setNoGravity(true);
+        this.noCulling = true;
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        return true;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

@@ -108,7 +108,8 @@ public final class RigPool {
         }
         ExtractionObjectiveConfig.DeploymentEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.DEPLOYMENT;
         long now = rig.level.getGameTime();
-        boolean hurt = now - this.lastHitTime < cfg.outlineHurtTicks && (now / Math.max(1, cfg.outlineBlinkTicks)) % 2L == 0L;
+        boolean hurt = this.lastHitTime != Long.MIN_VALUE && now - this.lastHitTime < cfg.outlineHurtTicks
+                && (now / Math.max(1, cfg.outlineBlinkTicks)) % 2L == 0L;
         GlowTeams.setColour(rig, hurt ? cfg.hurtOutlineColour : cfg.outlineColour);
     }
 

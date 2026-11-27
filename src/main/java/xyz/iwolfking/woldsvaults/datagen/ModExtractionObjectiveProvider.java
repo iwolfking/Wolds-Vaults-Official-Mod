@@ -210,6 +210,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.liveMobCapPerVault = 1200;
         waves.waveSpeedMultiplier = 0.66F;
         waves.knockbackResistance = 1.0F;
+        waves.pushMultiplier = 0.2F;
         waves.maxChilledAmplifier = 1;
 
         waves.laneHighlight = new ExtractionObjectiveConfig.LaneHighlightEntry();
@@ -241,6 +242,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.lanes.repathTicks = 10;
         waves.lanes.lookahead = 12;
         waves.lanes.stuckTicks = 200;
+        waves.lanes.recoverRadius = 16;
 
         waves.ram = new ExtractionObjectiveConfig.RamEntry();
         waves.ram.glowColour = "red";

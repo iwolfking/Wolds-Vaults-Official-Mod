@@ -395,6 +395,7 @@
     "surgeSiege": true,
     "waveSpeedMultiplier": 0.66,
     "knockbackResistance": 1.0,
+    "pushMultiplier": 0.2,
     "maxChilledAmplifier": 1,
     "laneHighlight": {
       "colour": 16718362,
@@ -425,7 +426,8 @@
       "rangedEngageBlocks": 12.0,
       "repathTicks": 10,
       "lookahead": 12,
-      "stuckTicks": 200
+      "stuckTicks": 200,
+      "recoverRadius": 16
     },
     "ram": {
       "glowColour": "red",

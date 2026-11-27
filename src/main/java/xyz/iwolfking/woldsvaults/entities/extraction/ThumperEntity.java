@@ -70,6 +70,12 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
     public ThumperEntity(EntityType<? extends ThumperEntity> type, Level level) {
         super(type, level);
         this.setNoGravity(true);
+        this.noCulling = true;
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        return true;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
