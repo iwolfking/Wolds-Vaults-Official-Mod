@@ -1,8 +1,10 @@
 package xyz.iwolfking.woldsvaults.api.data;
 
 import com.google.common.base.Suppliers;
+import iskallia.vault.VaultMod;
 import iskallia.vault.gear.attribute.VaultGearAttribute;
 import iskallia.vault.gear.attribute.VaultGearAttributeRegistry;
+import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.item.gear.EtchingItem;
 import iskallia.vault.item.gear.IVaultUsesItem;
@@ -12,17 +14,22 @@ import iskallia.vault.item.tool.ToolItem;
 import iskallia.vault.util.MiscUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.loading.LoadingModList;
+import xyz.iwolfking.vhapi.api.registry.VaultGearRegistry;
+import xyz.iwolfking.vhapi.api.util.ConditionalModUtils;
+import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.util.ItemHelper;
 import xyz.iwolfking.woldsvaults.api.util.VaultGearAttributeHelper;
+import xyz.iwolfking.woldsvaults.api.util.VaultGearUtils;
+import xyz.iwolfking.woldsvaults.init.ModCustomVaultGearEntries;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.items.gear.VaultDaggerSubItem;
 import xyz.iwolfking.woldsvaults.items.gear.VaultMapItem;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -44,4 +51,16 @@ public class WoldConstants {
     //Constant Strings
     public static final String TRASH_SLOT_RESEARCH = "Loot Manager";
     public static final String DELOOT_RESEARCH = "Loot Manager";
+
+    public static List<ItemStack> getVCIRStacks() {
+        List<ItemStack> gearStacks = new LinkedList<>();
+        ALL_WOLD_GEAR.forEach(item -> {
+            VaultGearRegistry.customGearRegistry.get().forEach(customVaultGearRegistryEntry -> {
+                if(customVaultGearRegistryEntry.getRegistryName().getNamespace().equals(WoldsVaults.MOD_ID) && customVaultGearRegistryEntry.getRegistryItem().equals(item)) {
+                    gearStacks.add(VaultGearUtils.gearWithTransmog(new ItemStack(item), customVaultGearRegistryEntry.getDynamicModelRegistry().getIds().toArray(new ResourceLocation[]{})[0]));
+                }
+            });
+        });
+        return gearStacks;
+    }
 }

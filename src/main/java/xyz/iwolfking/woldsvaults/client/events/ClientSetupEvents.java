@@ -1,20 +1,29 @@
 package xyz.iwolfking.woldsvaults.client.events;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipClientComponent;
 import xyz.iwolfking.woldsvaults.api.core.layout.tooltip.component.LayoutTooltipComponent;
+import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.client.init.*;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.init.ModVaultarHudScreenRegistry;
 import xyz.iwolfking.woldsvaults.items.alchemy.DecoPotionItem;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 public class ClientSetupEvents {
@@ -32,6 +41,15 @@ public class ClientSetupEvents {
         registerClientTooltips();
     }
 
+    @SubscribeEvent
+    public static void enqueueIMC(final InterModEnqueueEvent event) {
+        Supplier<Pair<Integer, List<ItemStack>>> payload = () -> Pair.of(
+                100,
+                WoldConstants.getVCIRStacks()
+        );
+
+        InterModComms.sendTo("vhatcaniroll", "register_items", payload);
+    }
 
     @OnlyIn(Dist.CLIENT)
     private static void registerItemProperties(final FMLClientSetupEvent event) {
