@@ -208,12 +208,13 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.knockbackResistance = 1.0F;
         waves.maxChilledAmplifier = 1;
 
-        waves.laneMarker = new ExtractionObjectiveConfig.LaneMarkerEntry();
-        waves.laneMarker.intervalTicks = 10;
-        waves.laneMarker.heightBlocks = 3.0F;
-        waves.laneMarker.columnBlocks = 4;
-        waves.laneMarker.colour = 0xFF1A1A;
-        waves.laneMarker.size = 2.5F;
+        waves.laneHighlight = new ExtractionObjectiveConfig.LaneHighlightEntry();
+        waves.laneHighlight.colour = 0xFF1A1A;
+        waves.laneHighlight.fillAlpha = 0.22F;
+        waves.laneHighlight.outlineAlpha = 0.9F;
+        waves.laneHighlight.radiusBlocks = 3.0F;
+        waves.laneHighlight.heightBlocks = 4.0F;
+        waves.laneHighlight.rangeBlocks = 160.0F;
 
         waves.rotation = new ExtractionObjectiveConfig.RotationEntry();
         waves.rotation.rerollTicks = 900;
@@ -471,7 +472,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
 
     private static ExtractionObjectiveConfig.ThumperEntry thumper() {
         ExtractionObjectiveConfig.ThumperEntry thumper = new ExtractionObjectiveConfig.ThumperEntry();
-        thumper.healthFraction = 1.2F;
+        thumper.healthFraction = 0.9F;
         thumper.damageTakenMultiplier = 0.5F;
         thumper.shieldFraction = 0.6F;
         thumper.shieldRegenFraction = 0.6F;

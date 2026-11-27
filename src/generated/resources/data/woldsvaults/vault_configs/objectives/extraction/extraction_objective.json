@@ -392,12 +392,13 @@
     "waveSpeedMultiplier": 0.6,
     "knockbackResistance": 1.0,
     "maxChilledAmplifier": 1,
-    "laneMarker": {
-      "intervalTicks": 10,
-      "heightBlocks": 3.0,
-      "columnBlocks": 4,
+    "laneHighlight": {
       "colour": 16718362,
-      "size": 2.5
+      "fillAlpha": 0.22,
+      "outlineAlpha": 0.9,
+      "radiusBlocks": 3.0,
+      "heightBlocks": 4.0,
+      "rangeBlocks": 160.0
     },
     "rotation": {
       "rerollTicks": 900,
@@ -1727,7 +1728,7 @@
     ]
   },
   "THUMPER": {
-    "healthFraction": 1.2,
+    "healthFraction": 0.9,
     "damageTakenMultiplier": 0.5,
     "shieldFraction": 0.6,
     "shieldRegenFraction": 0.6,

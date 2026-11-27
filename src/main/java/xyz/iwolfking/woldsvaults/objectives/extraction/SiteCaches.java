@@ -3,11 +3,11 @@ package xyz.iwolfking.woldsvaults.objectives.extraction;
 import iskallia.vault.core.vault.Vault;
 import iskallia.vault.core.vault.player.Runner;
 import iskallia.vault.core.world.storage.VirtualWorld;
-import iskallia.vault.core.world.storage.WorldZone;
-import iskallia.vault.world.data.WorldZonesData;
+import iskallia.vault.core.world.storage.IZonedWorld;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.state.BlockState;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.blocks.ExtractionCacheBlock;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
@@ -134,25 +134,14 @@ public final class SiteCaches {
         return true;
     }
 
-    /** Places one cache chest inside the room's no-modify zone by allowing that one position for the duration of the call. */
+    /** Places one cache chest inside the room's no-modify zone, with the world's zone checks bypassed for the call. */
     private boolean placeCache(VirtualWorld world, BlockPos pos, Random random) {
         if (!world.getBlockState(pos).isAir()) {
             return false;
         }
-        List<WorldZone> zones = WorldZonesData.get(world.getServer()).getOrCreate(world.dimension()).get(pos);
-        for (WorldZone zone : zones) {
-            zone.addAllowedPosition(pos);
-        }
-        try {
-            world.setBlock(pos, ModBlocks.EXTRACTION_CACHE.defaultBlockState()
-                    .setValue(ExtractionCacheBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random)), 3);
-        } finally {
-            for (WorldZone zone : zones) {
-                if (zone.getAllowedPositions() != null) {
-                    zone.getAllowedPositions().remove(pos.asLong());
-                }
-            }
-        }
+        BlockState chest = ModBlocks.EXTRACTION_CACHE.defaultBlockState()
+                .setValue(ExtractionCacheBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random));
+        IZonedWorld.runWithBypass(world, true, () -> world.setBlock(pos, chest, 3));
         boolean ok = world.getBlockState(pos).is(ModBlocks.EXTRACTION_CACHE);
         if (!ok) {
             WoldLogger.error("Cache chest placement at {} was refused by the world (zone or mixin); skipping that spot.", pos);

@@ -16,6 +16,7 @@ import xyz.iwolfking.woldsvaults.client.lightning.LightningLashRenderer;
 import xyz.iwolfking.woldsvaults.client.loadingzone.LoadingZoneOutlines;
 import xyz.iwolfking.woldsvaults.client.magatsuhi.ClientMagatsuhi;
 import xyz.iwolfking.woldsvaults.client.simon.BlastFeedback;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionLaneHighlights;
 
 /** Hands each level render stage, the end of the level render and the camera setup to the client world effects. */
 @Mod.EventBusSubscriber(modid = WoldsVaults.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -37,6 +38,7 @@ public final class RenderLevelEvents {
     @SubscribeEvent
     public static void onRenderLevelLast(RenderLevelLastEvent event) {
         LoadingZoneOutlines.onRenderLevel(event);
+        ExtractionLaneHighlights.onRenderLevel(event);
     }
 
     @SubscribeEvent

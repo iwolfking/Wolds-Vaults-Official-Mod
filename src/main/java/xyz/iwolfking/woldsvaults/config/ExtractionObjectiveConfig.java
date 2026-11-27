@@ -57,7 +57,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         config.WAVES.carrier.baseEntity = "";
         config.WAVES.lanes = new LanesEntry();
         config.WAVES.rotation = new RotationEntry();
-        config.WAVES.laneMarker = new LaneMarkerEntry();
+        config.WAVES.laneHighlight = new LaneHighlightEntry();
         config.WAVES.ram = new RamEntry();
         config.WAVES.ram.entity = "";
         config.WAVES.ram.hpReference = "";
@@ -207,9 +207,10 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (waves.knockbackResistance < 0.0F || waves.knockbackResistance > 1.0F || waves.maxChilledAmplifier < 0) {
             return "WAVES knockbackResistance is outside 0..1 or maxChilledAmplifier is negative";
         }
-        LaneMarkerEntry marker = waves.laneMarker;
-        if (marker == null || marker.intervalTicks <= 0 || marker.columnBlocks <= 0 || marker.size <= 0.0F) {
-            return "WAVES laneMarker is missing or has a non-positive interval, column or size";
+        LaneHighlightEntry highlight = waves.laneHighlight;
+        if (highlight == null || highlight.radiusBlocks <= 0.0F || highlight.heightBlocks <= 0.0F || highlight.rangeBlocks <= 0.0F
+                || highlight.fillAlpha < 0.0F || highlight.fillAlpha > 1.0F || highlight.outlineAlpha < 0.0F || highlight.outlineAlpha > 1.0F) {
+            return "WAVES laneHighlight is missing, has a non-positive size or range, or an alpha outside 0..1";
         }
         if (waves.roomCountMultiplier <= 0.0F || waves.packetSize <= 0 || waves.liveMobCapPerRoom <= 0 || waves.liveMobCapPerVault <= 0
                 || waves.focusOrder == null) {
@@ -571,16 +572,17 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     /**
-     * The marker over each active lane's cave: every {@code intervalTicks}, a column of {@code columnBlocks} dust
-     * particles of colour {@code colour} and size {@code size}, starting {@code heightBlocks} above the cave anchor,
-     * sent to every player in the site room.
+     * The highlight drawn on clients over each active lane's cave, visible through walls: a box {@code radiusBlocks}
+     * out from the cave anchor and {@code heightBlocks} tall, filled in {@code colour} at {@code fillAlpha} and outlined
+     * at {@code outlineAlpha}, for players within {@code rangeBlocks}.
      */
-    public static class LaneMarkerEntry {
-        @Expose public int intervalTicks;
-        @Expose public float heightBlocks;
-        @Expose public int columnBlocks;
+    public static class LaneHighlightEntry {
         @Expose public int colour;
-        @Expose public float size;
+        @Expose public float fillAlpha;
+        @Expose public float outlineAlpha;
+        @Expose public float radiusBlocks;
+        @Expose public float heightBlocks;
+        @Expose public float rangeBlocks;
     }
 
     /**
@@ -590,7 +592,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
      * surge across every active lane when {@code surgeSiege}. Counts are multiplied by {@code roomCountMultiplier},
      * ramping linearly to x{@code rampAtFullProgress} at the end of the job. Every wave mob walks at
      * x{@code waveSpeedMultiplier} speed, has {@code knockbackResistance} and holds Chilled at most at amplifier
-     * {@code maxChilledAmplifier}. Each active lane's cave is marked for players in the room ({@code laneMarker}).
+     * {@code maxChilledAmplifier}. Each active lane's cave is highlighted on clients ({@code laneHighlight}).
      */
     public static class WavesEntry {
         @Expose public float roomCountMultiplier;
@@ -604,7 +606,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public float waveSpeedMultiplier;
         @Expose public float knockbackResistance;
         @Expose public int maxChilledAmplifier;
-        @Expose public LaneMarkerEntry laneMarker;
+        @Expose public LaneHighlightEntry laneHighlight;
         @Expose public RotationEntry rotation;
         @Expose public LanesEntry lanes;
         @Expose public RamEntry ram;

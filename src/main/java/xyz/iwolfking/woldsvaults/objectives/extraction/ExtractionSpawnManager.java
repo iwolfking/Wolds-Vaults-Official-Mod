@@ -8,14 +8,11 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.EntityScaler;
 import iskallia.vault.entity.champion.ChampionPromoter;
 import net.minecraft.ChatFormatting;
-import com.mojang.math.Vector3f;
 import iskallia.vault.init.ModEffects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -109,7 +106,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private int sweepTimer;
     private int auraTimer;
     private int debugTimer;
-    private int markerTimer;
 
     public ExtractionSpawnManager(Vault vault, VirtualWorld world, ExtractionObjective objective) {
         super(vault, world, objective);
@@ -122,6 +118,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (drilling.isEmpty()) {
             this.states.clear();
             this.pending.clear();
+            this.publishLaneCaves();
             return;
         }
         Set<Integer> active = new HashSet<>();
@@ -138,6 +135,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             this.tickRoom(state, waves);
         }
         this.states.keySet().retainAll(active);
+        this.publishLaneCaves();
         this.flushPending(waves);
         if (++sweepTimer >= SWEEP_INTERVAL) {
             sweepTimer = 0;
@@ -148,10 +146,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
                 Entity entity = world.getEntity(id);
                 return entity == null || !entity.isAlive();
             });
-        }
-        if (++markerTimer >= waves.laneMarker.intervalTicks) {
-            markerTimer = 0;
-            this.states.values().forEach(state -> this.showLaneMarkers(state, waves.laneMarker));
         }
         if (++auraTimer >= waves.carrier.auraIntervalTicks) {
             auraTimer = 0;
@@ -283,27 +277,24 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
     }
 
-    /** Draws a column of dust over the cave of every active lane, for the players inside the site room. */
-    private void showLaneMarkers(RoomWaveState state, ExtractionObjectiveConfig.LaneMarkerEntry marker) {
-        if (state.lanes.isEmpty()) {
-            return;
-        }
-        List<ServerPlayer> watching = world.getEntitiesOfClass(ServerPlayer.class, objective.siteRoomBounds(state.site));
-        if (watching.isEmpty()) {
-            return;
-        }
-        int colour = marker.colour;
-        DustParticleOptions dust = new DustParticleOptions(new Vector3f(((colour >> 16) & 0xFF) / 255.0F, ((colour >> 8) & 0xFF) / 255.0F,
-                (colour & 0xFF) / 255.0F), marker.size);
-        List<BlockPos> anchors = objective.caveAnchors(state.site);
-        for (Lane lane : state.lanes) {
-            BlockPos anchor = anchors.get(lane.cave());
-            for (int step = 0; step < marker.columnBlocks; step++) {
-                double y = anchor.getY() + marker.heightBlocks + step;
-                for (ServerPlayer player : watching) {
-                    world.sendParticles(player, dust, true, anchor.getX() + 0.5D, y, anchor.getZ() + 0.5D, 2, 0.15D, 0.3D, 0.15D, 0.0D);
-                }
+    /** Writes each site's active lane cave positions to its client field, where clients draw the lane highlights. */
+    private void publishLaneCaves() {
+        boolean changed = false;
+        for (ExtractionSite site : objective.get(ExtractionObjective.SITES)) {
+            RoomWaveState state = this.states.get(objective.siteIndex(site));
+            long[] caves = new long[0];
+            if (state != null) {
+                List<BlockPos> anchors = objective.caveAnchors(site);
+                caves = state.lanes.stream().mapToLong(lane -> anchors.get(lane.cave()).asLong()).toArray();
             }
+            long[] shown = site.has(ExtractionSite.LANE_CAVES) ? site.get(ExtractionSite.LANE_CAVES) : new long[0];
+            if (!Arrays.equals(shown, caves)) {
+                site.set(ExtractionSite.LANE_CAVES, caves);
+                changed = true;
+            }
+        }
+        if (changed) {
+            objective.markDirty(ExtractionObjective.SITES);
         }
     }
 
@@ -551,6 +542,14 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             RoomWaveState state = this.states.get(packet.siteIndex);
             if (state == null) {
                 continue;
+            }
+            if (!state.lanes.contains(new Lane(packet.cave, packet.pad))) {
+                Lane lane = this.nextLane(state, -1);
+                if (lane == null) {
+                    state.dropped += packet.count;
+                    continue;
+                }
+                packet = new PendingPacket(packet.siteIndex, lane.cave(), lane.pad(), packet.group, packet.count, packet.dueTick);
             }
             this.spawnPacket(state, packet, waves);
         }

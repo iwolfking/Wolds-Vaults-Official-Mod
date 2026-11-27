@@ -161,8 +161,10 @@ public final class ExtractionHud {
     private static final float THUMPER_BAR_SCALE = 86.0F / 131.0F;
 
     /**
-     * One compact thumper bar: the main HP bar sprite at two thirds size with a shield strip along its top edge. A
-     * slot with no thumper is drawn faded; a wrecked one gets a dark red wash.
+     * One compact thumper bar: the main HP bar sprite at two thirds size, with the main shield bar's fill, flipped top to
+     * bottom to match the HP bar's slant, laid over it from the left by the shield fraction, so the hull shows only where
+     * the shield is gone. A slot with no thumper is
+     * drawn faded; a wrecked one gets a dark red wash.
      */
     private static void renderThumperBar(PoseStack matrixStack, ExtractionSite site, int slot, int x, int y) {
         int state = site.getThumperState(slot);
@@ -177,17 +179,19 @@ public final class ExtractionHud {
         matrixStack.translate(x, y, 0.0D);
         matrixStack.scale(THUMPER_BAR_SCALE, THUMPER_BAR_SCALE, 1.0F);
         blitBar(matrixStack, 0, 0, 0, 87, 0, 104, 131, 104, 130, 16, 126, hpFrac);
+        if (standing && site.get(ExtractionSite.THUMPER_MAX_SHIELD[slot]) > 0.0F) {
+            matrixStack.pushPose();
+            matrixStack.translate(0.0D, 16.0D, 0.0D);
+            matrixStack.scale(1.0F, -1.0F, 1.0F);
+            RenderSystem.disableCull();
+            blitFill(matrixStack, 0, 0, 0, 138, 131, 138, 16, 126, shieldFrac);
+            RenderSystem.enableCull();
+            matrixStack.popPose();
+        }
         matrixStack.popPose();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int innerLeft = x + 2;
         int innerRight = x + THUMPER_BAR_W - 9;
-        if (standing && site.get(ExtractionSite.THUMPER_MAX_SHIELD[slot]) > 0.0F) {
-            int w = Math.round((innerRight - innerLeft) * shieldFrac);
-            GuiComponent.fill(matrixStack, innerLeft, y + 2, innerRight, y + 4, 0x80203A4A);
-            if (w > 0) {
-                GuiComponent.fill(matrixStack, innerLeft, y + 2, innerLeft + w, y + 4, 0xFF7FD7FF);
-            }
-        }
         if (state == ExtractionSite.THUMPER_WRECKED) {
             GuiComponent.fill(matrixStack, innerLeft, y + 2, innerRight, y + 9, 0xA0500000);
         }
@@ -196,6 +200,11 @@ public final class ExtractionHud {
     /** Track, then the partial fill cut with a clean vertical edge, then the bright head column. */
     private static void blitBar(PoseStack matrixStack, int blitX, int blitY, int trackU, int trackV, int fillU, int fillV, int edgeU, int edgeV, int spriteW, int spriteH, int barW, float fraction) {
         GuiComponent.blit(matrixStack, blitX, blitY, trackU, trackV, spriteW, spriteH, 256, 256);
+        blitFill(matrixStack, blitX, blitY, fillU, fillV, edgeU, edgeV, spriteH, barW, fraction);
+    }
+
+    /** The partial fill of a bar sprite cut with a clean vertical edge, then its bright head column; no track. */
+    private static void blitFill(PoseStack matrixStack, int blitX, int blitY, int fillU, int fillV, int edgeU, int edgeV, int spriteH, int barW, float fraction) {
         int w = Math.round(barW * clamp01(fraction));
         if (w >= 1) {
             GuiComponent.blit(matrixStack, blitX, blitY, fillU, fillV, PAD + w, spriteH, 256, 256);
