@@ -83,7 +83,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         wear.wearCoefficient = 1.0F;
         wear.wearPowerExponent = 0.65F;
         wear.attachmentDrainPerSecondMining = 20.0F;
-        wear.destructionLossFraction = 0.45F;
+        wear.destructionLossFraction = 0.20F;
         wear.hpDamagePerDurabilityPoint = 2.0F;
         return wear;
     }

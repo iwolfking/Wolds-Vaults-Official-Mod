@@ -19,7 +19,7 @@
     "wearCoefficient": 1.0,
     "wearPowerExponent": 0.65,
     "attachmentDrainPerSecondMining": 20.0,
-    "destructionLossFraction": 0.45,
+    "destructionLossFraction": 0.2,
     "hpDamagePerDurabilityPoint": 2.0
   },
   "DEPLOYMENT": {
