@@ -38,6 +38,10 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         table.DEPLOYMENT.initialEnergyFraction = 0.4F;
         table.DEPLOYMENT.healFractionOnJobComplete = 0.33F;
         table.DEPLOYMENT.shieldReactivationTicks = 40;
+        table.DEPLOYMENT.outlineColour = "blue";
+        table.DEPLOYMENT.hurtOutlineColour = "gold";
+        table.DEPLOYMENT.outlineBlinkTicks = 5;
+        table.DEPLOYMENT.outlineHurtTicks = 40;
         table.JOBS = jobs();
         table.WAVES = waves();
         table.THUMPER = thumper();
@@ -211,6 +215,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.laneHighlight = new ExtractionObjectiveConfig.LaneHighlightEntry();
         waves.laneHighlight.colour = 0xFF1A1A;
         waves.laneHighlight.idleColour = 0xFFFFFF;
+        waves.laneHighlight.staleColour = 0xFF8C1A;
         waves.laneHighlight.alpha = 0.8F;
         waves.laneHighlight.glowAlpha = 0.45F;
         waves.laneHighlight.glowScale = 2.2F;

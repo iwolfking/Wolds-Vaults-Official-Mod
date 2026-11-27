@@ -29,7 +29,8 @@ import java.util.List;
 
 /**
  * Draws a skull marker with a soft glow over the cave of every active lane of the vault's extraction sites, read from
- * each site's synced lane caves: in the live colour while mobs that lane spawned are alive, else in the idle colour. Markers face the camera, ignore depth so they show through walls, and grow with
+ * each site's synced lane caves: in the live colour while mobs that lane spawned are alive, else in the idle colour,
+ * and in the stale colour over a cave that left the active lanes while its mobs are still alive. Markers face the camera, ignore depth so they show through walls, and grow with
  * distance between the table's size limits so they keep about the same size on screen.
  */
 @OnlyIn(Dist.CLIENT)
@@ -57,19 +58,21 @@ public final class ExtractionLaneHighlights {
         Vec3 eye = camera.getPosition();
         double range = cfg.rangeBlocks * cfg.rangeBlocks;
         List<Vec3> markers = new ArrayList<>();
-        List<Boolean> live = new ArrayList<>();
+        List<Integer> colours = new ArrayList<>();
         for (ExtractionSite site : objective.get(ExtractionObjective.SITES)) {
             if (!site.has(ExtractionSite.LANE_CAVES)) {
                 continue;
             }
             long[] caves = site.get(ExtractionSite.LANE_CAVES);
             int liveMask = site.has(ExtractionSite.LANE_CAVES_LIVE) ? site.get(ExtractionSite.LANE_CAVES_LIVE) : 0;
+            int staleMask = site.has(ExtractionSite.LANE_CAVES_STALE) ? site.get(ExtractionSite.LANE_CAVES_STALE) : 0;
             for (int i = 0; i < caves.length; i++) {
                 BlockPos cave = BlockPos.of(caves[i]);
                 Vec3 marker = new Vec3(cave.getX() + 0.5D, cave.getY() + cfg.heightBlocks, cave.getZ() + 0.5D);
                 if (eye.distanceToSqr(marker) <= range) {
                     markers.add(marker);
-                    live.add(i < Integer.SIZE && (liveMask & (1 << i)) != 0);
+                    int bit = i < Integer.SIZE ? 1 << i : 0;
+                    colours.add((staleMask & bit) != 0 ? cfg.staleColour : (liveMask & bit) != 0 ? cfg.colour : cfg.idleColour);
                 }
             }
         }
@@ -90,7 +93,7 @@ public final class ExtractionLaneHighlights {
         RenderSystem.setShaderTexture(0, GLOW);
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         for (int i = 0; i < markers.size(); i++) {
-            int colour = live.get(i) ? cfg.colour : cfg.idleColour;
+            int colour = colours.get(i);
             billboard(buffer, pose, camera, eye, markers.get(i), size(cfg, eye, markers.get(i)) * cfg.glowScale, colour, cfg.glowAlpha);
         }
         tesselator.end();
@@ -99,7 +102,7 @@ public final class ExtractionLaneHighlights {
         RenderSystem.setShaderTexture(0, SKULL);
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         for (int i = 0; i < markers.size(); i++) {
-            int colour = live.get(i) ? cfg.colour : cfg.idleColour;
+            int colour = colours.get(i);
             billboard(buffer, pose, camera, eye, markers.get(i), size(cfg, eye, markers.get(i)), colour, cfg.alpha);
         }
         tesselator.end();

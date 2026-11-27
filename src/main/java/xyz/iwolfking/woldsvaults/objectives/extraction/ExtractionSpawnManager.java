@@ -31,13 +31,12 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.scores.PlayerTeam;
-import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorEntity;
 import xyz.iwolfking.woldsvaults.entities.extraction.ExtractorTargetGoal;
+import xyz.iwolfking.woldsvaults.entities.extraction.GlowTeams;
 import xyz.iwolfking.woldsvaults.entities.extraction.LaneFollowGoal;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionEffects;
@@ -83,7 +82,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     public static final String TAG_CARRIER = "wv_ext_carrier";
     public static final String TAG_RAM = "wv_ext_ram";
     private static final String MOB_FACTOR_KEY = "wv_ext_mob_factor";
-    private static final String GLOW_TEAM_PREFIX = "wv_ext_glow_";
     private static final String[] CLASS_TAGS = {TAG_HORDE, TAG_ASSASSIN, TAG_TANK, TAG_ELITE, TAG_BOSS, TAG_CARRIER, TAG_RAM};
     private static final int TAG_PREFIX_LENGTH = "wv_ext_".length();
 
@@ -284,8 +282,9 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     }
 
     /**
-     * Writes each site's active lane cave positions, and which of those lanes still have live mobs they spawned, to its
-     * client fields, where clients draw the lane markers.
+     * Writes each site's marked caves to its client fields, where clients draw the lane markers: the active lanes'
+     * caves, flagged live while mobs they spawned are alive, then every other cave whose spawned mobs are still alive,
+     * flagged stale.
      */
     private void publishLaneCaves() {
         boolean changed = false;
@@ -293,13 +292,32 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             RoomWaveState state = this.states.get(objective.siteIndex(site));
             long[] caves = new long[0];
             int live = 0;
+            int stale = 0;
             if (state != null) {
                 List<BlockPos> anchors = objective.caveAnchors(site);
-                caves = state.lanes.stream().mapToLong(lane -> anchors.get(lane.cave()).asLong()).toArray();
-                for (int i = 0; i < state.lanes.size() && i < Integer.SIZE; i++) {
-                    Set<UUID> spawned = state.liveByCave.get(state.lanes.get(i).cave());
-                    if (spawned != null && !spawned.isEmpty()) {
-                        live |= 1 << i;
+                List<Integer> marked = new ArrayList<>();
+                for (Lane lane : state.lanes) {
+                    if (!marked.contains(lane.cave())) {
+                        marked.add(lane.cave());
+                    }
+                }
+                int activeCount = marked.size();
+                for (Map.Entry<Integer, Set<UUID>> entry : state.liveByCave.entrySet()) {
+                    if (!entry.getValue().isEmpty() && !marked.contains(entry.getKey())) {
+                        marked.add(entry.getKey());
+                    }
+                }
+                caves = new long[marked.size()];
+                for (int i = 0; i < marked.size(); i++) {
+                    caves[i] = anchors.get(marked.get(i)).asLong();
+                    Set<UUID> spawned = state.liveByCave.get(marked.get(i));
+                    boolean alive = spawned != null && !spawned.isEmpty();
+                    if (i < Integer.SIZE && alive) {
+                        if (i < activeCount) {
+                            live |= 1 << i;
+                        } else {
+                            stale |= 1 << i;
+                        }
                     }
                 }
             }
@@ -311,6 +329,11 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             int shownLive = site.has(ExtractionSite.LANE_CAVES_LIVE) ? site.get(ExtractionSite.LANE_CAVES_LIVE) : 0;
             if (shownLive != live) {
                 site.set(ExtractionSite.LANE_CAVES_LIVE, live);
+                changed = true;
+            }
+            int shownStale = site.has(ExtractionSite.LANE_CAVES_STALE) ? site.get(ExtractionSite.LANE_CAVES_STALE) : 0;
+            if (shownStale != stale) {
+                site.set(ExtractionSite.LANE_CAVES_STALE, stale);
                 changed = true;
             }
         }
@@ -821,7 +844,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             BlockPos anchor = objective.caveAnchors(state.site).get(attempt);
             LivingEntity boss = this.spawnOne(state, cfg.pool, anchor, TAG_BOSS, cfg.spawnSearchRadius, beforeAdd, afterScale, rig, new ArrayList<>());
             if (boss != null) {
-                this.setGlowColour(boss, cfg.glowColour);
+                GlowTeams.setColour(boss, cfg.glowColour);
                 state.live.add(boss.getUUID());
                 state.track(attempt, boss);
                 return;
@@ -852,7 +875,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         multiplyAttribute(carrier, Attributes.ATTACK_DAMAGE, carrierCfg.damageMultiplier);
         carrier.setCustomName(new TranslatableComponent("entity.woldsvaults.power_cell_carrier").withStyle(ChatFormatting.YELLOW));
         carrier.addEffect(new MobEffectInstance(MobEffects.GLOWING, Integer.MAX_VALUE, 0, false, false));
-        this.setGlowColour(carrier, carrierCfg.glowColour);
+        GlowTeams.setColour(carrier, carrierCfg.glowColour);
         carriers.add(carrier.getUUID());
     }
 
@@ -926,7 +949,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (ram == null) {
             return;
         }
-        this.setGlowColour(ram, cfg.glowColour);
+        GlowTeams.setColour(ram, cfg.glowColour);
         state.rams.put(ram.getUUID(), targetPad);
         state.track(cave, ram);
         world.playSound(null, anchor, SoundEvents.RAID_HORN, SoundSource.HOSTILE, 4.0F, 0.5F);
@@ -980,24 +1003,6 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         } finally {
             living.discard();
         }
-    }
-
-    /** Puts the mob on the scoreboard team of the given chat colour, which is the colour its glow outline is drawn in. */
-    private void setGlowColour(LivingEntity mob, String colourName) {
-        ChatFormatting colour = ChatFormatting.getByName(colourName);
-        if (colour == null || !colour.isColor()) {
-            WoldLogger.errorOnce("extraction_glow_colour_" + colourName,
-                    "Extraction glow colour '{}' is not a chat colour; {} keeps the default white outline.", colourName, mob.getType().getRegistryName());
-            return;
-        }
-        Scoreboard scoreboard = world.getScoreboard();
-        String name = GLOW_TEAM_PREFIX + colour.getName();
-        PlayerTeam team = scoreboard.getPlayerTeam(name);
-        if (team == null) {
-            team = scoreboard.addPlayerTeam(name);
-            team.setColor(colour);
-        }
-        scoreboard.addPlayerToTeam(mob.getStringUUID(), team);
     }
 
     private static void multiplyAttribute(LivingEntity entity, Attribute attribute, float multiplier) {

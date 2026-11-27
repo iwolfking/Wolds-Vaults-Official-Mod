@@ -23,12 +23,15 @@ import java.util.Map;
 
 /**
  * The extraction objective's HUD, drawn from the synced {@link ExtractionSite} fields only: the placed HUD (progress,
- * hull, shield, energy and the two thumper bars) near a drilling site, else one pip per site.
+ * hull, shield, energy and the two thumper bars) near a drilling site, else one pip per site. An empty energy gauge is
+ * drawn full in red.
  */
 @OnlyIn(Dist.CLIENT)
 public final class ExtractionHud {
     public static final ResourceLocation HUD = WoldsVaults.id("textures/gui/extraction/hud.png");
     private static final int PAD = 2;
+    private static final float OUT_OF_POWER_RED = 1.0F;
+    private static final float OUT_OF_POWER_GREEN_BLUE = 0.25F;
     private static final int PIP_UNTOUCHED = 0;
     private static final int PIP_IN_PROGRESS = 1;
     private static final int PIP_COMPLETE = 2;
@@ -105,6 +108,10 @@ public final class ExtractionHud {
         if (lit >= 1) {
             int frame = (int) ((gameTime / 3L) % 4L);
             GuiComponent.blit(matrixStack, 198, 4 + 40 - lit, 66 + 30 * frame, PAD + 40 - lit, 25 + 2 * PAD, lit + PAD, 256, 256);
+        } else if (site.get(ExtractionSite.ENERGY) <= 0.0F) {
+            RenderSystem.setShaderColor(OUT_OF_POWER_RED, OUT_OF_POWER_GREEN_BLUE, OUT_OF_POWER_GREEN_BLUE, 1.0F);
+            GuiComponent.blit(matrixStack, 198, 4, 66, PAD, 25 + 2 * PAD, 40 + PAD, 256, 256);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
         for (int slot = 0; slot < ExtractionSite.THUMPER_SLOTS; slot++) {
             renderThumperBar(matrixStack, site, slot, THUMPER_BAR_X[slot], THUMPER_BAR_Y);

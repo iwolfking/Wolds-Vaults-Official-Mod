@@ -12,6 +12,8 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -105,6 +107,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             ExtractorPartType.SCANNER, new float[]{0.0F, 88.0F, 0.0F},
             ExtractorPartType.DRILL, new float[]{-5.0F, 39.0F, -5.0F});
 
+    private static final int STAT_TOOLTIP_WIDTH = 180;
     private static final ExtractorStat[] MISC_ALWAYS = {ExtractorStat.QUANTITY, ExtractorStat.RARITY, ExtractorStat.DURABILITY_DRAIN_MULT};
     private static final Map<String, Integer> RARITY_KEY_COLORS = Map.of(
             "rare", 0xFFE24A, "epic", 0xC56BFF, "omega", 0x4EF08A, "mythic", 0xFF4E9A, "unique", 0xFFAA00, "ancient", 0xFF7A3D);
@@ -119,6 +122,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
     @Nullable
     private ExtractorJobPreview.Result jobPreview;
     private boolean previewDirty = true;
+    private final List<StatHover> statHovers = new ArrayList<>();
 
     private int bx0;
     private int by0;
@@ -528,6 +532,10 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
                 : partCount + " / " + ExtractorAssemblerTileEntity.PART_SLOTS + " Parts";
         int rightWidth = this.font.width(right);
         this.drawFitRuns(pose, header, headerColors, x0 + 6, y0 + 5, this.panelW - 18 - rightWidth, 1.0F);
+        this.statHovers.clear();
+        if (this.previewBlock != null) {
+            this.statHovers.add(new StatHover(x0 + 6, y0 + 4, x1 - 12 - rightWidth, y0 + 14, ExtractorStat.DURABILITY));
+        }
         this.font.draw(pose, right, x1 - 6 - rightWidth, y0 + 5, partCount == ExtractorAssemblerTileEntity.PART_SLOTS || docked ? GOOD : TEXT_DIM);
         int colW = (this.panelW - 12) / ExtractorTooltips.GROUPS.length;
         for (int group = 0; group < ExtractorTooltips.GROUPS.length; group++) {
@@ -535,9 +543,11 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             this.drawFit(pose, ExtractorTooltips.GROUP_NAMES[group], x, y0 + 17, colW - 4, 0.8F, INK, false);
             List<String> lines = new ArrayList<>();
             List<Integer> colors = new ArrayList<>();
-            this.groupRows(group, lines, colors);
+            List<ExtractorStat> stats = new ArrayList<>();
+            this.groupRows(group, lines, colors, stats);
             for (int row = 0; row < lines.size() && row < 6; row++) {
                 this.drawFit(pose, lines.get(row), x, y0 + 27 + row * 8, colW - 4, 0.8F, colors.get(row), false);
+                this.statHovers.add(new StatHover(x, y0 + 27 + row * 8, x + colW - 4, y0 + 35 + row * 8, stats.get(row)));
             }
         }
         fill(pose, x0 + 6, y0 + 79, x1 - 6, y0 + 80, FRAME);
@@ -545,7 +555,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
     }
 
     /** The rows of one stat group: the group's fixed stats always (dead ones greyed), the optional Misc stats only when non-zero. */
-    private void groupRows(int group, List<String> lines, List<Integer> colors) {
+    private void groupRows(int group, List<String> lines, List<Integer> colors, List<ExtractorStat> stats) {
         ExtractorStats.Block block = this.previewBlock;
         for (ExtractorStat stat : ExtractorTooltips.GROUPS[group]) {
             String line = block == null ? null : ExtractorTooltips.blockStatText(block, stat);
@@ -555,6 +565,7 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
             }
             lines.add(line == null ? "- " + stat.getDisplayName() : line);
             colors.add(line == null ? TEXT_DEAD : stat.getColor() | 0xFF000000);
+            stats.add(stat);
         }
     }
 
@@ -790,7 +801,22 @@ public class ExtractorAssemblerScreen extends AbstractContainerScreen<ExtractorA
                 }
             }
         }
+        if (hovered == null) {
+            for (StatHover hover : this.statHovers) {
+                if (mouseX >= hover.x0() && mouseX < hover.x1() && mouseY >= hover.y0() && mouseY < hover.y1()) {
+                    List<FormattedCharSequence> lines = new ArrayList<>();
+                    lines.add(new TextComponent(hover.stat().getDisplayName()).withStyle(style -> style.withColor(hover.stat().getColor())).getVisualOrderText());
+                    lines.addAll(this.font.split(new TranslatableComponent(hover.stat().getDescriptionKey()).withStyle(ChatFormatting.GRAY), STAT_TOOLTIP_WIDTH));
+                    this.renderTooltip(pose, lines, mouseX, mouseY);
+                    return;
+                }
+            }
+        }
         super.renderTooltip(pose, mouseX, mouseY);
+    }
+
+    /** A panel area that shows a stat's description when hovered. */
+    private record StatHover(int x0, int y0, int x1, int y1, ExtractorStat stat) {
     }
 
     @Nullable

@@ -90,6 +90,15 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (this.DEPLOYMENT.shieldReactivationTicks < 0) {
             return "DEPLOYMENT.shieldReactivationTicks is negative";
         }
+        for (String outline : new String[]{this.DEPLOYMENT.outlineColour, this.DEPLOYMENT.hurtOutlineColour}) {
+            ChatFormatting colour = outline == null ? null : ChatFormatting.getByName(outline);
+            if (colour == null || !colour.isColor()) {
+                return "DEPLOYMENT outline colour '" + outline + "' is not a chat colour name";
+            }
+        }
+        if (this.DEPLOYMENT.outlineBlinkTicks <= 0 || this.DEPLOYMENT.outlineHurtTicks < 0) {
+            return "DEPLOYMENT outlineBlinkTicks is not positive or outlineHurtTicks is negative";
+        }
         if (this.JOBS == null || this.JOBS.isEmpty()) {
             return "it defines no JOBS";
         }
@@ -287,10 +296,19 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public float hpDamagePerDurabilityPoint;
     }
 
+    /**
+     * A placed rig: starting energy, healing when its job completes and the shield's reactivation time. A standing rig
+     * glows in {@code outlineColour}; for {@code outlineHurtTicks} after a hit its outline switches between that and
+     * {@code hurtOutlineColour} every {@code outlineBlinkTicks}.
+     */
     public static class DeploymentEntry {
         @Expose public float initialEnergyFraction;
         @Expose public float healFractionOnJobComplete;
         @Expose public int shieldReactivationTicks;
+        @Expose public String outlineColour;
+        @Expose public String hurtOutlineColour;
+        @Expose public int outlineBlinkTicks;
+        @Expose public int outlineHurtTicks;
     }
 
     /**
@@ -584,13 +602,15 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
 
     /**
      * The marker drawn on clients over each active lane's cave, visible through walls: a skull at {@code alpha}, in
-     * {@code colour} while mobs that lane spawned are alive and in {@code idleColour} otherwise, {@code heightBlocks} above the cave anchor, behind it a glow {@code glowScale} times its size at
+     * {@code colour} while mobs that lane spawned are alive and in {@code idleColour} otherwise; a cave that left the
+     * active lanes keeps a marker in {@code staleColour} until the mobs it spawned are dead, {@code heightBlocks} above the cave anchor, behind it a glow {@code glowScale} times its size at
      * {@code glowAlpha}. Its size is {@code sizePerBlock} per block of distance, kept between {@code minSizeBlocks} and
      * {@code maxSizeBlocks}; it is drawn for players within {@code rangeBlocks}.
      */
     public static class LaneHighlightEntry {
         @Expose public int colour;
         @Expose public int idleColour;
+        @Expose public int staleColour;
         @Expose public float alpha;
         @Expose public float glowAlpha;
         @Expose public float glowScale;

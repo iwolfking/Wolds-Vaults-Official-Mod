@@ -289,6 +289,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds) * this.placerDamageTaken);
             return true;
         }
+        this.pool.noteHit(this);
         amount = RigPool.resistMobHit(attacker, amount) * this.placerDamageTaken;
         if (this.pool.isShieldUp()) {
             float overflow = this.pool.shieldHit(this, amount);
@@ -446,6 +447,7 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
 
     @Override
     public void applyRamHit(LivingEntity ram, float damage) {
+        this.pool.noteHit(this);
         float overflow = this.pool.ramHit(this, damage);
         if (overflow > 0.0F) {
             float hpDamagePerDurability = ModConfigs.EXTRACTION_OBJECTIVE.DURABILITY.hpDamagePerDurabilityPoint;
@@ -538,6 +540,9 @@ public class ExtractorEntity extends LivingEntity implements IAnimatable, RigTar
             this.drillRamp = this.drillRamp < target
                     ? Math.min(target, this.drillRamp + step)
                     : Math.max(target, this.drillRamp - step);
+        }
+        if (!this.level.isClientSide()) {
+            this.pool.tickOutline(this, this.isAlive());
         }
         if (!this.level.isClientSide() && this.fluidLockTicks > 0) {
             this.fluidLockTicks--;

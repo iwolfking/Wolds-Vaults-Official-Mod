@@ -66,6 +66,11 @@ public enum ExtractorStat {
         return this.displayName;
     }
 
+    /** The lang key of the one-line description shown when the stat is hovered in the Assembler. */
+    public String getDescriptionKey() {
+        return "tooltip.woldsvaults.extractor_stat." + this.id;
+    }
+
     public Kind getKind() {
         return this.kind;
     }

@@ -63,6 +63,8 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
             .with(Version.v1_0, Adapters.LONG_ARRAY, CLIENT.all()).register(FIELDS);
     public static final FieldKey<Integer> LANE_CAVES_LIVE = FieldKey.of("lane_caves_live", Integer.class)
             .with(Version.v1_0, Adapters.INT, CLIENT.all()).register(FIELDS);
+    public static final FieldKey<Integer> LANE_CAVES_STALE = FieldKey.of("lane_caves_stale", Integer.class)
+            .with(Version.v1_0, Adapters.INT, CLIENT.all()).register(FIELDS);
 
     public static final int THUMPER_NONE = 0;
     public static final int THUMPER_STANDING = 1;

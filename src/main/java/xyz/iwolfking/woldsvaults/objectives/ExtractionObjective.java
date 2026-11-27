@@ -1176,6 +1176,11 @@ public class ExtractionObjective extends Objective {
             return;
         }
         if (extractor.getEnergy() <= 0.0F) {
+            if (extractor.isDrillingAnim()) {
+                for (ServerPlayer player : world.getEntitiesOfClass(ServerPlayer.class, this.siteRoomBounds(site))) {
+                    player.displayClientMessage(new TextComponent("Extractor out of power!").withStyle(ChatFormatting.RED), true);
+                }
+            }
             extractor.setDrillingAnim(false);
             return;
         }

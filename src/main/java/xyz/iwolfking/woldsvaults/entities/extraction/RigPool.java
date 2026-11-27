@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.entity.LivingEntity;
+import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 
@@ -21,6 +22,7 @@ public final class RigPool {
     private float armor;
     private float shieldToughness;
     private int shieldDownTicks;
+    private long lastHitTime = Long.MIN_VALUE;
 
     public void init(float maxShield, float shieldRegenPerTick, float healthRegenPerTick, float armor, float shieldToughness) {
         this.maxShield = maxShield;
@@ -88,6 +90,26 @@ public final class RigPool {
         }
         rig.level.playSound(null, rig.blockPosition(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.HOSTILE, 1.0F, 0.5F);
         return damage - taken;
+    }
+
+    /** Records that a mob or ram hit reached the rig, for the hurt outline. */
+    public void noteHit(LivingEntity rig) {
+        this.lastHitTime = rig.level.getGameTime();
+    }
+
+    /**
+     * Keeps the rig's glow outline: none when {@code shown} is false, else the table's outline colour, switching with
+     * the hurt colour for a while after a hit.
+     */
+    public void tickOutline(LivingEntity rig, boolean shown) {
+        rig.setGlowingTag(shown);
+        if (!shown) {
+            return;
+        }
+        ExtractionObjectiveConfig.DeploymentEntry cfg = ModConfigs.EXTRACTION_OBJECTIVE.DEPLOYMENT;
+        long now = rig.level.getGameTime();
+        boolean hurt = now - this.lastHitTime < cfg.outlineHurtTicks && (now / Math.max(1, cfg.outlineBlinkTicks)) % 2L == 0L;
+        GlowTeams.setColour(rig, hurt ? cfg.hurtOutlineColour : cfg.outlineColour);
     }
 
     /** One tick of shield recharge, or of the reactivation countdown while the shield is down. */

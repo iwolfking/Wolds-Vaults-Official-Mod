@@ -176,6 +176,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
 
     @Override
     public void applyRamHit(LivingEntity ram, float damage) {
+        this.pool.noteHit(this);
         float overflow = this.pool.ramHit(this, damage * ModConfigs.EXTRACTION_OBJECTIVE.THUMPER.damageTakenMultiplier);
         if (overflow > 0.0F) {
             this.damageHull(DamageSource.mobAttack(ram), overflow);
@@ -201,6 +202,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
             return true;
         }
+        this.pool.noteHit(this);
         amount = RigPool.resistMobHit(attacker, amount) * ModConfigs.EXTRACTION_OBJECTIVE.THUMPER.damageTakenMultiplier;
         if (this.pool.isShieldUp()) {
             float overflow = this.pool.shieldHit(this, amount);
@@ -270,6 +272,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
         if (this.level.isClientSide()) {
             return;
         }
+        this.pool.tickOutline(this, !this.isWrecked());
         if (this.isActive() && this.tickCount % THUMP_PERIOD_TICKS == 0 && this.level instanceof ServerLevel server) {
             BlockState below = this.level.getBlockState(this.blockPosition().below());
             if (!below.isAir()) {

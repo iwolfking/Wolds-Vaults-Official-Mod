@@ -25,7 +25,11 @@
   "DEPLOYMENT": {
     "initialEnergyFraction": 0.4,
     "healFractionOnJobComplete": 0.33,
-    "shieldReactivationTicks": 40
+    "shieldReactivationTicks": 40,
+    "outlineColour": "blue",
+    "hurtOutlineColour": "gold",
+    "outlineBlinkTicks": 5,
+    "outlineHurtTicks": 40
   },
   "JOBS": {
     "arcane_essence": {
@@ -395,6 +399,7 @@
     "laneHighlight": {
       "colour": 16718362,
       "idleColour": 16777215,
+      "staleColour": 16747546,
       "alpha": 0.8,
       "glowAlpha": 0.45,
       "glowScale": 2.2,
