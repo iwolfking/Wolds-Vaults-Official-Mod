@@ -18,6 +18,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import xyz.iwolfking.woldsvaults.blocks.multiblock.ExtractorMultiblock;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -309,6 +311,11 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     @Override
     public boolean isWorking() {
         return this.fabricating;
+    }
+
+    @Override
+    public AABB getRenderBoundingBox() {
+        return ExtractorMultiblock.renderBounds(this);
     }
 
     @Override

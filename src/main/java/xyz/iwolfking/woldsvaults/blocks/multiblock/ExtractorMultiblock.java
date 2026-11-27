@@ -4,7 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.blocks.ExtractorControllerBlock;
 import xyz.iwolfking.woldsvaults.blocks.ExtractorStructureBlock;
 import xyz.iwolfking.woldsvaults.blocks.tiles.ExtractorStructureTileEntity;
@@ -46,6 +48,23 @@ public final class ExtractorMultiblock {
             case WEST -> 270;
             default -> 0;
         };
+    }
+
+    /**
+     * The render box of a station controller: every cell of its machine, whatever the facing, since the station
+     * renderer draws moving parts anywhere inside it. A tile that is not on a controller block keeps its own cell.
+     */
+    public static AABB renderBounds(BlockEntity controller) {
+        BlockPos pos = controller.getBlockPos();
+        if (!(controller.getBlockState().getBlock() instanceof ExtractorControllerBlock block)) {
+            WoldLogger.errorOnce("station_render_bounds." + controller.getType().getRegistryName(),
+                    "Extractor station tile {} at {} is not on a station controller block; its render box covers only its own cell.",
+                    controller.getType().getRegistryName(), pos);
+            return new AABB(pos);
+        }
+        int span = Math.max(block.getWidth(), block.getDepth());
+        int half = span / 2;
+        return new AABB(pos.offset(-half, 0, -half), pos.offset(span - half, block.getHeight(), span - half));
     }
 
     public static List<Cell> cells(BlockPos controller, Direction facing, ExtractorControllerBlock block) {

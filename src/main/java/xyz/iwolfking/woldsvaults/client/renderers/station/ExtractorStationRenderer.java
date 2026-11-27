@@ -77,35 +77,38 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
             if (part.translucent()) {
                 continue;
             }
-            this.renderPart(part, t, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.cutout());
+            this.renderPart(part, t, working, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.cutout());
         }
         if (this.rig.showsExtractorPreview) {
             this.renderPreview(tile, t, working, partialTick, pose, buffers, packedLight);
         }
         for (ExtractorStationRig.Part part : this.rig.parts) {
             if (part.translucent()) {
-                this.renderPart(part, t, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.translucent());
+                this.renderPart(part, t, working, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.translucent());
             }
         }
         pose.popPose();
     }
 
-    private void renderPart(ExtractorStationRig.Part part, float t, BlockState state, PoseStack pose, MultiBufferSource buffers, int light, int overlay, RenderType renderType) {
+    private void renderPart(ExtractorStationRig.Part part, float t, boolean working, BlockState state, PoseStack pose, MultiBufferSource buffers, int light, int overlay, RenderType renderType) {
         BakedModel model = Minecraft.getInstance().getModelManager().getModel(part.model());
         if (model == null || model == Minecraft.getInstance().getModelManager().getMissingModel()) {
             WoldLogger.errorOnce("station_model." + part.model(), "Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
             return;
         }
         pose.pushPose();
-        this.applyBoneChain(part.name(), t, pose);
+        this.applyBoneChain(part.name(), t, working, pose);
         pose.translate(part.ox() * PX, part.oy() * PX, part.oz() * PX);
         VertexConsumer buffer = buffers.getBuffer(renderType);
         Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(pose.last(), buffer, state, model, 1.0F, 1.0F, 1.0F, light, overlay, EmptyModelData.INSTANCE);
         pose.popPose();
     }
 
-    /** Applies the bone's ancestors outermost-first, then the bone itself: p' = Parent(R·(p − pivot) + pivot + translate). */
-    private void applyBoneChain(String boneName, float t, PoseStack pose) {
+    /**
+     * Applies the bone's ancestors outermost-first, then the bone itself: p' = Parent(R·(p − pivot) + pivot + translate).
+     * A station that is not working holds every bone at its rest pose.
+     */
+    private void applyBoneChain(String boneName, float t, boolean working, PoseStack pose) {
         Deque<ExtractorStationRig.Bone> chain = new ArrayDeque<>();
         ExtractorStationRig.Bone bone = this.rig.bones.get(boneName);
         while (bone != null) {
@@ -114,7 +117,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         }
         while (!chain.isEmpty()) {
             ExtractorStationRig.Bone current = chain.pop();
-            ExtractorStationRig.Pose p = this.rig.poser.pose(current.name(), t);
+            ExtractorStationRig.Pose p = working ? this.rig.poser.pose(current.name(), t) : ExtractorStationRig.Pose.REST;
             pose.translate((current.px() + p.tx()) * PX, (current.py() + p.ty()) * PX, (current.pz() + p.tz()) * PX);
             if (p.ry() != 0.0F) {
                 pose.mulPose(Vector3f.YP.rotationDegrees(p.ry()));
