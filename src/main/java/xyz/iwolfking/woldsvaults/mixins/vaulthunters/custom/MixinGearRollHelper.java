@@ -1,5 +1,7 @@
 package xyz.iwolfking.woldsvaults.mixins.vaulthunters.custom;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.config.gear.VaultEtchingConfig;
 import iskallia.vault.gear.*;
@@ -33,10 +35,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
+import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.api.util.PrestigePowerHelper;
 import xyz.iwolfking.woldsvaults.api.util.WoldGearModifierHelper;
 import xyz.iwolfking.woldsvaults.expertises.CraftsmanExpertise;
 import xyz.iwolfking.woldsvaults.expertises.EclecticGearExpertise;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientChance;
+import xyz.iwolfking.woldsvaults.gear.ancient.AncientItems;
+import xyz.iwolfking.woldsvaults.gear.ancient.Ancients;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.prestige.CraftingPotentialPrestigePower;
 
 import java.util.List;
@@ -91,7 +99,6 @@ public class MixinGearRollHelper {
 
     @Inject(method = "initializeGear(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/gear/VaultGearModifierHelper;generateModifiers(Lnet/minecraft/world/item/ItemStack;Ljava/util/Random;)Liskallia/vault/gear/modification/GearModification$Result;", shift = At.Shift.AFTER))
     private static void initializeGearWithEffects(ItemStack stack, Player player, CallbackInfo ci, @Local VaultGearData data) {
-        //Don't need to process jewels and other kinds of gear.
         if(stack.getItem() instanceof CharmItem || stack.getItem() instanceof VaultNecklaceItem || stack.getItem() instanceof VaultCharmItem) {
             return;
         }
@@ -121,7 +128,6 @@ public class MixinGearRollHelper {
 
         int itemLevel = data.getItemLevel();
 
-        //Randomly add a corrupted implicit
         if(itemLevel >= 65 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             GearModification.Result result;
 
@@ -135,19 +141,16 @@ public class MixinGearRollHelper {
                 VaultGearModifierHelper.setGearCorrupted(stack);
             }
         }
-        //Randomly frozen (if not a jewel)
         else if(itemLevel >= 25 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             if(stack.getItem() instanceof JewelItem) {
                 return;
             }
             VaultGearModifierHelper.lockRandomAffix(stack, rand);
         }
-        //Randomly add unusual
         else if(itemLevel>= 20 && rand.nextFloat() <= 0.02F + increasedSpecialRollsChance) {
             WoldGearModifierHelper.removeRandomModifierAlways(stack, rand);
             WoldGearModifierHelper.addUnusualModifier(stack, player.level.getGameTime(), rand);
         }
-        //Randomly add greater modifier
         else if(itemLevel >= 40 && rand.nextFloat() <= 0.01F + increasedSpecialRollsChance) {
             VaultGearLegendaryHelper.improveExistingModifier(stack, 1, rand, List.of(VaultGearModifier.AffixCategory.GREATER));
         }
@@ -173,6 +176,42 @@ public class MixinGearRollHelper {
                 jData.write(stack);
                 VaultGearModifierHelper.setGearCorrupted(stack);
             }
+        }
+    }
+
+    /**
+     * Marks the unique being rolled for the whole of its roll, so its modifier lookups can use unique-scoped and
+     * ancient rows, and clears the mark even when the roll throws.
+     */
+    @WrapMethod(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V")
+    private static void wrapUniqueRoll(VaultGearData data, ItemStack stack, Player player, Operation<Void> original) {
+        UniqueRollTables.beginUniqueRoll(data);
+        try {
+            original.call(data, stack, player);
+        } finally {
+            UniqueRollTables.endUniqueRoll();
+        }
+    }
+
+    /**
+     * Decides whether an identifying unique becomes ancient, before the tier config resolves. Gear that dropped
+     * already flagged ancient (an unidentified ancient unique) skips the chance and only takes its name.
+     */
+    @Inject(method = "initializeUniqueGear(Liskallia/vault/gear/data/VaultGearData;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)V", at = @At(value = "INVOKE", target = "Liskallia/vault/config/gear/VaultGearTierConfig;getConfig(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;"))
+    private static void rollAncientUnique(VaultGearData data, ItemStack stack, Player player, CallbackInfo ci) {
+        boolean preset = Ancients.isAncient(data);
+        if(!preset && !AncientChance.rollIdentify(data, player, rand)) {
+            return;
+        }
+
+        ResourceLocation uniqueKey = data.getFirstValue(ModGearAttributes.UNIQUE_ITEM_KEY).orElse(null);
+        if(!AncientItems.markAncient(data, uniqueKey)) {
+            WoldLogger.errorOnce("ancient-identify-unnamed-" + uniqueKey, "Ancient unique {} has no ancient name; it keeps its unique name.", uniqueKey);
+        }
+        data.write(stack);
+
+        if(player instanceof ServerPlayer serverPlayer && AncientChance.hasRankSource(data)) {
+            Milestones.onAncientUniqueIdentified(serverPlayer);
         }
     }
 

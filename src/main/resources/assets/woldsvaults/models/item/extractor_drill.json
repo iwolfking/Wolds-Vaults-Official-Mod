@@ -1,0 +1,68 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/extractor/drill_standard"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:variant": 2.0
+      },
+      "model": "woldsvaults:item/extractor/drill_laser"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 3.0
+      },
+      "model": "woldsvaults:item/extractor/drill_greed_infuser"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 4.0
+      },
+      "model": "woldsvaults:item/extractor/drill_archeology"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 5.0
+      },
+      "model": "woldsvaults:item/extractor/drill_excavator"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 6.0
+      },
+      "model": "woldsvaults:item/extractor/drill_refiner"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 7.0
+      },
+      "model": "woldsvaults:item/extractor/drill_heavy"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 8.0
+      },
+      "model": "woldsvaults:item/extractor/drill_juicer"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 9.0
+      },
+      "model": "woldsvaults:item/extractor/drill_glue_derrick"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 10.0
+      },
+      "model": "woldsvaults:item/extractor/drill_crystal"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 11.0
+      },
+      "model": "woldsvaults:item/extractor/drill_containment"
+    }
+  ]
+}

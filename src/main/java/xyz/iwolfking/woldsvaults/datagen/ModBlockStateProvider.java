@@ -4,6 +4,7 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.core.vault.influence.VaultGod;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +19,10 @@ import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackBlock;
 import xyz.iwolfking.vhapi.api.util.ResourceLocUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.blocks.*;
+import xyz.iwolfking.woldsvaults.entities.simon.SimonCrystalEntity;
 import xyz.iwolfking.woldsvaults.init.ModBlocks;
 import xyz.iwolfking.woldsvaults.init.ModCompressibleBlocks;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     private final ModelFile EMPTY = models().getExistingFile(modLoc("block/base/nothing"));
@@ -35,6 +38,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         generateChromaticSteelVaultInfuser();
+        generateOmegaVaultInfuser();
+        generateVaultFabricator();
+        generateExtractionFluids();
+        generateExtractionCache();
         generateChromaticIronVaultInfuser();
         generateAugmentTableBlock();
         generateGatewayChannelingBlock();
@@ -43,6 +50,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         generateDecoMonolith();
         generateDecoObelisk();
         generateXLBackpack();
+        generateDecorativeCrystal();
+        generateLoadingZoneMarkers();
         ModBlocks.CUSTOM_VAULT_CRATES.forEach((s, crateBlock) -> {
             vaultCrate(crateBlock, efh, WoldsVaults.id("block/vault_crate_" + s));
             //generateGenericItemModelBlockState(crateBlock);
@@ -170,6 +179,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         decoGodAltar(ModBlocks.DECO_VELARA_ALTAR_BLOCK, VaultGod.VELARA);
     }
 
+    /** Blocks without their own art yet borrow a vanilla texture so they render until models land. */
+    private void placeholderBlockWithItem(Block block, ResourceLocation texture) {
+        ModelFile model = models().cubeAll(block.getRegistryName().getPath(), texture);
+        simpleBlock(block, model);
+        simpleBlockItem(block, model);
+    }
+
     private void slabBlockWithItem(SlabBlock block, ResourceLocation texture) {
         ResourceLocation blockTexture = ResourceLocUtils.prependToId("block/", texture);
         slabBlock(block, blockTexture, blockTexture, blockTexture, blockTexture);
@@ -257,6 +273,48 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .texture("front", modLoc("block/chromatic_steel_vault_infuser_front_on"))
                 .texture("side", modLoc("block/chromatic_steel_vault_infuser_side"));
         itemModels().withExistingParent("chromatic_steel_vault_infuser", modLoc("block/chromatic_steel_vault_infuser"));
+    }
+
+    private void generateVaultFabricator() {
+        ModelFile model = models().withExistingParent("vault_fabricator", "minecraft:block/orientable_with_bottom")
+                .texture("top", modLoc("block/vault_fabricator_top"))
+                .texture("bottom", modLoc("block/vault_fabricator_bottom"))
+                .texture("side", modLoc("block/vault_fabricator_side"))
+                .texture("front", modLoc("block/vault_fabricator_front_on"));
+        horizontalBlock(ModBlocks.VAULT_FABRICATOR_BLOCK, model);
+        itemModels().withExistingParent("vault_fabricator", modLoc("block/vault_fabricator"));
+    }
+
+    private void generateExtractionFluids() {
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleBlock(fluid.block,
+                models().getBuilder(fluid.key + "_block").texture("particle", modLoc("block/fluid/" + fluid.key))));
+    }
+
+    private void generateExtractionCache() {
+        simpleBlock(ModBlocks.EXTRACTION_CACHE, models().getBuilder("extraction_cache").texture("particle", VaultMod.id("block/vault_meat_block")));
+    }
+
+    private void generateOmegaVaultInfuser() {
+        VariantBlockStateBuilder vbb = this.getVariantBuilder(ModBlocks.OMEGA_INFUSER_BLOCK);
+        ModelFile existingModel = models().withExistingParent("omega_vault_infuser", "minecraft:block/orientable");
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.NORTH),
+                vbb.partialState().modelForState().modelFile(existingModel).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.EAST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(90).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.SOUTH),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(180).build());
+
+        vbb.setModels(vbb.partialState().with(VaultInfuserBlock.FACING, Direction.WEST),
+                vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
+
+        models().withExistingParent("omega_vault_infuser", "minecraft:block/orientable")
+                .texture("top", modLoc("block/omega_vault_infuser_top"))
+                .texture("front", modLoc("block/omega_vault_infuser_front_on"))
+                .texture("side", modLoc("block/omega_vault_infuser_side"));
+        itemModels().withExistingParent("omega_vault_infuser", modLoc("block/omega_vault_infuser"));
     }
 
     private void generateChromaticIronVaultInfuser() {
@@ -404,6 +462,34 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 vbb.partialState().modelForState().modelFile(existingModel).rotationY(270).build());
 
         itemModels().withExistingParent("xl_backpack", modLoc("block/xl_backpack"));
+    }
+
+    private void generateDecorativeCrystal() {
+        DecorativeCrystalModels.generate(this);
+        getVariantBuilder(ModBlocks.DECORATIVE_CRYSTAL).forAllStates(state -> {
+            Direction facing = state.getValue(DecorativeCrystalBlock.FACING);
+            String look = state.getValue(DecorativeCrystalBlock.PRISMATIC) ? "prismatic" : state.getValue(DecorativeCrystalBlock.COLOR).id;
+            String model = DecorativeCrystalModels.name(look, state.getValue(DecorativeCrystalBlock.SHAPE), state.getValue(DecorativeCrystalBlock.STAGE), state.getValue(DecorativeCrystalBlock.VARIANT));
+            int x = facing == Direction.UP ? 0 : facing == Direction.DOWN ? 180 : 90;
+            int y = facing == Direction.EAST ? 90 : facing == Direction.SOUTH ? 180 : facing == Direction.WEST ? 270 : 0;
+            return ConfiguredModel.builder().modelFile(models().getExistingFile(modLoc(model))).rotationX(x).rotationY(y).build();
+        });
+        itemModels().withExistingParent("decorative_crystal", modLoc(DecorativeCrystalModels.name("red", DecorativeCrystalBlock.Shape.ORIGINAL, SimonCrystalEntity.SHARD, 0))).transforms()
+                .transform(ItemTransforms.TransformType.GUI).rotation(30.0F, 225.0F, 0.0F).scale(0.625F).end()
+                .transform(ItemTransforms.TransformType.GROUND).translation(0.0F, 3.0F, 0.0F).scale(0.25F).end()
+                .transform(ItemTransforms.TransformType.FIXED).scale(0.5F).end()
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND).rotation(75.0F, 45.0F, 0.0F).translation(0.0F, 2.5F, 0.0F).scale(0.375F).end()
+                .transform(ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND).rotation(0.0F, 45.0F, 0.0F).scale(0.4F).end()
+                .end();
+    }
+
+    private void generateLoadingZoneMarkers() {
+        for (Block block : new Block[] {ModBlocks.LOADING_ZONE_POST, ModBlocks.LOADING_ZONE_ARRIVAL}) {
+            String name = block.getRegistryName().getPath();
+            ModelFile model = models().getBuilder("block/" + name).texture("particle", modLoc("item/" + name));
+            getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder().modelFile(model).build());
+            itemModels().withExistingParent(name, mcLoc("item/generated")).texture("layer0", modLoc("item/" + name));
+        }
     }
 
     private void simpleBlockWithTextures(Block block, ModelFile parent, String frameKey, ResourceLocation frameTex, String topKey, ResourceLocation topTex, String crateKey, ResourceLocation crateTex) {

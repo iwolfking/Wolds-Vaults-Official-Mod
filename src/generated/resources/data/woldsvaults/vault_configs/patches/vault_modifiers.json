@@ -1,0 +1,423 @@
+{
+  "ops": [
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert",
+        "display",
+        "description"
+      ],
+      "value": "-20% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert_small",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert_small",
+        "display",
+        "description"
+      ],
+      "value": "-10% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:inert_small",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:weakened_cdr",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:weakened_cdr",
+        "display",
+        "description"
+      ],
+      "value": "-40% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:weakened_cdr",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:weakened_cdr",
+        "display",
+        "name"
+      ],
+      "value": "Weakened Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_reduction",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_reduction",
+        "display",
+        "description"
+      ],
+      "value": "+160% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_reduction",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_reduction",
+        "display",
+        "name"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_down",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_down",
+        "display",
+        "description"
+      ],
+      "value": "+40% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_down",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cooldown_down",
+        "display",
+        "name"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_cdr",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_cdr",
+        "display",
+        "description"
+      ],
+      "value": "+100% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_cdr",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cdr_5",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cdr_5",
+        "display",
+        "description"
+      ],
+      "value": "+10% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cdr_5",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:cdr_5",
+        "display",
+        "name"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:rending",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:rending",
+        "display",
+        "description"
+      ],
+      "value": "-50% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:rending",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:nullifying",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:nullifying",
+        "display",
+        "description"
+      ],
+      "value": "-100% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:nullifying",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "%d%% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_favour_3",
+        "properties",
+        "addend"
+      ],
+      "value": 2
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_favour_3",
+        "properties",
+        "reputation",
+        "addendPerLevel"
+      ],
+      "value": 2
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_favour_3",
+        "display",
+        "description"
+      ],
+      "value": "+1% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/player_stat",
+        "the_vault:wendarr_favour_3",
+        "display",
+        "descriptionFormatted"
+      ],
+      "value": "+%d%% Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/grouped",
+        "the_vault:buffed",
+        "display",
+        "description"
+      ],
+      "value": "Reduces Mana Regen, Spell Haste, Damage, Ability Power, Movement Speed and Health"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/grouped",
+        "the_vault:weakened_powers",
+        "display",
+        "description"
+      ],
+      "value": "Lose 40% Spell Haste and 25% Mana Regeneration"
+    },
+    {
+      "op": "set",
+      "path": [
+        "modifiers",
+        "the_vault:modifier_type/grouped",
+        "the_vault:wendarr_favour",
+        "display",
+        "description"
+      ],
+      "value": "+100% Mana Regeneration & +100% Spell Haste"
+    }
+  ]
+}

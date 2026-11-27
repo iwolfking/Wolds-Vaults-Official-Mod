@@ -1506,8 +1506,8 @@
         "display": {
           "name": "Exposed",
           "color": "#a8324c",
-          "description": "Your armor feels exposed... armor reduced by half",
-          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "description": "Your armor feels exposed... armor reduced by 25%",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by 25%%",
           "icon": "the_vault:gui/modifiers/impossible"
         }
       },
@@ -1519,8 +1519,8 @@
         "display": {
           "name": "Exposed",
           "color": "#a8324c",
-          "description": "Your armor feels exposed... armor reduced by half",
-          "descriptionFormatted": "Your armor feels exposed... armor reduced by half",
+          "description": "Your armor feels exposed... armor reduced by 15%",
+          "descriptionFormatted": "Your armor feels exposed... armor reduced by 15%%",
           "icon": "the_vault:gui/modifiers/impossible"
         }
       },
@@ -1658,26 +1658,26 @@
       "the_vault:rending": {
         "properties": {
           "stat": "cooldown_reduction",
-          "addend": -0.25
+          "addend": -0.5
         },
         "display": {
           "name": "Rending",
           "color": "#6DACB5",
-          "description": "-25% Cooldown Reduction",
-          "descriptionFormatted": "-%d%% Cooldown Reduction",
+          "description": "-50% Spell Haste",
+          "descriptionFormatted": "%d%% Spell Haste",
           "icon": "the_vault:gui/modifiers/inert"
         }
       },
       "the_vault:nullifying": {
         "properties": {
           "stat": "cooldown_reduction",
-          "addend": -0.5
+          "addend": -1.0
         },
         "display": {
           "name": "Nullifying",
           "color": "#6DACB5",
-          "description": "-50% Cooldown Reduction",
-          "descriptionFormatted": "-%d%% Cooldown Reduction",
+          "description": "-100% Spell Haste",
+          "descriptionFormatted": "%d%% Spell Haste",
           "icon": "the_vault:gui/modifiers/inert"
         }
       },
@@ -3699,8 +3699,8 @@
         "display": {
           "name": "Tenos' Challenge",
           "color": "#ba0000",
-          "description": "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent",
-          "descriptionFormatted": "Increases mob damage and mob health 20 percent per stack, cooldowns increased by 25 percent",
+          "description": "Increases mob damage and mob health 20 percent per stack, -50% Spell Haste",
+          "descriptionFormatted": "Increases mob damage and mob health 20 percent per stack, -50% Spell Haste",
           "icon": "the_vault:gui/modifiers/challenging"
         }
       },
@@ -4099,7 +4099,7 @@
         }
       }
     },
-    "the_vault:modifier_type/mob_mana_steal_on_hit": {
+    "woldsvaults:modifier_type/mob_mana_steal_on_hit": {
       "woldsvaults:mana_plunder": {
         "properties": {
           "onHitApplyChance": 0.5,
@@ -4115,7 +4115,7 @@
         }
       }
     },
-    "the_vault:modifier_type/mob_additional_magic_damage_on_hit": {
+    "woldsvaults:modifier_type/mob_additional_magic_damage_on_hit": {
       "woldsvaults:arcane_foes": {
         "properties": {
           "onHitApplyChance": 1.0,
@@ -4131,7 +4131,7 @@
         }
       }
     },
-    "the_vault:modifier_type/mob_additional_void_damage_on_hit": {
+    "woldsvaults:modifier_type/mob_additional_void_damage_on_hit": {
       "woldsvaults:void_touch": {
         "properties": {
           "onHitApplyChance": 0.25,

@@ -1,0 +1,11 @@
+{
+  "hoverHorizontalFriction": 0.8,
+  "hoverVerticalDamping": 0.5,
+  "shockConeAhead": 2.0,
+  "shockConeBehind": 3.0,
+  "shockConeRadius": 4.0,
+  "stormVisualBoltsPerDash": 3,
+  "contactInflate": 0.5,
+  "stallSpeed": 0.1,
+  "launchGraceTicks": 3
+}

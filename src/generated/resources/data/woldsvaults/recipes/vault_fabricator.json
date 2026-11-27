@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SDS",
+    "PCP",
+    "SAS"
+  ],
+  "key": {
+    "S": {
+      "item": "the_vault:chromatic_steel_ingot"
+    },
+    "D": {
+      "item": "the_vault:vault_diamond"
+    },
+    "P": {
+      "item": "the_vault:vault_plating"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "A": {
+      "item": "the_vault:vault_alloy"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:vault_fabricator"
+  }
+}

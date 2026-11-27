@@ -7,5 +7,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = LivingEntity.class)
 public interface LivingEntityAccessor {
     @Accessor("lastHurt")
+    float getLastHurt();
+
+    @Accessor("lastHurt")
     void setLastHurt(float lastHurt);
 }

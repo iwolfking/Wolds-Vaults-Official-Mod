@@ -1,0 +1,86 @@
+{
+  "ops": [
+    {
+      "op": "add",
+      "path": [
+        "pooledOutcomes",
+        "greed_stage_loot"
+      ],
+      "value": [
+        {
+          "level": 0,
+          "rollTypeOutcomes": [
+            {
+              "value": "Rare+",
+              "weight": 97
+            },
+            {
+              "value": "Omega+",
+              "weight": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pooledOutcomes",
+        "greed_stage_dungeon"
+      ],
+      "value": [
+        {
+          "level": 0,
+          "rollTypeOutcomes": [
+            {
+              "value": "Rare+",
+              "weight": 20
+            },
+            {
+              "value": "Epic+",
+              "weight": 4
+            },
+            {
+              "value": "Omega+",
+              "weight": 1
+            },
+            {
+              "value": "Chaotic",
+              "weight": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pooledOutcomes",
+        "greed_stage_treasure"
+      ],
+      "value": [
+        {
+          "level": 0,
+          "rollTypeOutcomes": [
+            {
+              "value": "Rare+",
+              "weight": 40
+            },
+            {
+              "value": "Epic+",
+              "weight": 12
+            },
+            {
+              "value": "Omega",
+              "weight": 8
+            },
+            {
+              "value": "Omega+",
+              "weight": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

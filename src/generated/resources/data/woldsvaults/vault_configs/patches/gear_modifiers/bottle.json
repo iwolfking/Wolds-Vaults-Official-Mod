@@ -1,0 +1,184 @@
+{
+  "ops": [
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "SUFFIX",
+        {
+          "identifier": "the_vault:mod_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        1,
+        "value",
+        "max"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "modifierGroup",
+        "CRAFTED_SUFFIX",
+        {
+          "identifier": "the_vault:crafted_cooldown_reduction"
+        },
+        "tiers",
+        2,
+        "value",
+        "max"
+      ],
+      "value": 3
+    }
+  ]
+}

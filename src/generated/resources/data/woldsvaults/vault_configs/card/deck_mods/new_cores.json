@@ -55,7 +55,7 @@
     },
     "runic_deck": {
       "modifierValue": {
-        "count": 2.0,
+        "count": 0.2,
         "type": "constant"
       },
       "symmetryAxis": "HORIZONTAL",
@@ -63,7 +63,7 @@
       "name": "Runic Deck Modifier",
       "colour": 13618375,
       "id": "runic_deck",
-      "type": "symmetry_balance"
+      "type": "tag_mirror"
     },
     "pillager_deck": {
       "modifierValue": {
@@ -81,15 +81,15 @@
     },
     "jupiter": {
       "modifierValue": {
-        "min": 0.3,
-        "max": 0.5,
+        "min": 0.4,
+        "max": 0.6,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.2,
-            "max": 0.2,
+            "min": 0.3,
+            "max": 0.3,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/jupiter_deck_core_lesser#inventory",
@@ -98,8 +98,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.5,
-            "max": 0.75,
+            "min": 0.6,
+            "max": 0.85,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/jupiter_deck_core_greater#inventory",
@@ -119,15 +119,15 @@
     },
     "fae": {
       "modifierValue": {
-        "min": 0.3,
-        "max": 0.6,
+        "min": 0.75,
+        "max": 1.1,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.3,
-            "max": 0.3,
+            "min": 0.5,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/fae_deck_core_lesser#inventory",
@@ -136,8 +136,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.75,
-            "max": 1.25,
+            "min": 1.1,
+            "max": 1.4,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/fae_deck_core_greater#inventory",
@@ -172,44 +172,6 @@
       "id": "ornate_deck",
       "type": "global"
     },
-    "sparkling": {
-      "modifierValue": {
-        "min": 0.6,
-        "max": 0.9,
-        "type": "uniform"
-      },
-      "modifierValues": {
-        "lesser": {
-          "value": {
-            "min": 0.4,
-            "max": 0.4,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/sparkling_deck_core_lesser#inventory",
-          "name": "Lesser Sparkling Core",
-          "colour": 13618375
-        },
-        "greater": {
-          "value": {
-            "min": 1.0,
-            "max": 1.5,
-            "type": "uniform"
-          },
-          "modelId": "woldsvaults:deck_cores/sparkling_deck_core_greater#inventory",
-          "name": "Greater Sparkling Core",
-          "colour": 16769382
-        }
-      },
-      "requiredGroups": [
-        "Shiny"
-      ],
-      "requiredColors": [],
-      "modelId": "woldsvaults:deck_cores/sparkling_deck_core#inventory",
-      "name": "Sparkling Core",
-      "colour": 13618375,
-      "id": "sparkling",
-      "type": "global"
-    },
     "relic_deck": {
       "modifierValue": {
         "count": 0.0,
@@ -240,8 +202,8 @@
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.05,
-            "max": 0.05,
+            "min": 0.03,
+            "max": 0.03,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/premium_deck_core_lesser#inventory",
@@ -250,8 +212,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.15,
-            "max": 0.2,
+            "min": 0.1,
+            "max": 0.125,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/premium_deck_core_greater#inventory",
@@ -299,15 +261,15 @@
     },
     "talent": {
       "modifierValue": {
-        "min": 0.2,
-        "max": 0.3,
+        "min": 0.4,
+        "max": 0.6,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.15,
+            "min": 0.3,
+            "max": 0.3,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/talent_deck_core_lesser#inventory",
@@ -316,8 +278,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.3,
-            "max": 0.5,
+            "min": 0.6,
+            "max": 0.8,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/talent_deck_core_greater#inventory",
@@ -399,17 +361,51 @@
       "id": "construction",
       "type": "create_slots"
     },
-    "nitwit": {
+    "greed": {
       "modifierValue": {
-        "min": 0.75,
-        "max": 1.25,
+        "min": 0.1,
+        "max": 0.15,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.45,
-            "max": 0.45,
+            "min": 0.05,
+            "max": 0.05,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/greed_deck_core_lesser#inventory",
+          "name": "Lesser Greed Core",
+          "colour": 13618375
+        },
+        "greater": {
+          "value": {
+            "min": 0.15,
+            "max": 0.25,
+            "type": "uniform"
+          },
+          "modelId": "woldsvaults:deck_cores/greed_deck_core_greater#inventory",
+          "name": "Greater Greed Core",
+          "colour": 16769382
+        }
+      },
+      "modelId": "woldsvaults:deck_cores/greed_deck_core#inventory",
+      "name": "Greed Core",
+      "colour": 13618375,
+      "id": "greed",
+      "type": "greed_stack"
+    },
+    "nitwit": {
+      "modifierValue": {
+        "min": 1.0,
+        "max": 2.0,
+        "type": "uniform"
+      },
+      "modifierValues": {
+        "lesser": {
+          "value": {
+            "min": 0.5,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/nitwit_deck_core_lesser#inventory",
@@ -418,8 +414,8 @@
         },
         "greater": {
           "value": {
-            "min": 1.25,
-            "max": 2.5,
+            "min": 2.0,
+            "max": 3.0,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/nitwit_deck_core_greater#inventory",
@@ -481,15 +477,15 @@
     },
     "bazaar": {
       "modifierValue": {
-        "min": 0.2,
-        "max": 0.35,
+        "min": 0.4,
+        "max": 0.6,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.15,
-            "max": 0.15,
+            "min": 0.3,
+            "max": 0.3,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/bazaar_deck_core_lesser#inventory",
@@ -498,8 +494,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.35,
-            "max": 0.5,
+            "min": 0.6,
+            "max": 0.8,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/bazaar_deck_core_greater#inventory",
@@ -604,15 +600,15 @@
     },
     "void": {
       "modifierValue": {
-        "min": 0.1,
-        "max": 0.2,
+        "min": 0.03,
+        "max": 0.05,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.1,
-            "max": 0.1,
+            "min": 0.02,
+            "max": 0.02,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/void_deck_core_lesser#inventory",
@@ -621,8 +617,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.2,
-            "max": 0.3,
+            "min": 0.06,
+            "max": 0.08,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/void_deck_core_greater#inventory",
@@ -634,7 +630,7 @@
       "name": "Void Core",
       "colour": 13618375,
       "id": "void",
-      "type": "empty_slot_efficiency"
+      "type": "empty_slot_multiplier"
     },
     "adept": {
       "modifierValue": {
@@ -681,15 +677,15 @@
     },
     "natural": {
       "modifierValue": {
-        "min": 0.35,
-        "max": 0.6,
+        "min": 0.75,
+        "max": 1.1,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.3,
-            "max": 0.3,
+            "min": 0.5,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/natural_deck_core_lesser#inventory",
@@ -698,8 +694,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.75,
-            "max": 1.25,
+            "min": 1.1,
+            "max": 1.4,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/natural_deck_core_greater#inventory",
@@ -779,15 +775,15 @@
     },
     "pluto": {
       "modifierValue": {
-        "min": 0.5,
-        "max": 1.0,
+        "min": 0.25,
+        "max": 0.4,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.35,
-            "max": 0.35,
+            "min": 0.2,
+            "max": 0.2,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/pluto_deck_core_lesser#inventory",
@@ -796,8 +792,8 @@
         },
         "greater": {
           "value": {
-            "min": 1.0,
-            "max": 2.0,
+            "min": 0.4,
+            "max": 0.6,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/pluto_deck_core_greater#inventory",
@@ -805,15 +801,13 @@
           "colour": 16769382
         }
       },
-      "excludedGroups": [
-        "Stat"
-      ],
+      "excludedGroups": [],
       "mode": "MINORITY",
       "modelId": "woldsvaults:deck_cores/pluto_deck_core#inventory",
       "name": "Pluto Core",
       "colour": 13618375,
       "id": "pluto",
-      "type": "dominance_boost"
+      "type": "dominance_multiplier"
     },
     "wendarr_deck": {
       "modifierValue": {
@@ -850,7 +844,7 @@
         "greater": {
           "value": {
             "min": 0.15,
-            "max": 0.2,
+            "max": 0.225,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/archive_deck_core_greater#inventory",
@@ -867,15 +861,15 @@
     },
     "aegis": {
       "modifierValue": {
-        "min": 0.3,
-        "max": 0.6,
+        "min": 0.075,
+        "max": 0.125,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.3,
-            "max": 0.3,
+            "min": 0.05,
+            "max": 0.05,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/aegis_deck_core_lesser#inventory",
@@ -884,8 +878,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.75,
-            "max": 1.25,
+            "min": 0.125,
+            "max": 0.175,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/aegis_deck_core_greater#inventory",
@@ -893,15 +887,12 @@
           "colour": 16769382
         }
       },
-      "requiredGroups": [
-        "Defensive"
-      ],
-      "requiredColors": [],
+      "groupName": "Defensive",
       "modelId": "woldsvaults:deck_cores/aegis_deck_core#inventory",
       "name": "Aegis Core",
       "colour": 13618375,
       "id": "aegis",
-      "type": "global"
+      "type": "adjacent_group_multiplier"
     },
     "bishop_deck": {
       "modifierValue": {
@@ -919,26 +910,26 @@
     },
     "shadow_deck": {
       "modifierValue": {
-        "count": 0.15,
+        "count": 0.04,
         "type": "constant"
       },
       "modelId": "the_vault:deck/black_deck#inventory",
       "name": "Shadow Deck Modifier",
       "colour": 13618375,
       "id": "shadow_deck",
-      "type": "empty_slot_efficiency"
+      "type": "empty_slot_multiplier"
     },
     "tool": {
       "modifierValue": {
-        "min": 0.35,
-        "max": 0.6,
+        "min": 0.03,
+        "max": 0.05,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.3,
-            "max": 0.3,
+            "min": 0.02,
+            "max": 0.02,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/tool_deck_core_lesser#inventory",
@@ -947,8 +938,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.75,
-            "max": 1.25,
+            "min": 0.05,
+            "max": 0.08,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/tool_deck_core_greater#inventory",
@@ -956,15 +947,12 @@
           "colour": 16769382
         }
       },
-      "requiredGroups": [
-        "Utility"
-      ],
-      "requiredColors": [],
+      "groupName": "Utility",
       "modelId": "woldsvaults:deck_cores/tool_deck_core#inventory",
       "name": "Tool Core",
       "colour": 13618375,
       "id": "tool",
-      "type": "global"
+      "type": "group_count_multiplier"
     },
     "gilded_deck": {
       "modifierValue": {
@@ -1074,15 +1062,15 @@
     },
     "arsenal": {
       "modifierValue": {
-        "min": 0.4,
-        "max": 0.6,
+        "min": 0.3,
+        "max": 0.4,
         "type": "uniform"
       },
       "modifierValues": {
         "lesser": {
           "value": {
-            "min": 0.3,
-            "max": 0.3,
+            "min": 0.2,
+            "max": 0.2,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/arsenal_deck_core_lesser#inventory",
@@ -1091,8 +1079,8 @@
         },
         "greater": {
           "value": {
-            "min": 0.75,
-            "max": 1.25,
+            "min": 0.4,
+            "max": 0.5,
             "type": "uniform"
           },
           "modelId": "woldsvaults:deck_cores/arsenal_deck_core_greater#inventory",
@@ -1108,7 +1096,7 @@
       "name": "Arsenal Core",
       "colour": 13618375,
       "id": "arsenal",
-      "type": "global"
+      "type": "global_multiplier"
     }
   },
   "pools": {
@@ -1180,11 +1168,11 @@
         "weight": 1.0
       },
       {
-        "value": "sparkling",
+        "value": "archive",
         "weight": 1.0
       },
       {
-        "value": "archive",
+        "value": "talent",
         "weight": 1.0
       }
     ],
@@ -1203,10 +1191,6 @@
       },
       {
         "value": "aegis",
-        "weight": 2.0
-      },
-      {
-        "value": "sparkling",
         "weight": 2.0
       },
       {
@@ -1426,15 +1410,15 @@
         "weight": 1.0
       },
       {
-        "value": "sparkling",
-        "weight": 1.0
-      },
-      {
         "value": "construction",
         "weight": 1.0
       },
       {
         "value": "archive",
+        "weight": 1.0
+      },
+      {
+        "value": "greed",
         "weight": 1.0
       }
     ],

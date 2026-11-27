@@ -1,0 +1,119 @@
+{
+  "contentsLimitKb": 128,
+  "linkedItems": [
+    {
+      "namespace": "sophisticatedbackpacks",
+      "key": "contentsUuid",
+      "store": "BACKPACK"
+    },
+    {
+      "namespace": "woldsvaults",
+      "key": "contentsUuid",
+      "store": "BACKPACK"
+    },
+    {
+      "namespace": "sophisticatedstorage",
+      "key": "uuid",
+      "store": "STORAGE_ITEM"
+    },
+    {
+      "namespace": "sophisticatedvault",
+      "key": "uuid",
+      "store": "STORAGE_ITEM"
+    },
+    {
+      "namespace": "refinedstorage",
+      "key": "Id",
+      "store": "NONE"
+    },
+    {
+      "namespace": "extrastorage",
+      "key": "Id",
+      "store": "NONE"
+    },
+    {
+      "namespace": "industrialforegoing",
+      "key": "Id",
+      "store": "NONE"
+    },
+    {
+      "namespace": "ae2things",
+      "key": "diskuuid",
+      "store": "NONE"
+    },
+    {
+      "namespace": "rftoolsstorage",
+      "key": "uuid",
+      "store": "NONE"
+    },
+    {
+      "namespace": "ae2",
+      "key": "plot_id",
+      "store": "NONE"
+    }
+  ],
+  "strippedTags": [
+    {
+      "item": "the_vault:companion",
+      "keys": [
+        "Owner",
+        "OwnerName"
+      ]
+    },
+    {
+      "item": "sophisticatedbackpacks:identification_upgrade",
+      "keys": [
+        "Owner"
+      ]
+    },
+    {
+      "item": "sophisticatedbackpacks:identification_upgrade_advanced",
+      "keys": [
+        "Owner"
+      ]
+    },
+    {
+      "item": "sophisticatedstorage:identification_upgrade",
+      "keys": [
+        "Owner"
+      ]
+    },
+    {
+      "item": "the_vault:vault_doll",
+      "keys": [
+        "vaultUUID",
+        "xpPoints",
+        "completedBy",
+        "vaultLevel"
+      ]
+    },
+    {
+      "item": "woldsvaults:extractor",
+      "keys": [
+        "Extractor.RigId",
+        "Extractor.Deployed",
+        "Extractor.DeployVault",
+        "Extractor.DeployEntity",
+        "Extractor.ResetCounter"
+      ]
+    },
+    {
+      "item": "woldsvaults:mythic_vault_charm",
+      "keys": [
+        "woldsMythicBlessingId"
+      ]
+    },
+    {
+      "item": "the_vault:rang",
+      "keys": [
+        "RangFlightId"
+      ]
+    }
+  ],
+  "refusedTags": [
+    {
+      "item": "woldsvaults:trinket_pouch",
+      "key": "temporary"
+    }
+  ]
+}

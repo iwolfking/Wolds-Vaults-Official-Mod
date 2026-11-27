@@ -35,6 +35,18 @@ public class FlexibleAbility {
         return abilityToCast.map(value -> castAbility(ability, value, player, target)).orElse(0F);
     }
 
+    /**
+     * Casts the player's Implode around {@code target} from {@code mana} instead of the current bar, with its
+     * damage multiplied by {@code damageScale}. Returns 0 when the player has no Implode.
+     */
+    public float castImplode(Player player, LivingEntity target, float mana, float damageScale) {
+        Optional<Ability> abilityToCast = getAbilityData("Implode", PlayerAbilitiesData.get((ServerLevel)player.level).getAbilities(player));
+        if (abilityToCast.isPresent() && abilityToCast.get() instanceof ImplodeAbility implode) {
+            return new FlexibleImplode().cast(player, target, implode, mana, damageScale);
+        }
+        return 0F;
+    }
+
     public void castWithRotation(String ability, Player player, float xRot, float yRot) {
         Optional<Ability> abilityToCast = getAbilityData(ability, PlayerAbilitiesData.get((ServerLevel)player.level).getAbilities(player));
         abilityToCast.map(value -> castAbilityWithRotation(ability, value, player, xRot, yRot)).orElse(0F);

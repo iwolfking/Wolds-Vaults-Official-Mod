@@ -1,0 +1,34 @@
+{
+  "ops": [
+    {
+      "op": "scale",
+      "path": [
+        "godModifiers",
+        "WENDARR",
+        {
+          "identifier": "the_vault:wendarr_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "min"
+      ],
+      "value": 3
+    },
+    {
+      "op": "scale",
+      "path": [
+        "godModifiers",
+        "WENDARR",
+        {
+          "identifier": "the_vault:wendarr_cooldown_reduction"
+        },
+        "tiers",
+        0,
+        "value",
+        "max"
+      ],
+      "value": 3
+    }
+  ]
+}

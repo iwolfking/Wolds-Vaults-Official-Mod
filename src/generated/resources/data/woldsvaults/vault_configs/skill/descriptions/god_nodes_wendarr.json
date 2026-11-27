@@ -1,0 +1,458 @@
+{
+  "descriptions": {
+    "wendarr_the_deckless": [
+      {
+        "text": "+1% Fruit Efficiency, +5% Movement Speed and +15% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": " for every empty slot in your card deck."
+      }
+    ],
+    "wendarr_start_deck": [
+      {
+        "text": "The Deck, focuses on "
+      },
+      {
+        "text": "card decks",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_temporal_shielding": [
+      {
+        "text": "Take "
+      },
+      {
+        "text": "90% less damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from all sources, but every hit taken drains "
+      },
+      {
+        "text": "1-3 seconds",
+        "color": "#ffc854"
+      },
+      {
+        "text": " of vault time. Only works while inside a vault."
+      }
+    ],
+    "wendarr_glutton": [
+      {
+        "text": "All fruit grants "
+      },
+      {
+        "text": "0.33x time",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but your chance to rot the vault when eating fruit is reduced by "
+      },
+      {
+        "text": "80%",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_fruity": [
+      {
+        "text": "+25% Fruit Efficiency",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_fruit_conissour": [
+      {
+        "text": "+1% Fruit Efficiency",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_extraction_superviser": [
+      {
+        "text": "Extractors you place drill "
+      },
+      {
+        "text": "5% faster",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_clock_artificier": [
+      {
+        "text": "Temporal shards you consume last "
+      },
+      {
+        "text": "50% longer",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_speed_demon": [
+      {
+        "text": "Increases the tick speed of the vault timer by "
+      },
+      {
+        "text": "33%",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but everyone in the vault deals "
+      },
+      {
+        "text": "1.1x damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from all sources, and gains "
+      },
+      {
+        "text": "1.1x Item Quantity, Item Rarity, and Trap Disarm",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_plushie_lover": [
+      {
+        "text": "Doubles the stats",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from equipped Vault Plushies."
+      }
+    ],
+    "wendarr_start_spanner": [
+      {
+        "text": "The Spanner, focuses on "
+      },
+      {
+        "text": "machinery",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_start_bough": [
+      {
+        "text": "The Bough, focuses on "
+      },
+      {
+        "text": "fruit",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_start_swift": [
+      {
+        "text": "The Swift, focuses on "
+      },
+      {
+        "text": "speed for loot",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_speedy_caster": [
+      {
+        "text": "+15% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_armored_extractors": [
+      {
+        "text": "Extractors you place take "
+      },
+      {
+        "text": "25% less damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from all sources."
+      }
+    ],
+    "wendarr_pristine_condition": [
+      {
+        "text": "Provides a "
+      },
+      {
+        "text": "15% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to not apply a rot stack to the vault when you otherwise would from eating fruit."
+      }
+    ],
+    "wendarr_master_imbuer": [
+      {
+        "text": "+5% Imbuement Chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_legend_of_the_pear": [
+      {
+        "text": "Increases the effect of fruit efficiency significantly, allowing the fruits you eat to grant even more time. Currently provides an additional "
+      },
+      {
+        "text": "(1 + sqrt(e)) / (1 + e / (1 + e))",
+        "color": "#ffc854"
+      },
+      {
+        "text": " time per fruit eaten."
+      }
+    ],
+    "wendarr_edge_of_time": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "10x damage",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from all sources, but every instance of damage you deal consumes "
+      },
+      {
+        "text": "1-3 seconds",
+        "color": "#ffc854"
+      },
+      {
+        "text": " of vault time. Only works while inside a vault."
+      }
+    ],
+    "wendarr_start_bot": [
+      {
+        "text": "The Bottom of the Glass, focuses on "
+      },
+      {
+        "text": "spending time",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_expert_eater": [
+      {
+        "text": "10% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to not consume a vault fruit when you eat it."
+      }
+    ],
+    "wendarr_heavily_effected": [
+      {
+        "text": "+10% Effect Duration",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_gardener": [
+      {
+        "text": "Oranges you loot from Woldian Gardens have a "
+      },
+      {
+        "text": "20% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to be a starfruit instead of an orange, and all fruit drops have a "
+      },
+      {
+        "text": "50% chance",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to be doubled."
+      }
+    ],
+    "wendarr_temporal_breaking": [
+      {
+        "text": "Grants "
+      },
+      {
+        "text": "immunity",
+        "color": "#ffc854"
+      },
+      {
+        "text": " to time acceleration."
+      }
+    ],
+    "wendarr_pylon_whisperer": [
+      {
+        "text": "Pylons grant "
+      },
+      {
+        "text": "50% greater effects",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_quick_search": [
+      {
+        "text": "Multiplies the chance of finding omega rooms by "
+      },
+      {
+        "text": "4x",
+        "color": "#ffc854"
+      },
+      {
+        "text": ", but the vault timer ticks "
+      },
+      {
+        "text": "45% faster",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". Stacks multiplicatively with Speed Demon."
+      }
+    ],
+    "wendarr_start_top": [
+      {
+        "text": "The Top of the Glass, focuses on "
+      },
+      {
+        "text": "making time",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+2% Movement Speed and +6% Spell Haste",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_paced_strikes": [
+      {
+        "text": "Multiplies your damage by "
+      },
+      {
+        "text": "sqrt((50 + t) / 50)",
+        "color": "#ffc854"
+      },
+      {
+        "text": " based on the amount of time left in the vault, increasing as the amount of time on the vault increases."
+      }
+    ],
+    "wendarr_speedy": [
+      {
+        "text": "+5% Movement Speed",
+        "color": "#ffc854"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "wendarr_extender": [
+      {
+        "text": "Entering a vault applies "
+      },
+      {
+        "text": "2 free stacks of Extended",
+        "color": "#ffc854"
+      },
+      {
+        "text": ". This effect can stack with multiple players."
+      }
+    ],
+    "wendarr_tough_stomach": [
+      {
+        "text": "Slightly reduces the "
+      },
+      {
+        "text": "max health loss",
+        "color": "#ffc854"
+      },
+      {
+        "text": " from eating fruit, allowing you to eat more."
+      }
+    ],
+    "wendarr_efficient_steps": [
+      {
+        "text": "+0.25% Movement Speed",
+        "color": "#ffc854"
+      },
+      {
+        "text": " per 1% Fruit Efficiency."
+      }
+    ]
+  }
+}

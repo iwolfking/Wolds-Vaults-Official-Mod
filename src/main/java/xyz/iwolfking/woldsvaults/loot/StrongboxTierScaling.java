@@ -3,7 +3,7 @@ package xyz.iwolfking.woldsvaults.loot;
 import iskallia.vault.util.VaultRarity;
 
 /**
- * Per-map-tier loot scaling for the 5-pool mapped STRONGBOX tables (living/ornate/gilded).
+ * Per-strongbox-tier loot scaling for tiered strongboxes (living/ornate/gilded); the pool curves apply to 5-pool tables.
  * Tier 0 (display tier 1) reproduces the {@link MythicLootScaling} chest curve exactly; each
  * tier above steepens the pool-3 (omega) and pool-4 (mythic) ramp so their share at +20000%
  * item rarity rises ~+0.72pp / ~+0.234pp per tier. The boost tables are precomputed calibration
@@ -58,7 +58,7 @@ public final class StrongboxTierScaling {
 
     /**
      * Displayed rarity by tier. Strongboxes skip the CDF percentile entirely (locked block, the
-     * value is never shown in a GUI), so the cosmetic name/particles track the map tier instead.
+     * value is never shown in a GUI), so the cosmetic name/particles track the strongbox tier instead.
      */
     public static VaultRarity rarityForTier(int tier) {
         if (tier >= 4) {

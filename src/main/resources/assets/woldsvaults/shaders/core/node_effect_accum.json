@@ -1,0 +1,19 @@
+{
+    "blend": {
+        "func": "add",
+        "srcrgb": "srcalpha",
+        "dstrgb": "1-srcalpha"
+    },
+    "vertex": "woldsvaults:node_effect_accum",
+    "fragment": "woldsvaults:node_effect_accum",
+    "attributes": [
+        "Position",
+        "Seg",
+        "Val",
+        "Kind"
+    ],
+    "samplers": [],
+    "uniforms": [
+        { "name": "CanvasSize", "type": "float", "count": 2, "values": [ 64.0, 64.0 ] }
+    ]
+}

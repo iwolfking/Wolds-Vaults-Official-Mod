@@ -1,0 +1,13 @@
+{
+  "type": "thermal:crucible",
+  "ingredient": {
+    "item": "the_vault:gem_painite"
+  },
+  "result": [
+    {
+      "fluid": "woldsvaults:molten_painite",
+      "amount": 100
+    }
+  ],
+  "energy": 800
+}

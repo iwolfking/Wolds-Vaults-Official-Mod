@@ -17,6 +17,7 @@ import net.minecraft.network.chat.*;
 import net.minecraft.world.item.TooltipFlag;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.api.util.ComponentUtils;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -59,8 +60,9 @@ public class CorruptedCrystalObjective extends CrystalObjective {
         if (vault.get(Vault.LISTENERS).get(Listeners.LOGIC) instanceof ClassicListenersLogic classic) {
             classic.set(ClassicListenersLogic.MIN_LEVEL, 100);
         }
+        double difficultyScale = ObjectiveDifficulty.factor(ObjectiveDifficulty.multiplier(sigil, vault), "corrupted");
         vault.ifPresent(Vault.OBJECTIVES, (objectives) -> {
-            objectives.add(CorruptedObjective.of(this.target.get(random), this.secondTarget.get(random), this.objectiveProbability, ModConfigs.CORRUPTED_OBJECTIVE.getModifierPool(level))
+            objectives.add(CorruptedObjective.of(ObjectiveDifficulty.scale(this.target.get(random), difficultyScale), ObjectiveDifficulty.scale(this.secondTarget.get(random), difficultyScale), this.objectiveProbability, ModConfigs.CORRUPTED_OBJECTIVE.getModifierPool(level))
                     .add(AwardCrateObjective.ofConfig(VaultCrateBlock.Type.valueOf("CORRUPTED"), "corrupted", level, true))
                     .add(VictoryObjective.of(20*15)));
 

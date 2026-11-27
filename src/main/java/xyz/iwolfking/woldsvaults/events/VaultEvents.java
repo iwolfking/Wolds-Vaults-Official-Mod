@@ -15,6 +15,7 @@ import iskallia.vault.core.vault.stat.StatsCollector;
 import iskallia.vault.event.event.BountyCompleteEvent;
 import iskallia.vault.event.event.VaultJoinEvent;
 import iskallia.vault.event.event.VaultLeaveEvent;
+import iskallia.vault.init.ModEffects;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +26,7 @@ import virtuoel.pehkui.api.ScaleTypes;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredRecipesData;
 import xyz.iwolfking.woldsvaults.api.data.discovery.DiscoveredThemesData;
+import xyz.iwolfking.woldsvaults.api.lib.effect.SourceMobEffect;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.CompleteBountyTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.EnterVaultTask;
 import xyz.iwolfking.woldsvaults.integration.ftbquests.tasks.api.WoldFTBQuestsHelper;
@@ -69,6 +71,15 @@ public class VaultEvents {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onVaultLeaveClearBleed(VaultLeaveEvent event) {
+        ServerPlayer player = event.getPlayer();
+        if(player != null) {
+            player.removeEffect(ModEffects.BLEED);
+            SourceMobEffect.removeSource(player);
         }
     }
 

@@ -9,12 +9,9 @@ import iskallia.vault.skill.tree.AbilityTree;
 import iskallia.vault.world.data.PlayerAbilitiesData;
 import net.minecraft.server.level.ServerPlayer;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
-import xyz.iwolfking.woldsvaults.api.lib.ElementalType;
 import xyz.iwolfking.woldsvaults.api.lib.IWoldAbilityEnhancements;
 import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class AbilityHelper {
@@ -53,14 +50,8 @@ public class AbilityHelper {
             if (skill instanceof TieredSkill tieredSkill) {
                 if (tieredSkill.getChild(level) instanceof InstantAbility ability) {
                     if(ability instanceof IWoldAbilityEnhancements storedAbilityTier) {
-                        List<ElementalType> elementalTypes = new ArrayList<>();
                         storedAbilityTier.setTierLevel(level);
-                        for(ElementalType type : ElementalType.values()) {
-                            if(type.getFlag().isSet()) {
-                                elementalTypes.add(type);
-                            }
-                        }
-                        storedAbilityTier.setElementTypes(elementalTypes);
+                        storedAbilityTier.setElementTypes(ElementHelper.getActiveElements());
                     }
                     return Optional.of(ability);
                 }

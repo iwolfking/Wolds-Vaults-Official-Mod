@@ -47,6 +47,18 @@
       "displayName": "Young Kitsune Blade",
       "discoverOnRoll": true,
       "allowTransmogrification": true
+    },
+    {
+      "id": "woldsvaults:gear/sword/daikyo",
+      "displayName": "Daikyo",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
+    },
+    {
+      "id": "woldsvaults:gear/sword/shokyo",
+      "displayName": "Shokyo",
+      "discoverOnRoll": true,
+      "allowTransmogrification": true
     }
   ]
 }

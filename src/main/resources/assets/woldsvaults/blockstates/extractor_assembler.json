@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04"
+    },
+    "facing=east": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 270
+    }
+  }
+}

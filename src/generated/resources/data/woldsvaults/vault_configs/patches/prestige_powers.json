@@ -1,0 +1,594 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "StepUpPower"
+        },
+        "tiers",
+        {
+          "id": "step_up_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 200
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "StepUpPower"
+        },
+        "tiers",
+        {
+          "id": "step_up_1"
+        },
+        "tier"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "StepUpPower"
+        },
+        "tiers",
+        {
+          "id": "step_up_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketRerolls"
+        },
+        "tiers",
+        {
+          "id": "black_market_rerolls_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 400
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketRerolls"
+        },
+        "tiers",
+        {
+          "id": "black_market_rerolls_1"
+        },
+        "tier"
+      ],
+      "value": 4
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketRerolls"
+        },
+        "tiers",
+        {
+          "id": "black_market_rerolls_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 4
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "CrateTier"
+        },
+        "tiers",
+        {
+          "id": "crate_tier_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 600
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "CrateTier"
+        },
+        "tiers",
+        {
+          "id": "crate_tier_1"
+        },
+        "tier"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "CrateTier"
+        },
+        "tiers",
+        {
+          "id": "crate_tier_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "NoTrinketUses"
+        },
+        "tiers",
+        {
+          "id": "trinket_uses_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 1200
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "NoTrinketUses"
+        },
+        "tiers",
+        {
+          "id": "trinket_uses_1"
+        },
+        "tier"
+      ],
+      "value": 8
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "NoTrinketUses"
+        },
+        "tiers",
+        {
+          "id": "trinket_uses_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 8
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketer"
+        },
+        "tiers",
+        {
+          "id": "black_marketer_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 1600
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketer"
+        },
+        "tiers",
+        {
+          "id": "black_marketer_1"
+        },
+        "tier"
+      ],
+      "value": 10
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BlackMarketer"
+        },
+        "tiers",
+        {
+          "id": "black_marketer_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 10
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "HealthIncrease"
+        },
+        "tiers",
+        {
+          "id": "health_increase_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 1800
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "HealthIncrease"
+        },
+        "tiers",
+        {
+          "id": "health_increase_1"
+        },
+        "tier"
+      ],
+      "value": 11
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "HealthIncrease"
+        },
+        "tiers",
+        {
+          "id": "health_increase_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 11
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "PrismaticPouch"
+        },
+        "tiers",
+        {
+          "id": "prism_possessor_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 2400
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "PrismaticPouch"
+        },
+        "tiers",
+        {
+          "id": "prism_possessor_1"
+        },
+        "tier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "PrismaticPouch"
+        },
+        "tiers",
+        {
+          "id": "prism_possessor_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "MasterfulPower"
+        },
+        "tiers",
+        {
+          "id": "masterful_power_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 2400
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "MasterfulPower"
+        },
+        "tiers",
+        {
+          "id": "masterful_power_1"
+        },
+        "tier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "MasterfulPower"
+        },
+        "tiers",
+        {
+          "id": "masterful_power_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BarrierOfResilience"
+        },
+        "tiers",
+        {
+          "id": "barrier_of_resilience_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 2400
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BarrierOfResilience"
+        },
+        "tiers",
+        {
+          "id": "barrier_of_resilience_1"
+        },
+        "tier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "BarrierOfResilience"
+        },
+        "tiers",
+        {
+          "id": "barrier_of_resilience_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 13
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "ShieldOfLastingGuard"
+        },
+        "tiers",
+        {
+          "id": "shield_of_lasting_guard_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 2800
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "ShieldOfLastingGuard"
+        },
+        "tiers",
+        {
+          "id": "shield_of_lasting_guard_1"
+        },
+        "tier"
+      ],
+      "value": 14
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "ShieldOfLastingGuard"
+        },
+        "tiers",
+        {
+          "id": "shield_of_lasting_guard_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 14
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "WeaverOfTime"
+        },
+        "tiers",
+        {
+          "id": "weaver_of_time_1"
+        },
+        "learnKnowledgeCost"
+      ],
+      "value": 2800
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "WeaverOfTime"
+        },
+        "tiers",
+        {
+          "id": "weaver_of_time_1"
+        },
+        "tier"
+      ],
+      "value": 14
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "WeaverOfTime"
+        },
+        "tiers",
+        {
+          "id": "weaver_of_time_1"
+        },
+        "requiredGreedTier"
+      ],
+      "value": 14
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "WeaverOfTime"
+        },
+        "tiers",
+        {
+          "id": "weaver_of_time_1"
+        },
+        "value"
+      ],
+      "value": 1.0
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Toolsmith"
+        },
+        "tiers",
+        0,
+        "capacityIncrease"
+      ],
+      "value": 50
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "SuperCrystals"
+        },
+        "tiers",
+        {
+          "id": "super_crystals_1"
+        },
+        "extraCapacity"
+      ],
+      "value": 75
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "Fruity"
+        },
+        "tiers",
+        {
+          "id": "fruity_1"
+        },
+        "value"
+      ],
+      "value": 0.5
+    }
+  ]
+}

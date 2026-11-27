@@ -13,13 +13,19 @@
         "woldsvaults:grass_sword",
         "woldsvaults:aurora_scissors",
         "woldsvaults:young_kitsune",
-        "woldsvaults:bamboo_fightstick"
+        "woldsvaults:bamboo_fightstick",
+        "woldsvaults:tidebreaker_tideripper",
+        "woldsvaults:lightning_fiend_orb",
+        "woldsvaults:daikyo",
+        "woldsvaults:shokyo"
       ],
       "MAGNET": [
         "woldsvaults:aural_magnet",
         "woldsvaults:chonknet",
         "woldsvaults:treasure_magnet",
-        "woldsvaults:bloodseeking_magnet"
+        "woldsvaults:bloodseeking_magnet",
+        "woldsvaults:tidebreaker_hurricane",
+        "woldsvaults:lightning_fiend_pure_lightning"
       ],
       "OFFHAND": [
         "woldsvaults:pocket_penguin",
@@ -41,7 +47,29 @@
         "the_vault:baguette"
       ],
       "FEET": [
-        "woldsvaults:plague_steppers"
+        "woldsvaults:plague_steppers",
+        "woldsvaults:tidebreaker_greaves",
+        "woldsvaults:lightning_fiend_talons",
+        "woldsvaults:simons_boots"
+      ],
+      "HEAD": [
+        "woldsvaults:tidebreaker_reign",
+        "woldsvaults:lightning_fiend_crown",
+        "woldsvaults:simons_helmet",
+        "woldsvaults:bullet_bill_helmet",
+        "woldsvaults:banzai_bill_helmet",
+        "woldsvaults:king_bill_helmet"
+      ],
+      "CHEST": [
+        "woldsvaults:tidebreaker_heart",
+        "woldsvaults:lightning_fiend_mantle",
+        "woldsvaults:simons_chestplate"
+      ],
+      "LEGS": [
+        "woldsvaults:tidebreaker_leggings",
+        "woldsvaults:lightning_fiend_legguards",
+        "woldsvaults:simons_leggings",
+        "woldsvaults:bullet_bill_leggings"
       ]
     }
   },
@@ -309,7 +337,7 @@
             "color": "$text"
           },
           {
-            "text": "Cooldown Reduction",
+            "text": "Spell Haste",
             "color": "$cooldown"
           },
           {
@@ -801,6 +829,468 @@
         ]
       },
       "uniqueId": "woldsvaults:plague_steppers"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tidebreaker's Reign",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. The crown of the storm that breaks the tide.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_reign"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tidebreaker's Heart",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. A heart that beats with the undertow.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_heart"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tidebreaker's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. Plated against the crushing deep.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tidebreaker's Greaves",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. Strides that outrun the breakers.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_greaves"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Tideripper",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. Ride the riptide and split the sky.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_tideripper"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Hurricane",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Tidebreaker set. The eye of the storm pulls everything in.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Tidebreaker set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:tidebreaker_hurricane"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Crown",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Horns and a crown of living lightning.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_crown"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Mantle",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. The storm crackles across your shoulders and down to your claws.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_mantle"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Legguards",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Girded with a belt of thunder.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_legguards"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Fiend's Talons",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. Every step leaves a spark behind.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_talons"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Lightning Orb",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. A storm held in the palm. Throw it, and follow.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_orb"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Pure Lightning",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Lightning Fiend set. No metal at all, just lightning bent into shape.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Lightning Fiend set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:lightning_fiend_pure_lightning"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Yellow. Watch which one lights up next.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Chestplate",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Blue. Light bends around it, and so do spells.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_chestplate"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Green. Every hit you land feeds the crystals.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Simon's Boots",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Simon's Set. Red. Run to the next crystal before you forget the order.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Simon's Set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:simons_boots"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Look where you want to go; the rest takes care of itself.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Bullet Bill's Leggings",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set. Who needs legs once they're airborne?",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:bullet_bill_leggings"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Banzai Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. Your Bullet Bill comes out 1.5x the size.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:banzai_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "King Bill Helmet",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Bullet Bill set, in place of the helmet. 2x the size, red hot, and everything nearby burns.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Bullet Bill set, ultra rare)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:king_bill_helmet"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Daikyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Right click and its twin cuts the world open.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:daikyo"
+    },
+    {
+      "title": {
+        "description": {
+          "text": "Shokyo",
+          "color": "#7D520E"
+        }
+      },
+      "description": {
+        "description": [
+          {
+            "text": "Ten Magatsuhi, one of twin blades. Wield it beside its twin and every third cut lands harder.",
+            "color": "$text"
+          },
+          {
+            "text": "\n\nDrops in: Not yet obtainable (Ten Magatsuhi)",
+            "color": "#7D520E"
+          }
+        ]
+      },
+      "uniqueId": "woldsvaults:shokyo"
     }
   ]
 }

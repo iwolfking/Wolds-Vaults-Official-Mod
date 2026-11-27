@@ -1,0 +1,409 @@
+{
+  "variants": {
+    "facing=north,idx=0": {
+      "model": "woldsvaults:block/extractor_assembler/tile_00"
+    },
+    "facing=north,idx=1": {
+      "model": "woldsvaults:block/extractor_assembler/tile_01"
+    },
+    "facing=north,idx=2": {
+      "model": "woldsvaults:block/extractor_assembler/tile_02"
+    },
+    "facing=north,idx=3": {
+      "model": "woldsvaults:block/extractor_assembler/tile_03"
+    },
+    "facing=north,idx=4": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04"
+    },
+    "facing=north,idx=5": {
+      "model": "woldsvaults:block/extractor_assembler/tile_05"
+    },
+    "facing=north,idx=6": {
+      "model": "woldsvaults:block/extractor_assembler/tile_06"
+    },
+    "facing=north,idx=7": {
+      "model": "woldsvaults:block/extractor_assembler/tile_07"
+    },
+    "facing=north,idx=8": {
+      "model": "woldsvaults:block/extractor_assembler/tile_08"
+    },
+    "facing=north,idx=9": {
+      "model": "woldsvaults:block/extractor_assembler/tile_09"
+    },
+    "facing=north,idx=10": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10"
+    },
+    "facing=north,idx=11": {
+      "model": "woldsvaults:block/extractor_assembler/tile_11"
+    },
+    "facing=north,idx=12": {
+      "model": "woldsvaults:block/extractor_assembler/tile_12"
+    },
+    "facing=north,idx=13": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10"
+    },
+    "facing=north,idx=14": {
+      "model": "woldsvaults:block/extractor_assembler/tile_13"
+    },
+    "facing=north,idx=15": {
+      "model": "woldsvaults:block/extractor_assembler/tile_14"
+    },
+    "facing=north,idx=16": {
+      "model": "woldsvaults:block/extractor_assembler/tile_15"
+    },
+    "facing=north,idx=17": {
+      "model": "woldsvaults:block/extractor_assembler/tile_16"
+    },
+    "facing=north,idx=18": {
+      "model": "woldsvaults:block/extractor_assembler/tile_17"
+    },
+    "facing=north,idx=19": {
+      "model": "woldsvaults:block/extractor_assembler/tile_18"
+    },
+    "facing=north,idx=20": {
+      "model": "woldsvaults:block/extractor_assembler/tile_19"
+    },
+    "facing=north,idx=21": {
+      "model": "woldsvaults:block/extractor_assembler/tile_20"
+    },
+    "facing=north,idx=22": {
+      "model": "woldsvaults:block/extractor_assembler/tile_21"
+    },
+    "facing=north,idx=23": {
+      "model": "woldsvaults:block/extractor_assembler/tile_22"
+    },
+    "facing=north,idx=24": {
+      "model": "woldsvaults:block/extractor_assembler/tile_23"
+    },
+    "facing=north,idx=25": {
+      "model": "woldsvaults:block/extractor_assembler/tile_24"
+    },
+    "facing=north,idx=26": {
+      "model": "woldsvaults:block/extractor_assembler/tile_25"
+    },
+    "facing=east,idx=0": {
+      "model": "woldsvaults:block/extractor_assembler/tile_06",
+      "y": 90
+    },
+    "facing=east,idx=1": {
+      "model": "woldsvaults:block/extractor_assembler/tile_03",
+      "y": 90
+    },
+    "facing=east,idx=2": {
+      "model": "woldsvaults:block/extractor_assembler/tile_00",
+      "y": 90
+    },
+    "facing=east,idx=3": {
+      "model": "woldsvaults:block/extractor_assembler/tile_07",
+      "y": 90
+    },
+    "facing=east,idx=4": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 90
+    },
+    "facing=east,idx=5": {
+      "model": "woldsvaults:block/extractor_assembler/tile_01",
+      "y": 90
+    },
+    "facing=east,idx=6": {
+      "model": "woldsvaults:block/extractor_assembler/tile_08",
+      "y": 90
+    },
+    "facing=east,idx=7": {
+      "model": "woldsvaults:block/extractor_assembler/tile_05",
+      "y": 90
+    },
+    "facing=east,idx=8": {
+      "model": "woldsvaults:block/extractor_assembler/tile_02",
+      "y": 90
+    },
+    "facing=east,idx=9": {
+      "model": "woldsvaults:block/extractor_assembler/tile_14",
+      "y": 90
+    },
+    "facing=east,idx=10": {
+      "model": "woldsvaults:block/extractor_assembler/tile_12",
+      "y": 90
+    },
+    "facing=east,idx=11": {
+      "model": "woldsvaults:block/extractor_assembler/tile_09",
+      "y": 90
+    },
+    "facing=east,idx=12": {
+      "model": "woldsvaults:block/extractor_assembler/tile_15",
+      "y": 90
+    },
+    "facing=east,idx=13": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 90
+    },
+    "facing=east,idx=14": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 90
+    },
+    "facing=east,idx=15": {
+      "model": "woldsvaults:block/extractor_assembler/tile_16",
+      "y": 90
+    },
+    "facing=east,idx=16": {
+      "model": "woldsvaults:block/extractor_assembler/tile_13",
+      "y": 90
+    },
+    "facing=east,idx=17": {
+      "model": "woldsvaults:block/extractor_assembler/tile_11",
+      "y": 90
+    },
+    "facing=east,idx=18": {
+      "model": "woldsvaults:block/extractor_assembler/tile_23",
+      "y": 90
+    },
+    "facing=east,idx=19": {
+      "model": "woldsvaults:block/extractor_assembler/tile_20",
+      "y": 90
+    },
+    "facing=east,idx=20": {
+      "model": "woldsvaults:block/extractor_assembler/tile_17",
+      "y": 90
+    },
+    "facing=east,idx=21": {
+      "model": "woldsvaults:block/extractor_assembler/tile_24",
+      "y": 90
+    },
+    "facing=east,idx=22": {
+      "model": "woldsvaults:block/extractor_assembler/tile_21",
+      "y": 90
+    },
+    "facing=east,idx=23": {
+      "model": "woldsvaults:block/extractor_assembler/tile_18",
+      "y": 90
+    },
+    "facing=east,idx=24": {
+      "model": "woldsvaults:block/extractor_assembler/tile_25",
+      "y": 90
+    },
+    "facing=east,idx=25": {
+      "model": "woldsvaults:block/extractor_assembler/tile_22",
+      "y": 90
+    },
+    "facing=east,idx=26": {
+      "model": "woldsvaults:block/extractor_assembler/tile_19",
+      "y": 90
+    },
+    "facing=south,idx=0": {
+      "model": "woldsvaults:block/extractor_assembler/tile_08",
+      "y": 180
+    },
+    "facing=south,idx=1": {
+      "model": "woldsvaults:block/extractor_assembler/tile_07",
+      "y": 180
+    },
+    "facing=south,idx=2": {
+      "model": "woldsvaults:block/extractor_assembler/tile_06",
+      "y": 180
+    },
+    "facing=south,idx=3": {
+      "model": "woldsvaults:block/extractor_assembler/tile_05",
+      "y": 180
+    },
+    "facing=south,idx=4": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 180
+    },
+    "facing=south,idx=5": {
+      "model": "woldsvaults:block/extractor_assembler/tile_03",
+      "y": 180
+    },
+    "facing=south,idx=6": {
+      "model": "woldsvaults:block/extractor_assembler/tile_02",
+      "y": 180
+    },
+    "facing=south,idx=7": {
+      "model": "woldsvaults:block/extractor_assembler/tile_01",
+      "y": 180
+    },
+    "facing=south,idx=8": {
+      "model": "woldsvaults:block/extractor_assembler/tile_00",
+      "y": 180
+    },
+    "facing=south,idx=9": {
+      "model": "woldsvaults:block/extractor_assembler/tile_16",
+      "y": 180
+    },
+    "facing=south,idx=10": {
+      "model": "woldsvaults:block/extractor_assembler/tile_15",
+      "y": 180
+    },
+    "facing=south,idx=11": {
+      "model": "woldsvaults:block/extractor_assembler/tile_14",
+      "y": 180
+    },
+    "facing=south,idx=12": {
+      "model": "woldsvaults:block/extractor_assembler/tile_13",
+      "y": 180
+    },
+    "facing=south,idx=13": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 180
+    },
+    "facing=south,idx=14": {
+      "model": "woldsvaults:block/extractor_assembler/tile_12",
+      "y": 180
+    },
+    "facing=south,idx=15": {
+      "model": "woldsvaults:block/extractor_assembler/tile_11",
+      "y": 180
+    },
+    "facing=south,idx=16": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 180
+    },
+    "facing=south,idx=17": {
+      "model": "woldsvaults:block/extractor_assembler/tile_09",
+      "y": 180
+    },
+    "facing=south,idx=18": {
+      "model": "woldsvaults:block/extractor_assembler/tile_25",
+      "y": 180
+    },
+    "facing=south,idx=19": {
+      "model": "woldsvaults:block/extractor_assembler/tile_24",
+      "y": 180
+    },
+    "facing=south,idx=20": {
+      "model": "woldsvaults:block/extractor_assembler/tile_23",
+      "y": 180
+    },
+    "facing=south,idx=21": {
+      "model": "woldsvaults:block/extractor_assembler/tile_22",
+      "y": 180
+    },
+    "facing=south,idx=22": {
+      "model": "woldsvaults:block/extractor_assembler/tile_21",
+      "y": 180
+    },
+    "facing=south,idx=23": {
+      "model": "woldsvaults:block/extractor_assembler/tile_20",
+      "y": 180
+    },
+    "facing=south,idx=24": {
+      "model": "woldsvaults:block/extractor_assembler/tile_19",
+      "y": 180
+    },
+    "facing=south,idx=25": {
+      "model": "woldsvaults:block/extractor_assembler/tile_18",
+      "y": 180
+    },
+    "facing=south,idx=26": {
+      "model": "woldsvaults:block/extractor_assembler/tile_17",
+      "y": 180
+    },
+    "facing=west,idx=0": {
+      "model": "woldsvaults:block/extractor_assembler/tile_02",
+      "y": 270
+    },
+    "facing=west,idx=1": {
+      "model": "woldsvaults:block/extractor_assembler/tile_05",
+      "y": 270
+    },
+    "facing=west,idx=2": {
+      "model": "woldsvaults:block/extractor_assembler/tile_08",
+      "y": 270
+    },
+    "facing=west,idx=3": {
+      "model": "woldsvaults:block/extractor_assembler/tile_01",
+      "y": 270
+    },
+    "facing=west,idx=4": {
+      "model": "woldsvaults:block/extractor_assembler/tile_04",
+      "y": 270
+    },
+    "facing=west,idx=5": {
+      "model": "woldsvaults:block/extractor_assembler/tile_07",
+      "y": 270
+    },
+    "facing=west,idx=6": {
+      "model": "woldsvaults:block/extractor_assembler/tile_00",
+      "y": 270
+    },
+    "facing=west,idx=7": {
+      "model": "woldsvaults:block/extractor_assembler/tile_03",
+      "y": 270
+    },
+    "facing=west,idx=8": {
+      "model": "woldsvaults:block/extractor_assembler/tile_06",
+      "y": 270
+    },
+    "facing=west,idx=9": {
+      "model": "woldsvaults:block/extractor_assembler/tile_11",
+      "y": 270
+    },
+    "facing=west,idx=10": {
+      "model": "woldsvaults:block/extractor_assembler/tile_13",
+      "y": 270
+    },
+    "facing=west,idx=11": {
+      "model": "woldsvaults:block/extractor_assembler/tile_16",
+      "y": 270
+    },
+    "facing=west,idx=12": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 270
+    },
+    "facing=west,idx=13": {
+      "model": "woldsvaults:block/extractor_assembler/tile_10",
+      "y": 270
+    },
+    "facing=west,idx=14": {
+      "model": "woldsvaults:block/extractor_assembler/tile_15",
+      "y": 270
+    },
+    "facing=west,idx=15": {
+      "model": "woldsvaults:block/extractor_assembler/tile_09",
+      "y": 270
+    },
+    "facing=west,idx=16": {
+      "model": "woldsvaults:block/extractor_assembler/tile_12",
+      "y": 270
+    },
+    "facing=west,idx=17": {
+      "model": "woldsvaults:block/extractor_assembler/tile_14",
+      "y": 270
+    },
+    "facing=west,idx=18": {
+      "model": "woldsvaults:block/extractor_assembler/tile_19",
+      "y": 270
+    },
+    "facing=west,idx=19": {
+      "model": "woldsvaults:block/extractor_assembler/tile_22",
+      "y": 270
+    },
+    "facing=west,idx=20": {
+      "model": "woldsvaults:block/extractor_assembler/tile_25",
+      "y": 270
+    },
+    "facing=west,idx=21": {
+      "model": "woldsvaults:block/extractor_assembler/tile_18",
+      "y": 270
+    },
+    "facing=west,idx=22": {
+      "model": "woldsvaults:block/extractor_assembler/tile_21",
+      "y": 270
+    },
+    "facing=west,idx=23": {
+      "model": "woldsvaults:block/extractor_assembler/tile_24",
+      "y": 270
+    },
+    "facing=west,idx=24": {
+      "model": "woldsvaults:block/extractor_assembler/tile_17",
+      "y": 270
+    },
+    "facing=west,idx=25": {
+      "model": "woldsvaults:block/extractor_assembler/tile_20",
+      "y": 270
+    },
+    "facing=west,idx=26": {
+      "model": "woldsvaults:block/extractor_assembler/tile_23",
+      "y": 270
+    }
+  }
+}

@@ -125,7 +125,7 @@ public class MagicMissileEntity extends Projectile {
      * (Rodrigues rotation about their shared normal) — the capped turn rate that makes the
      * missile jukeable instead of a guaranteed hit.
      */
-    private static Vec3 rotateToward(Vec3 current, Vec3 desired, float maxRadians) {
+    public static Vec3 rotateToward(Vec3 current, Vec3 desired, float maxRadians) {
         double dot = Mth.clamp(current.dot(desired), -1.0D, 1.0D);
         double angle = Math.acos(dot);
         if (angle <= maxRadians) {

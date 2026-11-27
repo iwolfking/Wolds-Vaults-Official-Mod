@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "woldsvaults:fabrication_pattern"
+    }
+  ],
+  "result": {
+    "item": "woldsvaults:blank_fabrication_pattern"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "ABILITY_SUPPRESSOR_RADIUS": 0,
+  "tree": {
+    "present": false,
+    "unlockLevel": 0,
+    "learnPointCost": 0,
+    "regretPointCost": 0,
+    "skills": [
+      {
+        "id": "Stirrings_Of_Power",
+        "name": "Stirrings of Power",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 1,
+        "specializations": [
+          {
+            "id": "Stirrings_Of_Power_Dormant",
+            "name": "Stirrings of Power",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "tiers": [
+              {
+                "id": "stirrings_of_power_1",
+                "present": false,
+                "unlockLevel": 0,
+                "learnPointCost": 0,
+                "regretPointCost": 0,
+                "cooldownTicks": 0,
+                "active": false,
+                "manaCost": 0.0,
+                "type": "stirrings_of_power"
+              }
+            ],
+            "maxLearnableTier": 1,
+            "tier": 0,
+            "bonusTier": 0,
+            "type": "tiered"
+          },
+          {
+            "id": "Cope_De_Grace",
+            "name": "Cope de Grace",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "tiers": [
+              {
+                "id": "cope_de_grace_1",
+                "present": false,
+                "unlockLevel": 0,
+                "learnPointCost": 0,
+                "regretPointCost": 0,
+                "cooldownTicks": 6000,
+                "active": false,
+                "manaCost": 0.0,
+                "type": "cope_de_grace"
+              }
+            ],
+            "maxLearnableTier": 1,
+            "tier": 0,
+            "bonusTier": 0,
+            "type": "tiered"
+          },
+          {
+            "id": "Savior",
+            "name": "Savior",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "tiers": [
+              {
+                "id": "savior_1",
+                "present": false,
+                "unlockLevel": 0,
+                "learnPointCost": 0,
+                "regretPointCost": 0,
+                "cooldownTicks": 6000,
+                "active": false,
+                "manaCost": 0.0,
+                "type": "savior"
+              }
+            ],
+            "maxLearnableTier": 1,
+            "tier": 0,
+            "bonusTier": 0,
+            "type": "tiered"
+          },
+          {
+            "id": "Eyes_Of_God",
+            "name": "Eyes of God",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "tiers": [
+              {
+                "id": "eyes_of_god_1",
+                "present": false,
+                "unlockLevel": 0,
+                "learnPointCost": 0,
+                "regretPointCost": 0,
+                "cooldownTicks": 6000,
+                "active": false,
+                "manaCost": 0.0,
+                "type": "eyes_of_god"
+              }
+            ],
+            "maxLearnableTier": 1,
+            "tier": 0,
+            "bonusTier": 0,
+            "type": "tiered"
+          },
+          {
+            "id": "Bullet_Time",
+            "name": "Bullet Time",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "tiers": [
+              {
+                "id": "bullet_time_1",
+                "present": false,
+                "unlockLevel": 0,
+                "learnPointCost": 0,
+                "regretPointCost": 0,
+                "cooldownTicks": 6000,
+                "active": false,
+                "manaCost": 0.0,
+                "type": "bullet_time"
+              }
+            ],
+            "maxLearnableTier": 1,
+            "tier": 0,
+            "bonusTier": 0,
+            "type": "tiered"
+          }
+        ],
+        "index": 0,
+        "type": "specialized"
+      }
+    ],
+    "type": "abilities"
+  }
+}

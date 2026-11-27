@@ -1,0 +1,57 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extractor_assembler",
+    "particle": "woldsvaults:block/extractor_assembler"
+  },
+  "elements": [
+    {
+      "name": "skirt",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        3,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            1.0,
+            1.0,
+            2.0,
+            2.0
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "turntable",
+      "from": [
+        0,
+        14,
+        0
+      ],
+      "to": [
+        16,
+        15,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0.125,
+            3.125,
+            1.125,
+            4.125
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

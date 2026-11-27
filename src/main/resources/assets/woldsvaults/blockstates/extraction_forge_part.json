@@ -1,0 +1,1879 @@
+{
+  "variants": {
+    "facing=north,idx=0": {
+      "model": "woldsvaults:block/extraction_forge/tile_00"
+    },
+    "facing=north,idx=1": {
+      "model": "woldsvaults:block/extraction_forge/tile_01"
+    },
+    "facing=north,idx=2": {
+      "model": "woldsvaults:block/extraction_forge/tile_02"
+    },
+    "facing=north,idx=3": {
+      "model": "woldsvaults:block/extraction_forge/tile_03"
+    },
+    "facing=north,idx=4": {
+      "model": "woldsvaults:block/extraction_forge/tile_04"
+    },
+    "facing=north,idx=5": {
+      "model": "woldsvaults:block/extraction_forge/tile_05"
+    },
+    "facing=north,idx=6": {
+      "model": "woldsvaults:block/extraction_forge/tile_06"
+    },
+    "facing=north,idx=7": {
+      "model": "woldsvaults:block/extraction_forge/tile_07"
+    },
+    "facing=north,idx=8": {
+      "model": "woldsvaults:block/extraction_forge/tile_08"
+    },
+    "facing=north,idx=9": {
+      "model": "woldsvaults:block/extraction_forge/tile_09"
+    },
+    "facing=north,idx=10": {
+      "model": "woldsvaults:block/extraction_forge/tile_10"
+    },
+    "facing=north,idx=11": {
+      "model": "woldsvaults:block/extraction_forge/tile_11"
+    },
+    "facing=north,idx=12": {
+      "model": "woldsvaults:block/extraction_forge/tile_12"
+    },
+    "facing=north,idx=13": {
+      "model": "woldsvaults:block/extraction_forge/tile_13"
+    },
+    "facing=north,idx=14": {
+      "model": "woldsvaults:block/extraction_forge/tile_14"
+    },
+    "facing=north,idx=15": {
+      "model": "woldsvaults:block/extraction_forge/tile_15"
+    },
+    "facing=north,idx=16": {
+      "model": "woldsvaults:block/extraction_forge/tile_16"
+    },
+    "facing=north,idx=17": {
+      "model": "woldsvaults:block/extraction_forge/tile_17"
+    },
+    "facing=north,idx=18": {
+      "model": "woldsvaults:block/extraction_forge/tile_18"
+    },
+    "facing=north,idx=19": {
+      "model": "woldsvaults:block/extraction_forge/tile_19"
+    },
+    "facing=north,idx=20": {
+      "model": "woldsvaults:block/extraction_forge/tile_20"
+    },
+    "facing=north,idx=21": {
+      "model": "woldsvaults:block/extraction_forge/tile_21"
+    },
+    "facing=north,idx=22": {
+      "model": "woldsvaults:block/extraction_forge/tile_22"
+    },
+    "facing=north,idx=23": {
+      "model": "woldsvaults:block/extraction_forge/tile_23"
+    },
+    "facing=north,idx=24": {
+      "model": "woldsvaults:block/extraction_forge/tile_24"
+    },
+    "facing=north,idx=25": {
+      "model": "woldsvaults:block/extraction_forge/tile_25"
+    },
+    "facing=north,idx=26": {
+      "model": "woldsvaults:block/extraction_forge/tile_26"
+    },
+    "facing=north,idx=27": {
+      "model": "woldsvaults:block/extraction_forge/tile_27"
+    },
+    "facing=north,idx=28": {
+      "model": "woldsvaults:block/extraction_forge/tile_28"
+    },
+    "facing=north,idx=29": {
+      "model": "woldsvaults:block/extraction_forge/tile_29"
+    },
+    "facing=north,idx=30": {
+      "model": "woldsvaults:block/extraction_forge/tile_30"
+    },
+    "facing=north,idx=31": {
+      "model": "woldsvaults:block/extraction_forge/tile_31"
+    },
+    "facing=north,idx=32": {
+      "model": "woldsvaults:block/extraction_forge/tile_32"
+    },
+    "facing=north,idx=33": {
+      "model": "woldsvaults:block/extraction_forge/tile_33"
+    },
+    "facing=north,idx=34": {
+      "model": "woldsvaults:block/extraction_forge/tile_34"
+    },
+    "facing=north,idx=35": {
+      "model": "woldsvaults:block/extraction_forge/tile_35"
+    },
+    "facing=north,idx=36": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=37": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=38": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=39": {
+      "model": "woldsvaults:block/extraction_forge/tile_37"
+    },
+    "facing=north,idx=40": {
+      "model": "woldsvaults:block/extraction_forge/tile_38"
+    },
+    "facing=north,idx=41": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=42": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=43": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=44": {
+      "model": "woldsvaults:block/extraction_forge/tile_39"
+    },
+    "facing=north,idx=45": {
+      "model": "woldsvaults:block/extraction_forge/tile_40"
+    },
+    "facing=north,idx=46": {
+      "model": "woldsvaults:block/extraction_forge/tile_41"
+    },
+    "facing=north,idx=47": {
+      "model": "woldsvaults:block/extraction_forge/tile_42"
+    },
+    "facing=north,idx=48": {
+      "model": "woldsvaults:block/extraction_forge/tile_43"
+    },
+    "facing=north,idx=49": {
+      "model": "woldsvaults:block/extraction_forge/tile_44"
+    },
+    "facing=north,idx=50": {
+      "model": "woldsvaults:block/extraction_forge/tile_45"
+    },
+    "facing=north,idx=51": {
+      "model": "woldsvaults:block/extraction_forge/tile_46"
+    },
+    "facing=north,idx=52": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=53": {
+      "model": "woldsvaults:block/extraction_forge/tile_47"
+    },
+    "facing=north,idx=54": {
+      "model": "woldsvaults:block/extraction_forge/tile_48"
+    },
+    "facing=north,idx=55": {
+      "model": "woldsvaults:block/extraction_forge/tile_49"
+    },
+    "facing=north,idx=56": {
+      "model": "woldsvaults:block/extraction_forge/tile_50"
+    },
+    "facing=north,idx=57": {
+      "model": "woldsvaults:block/extraction_forge/tile_51"
+    },
+    "facing=north,idx=58": {
+      "model": "woldsvaults:block/extraction_forge/tile_52"
+    },
+    "facing=north,idx=59": {
+      "model": "woldsvaults:block/extraction_forge/tile_53"
+    },
+    "facing=north,idx=60": {
+      "model": "woldsvaults:block/extraction_forge/tile_54"
+    },
+    "facing=north,idx=61": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=62": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=63": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=64": {
+      "model": "woldsvaults:block/extraction_forge/tile_55"
+    },
+    "facing=north,idx=65": {
+      "model": "woldsvaults:block/extraction_forge/tile_56"
+    },
+    "facing=north,idx=66": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=67": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=68": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=69": {
+      "model": "woldsvaults:block/extraction_forge/tile_57"
+    },
+    "facing=north,idx=70": {
+      "model": "woldsvaults:block/extraction_forge/tile_58"
+    },
+    "facing=north,idx=71": {
+      "model": "woldsvaults:block/extraction_forge/tile_59"
+    },
+    "facing=north,idx=72": {
+      "model": "woldsvaults:block/extraction_forge/tile_60"
+    },
+    "facing=north,idx=73": {
+      "model": "woldsvaults:block/extraction_forge/tile_61"
+    },
+    "facing=north,idx=74": {
+      "model": "woldsvaults:block/extraction_forge/tile_62"
+    },
+    "facing=north,idx=75": {
+      "model": "woldsvaults:block/extraction_forge/tile_63"
+    },
+    "facing=north,idx=76": {
+      "model": "woldsvaults:block/extraction_forge/tile_64"
+    },
+    "facing=north,idx=77": {
+      "model": "woldsvaults:block/extraction_forge/tile_65"
+    },
+    "facing=north,idx=78": {
+      "model": "woldsvaults:block/extraction_forge/tile_66"
+    },
+    "facing=north,idx=79": {
+      "model": "woldsvaults:block/extraction_forge/tile_67"
+    },
+    "facing=north,idx=80": {
+      "model": "woldsvaults:block/extraction_forge/tile_68"
+    },
+    "facing=north,idx=81": {
+      "model": "woldsvaults:block/extraction_forge/tile_69"
+    },
+    "facing=north,idx=82": {
+      "model": "woldsvaults:block/extraction_forge/tile_70"
+    },
+    "facing=north,idx=83": {
+      "model": "woldsvaults:block/extraction_forge/tile_71"
+    },
+    "facing=north,idx=84": {
+      "model": "woldsvaults:block/extraction_forge/tile_72"
+    },
+    "facing=north,idx=85": {
+      "model": "woldsvaults:block/extraction_forge/tile_73"
+    },
+    "facing=north,idx=86": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=87": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=88": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=89": {
+      "model": "woldsvaults:block/extraction_forge/tile_74"
+    },
+    "facing=north,idx=90": {
+      "model": "woldsvaults:block/extraction_forge/tile_75"
+    },
+    "facing=north,idx=91": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=92": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=93": {
+      "model": "woldsvaults:block/extraction_forge/tile_36"
+    },
+    "facing=north,idx=94": {
+      "model": "woldsvaults:block/extraction_forge/tile_76"
+    },
+    "facing=north,idx=95": {
+      "model": "woldsvaults:block/extraction_forge/tile_77"
+    },
+    "facing=north,idx=96": {
+      "model": "woldsvaults:block/extraction_forge/tile_78"
+    },
+    "facing=north,idx=97": {
+      "model": "woldsvaults:block/extraction_forge/tile_79"
+    },
+    "facing=north,idx=98": {
+      "model": "woldsvaults:block/extraction_forge/tile_80"
+    },
+    "facing=north,idx=99": {
+      "model": "woldsvaults:block/extraction_forge/tile_81"
+    },
+    "facing=north,idx=100": {
+      "model": "woldsvaults:block/extraction_forge/tile_82"
+    },
+    "facing=north,idx=101": {
+      "model": "woldsvaults:block/extraction_forge/tile_83"
+    },
+    "facing=north,idx=102": {
+      "model": "woldsvaults:block/extraction_forge/tile_84"
+    },
+    "facing=north,idx=103": {
+      "model": "woldsvaults:block/extraction_forge/tile_85"
+    },
+    "facing=north,idx=104": {
+      "model": "woldsvaults:block/extraction_forge/tile_86"
+    },
+    "facing=north,idx=105": {
+      "model": "woldsvaults:block/extraction_forge/tile_87"
+    },
+    "facing=north,idx=106": {
+      "model": "woldsvaults:block/extraction_forge/tile_88"
+    },
+    "facing=north,idx=107": {
+      "model": "woldsvaults:block/extraction_forge/tile_89"
+    },
+    "facing=north,idx=108": {
+      "model": "woldsvaults:block/extraction_forge/tile_90"
+    },
+    "facing=north,idx=109": {
+      "model": "woldsvaults:block/extraction_forge/tile_91"
+    },
+    "facing=north,idx=110": {
+      "model": "woldsvaults:block/extraction_forge/tile_92"
+    },
+    "facing=north,idx=111": {
+      "model": "woldsvaults:block/extraction_forge/tile_93"
+    },
+    "facing=north,idx=112": {
+      "model": "woldsvaults:block/extraction_forge/tile_94"
+    },
+    "facing=north,idx=113": {
+      "model": "woldsvaults:block/extraction_forge/tile_95"
+    },
+    "facing=north,idx=114": {
+      "model": "woldsvaults:block/extraction_forge/tile_96"
+    },
+    "facing=north,idx=115": {
+      "model": "woldsvaults:block/extraction_forge/tile_97"
+    },
+    "facing=north,idx=116": {
+      "model": "woldsvaults:block/extraction_forge/tile_98"
+    },
+    "facing=north,idx=117": {
+      "model": "woldsvaults:block/extraction_forge/tile_99"
+    },
+    "facing=north,idx=118": {
+      "model": "woldsvaults:block/extraction_forge/tile_100"
+    },
+    "facing=north,idx=119": {
+      "model": "woldsvaults:block/extraction_forge/tile_101"
+    },
+    "facing=north,idx=120": {
+      "model": "woldsvaults:block/extraction_forge/tile_102"
+    },
+    "facing=north,idx=121": {
+      "model": "woldsvaults:block/extraction_forge/tile_103"
+    },
+    "facing=north,idx=122": {
+      "model": "woldsvaults:block/extraction_forge/tile_104"
+    },
+    "facing=north,idx=123": {
+      "model": "woldsvaults:block/extraction_forge/tile_105"
+    },
+    "facing=north,idx=124": {
+      "model": "woldsvaults:block/extraction_forge/tile_106"
+    },
+    "facing=east,idx=0": {
+      "model": "woldsvaults:block/extraction_forge/tile_20",
+      "y": 90
+    },
+    "facing=east,idx=1": {
+      "model": "woldsvaults:block/extraction_forge/tile_15",
+      "y": 90
+    },
+    "facing=east,idx=2": {
+      "model": "woldsvaults:block/extraction_forge/tile_10",
+      "y": 90
+    },
+    "facing=east,idx=3": {
+      "model": "woldsvaults:block/extraction_forge/tile_05",
+      "y": 90
+    },
+    "facing=east,idx=4": {
+      "model": "woldsvaults:block/extraction_forge/tile_00",
+      "y": 90
+    },
+    "facing=east,idx=5": {
+      "model": "woldsvaults:block/extraction_forge/tile_21",
+      "y": 90
+    },
+    "facing=east,idx=6": {
+      "model": "woldsvaults:block/extraction_forge/tile_16",
+      "y": 90
+    },
+    "facing=east,idx=7": {
+      "model": "woldsvaults:block/extraction_forge/tile_11",
+      "y": 90
+    },
+    "facing=east,idx=8": {
+      "model": "woldsvaults:block/extraction_forge/tile_06",
+      "y": 90
+    },
+    "facing=east,idx=9": {
+      "model": "woldsvaults:block/extraction_forge/tile_01",
+      "y": 90
+    },
+    "facing=east,idx=10": {
+      "model": "woldsvaults:block/extraction_forge/tile_22",
+      "y": 90
+    },
+    "facing=east,idx=11": {
+      "model": "woldsvaults:block/extraction_forge/tile_17",
+      "y": 90
+    },
+    "facing=east,idx=12": {
+      "model": "woldsvaults:block/extraction_forge/tile_12",
+      "y": 90
+    },
+    "facing=east,idx=13": {
+      "model": "woldsvaults:block/extraction_forge/tile_07",
+      "y": 90
+    },
+    "facing=east,idx=14": {
+      "model": "woldsvaults:block/extraction_forge/tile_02",
+      "y": 90
+    },
+    "facing=east,idx=15": {
+      "model": "woldsvaults:block/extraction_forge/tile_23",
+      "y": 90
+    },
+    "facing=east,idx=16": {
+      "model": "woldsvaults:block/extraction_forge/tile_18",
+      "y": 90
+    },
+    "facing=east,idx=17": {
+      "model": "woldsvaults:block/extraction_forge/tile_13",
+      "y": 90
+    },
+    "facing=east,idx=18": {
+      "model": "woldsvaults:block/extraction_forge/tile_08",
+      "y": 90
+    },
+    "facing=east,idx=19": {
+      "model": "woldsvaults:block/extraction_forge/tile_03",
+      "y": 90
+    },
+    "facing=east,idx=20": {
+      "model": "woldsvaults:block/extraction_forge/tile_24",
+      "y": 90
+    },
+    "facing=east,idx=21": {
+      "model": "woldsvaults:block/extraction_forge/tile_19",
+      "y": 90
+    },
+    "facing=east,idx=22": {
+      "model": "woldsvaults:block/extraction_forge/tile_14",
+      "y": 90
+    },
+    "facing=east,idx=23": {
+      "model": "woldsvaults:block/extraction_forge/tile_09",
+      "y": 90
+    },
+    "facing=east,idx=24": {
+      "model": "woldsvaults:block/extraction_forge/tile_04",
+      "y": 90
+    },
+    "facing=east,idx=25": {
+      "model": "woldsvaults:block/extraction_forge/tile_40",
+      "y": 90
+    },
+    "facing=east,idx=26": {
+      "model": "woldsvaults:block/extraction_forge/tile_38",
+      "y": 90
+    },
+    "facing=east,idx=27": {
+      "model": "woldsvaults:block/extraction_forge/tile_35",
+      "y": 90
+    },
+    "facing=east,idx=28": {
+      "model": "woldsvaults:block/extraction_forge/tile_30",
+      "y": 90
+    },
+    "facing=east,idx=29": {
+      "model": "woldsvaults:block/extraction_forge/tile_25",
+      "y": 90
+    },
+    "facing=east,idx=30": {
+      "model": "woldsvaults:block/extraction_forge/tile_41",
+      "y": 90
+    },
+    "facing=east,idx=31": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=32": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=33": {
+      "model": "woldsvaults:block/extraction_forge/tile_31",
+      "y": 90
+    },
+    "facing=east,idx=34": {
+      "model": "woldsvaults:block/extraction_forge/tile_26",
+      "y": 90
+    },
+    "facing=east,idx=35": {
+      "model": "woldsvaults:block/extraction_forge/tile_42",
+      "y": 90
+    },
+    "facing=east,idx=36": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=37": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=38": {
+      "model": "woldsvaults:block/extraction_forge/tile_32",
+      "y": 90
+    },
+    "facing=east,idx=39": {
+      "model": "woldsvaults:block/extraction_forge/tile_27",
+      "y": 90
+    },
+    "facing=east,idx=40": {
+      "model": "woldsvaults:block/extraction_forge/tile_43",
+      "y": 90
+    },
+    "facing=east,idx=41": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=42": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=43": {
+      "model": "woldsvaults:block/extraction_forge/tile_33",
+      "y": 90
+    },
+    "facing=east,idx=44": {
+      "model": "woldsvaults:block/extraction_forge/tile_28",
+      "y": 90
+    },
+    "facing=east,idx=45": {
+      "model": "woldsvaults:block/extraction_forge/tile_44",
+      "y": 90
+    },
+    "facing=east,idx=46": {
+      "model": "woldsvaults:block/extraction_forge/tile_39",
+      "y": 90
+    },
+    "facing=east,idx=47": {
+      "model": "woldsvaults:block/extraction_forge/tile_37",
+      "y": 90
+    },
+    "facing=east,idx=48": {
+      "model": "woldsvaults:block/extraction_forge/tile_34",
+      "y": 90
+    },
+    "facing=east,idx=49": {
+      "model": "woldsvaults:block/extraction_forge/tile_29",
+      "y": 90
+    },
+    "facing=east,idx=50": {
+      "model": "woldsvaults:block/extraction_forge/tile_58",
+      "y": 90
+    },
+    "facing=east,idx=51": {
+      "model": "woldsvaults:block/extraction_forge/tile_56",
+      "y": 90
+    },
+    "facing=east,idx=52": {
+      "model": "woldsvaults:block/extraction_forge/tile_54",
+      "y": 90
+    },
+    "facing=east,idx=53": {
+      "model": "woldsvaults:block/extraction_forge/tile_49",
+      "y": 90
+    },
+    "facing=east,idx=54": {
+      "model": "woldsvaults:block/extraction_forge/tile_45",
+      "y": 90
+    },
+    "facing=east,idx=55": {
+      "model": "woldsvaults:block/extraction_forge/tile_59",
+      "y": 90
+    },
+    "facing=east,idx=56": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=57": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=58": {
+      "model": "woldsvaults:block/extraction_forge/tile_50",
+      "y": 90
+    },
+    "facing=east,idx=59": {
+      "model": "woldsvaults:block/extraction_forge/tile_46",
+      "y": 90
+    },
+    "facing=east,idx=60": {
+      "model": "woldsvaults:block/extraction_forge/tile_60",
+      "y": 90
+    },
+    "facing=east,idx=61": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=62": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=63": {
+      "model": "woldsvaults:block/extraction_forge/tile_51",
+      "y": 90
+    },
+    "facing=east,idx=64": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=65": {
+      "model": "woldsvaults:block/extraction_forge/tile_61",
+      "y": 90
+    },
+    "facing=east,idx=66": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=67": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=68": {
+      "model": "woldsvaults:block/extraction_forge/tile_52",
+      "y": 90
+    },
+    "facing=east,idx=69": {
+      "model": "woldsvaults:block/extraction_forge/tile_47",
+      "y": 90
+    },
+    "facing=east,idx=70": {
+      "model": "woldsvaults:block/extraction_forge/tile_62",
+      "y": 90
+    },
+    "facing=east,idx=71": {
+      "model": "woldsvaults:block/extraction_forge/tile_57",
+      "y": 90
+    },
+    "facing=east,idx=72": {
+      "model": "woldsvaults:block/extraction_forge/tile_55",
+      "y": 90
+    },
+    "facing=east,idx=73": {
+      "model": "woldsvaults:block/extraction_forge/tile_53",
+      "y": 90
+    },
+    "facing=east,idx=74": {
+      "model": "woldsvaults:block/extraction_forge/tile_48",
+      "y": 90
+    },
+    "facing=east,idx=75": {
+      "model": "woldsvaults:block/extraction_forge/tile_77",
+      "y": 90
+    },
+    "facing=east,idx=76": {
+      "model": "woldsvaults:block/extraction_forge/tile_75",
+      "y": 90
+    },
+    "facing=east,idx=77": {
+      "model": "woldsvaults:block/extraction_forge/tile_73",
+      "y": 90
+    },
+    "facing=east,idx=78": {
+      "model": "woldsvaults:block/extraction_forge/tile_68",
+      "y": 90
+    },
+    "facing=east,idx=79": {
+      "model": "woldsvaults:block/extraction_forge/tile_63",
+      "y": 90
+    },
+    "facing=east,idx=80": {
+      "model": "woldsvaults:block/extraction_forge/tile_78",
+      "y": 90
+    },
+    "facing=east,idx=81": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=82": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=83": {
+      "model": "woldsvaults:block/extraction_forge/tile_69",
+      "y": 90
+    },
+    "facing=east,idx=84": {
+      "model": "woldsvaults:block/extraction_forge/tile_64",
+      "y": 90
+    },
+    "facing=east,idx=85": {
+      "model": "woldsvaults:block/extraction_forge/tile_79",
+      "y": 90
+    },
+    "facing=east,idx=86": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=87": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=88": {
+      "model": "woldsvaults:block/extraction_forge/tile_70",
+      "y": 90
+    },
+    "facing=east,idx=89": {
+      "model": "woldsvaults:block/extraction_forge/tile_65",
+      "y": 90
+    },
+    "facing=east,idx=90": {
+      "model": "woldsvaults:block/extraction_forge/tile_80",
+      "y": 90
+    },
+    "facing=east,idx=91": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=92": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 90
+    },
+    "facing=east,idx=93": {
+      "model": "woldsvaults:block/extraction_forge/tile_71",
+      "y": 90
+    },
+    "facing=east,idx=94": {
+      "model": "woldsvaults:block/extraction_forge/tile_66",
+      "y": 90
+    },
+    "facing=east,idx=95": {
+      "model": "woldsvaults:block/extraction_forge/tile_81",
+      "y": 90
+    },
+    "facing=east,idx=96": {
+      "model": "woldsvaults:block/extraction_forge/tile_76",
+      "y": 90
+    },
+    "facing=east,idx=97": {
+      "model": "woldsvaults:block/extraction_forge/tile_74",
+      "y": 90
+    },
+    "facing=east,idx=98": {
+      "model": "woldsvaults:block/extraction_forge/tile_72",
+      "y": 90
+    },
+    "facing=east,idx=99": {
+      "model": "woldsvaults:block/extraction_forge/tile_67",
+      "y": 90
+    },
+    "facing=east,idx=100": {
+      "model": "woldsvaults:block/extraction_forge/tile_102",
+      "y": 90
+    },
+    "facing=east,idx=101": {
+      "model": "woldsvaults:block/extraction_forge/tile_97",
+      "y": 90
+    },
+    "facing=east,idx=102": {
+      "model": "woldsvaults:block/extraction_forge/tile_92",
+      "y": 90
+    },
+    "facing=east,idx=103": {
+      "model": "woldsvaults:block/extraction_forge/tile_87",
+      "y": 90
+    },
+    "facing=east,idx=104": {
+      "model": "woldsvaults:block/extraction_forge/tile_82",
+      "y": 90
+    },
+    "facing=east,idx=105": {
+      "model": "woldsvaults:block/extraction_forge/tile_103",
+      "y": 90
+    },
+    "facing=east,idx=106": {
+      "model": "woldsvaults:block/extraction_forge/tile_98",
+      "y": 90
+    },
+    "facing=east,idx=107": {
+      "model": "woldsvaults:block/extraction_forge/tile_93",
+      "y": 90
+    },
+    "facing=east,idx=108": {
+      "model": "woldsvaults:block/extraction_forge/tile_88",
+      "y": 90
+    },
+    "facing=east,idx=109": {
+      "model": "woldsvaults:block/extraction_forge/tile_83",
+      "y": 90
+    },
+    "facing=east,idx=110": {
+      "model": "woldsvaults:block/extraction_forge/tile_104",
+      "y": 90
+    },
+    "facing=east,idx=111": {
+      "model": "woldsvaults:block/extraction_forge/tile_99",
+      "y": 90
+    },
+    "facing=east,idx=112": {
+      "model": "woldsvaults:block/extraction_forge/tile_94",
+      "y": 90
+    },
+    "facing=east,idx=113": {
+      "model": "woldsvaults:block/extraction_forge/tile_89",
+      "y": 90
+    },
+    "facing=east,idx=114": {
+      "model": "woldsvaults:block/extraction_forge/tile_84",
+      "y": 90
+    },
+    "facing=east,idx=115": {
+      "model": "woldsvaults:block/extraction_forge/tile_105",
+      "y": 90
+    },
+    "facing=east,idx=116": {
+      "model": "woldsvaults:block/extraction_forge/tile_100",
+      "y": 90
+    },
+    "facing=east,idx=117": {
+      "model": "woldsvaults:block/extraction_forge/tile_95",
+      "y": 90
+    },
+    "facing=east,idx=118": {
+      "model": "woldsvaults:block/extraction_forge/tile_90",
+      "y": 90
+    },
+    "facing=east,idx=119": {
+      "model": "woldsvaults:block/extraction_forge/tile_85",
+      "y": 90
+    },
+    "facing=east,idx=120": {
+      "model": "woldsvaults:block/extraction_forge/tile_106",
+      "y": 90
+    },
+    "facing=east,idx=121": {
+      "model": "woldsvaults:block/extraction_forge/tile_101",
+      "y": 90
+    },
+    "facing=east,idx=122": {
+      "model": "woldsvaults:block/extraction_forge/tile_96",
+      "y": 90
+    },
+    "facing=east,idx=123": {
+      "model": "woldsvaults:block/extraction_forge/tile_91",
+      "y": 90
+    },
+    "facing=east,idx=124": {
+      "model": "woldsvaults:block/extraction_forge/tile_86",
+      "y": 90
+    },
+    "facing=south,idx=0": {
+      "model": "woldsvaults:block/extraction_forge/tile_24",
+      "y": 180
+    },
+    "facing=south,idx=1": {
+      "model": "woldsvaults:block/extraction_forge/tile_23",
+      "y": 180
+    },
+    "facing=south,idx=2": {
+      "model": "woldsvaults:block/extraction_forge/tile_22",
+      "y": 180
+    },
+    "facing=south,idx=3": {
+      "model": "woldsvaults:block/extraction_forge/tile_21",
+      "y": 180
+    },
+    "facing=south,idx=4": {
+      "model": "woldsvaults:block/extraction_forge/tile_20",
+      "y": 180
+    },
+    "facing=south,idx=5": {
+      "model": "woldsvaults:block/extraction_forge/tile_19",
+      "y": 180
+    },
+    "facing=south,idx=6": {
+      "model": "woldsvaults:block/extraction_forge/tile_18",
+      "y": 180
+    },
+    "facing=south,idx=7": {
+      "model": "woldsvaults:block/extraction_forge/tile_17",
+      "y": 180
+    },
+    "facing=south,idx=8": {
+      "model": "woldsvaults:block/extraction_forge/tile_16",
+      "y": 180
+    },
+    "facing=south,idx=9": {
+      "model": "woldsvaults:block/extraction_forge/tile_15",
+      "y": 180
+    },
+    "facing=south,idx=10": {
+      "model": "woldsvaults:block/extraction_forge/tile_14",
+      "y": 180
+    },
+    "facing=south,idx=11": {
+      "model": "woldsvaults:block/extraction_forge/tile_13",
+      "y": 180
+    },
+    "facing=south,idx=12": {
+      "model": "woldsvaults:block/extraction_forge/tile_12",
+      "y": 180
+    },
+    "facing=south,idx=13": {
+      "model": "woldsvaults:block/extraction_forge/tile_11",
+      "y": 180
+    },
+    "facing=south,idx=14": {
+      "model": "woldsvaults:block/extraction_forge/tile_10",
+      "y": 180
+    },
+    "facing=south,idx=15": {
+      "model": "woldsvaults:block/extraction_forge/tile_09",
+      "y": 180
+    },
+    "facing=south,idx=16": {
+      "model": "woldsvaults:block/extraction_forge/tile_08",
+      "y": 180
+    },
+    "facing=south,idx=17": {
+      "model": "woldsvaults:block/extraction_forge/tile_07",
+      "y": 180
+    },
+    "facing=south,idx=18": {
+      "model": "woldsvaults:block/extraction_forge/tile_06",
+      "y": 180
+    },
+    "facing=south,idx=19": {
+      "model": "woldsvaults:block/extraction_forge/tile_05",
+      "y": 180
+    },
+    "facing=south,idx=20": {
+      "model": "woldsvaults:block/extraction_forge/tile_04",
+      "y": 180
+    },
+    "facing=south,idx=21": {
+      "model": "woldsvaults:block/extraction_forge/tile_03",
+      "y": 180
+    },
+    "facing=south,idx=22": {
+      "model": "woldsvaults:block/extraction_forge/tile_02",
+      "y": 180
+    },
+    "facing=south,idx=23": {
+      "model": "woldsvaults:block/extraction_forge/tile_01",
+      "y": 180
+    },
+    "facing=south,idx=24": {
+      "model": "woldsvaults:block/extraction_forge/tile_00",
+      "y": 180
+    },
+    "facing=south,idx=25": {
+      "model": "woldsvaults:block/extraction_forge/tile_44",
+      "y": 180
+    },
+    "facing=south,idx=26": {
+      "model": "woldsvaults:block/extraction_forge/tile_43",
+      "y": 180
+    },
+    "facing=south,idx=27": {
+      "model": "woldsvaults:block/extraction_forge/tile_42",
+      "y": 180
+    },
+    "facing=south,idx=28": {
+      "model": "woldsvaults:block/extraction_forge/tile_41",
+      "y": 180
+    },
+    "facing=south,idx=29": {
+      "model": "woldsvaults:block/extraction_forge/tile_40",
+      "y": 180
+    },
+    "facing=south,idx=30": {
+      "model": "woldsvaults:block/extraction_forge/tile_39",
+      "y": 180
+    },
+    "facing=south,idx=31": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=32": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=33": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=34": {
+      "model": "woldsvaults:block/extraction_forge/tile_38",
+      "y": 180
+    },
+    "facing=south,idx=35": {
+      "model": "woldsvaults:block/extraction_forge/tile_37",
+      "y": 180
+    },
+    "facing=south,idx=36": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=37": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=38": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=39": {
+      "model": "woldsvaults:block/extraction_forge/tile_35",
+      "y": 180
+    },
+    "facing=south,idx=40": {
+      "model": "woldsvaults:block/extraction_forge/tile_34",
+      "y": 180
+    },
+    "facing=south,idx=41": {
+      "model": "woldsvaults:block/extraction_forge/tile_33",
+      "y": 180
+    },
+    "facing=south,idx=42": {
+      "model": "woldsvaults:block/extraction_forge/tile_32",
+      "y": 180
+    },
+    "facing=south,idx=43": {
+      "model": "woldsvaults:block/extraction_forge/tile_31",
+      "y": 180
+    },
+    "facing=south,idx=44": {
+      "model": "woldsvaults:block/extraction_forge/tile_30",
+      "y": 180
+    },
+    "facing=south,idx=45": {
+      "model": "woldsvaults:block/extraction_forge/tile_29",
+      "y": 180
+    },
+    "facing=south,idx=46": {
+      "model": "woldsvaults:block/extraction_forge/tile_28",
+      "y": 180
+    },
+    "facing=south,idx=47": {
+      "model": "woldsvaults:block/extraction_forge/tile_27",
+      "y": 180
+    },
+    "facing=south,idx=48": {
+      "model": "woldsvaults:block/extraction_forge/tile_26",
+      "y": 180
+    },
+    "facing=south,idx=49": {
+      "model": "woldsvaults:block/extraction_forge/tile_25",
+      "y": 180
+    },
+    "facing=south,idx=50": {
+      "model": "woldsvaults:block/extraction_forge/tile_62",
+      "y": 180
+    },
+    "facing=south,idx=51": {
+      "model": "woldsvaults:block/extraction_forge/tile_61",
+      "y": 180
+    },
+    "facing=south,idx=52": {
+      "model": "woldsvaults:block/extraction_forge/tile_60",
+      "y": 180
+    },
+    "facing=south,idx=53": {
+      "model": "woldsvaults:block/extraction_forge/tile_59",
+      "y": 180
+    },
+    "facing=south,idx=54": {
+      "model": "woldsvaults:block/extraction_forge/tile_58",
+      "y": 180
+    },
+    "facing=south,idx=55": {
+      "model": "woldsvaults:block/extraction_forge/tile_57",
+      "y": 180
+    },
+    "facing=south,idx=56": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=57": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=58": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=59": {
+      "model": "woldsvaults:block/extraction_forge/tile_56",
+      "y": 180
+    },
+    "facing=south,idx=60": {
+      "model": "woldsvaults:block/extraction_forge/tile_55",
+      "y": 180
+    },
+    "facing=south,idx=61": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=62": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=63": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=64": {
+      "model": "woldsvaults:block/extraction_forge/tile_54",
+      "y": 180
+    },
+    "facing=south,idx=65": {
+      "model": "woldsvaults:block/extraction_forge/tile_53",
+      "y": 180
+    },
+    "facing=south,idx=66": {
+      "model": "woldsvaults:block/extraction_forge/tile_52",
+      "y": 180
+    },
+    "facing=south,idx=67": {
+      "model": "woldsvaults:block/extraction_forge/tile_51",
+      "y": 180
+    },
+    "facing=south,idx=68": {
+      "model": "woldsvaults:block/extraction_forge/tile_50",
+      "y": 180
+    },
+    "facing=south,idx=69": {
+      "model": "woldsvaults:block/extraction_forge/tile_49",
+      "y": 180
+    },
+    "facing=south,idx=70": {
+      "model": "woldsvaults:block/extraction_forge/tile_48",
+      "y": 180
+    },
+    "facing=south,idx=71": {
+      "model": "woldsvaults:block/extraction_forge/tile_47",
+      "y": 180
+    },
+    "facing=south,idx=72": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=73": {
+      "model": "woldsvaults:block/extraction_forge/tile_46",
+      "y": 180
+    },
+    "facing=south,idx=74": {
+      "model": "woldsvaults:block/extraction_forge/tile_45",
+      "y": 180
+    },
+    "facing=south,idx=75": {
+      "model": "woldsvaults:block/extraction_forge/tile_81",
+      "y": 180
+    },
+    "facing=south,idx=76": {
+      "model": "woldsvaults:block/extraction_forge/tile_80",
+      "y": 180
+    },
+    "facing=south,idx=77": {
+      "model": "woldsvaults:block/extraction_forge/tile_79",
+      "y": 180
+    },
+    "facing=south,idx=78": {
+      "model": "woldsvaults:block/extraction_forge/tile_78",
+      "y": 180
+    },
+    "facing=south,idx=79": {
+      "model": "woldsvaults:block/extraction_forge/tile_77",
+      "y": 180
+    },
+    "facing=south,idx=80": {
+      "model": "woldsvaults:block/extraction_forge/tile_76",
+      "y": 180
+    },
+    "facing=south,idx=81": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=82": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=83": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=84": {
+      "model": "woldsvaults:block/extraction_forge/tile_75",
+      "y": 180
+    },
+    "facing=south,idx=85": {
+      "model": "woldsvaults:block/extraction_forge/tile_74",
+      "y": 180
+    },
+    "facing=south,idx=86": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=87": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=88": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 180
+    },
+    "facing=south,idx=89": {
+      "model": "woldsvaults:block/extraction_forge/tile_73",
+      "y": 180
+    },
+    "facing=south,idx=90": {
+      "model": "woldsvaults:block/extraction_forge/tile_72",
+      "y": 180
+    },
+    "facing=south,idx=91": {
+      "model": "woldsvaults:block/extraction_forge/tile_71",
+      "y": 180
+    },
+    "facing=south,idx=92": {
+      "model": "woldsvaults:block/extraction_forge/tile_70",
+      "y": 180
+    },
+    "facing=south,idx=93": {
+      "model": "woldsvaults:block/extraction_forge/tile_69",
+      "y": 180
+    },
+    "facing=south,idx=94": {
+      "model": "woldsvaults:block/extraction_forge/tile_68",
+      "y": 180
+    },
+    "facing=south,idx=95": {
+      "model": "woldsvaults:block/extraction_forge/tile_67",
+      "y": 180
+    },
+    "facing=south,idx=96": {
+      "model": "woldsvaults:block/extraction_forge/tile_66",
+      "y": 180
+    },
+    "facing=south,idx=97": {
+      "model": "woldsvaults:block/extraction_forge/tile_65",
+      "y": 180
+    },
+    "facing=south,idx=98": {
+      "model": "woldsvaults:block/extraction_forge/tile_64",
+      "y": 180
+    },
+    "facing=south,idx=99": {
+      "model": "woldsvaults:block/extraction_forge/tile_63",
+      "y": 180
+    },
+    "facing=south,idx=100": {
+      "model": "woldsvaults:block/extraction_forge/tile_106",
+      "y": 180
+    },
+    "facing=south,idx=101": {
+      "model": "woldsvaults:block/extraction_forge/tile_105",
+      "y": 180
+    },
+    "facing=south,idx=102": {
+      "model": "woldsvaults:block/extraction_forge/tile_104",
+      "y": 180
+    },
+    "facing=south,idx=103": {
+      "model": "woldsvaults:block/extraction_forge/tile_103",
+      "y": 180
+    },
+    "facing=south,idx=104": {
+      "model": "woldsvaults:block/extraction_forge/tile_102",
+      "y": 180
+    },
+    "facing=south,idx=105": {
+      "model": "woldsvaults:block/extraction_forge/tile_101",
+      "y": 180
+    },
+    "facing=south,idx=106": {
+      "model": "woldsvaults:block/extraction_forge/tile_100",
+      "y": 180
+    },
+    "facing=south,idx=107": {
+      "model": "woldsvaults:block/extraction_forge/tile_99",
+      "y": 180
+    },
+    "facing=south,idx=108": {
+      "model": "woldsvaults:block/extraction_forge/tile_98",
+      "y": 180
+    },
+    "facing=south,idx=109": {
+      "model": "woldsvaults:block/extraction_forge/tile_97",
+      "y": 180
+    },
+    "facing=south,idx=110": {
+      "model": "woldsvaults:block/extraction_forge/tile_96",
+      "y": 180
+    },
+    "facing=south,idx=111": {
+      "model": "woldsvaults:block/extraction_forge/tile_95",
+      "y": 180
+    },
+    "facing=south,idx=112": {
+      "model": "woldsvaults:block/extraction_forge/tile_94",
+      "y": 180
+    },
+    "facing=south,idx=113": {
+      "model": "woldsvaults:block/extraction_forge/tile_93",
+      "y": 180
+    },
+    "facing=south,idx=114": {
+      "model": "woldsvaults:block/extraction_forge/tile_92",
+      "y": 180
+    },
+    "facing=south,idx=115": {
+      "model": "woldsvaults:block/extraction_forge/tile_91",
+      "y": 180
+    },
+    "facing=south,idx=116": {
+      "model": "woldsvaults:block/extraction_forge/tile_90",
+      "y": 180
+    },
+    "facing=south,idx=117": {
+      "model": "woldsvaults:block/extraction_forge/tile_89",
+      "y": 180
+    },
+    "facing=south,idx=118": {
+      "model": "woldsvaults:block/extraction_forge/tile_88",
+      "y": 180
+    },
+    "facing=south,idx=119": {
+      "model": "woldsvaults:block/extraction_forge/tile_87",
+      "y": 180
+    },
+    "facing=south,idx=120": {
+      "model": "woldsvaults:block/extraction_forge/tile_86",
+      "y": 180
+    },
+    "facing=south,idx=121": {
+      "model": "woldsvaults:block/extraction_forge/tile_85",
+      "y": 180
+    },
+    "facing=south,idx=122": {
+      "model": "woldsvaults:block/extraction_forge/tile_84",
+      "y": 180
+    },
+    "facing=south,idx=123": {
+      "model": "woldsvaults:block/extraction_forge/tile_83",
+      "y": 180
+    },
+    "facing=south,idx=124": {
+      "model": "woldsvaults:block/extraction_forge/tile_82",
+      "y": 180
+    },
+    "facing=west,idx=0": {
+      "model": "woldsvaults:block/extraction_forge/tile_04",
+      "y": 270
+    },
+    "facing=west,idx=1": {
+      "model": "woldsvaults:block/extraction_forge/tile_09",
+      "y": 270
+    },
+    "facing=west,idx=2": {
+      "model": "woldsvaults:block/extraction_forge/tile_14",
+      "y": 270
+    },
+    "facing=west,idx=3": {
+      "model": "woldsvaults:block/extraction_forge/tile_19",
+      "y": 270
+    },
+    "facing=west,idx=4": {
+      "model": "woldsvaults:block/extraction_forge/tile_24",
+      "y": 270
+    },
+    "facing=west,idx=5": {
+      "model": "woldsvaults:block/extraction_forge/tile_03",
+      "y": 270
+    },
+    "facing=west,idx=6": {
+      "model": "woldsvaults:block/extraction_forge/tile_08",
+      "y": 270
+    },
+    "facing=west,idx=7": {
+      "model": "woldsvaults:block/extraction_forge/tile_13",
+      "y": 270
+    },
+    "facing=west,idx=8": {
+      "model": "woldsvaults:block/extraction_forge/tile_18",
+      "y": 270
+    },
+    "facing=west,idx=9": {
+      "model": "woldsvaults:block/extraction_forge/tile_23",
+      "y": 270
+    },
+    "facing=west,idx=10": {
+      "model": "woldsvaults:block/extraction_forge/tile_02",
+      "y": 270
+    },
+    "facing=west,idx=11": {
+      "model": "woldsvaults:block/extraction_forge/tile_07",
+      "y": 270
+    },
+    "facing=west,idx=12": {
+      "model": "woldsvaults:block/extraction_forge/tile_12",
+      "y": 270
+    },
+    "facing=west,idx=13": {
+      "model": "woldsvaults:block/extraction_forge/tile_17",
+      "y": 270
+    },
+    "facing=west,idx=14": {
+      "model": "woldsvaults:block/extraction_forge/tile_22",
+      "y": 270
+    },
+    "facing=west,idx=15": {
+      "model": "woldsvaults:block/extraction_forge/tile_01",
+      "y": 270
+    },
+    "facing=west,idx=16": {
+      "model": "woldsvaults:block/extraction_forge/tile_06",
+      "y": 270
+    },
+    "facing=west,idx=17": {
+      "model": "woldsvaults:block/extraction_forge/tile_11",
+      "y": 270
+    },
+    "facing=west,idx=18": {
+      "model": "woldsvaults:block/extraction_forge/tile_16",
+      "y": 270
+    },
+    "facing=west,idx=19": {
+      "model": "woldsvaults:block/extraction_forge/tile_21",
+      "y": 270
+    },
+    "facing=west,idx=20": {
+      "model": "woldsvaults:block/extraction_forge/tile_00",
+      "y": 270
+    },
+    "facing=west,idx=21": {
+      "model": "woldsvaults:block/extraction_forge/tile_05",
+      "y": 270
+    },
+    "facing=west,idx=22": {
+      "model": "woldsvaults:block/extraction_forge/tile_10",
+      "y": 270
+    },
+    "facing=west,idx=23": {
+      "model": "woldsvaults:block/extraction_forge/tile_15",
+      "y": 270
+    },
+    "facing=west,idx=24": {
+      "model": "woldsvaults:block/extraction_forge/tile_20",
+      "y": 270
+    },
+    "facing=west,idx=25": {
+      "model": "woldsvaults:block/extraction_forge/tile_29",
+      "y": 270
+    },
+    "facing=west,idx=26": {
+      "model": "woldsvaults:block/extraction_forge/tile_34",
+      "y": 270
+    },
+    "facing=west,idx=27": {
+      "model": "woldsvaults:block/extraction_forge/tile_37",
+      "y": 270
+    },
+    "facing=west,idx=28": {
+      "model": "woldsvaults:block/extraction_forge/tile_39",
+      "y": 270
+    },
+    "facing=west,idx=29": {
+      "model": "woldsvaults:block/extraction_forge/tile_44",
+      "y": 270
+    },
+    "facing=west,idx=30": {
+      "model": "woldsvaults:block/extraction_forge/tile_28",
+      "y": 270
+    },
+    "facing=west,idx=31": {
+      "model": "woldsvaults:block/extraction_forge/tile_33",
+      "y": 270
+    },
+    "facing=west,idx=32": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=33": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=34": {
+      "model": "woldsvaults:block/extraction_forge/tile_43",
+      "y": 270
+    },
+    "facing=west,idx=35": {
+      "model": "woldsvaults:block/extraction_forge/tile_27",
+      "y": 270
+    },
+    "facing=west,idx=36": {
+      "model": "woldsvaults:block/extraction_forge/tile_32",
+      "y": 270
+    },
+    "facing=west,idx=37": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=38": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=39": {
+      "model": "woldsvaults:block/extraction_forge/tile_42",
+      "y": 270
+    },
+    "facing=west,idx=40": {
+      "model": "woldsvaults:block/extraction_forge/tile_26",
+      "y": 270
+    },
+    "facing=west,idx=41": {
+      "model": "woldsvaults:block/extraction_forge/tile_31",
+      "y": 270
+    },
+    "facing=west,idx=42": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=43": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=44": {
+      "model": "woldsvaults:block/extraction_forge/tile_41",
+      "y": 270
+    },
+    "facing=west,idx=45": {
+      "model": "woldsvaults:block/extraction_forge/tile_25",
+      "y": 270
+    },
+    "facing=west,idx=46": {
+      "model": "woldsvaults:block/extraction_forge/tile_30",
+      "y": 270
+    },
+    "facing=west,idx=47": {
+      "model": "woldsvaults:block/extraction_forge/tile_35",
+      "y": 270
+    },
+    "facing=west,idx=48": {
+      "model": "woldsvaults:block/extraction_forge/tile_38",
+      "y": 270
+    },
+    "facing=west,idx=49": {
+      "model": "woldsvaults:block/extraction_forge/tile_40",
+      "y": 270
+    },
+    "facing=west,idx=50": {
+      "model": "woldsvaults:block/extraction_forge/tile_48",
+      "y": 270
+    },
+    "facing=west,idx=51": {
+      "model": "woldsvaults:block/extraction_forge/tile_53",
+      "y": 270
+    },
+    "facing=west,idx=52": {
+      "model": "woldsvaults:block/extraction_forge/tile_55",
+      "y": 270
+    },
+    "facing=west,idx=53": {
+      "model": "woldsvaults:block/extraction_forge/tile_57",
+      "y": 270
+    },
+    "facing=west,idx=54": {
+      "model": "woldsvaults:block/extraction_forge/tile_62",
+      "y": 270
+    },
+    "facing=west,idx=55": {
+      "model": "woldsvaults:block/extraction_forge/tile_47",
+      "y": 270
+    },
+    "facing=west,idx=56": {
+      "model": "woldsvaults:block/extraction_forge/tile_52",
+      "y": 270
+    },
+    "facing=west,idx=57": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=58": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=59": {
+      "model": "woldsvaults:block/extraction_forge/tile_61",
+      "y": 270
+    },
+    "facing=west,idx=60": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=61": {
+      "model": "woldsvaults:block/extraction_forge/tile_51",
+      "y": 270
+    },
+    "facing=west,idx=62": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=63": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=64": {
+      "model": "woldsvaults:block/extraction_forge/tile_60",
+      "y": 270
+    },
+    "facing=west,idx=65": {
+      "model": "woldsvaults:block/extraction_forge/tile_46",
+      "y": 270
+    },
+    "facing=west,idx=66": {
+      "model": "woldsvaults:block/extraction_forge/tile_50",
+      "y": 270
+    },
+    "facing=west,idx=67": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=68": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=69": {
+      "model": "woldsvaults:block/extraction_forge/tile_59",
+      "y": 270
+    },
+    "facing=west,idx=70": {
+      "model": "woldsvaults:block/extraction_forge/tile_45",
+      "y": 270
+    },
+    "facing=west,idx=71": {
+      "model": "woldsvaults:block/extraction_forge/tile_49",
+      "y": 270
+    },
+    "facing=west,idx=72": {
+      "model": "woldsvaults:block/extraction_forge/tile_54",
+      "y": 270
+    },
+    "facing=west,idx=73": {
+      "model": "woldsvaults:block/extraction_forge/tile_56",
+      "y": 270
+    },
+    "facing=west,idx=74": {
+      "model": "woldsvaults:block/extraction_forge/tile_58",
+      "y": 270
+    },
+    "facing=west,idx=75": {
+      "model": "woldsvaults:block/extraction_forge/tile_67",
+      "y": 270
+    },
+    "facing=west,idx=76": {
+      "model": "woldsvaults:block/extraction_forge/tile_72",
+      "y": 270
+    },
+    "facing=west,idx=77": {
+      "model": "woldsvaults:block/extraction_forge/tile_74",
+      "y": 270
+    },
+    "facing=west,idx=78": {
+      "model": "woldsvaults:block/extraction_forge/tile_76",
+      "y": 270
+    },
+    "facing=west,idx=79": {
+      "model": "woldsvaults:block/extraction_forge/tile_81",
+      "y": 270
+    },
+    "facing=west,idx=80": {
+      "model": "woldsvaults:block/extraction_forge/tile_66",
+      "y": 270
+    },
+    "facing=west,idx=81": {
+      "model": "woldsvaults:block/extraction_forge/tile_71",
+      "y": 270
+    },
+    "facing=west,idx=82": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=83": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=84": {
+      "model": "woldsvaults:block/extraction_forge/tile_80",
+      "y": 270
+    },
+    "facing=west,idx=85": {
+      "model": "woldsvaults:block/extraction_forge/tile_65",
+      "y": 270
+    },
+    "facing=west,idx=86": {
+      "model": "woldsvaults:block/extraction_forge/tile_70",
+      "y": 270
+    },
+    "facing=west,idx=87": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=88": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=89": {
+      "model": "woldsvaults:block/extraction_forge/tile_79",
+      "y": 270
+    },
+    "facing=west,idx=90": {
+      "model": "woldsvaults:block/extraction_forge/tile_64",
+      "y": 270
+    },
+    "facing=west,idx=91": {
+      "model": "woldsvaults:block/extraction_forge/tile_69",
+      "y": 270
+    },
+    "facing=west,idx=92": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=93": {
+      "model": "woldsvaults:block/extraction_forge/tile_36",
+      "y": 270
+    },
+    "facing=west,idx=94": {
+      "model": "woldsvaults:block/extraction_forge/tile_78",
+      "y": 270
+    },
+    "facing=west,idx=95": {
+      "model": "woldsvaults:block/extraction_forge/tile_63",
+      "y": 270
+    },
+    "facing=west,idx=96": {
+      "model": "woldsvaults:block/extraction_forge/tile_68",
+      "y": 270
+    },
+    "facing=west,idx=97": {
+      "model": "woldsvaults:block/extraction_forge/tile_73",
+      "y": 270
+    },
+    "facing=west,idx=98": {
+      "model": "woldsvaults:block/extraction_forge/tile_75",
+      "y": 270
+    },
+    "facing=west,idx=99": {
+      "model": "woldsvaults:block/extraction_forge/tile_77",
+      "y": 270
+    },
+    "facing=west,idx=100": {
+      "model": "woldsvaults:block/extraction_forge/tile_86",
+      "y": 270
+    },
+    "facing=west,idx=101": {
+      "model": "woldsvaults:block/extraction_forge/tile_91",
+      "y": 270
+    },
+    "facing=west,idx=102": {
+      "model": "woldsvaults:block/extraction_forge/tile_96",
+      "y": 270
+    },
+    "facing=west,idx=103": {
+      "model": "woldsvaults:block/extraction_forge/tile_101",
+      "y": 270
+    },
+    "facing=west,idx=104": {
+      "model": "woldsvaults:block/extraction_forge/tile_106",
+      "y": 270
+    },
+    "facing=west,idx=105": {
+      "model": "woldsvaults:block/extraction_forge/tile_85",
+      "y": 270
+    },
+    "facing=west,idx=106": {
+      "model": "woldsvaults:block/extraction_forge/tile_90",
+      "y": 270
+    },
+    "facing=west,idx=107": {
+      "model": "woldsvaults:block/extraction_forge/tile_95",
+      "y": 270
+    },
+    "facing=west,idx=108": {
+      "model": "woldsvaults:block/extraction_forge/tile_100",
+      "y": 270
+    },
+    "facing=west,idx=109": {
+      "model": "woldsvaults:block/extraction_forge/tile_105",
+      "y": 270
+    },
+    "facing=west,idx=110": {
+      "model": "woldsvaults:block/extraction_forge/tile_84",
+      "y": 270
+    },
+    "facing=west,idx=111": {
+      "model": "woldsvaults:block/extraction_forge/tile_89",
+      "y": 270
+    },
+    "facing=west,idx=112": {
+      "model": "woldsvaults:block/extraction_forge/tile_94",
+      "y": 270
+    },
+    "facing=west,idx=113": {
+      "model": "woldsvaults:block/extraction_forge/tile_99",
+      "y": 270
+    },
+    "facing=west,idx=114": {
+      "model": "woldsvaults:block/extraction_forge/tile_104",
+      "y": 270
+    },
+    "facing=west,idx=115": {
+      "model": "woldsvaults:block/extraction_forge/tile_83",
+      "y": 270
+    },
+    "facing=west,idx=116": {
+      "model": "woldsvaults:block/extraction_forge/tile_88",
+      "y": 270
+    },
+    "facing=west,idx=117": {
+      "model": "woldsvaults:block/extraction_forge/tile_93",
+      "y": 270
+    },
+    "facing=west,idx=118": {
+      "model": "woldsvaults:block/extraction_forge/tile_98",
+      "y": 270
+    },
+    "facing=west,idx=119": {
+      "model": "woldsvaults:block/extraction_forge/tile_103",
+      "y": 270
+    },
+    "facing=west,idx=120": {
+      "model": "woldsvaults:block/extraction_forge/tile_82",
+      "y": 270
+    },
+    "facing=west,idx=121": {
+      "model": "woldsvaults:block/extraction_forge/tile_87",
+      "y": 270
+    },
+    "facing=west,idx=122": {
+      "model": "woldsvaults:block/extraction_forge/tile_92",
+      "y": 270
+    },
+    "facing=west,idx=123": {
+      "model": "woldsvaults:block/extraction_forge/tile_97",
+      "y": 270
+    },
+    "facing=west,idx=124": {
+      "model": "woldsvaults:block/extraction_forge/tile_102",
+      "y": 270
+    }
+  }
+}

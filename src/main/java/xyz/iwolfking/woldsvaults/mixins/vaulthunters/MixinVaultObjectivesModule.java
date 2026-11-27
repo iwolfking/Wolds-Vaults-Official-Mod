@@ -65,6 +65,9 @@ public abstract class MixinVaultObjectivesModule {
         else if(objective instanceof HyperVaultObjective) {
             cir.setReturnValue("hyper");
         }
+        else if(objective instanceof ExtractionObjective) {
+            cir.setReturnValue("extraction");
+        }
     }
 
     @Inject(method = "getSize", at = @At("HEAD"), cancellable = true)
@@ -80,6 +83,9 @@ public abstract class MixinVaultObjectivesModule {
                     }
                     if (obj instanceof HyperVaultObjective) {
                         cir.setReturnValue(Pair.of(200, 90));
+                    }
+                    if (obj instanceof ExtractionObjective) {
+                        cir.setReturnValue(Pair.of(230, 48));
                     }
                 }
 
@@ -146,6 +152,7 @@ public abstract class MixinVaultObjectivesModule {
         newAndExistingPages.add(createObjectiveSettingsPage("corrupted", "Corrupted"));
         newAndExistingPages.add(createObjectiveSettingsPage("brutal_bosses", "Brutal Bosses"));
         newAndExistingPages.add(createObjectiveSettingsPage("hyper", "Hyper"));
+        newAndExistingPages.add(createObjectiveSettingsPage("extraction", "Extraction"));
         cir.setReturnValue(newAndExistingPages);
     }
 }

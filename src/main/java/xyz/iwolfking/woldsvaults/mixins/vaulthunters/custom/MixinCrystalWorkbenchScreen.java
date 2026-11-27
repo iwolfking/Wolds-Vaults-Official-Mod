@@ -43,6 +43,11 @@ public class MixinCrystalWorkbenchScreen extends AbstractElementContainerScreen<
             tooltips.add(new TextComponent("Miscellaneous Modification").withStyle(ChatFormatting.WHITE));
             tooltips.add(new TextComponent("Insert supported items like Vault Maps here for various ways of modifying your vault").withStyle(ChatFormatting.GRAY));
         }
+        else if(this.hoveredSlot.getSlotIndex() == 6) {
+            tooltips.add(new TextComponent("Greed Medallion").withStyle(ChatFormatting.GOLD));
+            tooltips.add(new TextComponent("Insert a greed medallion here to infuse the crystal with greater rewards and greater danger").withStyle(ChatFormatting.GRAY));
+            tooltips.add(new TextComponent("A crystal can only ever hold one medallion, and you can only apply medallions up to your own greed rank").withStyle(ChatFormatting.DARK_GRAY));
+        }
     }
 
 

@@ -1,0 +1,31 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "pages",
+        {
+          "uniqueId": "the_vault:inferno_reach"
+        },
+        "title",
+        "description",
+        "text"
+      ],
+      "value": "Steel Inferno"
+    },
+    {
+      "op": "set",
+      "path": [
+        "pages",
+        {
+          "uniqueId": "the_vault:inferno_reach"
+        },
+        "description",
+        "description",
+        1,
+        "text"
+      ],
+      "value": "Steel Inferno"
+    }
+  ]
+}

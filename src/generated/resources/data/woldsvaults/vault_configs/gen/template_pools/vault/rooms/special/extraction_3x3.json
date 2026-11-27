@@ -1,0 +1,9 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "woldsvaults:vault/rooms/special/extraction_3x3_1",
+      "palettes": []
+    }
+  }
+]

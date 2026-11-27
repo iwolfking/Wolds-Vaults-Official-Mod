@@ -1,0 +1,140 @@
+{
+  "keys": [
+    {
+      "id": "woldsvaults:vault/rooms/mythic/magical_forest",
+      "name": "Magical Forest",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/magical_forest.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/fortress",
+      "name": "Fortress",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/fortress.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/babel",
+      "name": "Babel",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/babel.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/dragon_den",
+      "name": "Dragon Den",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/dragon_den.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/inverted_pyramid",
+      "name": "Inverted Pyramid",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/inverted_pyramid.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/ruins1",
+      "name": "Inverted Pyramid Ruins1",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/ruins1.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/ruins2",
+      "name": "Inverted Pyramid Ruins2",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/ruins2.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/ruins3",
+      "name": "Inverted Pyramid Ruins3",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/ruins3.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/relic1",
+      "name": "Inverted Pyramid Relic1",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/relic1.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/relic2",
+      "name": "Inverted Pyramid Relic2",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/relic2.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/relic3",
+      "name": "Inverted Pyramid Relic3",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/relic3.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/relic4",
+      "name": "Inverted Pyramid Relic4",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/relic4.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/decor/inverted_pyramid/interior1",
+      "name": "Inverted Pyramid Interior1",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/decor/inverted_pyramid/interior1.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/inverted_pyramid_ruins",
+      "name": "Inverted Pyramid Ruins",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/inverted_pyramid_ruins.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/grand_canyon",
+      "name": "Grand Canyon",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/grand_canyon.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/mythic/hellscape",
+      "name": "Hellscape",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/mythic/hellscape.nbt"
+      }
+    },
+    {
+      "id": "woldsvaults:vault/rooms/test/pocket_hub",
+      "name": "Pocket Test Hub",
+      "1.0": {
+        "type": "structure",
+        "path": "woldsvaults:structures/vault/rooms/test/pocket_hub.nbt"
+      }
+    }
+  ]
+}

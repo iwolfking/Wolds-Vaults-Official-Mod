@@ -1,0 +1,126 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "skirt",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        3,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            11.6875,
+            14.1875,
+            12.6875,
+            14.375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            4.0,
+            1.0,
+            5.0,
+            2.0
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            4.0,
+            3.0,
+            5.0,
+            4.0
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "mass_lower",
+      "from": [
+        0,
+        3,
+        0
+      ],
+      "to": [
+        14,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            2.875,
+            12.125,
+            3.875,
+            12.9375
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "port_item_e",
+      "from": [
+        14,
+        3,
+        1
+      ],
+      "to": [
+        16,
+        15,
+        15
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.875,
+            12.9375,
+            9.0,
+            13.6875
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            8.875,
+            12.9375,
+            9.0,
+            13.6875
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            4.375,
+            12.9375,
+            5.25,
+            13.6875
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            14.375,
+            11.5,
+            14.5,
+            12.375
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

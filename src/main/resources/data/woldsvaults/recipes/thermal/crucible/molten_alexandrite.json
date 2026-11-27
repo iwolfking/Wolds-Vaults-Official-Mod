@@ -1,0 +1,13 @@
+{
+  "type": "thermal:crucible",
+  "ingredient": {
+    "item": "the_vault:gem_alexandrite"
+  },
+  "result": [
+    {
+      "fluid": "woldsvaults:molten_alexandrite",
+      "amount": 100
+    }
+  ],
+  "energy": 800
+}

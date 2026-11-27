@@ -39,16 +39,7 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             genericSingleton("Wooden Dungeon Barrel", VaultMod.id("wooden_dungeon_barrel"), 0, builder);
             genericSingleton("Survival Gear Cache", VaultMod.id("survival_gear_cache"), 0, builder);
 
-            mapChest("Enigma", builder);
-            mapChest("Wooden", builder);
-            mapChest("Living", builder);
-            mapChest("Ornate", builder);
-            mapChest("Gilded", builder);
-            mapChest("Treasure", builder);
-
-            builder.lootInfo(VaultMod.id("treasure_pedestal_map"), "Treasure Pedestal (Map)", map -> {
-                map.put(VaultMod.id("treasure_chest_stand_map"), 100);
-            });
+            GreedStageLootInfo.ENTRIES.forEach(entry -> stageTable(entry, builder));
 
             completionCrate("brutal_bosses", builder);
             completionCrate("unhinged_scavenger", builder);
@@ -65,12 +56,7 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
             genericSingleton("Treasure Chest Tenos", VaultMod.id("treasure_chest_tenos"), 50, builder);
             genericSingleton("Treasure Chest Wendarr", VaultMod.id("treasure_chest_wendarr"), 50, builder);
             genericSingleton("Treasure Chest Idona", VaultMod.id("treasure_chest_idona"), 50, builder);
-            genericSingleton("Treasure Chest Velara Map", VaultMod.id("treasure_chest_velara_map"), 100, builder);
-            genericSingleton("Treasure Chest Tenos Map", VaultMod.id("treasure_chest_tenos_map"), 100, builder);
-            genericSingleton("Treasure Chest Wendarr Map", VaultMod.id("treasure_chest_wendarr_map"), 100, builder);
-            genericSingleton("Treasure Chest Idona Map", VaultMod.id("treasure_chest_idona_map"), 100, builder);
             genericSingleton("Trove Sand", WoldsVaults.id("trove_sand"), 0, builder);
-            genericSingleton("Trove Sand Map", WoldsVaults.id("trove_sand_map"), 100, builder);
         });
 
         add("vanilla_completion_overrides", builder -> {
@@ -116,9 +102,10 @@ public class ModLootInfoProvider extends AbstractLootInfoProvider {
         });
     }
 
-    public void mapChest(String chestType, Builder builder) {
-        builder.lootInfo(VaultMod.id(chestType.toLowerCase() + "_chest_map"), chestType + " Chest (Map)", map -> {
-            map.put(VaultMod.id(chestType.toLowerCase() + "_chest_map"), 100);
+    /** A greed stage loot table, listed under its group with its title. */
+    public void stageTable(GreedStageLootInfo.Entry entry, Builder builder) {
+        builder.lootInfo(VaultMod.id(entry.group()), GreedStageLootInfo.title(entry), map -> {
+            map.put(GreedStageIds.id(entry.stage(), entry.table()), 0);
         });
     }
 

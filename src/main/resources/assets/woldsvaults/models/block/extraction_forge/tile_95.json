@@ -1,0 +1,75 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "roof_deck",
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        11,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            2.875,
+            6.875,
+            3.875,
+            7.875
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "emitter_collar",
+      "from": [
+        0,
+        13,
+        0
+      ],
+      "to": [
+        1,
+        14,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            6.0625,
+            14.875,
+            7.0625,
+            14.9375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            12.3125,
+            11.5625,
+            12.375,
+            12.5625
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            12.3125,
+            11.5625,
+            12.375,
+            12.5625
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

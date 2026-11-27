@@ -1,0 +1,491 @@
+{
+  "descriptions": {
+    "idona_weaponmaster": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x on hit damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " with two handed weapons, or gain "
+      },
+      {
+        "text": "+30% Attack Speed",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while dual wielding."
+      }
+    ],
+    "idona_elite_caster_ii": [
+      {
+        "text": "+25% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_stack_stack_stack": [
+      {
+        "text": "+1 max stack",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_ultra_rampaging": [
+      {
+        "text": "Hitting, killing, and being hurt fuel your "
+      },
+      {
+        "text": "Fury",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", which hugely multiplies the damage bonus of "
+      },
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " while active, and makes you take up to "
+      },
+      {
+        "text": "1.5x damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " from all sources. Fury quickly depletes while not in combat, and attacking bosses builds more Fury."
+      }
+    ],
+    "idona_crushing_blows": [
+      {
+        "text": "1.15x Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_under_pressure": [
+      {
+        "text": "Deal up to "
+      },
+      {
+        "text": "2x damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " as the vault timer runs out, scaling evenly over the last 15 minutes."
+      }
+    ],
+    "idona_start_hoard": [
+      {
+        "text": "The Hoard, focuses on "
+      },
+      {
+        "text": "stacking talents",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_luckiest_hit": [
+      {
+        "text": "Your Lucky Hit chance is multiplied by "
+      },
+      {
+        "text": "0.1x",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", but Fatal Strike, Mana Leech, and Life Leech "
+      },
+      {
+        "text": "trigger twice",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " when lucky hitting."
+      }
+    ],
+    "idona_greedbane": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "1.5x damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to greed assassins and the greed champion."
+      }
+    ],
+    "idona_soulstealer": [
+      {
+        "text": "1.5x Soul Shard Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_sneaky_advantage": [
+      {
+        "text": "+5% damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " for every unique negative effect on the target."
+      }
+    ],
+    "idona_start_st": [
+      {
+        "text": "The Staff, focuses on "
+      },
+      {
+        "text": "abilities",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter": [
+      {
+        "text": "+12.5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_start_gambler": [
+      {
+        "text": "The Gambler, focuses on "
+      },
+      {
+        "text": "lucky hits",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_hard_hitter_ii": [
+      {
+        "text": "+25% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_kinetic_impact": [
+      {
+        "text": "Multiplies all of your damage by "
+      },
+      {
+        "text": "1% per 10%",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " extra movement speed you have, applied before Weighted Boots."
+      }
+    ],
+    "idona_prison_warden": [
+      {
+        "text": "Deal "
+      },
+      {
+        "text": "2x damage for 30 seconds",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to enemies that survive a glacial prison."
+      }
+    ],
+    "idona_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_pincushion": [
+      {
+        "text": "Your melee attacks on the same enemy deal "
+      },
+      {
+        "text": "0.5% more damage per hit",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_fortunate_ii": [
+      {
+        "text": "+4% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_start_sw": [
+      {
+        "text": "The Sword, focuses on "
+      },
+      {
+        "text": "melee damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_grand_archmage": [
+      {
+        "text": "Turn into an archmage, gaining "
+      },
+      {
+        "text": "+100% Mana, +200 flat Mana, +800% Mana Regeneration, 3x Ability Power, and +250% Spell Haste cap",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ", but you may no longer swing your melee weapon."
+      }
+    ],
+    "idona_start_bounty": [
+      {
+        "text": "The Bounty, focuses on "
+      },
+      {
+        "text": "elite enemies",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_fortunate": [
+      {
+        "text": "+2.5% Lucky Hit Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_banked_anger": [
+      {
+        "text": "Gain an increasing multiplier to all of your damage the more damage you take in the vault. Currently "
+      },
+      {
+        "text": "log100000(100000 + damage taken)",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_elite_caster": [
+      {
+        "text": "+12.5% Ability Power",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_enforcer": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Hordes and Assassins."
+      }
+    ],
+    "idona_full_of_soul": [
+      {
+        "text": "+50% Soul Shard Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_thwack": [
+      {
+        "text": "Double Stun Chance",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " while using a battlestaff."
+      }
+    ],
+    "idona_power_dump": [
+      {
+        "text": "Instant abilities cast while sneaking consume your entire mana bar, dealing up to "
+      },
+      {
+        "text": "0.25% x sqrt(2000 x max mana)",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " bonus damage based on the extra fraction of your mana bar consumed by the cast."
+      }
+    ],
+    "idona_cleave_expert": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to cleave at "
+      },
+      {
+        "text": "20% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_surrounded": [
+      {
+        "text": "+2.5% global damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " per enemy within 20 blocks."
+      }
+    ],
+    "idona_king_hunter": [
+      {
+        "text": "+75% Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " to Champions and Tanks."
+      }
+    ],
+    "idona_super_stacker": [
+      {
+        "text": "1.25x max stacks",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " on stacking talents."
+      }
+    ],
+    "idona_overcrit": [
+      {
+        "text": "Lucky Hit chance over 100%",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": " allows you to overcrit, having a chance of lucky hitting again to "
+      },
+      {
+        "text": "double your damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". This effect can stack multiple times with Lucky Hit chance over 200%, multiplying your damage by 1 + the number of extra lucky hits."
+      }
+    ],
+    "idona_start_reaper": [
+      {
+        "text": "The Reaper, focuses on "
+      },
+      {
+        "text": "soul shards",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Ability Power and +5% Attack Damage",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_true_rage": [
+      {
+        "text": "Rampage",
+        "color": "#C23627"
+      },
+      {
+        "text": " now applies to Attack Damage abilities at "
+      },
+      {
+        "text": "50% efficiency",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "idona_stack_hoarder": [
+      {
+        "text": "Stacks on stacking talents last "
+      },
+      {
+        "text": "50% longer",
+        "color": "#ff7a3d"
+      },
+      {
+        "text": "."
+      }
+    ]
+  }
+}

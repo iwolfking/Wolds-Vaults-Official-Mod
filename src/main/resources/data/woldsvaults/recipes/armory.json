@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "ACA",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "item": "the_vault:chromatic_steel_block"
+    },
+    "B": {
+      "item": "sophisticatedstorage:iron_chest"
+    },
+    "C": {
+      "item": "the_vault:echo_pog"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:armory"
+  }
+}

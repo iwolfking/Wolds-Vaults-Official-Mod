@@ -2,12 +2,16 @@ package xyz.iwolfking.woldsvaults.mixins.vaulthunters.objectives;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.VaultMod;
+import iskallia.vault.config.sigil.SigilConfig;
+import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.crystal.CrystalData;
 import iskallia.vault.item.crystal.objective.CrystalObjective;
 import iskallia.vault.item.crystal.objective.RaidCrystalObjective;
 import iskallia.vault.item.crystal.theme.CrystalTheme;
 import iskallia.vault.item.crystal.theme.PoolCrystalTheme;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
@@ -16,13 +20,40 @@ import net.minecraft.world.item.TooltipFlag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.util.ObjectiveDifficulty;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionCrystal;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionDisplay;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.PoolCrystalThemeAccessor;
 
 import java.util.List;
+import java.util.Map;
+import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 @Mixin(value = CrystalData.class, remap = false)
 public abstract class MixinClientCrystalData {
     @Shadow public abstract CrystalTheme getTheme();
+
+    /** The crystal's medallion, printed last. A crystal without one prints no line at all. */
+    @Inject(method = "addText", at = @At("TAIL"))
+    private void woldsvaults$addMedallionText(List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level, CallbackInfo ci) {
+        ((GreedMedallionCrystal) (Object) this).woldsvaults$getMedallion().ifPresent(tier ->
+                tooltip.add(new TextComponent("Greed Medallion: " + GreedMedallionDisplay.getDisplayName(tier))
+                        .withStyle(ChatFormatting.GOLD)));
+    }
+
+    /** The "+N Crate Tiers" line reads the difficulty-derived count, not the per-sigil file. */
+    @WrapOperation(method = "lambda$addText$7", at = @At(value = "INVOKE", target = "Liskallia/vault/config/sigil/SigilConfig$LevelEntry;getExtraCrateTiers()I"))
+    private static int woldsvaults$sigilCrateTiers(SigilConfig.LevelEntry entry, Operation<Integer> original, @Local(argsOnly = true) SigilConfig config) {
+        for (Map.Entry<String, SigilConfig> candidate : ModConfigs.SIGIL.entrySet()) {
+            if (candidate.getValue() == config) {
+                return ObjectiveDifficulty.crateTiers(candidate.getKey());
+            }
+        }
+        WoldLogger.error("Crystal tooltip could not match a sigil config to its id; showing the per-sigil file's crate tiers");
+        return original.call(entry);
+    }
 
     @WrapOperation(method = "addText", at = @At(value = "INVOKE", target = "Liskallia/vault/item/crystal/objective/CrystalObjective;addText(Ljava/util/List;ILnet/minecraft/world/item/TooltipFlag;FI)V"))
     private void improveRaidTooltip(CrystalObjective instance, List<Component> tooltip, int minIndex, TooltipFlag flag, float time, int level, Operation<Void> original){

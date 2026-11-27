@@ -9,10 +9,12 @@ import java.util.Optional;
 
 import iskallia.vault.skill.talent.type.luckyhit.LuckyHitTalent;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.network.PacketDistributor;
-import xyz.iwolfking.woldsvaults.api.util.MissingHealthDamageHelper;
+import xyz.iwolfking.woldsvaults.events.ExecuteEvents;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 
 public class ExecutionDamageLuckyHitTalent extends LuckyHitTalent {
    private float damageIncrease;
@@ -25,9 +27,16 @@ public class ExecutionDamageLuckyHitTalent extends LuckyHitTalent {
    public ExecutionDamageLuckyHitTalent() {
    }
 
+   /**
+    * Raises this hit's execute threshold by the talent's value on top of the gear threshold; the kill itself is
+    * decided in {@link ExecuteEvents} once armour has been applied.
+    */
    @Override
    public void onLuckyHit(LivingHurtEvent event) {
-      event.setAmount(event.getAmount() + (MissingHealthDamageHelper.getExecutionDamage(this.damageIncrease, event.getEntityLiving())));
+      if (event.getSource().getEntity() instanceof ServerPlayer serverPlayer) {
+         Milestones.onLuckyHit(serverPlayer, event);
+      }
+      ExecuteEvents.addLuckyHitBonus(event.getEntityLiving(), this.damageIncrease);
       ModNetwork.CHANNEL
          .send(
             PacketDistributor.TRACKING_ENTITY_AND_SELF.with(event::getEntity),

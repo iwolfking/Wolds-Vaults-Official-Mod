@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import xyz.iwolfking.vhapi.api.datagen.AbstractGearEnchantmentProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.datagen.lib.ExternalEntries;
 
 import java.util.List;
 
@@ -47,7 +48,8 @@ public class ModGearEnchantmentsProvider extends AbstractGearEnchantmentProvider
         });
 
         add("draconic_evolution", builder -> {
-            builder.addEnchantment(ResourceLocation.fromNamespaceAndPath("draconicevolution", "reaper_enchantment"), 48, 10);
+            builder.addEnchantment(ExternalEntries.enchantment("draconicevolution", "reaper_enchantment"),
+                    List.of(ExternalEntries.item("draconicevolution", "draconium_dust", 1)), 10);
         });
 
         add("alexsmobs", builder -> {

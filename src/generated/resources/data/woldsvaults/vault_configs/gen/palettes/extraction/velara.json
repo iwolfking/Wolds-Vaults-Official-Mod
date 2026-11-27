@@ -1,0 +1,205 @@
+{
+  "tile_processors": [
+    {
+      "type": "weighted_target",
+      "target": "minecraft:cobbled_deepslate",
+      "output": {
+        "minecraft:cobbled_deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:blackstone",
+      "output": {
+        "minecraft:deepslate": 3,
+        "create:scorchia": 2
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone",
+      "output": {
+        "create:veridium": 3,
+        "minecraft:tuff": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_cobblestone",
+      "output": {
+        "minecraft:tuff": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_bedrock",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:polished_deepslate",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:smooth_stone",
+      "output": {
+        "minecraft:moss_block": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:coarse_dirt",
+      "output": {
+        "minecraft:moss_block": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:rooted_dirt",
+      "output": {
+        "create:veridium": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:smooth_basalt",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone_bricks",
+      "output": {
+        "create:cut_veridium_bricks": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone_bricks_cracked",
+      "output": {
+        "create:cut_veridium_bricks": 3,
+        "create:small_veridium_bricks": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:chiseled_vault_stone",
+      "output": {
+        "create:polished_cut_veridium": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:white_wool",
+      "output": {
+        "quark:waxed_green_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:white_concrete",
+      "output": {
+        "quark:waxed_green_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:amethyst_cluster",
+      "output": {
+        "quark:green_corundum_cluster": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:light_gray_wool",
+      "output": {
+        "quark:waxed_yellow_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:light_gray_concrete",
+      "output": {
+        "quark:waxed_yellow_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:large_amethyst_bud",
+      "output": {
+        "quark:yellow_corundum_cluster": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:pink_wool",
+      "output": {
+        "quark:waxed_violet_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:pink_concrete",
+      "output": {
+        "quark:waxed_violet_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:medium_amethyst_bud",
+      "output": {
+        "quark:violet_corundum_cluster": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=wooden_chest]",
+      "output": {
+        "minecraft:air": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=gilded_chest]",
+      "output": {
+        "minecraft:air": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=living_chest]",
+      "output": {
+        "minecraft:air": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=ornate_chest]",
+      "output": {
+        "minecraft:air": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=coin_stacks]",
+      "output": {
+        "minecraft:air": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:placeholder[type=gate]",
+      "output": {
+        "minecraft:air": 1
+      }
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

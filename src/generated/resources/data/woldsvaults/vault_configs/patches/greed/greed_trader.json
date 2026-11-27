@@ -1,0 +1,2275 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "1"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 20,
+          "maxCoinCost": 40
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 42,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "2"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 20,
+          "maxCoinCost": 40
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 68,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 68,
+          "poolId": "greed_cards_weak",
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 48,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "3"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 20,
+          "maxCoinCost": 40
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "greed_cards_weak",
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 53,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "4"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 15,
+          "maxCoinCost": 25
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 20,
+          "maxCoinCost": 40
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 87,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 87,
+          "poolId": "greed_cards_weak",
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 61,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 52,
+          "poolId": "greed_companion_relics_t1",
+          "minCoinCost": 50,
+          "maxCoinCost": 90
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "5"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 15,
+          "maxCoinCost": 25
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 94,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 94,
+          "poolId": "greed_cards_weak",
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 66,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 56,
+          "poolId": "greed_companion_relics_t1",
+          "minCoinCost": 50,
+          "maxCoinCost": 90
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "6"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 15,
+          "maxCoinCost": 25
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 99,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 99,
+          "poolId": "greed_cards_medium",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 69,
+          "poolId": "random_crystals_weak",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 59,
+          "poolId": "greed_companion_relics_t1",
+          "minCoinCost": 50,
+          "maxCoinCost": 90
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "7"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 91,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 68,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_medium",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 59,
+          "poolId": "random_crystals_medium",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 51,
+          "poolId": "greed_companion_relics_t1",
+          "minCoinCost": 50,
+          "maxCoinCost": 90
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 36,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "8"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 96,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 72,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 63,
+          "poolId": "random_crystals_medium",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_medium",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 54,
+          "poolId": "greed_companion_relics_t1",
+          "minCoinCost": 50,
+          "maxCoinCost": 90
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "9"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 20,
+          "maxCoinCost": 30
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 96,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 72,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 63,
+          "poolId": "random_crystals_medium",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_strong",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 54,
+          "poolId": "greed_companion_relics_t2",
+          "minCoinCost": 90,
+          "maxCoinCost": 160
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "10"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 95,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 81,
+          "poolId": "greed_catalysts_t1",
+          "minCoinCost": 20,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 71,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 61,
+          "poolId": "greed_companion_relics_t2",
+          "minCoinCost": 90,
+          "maxCoinCost": 160
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_strong",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 19,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "11"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 95,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 81,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 71,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 61,
+          "poolId": "greed_companion_relics_t2",
+          "minCoinCost": 90,
+          "maxCoinCost": 160
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_strong",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 19,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "tierPools",
+        "12"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 95,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 81,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 71,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 61,
+          "poolId": "greed_companion_relics_t3",
+          "minCoinCost": 120,
+          "maxCoinCost": 190
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_strong",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 19,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 3,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "tierPools",
+        "13"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 95,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 81,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 71,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 61,
+          "poolId": "greed_companion_relics_t3",
+          "minCoinCost": 120,
+          "maxCoinCost": 190
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greed_cards_elite",
+          "minCoinCost": 40,
+          "maxCoinCost": 60
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 38,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 30,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 19,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 6,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "tierPools",
+        "14"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 101,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 86,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "greed_cards_elite",
+          "minCoinCost": 40,
+          "maxCoinCost": 60
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 64,
+          "poolId": "greed_companion_relics_t3",
+          "minCoinCost": 120,
+          "maxCoinCost": 190
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 20,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 7,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "tierPools",
+        "15"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 101,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 86,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "greed_cards_elite",
+          "minCoinCost": 40,
+          "maxCoinCost": 60
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 65,
+          "poolId": "greed_companion_relics_t3",
+          "minCoinCost": 120,
+          "maxCoinCost": 190
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 20,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 8,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "tierPools",
+        "16"
+      ],
+      "value": [
+        {
+          "type": "random_etching",
+          "weight": 200,
+          "minCoinCost": 25,
+          "maxCoinCost": 35
+        },
+        {
+          "type": "pool",
+          "weight": 150,
+          "poolId": "super_inscriptions",
+          "minCoinCost": 25,
+          "maxCoinCost": 45
+        },
+        {
+          "type": "pool",
+          "weight": 101,
+          "poolId": "catalyst_t1",
+          "minCoinCost": 10,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 86,
+          "poolId": "greed_catalysts_t2",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "powerful_etching",
+          "weight": 75,
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "greed_cards_elite",
+          "minCoinCost": 40,
+          "maxCoinCost": 60
+        },
+        {
+          "type": "pool",
+          "weight": 75,
+          "poolId": "random_crystals_strong",
+          "minCoinCost": 15,
+          "maxCoinCost": 20
+        },
+        {
+          "type": "pool",
+          "weight": 65,
+          "poolId": "greed_companion_relics_t3",
+          "minCoinCost": 120,
+          "maxCoinCost": 190
+        },
+        {
+          "type": "pool",
+          "weight": 60,
+          "poolId": "greater_cores_basic",
+          "minCoinCost": 50,
+          "maxCoinCost": 75
+        },
+        {
+          "type": "pool",
+          "weight": 50,
+          "poolId": "greed_maps",
+          "minCoinCost": 35,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "catalyst_t2",
+          "minCoinCost": 30,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 40,
+          "poolId": "greater_cores_advanced",
+          "minCoinCost": 80,
+          "maxCoinCost": 100
+        },
+        {
+          "type": "pool",
+          "weight": 20,
+          "poolId": "catalyst_t3",
+          "minCoinCost": 40,
+          "maxCoinCost": 50
+        },
+        {
+          "type": "pool",
+          "weight": 10,
+          "poolId": "ancient_uniques",
+          "minCoinCost": 150,
+          "maxCoinCost": 200
+        }
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "random_crystals"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "greater_cores"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "greed_booster_packs"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "general_items"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "companion_super_relics"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "modified_super_inscriptions"
+      ]
+    },
+    {
+      "op": "remove",
+      "path": [
+        "pools",
+        "greed_companion_relics"
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "catalyst_t2",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "catalyst_t2",
+        0,
+        "catalyst",
+        "size",
+        "count"
+      ],
+      "value": 10
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "catalyst_t3",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "catalyst_t3",
+        0,
+        "catalyst",
+        "size",
+        "count"
+      ],
+      "value": 10
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_catalysts_t1",
+        0,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_catalysts_t2",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_catalysts_t2",
+        0,
+        "catalyst",
+        "isGreedy"
+      ],
+      "value": true
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        0,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        0,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        0,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        1,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        1,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        1,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        1,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        1,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        2,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        2,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        2,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        2,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        2,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        3,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        3,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        3,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        3,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        3,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        4,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        4,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        4,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        4,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        4,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        5,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t1",
+        5,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        5,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t2",
+        5,
+        "maxGreedTier"
+      ],
+      "value": -1
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_companion_relics_t3",
+        5,
+        "minGreedTier"
+      ],
+      "value": 0
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "random_crystals_weak"
+      ],
+      "value": [
+        {
+          "type": "random_crystal",
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "crystal": {
+            "modifierPool": "normal_modifiers",
+            "minModifiers": 4,
+            "maxModifiers": 8,
+            "modifierPoolTwo": "treasure_modifiers",
+            "minModifiersTwo": 0,
+            "maxModifiersTwo": 1,
+            "modifierPoolThree": "temporal_modifiers",
+            "minModifiersThree": 0,
+            "maxModifiersThree": 1
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "random_crystals_medium"
+      ],
+      "value": [
+        {
+          "type": "random_crystal",
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "crystal": {
+            "modifierPool": "normal_modifiers",
+            "minModifiers": 6,
+            "maxModifiers": 12,
+            "modifierPoolTwo": "treasure_modifiers",
+            "minModifiersTwo": 0,
+            "maxModifiersTwo": 2,
+            "modifierPoolThree": "temporal_modifiers",
+            "minModifiersThree": 0,
+            "maxModifiersThree": 2
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "random_crystals_strong"
+      ],
+      "value": [
+        {
+          "type": "random_crystal",
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "crystal": {
+            "modifierPool": "normal_modifiers",
+            "minModifiers": 8,
+            "maxModifiers": 20,
+            "modifierPoolTwo": "treasure_modifiers",
+            "minModifiersTwo": 0,
+            "maxModifiersTwo": 3,
+            "modifierPoolThree": "temporal_modifiers",
+            "minModifiersThree": 0,
+            "maxModifiersThree": 2
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greed_cards_weak"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:weak_greed_pack\"}"
+          }
+        },
+        {
+          "weight": 6,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:mega_weak_greed_pack\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greed_cards_medium"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:medium_greed_pack\"}"
+          }
+        },
+        {
+          "weight": 6,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:mega_medium_greed_pack\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greed_cards_strong"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:strong_greed_pack\"}"
+          }
+        },
+        {
+          "weight": 6,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:mega_strong_greed_pack\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greed_cards_elite"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:elite_greed_pack\"}"
+          }
+        },
+        {
+          "weight": 6,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:booster_pack",
+            "nbt": "{id:\"the_vault:mega_elite_greed_pack\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greater_cores_basic"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:deck_socket",
+            "nbt": "{Modifier:\"@greed_basic\",ModifierRoll:\"greater\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "greater_cores_advanced"
+      ],
+      "value": [
+        {
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:deck_socket",
+            "nbt": "{Modifier:\"@greed\",ModifierRoll:\"greater\"}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": [
+        "pools",
+        "ancient_uniques"
+      ],
+      "value": [
+        {
+          "type": "ancient_unique",
+          "weight": 10,
+          "minGreedTier": 0,
+          "maxGreedTier": -1
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "pools",
+        "greed_maps"
+      ],
+      "value": [
+        {
+          "weight": 40,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 0}"
+          }
+        },
+        {
+          "weight": 40,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 1}"
+          }
+        },
+        {
+          "weight": 40,
+          "minGreedTier": 0,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 2}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 5,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 1}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 5,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 2}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 5,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 3}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 7,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 2}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 7,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 3}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 7,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 4}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 10,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 3}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 10,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 4}"
+          }
+        },
+        {
+          "weight": 32,
+          "minGreedTier": 10,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_completion\",\"the_vault:map_tier\": 5}"
+          }
+        },
+        {
+          "weight": 15,
+          "minGreedTier": 13,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_epic\",\"the_vault:map_tier\": 2}"
+          }
+        },
+        {
+          "weight": 15,
+          "minGreedTier": 13,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_epic\",\"the_vault:map_tier\": 3}"
+          }
+        },
+        {
+          "weight": 15,
+          "minGreedTier": 13,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_epic\",\"the_vault:map_tier\": 4}"
+          }
+        },
+        {
+          "weight": 15,
+          "minGreedTier": 13,
+          "maxGreedTier": -1,
+          "itemStack": {
+            "item": "the_vault:map",
+            "nbt": "{\"the_vault:gear_roll_type_pool\": \"gear_epic\",\"the_vault:map_tier\": 5}"
+          }
+        }
+      ]
+    },
+    {
+      "op": "set",
+      "path": [
+        "quests",
+        {
+          "id": "the_vault:mega_multikill"
+        },
+        "task",
+        "counter",
+        "window"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "gone_in_60_seconds"
+        },
+        "minTier"
+      ],
+      "value": 4
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "the_pacifist"
+        },
+        "minTier"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "luckiest_win"
+        },
+        "minTier"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "the_speedrunner"
+        },
+        "minTier"
+      ],
+      "value": 5
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "time_you_say"
+        },
+        "minTier"
+      ],
+      "value": 8
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "speed_blackout_bingo"
+        },
+        "minTier"
+      ],
+      "value": 8
+    },
+    {
+      "op": "set",
+      "path": [
+        "challenges",
+        {
+          "challengeCrystalId": "one_shot_frenzy"
+        },
+        "minTier"
+      ],
+      "value": 9
+    }
+  ]
+}

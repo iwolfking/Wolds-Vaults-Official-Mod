@@ -1,0 +1,825 @@
+{
+  "entries": [
+    {
+      "roll": {
+        "type": "uniform",
+        "min": 24,
+        "max": 26
+      },
+      "pool": [
+        {
+          "weight": 80,
+          "pool": [
+            {
+              "weight": 8,
+              "item": {
+                "id": "the_vault:ornate_chain",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 8,
+              "item": {
+                "id": "the_vault:ornate_ingot",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 5,
+              "item": {
+                "id": "the_vault:velvet",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 12,
+              "item": {
+                "id": "the_vault:soot",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 12,
+              "item": {
+                "id": "the_vault:carbon_nugget",
+                "count": {
+                  "type": "uniform",
+                  "min": 5,
+                  "max": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "weight": 20,
+          "pool": [
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:wild_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "the_vault:carbon",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "the_vault:vault_scrap",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "weight": 8,
+          "pool": [
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:amplifying_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 16,
+              "item": {
+                "id": "the_vault:nullifying_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 12,
+              "item": {
+                "id": "the_vault:chaotic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:vorpal_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "woldsvaults:supply_box",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:vault_alloy",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "weight": 2,
+          "pool": [
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:chassis_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:power_core_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:drill_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:legs_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:shield_array_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:radiator_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:scanner_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 6.4,
+              "item": {
+                "id": "woldsvaults:attachment_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:cryonic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 2,
+              "item": {
+                "id": "the_vault:pyretic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:empowered_chaotic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 3,
+              "item": {
+                "id": "woldsvaults:blazing_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 3,
+              "item": {
+                "id": "the_vault:resilient_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 3,
+              "item": {
+                "id": "woldsvaults:repair_augmenter",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 15,
+              "item": {
+                "id": "the_vault:waning_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 15,
+              "item": {
+                "id": "the_vault:waxing_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 21,
+              "item": {
+                "id": "the_vault:fundamental_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "woldsvaults:inscribing_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 15,
+              "item": {
+                "id": "the_vault:ornate_chest_scroll",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:trident",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:battlestaff",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 46,
+              "item": {
+                "id": "the_vault:scepter",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 46,
+              "item": {
+                "id": "the_vault:dagger",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:rang",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:boots",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:leggings",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:chestplate",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 48,
+              "item": {
+                "id": "the_vault:helmet",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:sword",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:axe",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:shield",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:wand",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 24,
+              "item": {
+                "id": "the_vault:focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "greed_stage_loot"
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:map",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "gear_completion",
+                  "the_vault:map_tier": -1
+                }
+              }
+            },
+            {
+              "weight": 4,
+              "item": {
+                "id": "the_vault:vault_necklace",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "weight": 0.00445,
+          "pool": [
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:chassis_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:power_core_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:drill_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:legs_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:shield_array_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:radiator_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:scanner_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 4.5,
+              "item": {
+                "id": "woldsvaults:attachment_blueprint",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            },
+            {
+              "weight": 50,
+              "item": {
+                "id": "the_vault:vault_alloy",
+                "count": {
+                  "type": "uniform",
+                  "min": 7,
+                  "max": 14
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "woldsvaults:blazing_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:resilient_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:cryonic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:pyretic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "the_vault:empowered_chaotic_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 1,
+              "item": {
+                "id": "the_vault:map",
+                "count": {
+                  "type": "uniform",
+                  "min": 1,
+                  "max": 1
+                },
+                "nbt": {
+                  "the_vault:gear_roll_type_pool": "gear_completion",
+                  "the_vault:map_tier": -1
+                }
+              }
+            },
+            {
+              "weight": 10,
+              "item": {
+                "id": "woldsvaults:repair_augmenter",
+                "count": {
+                  "type": "uniform",
+                  "min": 2,
+                  "max": 2
+                }
+              }
+            },
+            {
+              "weight": 80,
+              "item": {
+                "id": "the_vault:fundamental_focus",
+                "count": {
+                  "type": "uniform",
+                  "min": 3,
+                  "max": 6
+                }
+              }
+            },
+            {
+              "weight": 200,
+              "item": {
+                "id": "the_vault:carbon",
+                "count": {
+                  "type": "uniform",
+                  "min": 10,
+                  "max": 20
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

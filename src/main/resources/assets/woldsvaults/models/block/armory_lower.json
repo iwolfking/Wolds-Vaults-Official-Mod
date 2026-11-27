@@ -1,0 +1,132 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "front": "woldsvaults:block/armory_front_lower",
+    "side": "woldsvaults:block/armory_side_lower",
+    "back": "woldsvaults:block/armory_back_lower",
+    "trim": "woldsvaults:block/armory_trim",
+    "bottom": "woldsvaults:block/armory_bottom",
+    "particle": "woldsvaults:block/armory_side_lower"
+  },
+  "elements": [
+    {
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        2,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#trim",
+          "uv": [
+            1,
+            13,
+            15,
+            15
+          ]
+        },
+        "south": {
+          "texture": "#trim",
+          "uv": [
+            1,
+            13,
+            15,
+            15
+          ]
+        },
+        "east": {
+          "texture": "#trim",
+          "uv": [
+            1,
+            13,
+            15,
+            15
+          ]
+        },
+        "west": {
+          "texture": "#trim",
+          "uv": [
+            1,
+            13,
+            15,
+            15
+          ]
+        },
+        "up": {
+          "texture": "#bottom",
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ]
+        },
+        "down": {
+          "texture": "#bottom",
+          "uv": [
+            1,
+            1,
+            15,
+            15
+          ],
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        2,
+        2
+      ],
+      "to": [
+        15,
+        16,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front",
+          "uv": [
+            1,
+            0,
+            15,
+            14
+          ]
+        },
+        "south": {
+          "texture": "#back",
+          "uv": [
+            1,
+            0,
+            15,
+            14
+          ]
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            14,
+            0,
+            1,
+            14
+          ]
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            1,
+            0,
+            14,
+            14
+          ]
+        }
+      }
+    }
+  ]
+}

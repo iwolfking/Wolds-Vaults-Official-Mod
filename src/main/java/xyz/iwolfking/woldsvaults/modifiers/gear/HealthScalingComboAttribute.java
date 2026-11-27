@@ -27,8 +27,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import xyz.iwolfking.woldsvaults.api.util.CurrentHealthDamageHelper;
+import xyz.iwolfking.woldsvaults.api.util.DerivedHit;
 import xyz.iwolfking.woldsvaults.api.util.MaxHealthDamageHelper;
-import xyz.iwolfking.woldsvaults.api.util.MissingHealthDamageHelper;
+import xyz.iwolfking.woldsvaults.api.util.VaultTrueDamage;
 import xyz.iwolfking.woldsvaults.modifiers.gear.lib.ComboAttribute;
 
 import javax.annotation.Nonnull;
@@ -61,22 +62,24 @@ public class HealthScalingComboAttribute extends ComboAttribute {
 
     @Override
     public void triggerComboEffect(Player player, LivingEntity target, ComboAttribute attribute) {
-        if (attribute instanceof HealthScalingComboAttribute healthCombo) {
-            if (!target.level.isClientSide()) {
-                ActiveFlags.IS_AOE_ATTACKING.push();
-                float damage = switch (healthCombo.getScalingType()) {
-                    case MAX_HEALTH -> MaxHealthDamageHelper.applyScaledMaxHealthDamageBonus(target, 0F, healthCombo.healthMultiplier);
-                    case MISSING_HEALTH -> MissingHealthDamageHelper.getExecutionDamage(healthMultiplier, target);
-                    case CURRENT_HEALTH -> CurrentHealthDamageHelper.getCurrentHealthDamage(healthMultiplier, target);
-                };
-
-                target.hurt(DamageSource.playerAttack(player), damage);
-                ActiveFlags.IS_AOE_ATTACKING.pop();
-
-                if (this.getAssociatedEffect() != null) {
-                    spawnComboParticles(target, this.getAssociatedEffect().getColor());
-                }
-            }
+        if (!(attribute instanceof HealthScalingComboAttribute healthCombo) || target.level.isClientSide()) {
+            return;
+        }
+        if (DerivedHit.isBoss(target)) {
+            return;
+        }
+        float damage = switch (healthCombo.getScalingType()) {
+            case MAX_HEALTH -> MaxHealthDamageHelper.applyScaledMaxHealthDamageBonus(target, 0F, healthCombo.healthMultiplier);
+            case CURRENT_HEALTH -> CurrentHealthDamageHelper.getCurrentHealthDamage(healthCombo.healthMultiplier, target);
+        };
+        ActiveFlags.IS_AOE_ATTACKING.push();
+        try {
+            VaultTrueDamage.deal(player, target, damage);
+        } finally {
+            ActiveFlags.IS_AOE_ATTACKING.pop();
+        }
+        if (this.getAssociatedEffect() != null) {
+            spawnComboParticles(target, this.getAssociatedEffect().getColor());
         }
     }
 
@@ -219,7 +222,6 @@ public class HealthScalingComboAttribute extends ComboAttribute {
             String typeDesc = switch (object.getScalingType()) {
                 case CURRENT_HEALTH -> "current health";
                 case MAX_HEALTH -> "maximum health";
-                case MISSING_HEALTH -> "missing health";
             };
 
             return new TextComponent("")
@@ -291,7 +293,6 @@ public class HealthScalingComboAttribute extends ComboAttribute {
             String typeDesc = switch (attribute.getScalingType()) {
                 case CURRENT_HEALTH -> "current health";
                 case MAX_HEALTH -> "maximum health";
-                case MISSING_HEALTH -> "missing health";
             };
 
             return new TextComponent("")
@@ -321,7 +322,6 @@ public class HealthScalingComboAttribute extends ComboAttribute {
 
     public enum DamageType {
         CURRENT_HEALTH,
-        MAX_HEALTH,
-        MISSING_HEALTH
+        MAX_HEALTH
     }
 }

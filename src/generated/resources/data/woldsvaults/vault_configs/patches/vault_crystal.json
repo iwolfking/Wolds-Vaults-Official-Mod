@@ -1,0 +1,98 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 0
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 20
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 30
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "the_vault:default",
+        {
+          "level": 50
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "THEMES",
+        "woldsvaults:royale",
+        {
+          "level": 0
+        },
+        "seasonalWeights"
+      ],
+      "value": {}
+    },
+    {
+      "op": "set",
+      "path": [
+        "OBJECTIVES",
+        "the_vault:haunted_braziers",
+        {
+          "level": 0
+        },
+        "pool",
+        0,
+        "value",
+        "target"
+      ],
+      "value": {
+        "type": "uniform",
+        "min": 6,
+        "max": 10
+      }
+    },
+    {
+      "op": "set",
+      "path": [
+        "OBJECTIVES",
+        "the_vault:haunted_braziers",
+        {
+          "level": 0
+        },
+        "pool",
+        0,
+        "value",
+        "objective_probability"
+      ],
+      "value": 1.0
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import iskallia.vault.init.ModConfigs;
 import me.dinnerbeef.compressium.Compressium;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -25,6 +26,7 @@ import xyz.iwolfking.woldsvaults.integration.occultism.init.ModRitualDummyItems;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import xyz.iwolfking.woldsvaults.init.ModFluids;
 
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -104,6 +106,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.SCAVENGER_POUCH_ITEM);
         simpleItem(ModItems.PRISMATIC_GLUE_BUCKET);
         simpleItem(ModItems.MOLTEN_TRINKET_BUCKET);
+        ModItems.EXTRACTOR_COMPONENTS.values().forEach(item -> fabricatorItem(item));
+        fabricatorItem(ModItems.BLANK_FABRICATION_PATTERN);
+        fabricatorItem(ModItems.FABRICATION_PATTERN);
+        ModFluids.EXTRACTION_FLUIDS.values().forEach(fluid -> simpleItem(fluid.bucket));
         simpleItem(ModItems.MOB_BINDING_STONE);
         simpleItem(ModItems.GREED_TREE_RESET_ITEM);
         simpleItem(ModItems.EXQUISITE_BOX);
@@ -116,7 +122,6 @@ public class ModItemModelProvider extends ItemModelProvider {
                         ResourceLocation.parse("builtin/entity")
                 ));
         singleTexture("research_token_base", ResourceLocation.withDefaultNamespace("item/generated"), WoldsVaults.id("item/research_token"));
-        simpleItem(ModItems.RESEARCH_TOKEN);
         simpleItem(ModItems.RESONATING_REINFORCEMENT);
         simpleItem(ModItems.RUINED_ESSENCE);
         simpleItem(ModItems.SKILL_ORB_ITEM);
@@ -204,13 +209,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleResource("wizard_trinket_pouch");
 
         simpleResource("alchemy_bottle");
-        simpleLayeredResource("bubbling_contents00", "alchemy_bottle", "bubbling_contents00"); // 1 ingredient
-        simpleLayeredResource("bubbling_contents01", "alchemy_bottle", "bubbling_contents01"); // 2 ingredients
-        simpleLayeredResource("bubbling_contents02", "alchemy_bottle", "bubbling_contents02"); // 3 ingredients
-        simpleLayeredResource("bubbling_contents03", "alchemy_bottle", "bubbling_contents03"); // cooking
+        simpleLayeredResource("bubbling_contents00", "alchemy_bottle", "bubbling_contents00");
+        simpleLayeredResource("bubbling_contents01", "alchemy_bottle", "bubbling_contents01");
+        simpleLayeredResource("bubbling_contents02", "alchemy_bottle", "bubbling_contents02");
+        simpleLayeredResource("bubbling_contents03", "alchemy_bottle", "bubbling_contents03");
         generatePotionItem();
 
-        // are we fr
         itemWithTexture(ModItems.UBER_CHAOS_CATALYST, "vault_catalyst_unhinged");
         itemWithTexture(ModItems.STYLISH_FOCUS, "stylish_orb");
         itemWithTexture(ModItems.CRYSTAL_SEAL_RAID_ROCK_INFINITE_HARD, "crystal_seal_raid_infinite_hard");
@@ -223,7 +227,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         itemWithTexture(ModItems.TRINKET_POUCH, "standard_trinket_pouch");
         itemWithTexture(ModItems.GOD_OFFERING, "god_blessing_idona");
 
-        //Vault Modifier icon models
         vaultModifier(VaultMod.id("orematic"), "oremania");
         vaultModifier(VaultMod.id("resistant_mobs"));
         vaultModifier(VaultMod.id("phantasmal_mobs"));
@@ -300,6 +303,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         deckCore(WoldsVaults.id("sparkling_deck_core"));
         deckCore(WoldsVaults.id("construction_deck_core"));
         deckCore(WoldsVaults.id("archive_deck_core"));
+        deckCore(WoldsVaults.id("greed_deck_core"));
 
         ModConfigs.RESEARCHES_GUI = new ResearchesGUIConfig().readConfig();
         ModConfigs.RESEARCHES_GUI.getStyles().forEach((name, s) -> {
@@ -331,6 +335,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         etching(VaultMod.id("imploding_barrier"), "implode_mana_regen");
         etching(VaultMod.id("ravenous_fangs"), "bloodfang");
         etching(VaultMod.id("conservation_of_momentum"));
+        etching(VaultMod.id("power_core"), "mana_trap");
 
         ModCompressibleBlocks.getRegisteredBlocks().forEach((k, v) -> {
             for (int i = 0; i < v.size(); i ++) {
@@ -355,10 +360,22 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent("item/" + item.getRegistryName().getPath(), ResourceLocation.fromNamespaceAndPath(Occultism.MODID, "ritual_dummy"));
     }
 
+    /** Vault Fabricator components and patterns keep their sprites under {@code item/fabricator/}. */
+    private ItemModelBuilder fabricatorItem(Item item) {
+        return withExistingParent(item.getRegistryName().getPath(), ResourceLocation.parse("item/generated"))
+                .texture("layer0", modLoc("item/fabricator/" + item.getRegistryName().getPath()));
+    }
+
     private ItemModelBuilder simpleItem(Item item) {
         return withExistingParent(item.getRegistryName().getPath(),
                 ResourceLocation.parse("item/generated")).texture("layer0",
                 WoldsVaults.id("item/" + item.getRegistryName().getPath()));
+    }
+
+    /** Items whose own sprite does not exist yet borrow an existing texture until art lands. */
+    private ItemModelBuilder placeholderItem(Item item, ResourceLocation texture) {
+        return withExistingParent(item.getRegistryName().getPath(),
+                ResourceLocation.parse("item/generated")).texture("layer0", texture);
     }
 
     private ItemModelBuilder shuffleSeal(Item item) {
@@ -388,11 +405,17 @@ public class ModItemModelProvider extends ItemModelProvider {
                         VaultMod.id("gui/skills/" + skillId));
     }
 
+    /** Model for one research token, or null with a log line if no texture ships for that style. */
+    @Nullable
     public ItemModelBuilder researchToken(ResourceLocation icon) {
+        ResourceLocation texture = VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon));
+        if (!existingFileHelper.exists(texture, PackType.CLIENT_RESOURCES, ".png", "textures")) {
+            WoldLogger.error("Research icon texture {} does not exist; skipping its token model.", texture);
+            return null;
+        }
         return getBuilder(WoldsVaults.id("item/researches/" + ResourceLocUtils.getStrippedPath(icon)).toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0",
-                        VaultMod.id("gui/researches/" + ResourceLocUtils.getStrippedPath(icon)));
+                .texture("layer0", texture);
     }
 
     public ItemModelBuilder etching(ResourceLocation icon) {

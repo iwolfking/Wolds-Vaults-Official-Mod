@@ -1,0 +1,258 @@
+{
+  "format": "woldsvaults-god-node-vortex",
+  "version": 2,
+  "units": {
+    "px": "pixels of the 64px star cell",
+    "spin": "revolutions per second, positive is clockwise on screen",
+    "orbitSpeed": "revolutions per second for the whole fan of rays",
+    "startRadius": "px from the star centre where a ray begins",
+    "length": "px a ray reaches beyond its start at full stretch",
+    "angle": "degrees a ray leans away from pointing straight out of the centre",
+    "twist": "radians from the inner to the outer end of an arm",
+    "swirl": "turns around the star over one trip",
+    "tripTime": "seconds",
+    "pulseRate": "pulses per second"
+  },
+  "nodes": {
+    "STAT": {
+      "light": {
+        "brightness": 1,
+        "toneFloor": 70,
+        "toneSteps": 4
+      },
+      "arms": {
+        "enabled": false,
+        "count": 3,
+        "innerRadius": 14,
+        "outerRadius": 38,
+        "twist": 2.6,
+        "spin": 0.18,
+        "widthCore": 1,
+        "widthTip": 3,
+        "brightness": 0.35,
+        "segments": 3,
+        "segmentFill": 0.6,
+        "segmentFlow": 0.8
+      },
+      "motes": {
+        "enabled": false,
+        "count": 12,
+        "startRadius": 40,
+        "fadeRadius": 9,
+        "tripTime": 2.6,
+        "swirl": 1.1,
+        "rideArms": false,
+        "trail": 6,
+        "size": 1,
+        "brightness": 1.1,
+        "overStar": false
+      },
+      "rays": {
+        "enabled": false,
+        "count": 2,
+        "startRadius": 11,
+        "length": 20,
+        "lengthSpread": 0,
+        "widthBase": 4.25,
+        "widthTip": 1.25,
+        "orbitSpeed": 0.34,
+        "angle": 0,
+        "pulseRate": 0.7,
+        "stretchPulse": 0.55,
+        "brightnessPulse": 0.7,
+        "pulseWaves": 4,
+        "pulseRandomness": 0.25,
+        "brightness": 1.7,
+        "fadeToTip": true,
+        "overStar": false
+      },
+      "glow": {
+        "enabled": true,
+        "radius": 14,
+        "brightness": 0.25,
+        "pulse": 0.25,
+        "pulseRate": 0.5
+      }
+    },
+    "MINOR": {
+      "light": {
+        "brightness": 1.2,
+        "toneFloor": 70,
+        "toneSteps": 4
+      },
+      "arms": {
+        "enabled": true,
+        "count": 3,
+        "innerRadius": 12,
+        "outerRadius": 40,
+        "twist": 2,
+        "spin": 0.12,
+        "widthCore": 1,
+        "widthTip": 2,
+        "brightness": 0.4,
+        "segments": 2,
+        "segmentFill": 0.6,
+        "segmentFlow": 0.8
+      },
+      "motes": {
+        "enabled": true,
+        "count": 24,
+        "startRadius": 44,
+        "fadeRadius": 9,
+        "tripTime": 3,
+        "swirl": 1.1,
+        "rideArms": false,
+        "trail": 4,
+        "size": 1,
+        "brightness": 1.1,
+        "overStar": false
+      },
+      "rays": {
+        "enabled": true,
+        "count": 8,
+        "startRadius": 0,
+        "length": 37,
+        "lengthSpread": 4,
+        "widthBase": 1,
+        "widthTip": 8,
+        "orbitSpeed": -0.08,
+        "angle": 0,
+        "pulseRate": 0.9,
+        "stretchPulse": 1,
+        "brightnessPulse": 0.7,
+        "pulseWaves": 1,
+        "pulseRandomness": 0.45,
+        "brightness": 1,
+        "fadeToTip": true,
+        "overStar": false
+      },
+      "glow": {
+        "enabled": true,
+        "radius": 16,
+        "brightness": 0.3,
+        "pulse": 0.25,
+        "pulseRate": 0.5
+      }
+    },
+    "MAJOR": {
+      "light": {
+        "brightness": 1.2,
+        "toneFloor": 70,
+        "toneSteps": 4
+      },
+      "arms": {
+        "enabled": true,
+        "count": 10,
+        "innerRadius": 12,
+        "outerRadius": 37,
+        "twist": 8,
+        "spin": -0.18,
+        "widthCore": 4,
+        "widthTip": 2.5,
+        "brightness": 1.05,
+        "segments": 5,
+        "segmentFill": 0.7,
+        "segmentFlow": 0
+      },
+      "motes": {
+        "enabled": true,
+        "count": 33,
+        "startRadius": 74,
+        "fadeRadius": 0,
+        "tripTime": 2.9,
+        "swirl": 0.65,
+        "rideArms": false,
+        "trail": 8,
+        "size": 2,
+        "brightness": 0.5,
+        "overStar": false
+      },
+      "rays": {
+        "enabled": true,
+        "count": 8,
+        "startRadius": 0,
+        "length": 51,
+        "lengthSpread": 3,
+        "widthBase": 8,
+        "widthTip": 0.5,
+        "orbitSpeed": 0.05,
+        "angle": -4,
+        "pulseRate": 0.65,
+        "stretchPulse": 0.5,
+        "brightnessPulse": 1,
+        "pulseWaves": 4,
+        "pulseRandomness": 0.55,
+        "brightness": 1.15,
+        "fadeToTip": true,
+        "overStar": true
+      },
+      "glow": {
+        "enabled": true,
+        "radius": 3,
+        "brightness": 0.1,
+        "pulse": 0,
+        "pulseRate": 0.15
+      }
+    },
+    "ROOT": {
+      "light": {
+        "brightness": 1.2,
+        "toneFloor": 70,
+        "toneSteps": 4
+      },
+      "arms": {
+        "enabled": false,
+        "count": 4,
+        "innerRadius": 14,
+        "outerRadius": 34,
+        "twist": 2.6,
+        "spin": 0.18,
+        "widthCore": 1,
+        "widthTip": 3,
+        "brightness": 0.35,
+        "segments": 3,
+        "segmentFill": 0.6,
+        "segmentFlow": 0.8
+      },
+      "motes": {
+        "enabled": true,
+        "count": 12,
+        "startRadius": 34,
+        "fadeRadius": 8,
+        "tripTime": 3.2,
+        "swirl": 0.7,
+        "rideArms": false,
+        "trail": 6,
+        "size": 1,
+        "brightness": 1.1,
+        "overStar": false
+      },
+      "rays": {
+        "enabled": true,
+        "count": 10,
+        "startRadius": 0,
+        "length": 31,
+        "lengthSpread": 1,
+        "widthBase": 2,
+        "widthTip": 2.5,
+        "orbitSpeed": 0.05,
+        "angle": 0,
+        "pulseRate": 1.4,
+        "stretchPulse": 0.55,
+        "brightnessPulse": 0.95,
+        "pulseWaves": 4,
+        "pulseRandomness": 0.7,
+        "brightness": 1,
+        "fadeToTip": true,
+        "overStar": true
+      },
+      "glow": {
+        "enabled": true,
+        "radius": 14,
+        "brightness": 0.4,
+        "pulse": 0.25,
+        "pulseRate": 0.5
+      }
+    }
+  }
+}

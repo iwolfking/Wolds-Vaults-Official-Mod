@@ -1,0 +1,10 @@
+[
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/raid/orcish_rooms",
+    "weight": 1
+  },
+  {
+    "reference": "woldsvaults:greed/stage_2/rooms/challenge/raid/easter_rooms",
+    "weight": 1
+  }
+]

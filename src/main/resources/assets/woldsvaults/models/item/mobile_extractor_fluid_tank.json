@@ -1,0 +1,53 @@
+{
+  "parent": "woldsvaults:block/mobile_extractor_fluid_tank/level_0",
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:fill": 1
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_1"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 2
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_2"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 3
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_3"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 4
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_4"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 5
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_5"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 6
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_6"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 7
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_7"
+    },
+    {
+      "predicate": {
+        "woldsvaults:fill": 8
+      },
+      "model": "woldsvaults:block/mobile_extractor_fluid_tank/level_8"
+    }
+  ]
+}

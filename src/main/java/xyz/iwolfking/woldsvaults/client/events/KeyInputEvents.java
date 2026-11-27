@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
@@ -25,13 +26,19 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.p3pp3rf1y.sophisticatedbackpacks.backpack.BackpackItem;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.network.NetworkHandler;
+import xyz.iwolfking.woldsvaults.gods.network.ServerboundToggleCharmTemporalMessage;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.integration.bettercombat.BetterCombatToggleHelper;
+import xyz.iwolfking.woldsvaults.client.bullet.ClientBulletBill;
 import xyz.iwolfking.woldsvaults.client.init.ModKeybinds;
+import xyz.iwolfking.woldsvaults.client.lightning.ClientLightningForm;
+import xyz.iwolfking.woldsvaults.client.loadingzone.ClientLoadingZone;
 import xyz.iwolfking.woldsvaults.client.screens.SpeedCapConfigScreen;
 import xyz.iwolfking.woldsvaults.effect.trinkets.SpeedLimitTrinketEffect;
 import xyz.iwolfking.woldsvaults.client.screens.PouchScreen;
+import xyz.iwolfking.woldsvaults.client.spellcraft.editor.SpellcraftScreenOpener;
 import xyz.iwolfking.woldsvaults.api.util.PouchHelper;
 import xyz.iwolfking.woldsvaults.init.ModNetwork;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.menu.PouchMenu;
@@ -76,6 +83,9 @@ public class KeyInputEvents {
             Minecraft.getInstance().setScreen(new InventoryHudEditScreen(Minecraft.getInstance().screen));
         }
 
+        if (ModKeybinds.toggleCharmBlessing.consumeClick() && Minecraft.getInstance().player != null) {
+            NetworkHandler.INSTANCE.sendToServer(new ServerboundToggleCharmTemporalMessage());
+        }
         if (ModKeybinds.openTrinketPouch.consumeClick()) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null && Minecraft.getInstance().screen == null) {
@@ -102,9 +112,26 @@ public class KeyInputEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void onClickInput(InputEvent.ClickInputEvent event) {
+        ClientLightningForm.onClick(event);
+        if (!event.isCanceled()) {
+            ClientBulletBill.onClick(event);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onMovementInput(MovementInputUpdateEvent event) {
+        ClientLightningForm.onMovementInput(event);
+        ClientLoadingZone.onMovementInput(event);
+    }
+
 
     @SubscribeEvent
     public static void onGuiMouseClicked(ScreenEvent.MouseClickedEvent.Pre event) {
+        if (SpellcraftScreenOpener.tryOpen(event)) {
+            return;
+        }
         Minecraft minecraft = Minecraft.getInstance();
         if (event.getButton() != 1 || Screen.hasShiftDown() || minecraft.player == null
                 || !(event.getScreen() instanceof AbstractContainerScreen<?> screen)

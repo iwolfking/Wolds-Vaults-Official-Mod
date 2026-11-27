@@ -1,0 +1,317 @@
+{
+	"format_version": "26.3",
+	"credit": "Lightning Fiend set: the lightning orb (handoff/lightning_fiend/blockbench/build_orb.js)",
+	"texture_size": [
+		64,
+		64
+	],
+	"textures": {
+		"0": "woldsvaults:item/gear/trident/lightning_orb",
+		"particle": "woldsvaults:item/gear/trident/lightning_orb"
+	},
+	"elements": [
+		{
+			"name": "core",
+			"from": [
+				5,
+				5,
+				5
+			],
+			"to": [
+				11,
+				11,
+				11
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					8,
+					8,
+					8
+				]
+			},
+			"faces": {
+				"north": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				},
+				"east": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				},
+				"up": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						10,
+						0,
+						16,
+						6
+					],
+					"texture": "#0"
+				}
+			},
+			"shade": false
+		},
+		{
+			"name": "bolts_a",
+			"from": [
+				3,
+				3,
+				8
+			],
+			"to": [
+				13,
+				13,
+				8
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "y",
+				"origin": [
+					8,
+					8,
+					8
+				]
+			},
+			"faces": {
+				"north": {
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"texture": "#0"
+				},
+				"south": {
+					"uv": [
+						10,
+						0,
+						0,
+						10
+					],
+					"texture": "#0"
+				}
+			},
+			"shade": false
+		},
+		{
+			"name": "bolts_b",
+			"from": [
+				8,
+				3,
+				3
+			],
+			"to": [
+				8,
+				13,
+				13
+			],
+			"rotation": {
+				"angle": 45,
+				"axis": "y",
+				"origin": [
+					8,
+					8,
+					8
+				]
+			},
+			"faces": {
+				"east": {
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					],
+					"texture": "#0"
+				},
+				"west": {
+					"uv": [
+						10,
+						0,
+						0,
+						10
+					],
+					"texture": "#0"
+				}
+			},
+			"shade": false
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [
+				0,
+				0,
+				0
+			],
+			"translation": [
+				0,
+				5,
+				1
+			],
+			"scale": [
+				0.6,
+				0.6,
+				0.6
+			]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [
+				0,
+				0,
+				0
+			],
+			"translation": [
+				0,
+				5,
+				1
+			],
+			"scale": [
+				0.6,
+				0.6,
+				0.6
+			]
+		},
+		"firstperson_righthand": {
+			"rotation": [
+				0,
+				45,
+				0
+			],
+			"translation": [
+				0,
+				5,
+				0
+			],
+			"scale": [
+				0.55,
+				0.55,
+				0.55
+			]
+		},
+		"firstperson_lefthand": {
+			"rotation": [
+				0,
+				45,
+				0
+			],
+			"translation": [
+				0,
+				5,
+				0
+			],
+			"scale": [
+				0.55,
+				0.55,
+				0.55
+			]
+		},
+		"gui": {
+			"rotation": [
+				25,
+				45,
+				0
+			],
+			"translation": [
+				0,
+				0,
+				0
+			],
+			"scale": [
+				0.95,
+				0.95,
+				0.95
+			]
+		},
+		"ground": {
+			"rotation": [
+				0,
+				0,
+				0
+			],
+			"translation": [
+				0,
+				3,
+				0
+			],
+			"scale": [
+				0.45,
+				0.45,
+				0.45
+			]
+		},
+		"fixed": {
+			"rotation": [
+				0,
+				0,
+				0
+			],
+			"translation": [
+				0,
+				0,
+				0
+			],
+			"scale": [
+				0.8,
+				0.8,
+				0.8
+			]
+		},
+		"head": {
+			"rotation": [
+				0,
+				0,
+				0
+			],
+			"translation": [
+				0,
+				6,
+				0
+			],
+			"scale": [
+				0.8,
+				0.8,
+				0.8
+			]
+		}
+	}
+}

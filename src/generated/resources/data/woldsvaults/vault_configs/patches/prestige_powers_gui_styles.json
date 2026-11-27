@@ -1,0 +1,560 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        0,
+        "text"
+      ],
+      "value": "Scavenger 1"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        1,
+        "text"
+      ],
+      "value": "Scavenger 2"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        2,
+        "text"
+      ],
+      "value": "Scavenger 3"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        3,
+        "text"
+      ],
+      "value": "Looter 1"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        4,
+        "text"
+      ],
+      "value": "Looter 2"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        5,
+        "text"
+      ],
+      "value": "Looter 3"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        6,
+        "text"
+      ],
+      "value": "Hunter 1"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        7,
+        "text"
+      ],
+      "value": "Hunter 2"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        8,
+        "text"
+      ],
+      "value": "Hunter 3"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        9,
+        "text"
+      ],
+      "value": "Master 1"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        10,
+        "text"
+      ],
+      "value": "Master 2"
+    },
+    {
+      "op": "set",
+      "path": [
+        "headers",
+        11,
+        "text"
+      ],
+      "value": "Master 3"
+    },
+    {
+      "op": "append",
+      "path": [
+        "headers"
+      ],
+      "value": {
+        "text": "Champion 1",
+        "x": -150,
+        "y": 266,
+        "width": 100,
+        "height": 16,
+        "headerColor": -8355712,
+        "textColor": -1,
+        "containerHeight": 50
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "headers"
+      ],
+      "value": {
+        "text": "Champion 2",
+        "x": -20,
+        "y": 266,
+        "width": 100,
+        "height": 16,
+        "headerColor": -8355712,
+        "textColor": -1,
+        "containerHeight": 50
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "headers"
+      ],
+      "value": {
+        "text": "Champion 3",
+        "x": 110,
+        "y": 266,
+        "width": 100,
+        "height": 16,
+        "headerColor": -8355712,
+        "textColor": -1,
+        "containerHeight": 50
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "headers"
+      ],
+      "value": {
+        "text": "Legend",
+        "x": -150,
+        "y": 338,
+        "width": 100,
+        "height": 16,
+        "headerColor": -8355712,
+        "textColor": -1,
+        "containerHeight": 50
+      }
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BountyCooldownReduction",
+        "x"
+      ],
+      "value": -130
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "EnderAnchorPower",
+        "x"
+      ],
+      "value": -100
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "StepUpPower",
+        "x"
+      ],
+      "value": 160
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "StepUpPower",
+        "y"
+      ],
+      "value": 10
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BlackMarketRerolls",
+        "x"
+      ],
+      "value": -70
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BlackMarketRerolls",
+        "y"
+      ],
+      "value": 82
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "CrateTier",
+        "x"
+      ],
+      "value": 30
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "NoTrinketUses",
+        "x"
+      ],
+      "value": 30
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "NoTrinketUses",
+        "y"
+      ],
+      "value": 154
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BlackMarketer",
+        "x"
+      ],
+      "value": -130
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BlackMarketer",
+        "y"
+      ],
+      "value": 226
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "MovementSpeedMultiplier",
+        "x"
+      ],
+      "value": -70
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "HealthIncrease",
+        "x"
+      ],
+      "value": 60
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "HealthIncrease",
+        "y"
+      ],
+      "value": 226
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "PrismaticPouch",
+        "x"
+      ],
+      "value": -130
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "PrismaticPouch",
+        "y"
+      ],
+      "value": 298
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BarrierOfResilience",
+        "x"
+      ],
+      "value": -100
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "BarrierOfResilience",
+        "y"
+      ],
+      "value": 298
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "MasterfulPower",
+        "x"
+      ],
+      "value": -70
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "MasterfulPower",
+        "y"
+      ],
+      "value": 298
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "WeaverOfTime",
+        "x"
+      ],
+      "value": 0
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "WeaverOfTime",
+        "y"
+      ],
+      "value": 298
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "ShieldOfLastingGuard",
+        "x"
+      ],
+      "value": 60
+    },
+    {
+      "op": "set",
+      "path": [
+        "styles",
+        "ShieldOfLastingGuard",
+        "y"
+      ],
+      "value": 298
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "GodsDisciple"
+      ],
+      "value": {
+        "x": 160,
+        "y": 82,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/the_spark",
+        "inactiveIcon": "the_vault:gui/prestige/the_spark_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "ToolsmithII"
+      ],
+      "value": {
+        "x": 0,
+        "y": 154,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/toolsmith",
+        "inactiveIcon": "the_vault:gui/prestige/toolsmith_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "SuperCrystalsII"
+      ],
+      "value": {
+        "x": 130,
+        "y": 154,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/super_crystals",
+        "inactiveIcon": "the_vault:gui/prestige/super_crystals_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "GodsDiscipleII"
+      ],
+      "value": {
+        "x": 160,
+        "y": 226,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/the_petal",
+        "inactiveIcon": "the_vault:gui/prestige/the_petal_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "RelicHunter"
+      ],
+      "value": {
+        "x": 190,
+        "y": 226,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/the_carapace",
+        "inactiveIcon": "the_vault:gui/prestige/the_carapace_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "SpiritsHandII"
+      ],
+      "value": {
+        "x": 30,
+        "y": 298,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/spirits_hand",
+        "inactiveIcon": "the_vault:gui/prestige/spirits_hand_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "FruityII"
+      ],
+      "value": {
+        "x": 130,
+        "y": 298,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/fruity",
+        "inactiveIcon": "the_vault:gui/prestige/fruity_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "SuperCrystalsIII"
+      ],
+      "value": {
+        "x": 160,
+        "y": 298,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/super_crystals",
+        "inactiveIcon": "the_vault:gui/prestige/super_crystals_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "RelicHunterII"
+      ],
+      "value": {
+        "x": 190,
+        "y": 298,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/the_shadow",
+        "inactiveIcon": "the_vault:gui/prestige/the_shadow_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "LegendOfTime"
+      ],
+      "value": {
+        "x": -130,
+        "y": 370,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/the_wings",
+        "inactiveIcon": "the_vault:gui/prestige/the_wings_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "LegendOfPower"
+      ],
+      "value": {
+        "x": -100,
+        "y": 370,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/triple_jump",
+        "inactiveIcon": "the_vault:gui/prestige/triple_jump_inactive"
+      }
+    },
+    {
+      "op": "add",
+      "path": [
+        "styles",
+        "LegendOfRiches"
+      ],
+      "value": {
+        "x": -70,
+        "y": 370,
+        "frameType": "RECTANGULAR",
+        "icon": "the_vault:gui/prestige/chain_miner",
+        "inactiveIcon": "the_vault:gui/prestige/chain_miner_inactive"
+      }
+    }
+  ]
+}

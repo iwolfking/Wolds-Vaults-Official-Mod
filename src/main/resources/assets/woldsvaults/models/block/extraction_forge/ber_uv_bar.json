@@ -1,0 +1,68 @@
+{
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "uv_bar",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        28,
+        3,
+        20
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6.75,
+            14.4375,
+            8.5,
+            14.625
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            6.75,
+            14.4375,
+            8.5,
+            14.625
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            8.5,
+            14.4375,
+            9.75,
+            14.625
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            8.5,
+            14.4375,
+            9.75,
+            14.625
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            4.75,
+            11.5,
+            6.5,
+            12.75
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

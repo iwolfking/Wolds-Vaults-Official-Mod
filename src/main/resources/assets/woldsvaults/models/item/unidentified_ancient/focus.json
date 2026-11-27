@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/gear/unidentified_ancient/focus",
+    "layer1": "woldsvaults:item/gear/unidentified_ancient/focus_overlay"
+  }
+}

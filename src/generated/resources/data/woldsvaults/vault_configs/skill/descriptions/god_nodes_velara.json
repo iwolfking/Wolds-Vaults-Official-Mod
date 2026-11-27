@@ -1,0 +1,517 @@
+{
+  "descriptions": {
+    "velara_armored": [
+      {
+        "text": "+12.5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_start_briar": [
+      {
+        "text": "The Briar, focuses on "
+      },
+      {
+        "text": "survival",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_healthy_ii": [
+      {
+        "text": "+20% Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_field_medic": [
+      {
+        "text": "All group healing you apply to your allies is multiplied by "
+      },
+      {
+        "text": "1.5x",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_immune": [
+      {
+        "text": "+5% chance to avoid",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger."
+      }
+    ],
+    "velara_start_fern": [
+      {
+        "text": "The Fern, focuses on "
+      },
+      {
+        "text": "party auras",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_armored_ii": [
+      {
+        "text": "+25% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_healing_flow": [
+      {
+        "text": "+1% Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " per "
+      },
+      {
+        "text": "25% Mana Regeneration",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_malediction": [
+      {
+        "text": "Multiplies your thorns by "
+      },
+      {
+        "text": "cubeRoot(1 + healing efficiency)",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " based on your healing efficiency, but your healing efficiency is capped at "
+      },
+      {
+        "text": "-50%",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " and cannot be increased by any source."
+      }
+    ],
+    "velara_magic_armor": [
+      {
+        "text": "Magic damage is now blocked by your armor at "
+      },
+      {
+        "text": "50% efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_the_stonewall": [
+      {
+        "text": "0.4x Movement Speed",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "1.25x Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_healthy": [
+      {
+        "text": "+10% Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_immune_ii": [
+      {
+        "text": "+10% chance to avoid",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " poison, wither, bleed, chilled, corruption, slowness, blindness, levitation and hunger."
+      }
+    ],
+    "velara_guarded": [
+      {
+        "text": "+1% Block",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_indomitable": [
+      {
+        "text": "+3 Regeneration levels",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Stacks with other sources of regeneration."
+      }
+    ],
+    "velara_presence": [
+      {
+        "text": "+10% Resistance, +100% Healing Efficiency and +2 Regeneration",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " to allies within 100 blocks. Cannot be applied to yourself."
+      }
+    ],
+    "velara_thorny_ii": [
+      {
+        "text": "+50 Thorns Damage",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_counterstrike": [
+      {
+        "text": "Dodging or blocking a melee attack gives you a "
+      },
+      {
+        "text": "50% chance",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " to retaliate with a free counterattack."
+      }
+    ],
+    "velara_start_mercy": [
+      {
+        "text": "The Mercy, focuses on "
+      },
+      {
+        "text": "healing",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_immortal": [
+      {
+        "text": "Become infused with the life force of Velara, gaining "
+      },
+      {
+        "text": "1.25x max Health and Armor, 1.33x Healing Efficiency, +15 base Health, +30 base Armor, and +8 Regeneration levels",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", but you deal half damage from all sources. Velara will also save you once from death every "
+      },
+      {
+        "text": "600 seconds",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ".\n\nSacrifice cannot be applied to players with Immortal."
+      }
+    ],
+    "velara_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_cactus": [
+      {
+        "text": "0.33x Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", but "
+      },
+      {
+        "text": "2x Thorns",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_fleeting_physicality": [
+      {
+        "text": "Alternate between "
+      },
+      {
+        "text": "10 seconds of damage immunity",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", and "
+      },
+      {
+        "text": "20 seconds of taking 3x damage",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " from all sources. This cannot save you from the vault timer."
+      }
+    ],
+    "velara_sanitation": [
+      {
+        "text": "Negative effects on you and allies within 50 blocks last "
+      },
+      {
+        "text": "a third as long",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Does not stack."
+      }
+    ],
+    "velara_fast_reflexes_ii": [
+      {
+        "text": "+2.5% Dodge",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_sacrifice": [
+      {
+        "text": "Siphon "
+      },
+      {
+        "text": "66% of the raw damage",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " your party members take onto yourself, and gain an additional "
+      },
+      {
+        "text": "33% multiplicative damage resistance",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " to damage siphoned this way.\n\nSacrifice may only be applied once to a player, and multiple players with Sacrifice will automatically evenly distribute protected players amongst themselves. Sacrifice cannot affect players with the Immortal node active."
+      }
+    ],
+    "velara_start_bulwark": [
+      {
+        "text": "The Bulwark, focuses on "
+      },
+      {
+        "text": "armor and thorns",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_fast_reflexes": [
+      {
+        "text": "+1% Dodge",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_utilized": [
+      {
+        "text": "+3 to all Utility ability levels",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_thorny": [
+      {
+        "text": "+25 Thorns Damage",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_perserverence": [
+      {
+        "text": "+50% longer downed timer",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_steadfast": [
+      {
+        "text": "Every 2% Knockback Resistance above 100% is converted to "
+      },
+      {
+        "text": "+1% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", stacking additively with other Armor% sources."
+      }
+    ],
+    "velara_bounce_back": [
+      {
+        "text": "Doubles your net Healing Efficiency",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " while below "
+      },
+      {
+        "text": "10% max health",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_guarded_ii": [
+      {
+        "text": "+2.5% Block",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_adaptive_armor": [
+      {
+        "text": "Getting hit by the same enemy reduces the next instance of damage you take from them by "
+      },
+      {
+        "text": "10%",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ", up to a max of "
+      },
+      {
+        "text": "60% reduction",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". Your stack count will reset upon being hit by a different enemy."
+      }
+    ],
+    "velara_tough": [
+      {
+        "text": "+12.5% Health",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_start_sapling": [
+      {
+        "text": "The Sapling, focuses on "
+      },
+      {
+        "text": "utility",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_tough_ii": [
+      {
+        "text": "+25% Health",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "velara_defender_of_the_faith": [
+      {
+        "text": "+5% Health and Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": " for each unique god charm equipped by your vault party."
+      }
+    ],
+    "velara_start_bloom": [
+      {
+        "text": "The Bloom, focuses on "
+      },
+      {
+        "text": "counterattacks",
+        "color": "#6ef08c"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+5% Health and +5% Armor",
+        "color": "#6ef08c"
+      },
+      {
+        "text": "."
+      }
+    ]
+  }
+}

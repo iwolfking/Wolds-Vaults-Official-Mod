@@ -24,7 +24,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import org.spongepowered.asm.mixin.Mixin;
+import xyz.iwolfking.woldsvaults.config.RiptideConfig;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -35,6 +37,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VesselSlowCapHelper;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 import javax.annotation.Nullable;
@@ -49,9 +52,19 @@ public abstract class MixinLivingEntity extends Entity {
 
     @Shadow public abstract boolean shouldDiscardFriction();
 
+    @Unique
+    private Vec3 woldsVaults$waveRestVelocity;
+
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hasEffect(Lnet/minecraft/world/effect/MobEffect;)Z", ordinal = 2), cancellable = true)
     private void doLevitates(Vec3 pTravelVector, CallbackInfo ci, @Local(ordinal = 1) float f3, @Local(ordinal = 1) Vec3 vec35) {
+        RiptideConfig tuning = RiptideConfig.installed();
+        if (tuning != null && this.hasEffect(ModEffects.TIDAL_HOVER) && !this.isShiftKeyDown()) {
+            double horizontal = f3 * tuning.hoverHorizontalFriction;
+            this.setDeltaMovement(vec35.x * horizontal, vec35.y * tuning.hoverVerticalDamping, vec35.z * horizontal);
+            ci.cancel();
+            return;
+        }
 
         int levels = (this.hasEffect(ModEffects.LEVITATEII)
                     ? this.getEffect(ModEffects.LEVITATEII).getAmplifier()+1
@@ -111,6 +124,33 @@ public abstract class MixinLivingEntity extends Entity {
         WoldLogger.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
                 health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
         return sanitized;
+    }
+
+    /** Keeps only the table's share of the velocity an extraction wave mob was given since its last tick. */
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void woldsVaults$dampWavePush(CallbackInfo ci) {
+        if (this.level.isClientSide || this.woldsVaults$waveRestVelocity == null) {
+            return;
+        }
+        this.setDeltaMovement(ExtractionSpawnManager.dampedVelocity((LivingEntity) (Object) this, this.woldsVaults$waveRestVelocity, this.getDeltaMovement()));
+    }
+
+    /** Remembers an extraction wave mob's velocity at the end of its tick, for the push damping. */
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void woldsVaults$recordWaveVelocity(CallbackInfo ci) {
+        if (this.level.isClientSide) {
+            return;
+        }
+        this.woldsVaults$waveRestVelocity = this.getTags().contains(ExtractionSpawnManager.TAG_WAVE) ? this.getDeltaMovement() : null;
+    }
+
+    /** Caps Chilled on extraction wave mobs before it is applied or merged into an existing Chilled. */
+    @ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
+    private MobEffectInstance woldsVaults$capWaveChill(MobEffectInstance effect) {
+        if (this.level.isClientSide) {
+            return effect;
+        }
+        return ExtractionSpawnManager.capWaveEffect((LivingEntity) (Object) this, effect);
     }
 
     // Prestige

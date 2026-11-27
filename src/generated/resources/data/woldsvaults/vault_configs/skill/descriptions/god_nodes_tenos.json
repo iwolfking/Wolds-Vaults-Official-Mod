@@ -1,0 +1,476 @@
+{
+  "descriptions": {
+    "tenos_magical_ii": [
+      {
+        "text": "+80% Mana Regeneration",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_wide_influence": [
+      {
+        "text": "+10% Area of Effect",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_start_hoard": [
+      {
+        "text": "The Hoard, focuses on "
+      },
+      {
+        "text": "raw wealth",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_reserves": [
+      {
+        "text": "+10% Maximum Mana",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_hoarder": [
+      {
+        "text": "+25% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_cash_hunter": [
+      {
+        "text": "Applies your Item Quantity to coin piles at "
+      },
+      {
+        "text": "25% efficiency",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_treasurer": [
+      {
+        "text": "+25% Item Rarity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_barter_expert": [
+      {
+        "text": "Significantly improves",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " the rates of rarer shop pedestals in non-special vendoor rooms."
+      }
+    ],
+    "tenos_domain_expansion": [
+      {
+        "text": "Multiply your Area of Effect the further you are away from the vault portal, up to "
+      },
+      {
+        "text": "1.5x",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " at 10 or more rooms away."
+      }
+    ],
+    "tenos_start_chalice": [
+      {
+        "text": "The Chalice, focuses on "
+      },
+      {
+        "text": "mana",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_magical": [
+      {
+        "text": "+40% Mana Regeneration",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_indiana_jones": [
+      {
+        "text": "You no longer benefit from trap disarming from any source, but it multiplies your Item Quantity and Rarity by "
+      },
+      {
+        "text": "cubeRoot((1000 + trap disarm) / 1000)",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_master_of_chests": [
+      {
+        "text": "+15% Cascading",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " for every chest type and coin piles. This can stack with multiple players."
+      }
+    ],
+    "tenos_sack_of_mobs": [
+      {
+        "text": "Multiplies your damage based on the number of mobs you have killed this vault with a vault sack in your offhand. Currently "
+      },
+      {
+        "text": "log1000(1000 + kills)",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_unstoppable_greed": [
+      {
+        "text": "Multiplicatively increases your damage by "
+      },
+      {
+        "text": "5%",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " of your base Item Quantity and Rarity before buffs."
+      }
+    ],
+    "tenos_omega_vault": [
+      {
+        "text": "Doubles the weight of omega rooms",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_advanced_extraction_ii": [
+      {
+        "text": "+40% Copiously",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_advanced_extraction": [
+      {
+        "text": "+20% Copiously",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_sacked": [
+      {
+        "text": "Doubles the stats",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " from equipped Vault Sacks."
+      }
+    ],
+    "tenos_gold_plating": [
+      {
+        "text": "Reduces all damage you take by "
+      },
+      {
+        "text": "75%",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ", but taking damage costs you gold based on the damage amount, with heavier hits costing more gold."
+      }
+    ],
+    "tenos_wide_influence_ii": [
+      {
+        "text": "+20% Area of Effect",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_treasurer_ii": [
+      {
+        "text": "+50% Item Rarity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_careful_ii": [
+      {
+        "text": "+30% Trap Disarming",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_looting_engine": [
+      {
+        "text": "Multiplies your Item Quantity and Rarity by "
+      },
+      {
+        "text": "cubeRoot((1200 + c) / 1200)",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ", scaling with the average number of chests you mined per minute in the last five minutes."
+      }
+    ],
+    "tenos_reserves_ii": [
+      {
+        "text": "+20% Maximum Mana",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_expert_looter": [
+      {
+        "text": "Chests can roll up to "
+      },
+      {
+        "text": "+4 more item stacks",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_start_scales": [
+      {
+        "text": "The Scales, focuses on "
+      },
+      {
+        "text": "trade-offs",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_nose_for_treasure": [
+      {
+        "text": "+25% Treasure Door",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " spawn rate for the entire vault. Does not stack."
+      }
+    ],
+    "tenos_careful": [
+      {
+        "text": "+15% Trap Disarming",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_global_veins": [
+      {
+        "text": "+8 effective Vein Miner levels",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ", 32 up to 40."
+      }
+    ],
+    "tenos_start_chest": [
+      {
+        "text": "The Chest, focuses on "
+      },
+      {
+        "text": "chests",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_deep_reserves": [
+      {
+        "text": "1.5x Maximum Mana",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_hoarder_ii": [
+      {
+        "text": "+50% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_pious_devotion": [
+      {
+        "text": "+10 Piety",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_wealthy_patron": [
+      {
+        "text": "Multiplies Item Quantity and Rarity by "
+      },
+      {
+        "text": "+3%",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " per Unique armor piece equipped."
+      }
+    ],
+    "tenos_massive_chests": [
+      {
+        "text": "Chests can roll up to "
+      },
+      {
+        "text": "+20 more item stacks",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ", but your Item Rarity is "
+      },
+      {
+        "text": "halved",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_drillmaster": [
+      {
+        "text": "Raises the Fortune enchant cap",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " from 5 to 7."
+      }
+    ],
+    "tenos_start_lantern": [
+      {
+        "text": "The Lantern, focuses on "
+      },
+      {
+        "text": "going toolless",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_mana_starved": [
+      {
+        "text": "Up to "
+      },
+      {
+        "text": "2x Mana Regeneration",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": " as your mana depletes from 50% to empty."
+      }
+    ],
+    "tenos_start_compass": [
+      {
+        "text": "The Compass, focuses on "
+      },
+      {
+        "text": "vault reach",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": ". "
+      },
+      {
+        "text": "+10% Item Rarity and +10% Item Quantity",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "tenos_challenge_tackler": [
+      {
+        "text": "Increases the crate tiers granted by sigils by "
+      },
+      {
+        "text": "50%",
+        "color": "#5ad8ff"
+      },
+      {
+        "text": "."
+      }
+    ]
+  }
+}

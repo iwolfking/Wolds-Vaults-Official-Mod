@@ -1,0 +1,77 @@
+{
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "workpiece",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        6,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4.75,
+            13.6875,
+            5.25,
+            14.0625
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            4.75,
+            13.6875,
+            5.25,
+            14.0625
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            4.75,
+            13.6875,
+            5.25,
+            14.0625
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            4.75,
+            13.6875,
+            5.25,
+            14.0625
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            0.0,
+            13.6875,
+            0.5,
+            14.1875
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            0.0,
+            13.6875,
+            0.5,
+            14.1875
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

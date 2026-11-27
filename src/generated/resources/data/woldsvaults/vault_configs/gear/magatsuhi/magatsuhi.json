@@ -1,0 +1,11 @@
+{
+  "comboHits": 3,
+  "comboResetTicks": 60,
+  "cutRange": 16.0,
+  "airDistance": 6.0,
+  "markTicks": 200,
+  "returnTicks": 400,
+  "cooldownTicks": 40,
+  "slashRadius": 4.0,
+  "swapBackRange": 32.0
+}

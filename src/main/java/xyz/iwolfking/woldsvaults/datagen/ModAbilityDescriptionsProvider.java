@@ -302,6 +302,197 @@ public class ModAbilityDescriptionsProvider extends AbstractAbilityDescriptionsP
 
 
         });
+
+        add("god_ultimates", builder -> {
+            builder.addDescription("Stirrings_Of_Power_Dormant", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("The gods stir, but none of them answer you yet.\n\n"));
+                jsonElements.add(JsonDescription.simple("Equip a "));
+                jsonElements.add(JsonDescription.simple("god charm ", "$qhighlight"));
+                jsonElements.add(JsonDescription.simple("and reach "));
+                jsonElements.add(JsonDescription.simple("god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + " ", "$level"));
+                jsonElements.add(JsonDescription.simple("with that god, and this becomes their ultimate. Swap charms and it changes with you."));
+                jsonElements.add(castAbility());
+            }, current -> {
+            }, next -> {
+            });
+
+            builder.addDescription("Cope_De_Grace", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Idona", "$idona"));
+                jsonElements.add(JsonDescription.simple(", multiplying your "));
+                jsonElements.add(JsonDescription.simple("ability power ", "$ability_power"));
+                jsonElements.add(JsonDescription.simple("and "));
+                jsonElements.add(JsonDescription.simple("attack damage ", "$damage"));
+                jsonElements.add(JsonDescription.simple("while gaining huge amounts of "));
+                jsonElements.add(JsonDescription.simple("damage resistance", "$resistance"));
+                jsonElements.add(JsonDescription.simple(", stacking multiplicatively with all other boosts.\n\n"));
+                jsonElements.add(JsonDescription.simple("At the end of the infusion, "));
+                jsonElements.add(JsonDescription.simple("dash forward ", "$force"));
+                jsonElements.add(JsonDescription.simple("in a brutal explosion of power, dealing huge damage to everything in your way. Every hit landed during the infusion increases the damage of this final dash."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("attackDamageMultiplier");
+                current.add("abilityPowerMultiplier");
+                current.add("resistance");
+                current.add("damageCompounding");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("attackDamageMultiplier");
+                next.add("abilityPowerMultiplier");
+                next.add("resistance");
+                next.add("damageCompounding");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Savior", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Velara", "$velara"));
+                jsonElements.add(JsonDescription.simple(", sending a shockwave across the whole vault that "));
+                jsonElements.add(JsonDescription.simple("heals ", "$heal"));
+                jsonElements.add(JsonDescription.simple("and "));
+                jsonElements.add(JsonDescription.simple("shields ", "$absorb"));
+                jsonElements.add(JsonDescription.simple("every runner in it and grants them "));
+                jsonElements.add(JsonDescription.simple("resistance", "$resistance"));
+                jsonElements.add(JsonDescription.simple(".\n\nIt also raises downed teammates, once per person per vault.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Velara at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("heal");
+                current.add("absorb");
+                current.add("resistance");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("heal");
+                next.add("absorb");
+                next.add("resistance");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Eyes_Of_God", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Tenos", "$tenos"));
+                jsonElements.add(JsonDescription.simple(", instantly discovering every room in a "));
+                jsonElements.add(JsonDescription.simple("radius ", "$radius"));
+                jsonElements.add(JsonDescription.simple("around you, however far away they are.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Tenos at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("radius");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("radius");
+                next.add("ultimateCooldown");
+            });
+
+            builder.addDescription("Bullet_Time", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Infuse yourself with the power of "));
+                jsonElements.add(JsonDescription.simple("Wendarr", "$wendarr"));
+                jsonElements.add(JsonDescription.simple(", stretching every tick of the "));
+                jsonElements.add(JsonDescription.simple("vault timer ", "$duration"));
+                jsonElements.add(JsonDescription.simple("so the run lasts longer, while you gain "));
+                jsonElements.add(JsonDescription.simple("attack speed", "$speed"));
+                jsonElements.add(JsonDescription.simple(", "));
+                jsonElements.add(JsonDescription.simple("movement speed ", "$speed"));
+                jsonElements.add(JsonDescription.simple("and reflexes sharp enough to "));
+                jsonElements.add(JsonDescription.simple("dodge ", "$chance"));
+                jsonElements.add(JsonDescription.simple("almost anything.\n\n"));
+                jsonElements.add(JsonDescription.simple("Granted by Wendarr at god level " + ModGodLevelsProvider.levels().ultimateUnlockLevel + ". Its cooldown cannot be reduced."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("timerStretch");
+                current.add("dodgeChance");
+                current.add("bonusAttackSpeed");
+                current.add("bonusMovementSpeed");
+                current.add("duration");
+                current.add("ultimateCooldown");
+            }, next -> {
+                next.add("timerStretch");
+                next.add("dodgeChance");
+                next.add("bonusAttackSpeed");
+                next.add("bonusMovementSpeed");
+                next.add("duration");
+                next.add("ultimateCooldown");
+            });
+        });
+
+        add("life_block", builder -> {
+            builder.addDescription("Life_Block_Base", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Seal your wounds behind a "));
+                jsonElements.add(JsonDescription.simple("Life Block ", "$health"));
+                jsonElements.add(JsonDescription.simple("worth a share of your max health. While it stands, all "));
+                jsonElements.add(JsonDescription.simple("healing ", "$heal"));
+                jsonElements.add(JsonDescription.simple("goes into lifting the block instead of healing you.\n\n"));
+                jsonElements.add(JsonDescription.simple("Lifting it grants an "));
+                jsonElements.add(JsonDescription.simple("absorption shield", "$absorb"));
+                jsonElements.add(JsonDescription.simple(", "));
+                jsonElements.add(JsonDescription.simple("Transfusion", "$damage"));
+                jsonElements.add(JsonDescription.simple(", a stacking damage boost every time you heal, and "));
+                jsonElements.add(JsonDescription.simple("Life Bond", "$thornsDamage"));
+                jsonElements.add(JsonDescription.simple(", which passes part of the damage you take to your attacker.\n\n"));
+                jsonElements.add(JsonDescription.simple("A bigger block makes the buffs stronger, and lifting it faster makes them last "));
+                jsonElements.add(JsonDescription.simple("longer", "$duration"));
+                jsonElements.add(JsonDescription.simple("."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("blockSize");
+                current.add("absorptionShield");
+                current.add("transfusion");
+                current.add("lifeBond");
+                current.add("buffDuration");
+                current.add("fastClear");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("blockSize");
+                next.add("absorptionShield");
+                next.add("transfusion");
+                next.add("lifeBond");
+                next.add("buffDuration");
+                next.add("fastClear");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+            builder.addDescription("Mana_Block", jsonElements -> {
+                jsonElements.add(JsonDescription.simple("Seal your mana behind a "));
+                jsonElements.add(JsonDescription.simple("Mana Block ", "$manaCost"));
+                jsonElements.add(JsonDescription.simple("worth a share of your max mana. While it stands, all "));
+                jsonElements.add(JsonDescription.simple("mana regeneration ", "$manaCost"));
+                jsonElements.add(JsonDescription.simple("goes into lifting the block instead of refilling your mana.\n\n"));
+                jsonElements.add(JsonDescription.simple("Lifting it grants "));
+                jsonElements.add(JsonDescription.simple("Mana Shield", "$manaPerDamage"));
+                jsonElements.add(JsonDescription.simple(", which takes part of the damage you take from your mana instead, extra "));
+                jsonElements.add(JsonDescription.simple("mana regeneration", "$manaCost"));
+                jsonElements.add(JsonDescription.simple(", and "));
+                jsonElements.add(JsonDescription.simple("Surging Mana", "$areaOfEffect"));
+                jsonElements.add(JsonDescription.simple(", increasing your area of effect.\n\n"));
+                jsonElements.add(JsonDescription.simple("A bigger block makes the buffs stronger, and lifting it faster makes them last "));
+                jsonElements.add(JsonDescription.simple("longer", "$duration"));
+                jsonElements.add(JsonDescription.simple("."));
+                jsonElements.add(castAbility());
+            }, current -> {
+                current.add("blockSize");
+                current.add("manaShield");
+                current.add("manaRegenShare");
+                current.add("surgingMana");
+                current.add("buffDuration");
+                current.add("fastClear");
+                current.add("cooldown");
+                current.add("manaCost");
+            }, next -> {
+                next.add("blockSize");
+                next.add("manaShield");
+                next.add("manaRegenShare");
+                next.add("surgingMana");
+                next.add("buffDuration");
+                next.add("fastClear");
+                next.add("cooldown");
+                next.add("manaCost");
+            });
+        });
     }
 
     public JsonObject castAbility() {

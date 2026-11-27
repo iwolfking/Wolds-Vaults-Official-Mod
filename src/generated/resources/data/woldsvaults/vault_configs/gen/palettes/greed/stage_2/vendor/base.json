@@ -1,0 +1,14 @@
+{
+  "tile_processors": [
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/room_base"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/vendor_pedestal_placeholder"
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

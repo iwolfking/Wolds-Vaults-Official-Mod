@@ -32,6 +32,7 @@ public class ModEtchingGearAttributes {
     public static final VaultGearAttribute<Float> IMPLODING_BARRIER = woldsAttr("imploding_barrier", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.none(), VaultGearAttributeComparator.floatComparator());
     public static final VaultGearAttribute<Boolean> RAVENOUS_FANGS = woldsAttr("ravenous_fangs", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.none(), VaultGearAttributeComparator.booleanComparator());
     public static final VaultGearAttribute<Boolean> CONSERVATION_OF_MOMENTUM = woldsAttr("conservation_of_momentum", VaultGearAttributeType.booleanType(), ModGearAttributeGenerators.booleanFlag(), ModGearAttributeReaders.none(), VaultGearAttributeComparator.booleanComparator());
+    public static final VaultGearAttribute<Float> POWER_CORE = woldsAttr("power_core", VaultGearAttributeType.floatType(), ModGearAttributeGenerators.floatRange(), ModGearAttributeReaders.none(), VaultGearAttributeComparator.floatComparator());
 
     @SubscribeEvent
     public static void init(RegistryEvent.Register<VaultGearAttribute<?>> event) {
@@ -51,6 +52,7 @@ public class ModEtchingGearAttributes {
         registry.register(IMPLODING_BARRIER);
         registry.register(RAVENOUS_FANGS);
         registry.register(CONSERVATION_OF_MOMENTUM);
+        registry.register(POWER_CORE);
     }
 
     private static <T> VaultGearAttribute<T> attr(String name, VaultGearAttributeType<T> type,ConfigurableAttributeGenerator<T, ?> generator,VaultGearModifierReader<T> reader,@Nullable VaultGearAttributeComparator<T> comparator) {

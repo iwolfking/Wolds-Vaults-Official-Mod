@@ -1,19 +1,58 @@
 package xyz.iwolfking.woldsvaults.datagen;
 
+import iskallia.vault.skill.base.TieredSkill;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
 import xyz.iwolfking.vhapi.api.datagen.AbstractAbilityProvider;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.abilities.WoldsAbilityGroups;
+import xyz.iwolfking.woldsvaults.abilities.block.LifeBlockAbility;
+import xyz.iwolfking.woldsvaults.abilities.block.ManaBlockAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.BulletTimeAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.CopeDeGraceAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.EyesOfGodAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.GodUltimateAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.SaviorAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.StirringsOfPowerAbility;
+import xyz.iwolfking.woldsvaults.gods.ultimates.UltimateIds;
 
 import java.io.IOException;
 
 public class ModAbilitiesProvider extends AbstractAbilityProvider {
+    private static final int BLOCK_RAMP_TIERS = 8;
+    private static final int BLOCK_TIERS = 30;
+    private static final int ULTIMATE_COOLDOWN_TICKS = 6000;
+
     protected ModAbilitiesProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
     }
 
     @Override
     public void registerConfigs() {
+        add("life_block", builder -> builder.addSpecializedAbility(WoldsAbilityGroups.LIFE_BLOCK, "Life Block", BLOCK_RAMP_TIERS, 0, 1, 2, i -> {
+            if (i == 0) {
+                return createTieredSkill("Life_Block_Base", "Life Block", 0, 1, BLOCK_RAMP_TIERS, BLOCK_TIERS, tier -> {
+                    float block = blockMultiplier(tier);
+                    return createAndAssignId("life_block", tier + 1, new LifeBlockAbility(0, 1, 1, 2400, blockManaCost(tier),
+                            block, 200, 600, Math.round(100 * block), Math.round(400 * block),
+                            0.25F, 1.0F, 0.02F, 0.05F, 10, 60, 0.20F, 0.35F));
+                });
+            }
+            return createTieredSkill("Mana_Block", "Mana Block", 0, 1, BLOCK_RAMP_TIERS, BLOCK_TIERS, tier -> {
+                float block = blockMultiplier(tier);
+                return createAndAssignId("mana_block", tier + 1, new ManaBlockAbility(0, 1, 1, 2400, blockManaCost(tier),
+                        block, 200, 600, Math.round(200 * block), Math.round(800 * block),
+                        0.25F, 0.50F, 0.01F, 0.05F, 0.50F, 1.25F));
+            });
+        }));
+
+        add("stirrings_of_power", builder -> builder.addSpecializedAbility(UltimateIds.STIRRINGS_OF_POWER, "Stirrings of Power", 1, 0, 0, 5, i -> switch (i) {
+            case 0 -> ultimate(UltimateIds.DORMANT, "Stirrings of Power", "stirrings_of_power", new StirringsOfPowerAbility(0, 0, 0, 0, 0.0F));
+            case 1 -> ultimate(UltimateIds.COPE_DE_GRACE, "Cope de Grace", "cope_de_grace", new CopeDeGraceAbility(0, 0, 0, ULTIMATE_COOLDOWN_TICKS, 0.0F));
+            case 2 -> ultimate(UltimateIds.SAVIOR, "Savior", "savior", new SaviorAbility(0, 0, 0, ULTIMATE_COOLDOWN_TICKS, 0.0F));
+            case 3 -> ultimate(UltimateIds.EYES_OF_GOD, "Eyes of God", "eyes_of_god", new EyesOfGodAbility(0, 0, 0, ULTIMATE_COOLDOWN_TICKS, 0.0F));
+            default -> ultimate(UltimateIds.BULLET_TIME, "Bullet Time", "bullet_time", new BulletTimeAbility(0, 0, 0, ULTIMATE_COOLDOWN_TICKS, 0.0F));
+        }));
 
 //        add("replace/diffuse", builder -> {
 //            builder.addSpecializedAbility("Expunge", "Diffuse", 8, 0, 1, 2, i ->
@@ -138,4 +177,18 @@ public class ModAbilitiesProvider extends AbstractAbilityProvider {
 //
 
     }
+
+    private static TieredSkill ultimate(String id, String name, String idBase, GodUltimateAbility ability) {
+        return createTieredSkill(id, name, 0, 0, 1, 1, tier -> createAndAssignId(idBase, 1, ability));
+    }
+
+    private static float blockMultiplier(int tier) {
+        float t = Math.min(tier, BLOCK_RAMP_TIERS - 1) / (float) (BLOCK_RAMP_TIERS - 1);
+        return Math.round((1.0F + 9.0F * t) * 100.0F) / 100.0F;
+    }
+
+    private static float blockManaCost(int tier) {
+        return 40.0F + 2.0F * Math.min(tier, BLOCK_RAMP_TIERS - 1);
+    }
+
 }

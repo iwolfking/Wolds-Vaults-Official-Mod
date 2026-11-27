@@ -1,0 +1,147 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "mass_lower",
+      "from": [
+        2,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        10,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            1.875,
+            11.5,
+            2.875,
+            12.125
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "mass_left",
+      "from": [
+        2,
+        10,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            10.25,
+            6.375,
+            11.25,
+            6.75
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "band_light_low",
+      "from": [
+        1,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        9,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            2.75,
+            14.75,
+            3.75,
+            14.8125
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            5.0,
+            1.9375,
+            5.9375,
+            2.9375
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "fin_w",
+      "from": [
+        0,
+        14,
+        0
+      ],
+      "to": [
+        2,
+        16,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            5.25,
+            14.5,
+            6.25,
+            14.625
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "fin_rail_w_b",
+      "from": [
+        0,
+        12,
+        0
+      ],
+      "to": [
+        3,
+        14,
+        16
+      ],
+      "faces": {
+        "west": {
+          "uv": [
+            3.5,
+            14.625,
+            4.5,
+            14.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            5.0,
+            5.75,
+            5.1875,
+            6.75
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

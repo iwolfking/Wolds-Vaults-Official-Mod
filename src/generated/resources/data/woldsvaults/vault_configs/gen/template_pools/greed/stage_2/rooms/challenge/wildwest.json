@@ -1,0 +1,20 @@
+[
+  {
+    "weight": 1,
+    "value": {
+      "template": "the_vault:vault/rooms/challenge/wildwest1",
+      "palettes": [
+        "woldsvaults:greed/stage_2/wildwest/base"
+      ]
+    }
+  },
+  {
+    "weight": 1,
+    "value": {
+      "template": "the_vault:vault/rooms/challenge/wildwest2",
+      "palettes": [
+        "woldsvaults:greed/stage_2/wildwest/base"
+      ]
+    }
+  }
+]

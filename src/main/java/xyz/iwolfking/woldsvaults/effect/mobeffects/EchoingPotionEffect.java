@@ -30,7 +30,7 @@ public class EchoingPotionEffect extends MobEffect {
             WoldActiveFlags.IS_AOE2_ATTACK.maybeRunWithFlag(echo.noCleave, () ->
                 WoldActiveFlags.IS_UNLUCKY_ATTACK.runWithFlag(() ->
                     WoldActiveFlags.IS_ECHOING_ATTACKING.runWithFlag(() ->
-                        DamageUtil.shotgunAttack(affected, e -> e.hurt(echo.source, echo.damage))
+                        echo.runWithFlags(() -> DamageUtil.shotgunAttack(affected, e -> e.hurt(echo.source, echo.damage)))
                     )
                 )
             );

@@ -106,6 +106,12 @@ public class SurvivalObjective extends Objective {
         return new SurvivalObjective(objectiveProbabiltiy, target * 60, waveGroups);
     }
 
+    /** Starts the wave ladder at {@code index}, clamped to the configured groups. */
+    public SurvivalObjective withStartingWave(int index) {
+        this.set(WAVE_INDEX, Math.max(0, Math.min(index, this.get(WAVE_GROUPS).size() - 1)));
+        return this;
+    }
+
     @Override
     public FieldRegistry getFields() {
         return FIELDS;

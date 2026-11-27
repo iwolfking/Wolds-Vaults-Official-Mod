@@ -4,27 +4,25 @@ import iskallia.vault.VaultMod;
 import iskallia.vault.config.entry.IntRangeEntry;
 import iskallia.vault.config.entry.recipe.ConfigToolRecipe;
 import iskallia.vault.config.gear.VaultGearTierConfig;
-import iskallia.vault.config.gear.VaultGearTypeConfig;
 import iskallia.vault.gear.VaultGearRarity;
 import iskallia.vault.init.ModBlocks;
 import iskallia.vault.init.ModConfigs;
 import iskallia.vault.item.tool.ToolItem;
 import iskallia.vault.item.tool.ToolMaterial;
 import iskallia.vault.item.tool.ToolType;
-import iskallia.vault.util.data.WeightedList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import xyz.iwolfking.woldsvaults.api.util.UniqueRollTables;
 import xyz.iwolfking.woldsvaults.init.ModItems;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearCommonConfigAccessor;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigAccessor;
-import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.VaultGearRollTypeConfigRollTypeAccessor;
 
 import java.util.HashSet;
 import java.util.List;
@@ -39,47 +37,29 @@ public class MixinModConfigs {
   
     private static final int TOTAL_MAP_TIERS = 6;
 
-    @Inject(method = "register", at = @At("HEAD"), remap = false)
-    private static void wtf(CallbackInfo ci) {
-
+    /**
+     * Registers the shared ancient unique tier table, one mythic tier table per gear config and the per-tier map
+     * tables right after the gear config map is built, so vhapi's gear overlays apply to all of them.
+     */
+    @Inject(method = "register", at = @At(value = "FIELD", target = "Liskallia/vault/init/ModConfigs;VAULT_GEAR_CONFIG:Ljava/util/Map;", opcode = Opcodes.PUTSTATIC, shift = At.Shift.AFTER), remap = false)
+    private static void registerDerivedGearConfigs(CallbackInfo ci) {
+        Set<ResourceLocation> baseGearConfigs = new HashSet<>(VAULT_GEAR_CONFIG.keySet());
+        VAULT_GEAR_CONFIG.put(UniqueRollTables.ANCIENT_TABLE, new VaultGearTierConfig(UniqueRollTables.ANCIENT_TABLE).readConfig());
+        for (ResourceLocation loc : baseGearConfigs) {
+            VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
+        }
+        for (int i = 1; i < TOTAL_MAP_TIERS; i++) {
+            VAULT_GEAR_CONFIG.put(VaultMod.id("map_" + i), new VaultGearTierConfig(VaultMod.id("map_" + i)).readConfig());
+        }
     }
 
     @Inject(method = "register", at = @At("TAIL"), remap = false)
     private static void onReloadConfigs(CallbackInfo ci) {
         xyz.iwolfking.woldsvaults.init.ModConfigs.register();
 
-        Set<ResourceLocation> CURRENT_GEAR_CONFIGS =new HashSet<>(ModConfigs.VAULT_GEAR_CONFIG.keySet());
-
-
-        for(ResourceLocation loc : CURRENT_GEAR_CONFIGS) {
-            VAULT_GEAR_CONFIG.put(VaultMod.id(loc.getPath() + "_mythic"), new VaultGearTierConfig(VaultMod.id(loc.getPath() + "_mythic")).readConfig());
-        }
-
         ((VaultGearCommonConfigAccessor)ModConfigs.VAULT_GEAR_COMMON).getCraftingPotentialRanges().put(VaultGearRarity.valueOf("MYTHIC"), new IntRangeEntry(250, 650));
 
 
-        //Initialize gear configs for map tiers
-        for(int i = 1; i < TOTAL_MAP_TIERS; i++) {
-            VAULT_GEAR_CONFIG.put(VaultMod.id("map_" + i), new VaultGearTierConfig(VaultMod.id("map_" + i)).readConfig());
-        }
-
-        //Add new gear roll types
-        VaultGearTypeConfig.RollType mythicRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.valueOf("MYTHIC"), 1)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)mythicRoll).setColor(12000284);
-
-        VaultGearTypeConfig.RollType omegaPlusRoll = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.OMEGA, 96, VaultGearRarity.valueOf("MYTHIC"), 4)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)omegaPlusRoll).setColor(3125022);
-
-        VaultGearTypeConfig.RollType mapLoot = new VaultGearTypeConfig.RollType(new WeightedList<>(Map.of(VaultGearRarity.SCRAPPY, 20, VaultGearRarity.COMMON, 25, VaultGearRarity.RARE, 30, VaultGearRarity.EPIC, 14, VaultGearRarity.OMEGA, 10, VaultGearRarity.valueOf("MYTHIC"), 1)));
-        ((VaultGearRollTypeConfigRollTypeAccessor)mapLoot).setColor(13818334);
-
-
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Mythic", mythicRoll);
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Omega+", omegaPlusRoll);
-        ((VaultGearRollTypeConfigAccessor)ModConfigs.VAULT_GEAR_TYPE_CONFIG).getRolls().put("Scrappy++", mapLoot);
-
-
-        // Resolve issues with ToolRecipes being missing
         ToolType[] basicTypes = new ToolType[]{ToolType.PICK, ToolType.AXE, ToolType.SHOVEL, ToolType.HAMMER, ToolType.SICKLE};
         ToolMaterial toolMaterial = ToolMaterial.valueOf("NULLITE");
         List<ItemStack> ingredients = List.of(

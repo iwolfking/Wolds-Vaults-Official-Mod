@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import iskallia.vault.core.event.CommonEvents;
 import iskallia.vault.core.event.common.EntityChainAttackedEvent;
 import iskallia.vault.core.event.common.EntityDamageBlockEvent;
-import iskallia.vault.entity.entity.EternalEntity;
 import iskallia.vault.event.ActiveFlags;
 import iskallia.vault.event.GearAttributeEvents;
 import iskallia.vault.event.PlayerActiveFlags;
@@ -13,13 +12,10 @@ import iskallia.vault.gear.data.VaultGearData;
 import iskallia.vault.gear.item.VaultGearItem;
 import iskallia.vault.init.ModDynamicModels;
 import iskallia.vault.init.ModGearAttributes;
-import iskallia.vault.init.ModNetwork;
-import iskallia.vault.network.message.ChainingParticleMessage;
 import iskallia.vault.skill.base.Skill;
 import iskallia.vault.skill.talent.type.PuristTalent;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
-import iskallia.vault.util.EntityHelper;
 import iskallia.vault.util.Entropy;
 import iskallia.vault.util.calc.BlockChanceHelper;
 import iskallia.vault.world.data.PlayerTalentsData;
@@ -39,7 +35,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -52,10 +47,11 @@ import xyz.iwolfking.woldsvaults.events.WoldActiveFlags;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
 import xyz.iwolfking.woldsvaults.mixins.LivingEntityAccessor;
+import xyz.iwolfking.woldsvaults.spellcraft.chain.ChainLinks;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import xyz.iwolfking.woldsvaults.api.util.TrueDamageSource;
 
 @Mixin (value = GearAttributeEvents.class, remap = false)
 public class MixinGearAttributeEvents {
@@ -82,8 +78,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author aida
-     * @reason to make the purist talent multiplicative, and keep proc fangs from
-     * re-applying damage increases already contained in their stored damage
+     * @reason make the purist talent multiplicative, and keep proc fangs from re-applying stored increases
      */
     @Inject(method = "increaseDamageDealt",
             at = @At(value = "INVOKE",
@@ -106,12 +101,21 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author PoorMansPhysicist
-     * @reason keep proc fangs from re-applying fatal strike gear crits already
-     * contained in their stored damage
+     * @reason keep proc fangs from re-applying fatal strike gear crits already in their stored damage
      */
     @Inject(method = "doFatalStrikeAttack", at = @At("HEAD"), cancellable = true)
     private static void doFatalStrikeAttack(LivingHurtEvent event, CallbackInfo ci) {
         if(WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet())
+            ci.cancel();
+    }
+
+    /**
+     * @author PoorMansPhysicist
+     * @reason Lightning Fiend set hits carry no on-hit procs; the shocking hit roll skips the thorns flag they ride on
+     */
+    @Inject(method = "triggerKnockbackAttack", at = @At("HEAD"), cancellable = true)
+    private static void skipLightningFiendShockingHits(LivingHurtEvent event, CallbackInfo ci) {
+        if(WoldActiveFlags.IS_LIGHTNING_FIEND_ATTACKING.isSet())
             ci.cancel();
     }
 
@@ -125,7 +129,7 @@ public class MixinGearAttributeEvents {
     public static void blockAttack(LivingAttackEvent event) {
         LivingEntity attacked = event.getEntityLiving();
         DamageSource damageSource = event.getSource();
-        if (!attacked.getLevel().isClientSide() && !damageSource.isBypassInvul()) {
+        if (!attacked.getLevel().isClientSide() && !damageSource.isBypassInvul() && !(damageSource instanceof TrueDamageSource)) {
             float blockChance = 0.0f;
             if (AttributeSnapshotHelper.canHaveSnapshot(attacked))
                 blockChance = BlockChanceHelper.getBlockChance(attacked);
@@ -185,7 +189,7 @@ public class MixinGearAttributeEvents {
 
     /**
      * @author aida
-     * @reason add activeflag checks to cleave
+     * @reason add activeflag checks to cleave, and keep proc fangs from re-triggering it
      */
     @Inject(method = "triggerAoEAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/damagesource/DamageSource;getEntity()Lnet/minecraft/world/entity/Entity;", shift = At.Shift.AFTER), cancellable = true, remap = true)
     private static void triggerAoEAttack(LivingHurtEvent event, CallbackInfo ci) {
@@ -197,45 +201,52 @@ public class MixinGearAttributeEvents {
         || ActiveFlags.IS_DOT_ATTACKING.isSet()
         || ActiveFlags.IS_TOTEM_ATTACKING.isSet()
         || WoldActiveFlags.IS_AOE2_ATTACK.isSet()
+        || WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet()
+        || hasLuckyHitCleave(event)
         ) {
             ci.cancel();
         }
     }
 
+    /** Whether the attacker carries {@code lucky_hit_aoe}, in which case the base cleave yields to it. */
+    private static boolean hasLuckyHitCleave(LivingHurtEvent event) {
+        if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
+            return false;
+        }
+        if (!AttributeSnapshotHelper.canHaveSnapshot(attacker)) {
+            return false;
+        }
+        AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(attacker);
+        return snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.LUCKY_HIT_AOE, VaultGearAttributeTypeMerger.intSum()) > 0;
+    }
+
     /**
      * @author aida
-     * @reason block echoing from re-activating chaining
+     * @reason block echoing and proc fangs from re-activating chaining
      */
     @Inject(method = "triggerChainAttack", at = @At(value = "INVOKE", target = "Liskallia/vault/event/ActiveFlags;isSet()Z", shift = At.Shift.BEFORE, ordinal = 0), cancellable = true)
     private static void triggerChainAttack(LivingHurtEvent event, CallbackInfo ci) {
-        if(WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() || ActiveFlags.IS_TOTEM_ATTACKING.isSet())
+        if(WoldActiveFlags.IS_ECHOING_ATTACKING.isSet() || ActiveFlags.IS_TOTEM_ATTACKING.isSet() || WoldActiveFlags.IS_PROC_FANG_ATTACKING.isSet())
             ci.cancel();
     }
 
     /**
      * @author aida
-     * @reason chain falloff reduction stat
+     * @reason chain falloff reduction stat; targets, range and step come from {@link ChainLinks}, shared with the
+     * Chaining glyph, so Chainlash's chaining damage and the CHAINING_PENALTY etching both raise the step
      */
     @Inject(method = "lambda$triggerChainAttack$13", at = @At("HEAD"), cancellable = true)
     private static void lambda$triggerChainAttack$10(Level world, LivingEntity attacked, float chainRange, LivingEntity attacker, LivingHurtEvent event, int chainCount, float finalChainStep, CallbackInfo ci) {
-
-        List<Mob> nearby = EntityHelper.getNearby(world, attacked.blockPosition(), chainRange, Mob.class);
+        List<Mob> nearby = ChainLinks.targets(world, attacked, attacker, event.getSource(), chainRange, chainCount);
         List<Vec3> nearbyPos = new ArrayList<>();
-        nearby.remove(attacked);
-        nearby.remove(attacker);
-        nearby.removeIf(mobx -> (attacker instanceof EternalEntity || attacker instanceof Player) && mobx instanceof EternalEntity);
-        nearby.removeIf(mobx -> mobx.isInvulnerableTo(event.getSource()));
         if (!nearby.isEmpty()) {
-            nearby.sort(Comparator.comparing(e -> e.distanceTo(attacked)));
-            nearby = nearby.subList(0, Math.min(chainCount, nearby.size()));
-
-            float baseMult = 0.5f * (1+AttributeSnapshotHelper.getInstance().getSnapshot(attacker).getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.CHAINING_DAMAGE, VaultGearAttributeTypeMerger.floatSum()));
+            float baseMult = ChainLinks.step(attacker);
             float multiplier = baseMult;
-            nearbyPos.add(attacked.position().add(0.0, attacked.getBbHeight() / 3.0F, 0.0));
+            nearbyPos.add(ChainLinks.linkPoint(attacked));
 
             for (Mob mob : nearby) {
                 Vec3 movement = mob.getDeltaMovement();
-                nearbyPos.add(mob.position().add(0.0, mob.getBbHeight() / 3.0F, 0.0));
+                nearbyPos.add(ChainLinks.linkPoint(mob));
                 mob.hurt(event.getSource(), event.getAmount() * multiplier);
                 mob.setDeltaMovement(movement);
                 multiplier *= baseMult;
@@ -243,7 +254,7 @@ public class MixinGearAttributeEvents {
 
             CommonEvents.ENTITY_CHAIN_ATTACKED.invoke(new EntityChainAttackedEvent.Data(attacker, nearby));
         }
-        ModNetwork.CHANNEL.send(PacketDistributor.ALL.noArg(), new ChainingParticleMessage(nearbyPos));
+        ChainLinks.particles(attacker, nearbyPos);
         if (attacker instanceof Player player)
             PlayerActiveFlags.set(player, PlayerActiveFlags.Flag.CHAINING_AOE, 2);
 

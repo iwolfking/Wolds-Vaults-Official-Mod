@@ -1,0 +1,140 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        3,
+        "text"
+      ],
+      "value": "5%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        4,
+        "text"
+      ],
+      "value": " every time you kill a mob, this effect can stack "
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        5,
+        "text"
+      ],
+      "value": "20 times"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "BerserkPower",
+        7,
+        "text"
+      ],
+      "value": "20 seconds"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_1",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_1",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_2",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_2",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_3",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_cooldown_3",
+        {
+          "text": "5%"
+        },
+        "text"
+      ],
+      "value": "15%"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_xp_path_1",
+        {
+          "text": "Cooldown Reduction"
+        },
+        "text"
+      ],
+      "value": "Spell Haste"
+    },
+    {
+      "op": "set",
+      "path": [
+        "descriptions",
+        "util_t1_xp_path_1",
+        {
+          "text": "10%"
+        },
+        "text"
+      ],
+      "value": "30%"
+    }
+  ]
+}

@@ -10,7 +10,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 
@@ -57,11 +56,16 @@ public class MaxHealthDamageHelper {
 
         entity.setHealth(entity.getHealth() - healthReduction);
         if (entity.isDeadOrDying()) {
-            if(source instanceof Player player) {
-                entity.die(DamageSource.playerAttack(player));
+            try {
+                if(source instanceof Player player) {
+                    entity.die(DamageSource.playerAttack(player));
+                }
+                else {
+                    entity.die(DamageSource.MAGIC);
+                }
             }
-            else {
-                entity.die(DamageSource.MAGIC);
+            catch (Exception e) {
+                WoldLogger.error("Bleed death handling threw for {} at {}; the entity is left at zero health with death processing incomplete.", entity.getType().getRegistryName(), entity.blockPosition(), e);
             }
         }
     }

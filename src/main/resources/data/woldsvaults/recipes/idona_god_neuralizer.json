@@ -1,0 +1,14 @@
+{
+  "type": "woldsvaults:infuser",
+  "ingredient": {
+    "item": "woldsvaults:red_vault_essence"
+  },
+  "inputCount": 4,
+  "catalyst": {
+    "item": "the_vault:neuralizer"
+  },
+  "infuseDuration": 400,
+  "result": {
+    "item": "woldsvaults:idona_god_neuralizer"
+  }
+}

@@ -141,6 +141,11 @@ public class VaultInfuserTileEntity extends BaseInventoryTileEntity implements M
 
             if (tile.recipe != null) {
                 if (tile.materialCount >= tile.recipe.getInputCount()) {
+                    if (tile.progress < tile.recipe.getInfuseDuration()) {
+                        tile.process(tile.recipe);
+                        mark = true;
+                    }
+
                     if (tile.progress >= tile.recipe.getInfuseDuration()) {
                         var result = tile.recipe.assemble(tile.inventory);
 
@@ -154,9 +159,7 @@ public class VaultInfuserTileEntity extends BaseInventoryTileEntity implements M
                             }
                             mark = true;
                         }
-                    } else {
-                        tile.process(tile.recipe);
-                        mark = true;}
+                    }
                 }
             }
 

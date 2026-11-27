@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "rotation=0": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=1": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=2": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=3": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=4": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=5": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=6": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=7": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=8": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=9": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=10": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=11": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=12": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=13": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=14": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    },
+    "rotation=15": {
+      "model": "woldsvaults:block/loading_zone_arrival"
+    }
+  }
+}

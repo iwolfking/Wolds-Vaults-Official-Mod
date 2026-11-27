@@ -1,0 +1,581 @@
+package xyz.iwolfking.woldsvaults.client.screens.armory;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import iskallia.vault.client.gui.framework.ScreenTextures;
+import iskallia.vault.client.gui.framework.element.EntityModelElement;
+import iskallia.vault.client.gui.framework.element.LabelElement;
+import iskallia.vault.client.gui.framework.element.NineSliceElement;
+import iskallia.vault.client.gui.framework.element.SlotsElement;
+import iskallia.vault.client.gui.framework.element.VerticalScrollbarElement;
+import iskallia.vault.client.gui.framework.element.spi.IElement;
+import iskallia.vault.client.gui.framework.ScreenRenderers;
+import iskallia.vault.client.gui.framework.spatial.Spatials;
+import iskallia.vault.client.gui.framework.spatial.spi.ISpatial;
+import iskallia.vault.client.gui.framework.text.LabelTextStyle;
+import iskallia.vault.client.gui.screen.player.AbstractSkillTabElementContainerScreen;
+import iskallia.vault.client.gui.screen.player.element.CuriosElement;
+import iskallia.vault.client.gui.screen.player.element.SkillTabContainerElement;
+import iskallia.vault.client.gui.screen.player.element.StatLabelElementBuilder;
+import iskallia.vault.client.gui.screen.player.element.StatLabelListElement;
+import iskallia.vault.client.gui.screen.player.element.StatListPlayerContainerElement;
+import iskallia.vault.client.gui.screen.player.element.VaultLevelBarElement;
+import iskallia.vault.core.vault.influence.VaultGod;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.player.RemotePlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import org.lwjgl.glfw.GLFW;
+import xyz.iwolfking.woldsvaults.armory.ArmoryPage;
+import xyz.iwolfking.woldsvaults.armory.ArmoryTab;
+import xyz.iwolfking.woldsvaults.armory.ArmoryViewInfo;
+import xyz.iwolfking.woldsvaults.armory.SlotKeys;
+import xyz.iwolfking.woldsvaults.integration.curios.ArmoryCurioSlots;
+import xyz.iwolfking.woldsvaults.armory.block.ArmoryBlockEntity;
+import xyz.iwolfking.woldsvaults.armory.menu.ArmoryClientState;
+import xyz.iwolfking.woldsvaults.armory.menu.ArmoryMenu;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmoryRenameMessage;
+import xyz.iwolfking.woldsvaults.armory.network.ServerboundArmorySaveMessage;
+import xyz.iwolfking.woldsvaults.init.ModNetwork;
+import xyz.iwolfking.woldsvaults.client.screens.CompactButton;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
+/**
+ * The armory's Gear, Inventory and Excess tabs: the H screen's statistics tab rebuilt from its own elements and
+ * fed the open page. Gear shows the page's armour, offhand and curio slots, a player model wearing them and the
+ * stat lists recorded at Save; Inventory shows the page's inventory and hotbar plus the upgrade slots; Excess
+ * shows the shared 128-slot storage.
+ */
+public class ArmoryScreen extends AbstractSkillTabElementContainerScreen<ArmoryMenu> {
+    private static final int GUI_WIDTH = 350;
+    private static final int GUI_HEIGHT = 186;
+    private static final int MARK_COLOR = 0xFF55D46A;
+    private static final int BUTTON_HEIGHT = 11;
+    private static final int BUTTON_PAD = 10;
+    private static final int BUTTON_GAP = 2;
+    private static final int LIST_X = 180;
+    private static final int NAME_BOX_WIDTH = 140;
+
+    private final ArmoryViewInfo openInfo;
+    @Nullable
+    private ArmoryTabs.BuildTabs buildTabs;
+    @Nullable
+    private RemotePlayer model;
+    private ArmoryClientState shownState;
+    private Button loadButton;
+    private Button storeButton;
+    private Button confirmButton;
+    private Button cancelButton;
+    private boolean confirming;
+    private final List<Button> titleButtons = new ArrayList<>();
+    private LabelElement<?> titleLabel;
+    @Nullable
+    private EditBox nameBox;
+    private int titleRight;
+    private final List<IElement> gearElements = new ArrayList<>();
+
+    public ArmoryScreen(ArmoryMenu menu, Inventory inventory, Component title) {
+        super(menu, inventory, title, ScreenRenderers.getBuffered());
+        this.openInfo = menu.info();
+        this.shownState = menu.state();
+        this.setGuiSize(Spatials.size(GUI_WIDTH, GUI_HEIGHT));
+        this.elementStore.removeElements(SkillTabContainerElement.class);
+        this.elementStore.removeElements(element -> element instanceof LabelElement<?>);
+        this.titleLabel = this.addTitleLabel(this.getTabTitle());
+        this.addElement(ArmoryTabs.topStrip(Spatials.positionXYZ(15, -28, 1), this.openInfo)
+                .layout((screen, gui, parent, world) -> world.translateXY(this.getTabContentSpatial())));
+        this.addElement(new NineSliceElement<>(Spatials.positionXY(this.getTabContentSpatial()).height(this.getTabContentSpatial()),
+                ScreenTextures.DEFAULT_WINDOW_BACKGROUND).layout((screen, gui, parent, world) -> world.width(this.getTabContentSpatial())));
+        this.addElement(new NineSliceElement<>(Spatials.positionY(-4).positionZ(-10), ScreenTextures.DEFAULT_WINDOW_BACKGROUND)
+                .layout((screen, gui, parent, world) -> world.translateX(gui).translateY(this.getTabContentSpatial().bottom()).size(gui)));
+        this.addElement(new SlotsElement<>(Spatials.zero(), this.menu.slots, ScreenTextures.INSET_ITEM_SLOT_BACKGROUND)
+                .layout((screen, gui, parent, world) -> world.positionXY(gui)));
+        this.addBuildTabs();
+        switch (this.openInfo.tab()) {
+            case INVENTORY -> this.addInventoryTab();
+            case EXCESS -> this.addExcessTab();
+            default -> this.addGearTab();
+        }
+    }
+
+    private LabelElement<?> addTitleLabel(MutableComponent text) {
+        return this.addElement(new LabelElement<>(Spatials.positionXY(this.getTabContentSpatial()).translateXYZ(8, 6, 2),
+                text.withStyle(ChatFormatting.BLACK), LabelTextStyle.defaultStyle()));
+    }
+
+    private void setTitleLabel(MutableComponent text) {
+        this.removeElement(this.titleLabel);
+        this.titleLabel = this.addTitleLabel(text);
+    }
+
+    private String buildPrefix() {
+        return "Build " + (this.menu.page() + 1) + ":";
+    }
+
+    private boolean canRename() {
+        return this.menu.tab() != ArmoryTab.EXCESS;
+    }
+
+    private boolean overTitle(double mouseX, double mouseY) {
+        ISpatial title = this.getTabContentSpatial();
+        return this.canRename() && mouseX >= title.x() + 6 && mouseX < this.titleRight
+                && mouseY >= title.y() + 3 && mouseY < title.y() + 16;
+    }
+
+    /** Swaps the page title for a name field after the "Build N:" prefix. */
+    private void startRename() {
+        ISpatial title = this.getTabContentSpatial();
+        this.setTitleLabel(new TextComponent(this.buildPrefix()));
+        int x = title.x() + 8 + this.font.width(this.buildPrefix()) + 4;
+        int width = Math.min(NAME_BOX_WIDTH, this.titleRight - x);
+        this.nameBox = new EditBox(this.font, x, title.y() + 4, width, 11, new TextComponent("Build name"));
+        this.nameBox.setMaxLength(ArmoryPage.MAX_NAME_LENGTH);
+        this.nameBox.setValue(this.menu.info().pageNames().get(this.menu.page()));
+        this.nameBox.setFocus(true);
+        this.nameBox.setCanLoseFocus(false);
+        this.addRenderableWidget(this.nameBox);
+    }
+
+    /** Ends the rename; {@code save} sends the field's text when it changed the page's name. */
+    private void stopRename(boolean save) {
+        if (this.nameBox == null) {
+            return;
+        }
+        String name = this.nameBox.getValue().strip();
+        this.removeWidget(this.nameBox);
+        this.nameBox = null;
+        if (save && !name.equals(this.menu.info().pageNames().get(this.menu.page()))) {
+            ModNetwork.sendToServer(new ServerboundArmoryRenameMessage(this.menu.containerId, name));
+        }
+        this.setTitleLabel(this.getTabTitle());
+    }
+
+    private void addBuildTabs() {
+        if (this.buildTabs != null) {
+            this.removeElement(this.buildTabs);
+        }
+        this.buildTabs = this.addElement(ArmoryTabs.buildTabs(Spatials.positionXY(0, 3), this.menu.info())
+                .layout((screen, gui, parent, world) -> world.translateX(gui.right()).translateY(this.getTabContentSpatial().bottom())));
+    }
+
+    private void addGearTab() {
+        EntityModelElement<?> model = this.gear(new EntityModelElement<>(Spatials.positionXY(25, 4), Spatials.size(54, 90), this::modelEntity)
+                .layout((screen, gui, parent, world) -> world.translateX(gui).translateY(this.getTabContentSpatial().bottom())));
+        this.gear(new VaultLevelBarElement<>(Spatials.positionXY(4, -8), () -> this.shownState.stats().getFloat("levelPercent"),
+                () -> this.shownState.hasBuild() ? this.shownState.savedLevel() : 0)
+                .layout((screen, gui, parent, world) -> world.translateX(model.right()).translateY(model.bottom())));
+        StatLabelListElement<?> prominent = this.gear(new StatLabelListElement<>(Spatials.positionXY(4, 4).width(82),
+                ArmoryStats.builders(this.shownState.stats(), ArmoryStats.PROMINENT))
+                .layout((screen, gui, parent, world) -> world.translateX(model.right()).translateY(model.top())));
+        NineSliceElement<?> separator = this.gear(new NineSliceElement<>(Spatials.positionXYZ(8, -2, -5).width(3).height(-4),
+                ScreenTextures.INSET_VERTICAL_SEPARATOR)
+                .layout((screen, gui, parent, world) -> world.translateX(prominent.right()).translateY(this.getTabContentSpatial().bottom())
+                        .height(world.height() + gui.height())));
+        this.gear(new StatListPlayerContainerElement(Spatials.positionX(4).width(-7).height(-16),
+                ArmoryStats.builders(this.shownState.stats(), "player"),
+                ArmoryStats.favour(this.shownState.stats(), VaultGod.IDONA), ArmoryStats.favour(this.shownState.stats(), VaultGod.TENOS),
+                ArmoryStats.favour(this.shownState.stats(), VaultGod.VELARA), ArmoryStats.favour(this.shownState.stats(), VaultGod.WENDARR))
+                .layout((screen, gui, parent, world) -> world.translateX(separator.right()).translateY(model.top())
+                        .width(world.width() + gui.right() - world.x()).height(world.height() + gui.height())));
+        int curios = this.menu.curioCount();
+        int hidden = Math.max(0, curios - ArmoryMenu.CURIO_VISIBLE);
+        this.gear(new CuriosElement<>(this::getTabContentSpatial, hidden > 0, Math.min(curios, ArmoryMenu.CURIO_VISIBLE),
+                value -> this.menu.setCurioScroll(Math.round(value * hidden))));
+    }
+
+    private <E extends IElement> E gear(E element) {
+        this.gearElements.add(element);
+        return this.addElement(element);
+    }
+
+    private void addInventoryTab() {
+        this.addElement(new NineSliceElement<>(Spatials.positionXYZ(LIST_X - 7, -2, -5).width(3).height(-4), ScreenTextures.INSET_VERTICAL_SEPARATOR)
+                .layout((screen, gui, parent, world) -> world.translateX(gui.left()).translateY(this.getTabContentSpatial().bottom())
+                        .height(world.height() + gui.height())));
+        List<StatLabelElementBuilder<?>> rows = new ArrayList<>();
+        rows.add(row("Stored", () -> this.storedCount() + " / " + this.expectedCount(),
+                "Items this page holds / items its marked slots were saved with"));
+        rows.add(row("Excess", () -> this.excessCount() + " / " + ArmoryBlockEntity.EXCESS_SLOTS,
+                "Shared by all 8 builds; Load puts the gear it replaces here"));
+        this.addElement(new StatLabelListElement<>(Spatials.positionXY(LIST_X, 8).width(GUI_WIDTH - LIST_X - 7), rows)
+                .layout((screen, gui, parent, world) -> world.translateX(gui).translateY(this.getTabContentSpatial().bottom() - 4)));
+        this.addElement(new LabelElement<>(Spatials.positionXY(LIST_X, 41), new TextComponent("Upgrades").withStyle(ChatFormatting.BLACK),
+                LabelTextStyle.defaultStyle())
+                .layout((screen, gui, parent, world) -> world.translateX(gui).translateY(this.getTabContentSpatial().bottom() - 4)));
+    }
+
+    private void addExcessTab() {
+        int rows = ArmoryBlockEntity.EXCESS_SLOTS / ArmoryMenu.EXCESS_COLUMNS;
+        int hidden = rows - ArmoryMenu.EXCESS_VISIBLE_ROWS;
+        this.addElement(new VerticalScrollbarElement<>(Spatials.positionXY(8 + ArmoryMenu.EXCESS_COLUMNS * 18 + 3, 8),
+                ArmoryMenu.EXCESS_VISIBLE_ROWS * 18, value -> this.menu.setExcessScroll(Math.round(value * hidden)))
+                .layout((screen, gui, parent, world) -> world.translateX(gui).translateY(this.getTabContentSpatial().bottom() - 4)));
+    }
+
+    private static StatLabelElementBuilder<String> row(String label, Supplier<String> value, String description) {
+        return new StatLabelElementBuilder<>(() -> label, () -> List.of(description), value,
+                text -> new TextComponent(text), TextColor.fromRgb(0));
+    }
+
+    private int storedCount() {
+        int count = 0;
+        for (int i = 0; i < this.menu.keys().size(); i++) {
+            if (this.menu.slots.get(ArmoryMenu.PAGE_START + i).hasItem()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int expectedCount() {
+        int count = 0;
+        for (String key : this.menu.keys()) {
+            ItemStack expected = this.menu.state().expected(key);
+            if (this.menu.state().isMarked(key) && expected != null && !expected.isEmpty()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int excessCount() {
+        int count = 0;
+        for (int i = 0; i < ArmoryBlockEntity.EXCESS_SLOTS; i++) {
+            if (this.menu.slots.get(ArmoryMenu.EXCESS_START + i).hasItem()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private LivingEntity modelEntity() {
+        if (this.minecraft == null || this.minecraft.level == null || this.minecraft.player == null) {
+            return null;
+        }
+        if (this.model == null) {
+            this.model = new RemotePlayer(this.minecraft.level, this.minecraft.player.getGameProfile());
+        }
+        for (int i = 0; i < SlotKeys.ARMOR.length; i++) {
+            this.model.setItemSlot(SlotKeys.ARMOR[i], this.shown(SlotKeys.ALL.get(i)));
+        }
+        this.model.setItemSlot(EquipmentSlot.OFFHAND, this.shown(SlotKeys.OFFHAND));
+        int selected = this.shownState.stats().getInt("selected");
+        this.model.setItemSlot(EquipmentSlot.MAINHAND, this.shown("hotbar:" + Math.max(0, Math.min(8, selected))));
+        return this.model;
+    }
+
+    private ItemStack shown(String key) {
+        Slot slot = this.menu.pageSlot(key);
+        if (slot != null && slot.hasItem()) {
+            return slot.getItem();
+        }
+        ItemStack expected = this.shownState.expected(key);
+        return expected == null ? ItemStack.EMPTY : expected;
+    }
+
+    @Override
+    public int getTabIndex() {
+        return 0;
+    }
+
+    @Override
+    public MutableComponent getTabTitle() {
+        if (this.menu == null) {
+            return new TextComponent("Armory");
+        }
+        ArmoryViewInfo info = this.menu.info();
+        if (info.tab() == ArmoryTab.EXCESS) {
+            return new TextComponent("Excess storage");
+        }
+        return new TextComponent(info.pageTitles().get(info.page()));
+    }
+
+    @Override
+    public ISpatial getTabContentSpatial() {
+        return Spatials.copy(super.getTabContentSpatial()).height(19);
+    }
+
+    @Override
+    protected void layout(ISpatial parent) {
+        super.layout(parent);
+        this.menu.setSlotOffsetY(this.getTabContentSpatial().bottom() - 3 - this.getGuiTop());
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.titleButtons.clear();
+        if (this.nameBox != null) {
+            this.nameBox = null;
+            this.setTitleLabel(this.getTabTitle());
+        }
+        ISpatial title = this.getTabContentSpatial();
+        int x = title.right() - 5;
+        int y = title.y() + 4;
+        if (this.openInfo.tab() != ArmoryTab.EXCESS) {
+            this.loadButton = this.titleButton("Load", x, y, button -> this.click(ArmoryMenu.BUTTON_LOAD));
+            x = this.loadButton.x - BUTTON_GAP;
+            this.storeButton = this.titleButton("Store", x, y, button -> this.click(ArmoryMenu.BUTTON_STORE));
+            x = this.storeButton.x - BUTTON_GAP;
+            x = this.titleButton("Save", x, y, button -> this.save()).x;
+        }
+        this.titleRight = x - 4;
+        int popupWidth = 140;
+        int popupX = (this.width - popupWidth) / 2;
+        int popupY = this.height / 2;
+        int buttonWidth = (popupWidth - 16 - 4) / 2;
+        this.confirmButton = this.addRenderableWidget(new CompactButton(popupX + 8, popupY + 4, buttonWidth, 15,
+                new TextComponent("Overwrite"), button -> this.sendSave(true)));
+        this.cancelButton = this.addRenderableWidget(new CompactButton(popupX + popupWidth - 8 - buttonWidth, popupY + 4, buttonWidth, 15,
+                new TextComponent("Cancel"), button -> this.setConfirming(false)));
+        this.setConfirming(false);
+        this.refreshButtons();
+    }
+
+    private Button titleButton(String label, int right, int y, Button.OnPress onPress) {
+        int width = this.font.width(label) + BUTTON_PAD;
+        return this.titleButton(new CompactButton(right - width, y, width, BUTTON_HEIGHT, new TextComponent(label), onPress,
+                (button, poseStack, mouseX, mouseY) -> this.renderComponentTooltip(poseStack, this.buttonTooltip(label), mouseX, mouseY)));
+    }
+
+    /** VH element screens only hand clicks to their elements, so the title buttons are clicked from {@link #mouseClicked}. */
+    private Button titleButton(Button button) {
+        this.titleButtons.add(button);
+        return this.addRenderableWidget(button);
+    }
+
+    private List<Component> buttonTooltip(String label) {
+        List<Component> lines = new ArrayList<>();
+        ArmoryViewInfo info = this.menu.info();
+        switch (label) {
+            case "Save" -> {
+                lines.add(new TextComponent("Save"));
+                lines.add(new TextComponent(info.creative() ? "Records your trees and copies of your marked gear"
+                        : "Records your trees and what is in each marked slot").withStyle(ChatFormatting.GRAY));
+            }
+            case "Store" -> {
+                lines.add(new TextComponent("Store"));
+                lines.add(new TextComponent(info.creative() ? "The Creative Armory does not store items"
+                        : "Moves your marked gear into this build").withStyle(ChatFormatting.GRAY));
+                if (!info.creative() && !this.shownState.hasBuild()) {
+                    lines.add(new TextComponent("Save a build here first").withStyle(ChatFormatting.RED));
+                }
+            }
+            default -> {
+                lines.add(new TextComponent(info.creative() ? "Load (creative copy)" : "Load"));
+                info.loadRefusals().forEach(line -> lines.add(new TextComponent(line).withStyle(ChatFormatting.RED)));
+                if (!info.loadRefusals().isEmpty()) {
+                    lines.add(new TextComponent("Nothing would move").withStyle(ChatFormatting.GRAY));
+                }
+                info.loadNotes().forEach(line -> lines.add(new TextComponent(line).withStyle(
+                        line.startsWith("Raises") || line.startsWith("Learns") ? ChatFormatting.GREEN : ChatFormatting.GRAY)));
+            }
+        }
+        return lines;
+    }
+
+    private void refreshButtons() {
+        if (this.loadButton != null) {
+            this.loadButton.active = this.menu.info().loadRefusals().isEmpty();
+        }
+        if (this.storeButton != null) {
+            this.storeButton.active = !this.openInfo.creative() && this.shownState.hasBuild();
+        }
+    }
+
+    private void click(int id) {
+        if (this.minecraft != null && this.minecraft.gameMode != null) {
+            this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, id);
+        }
+    }
+
+    private void save() {
+        Boolean saved = this.menu.info().pageSaved().get(this.menu.page());
+        if (Boolean.TRUE.equals(saved)) {
+            this.setConfirming(true);
+        } else {
+            this.sendSave(false);
+        }
+    }
+
+    private void sendSave(boolean overwrite) {
+        this.setConfirming(false);
+        if (this.minecraft == null || this.minecraft.player == null) {
+            return;
+        }
+        ModNetwork.sendToServer(new ServerboundArmorySaveMessage(this.menu.containerId, overwrite, ArmoryStats.capture(this.minecraft.player)));
+    }
+
+    private void setConfirming(boolean confirming) {
+        this.confirming = confirming;
+        this.confirmButton.visible = confirming;
+        this.cancelButton.visible = confirming;
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        if (this.nameBox != null) {
+            this.nameBox.tick();
+        }
+        if (this.menu.state() != this.shownState) {
+            this.shownState = this.menu.state();
+            if (this.nameBox == null) {
+                this.setTitleLabel(this.getTabTitle());
+            }
+            this.addBuildTabs();
+            this.rebuildForState();
+            this.refreshButtons();
+            this.requestLayout();
+        }
+    }
+
+    private void rebuildForState() {
+        if (this.openInfo.tab() == ArmoryTab.GEAR) {
+            this.gearElements.forEach(this::removeElement);
+            this.gearElements.clear();
+            this.addGearTab();
+        }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (this.confirming) {
+            return this.confirmButton.mouseClicked(mouseX, mouseY, button) || this.cancelButton.mouseClicked(mouseX, mouseY, button) || true;
+        }
+        if (this.nameBox != null) {
+            if (this.nameBox.isMouseOver(mouseX, mouseY)) {
+                return this.nameBox.mouseClicked(mouseX, mouseY, button);
+            }
+            this.stopRename(true);
+        } else if (button == 0 && this.overTitle(mouseX, mouseY)) {
+            this.startRename();
+            return true;
+        }
+        for (Button title : this.titleButtons) {
+            if (title.mouseClicked(mouseX, mouseY, button)) {
+                return true;
+            }
+        }
+        if (button == 1 && this.hoveredSlot instanceof ArmoryMenu.PageSlot pageSlot) {
+            this.click(ArmoryMenu.BUTTON_MARK + this.menu.keys().indexOf(pageSlot.key()));
+            return true;
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (this.openInfo.tab() == ArmoryTab.EXCESS) {
+            this.menu.setExcessScroll(this.menu.excessScroll() - (int) Math.signum(delta));
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (this.nameBox == null) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+        if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
+            this.stopRename(true);
+        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            this.stopRename(false);
+        } else {
+            this.nameBox.keyPressed(keyCode, scanCode, modifiers);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean charTyped(char codePoint, int modifiers) {
+        if (this.nameBox != null) {
+            return this.nameBox.charTyped(codePoint, modifiers);
+        }
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+        super.render(poseStack, mouseX, mouseY, partialTick);
+        this.renderMarks(poseStack);
+        if (!this.confirming) {
+            this.renderPageSlotTooltip(poseStack, mouseX, mouseY);
+            if (this.nameBox == null && this.overTitle(mouseX, mouseY)) {
+                this.renderTooltip(poseStack, new TextComponent("Click to rename this build"), mouseX, mouseY);
+            }
+            return;
+        }
+        poseStack.pushPose();
+        poseStack.translate(0, 0, 400);
+        fill(poseStack, 0, 0, this.width, this.height, 0xA0101010);
+        int popupWidth = 140;
+        int popupX = (this.width - popupWidth) / 2;
+        int popupY = this.height / 2 - 22;
+        this.elementRenderer.begin();
+        this.elementRenderer.render(ScreenTextures.DEFAULT_WINDOW_BACKGROUND, poseStack,
+                Spatials.positionXYZ(popupX, popupY, 0).size(popupWidth, 48));
+        this.elementRenderer.end();
+        this.font.draw(poseStack, "Overwrite Build " + (this.menu.page() + 1) + "?", popupX + 8, popupY + 8, 0xFF404040);
+        this.confirmButton.render(poseStack, mouseX, mouseY, partialTick);
+        this.cancelButton.render(poseStack, mouseX, mouseY, partialTick);
+        poseStack.popPose();
+    }
+
+    private void renderMarks(PoseStack poseStack) {
+        poseStack.pushPose();
+        poseStack.translate(0, 0, 300);
+        for (int i = 0; i < this.menu.keys().size(); i++) {
+            Slot slot = this.menu.slots.get(ArmoryMenu.PAGE_START + i);
+            if (!slot.isActive() || !this.menu.state().isMarked(this.menu.keys().get(i))) {
+                continue;
+            }
+            int x = this.leftPos + slot.x - 1;
+            int y = this.topPos + slot.y - 1;
+            for (int step = 0; step < 4; step++) {
+                fill(poseStack, x, y + step, x + 4 - step, y + step + 1, MARK_COLOR);
+            }
+        }
+        poseStack.popPose();
+    }
+
+    private void renderPageSlotTooltip(PoseStack poseStack, int mouseX, int mouseY) {
+        if (!(this.hoveredSlot instanceof ArmoryMenu.PageSlot pageSlot) || pageSlot.hasItem() || !this.menu.getCarried().isEmpty()) {
+            return;
+        }
+        String key = pageSlot.key();
+        List<Component> lines = new ArrayList<>();
+        ItemStack expected = this.menu.state().expected(key);
+        boolean marked = this.menu.state().isMarked(key);
+        if (SlotKeys.isCurio(key)) {
+            lines.add(ArmoryCurioSlots.name(key).copy().withStyle(ChatFormatting.GOLD));
+        }
+        if (expected != null && !expected.isEmpty()) {
+            lines.add(new TextComponent("Missing: ").append(expected.getHoverName()));
+            lines.add(new TextComponent("Load skips this slot until the item is back").withStyle(ChatFormatting.GRAY));
+        } else if (expected != null && marked) {
+            lines.add(new TextComponent("Saved empty"));
+            lines.add(new TextComponent("Load clears this slot").withStyle(ChatFormatting.GRAY));
+        }
+        lines.add(new TextComponent(marked ? "Marked: swaps on Load. Right-click to unmark"
+                : "Not marked: Load leaves it alone. Right-click to mark").withStyle(ChatFormatting.DARK_GRAY));
+        this.renderComponentTooltip(poseStack, lines, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+    }
+}

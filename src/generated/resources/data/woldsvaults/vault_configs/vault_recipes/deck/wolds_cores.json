@@ -467,11 +467,11 @@
     },
     {
       "tab": "cores",
-      "id": "woldsvaults:sparkling_core",
+      "id": "woldsvaults:greed_core",
       "output": {
         "AMOUNT": 1,
         "ITEM": "the_vault:deck_socket",
-        "NBT": "{Modifier:\"sparkling\",ModifierRoll:\"lesser\"}"
+        "NBT": "{Modifier:\"greed\",ModifierRoll:\"lesser\"}"
       },
       "inputs": [
         {

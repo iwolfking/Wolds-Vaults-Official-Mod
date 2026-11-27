@@ -1,0 +1,14 @@
+{
+  "tile_processors": [
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/treasure"
+    },
+    {
+      "type": "reference",
+      "id": "the_vault:generic/spawner_base"
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

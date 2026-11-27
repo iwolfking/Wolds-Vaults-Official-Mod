@@ -116,7 +116,7 @@ public class UnusualModifierLib {
         EFFECT_DURATION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 50, 75, 85, 95), List.of(25, 50, 75, -1, -1, -1), List.of(0.03F, 0.06F, 0.09F, 0.12F, 0.15F, 0.18F), List.of(0.05F, 0.08F, 0.11F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
         HEALING_EFFECTIVENESS.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 45, 70), List.of(30, 60, -1, -1), List.of(0.04F, 0.09F, 0.13F, 0.17F), List.of(0.08F, 0.12F, 0.16F, 0.2F), 0.01F, 10));
         MANA_REGEN.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 15, 35, 50, 65, 80), List.of(30, 50, 75, -1, -1, -1), List.of(0.05F, 0.11F, 0.16F, 0.21F, 0.31F, 0.4F), List.of(0.1F, 0.15F, 0.2F, 0.3F, 0.4F, 0.5F), 0.01F, 10));
-        COOLDOWN_REDUCTION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 45, 65, 85), List.of(30, 60, 90, -1, -1), List.of(0.03F, 0.07F, 0.11F, 0.15F, 0.18F), List.of(0.06F, 0.1F, 0.14F, 0.17F, 0.2F), 0.01F, 10));
+        COOLDOWN_REDUCTION.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(0, 25, 45, 65, 85), List.of(30, 60, 90, -1, -1), List.of(0.09F, 0.21F, 0.33F, 0.45F, 0.54F), List.of(0.18F, 0.3F, 0.42F, 0.51F, 0.6F), 0.01F, 10));
         HEXING_HIT.addAll(GearModifierRegistryHelper.createNumberRangeTiers(List.of(25, 40, 60, 80, 95), List.of(50, 60, 80, -1, -1), List.of(0.02F, 0.05F, 0.07F, 0.09F, 0.11F), List.of(0.04F, 0.07F, 0.08F, 0.1F, 0.12F), 0.01F, 4));
 
         //Boolean
@@ -144,8 +144,8 @@ public class UnusualModifierLib {
 
 
         //Jewels
-        COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.005F, 0.01F, 0.001F)));
-        COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.001F)));
+        COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.015F, 0.03F, 0.001F)));
+        COOLDOWN_REDUCTION_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.03F, 0.06F, 0.001F)));
 
         MANA_REGEN_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(0, 10, new FloatAttributeGenerator.Range(0.01F, 0.02F, 0.001F)));
         MANA_REGEN_JEWEL.add(new VaultGearTierConfig.ModifierTier<>(65, 10, new FloatAttributeGenerator.Range(0.02F, 0.04F, 0.001F)));

@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
 
 public class ModTags {
@@ -17,4 +19,10 @@ public class ModTags {
     public static final TagKey<Block> MINEABLE_WITH_SWORD = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("fabric", "mineable/sword"));
     public static final TagKey<Block> CHIPPED_COBWEB = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("chipped", "cobweb"));
     public static final TagKey<Block> MINEABLE_WITH_SHEARS = TagKey.create(Registry.BLOCK_REGISTRY, ResourceLocation.fromNamespaceAndPath("fabric", "mineable/shears"));
+    public static final TagKey<Fluid> CREATIVE_TANK_BLACKLIST = TagKey.create(Registry.FLUID_REGISTRY, WoldsVaults.id("creative_tank_blacklist"));
+
+    /** True when the fluid may not be held by a creative (infinite) tank. */
+    public static boolean isCreativeTankBlacklisted(FluidStack stack) {
+        return stack != null && !stack.isEmpty() && stack.getFluid().is(CREATIVE_TANK_BLACKLIST);
+    }
 }

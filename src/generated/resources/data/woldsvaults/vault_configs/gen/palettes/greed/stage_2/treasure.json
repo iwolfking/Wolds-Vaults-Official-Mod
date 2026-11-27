@@ -1,0 +1,50 @@
+{
+  "tile_processors": [
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_1/wooden_chest_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/gilded_chest_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/living_chest_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/ornate_chest_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "the_vault:generic/present_boxes"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/coin_stack_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/ore_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "woldsvaults:greed/stage_2/pylon_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "the_vault:generic/gate_placeholder"
+    },
+    {
+      "type": "reference",
+      "id": "the_vault:generic/dungeon_discoverable_remove"
+    },
+    {
+      "type": "reference",
+      "id": "the_vault:generic/god_altars"
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

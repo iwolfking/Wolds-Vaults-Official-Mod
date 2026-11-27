@@ -5,9 +5,11 @@ import iskallia.vault.init.ModGearAttributes;
 import iskallia.vault.snapshot.AttributeSnapshot;
 import iskallia.vault.snapshot.AttributeSnapshotHelper;
 import net.minecraft.world.entity.LivingEntity;
+import xyz.iwolfking.woldsvaults.abilities.ColossusAbility;
 import xyz.iwolfking.woldsvaults.abilities.SneakyGetawayAbility;
 import xyz.iwolfking.woldsvaults.api.data.WoldConstants;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.modifiers.gear.lightning.LightningFiend;
 
 import java.util.function.BiConsumer;
 
@@ -21,14 +23,25 @@ public class WoldAttributeHelper {
         return additionalMultiplier * apMulti;
     }
 
+    /** Luck-affected dodge chance before the cap, from gear dodge plus the Sneaky Getaway etching. */
     public static float getDodgeChance(LivingEntity entity) {
         AttributeSnapshot snapshot = AttributeSnapshotHelper.getInstance().getSnapshot(entity);
-        float chance = LuckHelper.getLuckAffectedChance(snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT, VaultGearAttributeTypeMerger.floatSum()), entity);
+        float chance = snapshot.getAttributeValue(xyz.iwolfking.woldsvaults.init.ModGearAttributes.DODGE_PERCENT, VaultGearAttributeTypeMerger.floatSum());
         if(entity.hasEffect(ModEffects.SNEAKY_GETAWAY)) {
             chance += SneakyGetawayAbility.SneakyGetawayEffect.getSneakyEtchingDodgeChance(entity);
         }
 
-        return chance;
+        return LuckHelper.getLuckAffectedChance(chance, entity);
+    }
+
+    /** The resistance cap: the base limit raised by Lightning Fiend and Colossus, never above the hard ceiling. */
+    public static float getResistanceLimit(LivingEntity entity, float baseLimit) {
+        float limit = baseLimit + LightningFiend.resistanceCapBonus(entity);
+        if(entity.hasEffect(ModEffects.COLOSSUS)) {
+            limit += ColossusAbility.ColossusEffect.getColossusResistanceCapIncrease(entity);
+        }
+
+        return Math.min(limit, WoldConstants.RESISTANCE_HARD_CAP);
     }
 
     public static float getHexingChance(LivingEntity entity) {

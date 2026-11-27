@@ -14,6 +14,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
+import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
 import xyz.iwolfking.woldsvaults.api.util.VaultModifierUtils;
 import xyz.iwolfking.woldsvaults.init.ModCustomVaultObjectiveEntries;
 
@@ -21,20 +22,22 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class HyperVaultCrystalObjective extends WoldCrystalObjective {
-    /**
-     * Carried in crystal NBT/JSON for forward compatibility, but nothing consumes it yet:
-     * the live escalation factor is hyper_objective.json (cfg().getHyperStatFactor()).
-     */
+    /** Carried in NBT/JSON but consumed by nothing; the live factor is {@code hyper_objective.json}. */
     protected float hyperStatFactor = HyperVaultObjective.cfg().getHyperStatFactor();
+
+    /** Non-zero only on the throwaway crystal a rank-up trial builds: its rank. Never serialized. */
+    private transient int trialRank;
 
     public HyperVaultCrystalObjective() {
     }
 
+    public void setTrialRank(int trialRank) {
+        this.trialRank = trialRank;
+    }
+
     /**
-     * Attaches the hyper objective chain (objective + completion crate + DeathObjective) and
-     * the entry modifiers: locked (no exit portal), fragged (difficulty locked at the highest
-     * tier) and the hyper marker. Deliberately no BailObjective — the exit pillar is the only
-     * way out alive.
+     * Attaches the hyper objective chain and the entry modifiers: locked, fragged and the hyper
+     * marker, with no BailObjective. A rank-up trial skips the fragged lock.
      */
     @Override
     public void configure(Vault vault, RandomSource random, @Nullable String sigil) {
@@ -46,28 +49,11 @@ public class HyperVaultCrystalObjective extends WoldCrystalObjective {
             objectives.set(Objectives.KEY, CrystalData.OBJECTIVE.getType(this));
         });
         VaultModifierUtils.addModifier(vault, VaultMod.id("locked"), 1);
-        VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);
+        if (this.trialRank <= 0) {
+            VaultModifierUtils.addModifier(vault, VaultMod.id("fragged"), 1);
+        }
         VaultModifierUtils.addModifier(vault, WoldsVaults.id("hyper"), 1);
-        addSigilStacks(vault, sigil);
-    }
-
-    /** Hyper uses its own sigil→challenge-stack table (3/6/12/15/20), not SigilUtils' default. */
-    private static void addSigilStacks(Vault vault, @Nullable String sigil) {
-        if (sigil == null || vault.get(Vault.MODIFIERS).hasModifier(VaultMod.id("challenged"))) {
-            return;
-        }
-        int stacks = switch (sigil.toLowerCase()) {
-            case "adept" -> 3;
-            case "expert" -> 6;
-            case "master" -> 12;
-            case "veteran" -> 15;
-            case "legend" -> 20;
-            default -> 0;
-        };
-        if (stacks > 0) {
-            VaultModifierUtils.addModifier(vault, VaultMod.id("challenge_stack"), stacks);
-            VaultModifierUtils.addModifier(vault, VaultMod.id("challenged"), 1);
-        }
+        SigilUtils.addStacks(vault, sigil);
     }
 
     @Override

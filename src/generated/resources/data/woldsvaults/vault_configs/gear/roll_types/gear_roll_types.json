@@ -1,0 +1,72 @@
+{
+  "rolls": {
+    "Mythic": {
+      "pool": [
+        {
+          "value": "MYTHIC",
+          "weight": 1
+        }
+      ],
+      "color": 12000284,
+      "originalColor": 12000284
+    },
+    "Omega+": {
+      "pool": [
+        {
+          "value": "OMEGA",
+          "weight": 98
+        },
+        {
+          "value": "MYTHIC",
+          "weight": 2
+        }
+      ],
+      "color": 3125022,
+      "originalColor": 3125022
+    },
+    "Omega+ High": {
+      "pool": [
+        {
+          "value": "OMEGA",
+          "weight": 95
+        },
+        {
+          "value": "MYTHIC",
+          "weight": 5
+        }
+      ],
+      "color": 3125022,
+      "originalColor": 3125022
+    },
+    "Scrappy++": {
+      "pool": [
+        {
+          "value": "SCRAPPY",
+          "weight": 20
+        },
+        {
+          "value": "COMMON",
+          "weight": 25
+        },
+        {
+          "value": "RARE",
+          "weight": 30
+        },
+        {
+          "value": "EPIC",
+          "weight": 14
+        },
+        {
+          "value": "OMEGA",
+          "weight": 10
+        },
+        {
+          "value": "MYTHIC",
+          "weight": 1
+        }
+      ],
+      "color": 13818334,
+      "originalColor": 13818334
+    }
+  }
+}

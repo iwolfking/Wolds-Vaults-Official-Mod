@@ -26,12 +26,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import xyz.iwolfking.woldsvaults.items.AirMobilityItem;
 import xyz.iwolfking.woldsvaults.items.TrinketPouchItem;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchContents;
 import xyz.iwolfking.woldsvaults.items.trinket_pouch.PouchStartRoom;
 
 public final class PouchHelper {
     public static final List<String> COLORS = List.of("red_trinket", "blue_trinket", "green_trinket");
+    private static final String CHARM_COLOR = "blue_trinket";
+    private static final String UNLIMITED_USES = "\u221E";
 
     private PouchHelper() {}
 
@@ -40,19 +43,34 @@ public final class PouchHelper {
     }
 
     public static boolean isStoredItem(ItemStack stack) {
-        return stack.getItem() instanceof TrinketItem;
+        return stack.getItem() instanceof TrinketItem || isCharm(stack);
+    }
+
+    /**
+     * True for curio charms such as the Zephyr Charm: colored trinket-slot items that are not
+     * {@link TrinketItem}s, carry no trinket effect, and never spend uses.
+     */
+    public static boolean isCharm(ItemStack stack) {
+        return stack.getItem() instanceof AirMobilityItem;
     }
 
     public static boolean isTrinket(ItemStack stack) {
-        return isStoredItem(stack) && TrinketItem.isIdentified(stack) && COLORS.contains(color(stack));
+        return isCharm(stack) || isStoredItem(stack) && TrinketItem.isIdentified(stack) && COLORS.contains(color(stack));
     }
 
     public static String color(ItemStack stack) {
-        return TrinketItem.getSlotIdentifier(stack).orElse("");
+        return isCharm(stack) ? CHARM_COLOR : TrinketItem.getSlotIdentifier(stack).orElse("");
     }
 
     public static int remainingUses(ItemStack stack) {
+        if (isCharm(stack)) {
+            return Integer.MAX_VALUE;
+        }
         return Math.max(0, VaultUsesHelper.getUses(stack) - VaultUsesHelper.getUsedVaults(stack).size());
+    }
+
+    public static Object usesLabel(ItemStack stack, long remaining) {
+        return isCharm(stack) ? UNLIMITED_USES : remaining;
     }
 
     public static ItemStack equipped(Player player) {
@@ -95,6 +113,9 @@ public final class PouchHelper {
     }
 
     public static String effectKey(ItemStack stack) {
+        if (isCharm(stack)) {
+            return String.valueOf(stack.getItem().getRegistryName());
+        }
         return effects(stack).stream().map(entry -> String.valueOf(entry.trinket().getRegistryName())).distinct().sorted()
                 .reduce((first, second) -> first + "+" + second).orElse("");
     }
@@ -132,6 +153,7 @@ public final class PouchHelper {
         private final Map<String, Integer> capacities;
         private final Map<String, Integer> counts = new HashMap<>();
         private final Set<TrinketEffect<?>> effects = new HashSet<>();
+        private final Set<String> charms = new HashSet<>();
 
         private SelectionValidator(ItemStack pouch, PouchContents contents, Player player, boolean checkEquipRules) {
             this.contents = contents;
@@ -146,7 +168,7 @@ public final class PouchHelper {
             }
             ItemStack stack = contents.getStackInSlot(index);
             String color = color(stack);
-            if (!isStoredItem(stack) || !TrinketItem.isIdentified(stack) || !COLORS.contains(color)) {
+            if (!isTrinket(stack)) {
                 return "Only identified colored trinkets can be activated";
             }
             if (player != null && !contents.isActive(index) && remainingUses(stack) == 0) {
@@ -155,6 +177,9 @@ public final class PouchHelper {
             int count = counts.getOrDefault(color, 0) + 1;
             if (count > capacities.getOrDefault(color, 0)) {
                 return "No free " + color.replace("_trinket", "") + " capacity in this pouch";
+            }
+            if (isCharm(stack) && charms.contains(effectKey(stack))) {
+                return "This effect is already active";
             }
             Set<TrinketEffect<?>> candidateEffects = new HashSet<>();
             for (TrinketHelper.TrinketStack<TrinketEffect<?>> effect : effects(stack)) {
@@ -167,6 +192,9 @@ public final class PouchHelper {
             }
             counts.put(color, count);
             effects.addAll(candidateEffects);
+            if (isCharm(stack)) {
+                charms.add(effectKey(stack));
+            }
             return "";
         }
     }

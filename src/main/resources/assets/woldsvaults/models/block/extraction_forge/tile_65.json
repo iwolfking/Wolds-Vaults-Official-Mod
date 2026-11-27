@@ -1,0 +1,132 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "mass_upper",
+      "from": [
+        0,
+        6,
+        2
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.375,
+            12.0,
+            9.375,
+            12.625
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "win_frame_t",
+      "from": [
+        0,
+        4,
+        2
+      ],
+      "to": [
+        16,
+        6,
+        6
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.875,
+            14.625,
+            1.875,
+            14.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            0.875,
+            14.1875,
+            1.875,
+            14.4375
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "cham_ceil",
+      "from": [
+        0,
+        4,
+        6
+      ],
+      "to": [
+        16,
+        6,
+        16
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            7.875,
+            10.75,
+            8.875,
+            11.375
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "upper_vent_n",
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            11.25,
+            12.9375,
+            12.25,
+            13.4375
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            6.0,
+            14.625,
+            7.0,
+            14.75
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            6.0,
+            14.625,
+            7.0,
+            14.75
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

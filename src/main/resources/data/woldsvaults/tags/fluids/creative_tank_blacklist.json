@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "woldsvaults:prismatic_glue",
+    "woldsvaults:flowing_prismatic_glue",
+    "woldsvaults:molten_painite",
+    "woldsvaults:flowing_molten_painite",
+    "woldsvaults:molten_echo",
+    "woldsvaults:flowing_molten_echo",
+    "woldsvaults:molten_larimar",
+    "woldsvaults:flowing_molten_larimar",
+    "woldsvaults:molten_alexandrite",
+    "woldsvaults:flowing_molten_alexandrite",
+    "woldsvaults:coolant",
+    "woldsvaults:flowing_coolant"
+  ]
+}

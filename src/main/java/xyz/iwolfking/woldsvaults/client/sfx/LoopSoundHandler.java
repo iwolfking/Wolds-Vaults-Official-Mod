@@ -8,14 +8,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import xyz.iwolfking.woldsvaults.init.ModSounds;
 
 import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class LoopSoundHandler {
     private static boolean ticked = false;
     private static boolean shouldPlay = false;
@@ -24,7 +21,6 @@ public class LoopSoundHandler {
     private static int ambientSoundInterval = getRandomInterval();
 
 
-    @SubscribeEvent
     public static void onTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
             return;

@@ -1,0 +1,11 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "luckyHitCap"
+      ],
+      "value": 10.0
+    }
+  ]
+}

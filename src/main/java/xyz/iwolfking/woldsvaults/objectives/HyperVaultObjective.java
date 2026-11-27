@@ -90,6 +90,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.eventbus.api.EventPriority;
 import xyz.iwolfking.vhapi.api.util.MessageUtils;
 import xyz.iwolfking.woldsvaults.WoldsVaults;
@@ -99,7 +100,10 @@ import xyz.iwolfking.woldsvaults.config.HyperObjectiveConfig;
 import xyz.iwolfking.woldsvaults.mixins.vaulthunters.accessors.BossRunePillarAccessor;
 import xyz.iwolfking.woldsvaults.modifiers.vault.HyperStatModifier;
 import xyz.iwolfking.woldsvaults.modifiers.vault.lib.SettableValueVaultModifier;
+import xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery;
+import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossGlow;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperBossManager;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrialHyper;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperCycleManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperEscalationManager;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
@@ -110,6 +114,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Endlessly-cycling objective: clear a batch of mini-objectives, arm and kill an escalating
@@ -138,9 +143,19 @@ import java.util.function.Consumer;
  */
 public class HyperVaultObjective extends Objective {
 
-    /** The live tuning knobs (config/the_vault/hyper_objective.json). */
+    private static final HyperObjectiveConfig INERT = HyperObjectiveConfig.inert();
+    private static final AtomicBoolean WARNED = new AtomicBoolean();
+
+    /** The installed tuning knobs, or an inert table (logged once) before the hyper table is installed; never null. */
     public static HyperObjectiveConfig cfg() {
-        return xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
+        HyperObjectiveConfig config = xyz.iwolfking.woldsvaults.init.ModConfigs.HYPER_OBJECTIVE;
+        if (config != null) {
+            return config;
+        }
+        if (WARNED.compareAndSet(false, true)) {
+            WoldLogger.error("The HYPER objective was read before the objectives/hyper/hyper_objective table was installed");
+        }
+        return INERT;
     }
 
     /**
@@ -148,6 +163,12 @@ public class HyperVaultObjective extends Objective {
      * can find and discard the leftover escort.
      */
     public static final String FIGHT_SPAWN_TAG = "hyper_fight_spawn";
+    /**
+     * Entity tag carried only by the brutal bosses of a fight-phase wave, on top of
+     * {@link #FIGHT_SPAWN_TAG}. The arena adds share that tag but must not count against the wave
+     * cap, and the brutal mini's own obelisk bosses carry neither.
+     */
+    public static final String BRUTAL_WAVE_TAG = "hyper_brutal_wave";
     private static final UUID SPEED_CLAMP_UUID =
             UUID.nameUUIDFromBytes("woldsvaults:hyper_speed_clamp".getBytes(StandardCharsets.UTF_8));
     /**
@@ -222,6 +243,14 @@ public class HyperVaultObjective extends Objective {
      * HyperBossManager reads finished stats mid-fight; the previous value is deliberately kept
      * until the new boss spawns — gate checks resolve a dead entity to null and skip.
      */
+    /**
+     * The trial mastery damage bonus earned so far, in basis points; see
+     * {@link xyz.iwolfking.woldsvaults.milestones.trials.TrialMastery}. Synced so the client can
+     * show it, and 0 in every vault that is not a rank-up trial.
+     */
+    public static final FieldKey<Integer> MASTERY_BONUS = FieldKey.of("mastery_bonus", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all().or(CLIENT.all())).register(FIELDS);
+    /** Vault time left when the current cycle's objective window opened, for the mastery award. */
+    public static final FieldKey<Integer> MASTERY_WINDOW = FieldKey.of("mastery_window", Integer.class).with(Version.v1_31, Adapters.INT_SEGMENTED_3, DISK.all()).register(FIELDS);
     public static final FieldKey<UUID> BOSS_ID = FieldKey.of("boss_id", UUID.class).with(Version.v1_31, Adapters.UUID, DISK.all()).register(FIELDS);
     /**
      * Set when the current fight's boss actually dies; cleared at every arm. A fight that ends
@@ -297,6 +326,19 @@ public class HyperVaultObjective extends Objective {
         return new HyperVaultObjective();
     }
 
+    /** The behavior managers, null until initServer has run; used by the hyper test commands. */
+    public HyperCycleManager getCycleManager() {
+        return this.cycleManager;
+    }
+
+    public HyperBossManager getBossManager() {
+        return this.bossManager;
+    }
+
+    public HyperEscalationManager getEscalationManager() {
+        return this.escalationManager;
+    }
+
     @Override
     public SupplierKey<Objective> getKey() {
         return KEY;
@@ -316,9 +358,13 @@ public class HyperVaultObjective extends Objective {
         return get(vault).map(objective -> objective.getOr(CYCLE, 0)).orElse(0);
     }
 
-    /** Card requirements grow +10% of their base per completed boss cycle. */
+    /**
+     * Card requirements grow +10% of their base per completed boss cycle, then take the trial's
+     * objective scale (1.0 outside a rank-up trial).
+     */
     public static double cycleRequirementScale(Vault vault) {
-        return 1.0 + cfg().getCycleRequirementIncrement() * getCycleCount(vault);
+        return (1.0 + cfg().getCycleRequirementIncrement() * getCycleCount(vault))
+                * GreedTrialHyper.objectiveScale(vault);
     }
 
     /** x(1 + rate x extra runners), from the LIVE runner count — elastic on joins and deaths. */
@@ -335,7 +381,8 @@ public class HyperVaultObjective extends Objective {
     public static int consumeChaosBudget(Vault vault, int requested) {
         return get(vault).map(objective -> {
             int used = objective.getOr(CHAOS_COUNT, 0);
-            int granted = Math.max(0, Math.min(requested, cfg().getChaosCap() - used));
+            int granted = Math.max(0, Math.min(requested,
+                    GreedTrialHyper.chaosCap(vault, cfg().getChaosCap()) - used));
             if (granted > 0) {
                 objective.set(CHAOS_COUNT, used + granted);
             }
@@ -470,6 +517,7 @@ public class HyperVaultObjective extends Objective {
             if (event.getEntity().level == world && event.getEntity() instanceof VaultBossEntity boss
                     && this.getOr(PHASE, Phase.ROLLING) == Phase.FIGHT) {
                 this.set(BOSS_ID, boss.getUUID());
+                HyperBossGlow.mark(boss);
             }
         }));
 
@@ -615,6 +663,7 @@ public class HyperVaultObjective extends Objective {
     private void completeAndExtract(VirtualWorld world, Vault vault, Runner runner) {
         vault.ifPresent(Vault.STATS, stats -> stats.get(runner.getId()).set(StatCollector.COMPLETION, Completion.COMPLETED));
         super.tickListener(world, vault, runner);
+        GreedTrialHyper.onRunnerCompleted(vault, runner);
         broadcast(vault, runner.getPlayer().map(p -> p.getDisplayName().getString()).orElse("A runner")
                 + " escaped the HYPER Vault!", ChatFormatting.AQUA);
         if (vault.get(Vault.LISTENERS).getAll().size() <= 1) {
@@ -624,16 +673,17 @@ public class HyperVaultObjective extends Objective {
     }
 
     /** Applies the speed cap to last tick's spawns (see the ENTITY_SPAWN registration). */
-    private void drainSpeedClampQueue() {
+    private void drainSpeedClampQueue(Vault vault) {
         if (this.speedClampQueue.isEmpty()) {
             return;
         }
+        double capFactor = speedCapFactor(vault);
         for (Mob mob : this.speedClampQueue) {
-            if (mob.isAlive() && clampMovementSpeed(mob)) {
+            if (mob.isAlive() && clampMovementSpeed(mob, capFactor)) {
                 this.speedClampCount++;
                 if (this.speedClampCount == 1 || this.speedClampCount % 200 == 0) {
                     WoldLogger.debug("Capped mob movement speed at +{}% ({} capped so far; latest: {}).",
-                            Math.round((cfg().getSpeedCapFactor() - 1.0) * 100.0), this.speedClampCount,
+                            Math.round((capFactor - 1.0) * 100.0), this.speedClampCount,
                             mob.getType().getRegistryName());
                 }
             }
@@ -641,19 +691,23 @@ public class HyperVaultObjective extends Objective {
         this.speedClampQueue.clear();
     }
 
+    /** The movement speed ceiling this vault enforces: the trial row's, else the configured one. */
+    public static double speedCapFactor(Vault vault) {
+        return GreedTrialHyper.speedCapFactor(vault, cfg().getSpeedCapFactor());
+    }
+
     /**
-     * Caps the entity's final movement speed at base × {@code cfg().getSpeedCapFactor()} with a single
+     * Caps the entity's final movement speed at base × {@code capFactor} with a single
      * corrective MULTIPLY_TOTAL modifier, so later potion-style speed effects still work but the
      * permanent modifier stacking cannot push past the cap. Idempotent; true if a cap was added.
      */
-    public static boolean clampMovementSpeed(LivingEntity entity) {
+    public static boolean clampMovementSpeed(LivingEntity entity, double capFactor) {
         AttributeInstance speed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (speed == null || speed.getModifier(SPEED_CLAMP_UUID) != null) {
             return false;
         }
         double base = speed.getBaseValue();
         double value = speed.getValue();
-        double capFactor = cfg().getSpeedCapFactor();
         if (base <= 0.0 || value <= base * capFactor) {
             return false;
         }
@@ -669,9 +723,10 @@ public class HyperVaultObjective extends Objective {
      */
     @Override
     public void tickServer(VirtualWorld world, Vault vault) {
+        TrialMastery.ensureObjectiveWindow(vault, this);
         this.get(FIGHTS).onTick(world, vault);
         this.get(MINIS).forEach(mini -> mini.tickServer(world, vault));
-        drainSpeedClampQueue();
+        drainSpeedClampQueue(vault);
         tickExtractions(world, vault);
         this.cycleManager.tick();
         this.bossManager.tick();
@@ -713,6 +768,7 @@ public class HyperVaultObjective extends Objective {
 
     @Override
     public void releaseServer() {
+        HyperBossGlow.release(ServerLifecycleHooks.getCurrentServer(), this.getOr(BOSS_ID, null));
         this.get(MINIS).forEach(Objective::releaseServer);
         this.get(FIGHTS).onDetach();
         super.releaseServer();

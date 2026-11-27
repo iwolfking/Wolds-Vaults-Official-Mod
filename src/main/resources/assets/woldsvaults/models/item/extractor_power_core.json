@@ -1,0 +1,32 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/extractor/power_core_wooden"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:variant": 2.0
+      },
+      "model": "woldsvaults:item/extractor/power_core_chromatic"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 3.0
+      },
+      "model": "woldsvaults:item/extractor/power_core_experimental"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 4.0
+      },
+      "model": "woldsvaults:item/extractor/power_core_armored"
+    },
+    {
+      "predicate": {
+        "woldsvaults:variant": 5.0
+      },
+      "model": "woldsvaults:item/extractor/power_core_echosteel"
+    }
+  ]
+}

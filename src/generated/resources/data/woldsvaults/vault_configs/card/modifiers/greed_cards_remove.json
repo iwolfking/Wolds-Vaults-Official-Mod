@@ -1,0 +1,89 @@
+{
+  "values": {},
+  "pools": {
+    "default": [
+      {
+        "value": "attack_damage",
+        "weight": 1.0
+      },
+      {
+        "value": "apflat",
+        "weight": 1.0
+      },
+      {
+        "value": "attack_speed",
+        "weight": 1.0
+      },
+      {
+        "value": "lucky_hit_chance",
+        "weight": 1.0
+      },
+      {
+        "value": "thorns_flat",
+        "weight": 1.0
+      }
+    ],
+    "shiny": [
+      {
+        "value": "attack_damage_shiny",
+        "weight": 1.0
+      },
+      {
+        "value": "apflat_shiny",
+        "weight": 1.0
+      },
+      {
+        "value": "attack_speed_shiny",
+        "weight": 1.0
+      },
+      {
+        "value": "thorns_flat_shiny",
+        "weight": 1.0
+      }
+    ],
+    "deluxe_stat": [
+      {
+        "value": "deluxe_attack_damage",
+        "weight": 1.0
+      },
+      {
+        "value": "deluxe_apflat",
+        "weight": 1.0
+      },
+      {
+        "value": "deluxe_attack_speed",
+        "weight": 1.0
+      },
+      {
+        "value": "deluxe_lucky_hit_chance",
+        "weight": 1.0
+      },
+      {
+        "value": "deluxe_thorns_flat",
+        "weight": 1.0
+      }
+    ],
+    "scaling": [
+      {
+        "value": "amp_attack_damage",
+        "weight": 1.0
+      },
+      {
+        "value": "amp_apflat",
+        "weight": 1.0
+      },
+      {
+        "value": "amp_attack_speed",
+        "weight": 1.0
+      },
+      {
+        "value": "amp_lucky_hit_chance",
+        "weight": 1.0
+      },
+      {
+        "value": "amp_thorns_flat",
+        "weight": 1.0
+      }
+    ]
+  }
+}

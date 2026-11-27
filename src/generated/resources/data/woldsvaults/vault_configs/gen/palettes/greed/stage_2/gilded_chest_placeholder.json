@@ -1,0 +1,42 @@
+{
+  "tile_processors": [
+    {
+      "type": "placeholder",
+      "target": "GILDED_CHEST",
+      "levels": [
+        {
+          "level": 0,
+          "probability": 1.0,
+          "success": {
+            "the_vault:gilded_strongbox{LootTable:\"woldsvaults:greed/stage_1/gilded_strongbox\"}": 5,
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_2/enigma_chest\"}": 1,
+            "the_vault:gilded_chest{LootTable:\"woldsvaults:greed/stage_1/gilded_chest\"}": 94
+          },
+          "failure": {
+            "minecraft:air": 1
+          }
+        }
+      ]
+    },
+    {
+      "type": "placeholder",
+      "target": "GILDED_CHEST_WATERLOGGED",
+      "levels": [
+        {
+          "level": 0,
+          "probability": 1.0,
+          "success": {
+            "the_vault:gilded_chest[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_1/gilded_chest\"}": 94,
+            "the_vault:gilded_strongbox[waterlogged=true]{LootTable:\"woldsvaults:greed/stage_1/gilded_strongbox\"}": 5,
+            "the_vault:enigma_chest{LootTable:\"woldsvaults:greed/stage_2/enigma_chest\"}": 1
+          },
+          "failure": {
+            "minecraft:water": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entity_processors": [],
+  "decorators": []
+}

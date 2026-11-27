@@ -1,0 +1,325 @@
+{
+  "tree": {
+    "present": false,
+    "unlockLevel": 0,
+    "learnPointCost": 0,
+    "regretPointCost": 0,
+    "skills": [
+      {
+        "id": "ToolsmithII",
+        "name": "Echoing Toolsmith II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "toolsmith_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 1200,
+            "tier": 8,
+            "requiredGreedTier": 8,
+            "capacityIncrease": 75,
+            "type": "tool_capacity_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "SuperCrystalsII",
+        "name": "Crystalweaver's Gift II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "super_crystals_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 1400,
+            "tier": 9,
+            "requiredGreedTier": 9,
+            "extraCapacity": 25,
+            "capacityMultiplier": 0.0,
+            "type": "super_crystals_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "SuperCrystalsIII",
+        "name": "Crystalweaver's Gift III",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "super_crystals_3",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 3200,
+            "tier": 15,
+            "requiredGreedTier": 15,
+            "extraCapacity": 25,
+            "capacityMultiplier": 0.0,
+            "type": "super_crystals_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "SpiritsHandII",
+        "name": "Spirit's Hand II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "spirits_hand_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 2800,
+            "tier": 14,
+            "requiredGreedTier": 14,
+            "reachIncrease": 1.0,
+            "type": "reach_cap_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "FruityII",
+        "name": "Bloom of Time II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "fruity_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 3200,
+            "tier": 15,
+            "requiredGreedTier": 15,
+            "attribute": "the_vault:fruit_effectiveness",
+            "value": 0.5,
+            "type": "gear_attribute_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "GodsDisciple",
+        "name": "God's Disciple",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "gods_disciple_1",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 800,
+            "tier": 6,
+            "requiredGreedTier": 6,
+            "experienceIncrease": 0.2,
+            "altarBaseMultiplier": 2.0,
+            "type": "god_experience_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "GodsDiscipleII",
+        "name": "God's Disciple II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "gods_disciple_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 2000,
+            "tier": 12,
+            "requiredGreedTier": 12,
+            "experienceIncrease": 0.15,
+            "altarBaseMultiplier": 1.0,
+            "type": "god_experience_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "RelicHunter",
+        "name": "Relic Hunter",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "relic_hunter_1",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 2000,
+            "tier": 12,
+            "requiredGreedTier": 12,
+            "chanceMultiplier": 0.5,
+            "type": "relic_hunter_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "RelicHunterII",
+        "name": "Relic Hunter II",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "relic_hunter_2",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 3200,
+            "tier": 15,
+            "requiredGreedTier": 15,
+            "chanceMultiplier": 0.5,
+            "type": "relic_hunter_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "LegendOfTime",
+        "name": "Legend of Time",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "legend_of_time",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 25000,
+            "tier": 16,
+            "requiredGreedTier": 16,
+            "type": "unreleased_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "LegendOfPower",
+        "name": "Legend of Power",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "legend_of_power",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 25000,
+            "tier": 16,
+            "requiredGreedTier": 16,
+            "type": "unreleased_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      },
+      {
+        "id": "LegendOfRiches",
+        "name": "Legend of Riches",
+        "present": false,
+        "unlockLevel": 0,
+        "learnPointCost": 0,
+        "regretPointCost": 0,
+        "tiers": [
+          {
+            "id": "legend_of_riches",
+            "present": false,
+            "unlockLevel": 0,
+            "learnPointCost": 0,
+            "regretPointCost": 1,
+            "learnKnowledgeCost": 25000,
+            "tier": 16,
+            "requiredGreedTier": 16,
+            "type": "unreleased_power"
+          }
+        ],
+        "maxLearnableTier": 1,
+        "tier": 0,
+        "bonusTier": 0,
+        "type": "tiered"
+      }
+    ],
+    "type": "prestige"
+  }
+}

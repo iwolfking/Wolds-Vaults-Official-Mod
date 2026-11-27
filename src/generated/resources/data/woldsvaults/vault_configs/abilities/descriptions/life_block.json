@@ -1,0 +1,180 @@
+{
+  "data": {
+    "Life_Block_Base": {
+      "description": [
+        {
+          "text": "Seal your wounds behind a ",
+          "color": "$text"
+        },
+        {
+          "text": "Life Block ",
+          "color": "$health"
+        },
+        {
+          "text": "worth a share of your max health. While it stands, all ",
+          "color": "$text"
+        },
+        {
+          "text": "healing ",
+          "color": "$heal"
+        },
+        {
+          "text": "goes into lifting the block instead of healing you.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Lifting it grants an ",
+          "color": "$text"
+        },
+        {
+          "text": "absorption shield",
+          "color": "$absorb"
+        },
+        {
+          "text": ", ",
+          "color": "$text"
+        },
+        {
+          "text": "Transfusion",
+          "color": "$damage"
+        },
+        {
+          "text": ", a stacking damage boost every time you heal, and ",
+          "color": "$text"
+        },
+        {
+          "text": "Life Bond",
+          "color": "$thornsDamage"
+        },
+        {
+          "text": ", which passes part of the damage you take to your attacker.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "A bigger block makes the buffs stronger, and lifting it faster makes them last ",
+          "color": "$text"
+        },
+        {
+          "text": "longer",
+          "color": "$duration"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "blockSize",
+        "absorptionShield",
+        "transfusion",
+        "lifeBond",
+        "buffDuration",
+        "fastClear",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "blockSize",
+        "absorptionShield",
+        "transfusion",
+        "lifeBond",
+        "buffDuration",
+        "fastClear",
+        "cooldown",
+        "manaCost"
+      ]
+    },
+    "Mana_Block": {
+      "description": [
+        {
+          "text": "Seal your mana behind a ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana Block ",
+          "color": "$manaCost"
+        },
+        {
+          "text": "worth a share of your max mana. While it stands, all ",
+          "color": "$text"
+        },
+        {
+          "text": "mana regeneration ",
+          "color": "$manaCost"
+        },
+        {
+          "text": "goes into lifting the block instead of refilling your mana.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "Lifting it grants ",
+          "color": "$text"
+        },
+        {
+          "text": "Mana Shield",
+          "color": "$manaPerDamage"
+        },
+        {
+          "text": ", which takes part of the damage you take from your mana instead, extra ",
+          "color": "$text"
+        },
+        {
+          "text": "mana regeneration",
+          "color": "$manaCost"
+        },
+        {
+          "text": ", and ",
+          "color": "$text"
+        },
+        {
+          "text": "Surging Mana",
+          "color": "$areaOfEffect"
+        },
+        {
+          "text": ", increasing your area of effect.\n\n",
+          "color": "$text"
+        },
+        {
+          "text": "A bigger block makes the buffs stronger, and lifting it faster makes them last ",
+          "color": "$text"
+        },
+        {
+          "text": "longer",
+          "color": "$duration"
+        },
+        {
+          "text": ".",
+          "color": "$text"
+        },
+        {
+          "text": "\n\n✴ Cast Ability",
+          "color": "$castType"
+        }
+      ],
+      "current": [
+        "blockSize",
+        "manaShield",
+        "manaRegenShare",
+        "surgingMana",
+        "buffDuration",
+        "fastClear",
+        "cooldown",
+        "manaCost"
+      ],
+      "next": [
+        "blockSize",
+        "manaShield",
+        "manaRegenShare",
+        "surgingMana",
+        "buffDuration",
+        "fastClear",
+        "cooldown",
+        "manaCost"
+      ]
+    }
+  }
+}

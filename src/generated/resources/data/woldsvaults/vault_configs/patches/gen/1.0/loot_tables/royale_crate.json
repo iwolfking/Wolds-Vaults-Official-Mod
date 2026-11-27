@@ -1,0 +1,80 @@
+{
+  "ops": [
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        0,
+        "pool"
+      ],
+      "value": {
+        "weight": 50,
+        "item": {
+          "id": "the_vault:scepter",
+          "nbt": "{\"the_vault:gear_roll_type\": \"Royale_Poor\", \"the_vault:fullfill_all_affix\": true}",
+          "count": {
+            "type": "constant",
+            "count": 1
+          }
+        }
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        1,
+        "pool"
+      ],
+      "value": {
+        "weight": 50,
+        "item": {
+          "id": "the_vault:scepter",
+          "nbt": "{\"the_vault:gear_roll_type\": \"Royale\", \"the_vault:fullfill_all_affix\": true}",
+          "count": {
+            "type": "constant",
+            "count": 1
+          }
+        }
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        0,
+        "pool"
+      ],
+      "value": {
+        "weight": 50,
+        "item": {
+          "id": "the_vault:dagger",
+          "nbt": "{\"the_vault:gear_roll_type\": \"Royale_Poor\", \"the_vault:fullfill_all_affix\": true}",
+          "count": {
+            "type": "constant",
+            "count": 1
+          }
+        }
+      }
+    },
+    {
+      "op": "append",
+      "path": [
+        "entries",
+        1,
+        "pool"
+      ],
+      "value": {
+        "weight": 50,
+        "item": {
+          "id": "the_vault:dagger",
+          "nbt": "{\"the_vault:gear_roll_type\": \"Royale\", \"the_vault:fullfill_all_affix\": true}",
+          "count": {
+            "type": "constant",
+            "count": 1
+          }
+        }
+      }
+    }
+  ]
+}

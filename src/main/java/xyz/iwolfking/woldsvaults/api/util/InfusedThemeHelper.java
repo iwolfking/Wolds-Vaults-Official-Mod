@@ -2,10 +2,9 @@ package xyz.iwolfking.woldsvaults.api.util;
 
 import iskallia.vault.core.random.RandomSource;
 import iskallia.vault.core.vault.Vault;
-import iskallia.vault.greed.GreedChallengeSlot;
-import iskallia.vault.greed.GreedTree;
 import iskallia.vault.world.VaultDifficulty;
 import iskallia.vault.world.data.PlayerGreedTreeData;
+import iskallia.vault.world.data.ServerVaults;
 import iskallia.vault.world.data.WorldSettings;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -14,10 +13,25 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.api.core.theme.InfusedCrystalTheme;
 import xyz.iwolfking.woldsvaults.config.ThemeModifiersConfig;
 import xyz.iwolfking.woldsvaults.init.ModGameRules;
+import xyz.iwolfking.woldsvaults.milestones.trials.GreedTrials;
 
 import java.util.UUID;
 
 public class InfusedThemeHelper {
+    private static UUID challengeVaultInConfigure;
+
+    /**
+     * Marks the vault a greed challenge crystal is configuring. The base mod links the challenge
+     * slot to the vault only after creation, so the slot cannot identify it while the theme rolls.
+     */
+    public static void beginChallengeConfigure(UUID vaultId) {
+        challengeVaultInConfigure = vaultId;
+    }
+
+    public static void endChallengeConfigure() {
+        challengeVaultInConfigure = null;
+    }
+
     public static boolean handleThemeInfusion(Vault vault, ResourceLocation themeId, RandomSource random, String sigil) {
         if (themeId == null) {
             return false;
@@ -26,9 +40,12 @@ public class InfusedThemeHelper {
         if(VaultModifierUtils.hasCountOfModifiers(vault, WoldsVaults.id("dulled"), 1)) {
             return false;
         }
+        if (challengeVaultInConfigure != null && challengeVaultInConfigure.equals(vault.get(Vault.ID))) {
+            return false;
+        }
+
 
         UUID vaultOwnerId = vault.get(Vault.OWNER);
-        UUID vaultId = vault.get(Vault.ID);
         VaultDifficulty difficulty = VaultDifficulty.NORMAL;
 
         if (vaultOwnerId != null) {
@@ -38,14 +55,8 @@ public class InfusedThemeHelper {
                     return false;
                 }
 
-                //If this vault is a greed challenge vault, don't ever infuse the theme.
-                PlayerGreedTreeData treeData = PlayerGreedTreeData.get(server);
-                GreedTree greedTree = treeData.getGreedTree(vaultOwnerId);
-                if (greedTree != null) {
-                    GreedChallengeSlot activeSlot = greedTree.getActiveChallengeSlot();
-                    if (activeSlot != null && vaultId.equals(activeSlot.getChallengeVaultId())) {
-                        return false;
-                    }
+                if (GreedTrials.isOpeningTrial() || GreedTrials.trialRank(vault) > 0) {
+                    return false;
                 }
 
                 WorldSettings settings = WorldSettings.get(server.overworld());

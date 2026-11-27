@@ -1,0 +1,12 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "WaveBlast",
+        "Radius"
+      ],
+      "value": 15.0
+    }
+  ]
+}

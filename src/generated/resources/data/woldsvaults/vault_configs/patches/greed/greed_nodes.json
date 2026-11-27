@@ -1,0 +1,108 @@
+{
+  "ops": [
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_1"
+        },
+        "entries",
+        0,
+        "value"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_1"
+        },
+        "name"
+      ],
+      "value": "+15% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_2"
+        },
+        "entries",
+        0,
+        "value"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_2"
+        },
+        "name"
+      ],
+      "value": "+15% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_3"
+        },
+        "entries",
+        0,
+        "value"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_cooldown_3"
+        },
+        "name"
+      ],
+      "value": "+15% Spell Haste"
+    },
+    {
+      "op": "scale",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_xp_path_1"
+        },
+        "entries",
+        0,
+        "value"
+      ],
+      "value": 3
+    },
+    {
+      "op": "set",
+      "path": [
+        "tree",
+        "skills",
+        {
+          "id": "util_t1_xp_path_1"
+        },
+        "name"
+      ],
+      "value": "+30% Spell Haste"
+    }
+  ]
+}

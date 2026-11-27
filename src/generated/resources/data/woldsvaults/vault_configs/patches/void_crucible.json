@@ -1,0 +1,207 @@
+{
+  "ops": [
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_chain_rusty"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:chromatic_planks"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:stripped_driftwood_log"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:driftwood_planks"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_cracked"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_chipped"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:vault_stone_bricks_cracked"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_velvet_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:gilded_bricks_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:vault_stone_bricks"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_velvet_slab"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_netherite"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ornate_bricks_rusty"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:gilded_cobble_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:rotten_meat_block"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_block_pillar_weathered"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_trapdoor"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_bricks"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_block_pillar_exposed"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_block_pillar"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:ancient_copper_bricks_exposed"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:driftwood_slab"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:driftwood_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:vault_ash"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:polished_vault_stone"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:chromatic_stairs"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:stripped_chromatic_log"
+    },
+    {
+      "op": "append",
+      "path": [
+        "allowedBlocks"
+      ],
+      "value": "the_vault:chromatic_slab"
+    }
+  ]
+}

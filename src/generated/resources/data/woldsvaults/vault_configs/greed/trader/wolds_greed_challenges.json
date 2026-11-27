@@ -37,7 +37,7 @@
     },
     {
       "displayName": "Collectathon",
-      "description": "Get them all and then some more! Blackout that board!",
+      "description": "Get them all and then some more! Black out that board!",
       "challengeCrystalId": "blackout_scavingo",
       "minTier": 3,
       "maxTier": -1

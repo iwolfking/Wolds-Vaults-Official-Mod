@@ -41,6 +41,8 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
 import xyz.iwolfking.woldsvaults.api.util.ObjectiveHelper;
 import xyz.iwolfking.woldsvaults.api.util.SigilUtils;
+import xyz.iwolfking.woldsvaults.milestones.MilestoneIds;
+import xyz.iwolfking.woldsvaults.milestones.Milestones;
 import xyz.iwolfking.woldsvaults.objectives.hyper.HyperModifierPolicy;
 import xyz.iwolfking.woldsvaults.objectives.data.BrutalBossesRegistry;
 import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
@@ -48,6 +50,7 @@ import xyz.iwolfking.woldsvaults.objectives.data.bosses.WoldBoss;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.IntSupplier;
+import net.minecraft.server.level.ServerPlayer;
 
 public class BrutalBossesObjective extends ObeliskObjective {
 
@@ -55,15 +58,24 @@ public class BrutalBossesObjective extends ObeliskObjective {
     public static final FieldRegistry FIELDS = ObeliskObjective.FIELDS.merge(new FieldRegistry());
 
     public static final FieldKey<Boolean> NEGATIVE_POOL_ONLY = FieldKey.of("negative_pool_only", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
+    /**
+     * Boss kills pay a roll from that boss's own bb_ pool - the positive rewards an ordinary
+     * brutal-bosses vault gives - and are exempt from the chaos budget and the hyper stack caps.
+     * Deliberately separate from {@link #NEGATIVE_POOL_ONLY}, which must stay set inside a hyper
+     * vault to keep the obelisk listener-priority gate open.
+     */
+    public static final FieldKey<Boolean> POSITIVE_KILL_REWARDS = FieldKey.of("positive_kill_rewards", Boolean.class).with(Version.v1_12, Adapters.BOOLEAN, DISK.all()).register(FIELDS);
     private static final ResourceLocation NEGATIVE_POOL = HyperVaultObjective.CHAOS_POOL_ALL_BAD;
 
     public BrutalBossesObjective(int target, IntSupplier wave, float objectiveProbability) {
         super(target, wave, objectiveProbability);
         this.set(NEGATIVE_POOL_ONLY, false);
+        this.set(POSITIVE_KILL_REWARDS, false);
     }
 
     public BrutalBossesObjective() {
         this.set(NEGATIVE_POOL_ONLY, false);
+        this.set(POSITIVE_KILL_REWARDS, false);
     }
 
     @Override
@@ -86,13 +98,28 @@ public class BrutalBossesObjective extends ObeliskObjective {
         return objective;
     }
 
-    private ResourceLocation modifierPoolFor(String modName) {
-        return this.getOr(NEGATIVE_POOL_ONLY, false) ? NEGATIVE_POOL : VaultMod.id("bb_" + modName.toLowerCase());
+    public static BrutalBossesObjective of(int target, IntSupplier wave, float objectiveProbability,
+                                           boolean negativePoolOnly, boolean positiveKillRewards) {
+        BrutalBossesObjective objective = of(target, wave, objectiveProbability, negativePoolOnly);
+        objective.set(POSITIVE_KILL_REWARDS, positiveKillRewards);
+        return objective;
     }
 
+    private boolean drawsFromChaos() {
+        return this.getOr(NEGATIVE_POOL_ONLY, false) && !this.getOr(POSITIVE_KILL_REWARDS, false);
+    }
+
+    private ResourceLocation modifierPoolFor(String modName) {
+        return drawsFromChaos() ? NEGATIVE_POOL : VaultMod.id("bb_" + modName.toLowerCase());
+    }
+
+    /**
+     * Boss-kill modifiers drawn from the hyper negative pool count against the shared chaos
+     * budget and respect the per-modifier stack caps; bb_ pool rewards do neither.
+     */
     private void addBossKillModifier(Vault vault, VaultModifier<?> mod, List<VaultModifier<?>> modifiersForMsg) {
-        if (this.getOr(NEGATIVE_POOL_ONLY, false)
-                && (HyperModifierPolicy.isStackCapped(vault, mod)
+        if (drawsFromChaos()
+                && (HyperModifierPolicy.isBlocked(vault, mod)
                 || HyperVaultObjective.consumeChaosBudget(vault, 1) <= 0)) {
             return;
         }
@@ -159,6 +186,9 @@ public class BrutalBossesObjective extends ObeliskObjective {
                         wave.modify(Wave.COUNT, (x) -> {
                             return x + 1;
                         });
+                        if (event.getSource().getEntity() instanceof ServerPlayer bossKiller) {
+                            Milestones.advance(bossKiller, MilestoneIds.BRUTALIZED, 1L);
+                        }
                         MobModifier modifier = InfernalMobsCore.getMobModifiers(event.getEntityLiving());
                         List<VaultModifier<?>> modifiersForMsg = new ArrayList<>();
 

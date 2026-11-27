@@ -1,0 +1,57 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "woldsvaults:block/extraction_forge",
+    "particle": "woldsvaults:block/extraction_forge"
+  },
+  "elements": [
+    {
+      "name": "cham_left",
+      "from": [
+        2,
+        0,
+        0
+      ],
+      "to": [
+        4,
+        16,
+        16
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            12.25,
+            10.0,
+            13.25,
+            11.0
+          ],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "name": "cham_back",
+      "from": [
+        2,
+        0,
+        14
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1.875,
+            10.125,
+            2.75,
+            11.125
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

@@ -20,6 +20,9 @@ public class ModLegacyLootTablesProvider extends AbstractLegacyLootTableProvider
         add("chaos_objective", builder -> {
             createStandardLevelsForObjective("chaos", "woldsvaults:chaos_crate_0").forEach(builder::addLevel);
         });
+        add("extraction_objective", builder -> {
+            createStandardLevelsForObjective("extraction", "the_vault:base_crate_0").forEach(builder::addLevel);
+        });
     }
 
     private static final int[] standardLevels = new int[]{0, 5, 20, 50, 100};

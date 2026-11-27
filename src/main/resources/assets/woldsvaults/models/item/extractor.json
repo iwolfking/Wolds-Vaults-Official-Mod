@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "woldsvaults:item/extractor"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "woldsvaults:deployed": 1.0
+      },
+      "model": "woldsvaults:item/extractor_deployed"
+    }
+  ]
+}

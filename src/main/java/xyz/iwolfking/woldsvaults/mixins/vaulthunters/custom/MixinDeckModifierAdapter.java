@@ -34,5 +34,13 @@ public class MixinDeckModifierAdapter extends TypeSupplierAdapter<DeckModifier<?
         this.register("color_mismatch_adjacency", ColorMismatchAdjacencyModifier.class, ColorMismatchAdjacencyModifier::new);
         this.register("symmetry_balance", SymmetricBalanceDeckModifier.class, SymmetricBalanceDeckModifier::new);
         this.register("chain_reaction", ChainReactionDeckModifier.class, ChainReactionDeckModifier::new);
+        this.register("empty_slot_multiplier", MultiplicativeEmptySlotDeckModifier.class, MultiplicativeEmptySlotDeckModifier::new);
+        this.register("global_multiplier", MultiplicativeGlobalDeckModifier.class, MultiplicativeGlobalDeckModifier::new);
+        this.register("slot_multiplier", MultiplicativeSlotDeckModifier.class, MultiplicativeSlotDeckModifier::new);
+        this.register("adjacent_group_multiplier", AdjacentGroupMultiplierDeckModifier.class, AdjacentGroupMultiplierDeckModifier::new);
+        this.register("group_count_multiplier", GroupCountMultiplierDeckModifier.class, GroupCountMultiplierDeckModifier::new);
+        this.register("dominance_multiplier", MultiplicativeDominanceDeckModifier.class, MultiplicativeDominanceDeckModifier::new);
+        this.register("tag_mirror", TagMirrorDeckModifier.class, TagMirrorDeckModifier::new);
+        this.register("greed_stack", GreedStackDeckModifier.class, GreedStackDeckModifier::new);
     }
 }

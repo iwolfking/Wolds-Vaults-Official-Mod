@@ -1,0 +1,26 @@
+{
+  "ops": [
+    {
+      "op": "set",
+      "path": [
+        "data",
+        "Battle_Cry_Spectral_Strike",
+        "description",
+        4,
+        "text"
+      ],
+      "value": "of stacks on each qualifying hit: swings and fang hits add "
+    },
+    {
+      "op": "set",
+      "path": [
+        "data",
+        "Battle_Cry_Spectral_Strike",
+        "description",
+        6,
+        "text"
+      ],
+      "value": "(a share of your base ability power per stack) as damage, and ability hits gain the same share per stack.\nThe stacks will fizzle after a "
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+package xyz.iwolfking.woldsvaults.medallions.champion;
+
+import iskallia.vault.core.event.CommonEvents;
+import iskallia.vault.core.vault.Vault;
+import iskallia.vault.core.vault.VaultUtils;
+import iskallia.vault.entity.boss.TheVesselEntity;
+import iskallia.vault.entity.champion.ChampionLogic;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import xyz.iwolfking.woldsvaults.config.GreedChampionConfig;
+import xyz.iwolfking.woldsvaults.medallions.GreedKills;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
+import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
+import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
+import java.util.function.ToDoubleFunction;
+
+/**
+ * Rage: the per-player, per-vault counter that decides when a Vault Champion turns up. It rises on chests,
+ * ores and dangerous kills and bleeds away every tick, so it measures pace rather than total progress.
+ */
+public final class VaultChampionRage {
+    private static final Object OWNER = new Object();
+
+    private VaultChampionRage() {
+    }
+
+    /** Registers the chest and ore rage listeners. */
+    public static void register() {
+        CommonEvents.CHEST_LOOT_GENERATION.post().register(OWNER, data ->
+                award(data.getPlayer(), config -> config.getRage().chestLooted));
+        CommonEvents.ORE_LOOT_GENERATION_EVENT.register(OWNER, data ->
+                award(data.getPlayer(), config -> config.getRage().oreMined));
+    }
+
+    /** Rage for a kill, doubled when what died was an elite champion and cut for an extraction wave mob. */
+    public static void onKill(LivingEntity killed, LivingDeathEvent event, ServerLevel level) {
+        ServerPlayer killer = GreedKills.resolveKiller(event);
+        if (killer == null || killed instanceof TheVesselEntity) {
+            return;
+        }
+        award(killer, config -> {
+            GreedChampionConfig.Rage rage = config.getRage();
+            double value = killValue(killed, rage);
+            if (value <= 0.0D) {
+                return 0.0D;
+            }
+            if (killed.getTags().contains(ExtractionSpawnManager.TAG_WAVE)) {
+                value *= rage.waveMobKillMultiplier;
+            }
+            return ChampionLogic.isChampion(killed) ? value * rage.eliteChampionMultiplier : value;
+        });
+    }
+
+    private static double killValue(LivingEntity killed, GreedChampionConfig.Rage rage) {
+        if (GreedAssassins.isAssassin(killed)) {
+            return rage.assassinKill;
+        }
+        if (GreedKills.isTank(killed)) {
+            return rage.tankKill;
+        }
+        if (GreedKills.isHorde(killed)) {
+            return rage.hordeKill;
+        }
+        return 0.0D;
+    }
+
+    private static void award(ServerPlayer player, ToDoubleFunction<GreedChampionConfig> amount) {
+        if (player == null || player.level.isClientSide) {
+            return;
+        }
+        Vault vault = VaultUtils.getVault(player.level).orElse(null);
+        if (vault == null || !vault.has(Vault.ID)) {
+            return;
+        }
+        GreedMedallionTier tier = GreedMedallionVaultState.huntRank(vault).orElse(null);
+        if (tier == null || !tier.vaultChampionHunts()) {
+            return;
+        }
+        VaultChampionState.PlayerState state = VaultChampionState.get(vault, player.getUUID());
+        if (state == null) {
+            return;
+        }
+        GreedChampionConfig config = VaultChampion.config();
+        double value = amount.applyAsDouble(config);
+        if (value <= 0.0D) {
+            return;
+        }
+        state.addRage(value);
+        fireArmedSpawn(vault, tier, state, player);
+    }
+
+    /** Spends an armed spawn; blocked while a vault boss fight is in progress, in which case the arming waits. */
+    private static void fireArmedSpawn(Vault vault, GreedMedallionTier tier,
+                                       VaultChampionState.PlayerState state, ServerPlayer player) {
+        if (!state.isArmed() || state.getLiveChampion() != null) {
+            return;
+        }
+        if (!(player.level instanceof ServerLevel level) || VaultChampionManager.bossFightInProgress(level)) {
+            return;
+        }
+        TheVesselEntity champion = VaultChampionSpawner.spawn(vault, tier, level, player);
+        if (champion == null) {
+            return;
+        }
+        state.setArmed(false);
+        state.setLiveChampion(champion.getUUID());
+        VaultChampionKills.syncBar(vault, champion);
+    }
+}

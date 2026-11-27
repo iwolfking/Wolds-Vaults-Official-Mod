@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "NEN",
+    " N "
+  ],
+  "key": {
+    "N": {
+      "item": "the_vault:neuralizer"
+    },
+    "E": {
+      "item": "the_vault:extraordinary_echo_gem"
+    }
+  },
+  "result": {
+    "item": "woldsvaults:armory_skills_upgrade"
+  }
+}

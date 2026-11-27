@@ -16,7 +16,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.36,6.2)'
-    id 'com.radimous.vh-addon-dev' version '0.3.6'
+    id 'com.radimous.vh-addon-dev' version '0.3.8'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -231,7 +231,6 @@ dependencies {
     implementation fg.deobf('curse.maven:angel-ring-333396:4641783') // angel rings
     implementation fg.deobf('curse.maven:the-wild-backport-537901:3988035') // darkness effect
     implementation fg.deobf("curse.maven:gateways-to-eternity-417802:4548643") // gateway pearls
-    implementation fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:8061499")
     implementation fg.deobf('curse.maven:refined-storage-243076:4902316') // vaultarhud
     implementation fg.deobf("curse.maven:fruit-bag-vh-addon-1186313:6193420") // fruit bag
     implementation fg.deobf("curse.maven:botania-225643:3936568") // datagen
@@ -242,6 +241,7 @@ dependencies {
     implementation fg.deobf("curse.maven:cc-tweaked-282001:4630521")
     implementation fg.deobf("curse.maven:vh-scaling-bingo-seals-1132651:7469976")
     implementation fg.deobf("curse.maven:vh-companion-workstation-1330831:7353979")
+    compileOnly fg.deobf("curse.maven:vhatcaniroll-1098054:9646727")
     compileOnly fg.deobf("curse.maven:ae2-import-export-card-982512:7878761")
     //implementation fg.deobf("curse.maven:vh-scaling-bingo-seals-1132651:7316939")
     //implementation fg.deobf("curse.maven:vault-hunters-api-1118899:7734104")
@@ -264,9 +264,11 @@ dependencies {
     // optional mods (usually conditional mixin)
     compileOnly fg.deobf("curse.maven:better-tridents-666941:4707885")
     compileOnly fg.deobf("curse.maven:advanced-peripherals-431725:4684137")
+    compileOnly fg.deobf("curse.maven:dark-mode-everywhere-574123:4645970")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4543053")
     compileOnly fg.deobf("curse.maven:custom-starter-gear-253735:4683370")
     compileOnly fg.deobf("curse.maven:dimensional-worldborder-631202:3832850")
+    compileOnly fg.deobf("curse.maven:modded-item-borders-1170138:6847689") // storage screen item borders
     compileOnly fg.deobf("curse.maven:dungeons-libraries-550941:4363207")
     compileOnly fg.deobf("curse.maven:dungeons-mobs-428883:4344582")
     compileOnly fg.deobf("curse.maven:hexal-824725:5099219")
@@ -318,6 +320,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mystical-agriculture-246640:4576465")
     runtimeOnly fg.deobf("curse.maven:tropicraft-254794:4616839") // kept for backwards compat with worlds (adds dimension type)
     runtimeOnly fg.deobf("curse.maven:storage-drawers-223852:5636643")
+    runtimeOnly fg.deobf("curse.maven:shadered-literal-sky-block-1743901:9339900") // mirror blocks in the mythic rooms
     compileOnly fg.deobf("curse.maven:qol-hunters-1093452:7961175")
     compileOnly fg.deobf("curse.maven:botania-225643:3936568")
     runtimeOnly fg.deobf("curse.maven:jade-324717:5079263")
@@ -325,6 +328,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:3820503")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4505375")
     runtimeOnly fg.deobf("curse.maven:spark-1-18-client-profiling-fix-1186262:6120827")
+    runtimeOnly fg.deobf("curse.maven:vhat-can-i-roll-vault-hunters-3-addon-1098054:9646727")
 
     //For building themes -- Wold's Only
     runtimeOnly fg.deobf("curse.maven:rechiseled-558998:5286275")
@@ -395,7 +399,7 @@ dependencies {
     implementation fg.deobf('local:vhroller:1.5.0')
     implementation fg.deobf('local:forgified-sgui:1.0.2')
     implementation fg.deobf('local:black_market_tweaks:1.8')
-    implementation fg.deobf('local:vhapi:5.6.0')
+    implementation fg.deobf('local:vhapi:5.8.0')
     implementation fg.deobf('local:vault_hunters_extra_commands:1.8.0')
     implementation fg.deobf('local:vault_hunters_extra_rules:2.1.1')
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
@@ -460,6 +464,7 @@ tasks.named('processResources', ProcessResources).configure {
             loader_version_range: loader_version_range,
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors: mod_authors, mod_description: mod_description,
+            vhapi_version_range: vhapi_version_range,
     ]
 
     inputs.properties replaceProperties

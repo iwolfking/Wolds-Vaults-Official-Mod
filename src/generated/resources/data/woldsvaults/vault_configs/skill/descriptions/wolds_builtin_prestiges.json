@@ -1,35 +1,5 @@
 {
   "descriptions": {
-    "Artificer": [
-      {
-        "text": "When you identify "
-      },
-      {
-        "text": "Vault Gear ",
-        "color": "#82D4FC"
-      },
-      {
-        "text": "it gains "
-      },
-      {
-        "text": "100 ",
-        "color": "yellow"
-      },
-      {
-        "text": "additional "
-      },
-      {
-        "text": "Crafting Potential",
-        "color": "gold"
-      },
-      {
-        "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
     "HealthIncrease": [
       {
         "text": "Increases your "
@@ -47,29 +17,6 @@
       },
       {
         "text": "1 15 Hearts",
-        "color": "$text"
-      }
-    ],
-    "Toolsmith": [
-      {
-        "text": "When crafting "
-      },
-      {
-        "text": "Vault Tools ",
-        "color": "#82D4FC"
-      },
-      {
-        "text": "they gain "
-      },
-      {
-        "text": "75 ",
-        "color": "yellow"
-      },
-      {
-        "text": "additional capacity."
-      },
-      {
-        "text": "\n\n",
         "color": "$text"
       }
     ],
@@ -95,6 +42,312 @@
       {
         "text": "+10.0%\n",
         "color": "#FFD700"
+      }
+    ],
+    "RelicHunterII": [
+      {
+        "text": "Increases the chance for an identified "
+      },
+      {
+        "text": "Unique ",
+        "color": "gold"
+      },
+      {
+        "text": "to be "
+      },
+      {
+        "text": "Ancient ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "by a further "
+      },
+      {
+        "text": "50%",
+        "color": "yellow"
+      },
+      {
+        "text": ", stacking additively with Relic Hunter."
+      }
+    ],
+    "SpiritsHand": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Reach ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "Cap inside vaults."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+0.5 reach\n",
+        "color": "#FFD700"
+      }
+    ],
+    "SuperCrystalsIII": [
+      {
+        "text": "Further increases the capacity of any "
+      },
+      {
+        "text": "Vault Crystals",
+        "color": "aqua"
+      },
+      {
+        "text": " you craft."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25 extra capacity\n",
+        "color": "#FFD700"
+      }
+    ],
+    "BarrierOfResilience": [
+      {
+        "text": "Increases the "
+      },
+      {
+        "text": "Resistance ",
+        "color": "#FEDD00"
+      },
+      {
+        "text": "Cap."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+5.0%\n",
+        "color": "#FFD700"
+      }
+    ],
+    "RelicHunter": [
+      {
+        "text": "Increases the chance for an identified "
+      },
+      {
+        "text": "Unique ",
+        "color": "gold"
+      },
+      {
+        "text": "to be "
+      },
+      {
+        "text": "Ancient ",
+        "color": "#FFD700"
+      },
+      {
+        "text": "by "
+      },
+      {
+        "text": "50%",
+        "color": "yellow"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "LegendOfPower": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
+      }
+    ],
+    "GodsDiscipleII": [
+      {
+        "text": "Every "
+      },
+      {
+        "text": "God Experience ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "award you earn is increased by a further "
+      },
+      {
+        "text": "15%",
+        "color": "yellow"
+      },
+      {
+        "text": ", stacking additively with God's Disciple."
+      }
+    ],
+    "LegendOfRiches": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
+      }
+    ],
+    "GodsDisciple": [
+      {
+        "text": "Every "
+      },
+      {
+        "text": "God Experience ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "award you earn is increased by "
+      },
+      {
+        "text": "20%",
+        "color": "yellow"
+      },
+      {
+        "text": ", and "
+      },
+      {
+        "text": "God Altars ",
+        "color": "#B2F44B"
+      },
+      {
+        "text": "pay "
+      },
+      {
+        "text": "double ",
+        "color": "yellow"
+      },
+      {
+        "text": "their base experience."
+      }
+    ],
+    "SuperCrystalsII": [
+      {
+        "text": "Further increases the capacity of any "
+      },
+      {
+        "text": "Vault Crystals",
+        "color": "aqua"
+      },
+      {
+        "text": " you craft."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+25 extra capacity\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Artificer": [
+      {
+        "text": "When you identify "
+      },
+      {
+        "text": "Vault Gear ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "it gains "
+      },
+      {
+        "text": "100 ",
+        "color": "yellow"
+      },
+      {
+        "text": "additional "
+      },
+      {
+        "text": "Crafting Potential",
+        "color": "gold"
+      },
+      {
+        "text": "."
+      }
+    ],
+    "ToolsmithII": [
+      {
+        "text": "When crafting "
+      },
+      {
+        "text": "Vault Tools ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "they gain a further "
+      },
+      {
+        "text": "75 ",
+        "color": "yellow"
+      },
+      {
+        "text": "additional capacity."
+      }
+    ],
+    "SpiritsHandII": [
+      {
+        "text": "Further increases the "
+      },
+      {
+        "text": "Reach ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "Cap inside vaults."
+      },
+      {
+        "text": "\n\n",
+        "color": "$text"
+      },
+      {
+        "text": "1 ",
+        "color": "$text"
+      },
+      {
+        "text": "+1.0 reach\n",
+        "color": "#FFD700"
+      }
+    ],
+    "Toolsmith": [
+      {
+        "text": "When crafting "
+      },
+      {
+        "text": "Vault Tools ",
+        "color": "#82D4FC"
+      },
+      {
+        "text": "they gain "
+      },
+      {
+        "text": "50 ",
+        "color": "yellow"
+      },
+      {
+        "text": "additional capacity."
       }
     ],
     "SoulFetcher": [
@@ -155,22 +408,18 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
       }
     ],
-    "SpiritsHand": [
+    "FruityII": [
       {
-        "text": "Increases the "
+        "text": "Further increases the time granted by any "
       },
       {
-        "text": "Reach ",
-        "color": "#82D4FC"
+        "text": "Vault Fruit",
+        "color": "#FFD700"
       },
       {
-        "text": "Cap inside vaults."
+        "text": "."
       },
       {
         "text": "\n\n",
@@ -183,6 +432,15 @@
       {
         "text": "+50.0%\n",
         "color": "#FFD700"
+      }
+    ],
+    "LegendOfTime": [
+      {
+        "text": "Unreleased",
+        "color": "red"
+      },
+      {
+        "text": ". This Legend power cannot be learned yet."
       }
     ],
     "PrismaticPouch": [
@@ -202,34 +460,6 @@
       },
       {
         "text": "."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      }
-    ],
-    "BarrierOfResilience": [
-      {
-        "text": "Increases the "
-      },
-      {
-        "text": "Resistance ",
-        "color": "#FEDD00"
-      },
-      {
-        "text": "Cap."
-      },
-      {
-        "text": "\n\n",
-        "color": "$text"
-      },
-      {
-        "text": "1 ",
-        "color": "$text"
-      },
-      {
-        "text": "+5.0%\n",
-        "color": "#FFD700"
       }
     ],
     "WeaverOfTime": [
@@ -237,7 +467,7 @@
         "text": "Increases the "
       },
       {
-        "text": "Cooldown Reduction ",
+        "text": "Spell Haste ",
         "color": "#F2CC8C"
       },
       {
@@ -252,7 +482,7 @@
         "color": "$text"
       },
       {
-        "text": "+5.0%\n",
+        "text": "+100.0%\n",
         "color": "#FFD700"
       }
     ]

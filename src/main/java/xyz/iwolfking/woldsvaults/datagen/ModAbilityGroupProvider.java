@@ -26,6 +26,8 @@ public class ModAbilityGroupProvider extends AbstractAbilitiesGroupsProvider {
             builder.addAbilitiesToGroup(AbilityType.ULTIMATE, abilities -> {
                 abilities.add("Fangs_Base");
                 abilities.add("Fangs_Maw");
+                abilities.add("Life_Block_Base");
+                abilities.add("Mana_Block");
                 abilities.add("Ultimate_Shield");
             });
         });

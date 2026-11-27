@@ -75,8 +75,6 @@ public class EvokerFangsAbility extends InstantManaAbility {
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.EVOKER_PREPARE_ATTACK, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-
-            this.putOnCooldown(context);
             return Ability.ActionResult.successCooldownImmediate();
         }).orElse(Ability.ActionResult.fail());
     }
