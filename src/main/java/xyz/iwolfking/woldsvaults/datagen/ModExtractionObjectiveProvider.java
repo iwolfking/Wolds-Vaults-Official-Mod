@@ -204,16 +204,19 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.packetStaggerTicks = 5;
         waves.liveMobCapPerRoom = 600;
         waves.liveMobCapPerVault = 1200;
-        waves.waveSpeedMultiplier = 0.6F;
+        waves.waveSpeedMultiplier = 0.66F;
         waves.knockbackResistance = 1.0F;
         waves.maxChilledAmplifier = 1;
 
         waves.laneHighlight = new ExtractionObjectiveConfig.LaneHighlightEntry();
         waves.laneHighlight.colour = 0xFF1A1A;
-        waves.laneHighlight.fillAlpha = 0.22F;
-        waves.laneHighlight.outlineAlpha = 0.9F;
-        waves.laneHighlight.radiusBlocks = 3.0F;
-        waves.laneHighlight.heightBlocks = 4.0F;
+        waves.laneHighlight.alpha = 0.8F;
+        waves.laneHighlight.glowAlpha = 0.45F;
+        waves.laneHighlight.glowScale = 2.2F;
+        waves.laneHighlight.heightBlocks = 2.5F;
+        waves.laneHighlight.sizePerBlock = 0.05F;
+        waves.laneHighlight.minSizeBlocks = 0.6F;
+        waves.laneHighlight.maxSizeBlocks = 8.0F;
         waves.laneHighlight.rangeBlocks = 160.0F;
 
         waves.rotation = new ExtractionObjectiveConfig.RotationEntry();
@@ -234,6 +237,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.lanes.stuckTicks = 200;
 
         waves.ram = new ExtractionObjectiveConfig.RamEntry();
+        waves.ram.glowColour = "red";
         waves.ram.entity = "minecraft:ravager";
         waves.ram.hpReference = "the_vault:elite_zombie";
         waves.ram.hpEliteMultiple = 2.0F;
@@ -267,6 +271,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.rigResistance.knots.add(new ResistanceKnot(5000, 0.182));
 
         waves.boss = new ExtractionObjectiveConfig.BossEntry();
+        waves.boss.glowColour = "red";
         waves.boss.pool.add(vh("elite_zombie"), 20);
         waves.boss.pool.add(vh("elite_husk"), 20);
         waves.boss.pool.add(vh("elite_skeleton"), 20);
@@ -285,6 +290,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.elite.knockbackResistance = 1.0F;
 
         waves.carrier = new ExtractionObjectiveConfig.CarrierEntry();
+        waves.carrier.glowColour = "yellow";
         waves.carrier.baseEntity = "the_vault:blood_tank";
         waves.carrier.intervalTicks = 400;
         waves.carrier.healthMultiplier = 2.0F;

@@ -3,6 +3,7 @@ package xyz.iwolfking.woldsvaults.config;
 import com.google.gson.annotations.Expose;
 import iskallia.vault.config.Config;
 import iskallia.vault.core.util.WeightedList;
+import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -208,9 +209,16 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
             return "WAVES knockbackResistance is outside 0..1 or maxChilledAmplifier is negative";
         }
         LaneHighlightEntry highlight = waves.laneHighlight;
-        if (highlight == null || highlight.radiusBlocks <= 0.0F || highlight.heightBlocks <= 0.0F || highlight.rangeBlocks <= 0.0F
-                || highlight.fillAlpha < 0.0F || highlight.fillAlpha > 1.0F || highlight.outlineAlpha < 0.0F || highlight.outlineAlpha > 1.0F) {
-            return "WAVES laneHighlight is missing, has a non-positive size or range, or an alpha outside 0..1";
+        if (highlight == null || highlight.sizePerBlock <= 0.0F || highlight.minSizeBlocks <= 0.0F || highlight.maxSizeBlocks < highlight.minSizeBlocks
+                || highlight.glowScale <= 0.0F || highlight.rangeBlocks <= 0.0F
+                || highlight.alpha < 0.0F || highlight.alpha > 1.0F || highlight.glowAlpha < 0.0F || highlight.glowAlpha > 1.0F) {
+            return "WAVES laneHighlight is missing, has a non-positive or inverted size, glow scale or range, or an alpha outside 0..1";
+        }
+        for (String glow : new String[]{waves.carrier.glowColour, waves.boss.glowColour, waves.ram == null ? null : waves.ram.glowColour}) {
+            ChatFormatting colour = glow == null ? null : ChatFormatting.getByName(glow);
+            if (colour == null || !colour.isColor()) {
+                return "WAVES carrier, boss or ram glowColour '" + glow + "' is not a chat colour name";
+            }
         }
         if (waves.roomCountMultiplier <= 0.0F || waves.packetSize <= 0 || waves.liveMobCapPerRoom <= 0 || waves.liveMobCapPerVault <= 0
                 || waves.focusOrder == null) {
@@ -502,6 +510,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     public static class BossEntry {
+        @Expose public String glowColour;
         @Expose public WeightedList<ResourceLocation> pool = new WeightedList<>();
         @Expose public float speedMultiplier;
         @Expose public float knockbackResistance;
@@ -514,6 +523,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     public static class CarrierEntry {
+        @Expose public String glowColour;
         @Expose public String baseEntity;
         @Expose public int intervalTicks;
         @Expose public float healthMultiplier;
@@ -543,6 +553,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
      * hit deals the rig's shield regen per second plus (max shield + max HP) / {@code killSeconds}.
      */
     public static class RamEntry {
+        @Expose public String glowColour;
         @Expose public String entity;
         @Expose public String hpReference;
         @Expose public float hpEliteMultiple;
@@ -572,16 +583,20 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     /**
-     * The highlight drawn on clients over each active lane's cave, visible through walls: a box {@code radiusBlocks}
-     * out from the cave anchor and {@code heightBlocks} tall, filled in {@code colour} at {@code fillAlpha} and outlined
-     * at {@code outlineAlpha}, for players within {@code rangeBlocks}.
+     * The marker drawn on clients over each active lane's cave, visible through walls: a skull in {@code colour} at
+     * {@code alpha}, {@code heightBlocks} above the cave anchor, behind it a glow {@code glowScale} times its size at
+     * {@code glowAlpha}. Its size is {@code sizePerBlock} per block of distance, kept between {@code minSizeBlocks} and
+     * {@code maxSizeBlocks}; it is drawn for players within {@code rangeBlocks}.
      */
     public static class LaneHighlightEntry {
         @Expose public int colour;
-        @Expose public float fillAlpha;
-        @Expose public float outlineAlpha;
-        @Expose public float radiusBlocks;
+        @Expose public float alpha;
+        @Expose public float glowAlpha;
+        @Expose public float glowScale;
         @Expose public float heightBlocks;
+        @Expose public float sizePerBlock;
+        @Expose public float minSizeBlocks;
+        @Expose public float maxSizeBlocks;
         @Expose public float rangeBlocks;
     }
 

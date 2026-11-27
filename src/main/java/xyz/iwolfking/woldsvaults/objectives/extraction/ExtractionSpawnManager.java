@@ -31,6 +31,8 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
@@ -81,6 +83,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     public static final String TAG_CARRIER = "wv_ext_carrier";
     public static final String TAG_RAM = "wv_ext_ram";
     private static final String MOB_FACTOR_KEY = "wv_ext_mob_factor";
+    private static final String GLOW_TEAM_PREFIX = "wv_ext_glow_";
 
     private static final int SPAWN_ATTEMPTS = 24;
     private static final int DEFAULT_SEARCH_RADIUS = 3;
@@ -800,6 +803,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             BlockPos anchor = objective.caveAnchors(state.site).get(attempt);
             LivingEntity boss = this.spawnOne(state, cfg.pool, anchor, TAG_BOSS, cfg.spawnSearchRadius, beforeAdd, afterScale, rig, new ArrayList<>());
             if (boss != null) {
+                this.setGlowColour(boss, cfg.glowColour);
                 state.live.add(boss.getUUID());
                 state.spawnedPerCave[attempt]++;
                 return;
@@ -830,6 +834,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         multiplyAttribute(carrier, Attributes.ATTACK_DAMAGE, carrierCfg.damageMultiplier);
         carrier.setCustomName(new TranslatableComponent("entity.woldsvaults.power_cell_carrier").withStyle(ChatFormatting.YELLOW));
         carrier.addEffect(new MobEffectInstance(MobEffects.GLOWING, Integer.MAX_VALUE, 0, false, false));
+        this.setGlowColour(carrier, carrierCfg.glowColour);
         carriers.add(carrier.getUUID());
     }
 
@@ -903,6 +908,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (ram == null) {
             return;
         }
+        this.setGlowColour(ram, cfg.glowColour);
         state.rams.put(ram.getUUID(), targetPad);
         state.spawnedPerCave[cave]++;
         world.playSound(null, anchor, SoundEvents.RAID_HORN, SoundSource.HOSTILE, 4.0F, 0.5F);
@@ -956,6 +962,24 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         } finally {
             living.discard();
         }
+    }
+
+    /** Puts the mob on the scoreboard team of the given chat colour, which is the colour its glow outline is drawn in. */
+    private void setGlowColour(LivingEntity mob, String colourName) {
+        ChatFormatting colour = ChatFormatting.getByName(colourName);
+        if (colour == null || !colour.isColor()) {
+            WoldLogger.errorOnce("extraction_glow_colour_" + colourName,
+                    "Extraction glow colour '{}' is not a chat colour; {} keeps the default white outline.", colourName, mob.getType().getRegistryName());
+            return;
+        }
+        Scoreboard scoreboard = world.getScoreboard();
+        String name = GLOW_TEAM_PREFIX + colour.getName();
+        PlayerTeam team = scoreboard.getPlayerTeam(name);
+        if (team == null) {
+            team = scoreboard.addPlayerTeam(name);
+            team.setColor(colour);
+        }
+        scoreboard.addPlayerToTeam(mob.getStringUUID(), team);
     }
 
     private static void multiplyAttribute(LivingEntity entity, Attribute attribute, float multiplier) {

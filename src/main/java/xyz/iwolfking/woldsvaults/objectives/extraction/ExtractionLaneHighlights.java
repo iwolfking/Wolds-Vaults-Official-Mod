@@ -1,5 +1,6 @@
 package xyz.iwolfking.woldsvaults.objectives.extraction;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -8,13 +9,17 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import iskallia.vault.core.vault.ClientVaults;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
+import xyz.iwolfking.woldsvaults.WoldsVaults;
 import xyz.iwolfking.woldsvaults.config.ExtractionObjectiveConfig;
 import xyz.iwolfking.woldsvaults.init.ModConfigs;
 import xyz.iwolfking.woldsvaults.objectives.ExtractionObjective;
@@ -23,11 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Draws a translucent box over the cave of every active lane of the vault's extraction sites, read from each site's
- * synced lane caves, with depth testing off so it shows through walls.
+ * Draws a skull marker with a soft glow over the cave of every active lane of the vault's extraction sites, read from
+ * each site's synced lane caves. Markers face the camera, ignore depth so they show through walls, and grow with
+ * distance between the table's size limits so they keep about the same size on screen.
  */
 @OnlyIn(Dist.CLIENT)
 public final class ExtractionLaneHighlights {
+    private static final ResourceLocation SKULL = WoldsVaults.id("textures/misc/extraction_lane_skull.png");
+    private static final ResourceLocation GLOW = WoldsVaults.id("textures/misc/extraction_lane_glow.png");
+
     private ExtractionLaneHighlights() {
     }
 
@@ -44,97 +53,75 @@ public final class ExtractionLaneHighlights {
         if (cfg == null) {
             return;
         }
-        Vec3 camera = minecraft.gameRenderer.getMainCamera().getPosition();
+        Camera camera = minecraft.gameRenderer.getMainCamera();
+        Vec3 eye = camera.getPosition();
         double range = cfg.rangeBlocks * cfg.rangeBlocks;
-        float red = ((cfg.colour >> 16) & 0xFF) / 255.0F;
-        float green = ((cfg.colour >> 8) & 0xFF) / 255.0F;
-        float blue = (cfg.colour & 0xFF) / 255.0F;
-
-        List<BlockPos> caves = new ArrayList<>();
+        List<Vec3> markers = new ArrayList<>();
         for (ExtractionSite site : objective.get(ExtractionObjective.SITES)) {
             if (!site.has(ExtractionSite.LANE_CAVES)) {
                 continue;
             }
             for (long packed : site.get(ExtractionSite.LANE_CAVES)) {
                 BlockPos cave = BlockPos.of(packed);
-                if (camera.distanceToSqr(Vec3.atCenterOf(cave)) <= range) {
-                    caves.add(cave);
+                Vec3 marker = new Vec3(cave.getX() + 0.5D, cave.getY() + cfg.heightBlocks, cave.getZ() + 0.5D);
+                if (eye.distanceToSqr(marker) <= range) {
+                    markers.add(marker);
                 }
             }
         }
-        if (caves.isEmpty()) {
+        if (markers.isEmpty()) {
             return;
         }
+        float red = ((cfg.colour >> 16) & 0xFF) / 255.0F;
+        float green = ((cfg.colour >> 8) & 0xFF) / 255.0F;
+        float blue = (cfg.colour & 0xFF) / 255.0F;
 
         PoseStack pose = event.getPoseStack();
-        pose.pushPose();
-        pose.translate(-camera.x, -camera.y, -camera.z);
-        Matrix4f matrix = pose.last().pose();
         RenderSystem.disableDepthTest();
         RenderSystem.disableCull();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
         RenderSystem.depthMask(false);
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.enableBlend();
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        for (BlockPos cave : caves) {
-            box(buffer, matrix, cave, cfg, red, green, blue, cfg.fillAlpha, false);
+
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        RenderSystem.setShaderTexture(0, GLOW);
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        for (Vec3 marker : markers) {
+            billboard(buffer, pose, camera, eye, marker, size(cfg, eye, marker) * cfg.glowScale, red, green, blue, cfg.glowAlpha);
         }
         tesselator.end();
-        buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
-        for (BlockPos cave : caves) {
-            box(buffer, matrix, cave, cfg, red, green, blue, cfg.outlineAlpha, true);
+
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShaderTexture(0, SKULL);
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        for (Vec3 marker : markers) {
+            billboard(buffer, pose, camera, eye, marker, size(cfg, eye, marker), red, green, blue, cfg.alpha);
         }
         tesselator.end();
+
         RenderSystem.depthMask(true);
         RenderSystem.enableCull();
         RenderSystem.enableDepthTest();
         RenderSystem.disableBlend();
+    }
+
+    private static float size(ExtractionObjectiveConfig.LaneHighlightEntry cfg, Vec3 eye, Vec3 marker) {
+        return Mth.clamp((float) eye.distanceTo(marker) * cfg.sizePerBlock, cfg.minSizeBlocks, cfg.maxSizeBlocks);
+    }
+
+    private static void billboard(BufferBuilder buffer, PoseStack pose, Camera camera, Vec3 eye, Vec3 marker, float size,
+                                  float r, float g, float b, float a) {
+        pose.pushPose();
+        pose.translate(marker.x - eye.x, marker.y - eye.y, marker.z - eye.z);
+        pose.mulPose(camera.rotation());
+        pose.scale(-size, size, size);
+        Matrix4f m = pose.last().pose();
+        buffer.vertex(m, -0.5F, -0.5F, 0.0F).uv(0.0F, 1.0F).color(r, g, b, a).endVertex();
+        buffer.vertex(m, 0.5F, -0.5F, 0.0F).uv(1.0F, 1.0F).color(r, g, b, a).endVertex();
+        buffer.vertex(m, 0.5F, 0.5F, 0.0F).uv(1.0F, 0.0F).color(r, g, b, a).endVertex();
+        buffer.vertex(m, -0.5F, 0.5F, 0.0F).uv(0.0F, 0.0F).color(r, g, b, a).endVertex();
         pose.popPose();
-    }
-
-    private static void box(BufferBuilder b, Matrix4f m, BlockPos cave, ExtractionObjectiveConfig.LaneHighlightEntry cfg, float r, float g, float bl,
-                            float a, boolean edges) {
-        float x0 = cave.getX() + 0.5F - cfg.radiusBlocks;
-        float x1 = cave.getX() + 0.5F + cfg.radiusBlocks;
-        float y0 = cave.getY();
-        float y1 = cave.getY() + cfg.heightBlocks;
-        float z0 = cave.getZ() + 0.5F - cfg.radiusBlocks;
-        float z1 = cave.getZ() + 0.5F + cfg.radiusBlocks;
-        if (edges) {
-            outline(b, m, x0, y0, z0, x1, y1, z1, r, g, bl, a);
-        } else {
-            faces(b, m, x0, y0, z0, x1, y1, z1, r, g, bl, a);
-        }
-    }
-
-    private static void faces(BufferBuilder b, Matrix4f m, float x0, float y0, float z0, float x1, float y1, float z1, float r, float g, float bl, float a) {
-        quad(b, m, x0, y0, z0, x1, y0, z0, x1, y0, z1, x0, y0, z1, r, g, bl, a);
-        quad(b, m, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0, r, g, bl, a);
-        quad(b, m, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0, r, g, bl, a);
-        quad(b, m, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1, r, g, bl, a);
-        quad(b, m, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0, r, g, bl, a);
-        quad(b, m, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1, r, g, bl, a);
-    }
-
-    private static void quad(BufferBuilder b, Matrix4f m, float ax, float ay, float az, float bx, float by, float bz, float cx, float cy, float cz,
-                             float dx, float dy, float dz, float r, float g, float bl, float a) {
-        b.vertex(m, ax, ay, az).color(r, g, bl, a).endVertex();
-        b.vertex(m, bx, by, bz).color(r, g, bl, a).endVertex();
-        b.vertex(m, cx, cy, cz).color(r, g, bl, a).endVertex();
-        b.vertex(m, dx, dy, dz).color(r, g, bl, a).endVertex();
-    }
-
-    private static void outline(BufferBuilder b, Matrix4f m, float x0, float y0, float z0, float x1, float y1, float z1, float r, float g, float bl, float a) {
-        float[][] corners = {{x0, y0, z0}, {x1, y0, z0}, {x1, y0, z1}, {x0, y0, z1}, {x0, y1, z0}, {x1, y1, z0}, {x1, y1, z1}, {x0, y1, z1}};
-        int[][] edges = {{0, 1}, {1, 2}, {2, 3}, {3, 0}, {4, 5}, {5, 6}, {6, 7}, {7, 4}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
-        for (int[] edge : edges) {
-            float[] from = corners[edge[0]];
-            float[] to = corners[edge[1]];
-            b.vertex(m, from[0], from[1], from[2]).color(r, g, bl, a).endVertex();
-            b.vertex(m, to[0], to[1], to[2]).color(r, g, bl, a).endVertex();
-        }
     }
 }

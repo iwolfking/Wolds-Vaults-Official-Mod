@@ -389,15 +389,18 @@
       2
     ],
     "surgeSiege": true,
-    "waveSpeedMultiplier": 0.6,
+    "waveSpeedMultiplier": 0.66,
     "knockbackResistance": 1.0,
     "maxChilledAmplifier": 1,
     "laneHighlight": {
       "colour": 16718362,
-      "fillAlpha": 0.22,
-      "outlineAlpha": 0.9,
-      "radiusBlocks": 3.0,
-      "heightBlocks": 4.0,
+      "alpha": 0.8,
+      "glowAlpha": 0.45,
+      "glowScale": 2.2,
+      "heightBlocks": 2.5,
+      "sizePerBlock": 0.05,
+      "minSizeBlocks": 0.6,
+      "maxSizeBlocks": 8.0,
       "rangeBlocks": 160.0
     },
     "rotation": {
@@ -419,6 +422,7 @@
       "stuckTicks": 200
     },
     "ram": {
+      "glowColour": "red",
       "entity": "minecraft:ravager",
       "hpReference": "the_vault:elite_zombie",
       "hpEliteMultiple": 2.0,
@@ -501,6 +505,7 @@
       ]
     },
     "boss": {
+      "glowColour": "red",
       "pool": [
         {
           "value": "the_vault:elite_zombie",
@@ -548,6 +553,7 @@
       "knockbackResistance": 1.0
     },
     "carrier": {
+      "glowColour": "yellow",
       "baseEntity": "the_vault:blood_tank",
       "intervalTicks": 400,
       "healthMultiplier": 2.0,
