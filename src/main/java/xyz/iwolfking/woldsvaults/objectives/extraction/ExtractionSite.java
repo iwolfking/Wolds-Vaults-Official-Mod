@@ -61,6 +61,8 @@ public class ExtractionSite extends DataObject<ExtractionSite> {
     public static final FieldKey<Float>[] THUMPER_MAX_SHIELD = thumperKeys("max_shield", Float.class, Adapters.FLOAT, true);
     public static final FieldKey<long[]> LANE_CAVES = FieldKey.of("lane_caves", long[].class)
             .with(Version.v1_0, Adapters.LONG_ARRAY, CLIENT.all()).register(FIELDS);
+    public static final FieldKey<Integer> LANE_CAVES_LIVE = FieldKey.of("lane_caves_live", Integer.class)
+            .with(Version.v1_0, Adapters.INT, CLIENT.all()).register(FIELDS);
 
     public static final int THUMPER_NONE = 0;
     public static final int THUMPER_STANDING = 1;

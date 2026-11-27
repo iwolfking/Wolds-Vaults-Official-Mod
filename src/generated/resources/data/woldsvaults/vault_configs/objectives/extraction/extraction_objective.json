@@ -394,6 +394,7 @@
     "maxChilledAmplifier": 1,
     "laneHighlight": {
       "colour": 16718362,
+      "idleColour": 16777215,
       "alpha": 0.8,
       "glowAlpha": 0.45,
       "glowScale": 2.2,

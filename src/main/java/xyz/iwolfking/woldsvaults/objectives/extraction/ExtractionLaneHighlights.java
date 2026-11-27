@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * Draws a skull marker with a soft glow over the cave of every active lane of the vault's extraction sites, read from
- * each site's synced lane caves. Markers face the camera, ignore depth so they show through walls, and grow with
+ * each site's synced lane caves: in the live colour while mobs that lane spawned are alive, else in the idle colour. Markers face the camera, ignore depth so they show through walls, and grow with
  * distance between the table's size limits so they keep about the same size on screen.
  */
 @OnlyIn(Dist.CLIENT)
@@ -57,24 +57,25 @@ public final class ExtractionLaneHighlights {
         Vec3 eye = camera.getPosition();
         double range = cfg.rangeBlocks * cfg.rangeBlocks;
         List<Vec3> markers = new ArrayList<>();
+        List<Boolean> live = new ArrayList<>();
         for (ExtractionSite site : objective.get(ExtractionObjective.SITES)) {
             if (!site.has(ExtractionSite.LANE_CAVES)) {
                 continue;
             }
-            for (long packed : site.get(ExtractionSite.LANE_CAVES)) {
-                BlockPos cave = BlockPos.of(packed);
+            long[] caves = site.get(ExtractionSite.LANE_CAVES);
+            int liveMask = site.has(ExtractionSite.LANE_CAVES_LIVE) ? site.get(ExtractionSite.LANE_CAVES_LIVE) : 0;
+            for (int i = 0; i < caves.length; i++) {
+                BlockPos cave = BlockPos.of(caves[i]);
                 Vec3 marker = new Vec3(cave.getX() + 0.5D, cave.getY() + cfg.heightBlocks, cave.getZ() + 0.5D);
                 if (eye.distanceToSqr(marker) <= range) {
                     markers.add(marker);
+                    live.add(i < Integer.SIZE && (liveMask & (1 << i)) != 0);
                 }
             }
         }
         if (markers.isEmpty()) {
             return;
         }
-        float red = ((cfg.colour >> 16) & 0xFF) / 255.0F;
-        float green = ((cfg.colour >> 8) & 0xFF) / 255.0F;
-        float blue = (cfg.colour & 0xFF) / 255.0F;
 
         PoseStack pose = event.getPoseStack();
         RenderSystem.disableDepthTest();
@@ -88,16 +89,18 @@ public final class ExtractionLaneHighlights {
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
         RenderSystem.setShaderTexture(0, GLOW);
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        for (Vec3 marker : markers) {
-            billboard(buffer, pose, camera, eye, marker, size(cfg, eye, marker) * cfg.glowScale, red, green, blue, cfg.glowAlpha);
+        for (int i = 0; i < markers.size(); i++) {
+            int colour = live.get(i) ? cfg.colour : cfg.idleColour;
+            billboard(buffer, pose, camera, eye, markers.get(i), size(cfg, eye, markers.get(i)) * cfg.glowScale, colour, cfg.glowAlpha);
         }
         tesselator.end();
 
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderTexture(0, SKULL);
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        for (Vec3 marker : markers) {
-            billboard(buffer, pose, camera, eye, marker, size(cfg, eye, marker), red, green, blue, cfg.alpha);
+        for (int i = 0; i < markers.size(); i++) {
+            int colour = live.get(i) ? cfg.colour : cfg.idleColour;
+            billboard(buffer, pose, camera, eye, markers.get(i), size(cfg, eye, markers.get(i)), colour, cfg.alpha);
         }
         tesselator.end();
 
@@ -111,8 +114,10 @@ public final class ExtractionLaneHighlights {
         return Mth.clamp((float) eye.distanceTo(marker) * cfg.sizePerBlock, cfg.minSizeBlocks, cfg.maxSizeBlocks);
     }
 
-    private static void billboard(BufferBuilder buffer, PoseStack pose, Camera camera, Vec3 eye, Vec3 marker, float size,
-                                  float r, float g, float b, float a) {
+    private static void billboard(BufferBuilder buffer, PoseStack pose, Camera camera, Vec3 eye, Vec3 marker, float size, int colour, float a) {
+        float r = ((colour >> 16) & 0xFF) / 255.0F;
+        float g = ((colour >> 8) & 0xFF) / 255.0F;
+        float b = (colour & 0xFF) / 255.0F;
         pose.pushPose();
         pose.translate(marker.x - eye.x, marker.y - eye.y, marker.z - eye.z);
         pose.mulPose(camera.rotation());

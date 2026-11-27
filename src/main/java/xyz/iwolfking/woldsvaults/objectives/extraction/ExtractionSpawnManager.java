@@ -84,6 +84,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     public static final String TAG_RAM = "wv_ext_ram";
     private static final String MOB_FACTOR_KEY = "wv_ext_mob_factor";
     private static final String GLOW_TEAM_PREFIX = "wv_ext_glow_";
+    private static final String[] CLASS_TAGS = {TAG_HORDE, TAG_ASSASSIN, TAG_TANK, TAG_ELITE, TAG_BOSS, TAG_CARRIER, TAG_RAM};
+    private static final int TAG_PREFIX_LENGTH = "wv_ext_".length();
 
     private static final int SPAWN_ATTEMPTS = 24;
     private static final int DEFAULT_SEARCH_RADIUS = 3;
@@ -145,6 +147,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             for (ExtractionSite site : drilling) {
                 this.sweepRoom(site);
             }
+            this.states.values().forEach(state -> state.purgeCaves(world));
             this.goalled.removeIf(id -> {
                 Entity entity = world.getEntity(id);
                 return entity == null || !entity.isAlive();
@@ -280,19 +283,34 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
     }
 
-    /** Writes each site's active lane cave positions to its client field, where clients draw the lane highlights. */
+    /**
+     * Writes each site's active lane cave positions, and which of those lanes still have live mobs they spawned, to its
+     * client fields, where clients draw the lane markers.
+     */
     private void publishLaneCaves() {
         boolean changed = false;
         for (ExtractionSite site : objective.get(ExtractionObjective.SITES)) {
             RoomWaveState state = this.states.get(objective.siteIndex(site));
             long[] caves = new long[0];
+            int live = 0;
             if (state != null) {
                 List<BlockPos> anchors = objective.caveAnchors(site);
                 caves = state.lanes.stream().mapToLong(lane -> anchors.get(lane.cave()).asLong()).toArray();
+                for (int i = 0; i < state.lanes.size() && i < Integer.SIZE; i++) {
+                    Set<UUID> spawned = state.liveByCave.get(state.lanes.get(i).cave());
+                    if (spawned != null && !spawned.isEmpty()) {
+                        live |= 1 << i;
+                    }
+                }
             }
             long[] shown = site.has(ExtractionSite.LANE_CAVES) ? site.get(ExtractionSite.LANE_CAVES) : new long[0];
             if (!Arrays.equals(shown, caves)) {
                 site.set(ExtractionSite.LANE_CAVES, caves);
+                changed = true;
+            }
+            int shownLive = site.has(ExtractionSite.LANE_CAVES_LIVE) ? site.get(ExtractionSite.LANE_CAVES_LIVE) : 0;
+            if (shownLive != live) {
+                site.set(ExtractionSite.LANE_CAVES_LIVE, live);
                 changed = true;
             }
         }
@@ -577,7 +595,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             LivingEntity mob = this.spawnOne(state, packet.group.pool, anchor, packet.group.tag, packet.group.radius, null, packet.group.afterScale, rig, used);
             if (mob != null) {
                 state.live.add(mob.getUUID());
-                state.spawnedPerCave[packet.cave]++;
+                state.track(packet.cave, mob);
             }
         }
     }
@@ -805,7 +823,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             if (boss != null) {
                 this.setGlowColour(boss, cfg.glowColour);
                 state.live.add(boss.getUUID());
-                state.spawnedPerCave[attempt]++;
+                state.track(attempt, boss);
                 return;
             }
         }
@@ -826,7 +844,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (carrier == null) {
             return;
         }
-        state.spawnedPerCave[cave]++;
+        state.track(cave, carrier);
         carrier.addTag("vault_champion");
         ChampionPromoter.applyRandomChampion(carrier);
         multiplyAttribute(carrier, Attributes.MAX_HEALTH, carrierCfg.healthMultiplier);
@@ -910,7 +928,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         }
         this.setGlowColour(ram, cfg.glowColour);
         state.rams.put(ram.getUUID(), targetPad);
-        state.spawnedPerCave[cave]++;
+        state.track(cave, ram);
         world.playSound(null, anchor, SoundEvents.RAID_HORN, SoundSource.HOSTILE, 4.0F, 0.5F);
         WoldLogger.debug("Extraction site {} sent a battering ram ({} HP) from cave {} at pad {}.", state.siteIndex,
                 String.format("%.0f", ram.getMaxHealth()), cave, targetPad);
@@ -1105,11 +1123,19 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     }
 
     @Override
-    public void arrived(int siteIndex, int pad, int walkTicks) {
+    public void arrived(int siteIndex, int pad, int walkTicks, Mob mob) {
         RoomWaveState state = this.states.get(siteIndex);
         if (state != null && pad >= 0 && pad < state.arrivedPerPad.length) {
             state.arrivedPerPad[pad]++;
             state.walkTicksPerPad[pad] += walkTicks;
+            for (String tag : CLASS_TAGS) {
+                if (mob.getTags().contains(tag)) {
+                    long[] walk = state.walkByClass.computeIfAbsent(tag, t -> new long[2]);
+                    walk[0]++;
+                    walk[1] += walkTicks;
+                    break;
+                }
+            }
         }
     }
 
@@ -1133,8 +1159,17 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
             pads.append(pad == 0 ? "" : " ").append("pad").append(pad).append('=').append(n)
                     .append(n > 0 ? String.format(" (%.1fs walk)", state.walkTicksPerPad[pad] / 20.0D / n) : "");
         }
-        WoldLogger.debug("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
-                state.siteIndex, caves, pads, state.live.size(), state.rams.size(), state.dropped, state.nudges);
+        StringBuilder classes = new StringBuilder();
+        for (String tag : CLASS_TAGS) {
+            long[] walk = state.walkByClass.get(tag);
+            if (walk != null && walk[0] > 0) {
+                classes.append(classes.length() == 0 ? "" : ", ").append(tag.substring(TAG_PREFIX_LENGTH)).append(" ").append(walk[0])
+                        .append(String.format(" (%.1fs)", walk[1] / 20.0D / walk[0]));
+            }
+        }
+        WoldLogger.debug("Extraction site {} waves (last 60 s): spawned per cave [{}]; reached pads [{}]; average walk by class [{}]; live {}, rams {}, dropped at cap {}, stuck nudges {}.",
+                state.siteIndex, caves, pads, classes, state.live.size(), state.rams.size(), state.dropped, state.nudges);
+        state.walkByClass.clear();
         Arrays.fill(state.spawnedPerCave, 0);
         Arrays.fill(state.arrivedPerPad, 0);
         Arrays.fill(state.walkTicksPerPad, 0L);
@@ -1166,6 +1201,8 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         final Map<UUID, Integer> rams = new HashMap<>();
         final List<Lane> lanes = new ArrayList<>();
         final List<Integer> laneTargets = new ArrayList<>();
+        final Map<Integer, Set<UUID>> liveByCave = new HashMap<>();
+        final Map<String, long[]> walkByClass = new HashMap<>();
         final int[] spawnedPerCave;
         final int[] arrivedPerPad;
         final long[] walkTicksPerPad;
@@ -1203,6 +1240,20 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
                 return true;
             }
             return false;
+        }
+
+        void track(int cave, LivingEntity mob) {
+            this.spawnedPerCave[cave]++;
+            this.liveByCave.computeIfAbsent(cave, c -> new HashSet<>()).add(mob.getUUID());
+        }
+
+        void purgeCaves(VirtualWorld world) {
+            for (Set<UUID> spawned : this.liveByCave.values()) {
+                spawned.removeIf(id -> {
+                    Entity entity = world.getEntity(id);
+                    return entity == null || !entity.isAlive();
+                });
+            }
         }
 
         void purge(VirtualWorld world) {

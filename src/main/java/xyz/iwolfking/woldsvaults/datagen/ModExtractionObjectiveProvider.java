@@ -210,6 +210,7 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
 
         waves.laneHighlight = new ExtractionObjectiveConfig.LaneHighlightEntry();
         waves.laneHighlight.colour = 0xFF1A1A;
+        waves.laneHighlight.idleColour = 0xFFFFFF;
         waves.laneHighlight.alpha = 0.8F;
         waves.laneHighlight.glowAlpha = 0.45F;
         waves.laneHighlight.glowScale = 2.2F;

@@ -583,13 +583,14 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     /**
-     * The marker drawn on clients over each active lane's cave, visible through walls: a skull in {@code colour} at
-     * {@code alpha}, {@code heightBlocks} above the cave anchor, behind it a glow {@code glowScale} times its size at
+     * The marker drawn on clients over each active lane's cave, visible through walls: a skull at {@code alpha}, in
+     * {@code colour} while mobs that lane spawned are alive and in {@code idleColour} otherwise, {@code heightBlocks} above the cave anchor, behind it a glow {@code glowScale} times its size at
      * {@code glowAlpha}. Its size is {@code sizePerBlock} per block of distance, kept between {@code minSizeBlocks} and
      * {@code maxSizeBlocks}; it is drawn for players within {@code rangeBlocks}.
      */
     public static class LaneHighlightEntry {
         @Expose public int colour;
+        @Expose public int idleColour;
         @Expose public float alpha;
         @Expose public float glowAlpha;
         @Expose public float glowScale;

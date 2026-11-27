@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class LaneFollowGoal extends Goal {
     /** Receives lane events for the spawn debug log. */
     public interface Listener {
-        void arrived(int siteIndex, int pad, int walkTicks);
+        void arrived(int siteIndex, int pad, int walkTicks, Mob mob);
 
         void nudged(int siteIndex);
     }
@@ -76,7 +76,7 @@ public class LaneFollowGoal extends Goal {
         if (this.engaged(distance, rig.asLiving())) {
             if (!this.arrived) {
                 this.arrived = true;
-                this.listener.arrived(this.siteIndex, pad, this.mob.tickCount);
+                this.listener.arrived(this.siteIndex, pad, this.mob.tickCount, this.mob);
             }
             return false;
         }
