@@ -764,7 +764,7 @@
               "textColor": 0,
               "path": "rare_plushie",
               "type": "reference",
-              "weight": 20000.0
+              "weight": 20.0
             },
             {
               "textColor": 0,
@@ -853,7 +853,7 @@
               "textColor": 0,
               "path": "rare_plushie",
               "type": "reference",
-              "weight": 30000.0
+              "weight": 30.0
             },
             {
               "textColor": 0,
@@ -965,7 +965,7 @@
               "textColor": 0,
               "path": "rare_plushie",
               "type": "reference",
-              "weight": 20000.0
+              "weight": 20.0
             },
             {
               "textColor": 0,
