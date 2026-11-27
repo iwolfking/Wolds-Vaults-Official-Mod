@@ -1,0 +1,1565 @@
+{
+  "values": {
+    "mob_armor": {
+      "textColor": -842459,
+      "attribute": "generic.armor",
+      "operation": "ADDITION",
+      "amount": [
+        {
+          "count": 2.0,
+          "type": "constant"
+        }
+      ],
+      "type": "mob_vanilla_attribute"
+    },
+    "big_mob_armor": {
+      "textColor": -842459,
+      "attribute": "generic.armor",
+      "operation": "ADDITION",
+      "amount": [
+        {
+          "count": 4.0,
+          "type": "constant"
+        }
+      ],
+      "type": "mob_vanilla_attribute"
+    },
+    "big_mob_damage": {
+      "textColor": -842459,
+      "attribute": "generic.attack_damage",
+      "operation": "MULTIPLY_BASE",
+      "amount": [
+        {
+          "count": 0.5,
+          "type": "constant"
+        }
+      ],
+      "type": "mob_vanilla_attribute"
+    },
+    "big_mob_health": {
+      "textColor": -842459,
+      "attribute": "generic.max_health",
+      "operation": "MULTIPLY_BASE",
+      "amount": [
+        {
+          "count": 0.5,
+          "type": "constant"
+        }
+      ],
+      "type": "mob_vanilla_attribute"
+    },
+    "big_mob_movement_speed": {
+      "textColor": -842459,
+      "attribute": "generic.movement_speed",
+      "operation": "MULTIPLY_BASE",
+      "amount": [
+        {
+          "count": 0.1,
+          "type": "constant"
+        }
+      ],
+      "type": "mob_vanilla_attribute"
+    },
+    "gateway_pearl": {
+      "textColor": -842459,
+      "item": {
+        "id": "woldsvaults:unidentified_gateway_pearl",
+        "count": 3
+      },
+      "color1": -16711681,
+      "color2": -10092289,
+      "type": "floating_item_reward"
+    },
+    "blazing_focus": {
+      "textColor": -19456,
+      "item": {
+        "id": "woldsvaults:blazing_focus",
+        "count": 1
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "suspension_focus": {
+      "textColor": -19456,
+      "item": {
+        "id": "woldsvaults:suspension_focus",
+        "count": 1
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "eccentric_focus": {
+      "textColor": -19456,
+      "item": {
+        "id": "woldsvaults:eccentric_focus",
+        "count": 1
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "eccentric_focus_big": {
+      "textColor": -19456,
+      "item": {
+        "id": "woldsvaults:eccentric_focus",
+        "count": 2
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "eccentric_focus_bigger": {
+      "textColor": -19456,
+      "item": {
+        "id": "woldsvaults:eccentric_focus",
+        "count": 4
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "cryonic_focus_bigger": {
+      "textColor": -19456,
+      "item": {
+        "id": "the_vault:cryonic_focus",
+        "count": 4
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "empowered_chaotic_focus_big": {
+      "textColor": -19456,
+      "item": {
+        "id": "the_vault:empowered_chaotic_focus",
+        "count": 4
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "deck_core": {
+      "textColor": -19456,
+      "item": {
+        "id": "the_vault:deck_socket",
+        "nbt": "{Modifier:\"@default\"}",
+        "count": 1
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "deck_core_greater": {
+      "textColor": -19456,
+      "item": {
+        "id": "the_vault:deck_socket",
+        "nbt": "{Modifier:\"@default\",ModifierRoll:\"greater\"}",
+        "count": 1
+      },
+      "color1": -14848,
+      "color2": -5761782,
+      "type": "floating_item_reward"
+    },
+    "shiny_pack": {
+      "textColor": -19456,
+      "name": "Shiny Booster Pack",
+      "item": {
+        "id": "the_vault:booster_pack",
+        "nbt": "{id:\"the_vault:shiny_pack\"}",
+        "count": 1
+      },
+      "color1": -763854,
+      "color2": -290820,
+      "type": "floating_item_reward"
+    },
+    "knack_pack": {
+      "textColor": -19456,
+      "name": "Knack Booster Pack",
+      "item": {
+        "id": "the_vault:booster_pack",
+        "nbt": "{id:\"the_vault:knack_pack\"}",
+        "count": 1
+      },
+      "color1": -763854,
+      "color2": -290820,
+      "type": "floating_item_reward"
+    },
+    "temporal_booster_pack": {
+      "textColor": -19456,
+      "name": "Temporal Booster Pack",
+      "item": {
+        "id": "the_vault:booster_pack",
+        "nbt": "{id:\"the_vault:temporal_pack\"}",
+        "count": 1
+      },
+      "color1": -763854,
+      "color2": -290820,
+      "type": "floating_item_reward"
+    },
+    "temporal_booster_pack_big": {
+      "textColor": -19456,
+      "name": "Temporal Booster Pack",
+      "item": {
+        "id": "the_vault:booster_pack",
+        "nbt": "{id:\"the_vault:temporal_pack\"}",
+        "count": 3
+      },
+      "color1": -763854,
+      "color2": -290820,
+      "type": "floating_item_reward"
+    },
+    "leg_plushie": {
+      "textColor": -19456,
+      "name": "Legendary Plushie",
+      "item": {
+        "id": "the_vault:plushie",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_loot_sack": {
+      "textColor": -19456,
+      "name": "Legendary Loot Sack",
+      "item": {
+        "id": "the_vault:loot_sack",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_trident": {
+      "textColor": -19456,
+      "name": "Legendary Trident",
+      "item": {
+        "id": "the_vault:trident",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_rang": {
+      "textColor": -19456,
+      "name": "Legendary Vaultarang",
+      "item": {
+        "id": "the_vault:rang",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_battlestaff": {
+      "textColor": -19456,
+      "name": "Legendary Vaultarang",
+      "item": {
+        "id": "the_vault:battlestaff",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_scepter": {
+      "textColor": -19456,
+      "name": "Legendary Scepter",
+      "item": {
+        "id": "the_vault:scepter",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "leg_dagger": {
+      "textColor": -19456,
+      "name": "Legendary Dagger",
+      "item": {
+        "id": "the_vault:dagger",
+        "nbt": "{\"the_vault:gear_roll_type_pool\":\"gear_treasure\",\"the_vault:is_legendary\":1b}",
+        "count": 1
+      },
+      "color1": -19456,
+      "color2": -8114,
+      "type": "floating_item_reward"
+    },
+    "rare_plushie": {
+      "textColor": -19456,
+      "name": "Plushie",
+      "item": {
+        "id": "the_vault:plushie",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_loot_sack": {
+      "textColor": -19456,
+      "name": "Loot Sack",
+      "item": {
+        "id": "the_vault:loot_sack",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_trident": {
+      "textColor": -19456,
+      "name": "Trident",
+      "item": {
+        "id": "the_vault:trident",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_rang": {
+      "textColor": -19456,
+      "name": "Vaultarang",
+      "item": {
+        "id": "the_vault:rang",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_battlestaff": {
+      "textColor": -19456,
+      "name": "Vaultarang",
+      "item": {
+        "id": "the_vault:battlestaff",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_scepter": {
+      "textColor": -19456,
+      "name": "Scepter",
+      "item": {
+        "id": "the_vault:scepter",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "rare_dagger": {
+      "textColor": -19456,
+      "name": "Dagger",
+      "item": {
+        "id": "the_vault:dagger",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Rare+\"}",
+        "count": 1
+      },
+      "color1": -5632,
+      "color2": -11776,
+      "type": "floating_item_reward"
+    },
+    "treasure_key_big": {
+      "textColor": -19456,
+      "item": {
+        "id": "the_vault:unidentified_treasure_key",
+        "count": 3
+      },
+      "color1": -31744,
+      "color2": -13312,
+      "type": "floating_item_reward"
+    },
+    "pocket_penguin": {
+      "textColor": -1213660,
+      "name": "Pocket Penguin",
+      "item": {
+        "id": "the_vault:plushie",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Unique\",\"the_vault:gear_unique_pool\":\"woldsvaults:pocket_penguin\"}",
+        "count": 1
+      },
+      "color1": -1213660,
+      "color2": -1923535,
+      "type": "floating_item_reward"
+    },
+    "chroma_brew": {
+      "textColor": -1213660,
+      "name": "Chroma Brew",
+      "item": {
+        "id": "the_vault:focus",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Unique\",\"the_vault:gear_unique_pool\":\"woldsvaults:chroma_brew\"}",
+        "count": 1
+      },
+      "color1": -1213660,
+      "color2": -1923535,
+      "type": "floating_item_reward"
+    },
+    "shattering_jewel": {
+      "textColor": -1213660,
+      "name": "Shattering Jewel",
+      "item": {
+        "id": "the_vault:jewel",
+        "nbt": "{\"the_vault:gear_roll_type\":\"Unique\",\"the_vault:gear_unique_pool\":\"woldsvaults:shattering_jewel\"}",
+        "count": 1
+      },
+      "color1": -1213660,
+      "color2": -1923535,
+      "type": "floating_item_reward"
+    },
+    "raid_rock_infinite_hard": {
+      "textColor": -19456,
+      "name": "Infinite Brutal Raid Rock",
+      "item": {
+        "id": "woldsvaults:crystal_seal_raid_rock_infinite_hard",
+        "count": 1
+      },
+      "color1": -51171,
+      "color2": -4909824,
+      "type": "floating_item_reward"
+    },
+    "echo_gem_bigger": {
+      "textColor": -19456,
+      "name": "Echo Gems",
+      "item": {
+        "id": "the_vault:gem_echo",
+        "count": 12
+      },
+      "color1": -9764657,
+      "color2": -15728098,
+      "type": "floating_item_reward"
+    },
+    "gilded_chest": {
+      "textColor": -3927,
+      "name": "Gilded Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=gilded_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 10,
+      "type": "tile_reward"
+    },
+    "ornate_chest": {
+      "textColor": -3927,
+      "name": "Ornate Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=ornate_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 10,
+      "type": "tile_reward"
+    },
+    "living_chest": {
+      "textColor": -3927,
+      "name": "Living Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=living_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 10,
+      "type": "tile_reward"
+    },
+    "wooden_chest": {
+      "textColor": -3927,
+      "name": "Wooden Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=wooden_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 16,
+      "type": "tile_reward"
+    },
+    "coin_pile": {
+      "textColor": -3927,
+      "name": "Coin Piles",
+      "tile": {
+        "state": "the_vault:placeholder[type=coin_stacks,facing=up]"
+      },
+      "count": 10,
+      "type": "tile_reward"
+    },
+    "gilded_chest_big": {
+      "textColor": -3927,
+      "name": "Gilded Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=gilded_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 16,
+      "type": "tile_reward"
+    },
+    "ornate_chest_big": {
+      "textColor": -3927,
+      "name": "Ornate Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=ornate_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 16,
+      "type": "tile_reward"
+    },
+    "living_chest_big": {
+      "textColor": -3927,
+      "name": "Living Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=living_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 16,
+      "type": "tile_reward"
+    },
+    "wooden_chest_big": {
+      "textColor": -3927,
+      "name": "Wooden Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=wooden_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 24,
+      "type": "tile_reward"
+    },
+    "coin_pile_big": {
+      "textColor": -3927,
+      "name": "Coin Piles",
+      "tile": {
+        "state": "the_vault:placeholder[type=coin_stacks,facing=up]"
+      },
+      "count": 16,
+      "type": "tile_reward"
+    },
+    "gilded_chest_bigger": {
+      "textColor": -3927,
+      "name": "Gilded Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=gilded_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 24,
+      "type": "tile_reward"
+    },
+    "ornate_chest_bigger": {
+      "textColor": -3927,
+      "name": "Ornate Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=ornate_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 24,
+      "type": "tile_reward"
+    },
+    "living_chest_bigger": {
+      "textColor": -3927,
+      "name": "Living Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=living_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 24,
+      "type": "tile_reward"
+    },
+    "wooden_chest_bigger": {
+      "textColor": -3927,
+      "name": "Wooden Chests",
+      "tile": {
+        "state": "the_vault:placeholder[type=wooden_chest,facing=up]",
+        "nbt": "{template_tags:[\"no_trap\"]}"
+      },
+      "count": 32,
+      "type": "tile_reward"
+    },
+    "coin_pile_bigger": {
+      "textColor": -3927,
+      "name": "Coin Piles",
+      "tile": {
+        "state": "the_vault:placeholder[type=coin_stacks,facing=up]"
+      },
+      "count": 24,
+      "type": "tile_reward"
+    },
+    "add_iceologer": {
+      "textColor": -3927,
+      "name": "Iceologer",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:iceologer\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_mage": {
+      "textColor": -3927,
+      "name": "Mage",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:mage\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "elevated",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_geomancer": {
+      "textColor": -3927,
+      "name": "Geomancer",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:geomancer\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_windcaller": {
+      "textColor": -3927,
+      "name": "Windcaller",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:windcaller\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_incinerator": {
+      "textColor": -3927,
+      "name": "Incinerator",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"grimoireofgaia:incinerator\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_mountaineer": {
+      "textColor": -3927,
+      "name": "Mountaineer",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:mountaineer\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_royal_guard": {
+      "textColor": -3927,
+      "name": "Royal Guard",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"no_champion\",\"ethereal_immune\"],id:\"dungeons_mobs:royal_guard\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "add_royal_guard_champion": {
+      "textColor": -3927,
+      "name": "Royal Guard Champion",
+      "entity": {
+        "blockPos": 0,
+        "nbt": "{Tags:[\"vault_champion\",\"no_drops\",\"ethereal_immune\"],id:\"dungeons_mobs:royal_guard\",modifierImmunity:[\"#the_vault:modifier_type/mob_frenzy\",\"#the_vault:modifier_type/mob_attribute\",\"#the_vault:modifier_type/entity_effect\"]}"
+      },
+      "spawner": "ground",
+      "count": 1,
+      "type": "mob_spawn"
+    },
+    "negative": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "mob_armor",
+              "type": "reference",
+              "weight": 4.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "negative_map": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "mob_armor",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "big_mob_armor",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "mob_damage",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "big_mob_damage",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "mob_health",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "big_mob_health",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "mob_movement_speed",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "big_mob_movement_speed",
+              "type": "reference",
+              "weight": 2.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "positive": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 20000.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_plushie",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_loot_sack",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_trident",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_rang",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_battlestaff",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_scepter",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_dagger",
+              "type": "reference",
+              "weight": 2.0
+            }
+          ]
+        },
+        {
+          "level": 50,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 30000.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_plushie",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_loot_sack",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_trident",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_rang",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_battlestaff",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_scepter",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_dagger",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "knack_pack",
+              "type": "reference",
+              "weight": 15.0
+            },
+            {
+              "textColor": 0,
+              "path": "temporal_booster_pack",
+              "type": "reference",
+              "weight": 5.0
+            },
+            {
+              "textColor": 0,
+              "path": "temporal_booster_pack",
+              "type": "reference",
+              "weight": 5.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "positive_base": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 20000.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_plushie",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_loot_sack",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_trident",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_rang",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_battlestaff",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_scepter",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_dagger",
+              "type": "reference",
+              "weight": 2.0
+            }
+          ]
+        },
+        {
+          "level": 50,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_plushie",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_loot_sack",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_trident",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_rang",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_battlestaff",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_scepter",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_dagger",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "knack_pack",
+              "type": "reference",
+              "weight": 15.0
+            },
+            {
+              "textColor": 0,
+              "path": "temporal_booster_pack",
+              "type": "reference",
+              "weight": 5.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "xmark": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 20.0
+            }
+          ]
+        },
+        {
+          "level": 50,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "rare_plushie",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_rang",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_trident",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_loot_sack",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_battlestaff",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_scepter",
+              "type": "reference",
+              "weight": 30.0
+            },
+            {
+              "textColor": 0,
+              "path": "rare_dagger",
+              "type": "reference",
+              "weight": 30.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "positive_lab": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "pocket_penguin",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "chroma_brew",
+              "type": "reference",
+              "weight": 8.0
+            }
+          ]
+        },
+        {
+          "level": 50,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "pocket_penguin",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "chroma_brew",
+              "type": "reference",
+              "weight": 8.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "lab_uniques": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "pocket_penguin",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "chroma_brew",
+              "type": "reference",
+              "weight": 8.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    },
+    "positive_base_map": {
+      "levels": [
+        {
+          "level": 0,
+          "pool": [
+            {
+              "textColor": 0,
+              "path": "treasure_key_big",
+              "type": "reference",
+              "weight": 2.0
+            },
+            {
+              "textColor": 0,
+              "path": "treasure_key",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "shattering_jewel",
+              "type": "reference",
+              "weight": 1.0
+            },
+            {
+              "textColor": 0,
+              "path": "blazing_focus",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "gateway_pearl",
+              "type": "reference",
+              "weight": 20.0
+            },
+            {
+              "textColor": 0,
+              "path": "deck_core",
+              "type": "reference",
+              "weight": 10.0
+            },
+            {
+              "textColor": 0,
+              "path": "deck_core_greater",
+              "type": "reference",
+              "weight": 5.0
+            },
+            {
+              "textColor": 0,
+              "path": "eccentric_focus_big",
+              "type": "reference",
+              "weight": 8.0
+            },
+            {
+              "textColor": 0,
+              "path": "cryonic_focus_big",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "gilded_chest_bigger",
+              "type": "reference",
+              "weight": 60.0
+            },
+            {
+              "textColor": 0,
+              "path": "ornate_chest_bigger",
+              "type": "reference",
+              "weight": 60.0
+            },
+            {
+              "textColor": 0,
+              "path": "living_chest_bigger",
+              "type": "reference",
+              "weight": 60.0
+            },
+            {
+              "textColor": 0,
+              "path": "wooden_chest_bigger",
+              "type": "reference",
+              "weight": 60.0
+            },
+            {
+              "textColor": 0,
+              "path": "coin_pile_bigger",
+              "type": "reference",
+              "weight": 60.0
+            },
+            {
+              "textColor": 0,
+              "path": "echo_gem_bigger",
+              "type": "reference",
+              "weight": 8.0
+            },
+            {
+              "textColor": 0,
+              "path": "temporal_booster_pack_big",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "shiny_pack",
+              "type": "reference",
+              "weight": 4.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_helmet",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_chestplate",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_leggings",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_boots",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_sword",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_axe",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_shield",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_wand",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_plushie",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_loot_sack",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_rang",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_battlestaff",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_scepter",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "leg_dagger",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "castle_chestplate",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "warbound_helmet",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "inferno_reach",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "frozen_orb",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "grim_shield",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "swarmwalkers",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "stormcrown",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "inflated_justice",
+              "type": "reference",
+              "weight": 6.0
+            },
+            {
+              "textColor": 0,
+              "path": "raid_rock_infinite_hard",
+              "type": "reference",
+              "weight": 4.0
+            }
+          ]
+        }
+      ],
+      "type": "pool"
+    }
+  }
+}

@@ -401,6 +401,7 @@ dependencies {
     implementation fg.deobf('local:ftb-essentials:1802.2.2-build.83')
     implementation fg.deobf('local:bc_nbt_fix:1.0')
     implementation fg.deobf('local:just_enough_vh:1.11')
+    implementation fg.deobf('local:vault_hunters_item_sorting:3.4.0')
 
     jarJar(group: 'eu.pb4', name: 'forgified-sgui', version: '[1.0.2,)') {
         jarJar.pin(it, '1.0.2')
@@ -422,6 +423,9 @@ dependencies {
     }
     jarJar(group: 'lv.id.bonne', name: 'vault_hunters_extra_rules', version: '[2.2.0,)') {
         jarJar.pin(it, '2.2.0')
+    }
+    jarJar(group: 'lv.id.bonne', name: 'vault_hunters_item_sorting', version: '[3.4.0,)') {
+        jarJar.pin(it, '3.4.0')
     }
 
 
