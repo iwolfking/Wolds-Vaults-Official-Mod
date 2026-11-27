@@ -85,6 +85,7 @@
     "assassinKill": 300.0,
     "tankKill": 700.0,
     "eliteChampionMultiplier": 2.0,
+    "waveMobKillMultiplier": 0.2,
     "baseThreshold": 100000.0,
     "thresholdMultiplierPerKill": 4.0,
     "rollIntervalTicks": 20,

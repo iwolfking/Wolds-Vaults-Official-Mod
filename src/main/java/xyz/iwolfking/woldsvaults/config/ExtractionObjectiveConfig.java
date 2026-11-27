@@ -57,6 +57,7 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         config.WAVES.carrier.baseEntity = "";
         config.WAVES.lanes = new LanesEntry();
         config.WAVES.rotation = new RotationEntry();
+        config.WAVES.laneMarker = new LaneMarkerEntry();
         config.WAVES.ram = new RamEntry();
         config.WAVES.ram.entity = "";
         config.WAVES.ram.hpReference = "";
@@ -104,9 +105,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         if (problem != null) {
             return problem;
         }
-        if (this.THUMPER == null || this.THUMPER.healthFraction <= 0.0F || this.THUMPER.progressLossPerThumper < 0.0F
-                || this.THUMPER.progressLossPerThumper * 2.0F >= 1.0F) {
-            return "THUMPER is missing, has no positive healthFraction, or its progress loss would stop a rig with two thumpers lost";
+        if (this.THUMPER == null || this.THUMPER.healthFraction <= 0.0F || this.THUMPER.damageTakenMultiplier <= 0.0F
+                || this.THUMPER.progressLossPerThumper < 0.0F || this.THUMPER.progressLossPerThumper * 2.0F >= 1.0F) {
+            return "THUMPER is missing, has no positive healthFraction or damageTakenMultiplier, or its progress loss would stop a rig with two thumpers lost";
         }
         CacheEntry cache = this.CACHE;
         if (cache == null || cache.intervalTicks <= 0 || cache.batchMin < 0 || cache.batchMax < cache.batchMin || cache.cap < 0
@@ -202,6 +203,13 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         }
         if (waves.waveSpeedMultiplier <= 0.0F) {
             return "WAVES waveSpeedMultiplier is not positive";
+        }
+        if (waves.knockbackResistance < 0.0F || waves.knockbackResistance > 1.0F || waves.maxChilledAmplifier < 0) {
+            return "WAVES knockbackResistance is outside 0..1 or maxChilledAmplifier is negative";
+        }
+        LaneMarkerEntry marker = waves.laneMarker;
+        if (marker == null || marker.intervalTicks <= 0 || marker.columnBlocks <= 0 || marker.size <= 0.0F) {
+            return "WAVES laneMarker is missing or has a non-positive interval, column or size";
         }
         if (waves.roomCountMultiplier <= 0.0F || waves.packetSize <= 0 || waves.liveMobCapPerRoom <= 0 || waves.liveMobCapPerVault <= 0
                 || waves.focusOrder == null) {
@@ -563,12 +571,26 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
     }
 
     /**
+     * The marker over each active lane's cave: every {@code intervalTicks}, a column of {@code columnBlocks} dust
+     * particles of colour {@code colour} and size {@code size}, starting {@code heightBlocks} above the cave anchor,
+     * sent to every player in the site room.
+     */
+    public static class LaneMarkerEntry {
+        @Expose public int intervalTicks;
+        @Expose public float heightBlocks;
+        @Expose public int columnBlocks;
+        @Expose public int colour;
+        @Expose public float size;
+    }
+
+    /**
      * One wave state per site room, run from the main rig's tier while it drills. Every wave spawns only from the
      * room's active lanes ({@code rotation}): spread waves go out in packets of at most {@code packetSize} round-robin
      * over the lanes; assault waves focus one targeted rig at a time in {@code focusOrder} (pad indices); siege waves
      * surge across every active lane when {@code surgeSiege}. Counts are multiplied by {@code roomCountMultiplier},
      * ramping linearly to x{@code rampAtFullProgress} at the end of the job. Every wave mob walks at
-     * x{@code waveSpeedMultiplier} speed.
+     * x{@code waveSpeedMultiplier} speed, has {@code knockbackResistance} and holds Chilled at most at amplifier
+     * {@code maxChilledAmplifier}. Each active lane's cave is marked for players in the room ({@code laneMarker}).
      */
     public static class WavesEntry {
         @Expose public float roomCountMultiplier;
@@ -580,6 +602,9 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
         @Expose public List<Integer> focusOrder = new ArrayList<>();
         @Expose public boolean surgeSiege;
         @Expose public float waveSpeedMultiplier;
+        @Expose public float knockbackResistance;
+        @Expose public int maxChilledAmplifier;
+        @Expose public LaneMarkerEntry laneMarker;
         @Expose public RotationEntry rotation;
         @Expose public LanesEntry lanes;
         @Expose public RamEntry ram;
@@ -604,11 +629,13 @@ public class ExtractionObjectiveConfig extends Config implements WoldsTable {
 
     /**
      * Thumpers, the two secondary rigs of a site room. Their pools are fractions of the keyed extractor's stats, taken
-     * when placed. Each wrecked thumper cuts the main rig's progress rate by {@code progressLossPerThumper} and charges
+     * when placed. Every mob and ram hit on a thumper is multiplied by {@code damageTakenMultiplier} after every other
+     * reduction. Each wrecked thumper cuts the main rig's progress rate by {@code progressLossPerThumper} and charges
      * {@code destructionPenaltyFraction} of the main rig's own destruction durability loss.
      */
     public static class ThumperEntry {
         @Expose public float healthFraction;
+        @Expose public float damageTakenMultiplier;
         @Expose public float shieldFraction;
         @Expose public float shieldRegenFraction;
         @Expose public float healthRegenFraction;

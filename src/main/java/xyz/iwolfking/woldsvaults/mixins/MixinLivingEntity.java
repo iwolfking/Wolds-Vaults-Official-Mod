@@ -36,6 +36,7 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 import xyz.iwolfking.woldsvaults.api.util.VesselSlowCapHelper;
 import xyz.iwolfking.woldsvaults.events.HyperVaultEvents;
 import xyz.iwolfking.woldsvaults.init.ModEffects;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 import xyz.iwolfking.woldsvaults.prestige.ReachPrestigePower;
 
 import javax.annotation.Nullable;
@@ -119,6 +120,15 @@ public abstract class MixinLivingEntity extends Entity {
         WoldLogger.error("HYPER NaN-guard: sanitized health write {} -> {} on {} (was {}, max {}).",
                 health, sanitized, this.getType().getRegistryName(), previous, self.getMaxHealth());
         return sanitized;
+    }
+
+    /** Caps Chilled on extraction wave mobs before it is applied or merged into an existing Chilled. */
+    @ModifyVariable(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At("HEAD"), argsOnly = true)
+    private MobEffectInstance woldsVaults$capWaveChill(MobEffectInstance effect) {
+        if (this.level.isClientSide) {
+            return effect;
+        }
+        return ExtractionSpawnManager.capWaveEffect((LivingEntity) (Object) this, effect);
     }
 
     // Prestige

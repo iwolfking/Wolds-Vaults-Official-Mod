@@ -49,7 +49,8 @@ import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 /**
  * A thumper: one of the two secondary rigs of an extraction site room. It stands on a thumper pad, takes its pools as
  * fractions of the bound extractor's stats, and is inert and invulnerable until the main rig drills. Shield then
- * armor-mitigated hull, like the main rig, but hull damage never wears the extractor; when its hull runs out it does
+ * armor-mitigated hull, like the main rig, with every mob and ram hit cut by the table's thumper damage multiplier;
+ * hull damage never wears the extractor; when its hull runs out it does
  * not die but becomes a wreck that keeps marking the pad, and the objective charges the loss to the main rig.
  */
 public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarget {
@@ -175,7 +176,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
 
     @Override
     public void applyRamHit(LivingEntity ram, float damage) {
-        float overflow = this.pool.ramHit(this, damage);
+        float overflow = this.pool.ramHit(this, damage * ModConfigs.EXTRACTION_OBJECTIVE.THUMPER.damageTakenMultiplier);
         if (overflow > 0.0F) {
             this.damageHull(DamageSource.mobAttack(ram), overflow);
         }
@@ -200,7 +201,7 @@ public class ThumperEntity extends LivingEntity implements IAnimatable, RigTarge
             this.applyRamHit(attacker, this.ramHitDamage(ModConfigs.EXTRACTION_OBJECTIVE.WAVES.ram.killSeconds));
             return true;
         }
-        amount = RigPool.resistMobHit(attacker, amount);
+        amount = RigPool.resistMobHit(attacker, amount) * ModConfigs.EXTRACTION_OBJECTIVE.THUMPER.damageTakenMultiplier;
         if (this.pool.isShieldUp()) {
             float overflow = this.pool.shieldHit(this, amount);
             this.invulnerableTime = 0;

@@ -79,6 +79,7 @@ public class ModGreedChampionProvider extends AbstractWoldsTableProvider {
         table.rage.assassinKill = 300.0D;
         table.rage.tankKill = 700.0D;
         table.rage.eliteChampionMultiplier = 2.0D;
+        table.rage.waveMobKillMultiplier = 0.2D;
         table.rage.baseThreshold = 100_000.0D;
         table.rage.thresholdMultiplierPerKill = 4.0D;
         table.rage.rollIntervalTicks = 20;

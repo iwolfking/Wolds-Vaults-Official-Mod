@@ -14,6 +14,7 @@ import xyz.iwolfking.woldsvaults.medallions.GreedKills;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionTier;
 import xyz.iwolfking.woldsvaults.medallions.GreedMedallionVaultState;
 import xyz.iwolfking.woldsvaults.medallions.assassins.GreedAssassins;
+import xyz.iwolfking.woldsvaults.objectives.extraction.ExtractionSpawnManager;
 import java.util.function.ToDoubleFunction;
 
 /**
@@ -34,7 +35,7 @@ public final class VaultChampionRage {
                 award(data.getPlayer(), config -> config.getRage().oreMined));
     }
 
-    /** Rage for a kill, doubled when what died was an elite champion. */
+    /** Rage for a kill, doubled when what died was an elite champion and cut for an extraction wave mob. */
     public static void onKill(LivingEntity killed, LivingDeathEvent event, ServerLevel level) {
         ServerPlayer killer = GreedKills.resolveKiller(event);
         if (killer == null || killed instanceof TheVesselEntity) {
@@ -45,6 +46,9 @@ public final class VaultChampionRage {
             double value = killValue(killed, rage);
             if (value <= 0.0D) {
                 return 0.0D;
+            }
+            if (killed.getTags().contains(ExtractionSpawnManager.TAG_WAVE)) {
+                value *= rage.waveMobKillMultiplier;
             }
             return ChampionLogic.isChampion(killed) ? value * rage.eliteChampionMultiplier : value;
         });

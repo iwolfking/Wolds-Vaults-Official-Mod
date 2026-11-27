@@ -205,9 +205,18 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.liveMobCapPerRoom = 600;
         waves.liveMobCapPerVault = 1200;
         waves.waveSpeedMultiplier = 0.6F;
+        waves.knockbackResistance = 1.0F;
+        waves.maxChilledAmplifier = 1;
+
+        waves.laneMarker = new ExtractionObjectiveConfig.LaneMarkerEntry();
+        waves.laneMarker.intervalTicks = 10;
+        waves.laneMarker.heightBlocks = 3.0F;
+        waves.laneMarker.columnBlocks = 4;
+        waves.laneMarker.colour = 0xFF1A1A;
+        waves.laneMarker.size = 2.5F;
 
         waves.rotation = new ExtractionObjectiveConfig.RotationEntry();
-        waves.rotation.rerollTicks = 600;
+        waves.rotation.rerollTicks = 900;
         waves.rotation.baseLanes = 3;
         waves.rotation.extraLaneAtPower = new ArrayList<>(List.of(200, 400));
         waves.rotation.lanesPerExtraPlayer = 1;
@@ -284,11 +293,11 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.carrier.auraEffectDurationTicks = 120;
 
         TierEntry salvage = new TierEntry("salvage", 0);
-        salvage.trickle = horde(100, 2, 3);
-        salvage.horde = horde(250, 8, 12);
-        salvage.combat = assassins(400, 3);
-        salvage.assault = mixed(625, 0, 6, 1, 0, 0);
-        salvage.siege = mixed(1750, 12, 5, 2, 0, 0);
+        salvage.trickle = horde(125, 2, 3);
+        salvage.horde = horde(313, 8, 12);
+        salvage.combat = assassins(500, 3);
+        salvage.assault = mixed(781, 0, 6, 1, 0, 0);
+        salvage.siege = mixed(2188, 12, 5, 2, 0, 0);
         salvage.hordePool.add(new ResourceLocation("minecraft", "zombie"), 3);
         salvage.hordePool.add(vh("t1_zombie"), 3);
         salvage.hordePool.add(vh("t1_husk"), 2);
@@ -309,11 +318,11 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.tiers.add(salvage);
 
         TierEntry industrial = new TierEntry("industrial", 110);
-        industrial.trickle = horde(88, 2, 3);
-        industrial.horde = horde(225, 8, 12);
-        industrial.combat = assassins(375, 4);
-        industrial.assault = mixed(562, 0, 7, 1, 0, 0);
-        industrial.siege = mixed(1625, 13, 6, 2, 0, 0);
+        industrial.trickle = horde(110, 2, 3);
+        industrial.horde = horde(281, 8, 12);
+        industrial.combat = assassins(469, 4);
+        industrial.assault = mixed(703, 0, 7, 1, 0, 0);
+        industrial.siege = mixed(2031, 13, 6, 2, 0, 0);
         industrial.hordePool.add(vh("t2_zombie"), 3);
         industrial.hordePool.add(vh("t2_husk"), 3);
         industrial.hordePool.add(vh("t2_drowned"), 3);
@@ -334,11 +343,11 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.tiers.add(industrial);
 
         TierEntry fortified = new TierEntry("fortified", 200);
-        fortified.trickle = horde(75, 2, 4);
-        fortified.horde = horde(200, 9, 13);
-        fortified.combat = assassins(350, 5);
-        fortified.assault = mixed(500, 0, 8, 1, 0, 0);
-        fortified.siege = mixed(1500, 15, 8, 3, 1, 0);
+        fortified.trickle = horde(94, 2, 4);
+        fortified.horde = horde(250, 9, 13);
+        fortified.combat = assassins(438, 5);
+        fortified.assault = mixed(625, 0, 8, 1, 0, 0);
+        fortified.siege = mixed(1875, 15, 8, 3, 1, 0);
         fortified.hordePool.add(vh("t2_zombie"), 2);
         fortified.hordePool.add(vh("t2_husk"), 2);
         fortified.hordePool.add(vh("t2_drowned"), 2);
@@ -363,11 +372,11 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.tiers.add(fortified);
 
         TierEntry siege = new TierEntry("siege", 420);
-        siege.trickle = horde(62, 3, 4);
-        siege.horde = horde(175, 10, 14);
-        siege.combat = assassins(325, 5);
-        siege.assault = mixed(438, 0, 9, 2, 1, 0);
-        siege.siege = mixed(1375, 18, 9, 4, 1, 1);
+        siege.trickle = horde(78, 3, 4);
+        siege.horde = horde(219, 10, 14);
+        siege.combat = assassins(406, 5);
+        siege.assault = mixed(548, 0, 9, 2, 1, 0);
+        siege.siege = mixed(1719, 18, 9, 4, 1, 1);
         siege.hordePool.add(vh("t3_zombie"), 3);
         siege.hordePool.add(vh("t3_husk"), 3);
         siege.hordePool.add(vh("t3_drowned"), 2);
@@ -392,11 +401,11 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
         waves.tiers.add(siege);
 
         TierEntry cataclysm = new TierEntry("cataclysm", 700);
-        cataclysm.trickle = horde(50, 3, 4);
-        cataclysm.horde = horde(150, 10, 15);
-        cataclysm.combat = assassins(300, 6);
-        cataclysm.assault = mixed(375, 0, 10, 2, 1, 0);
-        cataclysm.siege = mixed(1250, 20, 10, 5, 1, 1);
+        cataclysm.trickle = horde(63, 3, 4);
+        cataclysm.horde = horde(188, 10, 15);
+        cataclysm.combat = assassins(375, 6);
+        cataclysm.assault = mixed(469, 0, 10, 2, 1, 0);
+        cataclysm.siege = mixed(1563, 20, 10, 5, 1, 1);
         cataclysm.hordePool.add(vh("t3_zombie"), 3);
         cataclysm.hordePool.add(vh("t3_husk"), 3);
         cataclysm.hordePool.add(vh("t3_drowned"), 2);
@@ -462,7 +471,8 @@ public class ModExtractionObjectiveProvider extends AbstractWoldsTableProvider {
 
     private static ExtractionObjectiveConfig.ThumperEntry thumper() {
         ExtractionObjectiveConfig.ThumperEntry thumper = new ExtractionObjectiveConfig.ThumperEntry();
-        thumper.healthFraction = 0.6F;
+        thumper.healthFraction = 1.2F;
+        thumper.damageTakenMultiplier = 0.5F;
         thumper.shieldFraction = 0.6F;
         thumper.shieldRegenFraction = 0.6F;
         thumper.healthRegenFraction = 0.6F;

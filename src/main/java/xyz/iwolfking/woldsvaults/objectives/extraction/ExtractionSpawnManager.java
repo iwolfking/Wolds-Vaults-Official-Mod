@@ -8,10 +8,14 @@ import iskallia.vault.core.world.storage.VirtualWorld;
 import iskallia.vault.entity.EntityScaler;
 import iskallia.vault.entity.champion.ChampionPromoter;
 import net.minecraft.ChatFormatting;
+import com.mojang.math.Vector3f;
+import iskallia.vault.init.ModEffects;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -105,6 +109,7 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
     private int sweepTimer;
     private int auraTimer;
     private int debugTimer;
+    private int markerTimer;
 
     public ExtractionSpawnManager(Vault vault, VirtualWorld world, ExtractionObjective objective) {
         super(vault, world, objective);
@@ -143,6 +148,10 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
                 Entity entity = world.getEntity(id);
                 return entity == null || !entity.isAlive();
             });
+        }
+        if (++markerTimer >= waves.laneMarker.intervalTicks) {
+            markerTimer = 0;
+            this.states.values().forEach(state -> this.showLaneMarkers(state, waves.laneMarker));
         }
         if (++auraTimer >= waves.carrier.auraIntervalTicks) {
             auraTimer = 0;
@@ -271,6 +280,30 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         if (waves.ram.maxPerRoom > 0 && ++state.ramClock >= state.nextRamTick) {
             state.nextRamTick += Math.max(20, tier.ramIntervalTicks);
             this.spawnRam(state, waves);
+        }
+    }
+
+    /** Draws a column of dust over the cave of every active lane, for the players inside the site room. */
+    private void showLaneMarkers(RoomWaveState state, ExtractionObjectiveConfig.LaneMarkerEntry marker) {
+        if (state.lanes.isEmpty()) {
+            return;
+        }
+        List<ServerPlayer> watching = world.getEntitiesOfClass(ServerPlayer.class, objective.siteRoomBounds(state.site));
+        if (watching.isEmpty()) {
+            return;
+        }
+        int colour = marker.colour;
+        DustParticleOptions dust = new DustParticleOptions(new Vector3f(((colour >> 16) & 0xFF) / 255.0F, ((colour >> 8) & 0xFF) / 255.0F,
+                (colour & 0xFF) / 255.0F), marker.size);
+        List<BlockPos> anchors = objective.caveAnchors(state.site);
+        for (Lane lane : state.lanes) {
+            BlockPos anchor = anchors.get(lane.cave());
+            for (int step = 0; step < marker.columnBlocks; step++) {
+                double y = anchor.getY() + marker.heightBlocks + step;
+                for (ServerPlayer player : watching) {
+                    world.sendParticles(player, dust, true, anchor.getX() + 0.5D, y, anchor.getZ() + 0.5D, 2, 0.15D, 0.3D, 0.15D, 0.0D);
+                }
+            }
         }
     }
 
@@ -626,11 +659,27 @@ public class ExtractionSpawnManager extends ObjectiveManager<ExtractionObjective
         this.applyStatFloor(living, state);
         living.getPersistentData().putDouble(MOB_FACTOR_KEY, Math.max(GreedMedallionEffects.mobStatMultiplier(vault), state.floorFactor));
         applyWaveSpeed(living, ModConfigs.EXTRACTION_OBJECTIVE.WAVES.waveSpeedMultiplier);
+        setAttributeBase(living, Attributes.KNOCKBACK_RESISTANCE, ModConfigs.EXTRACTION_OBJECTIVE.WAVES.knockbackResistance);
         if (afterScale != null) {
             afterScale.accept(living);
         }
         this.attachGoals(living, state.site, state.siteIndex, rig);
         return living;
+    }
+
+    /**
+     * The effect a mob should receive instead of {@code effect}: Chilled lowered to the table's maximum amplifier on a
+     * wave mob, anything else unchanged.
+     */
+    public static MobEffectInstance capWaveEffect(LivingEntity mob, MobEffectInstance effect) {
+        if (effect.getEffect() != ModEffects.CHILLED || !mob.getTags().contains(TAG_WAVE)) {
+            return effect;
+        }
+        int cap = ModConfigs.EXTRACTION_OBJECTIVE.WAVES.maxChilledAmplifier;
+        if (effect.getAmplifier() <= cap) {
+            return effect;
+        }
+        return new MobEffectInstance(effect.getEffect(), effect.getDuration(), cap, effect.isAmbient(), effect.isVisible(), effect.showIcon());
     }
 
     /**

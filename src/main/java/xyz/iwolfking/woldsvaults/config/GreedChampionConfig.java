@@ -76,7 +76,7 @@ public class GreedChampionConfig extends Config implements WoldsTable {
         @Expose public boolean assassinsCarryIt;
     }
 
-    /** Rage accrual, decay, and the arm-then-fire spawn roll. */
+    /** Rage accrual, decay, and the arm-then-fire spawn roll. A kill of an extraction wave mob earns x{@code waveMobKillMultiplier}. */
     public static class Rage {
         @Expose public double decayPerTick;
         @Expose public double chestLooted;
@@ -85,6 +85,7 @@ public class GreedChampionConfig extends Config implements WoldsTable {
         @Expose public double assassinKill;
         @Expose public double tankKill;
         @Expose public double eliteChampionMultiplier;
+        @Expose public double waveMobKillMultiplier;
         @Expose public double baseThreshold;
         @Expose public double thresholdMultiplierPerKill;
         @Expose public int rollIntervalTicks;
@@ -137,6 +138,9 @@ public class GreedChampionConfig extends Config implements WoldsTable {
         if (this.scaling == null || this.hunt == null || this.hud == null || this.lightning == null
                 || this.trueDamage == null || this.aura == null || this.rage == null || this.rewards == null) {
             return "a block the spawner reads is missing";
+        }
+        if (this.rage.waveMobKillMultiplier < 0.0D) {
+            return "rage waveMobKillMultiplier is negative";
         }
         return null;
     }
