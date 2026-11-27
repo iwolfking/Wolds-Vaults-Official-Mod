@@ -131,6 +131,15 @@ public class ExtractionObjective extends Objective {
     private static final int[][] ROOM_3X3_CAVE_HOMES = new int[][]{
             {0}, {0}, {0}, {0}, {1}, {1}, {0}, {2}, {2}, {1}, {1, 2}, {2}
     };
+    private static final BlockPos[] ROOM_3X3_CACHE_BEDS = new BlockPos[]{
+            new BlockPos(107, 22, 19), new BlockPos(32, 21, 28), new BlockPos(59, 22, 59), new BlockPos(106, 22, 59),
+            new BlockPos(131, 22, 36), new BlockPos(34, 22, 128), new BlockPos(69, 21, 101), new BlockPos(9, 22, 104),
+            new BlockPos(20, 24, 62), new BlockPos(45, 21, 84), new BlockPos(103, 22, 123), new BlockPos(129, 22, 106),
+            new BlockPos(94, 22, 87), new BlockPos(131, 22, 130), new BlockPos(93, 23, 71), new BlockPos(85, 22, 43),
+            new BlockPos(129, 22, 9), new BlockPos(9, 23, 36), new BlockPos(39, 22, 51), new BlockPos(16, 22, 17),
+            new BlockPos(16, 22, 124), new BlockPos(34, 21, 9), new BlockPos(37, 22, 69), new BlockPos(54, 21, 41)
+    };
+    private static final double ROOM_3X3_CACHE_BED_RADIUS = 3.5D;
     public static final int MAIN_PAD = 0;
     private static final int THUMPER_DUST = 0xA64DFF;
 
@@ -514,6 +523,19 @@ public class ExtractionObjective extends Objective {
             return out;
         }
         for (BlockPos local : ROOM_3X3_CAVES) {
+            out.add(footprint.toWorld(local, this.get(CELL_X), this.get(CELL_Z)));
+        }
+        return out;
+    }
+
+    /** World feet positions of the centres of the room's cache beds, the only places cache chests stand; empty with no room. */
+    public List<BlockPos> cacheBeds(ExtractionSite site) {
+        MultiCellFootprint footprint = this.siteFootprint(site, this.indexOf(site));
+        List<BlockPos> out = new ArrayList<>();
+        if (footprint == null) {
+            return out;
+        }
+        for (BlockPos local : ROOM_3X3_CACHE_BEDS) {
             out.add(footprint.toWorld(local, this.get(CELL_X), this.get(CELL_Z)));
         }
         return out;
@@ -995,7 +1017,8 @@ public class ExtractionObjective extends Objective {
         RoomGrid grid = this.grids.get(index);
         if (grid == null) {
             int size = 47 * site.getSpan();
-            grid = new RoomGrid(index, this.siteRoomOrigin(site), size, 47, size, this.sitePads(site), this.caveAnchors(site));
+            grid = new RoomGrid(index, this.siteRoomOrigin(site), size, 47, size, this.sitePads(site), this.caveAnchors(site),
+                    this.cacheBeds(site), ROOM_3X3_CACHE_BED_RADIUS);
             this.grids.put(index, grid);
             WoldLogger.debug("Extraction site {} is reading its {}x47x{} room for lane pathing.", index, size, size);
         }

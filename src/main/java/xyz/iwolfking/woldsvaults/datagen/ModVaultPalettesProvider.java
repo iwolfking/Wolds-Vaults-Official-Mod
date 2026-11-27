@@ -22,6 +22,27 @@ import xyz.iwolfking.woldsvaults.WoldsVaults;
 import java.util.*;
 
 public class ModVaultPalettesProvider extends AbstractPaletteProvider {
+    private static final String SITE_ROCK = "the_vault:vault_stone";
+    private static final String SITE_ROCK_VAR = "the_vault:vault_cobblestone";
+    private static final String SITE_ROCK_DARK = "the_vault:vault_bedrock";
+    private static final String SITE_STRATA_DARK = "minecraft:polished_deepslate";
+    private static final String SITE_STRATA_LIGHT = "minecraft:smooth_stone";
+    private static final String SITE_FLOOR = "minecraft:coarse_dirt";
+    private static final String SITE_FLOOR_VAR = "minecraft:rooted_dirt";
+    private static final String SITE_LANE = "minecraft:blackstone";
+    private static final String SITE_LANE_VAR = "minecraft:cobbled_deepslate";
+    private static final String SITE_SHELL_DARK = "minecraft:smooth_basalt";
+    private static final String SITE_PAD = "the_vault:vault_stone_bricks";
+    private static final String SITE_PAD_CRACKED = "the_vault:vault_stone_bricks_cracked";
+    private static final String SITE_PAD_CHISELED = "the_vault:chiseled_vault_stone";
+    private static final List<String> SITE_ROCK_ORDER = List.of(SITE_LANE_VAR, SITE_LANE, SITE_ROCK, SITE_ROCK_VAR, SITE_ROCK_DARK,
+            SITE_STRATA_DARK, SITE_STRATA_LIGHT, SITE_FLOOR, SITE_FLOOR_VAR, SITE_SHELL_DARK);
+    private static final List<List<String>> SITE_CRYSTALS = List.of(
+            List.of("minecraft:white_wool", "minecraft:white_concrete"),
+            List.of("minecraft:light_gray_wool", "minecraft:light_gray_concrete"),
+            List.of("minecraft:pink_wool", "minecraft:pink_concrete"));
+    private static final List<String> SITE_CLUSTERS = List.of("minecraft:amethyst_cluster", "minecraft:large_amethyst_bud", "minecraft:medium_amethyst_bud");
+
     public ModVaultPalettesProvider(DataGenerator generator) {
         super(generator, WoldsVaults.MOD_ID);
     }
@@ -29,10 +50,50 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
     @Override
     protected void registerPalettes() {
         GreedStagePalettes.register(this::add);
-        extractionSitePalette("idona", "auxiliaryblocks:red_crystal", "auxiliaryblocks:red_gelatin", "auxiliaryblocks:red_frameless_glass", "minecraft:red_stained_glass");
-        extractionSitePalette("tenos", "auxiliaryblocks:blue_crystal", "auxiliaryblocks:cyan_gelatin", "auxiliaryblocks:blue_frameless_glass", "auxiliaryblocks:indigo_crystal");
-        extractionSitePalette("velara", "auxiliaryblocks:green_crystal", "auxiliaryblocks:lime_gelatin", "auxiliaryblocks:green_frameless_glass", "auxiliaryblocks:lime_frameless_glass");
-        extractionSitePalette("wendarr", "auxiliaryblocks:yellow_crystal", "auxiliaryblocks:yellow_gelatin", "auxiliaryblocks:yellow_frameless_glass", "auxiliaryblocks:orange_crystal");
+        extractionSitePalette("idona", "crimsite", List.of("red", "orange", "blue"), Map.of(
+                SITE_ROCK, mix("create:scorchia", 3, "minecraft:blackstone", 1),
+                SITE_ROCK_VAR, mix("create:crimsite", 1),
+                SITE_ROCK_DARK, mix("minecraft:blackstone", 1),
+                SITE_STRATA_DARK, mix("minecraft:blackstone", 1),
+                SITE_STRATA_LIGHT, mix("quark:jasper", 1),
+                SITE_FLOOR, mix("create:crimsite", 1, "quark:jasper", 1),
+                SITE_FLOOR_VAR, mix("create:scorchia", 1),
+                SITE_LANE, mix("minecraft:blackstone", 3, "create:scorchia", 2),
+                SITE_LANE_VAR, mix("minecraft:polished_blackstone", 1),
+                SITE_SHELL_DARK, mix("minecraft:blackstone", 1)));
+        extractionSitePalette("tenos", "asurine", List.of("blue", "indigo", "orange"), Map.of(
+                SITE_ROCK, mix("create:asurine", 6, "quark:shale", 3, "minecraft:tuff", 1),
+                SITE_ROCK_VAR, mix("quark:shale", 1),
+                SITE_ROCK_DARK, mix("minecraft:deepslate", 1),
+                SITE_STRATA_DARK, mix("minecraft:deepslate", 1),
+                SITE_STRATA_LIGHT, mix("minecraft:tuff", 1),
+                SITE_FLOOR, mix("create:asurine", 1, "quark:shale", 1),
+                SITE_FLOOR_VAR, mix("minecraft:tuff", 1),
+                SITE_LANE, mix("quark:dusky_myalite", 3, "minecraft:cobbled_deepslate", 2),
+                SITE_LANE_VAR, mix("minecraft:deepslate", 1),
+                SITE_SHELL_DARK, mix("minecraft:deepslate", 1)));
+        extractionSitePalette("velara", "veridium", List.of("green", "yellow", "violet"), Map.of(
+                SITE_ROCK, mix("create:veridium", 3, "minecraft:tuff", 1),
+                SITE_ROCK_VAR, mix("minecraft:tuff", 1),
+                SITE_ROCK_DARK, mix("minecraft:deepslate", 1),
+                SITE_STRATA_DARK, mix("minecraft:deepslate", 1),
+                SITE_STRATA_LIGHT, mix("minecraft:moss_block", 1),
+                SITE_FLOOR, mix("minecraft:moss_block", 1),
+                SITE_FLOOR_VAR, mix("create:veridium", 1),
+                SITE_LANE, mix("minecraft:deepslate", 3, "create:scorchia", 2),
+                SITE_LANE_VAR, mix("minecraft:cobbled_deepslate", 1),
+                SITE_SHELL_DARK, mix("minecraft:deepslate", 1)));
+        extractionSitePalette("wendarr", "ochrum", List.of("yellow", "orange", "indigo"), Map.of(
+                SITE_ROCK, mix("create:ochrum", 2, "minecraft:dripstone_block", 1),
+                SITE_ROCK_VAR, mix("minecraft:dripstone_block", 1),
+                SITE_ROCK_DARK, mix("create:scoria", 1),
+                SITE_STRATA_DARK, mix("create:scoria", 1),
+                SITE_STRATA_LIGHT, mix("create:limestone", 1),
+                SITE_FLOOR, mix("create:ochrum", 1),
+                SITE_FLOOR_VAR, mix("minecraft:dripstone_block", 1),
+                SITE_LANE, mix("create:scoria", 3, "minecraft:tuff", 2),
+                SITE_LANE_VAR, mix("create:scorchia", 1),
+                SITE_SHELL_DARK, mix("create:scoria", 1)));
         add(WoldsVaults.id("universal_if"), new ThemePaletteBuilder(), tb -> {
             tb.placeholder(ThemePaletteBuilder.Placeholder.ORE_PLACEHOLDER)
                     .placeholder(ThemePaletteBuilder.Placeholder.TREASURE_DOOR)
@@ -2148,13 +2209,60 @@ public class ModVaultPalettesProvider extends AbstractPaletteProvider {
         return oreBlock.asItem().getRegistryName().toString() + "[type=" + type + ",generated=true]";
     }
 
-    /** One god's extraction site: the white wool marker becomes that god's glass, and the room's loot and gate placeholders are cleared. */
-    private void extractionSitePalette(String god, String crystal, String gelatin, String glass, String accent) {
-        add(WoldsVaults.id("extraction/" + god), new PaletteBuilder(), palette -> {
-            palette.weightedTarget("minecraft:white_wool", weighted -> weighted.add(crystal, 7).add(gelatin, 4).add(glass, 3).add(accent, 1));
-            for (String placeholder : List.of("wooden_chest", "gilded_chest", "living_chest", "ornate_chest", "coin_stacks", "gate")) {
-                palette.weightedTarget("the_vault:placeholder[type=" + placeholder + "]", weighted -> weighted.add("minecraft:air", 1));
+    /**
+     * One god's extraction site. Every material stand-in block of the room becomes that god's material: the rock
+     * stand-ins take the given mixes, the pad stand-ins the god's Create cut stone, the crystal stand-ins waxed corundum
+     * and the cluster stand-ins corundum clusters in the main, neighbour and accent colours. The room's loot and gate
+     * placeholders are cleared. Targets run in order on each block, so a block one target writes is never the stand-in
+     * of a later target; the provider refuses a table that breaks this.
+     */
+    private void extractionSitePalette(String god, String stone, List<String> colours, Map<String, Map<String, Integer>> rocks) {
+        Map<String, Map<String, Integer>> targets = new LinkedHashMap<>();
+        for (String standIn : SITE_ROCK_ORDER) {
+            Map<String, Integer> mix = rocks.get(standIn);
+            if (mix == null) {
+                throw new IllegalStateException("Extraction site palette " + god + " has no blocks for stand-in " + standIn);
             }
-        });
+            targets.put(standIn, mix);
+        }
+        targets.put(SITE_PAD, mix("create:cut_" + stone + "_bricks", 1));
+        targets.put(SITE_PAD_CRACKED, mix("create:cut_" + stone + "_bricks", 3, "create:small_" + stone + "_bricks", 1));
+        targets.put(SITE_PAD_CHISELED, mix("create:polished_cut_" + stone, 1));
+        for (int slot = 0; slot < colours.size(); slot++) {
+            for (String standIn : SITE_CRYSTALS.get(slot)) {
+                targets.put(standIn, mix("quark:waxed_" + colours.get(slot) + "_corundum", 1));
+            }
+            targets.put(SITE_CLUSTERS.get(slot), mix("quark:" + colours.get(slot) + "_corundum_cluster", 1));
+        }
+        for (String placeholder : List.of("wooden_chest", "gilded_chest", "living_chest", "ornate_chest", "coin_stacks", "gate")) {
+            targets.put("the_vault:placeholder[type=" + placeholder + "]", mix("minecraft:air", 1));
+        }
+        Set<String> written = new HashSet<>();
+        for (Map.Entry<String, Map<String, Integer>> target : targets.entrySet()) {
+            if (written.contains(target.getKey())) {
+                throw new IllegalStateException("Extraction site palette " + god + " writes " + target.getKey() + " before the target that replaces that stand-in");
+            }
+            written.addAll(target.getValue().keySet());
+        }
+        add(WoldsVaults.id("extraction/" + god), new PaletteBuilder(), palette -> targets.forEach((standIn, mix) ->
+                palette.weightedTarget(standIn, weighted -> mix.forEach(weighted::add))));
+    }
+
+    private static Map<String, Integer> mix(String block, int weight) {
+        Map<String, Integer> out = new LinkedHashMap<>();
+        out.put(block, weight);
+        return out;
+    }
+
+    private static Map<String, Integer> mix(String first, int firstWeight, String second, int secondWeight) {
+        Map<String, Integer> out = mix(first, firstWeight);
+        out.put(second, secondWeight);
+        return out;
+    }
+
+    private static Map<String, Integer> mix(String first, int firstWeight, String second, int secondWeight, String third, int thirdWeight) {
+        Map<String, Integer> out = mix(first, firstWeight, second, secondWeight);
+        out.put(third, thirdWeight);
+        return out;
     }
 }

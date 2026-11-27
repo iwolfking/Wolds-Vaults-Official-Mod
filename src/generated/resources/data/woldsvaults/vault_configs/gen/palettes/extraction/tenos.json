@@ -2,12 +2,161 @@
   "tile_processors": [
     {
       "type": "weighted_target",
+      "target": "minecraft:cobbled_deepslate",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:blackstone",
+      "output": {
+        "quark:dusky_myalite": 3,
+        "minecraft:cobbled_deepslate": 2
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone",
+      "output": {
+        "create:asurine": 6,
+        "quark:shale": 3,
+        "minecraft:tuff": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_cobblestone",
+      "output": {
+        "quark:shale": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_bedrock",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:polished_deepslate",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:smooth_stone",
+      "output": {
+        "minecraft:tuff": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:coarse_dirt",
+      "output": {
+        "create:asurine": 1,
+        "quark:shale": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:rooted_dirt",
+      "output": {
+        "minecraft:tuff": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:smooth_basalt",
+      "output": {
+        "minecraft:deepslate": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone_bricks",
+      "output": {
+        "create:cut_asurine_bricks": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:vault_stone_bricks_cracked",
+      "output": {
+        "create:cut_asurine_bricks": 3,
+        "create:small_asurine_bricks": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "the_vault:chiseled_vault_stone",
+      "output": {
+        "create:polished_cut_asurine": 1
+      }
+    },
+    {
+      "type": "weighted_target",
       "target": "minecraft:white_wool",
       "output": {
-        "auxiliaryblocks:blue_crystal": 7,
-        "auxiliaryblocks:cyan_gelatin": 4,
-        "auxiliaryblocks:blue_frameless_glass": 3,
-        "auxiliaryblocks:indigo_crystal": 1
+        "quark:waxed_blue_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:white_concrete",
+      "output": {
+        "quark:waxed_blue_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:amethyst_cluster",
+      "output": {
+        "quark:blue_corundum_cluster": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:light_gray_wool",
+      "output": {
+        "quark:waxed_indigo_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:light_gray_concrete",
+      "output": {
+        "quark:waxed_indigo_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:large_amethyst_bud",
+      "output": {
+        "quark:indigo_corundum_cluster": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:pink_wool",
+      "output": {
+        "quark:waxed_orange_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:pink_concrete",
+      "output": {
+        "quark:waxed_orange_corundum": 1
+      }
+    },
+    {
+      "type": "weighted_target",
+      "target": "minecraft:medium_amethyst_bud",
+      "output": {
+        "quark:orange_corundum_cluster": 1
       }
     },
     {
