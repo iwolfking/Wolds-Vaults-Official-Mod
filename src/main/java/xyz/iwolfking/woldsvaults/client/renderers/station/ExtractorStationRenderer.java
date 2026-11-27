@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -26,6 +27,8 @@ import xyz.iwolfking.woldsvaults.items.ExtractorItem;
 import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Map;
+import java.util.WeakHashMap;
 import xyz.iwolfking.woldsvaults.api.core.WoldLogger;
 
 /**
@@ -38,6 +41,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
     private static final float PREVIEW_SCALE = 0.30F;
 
     private final ExtractorStationRig rig;
+    private final Map<T, ExtractorStationMotion> motions = new WeakHashMap<>();
     @Nullable
     private ExtractorPreviewRenderer preview;
 
@@ -64,8 +68,11 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         if (!(state.getBlock() instanceof ExtractorControllerBlock)) {
             return;
         }
-        boolean working = tile.isWorking();
-        float t = working ? (float) (((tile.getLevel() == null ? 0L : tile.getLevel().getGameTime()) % this.rig.cycleTicks + partialTick) / this.rig.cycleTicks) : 0.0F;
+        ExtractorStationMotion motion = this.motions.computeIfAbsent(tile, key -> new ExtractorStationMotion());
+        Level level = tile.getLevel();
+        motion.advance(level == null ? partialTick : level.getGameTime() + (double) partialTick, tile.isWorking(), this.rig);
+        float t = motion.phase();
+        float k = motion.intensity();
         Direction facing = state.getValue(ExtractorControllerBlock.FACING);
 
         pose.pushPose();
@@ -77,27 +84,27 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
             if (part.translucent()) {
                 continue;
             }
-            this.renderPart(part, t, working, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.cutout());
+            this.renderPart(part, t, k, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.cutout());
         }
         if (this.rig.showsExtractorPreview) {
-            this.renderPreview(tile, t, working, partialTick, pose, buffers, packedLight);
+            this.renderPreview(tile, t, partialTick, pose, buffers, packedLight);
         }
         for (ExtractorStationRig.Part part : this.rig.parts) {
             if (part.translucent()) {
-                this.renderPart(part, t, working, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.translucent());
+                this.renderPart(part, t, k, state, pose, buffers, part.fullbright() ? LightTexture.FULL_BRIGHT : packedLight, packedOverlay, RenderType.translucent());
             }
         }
         pose.popPose();
     }
 
-    private void renderPart(ExtractorStationRig.Part part, float t, boolean working, BlockState state, PoseStack pose, MultiBufferSource buffers, int light, int overlay, RenderType renderType) {
+    private void renderPart(ExtractorStationRig.Part part, float t, float k, BlockState state, PoseStack pose, MultiBufferSource buffers, int light, int overlay, RenderType renderType) {
         BakedModel model = Minecraft.getInstance().getModelManager().getModel(part.model());
         if (model == null || model == Minecraft.getInstance().getModelManager().getMissingModel()) {
             WoldLogger.errorOnce("station_model." + part.model(), "Station renderer model {} is missing or unbaked; that piece will not draw.", part.model());
             return;
         }
         pose.pushPose();
-        this.applyBoneChain(part.name(), t, working, pose);
+        this.applyBoneChain(part.name(), t, k, pose);
         pose.translate(part.ox() * PX, part.oy() * PX, part.oz() * PX);
         VertexConsumer buffer = buffers.getBuffer(renderType);
         Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(pose.last(), buffer, state, model, 1.0F, 1.0F, 1.0F, light, overlay, EmptyModelData.INSTANCE);
@@ -105,10 +112,10 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
     }
 
     /**
-     * Applies the bone's ancestors outermost-first, then the bone itself: p' = Parent(R·(p − pivot) + pivot + translate).
-     * A station that is not working holds every bone at its rest pose.
+     * Applies the bone's ancestors outermost-first, then the bone itself: p' = Parent(R·(p − pivot) + pivot + translate),
+     * with R = Rz·Ry·Rx, at cycle phase {@code t} and working intensity {@code k}.
      */
-    private void applyBoneChain(String boneName, float t, boolean working, PoseStack pose) {
+    private void applyBoneChain(String boneName, float t, float k, PoseStack pose) {
         Deque<ExtractorStationRig.Bone> chain = new ArrayDeque<>();
         ExtractorStationRig.Bone bone = this.rig.bones.get(boneName);
         while (bone != null) {
@@ -117,23 +124,23 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         }
         while (!chain.isEmpty()) {
             ExtractorStationRig.Bone current = chain.pop();
-            ExtractorStationRig.Pose p = working ? this.rig.poser.pose(current.name(), t) : ExtractorStationRig.Pose.REST;
+            ExtractorStationRig.Pose p = this.rig.poser.pose(current.name(), t, k);
             pose.translate((current.px() + p.tx()) * PX, (current.py() + p.ty()) * PX, (current.pz() + p.tz()) * PX);
+            if (p.rz() != 0.0F) {
+                pose.mulPose(Vector3f.ZP.rotationDegrees(p.rz()));
+            }
             if (p.ry() != 0.0F) {
                 pose.mulPose(Vector3f.YP.rotationDegrees(p.ry()));
             }
             if (p.rx() != 0.0F) {
                 pose.mulPose(Vector3f.XP.rotationDegrees(p.rx()));
             }
-            if (p.rz() != 0.0F) {
-                pose.mulPose(Vector3f.ZP.rotationDegrees(p.rz()));
-            }
             pose.translate(-current.px() * PX, -current.py() * PX, -current.pz() * PX);
         }
     }
 
     /** The displayed extractor at vitrine scale, centred on machine-local (24, 15, 24), spinning while the cycle runs. */
-    private void renderPreview(T tile, float t, boolean working, float partialTick, PoseStack pose, MultiBufferSource buffers, int packedLight) {
+    private void renderPreview(T tile, float t, float partialTick, PoseStack pose, MultiBufferSource buffers, int packedLight) {
         ItemStack shown = tile.getDisplayExtractor();
         if (shown.isEmpty() || tile.getLevel() == null) {
             return;
@@ -143,7 +150,7 @@ public class ExtractorStationRenderer<T extends BlockEntity & ExtractorStationTi
         }
         pose.pushPose();
         pose.translate(8.0F * PX, 15.0F * PX, 8.0F * PX);
-        pose.mulPose(Vector3f.YP.rotationDegrees(working ? 360.0F * t : 0.0F));
+        pose.mulPose(Vector3f.YP.rotationDegrees(360.0F * t));
         pose.scale(PREVIEW_SCALE, PREVIEW_SCALE, PREVIEW_SCALE);
         this.preview.renderInWorld(ExtractorItem.getVariants(shown), pose, buffers, packedLight, partialTick);
         pose.popPose();

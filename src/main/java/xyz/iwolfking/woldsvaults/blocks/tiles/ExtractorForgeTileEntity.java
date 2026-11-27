@@ -65,10 +65,13 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     public static final int DATA_FE_PER_TICK = 4;
     public static final int DATA_FABRICATING = 5;
     public static final int DATA_COUNT = 6;
+    public static final int STALL_GRACE_TICKS = 20;
 
     private final BaseItemStackHandler inventory;
     private final ExtractorStationEnergy energy = new ExtractorStationEnergy(() -> forgeConfig().energyCapacity, () -> forgeConfig().energyInput, this::setChanged);
     private boolean fabricating;
+    private boolean stalled;
+    private int shortTicks;
     private int progress;
     private int totalTicks;
     private int fePerTick;
@@ -176,6 +179,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     public void load(CompoundTag tag) {
         super.load(tag);
         this.fabricating = tag.getBoolean("Fabricating");
+        this.stalled = tag.getBoolean("Stalled");
         this.progress = tag.getInt("Progress");
         this.totalTicks = tag.getInt("TotalTicks");
         this.fePerTick = tag.getInt("FePerTick");
@@ -191,6 +195,7 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putBoolean("Fabricating", this.fabricating);
+        tag.putBoolean("Stalled", this.stalled);
         tag.putInt("Progress", this.progress);
         tag.putInt("TotalTicks", this.totalTicks);
         tag.putInt("FePerTick", this.fePerTick);
@@ -214,8 +219,14 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
             return;
         }
         if (!this.energy.draw(this.fePerTick)) {
+            this.shortTicks++;
+            if (this.shortTicks >= STALL_GRACE_TICKS) {
+                this.setStalled(true);
+            }
             return;
         }
+        this.shortTicks = 0;
+        this.setStalled(false);
         this.progress++;
         this.setChanged();
         if (this.progress >= this.totalTicks) {
@@ -241,8 +252,18 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.stopJob();
     }
 
+    /** Records whether the running job is waiting for energy and tells nearby clients when that changes. */
+    private void setStalled(boolean stalled) {
+        if (this.stalled != stalled) {
+            this.stalled = stalled;
+            this.markDirtyAndDispatch();
+        }
+    }
+
     private void stopJob() {
         this.fabricating = false;
+        this.stalled = false;
+        this.shortTicks = 0;
         this.progress = 0;
         this.totalTicks = 0;
         this.fePerTick = 0;
@@ -308,9 +329,10 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         }
     }
 
+    /** True while a job runs and has had the energy it needs within the last {@link #STALL_GRACE_TICKS} ticks. */
     @Override
     public boolean isWorking() {
-        return this.fabricating;
+        return this.fabricating && !this.stalled;
     }
 
     @Override
@@ -435,6 +457,8 @@ public class ExtractorForgeTileEntity extends BaseInventoryTileEntity implements
         this.fePerTick = forgeConfig().fePerTick(quality);
         this.totalTicks = forgeConfig().ticks(quality);
         this.progress = 0;
+        this.shortTicks = 0;
+        this.stalled = false;
         this.fabricating = true;
         this.markDirtyAndDispatch();
         WoldLogger.debug("{} started fabricating at the Extraction Forge at {}: Q{}, {} ticks at {} FE/t.",
