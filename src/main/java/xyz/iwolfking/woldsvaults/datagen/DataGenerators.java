@@ -103,6 +103,7 @@ public class DataGenerators {
             gen.addProvider(new ModVaultStashProvider(gen));
             gen.addProvider(new ModVaultChestProvider(gen));
             gen.addProvider(new ModChallengeActionsProvider(gen));
+            gen.addProvider(new ModJewelRecipesProvider(gen));
         }
     }
 

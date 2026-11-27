@@ -1,0 +1,32 @@
+{
+  "jewelCraftingRecipes": [
+    {
+      "jewelAttribute": "the_vault:dismantle_chance",
+      "size": 1,
+      "group": "Mining",
+      "id": "woldsvaults:jewel/dismantle_chance",
+      "output": {
+        "AMOUNT": 1,
+        "ITEM": "the_vault:jewel",
+        "NBT": "{}"
+      },
+      "inputs": [
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:gemstone",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 64,
+          "ITEM": "the_vault:silver_scrap",
+          "NBT": "{}"
+        },
+        {
+          "AMOUNT": 1,
+          "ITEM": "the_vault:vault_gold",
+          "NBT": "{}"
+        }
+      ]
+    }
+  ]
+}
