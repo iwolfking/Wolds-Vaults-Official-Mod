@@ -26,20 +26,27 @@ public final class ExtractorStationRig {
         public static final Pose REST = new Pose(0, 0, 0, 0, 0, 0);
     }
 
+    /**
+     * A rig's working cycle. {@code t} is the cycle phase in [0, 1) and {@code k} the working intensity: 0 gives the
+     * idle pose, 1 the full cycle, and values between ease from one to the other. Only spins may depend on
+     * {@code t} at {@code k} = 0; the phase stops advancing while the rig is idle, so they hold still.
+     */
     public interface PoseFunction {
-        Pose pose(String bone, float t);
+        Pose pose(String bone, float t, float k);
     }
 
     public final String id;
     public final int cycleTicks;
+    public final int blendTicks;
     public final List<Part> parts = new ArrayList<>();
     public final Map<String, Bone> bones = new LinkedHashMap<>();
     public final PoseFunction poser;
     public final boolean showsExtractorPreview;
 
-    private ExtractorStationRig(String id, int cycleTicks, PoseFunction poser, boolean showsExtractorPreview) {
+    private ExtractorStationRig(String id, int cycleTicks, int blendTicks, PoseFunction poser, boolean showsExtractorPreview) {
         this.id = id;
         this.cycleTicks = cycleTicks;
+        this.blendTicks = blendTicks;
         this.poser = poser;
         this.showsExtractorPreview = showsExtractorPreview;
     }
@@ -62,10 +69,10 @@ public final class ExtractorStationRig {
         return Math.cos(x);
     }
 
-    public static final ExtractorStationRig ASSEMBLER = new ExtractorStationRig("extractor_assembler", 120, (bone, t) -> {
+    public static final ExtractorStationRig ASSEMBLER = new ExtractorStationRig("extractor_assembler", 120, 10, (bone, t, k) -> {
         double w = 2.0D * Math.PI * t;
         return switch (bone) {
-            case "head" -> new Pose(0, 0, 0, 0, (float) (-3.0D * (0.5D - 0.5D * cos(w))), 0);
+            case "head" -> new Pose(0, 0, 0, 0, (float) (-3.0D * k * (0.5D - 0.5D * cos(w))), 0);
             default -> Pose.REST;
         };
     }, true)
@@ -73,18 +80,18 @@ public final class ExtractorStationRig {
             .part("vitrine_glass", -3, 15, -3, true, false)
             .bone("head", null, 8, 41, 8);
 
-    public static final ExtractorStationRig FORGE = new ExtractorStationRig("extraction_forge", 80, (bone, t) -> {
+    public static final ExtractorStationRig FORGE = new ExtractorStationRig("extraction_forge", 80, 10, (bone, t, k) -> {
         double w = 2.0D * Math.PI * t;
+        double weld = k * (0.5D - 0.5D * cos(w));
+        double grip = k * (0.5D + 0.5D * cos(w));
         return switch (bone) {
-            case "arm_l_base" -> new Pose(0, (float) (6.0D * sin(w / 2.0D)), 0, 0, 0, 0);
-            case "arm_l_upper" -> new Pose(0, 0, (float) (-12.0D + 8.0D * sin(w)), 0, 0, 0);
-            case "arm_l_fore" -> new Pose(0, 0, (float) (24.0D - 12.0D * sin(w)), 0, 0, 0);
-            case "arm_l_head" -> new Pose(0, 0, (float) (-8.0D * sin(w)), 0, 0, (float) (4.0D * cos(w)));
-            case "arm_r_base" -> new Pose(0, (float) (-5.0D * sin(w / 2.0D)), 0, 0, 0, 0);
-            case "arm_r_upper" -> new Pose(0, 0, (float) (10.0D + 6.0D * sin(w + 2.1D)), 0, 0, 0);
-            case "arm_r_fore" -> new Pose(0, 0, (float) (-18.0D - 8.0D * sin(w + 2.1D)), 0, 0, 0);
-            case "arm_r_head" -> new Pose(0, (float) (30.0D * sin(w)), 0, 0, 0, 0);
-            case "workpiece" -> new Pose(0, 360.0F * t, 0, 0, (float) (0.6D * sin(2.0D * w)), 0);
+            case "arm_l_upper" -> new Pose(0, 0, (float) (3.0D * weld), 0, 0, 0);
+            case "arm_l_fore" -> new Pose(0, 0, (float) (-3.0D * weld), 0, 0, 0);
+            case "arm_l_head" -> new Pose(0, 0, 0, 0, (float) (5.4D * weld), (float) (-1.2D + 6.0D * Math.pow(weld, 4)));
+            case "arm_r_upper" -> new Pose(0, 0, (float) (-3.0D * grip), 0, 0, 0);
+            case "arm_r_fore" -> new Pose(0, 0, (float) (3.0D * grip), 0, 0, 0);
+            case "arm_r_head" -> new Pose(0, (float) (30.0D * grip * grip), 0, 0, (float) (3.0D + 3.8D * grip), (float) (-5.0D * Math.pow(grip, 5)));
+            case "workpiece" -> new Pose(0, 360.0F * t, 0, 0, (float) (0.6D * k * sin(2.0D * w)), 0);
             case "platter" -> new Pose(0, 360.0F * t, 0, 0, 0, 0);
             default -> Pose.REST;
         };
